@@ -25,7 +25,7 @@ export function getConstantData() {
         obj.envVersion = 'trial'
     } else if (ProgramEnvVersion === 'release') { //正式版
         obj.RheumatologyQuestionnaire = '/s/5d548de41cde45518c6b41288584ac5f'
-        obj.JingshenQuestionnaire = '/s/668eb8e4ca8f468cbab066e963919dc5'
+        obj.JingshenQuestionnaire = '/s/dd548f53476443d599c1bec5ea33961e'
         obj.envVersion = 'release'
     }
     return obj
