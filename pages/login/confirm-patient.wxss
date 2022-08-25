@@ -1,0 +1,51 @@
+.top-view{
+  padding: 26rpx;
+ font-size: 24rpx;
+ color: #F3890C;
+ background-color: #FDF4ED;
+}
+.choose-view{
+  display: flex;
+  flex-direction: row;
+  margin: 26rpx 26rpx 26rpx 48rpx ;
+  align-items: center;
+  
+}
+.card {
+  margin-left: 77rpx;
+  flex-grow: 1;
+height: 156rpx;
+background-color: #FAFAFA;
+border: 1rpx solid #CCCCCC;
+border-radius: 4px;
+display: flex;
+flex-direction: column;
+padding-left: 31rpx;
+padding-top: 39rpx;
+font-size: 30rpx;
+color: #1A1A1A;
+
+}
+.card .choosed{
+  background-image: linear-gradient(to right, #87CEFF , #007BF5);
+}
+
+.add-view{
+  margin-left: 26rpx;
+ margin-right: 26rpx;
+  flex-grow: 1;
+height: 86rpx;
+border: 1rpx dashed #007BF5;
+border-radius: 4px;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+justify-items: center;
+font-size: 30rpx;
+color: #007BF5;
+}
+.add-view :active{
+  background-color: #87CEFF;
+}
+

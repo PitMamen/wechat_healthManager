@@ -1,0 +1,35 @@
+.chat-page-status-p{
+    width: 100%;
+   
+    position: fixed;
+    background-color: white;
+    top:0;
+    left:0;
+    z-index: 20;  
+}
+.chat-page-status-style{
+   height: 54rpx;
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 26rpx;
+    padding-left: 26rpx;
+    padding-right: 26rpx;
+   
+}
+.chat-page-status-style2{
+    height: 42rpx;
+     display: flex;
+     flex-direction:row;
+    justify-content: center;
+     align-items: center;
+     font-size: 26rpx;
+    
+ }
+
+.chat-page-status-block{
+    align-items: center;
+    display: flex;
+    flex-direction:row;
+}

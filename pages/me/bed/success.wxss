@@ -1,0 +1,39 @@
+.top-logo{
+  margin-top: 60rpx;
+  margin-left: 60rpx;
+  margin-right: 60rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-image{
+  display: flex;
+  height: 158rpx;
+  width: 158rpx;
+}
+.top-label{
+  display: flex;
+  margin-top: 80rpx;
+  font-size: 38rpx;
+}
+.top-des{
+  display: flex;
+  margin-top: 20rpx;
+  font-size: 28rpx;
+}
+
+.loginTap{
+  margin-top: 60rpx;
+  margin-left: 96rpx;
+  margin-right: 96rpx;
+  height: 80rpx;
+  background-color: #0379FF;
+  border-radius: 40rpx;
+  color: white;
+  font-size: 30rpx;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

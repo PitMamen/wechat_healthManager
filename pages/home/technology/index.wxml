@@ -1,0 +1,177 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+
+<van-sticky>
+    <view class="top-back" style="background-size:cover;background-image: url('https://hmg.mclouds.org.cn/content-api/file/I202206021154325001J3WKUU1HJQBWT-yjyy_topbg.png'); ">
+
+<view style="display: flex;flex-direction: column;float: left;flex: 1;">
+    <view style="margin-left: 56rpx; font-size: 33rpx;">您好, {{defaultPatient.userName}}</view>
+    <view style="margin-left: 56rpx; margin-top: 10rpx; font-size: 26rpx;">湘雅二医院医技预约为您服务</view>
+</view>
+</view>
+    <view class="tab-view">
+        <view class="tab-btn {{selectTag==0?'tab-btn-select':''}}" bindtap="tabBindtap0">
+            <view style="margin-top: 19rpx;">待预约</view>
+        </view>
+        <view class="tab-btn {{selectTag==1?'tab-btn-select':''}}" bindtap="tabBindtap1">已预约</view>
+        <view class="tab-btn {{selectTag==2?'tab-btn-select':''}}" bindtap="tabBindtap2">报到</view>
+    </view>
+    <!-- <view style="background-color: #F4F6FA;height: 10rpx;"></view> -->
+
+</van-sticky>
+
+<!-- 待预约 -->
+<block wx:if="{{selectTag==0}}">
+  
+    <block wx:if="{{reservableList.length>0}}">
+
+        <view class="todo-card" wx:for="{{reservableList}}">
+
+
+            <view class="todo-title-view">
+
+                <text class="todo-title">{{item.StudyItem}}</text>
+                <view class="todo-title-right">
+                    <van-tag round type="primary" color="#EFEFF7" text-color="#4D4D4D">已支付</van-tag>
+                </view>
+
+            </view>
+            <view class="content-view">
+                <view>患者姓名：<text style="color:#666;">{{item.Name}}</text></view>
+                <view class="right">患者卡号：<text style="color:#666;">{{CardNo}}</text></view>
+            </view>
+            <view class="content-view">
+                <view>申请日期：<text style="color:#666;">{{computed.dateSub(item.AppTime)}}</text></view>
+                <view class="right">申请科室：<text style="color:#666;">{{item.AppDepartment}}</text></view>
+            </view>
+
+            <view class="btn-view">
+                <view class="btn-block">
+
+                    <view wx:if="{{item.CanBook=== 'Y'}}" class="todo-button-blue" bindtap="toApply" data-item="{{item}}"> 预约 </view>
+                    <view wx:if="{{item.CanBook === 'N'}}" class="todo-button-blue" style="background-color: #7C848D;" >不可预约</view>
+                </view>
+            </view>
+
+        </view>
+    </block>
+    <van-empty wx:else description="暂无记录" />
+</block>
+
+<!-- 已预约 -->
+<block wx:if="{{selectTag==1}}">
+    <block wx:if="{{reservedList.length>0}}">
+        <view class="todo-card" wx:for="{{reservedList}}">
+
+            <view class="todo-title-view">
+
+                <text class="todo-title">{{item.StudyItem}}</text>
+                <view class="todo-title-right">
+                    <van-tag round type="primary" color="#EEFAFA" text-color="#0CB0AD">已登记</van-tag>
+                </view>
+
+            </view>
+            <view class="content-view">
+                <view>患者姓名：<text style="color:#666;">{{item.Name}}</text></view>
+                <view class="right">患者卡号：<text style="color:#666;">{{CardNo}}</text></view>
+            </view>
+            <view class="content-view">
+                <view>申请日期：<text style="color:#666;">{{computed.dateSub(item.AppTime)}}</text></view>
+                <view class="right">检查科室：<text style="color:#666;">{{item.Department}}</text></view>
+            </view>
+            <view class="content-view">
+                <view>预约日期：<text style="color:#666;" decode>{{item.BookDate}}&ensp;{{item.BookTime}}</text></view>
+
+            </view>
+            <view class="btn-view">
+                <view class="btn-block">
+                    <view class="todo-button-plain" bindtap="cancelAppointmentPopTap" data-item="{{item}}">取消预约</view>
+                    <view wx:if="{{item.CanBook === 'Y'}}" class="todo-button-blue" style="margin-left: 40rpx;" bindtap="toApply" data-item="{{item}}">改约</view>
+                    <view wx:if="{{item.CanBook === 'N'}}" class="todo-button-blue" style="margin-left: 40rpx;background-color: #7C848D;" >不可改约</view>
+                </view>
+            </view>
+
+        </view>
+    </block>
+    <van-empty wx:else description="暂无记录" />
+</block>
+<!-- 报到 -->
+<block wx:if="{{selectTag==2}}">
+    <block wx:if="{{registerList.length>0}}">
+        <view class="todo-card" wx:for="{{registerList}}">
+
+            <view class="todo-title-view">
+
+                <text class="todo-title">{{item.StudyItem}}</text>
+                <view class="todo-title-right">
+                    <van-tag round type="primary" color="#FEF6E5" text-color="#F49A0C">已缴费</van-tag>
+                </view>
+
+            </view>
+
+            <view class="content-view">
+                <view>患者姓名：<text style="color:#666;">{{item.Name}}</text></view>
+                <view class="right">患者卡号：<text style="color:#666;">{{CardNo}}</text></view>
+            </view>
+            <view class="content-view">
+                <view>申请日期：<text style="color:#666;">{{computed.dateSub(item.AppTime)}}</text></view>
+                <view class="right">检查科室：<text style="color:#666;">{{item.Department}}</text></view>
+            </view>
+            <view class="content-view">
+                <view>预约日期：<text style="color:#666;" decode>{{item.BookDate}}&ensp;{{item.BookTime}}</text></view>
+
+            </view>
+            <view class="content-view">
+                <view>导诊提示：<text style="color:#666;">{{item.Address}}</text></view>
+            </view>
+            <view class="btn-view2">
+                <view wx:if="{{item.CanRegister==='Y'}}" class="todo-button-blue" style="height: 68rpx; width: 630rpx;margin:auto;" bindtap="checkInBtn" data-item="{{item}}">报到</view>
+                <view wx:if="{{item.CanRegister==='N'}}" class="todo-button-blue" style="height: 68rpx; width: 630rpx;margin:auto;background-color: #7C848D;" bindtap="checkInBtn">已报到</view>
+            </view>
+
+        </view>
+    </block>
+    <van-empty wx:else description="暂无记录" />
+</block>
+<!-- 取消预约 -->
+<van-popup show="{{ showCancelAppointmentPop }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%; " bind:close="cancelAppointmentPopClose" closeable>
+    <view class="popview">
+        <view class="poptitle">取消预约</view>
+        <view class="popcontent">
+            <view class="popname">姓名</view>
+            <view>{{cancelBookItem.Name}}</view>
+        </view>
+        <view class="popcontent">
+            <view class="popname">检查项目</view>
+            <view>{{cancelBookItem.StudyItem}}</view>
+        </view>
+       
+        <view class="popcontent">
+            <view class="popname">预约时间</view>
+            <text  decode>{{cancelBookItem.BookDate}}&ensp;{{cancelBookItem.BookTime}}</text>
+        </view>
+
+
+
+    </view>
+    <view class="pop-button-blue" bindtap="cancleAppointment">确定</view>
+</van-popup>
+
+<!-- 输入卡号 -->
+<van-popup show="{{ showCardNoPop }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%; " bind:close="CardNoPopClose" close-on-click-overlay="false">
+    <view class="popview">
+
+        <view class="popcontent">
+            <view class="popname" style="width: 100rpx;">姓名:</view>
+            <view>{{defaultPatient.userName}}</view>
+            <view class="popname" style="width: 100rpx;margin-left: 100rpx;">年龄:</view>
+            <view>{{defaultPatient.userAge}}岁</view>
+        </view>
+
+        <view class="poptitle" style="margin-bottom: 0;">就诊卡号:</view>
+        <van-field model:value="{{ InputCardNo }}" placeholder="请输入就诊卡号" size="large" error-message="{{errormessage}}"  type="number" border="{{ true }}" bind:change="cardOnChange" />
+    </view>
+
+    <view style="margin: 50rpx 30rpx 50rpx 30rpx;">
+        <van-button type="primary" color="#047AFF" block disabled="{{!InputCardNo}}" bind:click="cardNoConfirm">确定</van-button>
+    </view>
+</van-popup>

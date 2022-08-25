@@ -1,0 +1,10 @@
+@import "../../modules/chat-page/word.wxss";
+@import "../../modules/chat-page/chat-page-status.wxss";
+page {
+    background-color: #EFEFEF;
+}
+.refresh {
+    width: 100%;
+    height: 0;
+    align-items: center;
+}

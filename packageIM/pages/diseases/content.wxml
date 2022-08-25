@@ -1,0 +1,7 @@
+<!-- pages/detail/detail.wxml -->
+<view class="article-title ">
+    <text class="title">{{article.title}}</text>
+  
+</view>
+
+<mp-html content="{{article.content}}" />

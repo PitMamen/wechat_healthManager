@@ -1,0 +1,65 @@
+page {
+    background-color: #F7F8FF;
+  }
+  .container {
+    min-height: 100%;
+    display: block;
+    padding: 26rpx;
+  }
+  .card{
+    margin-bottom: 10px;
+    border: 10px;
+    background-color: white;
+    height: auto;
+    display: block;
+    align-items: center; /*定义body的元素垂直居中*/
+    padding-left: 10rpx;
+    padding-right: 10rpx;
+  }
+  .card-center{
+    padding: 26rpx;
+    margin-right: 10rpx;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+  .card-left{
+    display: flex;
+    flex-direction: column;
+  }
+  .card-right{
+   margin-left: auto;
+   display: flex;
+   flex-direction: row;
+   align-items: center; 
+  }
+  .default-text{
+      color: #047AFF;  
+  }
+  
+.bottom{
+    margin-top: 100px;
+    align-items: center; /*定义body的元素垂直居中*/
+    justify-content: center; /*定义body的里的元素水平居中*/
+}
+.bottom-text{
+    color: rgb(190, 189, 189);
+    font-size: 14px;
+}
+.IDcard{
+  margin-top: 10rpx;
+  color: rgb(87, 85, 85);
+  font-size: 12px;
+}
+.phone{
+  margin-top: 10rpx;
+  color: rgb(190, 189, 189);
+  font-size: 12px;
+}
+.edit-icon{
+  display: flex;
+  height: 56rpx;
+  width: 56rpx;
+}
+  
+  

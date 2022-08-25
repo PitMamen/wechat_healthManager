@@ -1,0 +1,11 @@
+<view class="page">
+  <text class="title">请填写就诊人信息</text>
+ 
+    <van-field required size="large"  label="姓名" model:value="{{ name }}" placeholder="请输入姓名"  />
+    <van-field required size="large" label="身份证号" type="idcard" model:value="{{ idNo }}" placeholder="请输入身份证号"  />
+    <van-field size="large" label="就诊卡号" type="number" model:value="{{ jzkNo }}" placeholder="请输入就诊卡号"  />
+    
+    <view style="margin-top: 150rpx;">
+        <van-button disabled="{{name=='' || idNo==''}}" round type="info" color="linear-gradient(to right, #4CA0FF, #0379FF)" bind:click="bind" block>添加就诊人并绑定医生</van-button>
+      </view>
+</view>

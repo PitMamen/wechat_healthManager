@@ -1,0 +1,67 @@
+<block wx:if="{{checkFlag===0}}">
+  <van-sticky>
+  <view class="top">
+  <text class="top-tx">{{checkInfo}}</text> 
+  </view>
+</van-sticky>
+</block>
+
+<view class="page">
+
+ <text class="title">就诊人:</text>
+ <view class="space"></view>
+  <view class="card" style="background-size: cover;background-image: url('https://hmg.mclouds.org.cn/content-api/file/I20220331104628351RI6YMUTH3JWWJH-home_bg.jpg'); ">
+      <text class="top-name" decode >{{defaultPatient.userName}}&emsp;{{defaultPatient.userSex}}&emsp;{{defaultPatient.userAge}}岁</text>
+      <view class="top-item">{{defaultPatient.phone}}</view>
+       
+    </view>
+
+ <view class="space"></view>
+ <text class="title">*病情简介:</text>
+ <view class="space"></view>
+ <view class="uploader">
+   <van-uploader name="1" file-list="{{ upload1.fileList }}" bind:after-read="afterRead" accept="image" bind:delete="delete" multiple="true"  image-fit="aspectFill" />
+ <view class="space-20"></view>
+ </view>
+
+ <view class="space"></view>
+ <view class="title">*最近的化验结果:</view>
+ <view class="space"></view>
+ <view class="uploader">
+   <van-uploader name="2" file-list="{{ upload2.fileList }}" bind:after-read="afterRead" accept="image" bind:delete="delete" multiple="true"  image-fit="aspectFill"/>
+ <view class="space-20"></view>
+ </view>
+
+ <view class="space"></view>
+ <view class="title">最近影像资料：X光<view bindtap="goContentPage" class="title-q">如何拍摄？</view> </view>
+ <view class="title-tip">提示：X光片一张照一张即可，病变图像可拍一张甚至病变部位放大拍。（没有则不传）</view>
+ <view class="space"></view>
+ <view class="uploader">
+   <van-uploader name="3" file-list="{{ upload3.fileList }}" bind:after-read="afterRead" accept="image" bind:delete="delete" multiple="true"  image-fit="aspectFill"/>
+ <view class="space-20"></view>
+ </view>
+
+ <view class="space"></view>
+ <view class="title">最近影像资料：CT<view bindtap="goContentPage" class="title-q">如何拍摄？</view> </view>
+ <view class="title-tip">提示：CT片建议每4个小图片拍一张，病变图像可拍一张甚至病变部位放大拍。（没有则不传）</view>
+ <view class="space"></view>
+ <view class="uploader">
+   <van-uploader name="4" file-list="{{ upload4.fileList }}" bind:after-read="afterRead" accept="image" bind:delete="delete" multiple="true"  image-fit="aspectFill"/>
+ <view class="space-20"></view>
+ </view>
+
+ <view class="space"></view>
+ <view class="title">最近影像资料：MRI(磁共振）<view bindtap="goContentPage" class="title-q">如何拍摄？</view> </view>
+ <view class="title-tip">提示：MRI建议每4个小图片拍一张，病变图像可拍一张甚至病变部位放大拍。（没有则不传）</view>
+ <view class="space"></view>
+ <view class="uploader">
+   <van-uploader name="5" file-list="{{ upload5.fileList }}" bind:after-read="afterRead" accept="image" bind:delete="delete" multiple="true"  image-fit="aspectFill"/>
+ <view class="space-20"></view>
+ </view>
+
+
+
+ <van-button type="primary" icon="{{success?'success':''}}" color="#047AFF" loading="{{loading}}" loading-text="上传中..."
+   block round bind:click="uploadAll">{{btnText}}</van-button>
+
+</view>

@@ -1,0 +1,98 @@
+<!-- template 1v1 -->
+  <view class="template-1v1">
+    <view class="view-container player-container ">
+      <live-player
+              class="player"
+              id="{{playerList[0].streamID}}"
+              data-userid="{{playerList[0].userID}}"
+              data-streamid="{{playerList[0].streamID}}"
+              data-streamtype="{{playerList[0].streamType}}"
+              src= "{{playerList[0].src}}"
+              mode= "RTC"
+              autoplay= "{{playerList[0].autoplay}}"
+              mute-audio= "{{playerList[0].muteAudio}}"
+              mute-video= "{{playerList[0].muteVideo}}"
+              orientation= "{{playerList[0].orientation}}"
+              object-fit= "{{playerList[0].objectFit}}"
+              background-mute= "{{playerList[0].enableBackgroundMute}}"
+              min-cache= "{{playerList[0].minCache}}"
+              max-cache= "{{playerList[0].maxCache}}"
+              sound-mode= "{{playerList[0].soundMode}}"
+              enable-recv-message= "{{playerList[0].enableRecvMessage}}"
+              auto-pause-if-navigate= "{{playerList[0].autoPauseIfNavigate}}"
+              auto-pause-if-open-native= "{{playerList[0].autoPauseIfOpenNative}}"
+              debug="{{debug}}"
+              bindstatechange="_playerStateChange"
+              bindfullscreenchange="_playerFullscreenChange"
+              bindnetstatus="_playerNetStatus"
+              bindaudiovolumenotify  ="_playerAudioVolumeNotify"
+      />
+    
+    </view>
+    <cover-view class="view-container pusher-container {{pusher.isVisible?'':'none'}} {{playerList.length===0? '':''}}">
+      <live-pusher
+              class="pusher"
+              url="{{pusher.url}}"
+              mode="{{pusher.mode}}"
+              autopush="{{pusher.autopush}}"
+              enable-camera="{{pusher.enableCamera}}"
+              enable-mic="{{pusher.enableMic}}"
+              muted="{{!pusher.enableMic}}"
+              enable-agc="{{pusher.enableAgc}}"
+              enable-ans="{{pusher.enableAns}}"
+              enable-ear-monitor="{{pusher.enableEarMonitor}}"
+              auto-focus="{{pusher.enableAutoFocus}}"
+              zoom="{{pusher.enableZoom}}"
+              min-bitrate="{{pusher.minBitrate}}"
+              max-bitrate="{{pusher.maxBitrate}}"
+              video-width="{{pusher.videoWidth}}"
+              video-height="{{pusher.videoHeight}}"
+              beauty="{{pusher.beautyLevel}}"
+              whiteness="{{pusher.whitenessLevel}}"
+              orientation="{{pusher.videoOrientation}}"
+              aspect="{{pusher.videoAspect}}"
+              device-position="{{pusher.frontCamera}}"
+              remote-mirror="{{pusher.enableRemoteMirror}}"
+              local-mirror="{{pusher.localMirror}}"
+              background-mute="{{pusher.enableBackgroundMute}}"
+              audio-quality="{{pusher.audioQuality}}"
+              audio-volume-type="{{pusher.audioVolumeType}}"
+              audio-reverb-type="{{pusher.audioReverbType}}"
+              waiting-image="{{pusher.waitingImage}}"
+              debug="{{debug}}"
+              bindstatechange="_pusherStateChangeHandler"
+              bindnetstatus="_pusherNetStatusHandler"
+              binderror="_pusherErrorHandler"
+              bindbgmstart="_pusherBGMStartHandler"
+              bindbgmprogress="_pusherBGMProgressHandler"
+              bindbgmcomplete="_pusherBGMCompleteHandler"
+              bindaudiovolumenotify="_pusherAudioVolumeNotify"
+      />
+  
+    </cover-view>
+    
+    <cover-view class="time" wx:if="{{playerList.length === 1}}">
+    <cover-view>倒计时：{{countdown}}</cover-view>      
+    </cover-view>
+    <cover-view class="remind" wx:if="{{playerList.length === 1}}">
+    <cover-view>{{remind}}</cover-view>      
+    </cover-view>
+    <cover-view class="handle-btns">
+      <cover-view class="btn-normal" bindtap="_pusherAudioHandler">
+        <cover-image wx:if="{{pusher.enableMic}}" class="btn-image" src="../../../static/images/audio-true.png"></cover-image>
+        <cover-image wx:else class="btn-image" src="../../../static/images/audio-false.png"></cover-image>
+      </cover-view>
+      <cover-view class="btn-hangup" bindtap="_hangUp">
+        <cover-image class="btn-image" src="../../../static/images/hangup.png"></cover-image>
+      </cover-view>
+      <cover-view class="btn-normal" bindtap="_pusherSwitchCamera" >
+        <cover-image class="btn-image" src="../../../static/images/switch.png"></cover-image>
+      </cover-view>
+    </cover-view>
+    <cover-view class="loading" wx:if="{{playerList.length === 0}}">
+        <!-- <cover-view class="loading-img">
+          <cover-image src="../../../static/images/ld.gif" class="rotate-img"></cover-image>
+        </cover-view> -->       
+        <cover-view class="loading-text">等待接听中...</cover-view>
+      </cover-view>
+  </view>

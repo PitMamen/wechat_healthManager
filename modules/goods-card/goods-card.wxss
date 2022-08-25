@@ -1,0 +1,15 @@
+.cell-title{
+    font-size:  33rpx !important;
+    font-weight: bold;
+    color: pink !important;
+}
+.cell-value {
+    font-size:  30rpx !important;
+  }
+  .button{
+      color: red;
+  }
+  .top{
+    font-size:  30rpx !important;
+    font-weight: bold;
+  }

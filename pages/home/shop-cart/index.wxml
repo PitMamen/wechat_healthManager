@@ -1,0 +1,66 @@
+
+
+<view wx:if="{{goodsList.length>0}}">
+  <view  class="goodsList"> <!-- vop -->
+    <view class="a-gooods" wx:for="{{goodsList}}" wx:key="key">
+      <view class="a-goods-conts {{item.active? 'active':''}}" bindtouchstart="touchS" bindtouchmove="touchM"
+        bindtouchend="touchE" data-index="{{index}}" style="{{item.left}}">
+        <view class="goods-info">
+          <view class="radio-box">
+            <radio checked="{{ item.selected }}" bindtap="radioClick" data-index="{{index}}" />
+          </view>
+          <view class="img-box">
+            <image mode="scaleToFill" src="{{item.goodsDetail.previewList}}" class="img" />
+          </view>
+          <view class="text-box">
+            <view class="goods-title">{{item.goodsDetail.goodsName}}</view>
+            <view  class="goods-label">
+              <block>
+                {{item.goodsDetail.goodsSpec}}
+              </block>
+            </view>
+            <view class="goods-price">¥ {{item.goodsDetail.price}}</view>
+            <view class="buy-num">
+              <view class="jian-btn" catchtap="jianBtnTap" data-index="{{index}}">-</view>
+              <input disabled="true" type="number" value="{{item.number}}"  data-index="{{index}}" bindinput="changeCarNumber" />
+              <view class="jia-btn {{item.number==curTouchGoodStore? 'disabled' : ''}}" catchtap="jiaBtnTap"
+                data-index="{{index}}">+</view>
+            </view>
+          </view>
+        </view>
+        <view class="delete-btn"  data-index="{{index}}" catchtap="delItem">
+          删除
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="jiesuan-box">
+    
+    <view class="left-price">
+      <view class="radio-box">
+            <radio checked="{{ allSelect }}" bindtap="allRadioClick"  >全选</radio>
+          </view>
+      <view  class="total">合计：¥ {{price}}</view>
+    </view>
+    <view class="to-pay-btn">
+      <navigator  bindtap="buyNow">去结算</navigator>
+    </view>
+  </view>
+  <!-- <van-submit-bar
+  price="{{ price }}"
+  button-text="去结算"
+  bind:submit="onClickButton"
+  tip="{{ true }}"
+>
+<radio checked="{{ allSelect }}" bindtap="allRadioClick" data-index="{{index}}" >全选</radio> 
+ <view slot="tip">您的收货地址不支持同城送, <text>修改地址</text></view> 
+</van-submit-bar> -->
+</view>
+
+<view wx:else>
+  <van-empty description="购物车空空如也～" image="https://dcdn.it120.cc/2021/03/02/11544ab7-38ca-4570-a876-cbfd39720367.png">
+    <van-button round type="danger" size="small" class="bottom-button" bind:click="toIndexPage">
+      去逛逛
+    </van-button>
+  </van-empty>
+</view>

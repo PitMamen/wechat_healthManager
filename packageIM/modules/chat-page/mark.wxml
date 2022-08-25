@@ -1,0 +1,5 @@
+
+<template name="chat-mark">
+    <text  class="chat-list-time-style">{{customData.data.content}}</text>
+    <view style="height: 30rpx;"></view>
+</template>

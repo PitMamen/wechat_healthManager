@@ -1,0 +1,73 @@
+
+.page {
+  display: flex;
+  flex-direction: column;
+  padding:26rpx;
+}
+.uploader{
+  margin-left: 30rpx;
+}
+.card {
+ 
+  flex-grow: 1;
+height: 156rpx;
+background-color:#87CEFF ;
+border: 1rpx solid #CCCCCC;
+border-radius: 4px;
+display: flex;
+flex-direction: column;
+padding-left: 31rpx;
+}
+.top-name {
+  margin-top: 30rpx;
+  font-size: 30rpx;
+  display: flex;
+  color: #4071A1;
+  font-weight: bold;
+ 
+}
+.top-item {
+  display: flex;
+  font-size: 24rpx;
+  color: #4071A1;
+  margin-top: 30rpx;
+}
+.title{
+  display: flex;
+  flex-direction: row;
+}
+.title-tip {
+  font-size: 24rpx;
+  color: rgba(109, 173, 86, 100);
+}
+.title-tip-red {
+  font-size: 24rpx;
+  color: rgb(238, 8, 8);
+}
+.top{
+  width: 100%;
+  display: flex;
+  background-color: white;
+  box-shadow: 0px 0px 5px 0px rgba(153, 153, 153, 0.35);
+
+}
+.top-tx{
+  margin: 26rpx;
+  color: rgb(238, 8, 8);
+  font-size: 24rpx;
+}
+.title-q{
+  margin-left: auto;
+  width: 143rpx;
+  padding-left: 20rpx;
+  padding-top: 8rpx;
+  margin-right: -26rpx;
+height: 40rpx;
+text-align: center;
+color: rgb(238, 8, 8);
+font-weight: 100;
+font-size: 24rpx;
+border-radius: 20px 0px 0px 20px;
+border: 1px solid rgba(187, 187, 187, 100);
+
+}

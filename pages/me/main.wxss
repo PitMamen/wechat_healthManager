@@ -1,0 +1,294 @@
+.header-box {
+  padding-left: 32rpx;
+  height: 164rpx;
+  display: flex;
+  align-items: center;
+  color: white;
+
+  background-color: #5690fa;
+
+  /* background-image: linear-gradient(to bottom,#4180F1,#61BAC0); */
+}
+.header-box .avatar {
+  width: 110rpx;
+  height: 110rpx;
+  border-radius: 50%;
+}
+.header-box .btn {
+  margin-left: 32rpx;
+}
+.header-box .r {
+  margin-left: 32rpx;
+  font-size: 28rpx;
+}
+.top-right{
+  margin-left: auto;
+  display: flex;
+  flex-direction:row;
+}
+.r{
+  display: flex;
+  flex-direction: column;
+}
+.top-r{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 400rpx;
+    height: 100%;
+}
+.uid{
+  font-size: 22rpx;
+  width: 148rpx;
+  height: 30rpx;
+  margin-top: 20rpx;
+  background-color: #799AE8;
+  border-radius: 16rpx;
+  display: flex;
+  color: #E0E7F8;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+.glxx{
+  background-color: #1464BC ;
+  border-radius: 10px;
+  height: 20px;
+  font-size: 12px;
+  line-height: 20px;
+  width: 130rpx;
+  padding-left: 12rpx;
+  padding-right: 12rpx;
+}
+page{
+  background-color: #F7F8FA;
+
+}
+.icon{
+  margin-left: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.cell-title {
+  color: #1A1A1A !important;
+  font-size: 16px !important;
+  font-weight: bold;
+}
+.t-box {
+  margin-top: -50rpx;
+  background-color: white;
+  height: 120rpx;
+
+  border-radius: 8px;
+  margin-left: 26rpx;
+  margin-right: 26rpx;
+}
+.t-box-blcok{
+  padding-top: 20rpx;
+  padding-left:30rpx;
+  padding-right: 30rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+}
+.t-box-l{
+font-size: 14px;
+color: #646566;
+}
+.t-box-r{
+  background-color: #FF7A00 ;
+  padding-left: 15rpx;
+  border-radius:15px ;
+  line-height: 30px;
+  height: 30px;
+  padding-right: 15rpx;
+  color: white;
+  font-size: 14px;
+margin-left: auto;
+}
+.container{
+  min-height: 100%;
+  overflow: hidden;
+  overflow-y: hidden;
+}
+.content-page{
+  margin-top: 500rpx;
+  margin: 26rpx;
+  border-radius: 8px;
+  overflow:hidden;
+}
+.todo-card {
+  margin-right: 12px;
+  margin-left: 12px;
+  margin-top: 40rpx;
+  box-shadow: 0px 3px 5px 0px rgba(153, 153, 153, 0.35);
+  border-radius: 8px;
+  background-color: white;
+  padding: 30rpx  24rpx 0rpx 24rpx ;
+}
+.category-box {
+  background-color: white;
+  width: 100%;
+  border-radius: 8px;
+  overflow:hidden;
+  box-shadow: 0px 4px 8px 0px rgba(153, 153, 153, 0.35);
+}
+.asset {
+  width: 100vw;
+  display: flex;
+  border-top: 1px solid #eee;
+  padding-top:20rpx;
+  padding-bottom:20rpx;
+}
+.asset .item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-size: 24rpx;
+  line-height: 20px;
+  color:#666;
+}
+.asset .item .amount {
+  color:#333;
+  font-size: 32rpx;
+  padding-bottom: 12rpx;
+}
+.asset .right {
+  border-left: 1px solid #eee;
+}
+
+.version {
+  width:100vw;
+	font-size: 24rpx;
+	text-align: center;
+  padding: 32rpx;
+}
+.to-authorize{
+  padding: 0rpx;
+  margin: 0rpx;
+  background: none;
+  border: none;
+  height: auto;
+  line-height: auto;
+}
+/* 绑定手机号 */
+.bind-phone-number{
+  margin: 20rpx;
+  width: 100%;
+}
+/* flex重新构建菜单 */
+.menu-item {
+  width: 100vw;
+  height: 104rpx;
+  padding: 0 32rpx;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.menu-item .l {
+  font-size:34rpx;
+  color:#333;
+  line-height:104rpx;
+}
+.menu-item .r {
+  font-size:32rpx;
+  color:#999;
+  line-height:104rpx;
+}
+.menu-item .next {
+  width: 40rpx;
+  height: 40rpx;
+}
+.menu-item button {
+  margin: 0;
+}
+.space {
+  width: 100vw;
+  height: 2rpx;
+  background: #F4F5F9;
+}
+.line {
+  width:718px;
+  height:1px;
+  background:#EEEEEE;
+  margin-left: 32rpx;
+}
+
+
+.login-box .logo {
+  width: 200rpx;
+  margin: 64rpx 275rpx;
+}
+.login-box .line {
+  height: 2rpx;
+  width: 686rpx;
+  background-color: #ebedf0;
+  margin: 0 32rpx;
+}
+.login-box .title {
+  margin: 64rpx 0 0 32rpx;
+  color: #333;
+  font-size: 36rpx;
+}
+.login-box .profile {
+  margin: 32rpx 0 0 32rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+.login-box .btn {
+  margin: 88rpx 32rpx;
+}
+.topdiv{
+  margin-top: 26rpx;
+}
+.leftdiv{
+  margin-left: 26rpx;
+}
+.cell-class{
+  --cell-font-size: 14px;
+  --cell-line-height: 30px;
+}
+.todo-title-view{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.todo-icon{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40rpx;
+  width: 40rpx;
+  margin-right: 10rpx;
+  overflow: hidden;
+}
+.todo-title{
+    font-size: 28rpx;
+    color: #1A1A1A;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.todo-title-right{
+  margin-left: auto;
+}
+
+.contact-btn {
+  display: inline-block;
+  position: absolute;
+  width: 100%;
+  background: salmon;
+    opacity: 0;
+}
+.picker-custom{
+  --picker-cancel-action-color:#4179FB !important;
+}

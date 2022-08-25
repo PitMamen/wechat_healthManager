@@ -1,0 +1,35 @@
+.cell-title{
+    font-size:  33rpx !important;
+    font-weight: bold;
+    color: pink !important;
+}
+.cell-value {
+    font-size:  30rpx !important;
+  }
+  .button{
+      color: red;
+  }
+  .top{
+    font-size:  30rpx !important;
+    font-weight: bold;
+
+  }
+  .cell-title {
+    color: #1A1A1A !important;
+    font-size: 30rpx !important;
+  
+  }
+  .kanjia-vcard {
+    background-color: white !important;
+    font-size: 18rpx;
+    margin-bottom: 20rpx;
+  }
+  .patient-card{
+    width: 163rpx;
+    height: 68rpx;
+    background: #FFFFFF;
+    border-radius: 34rpx;
+    text-align: center;
+    line-height: 68rpx;
+    color: #2F8DF1;
+  }

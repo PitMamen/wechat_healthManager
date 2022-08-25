@@ -1,0 +1,144 @@
+
+.page{
+  padding: 30rpx;
+  display: flex;
+  flex-direction: column;
+}
+.top-title{
+  display: flex;
+  font-size: 24px;
+}
+.sex-view{
+  padding-top: 12rpx;
+}
+.name-back{
+  margin-top: 10rpx;
+
+  height: 75rpx;
+  background-color:white;
+  border-radius: 5rpx;
+  border-color: gray;
+  border-width: 1rpx;
+  display: flex;
+  align-items: center;
+}
+.code-back{
+  overflow: hidden;
+  margin-top: 10rpx;
+  
+  height: 75rpx;
+  background-color:white;
+  border-radius: 5rpx;
+  border-color: gray;
+  border-width: 1rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.VScode{
+  overflow: hidden;
+  width: 60%;
+  background-color:white;
+}
+.real-name{
+  width: 100%;
+  background-color:white;
+}
+.bottom-line{
+ 
+  height: 1rpx;
+  background-color: #E6E6E6;
+}
+
+.card-type{
+  display: flex;
+  margin-top: 12rpx;
+  
+  height: 80rpx; 
+}
+.title-detail{
+  margin-top: 60rpx;
+ 
+  font-size: 12px;
+  color: rgb(201, 200, 200);
+}
+
+/* 按钮未选中 */
+.chose-txt{
+  border-radius: 6px;  
+  font-size: 26rpx;   
+  height: 40px; 
+  width:  27.5%;  
+  margin: 5px; 
+  float: left;
+  padding-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+.resend-normal{
+  display: flex;
+  margin-top: 7rpx;
+  font-size: 12px;
+  margin-right: 5rpx;
+  color: orangered;
+  background-color: white;
+}
+.resend-disable{
+  display: flex;
+  margin-top: 7rpx;
+  font-size: 12px;
+  margin-right: 5rpx;
+  color: rgb(184, 182, 181);
+  background-color: white;
+}
+
+.nextTap{
+  margin: 20rpx 96rpx;
+  height: 80rpx;
+  background-color: #0379FF;
+  border-radius: 40rpx;
+  color: white;
+  font-size: 30rpx;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.switch-back{
+  overflow: hidden;
+  margin-top: 50rpx;
+  height: 75rpx;
+  background-color:white;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  position: relative;
+}
+.switch-title{
+  display: flex;
+  flex: 1; 
+  flex-direction: row;
+  position: relative;
+}
+
+.switch-btn{
+  display: flex;
+  flex-direction: row;
+
+  position: relative;
+  color: #0379FF;
+}
+.bt{
+  margin-top: 100rpx;
+  font-size: 26rpx;
+}
+.consent{
+  margin-top: 120rpx;
+  padding:  32rpx;
+  font-size: 28rpx;
+}
+.consent-top{
+  display: flex;
+  flex-direction: row;
+}

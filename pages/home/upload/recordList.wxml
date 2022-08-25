@@ -1,0 +1,39 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+
+
+<van-empty wx:if="{{ !healthList || healthList.length == 0 }}" description="暂无数据" />
+<view  wx:for="{{healthList}}" wx:key="id3" class="card">
+
+  <view class="card-black" >
+    <view class="titleviw">
+      <text class="title-date">{{computed.formatFullDate5(item.visitTime)}}</text>
+      <text class="title-text">{{computed.recordType(item.visitType)}}</text>
+      <view class="title-right">
+        <van-icon name="ellipsis" bindtap="onShowSheet" data-item="{{item}}"/>
+      </view>
+    </view>
+    <view class="divider-view">
+      <view class="divider"></view>
+    </view>
+    
+    <text class="content">{{item.diagnosis}}</text>
+
+    <view class="goods-container">
+      <view class="goods-box" wx:for="{{item.healthImagesList}}" wx:for-item="picItem" wx:key="id" bindtap="toDetailsTap" data-url="{{picItem.fileUrl}}" data-item="{{item.healthImagesList}}">
+
+        <image src="{{picItem.previewFileUrl}}" class="image" mode="aspectFill" lazy-load="true" />
+
+      </view>
+
+    </view>
+  </view>
+</view>
+<van-action-sheet
+  show="{{ show }}"
+  actions="{{ actions }}"
+  bind:close="onCloseSheet"
+  bind:select="onSelect"
+  bind:cancel="onCloseSheet"
+  cancel-text="取消"
+/>
+

@@ -1,0 +1,38 @@
+<include src="../../../utils/refreshHeaderView.wxml" />
+<include src="../../../utils/loadMoreFooterView.wxml" />
+
+<scroll-view class="scroll_container" scroll-y="true" style="position:fixed;width:100%;left:0;height:{{windowHeight}}px;top:{{loadMoreHeight == 0? refreshHeight:-loadMoreHeight}}px;bottom:{{loadMoreHeight}}px;" bindscroll="scroll" bindscrolltolower="lower" bindscrolltoupper="upper" bindtouchstart="start" bindtouchend="end">
+  <view style="width:100%;height:100%" bindtouchmove="move">
+    <van-sticky>
+      <van-search input-align="center" placeholder="搜索" value="{{keyWords}}" bind:search="onSearch" bind:change="onChange" />
+      <!-- <view style="display: flex;height: 82rpx;">
+      <view class="top-screen" bindtap="changeHospital">
+          <view>{{deptName}}</view>
+          <van-icon name="arrow-down" color="#666666" style="margin-left: 8rpx;"/>
+        </view>
+      <view style="background-color: #F4F6FA;width: 1rpx;height: 48rpx;margin-top: 17rpx;"></view>
+      <view class="top-screen" bindtap="screenTap">
+        <view>{{screenName}}</view>
+        <van-icon name="filter-o" color="#666666" style="margin-left: 8rpx;"/>
+      </view>
+    </view> -->
+    </van-sticky>
+    <view class="tag-view">
+      <view style="font-size: 30rpx;">大家都在看</view>
+      <van-tag custom-class="tag-class" round size='large' wx:for="{{tagList}}" plain="{{index !== diseaseIndex}}" type="primary" bindtap="binddiseaseTop" data-item="{{item}}  " data-index="{{index}}">{{item}}</van-tag>
+    </view>
+    <view class="back">
+      <view wx:for="{{list}}" wx:key="id" class="item-back" data-id="{{item.articleId}}" bindtap="goNewsDetail">
+        <view class="left-content">
+          <view class="title">{{item.title}}</view>
+          <view class="content">{{item.brief.length>0?item.brief:""}}</view>
+          <view class="read-num">{{item.clickNum>0?item.clickNum:0}}阅读</view>
+          <view class="send-time">{{item.createTime}}</view>
+        </view>
+        <view class="image-content">
+          <image class="artical-image" src="{{item.previewUrl}}" style="width: 160rpx;height: 140rpx;" mode="scaleToFill"></image>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

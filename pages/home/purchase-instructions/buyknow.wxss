@@ -1,0 +1,80 @@
+/* pages/home/purchase-instructions/buy.wxss */
+
+
+
+
+.title {
+    display: flex;
+    margin-left: 25rpx;
+    margin-right: 10rpx;
+    font-size: 8rsp;
+    align-items: center;
+    margin-top: 20rpx;
+  }
+
+
+  .content {
+    display: flex;
+    color: black;
+    margin-left: 25rpx;
+    margin-right: 10rpx;
+    font-size: 8rsp;
+    margin-top: 40rpx;
+  }
+
+
+  .tip {
+    color: black;
+    margin-left: 25rpx;
+    margin-right: 25rpx;
+    font-size: 8rsp;
+    align-items: center;
+    margin-top: 80rpx;
+    align-items: center;
+    font-weight: bold;
+  }
+
+  .uploader{
+      margin-top: 40rpx;
+    margin-left: 30rpx;
+  }
+
+
+
+  .content_bottom {
+    display: flex;
+    flex-direction: row;
+    color: black;
+  }
+
+
+  .commit {
+    font-size: 30rpx;
+    width: 158rpx;
+    height: 80rpx;
+    margin-top: 150rpx;
+    margin-left: 200rpx;
+    background-color: #0379FF;
+    border-radius: 20rpx;
+    display: flex;
+    color: #FFFFFF;
+    justify-content: center;
+    text-align: right;
+    align-items: center;
+  }
+
+
+  .cancel {
+    font-size: 30rpx;
+    width: 158rpx;
+    height: 80rpx;
+    margin-top: 150rpx;
+    margin-left: 100rpx;
+    background-color: #CCCCCC;
+    border-radius: 20rpx;
+    display: flex;
+    color: #FFFFFF;
+    justify-content: center;
+    text-align: right;
+    align-items: center;
+  }

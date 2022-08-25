@@ -1,0 +1,76 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+<van-sticky>
+
+  <!-- <view id="tabs" class="tabs">
+    <van-tabs color="#0379FF" type="card" swipeable bind:click="onTabsChange" active="{{ active }}">
+      <van-tab wx:for="{{tabs}}" wx:key="id" title="{{item.title}}" name="{{item.appointItem}}">
+      </van-tab>
+    </van-tabs>
+  </view> -->
+
+<van-cell title-class="title-class" title="就诊人" bindtap="bindPatientTap" size="large" value="{{defaultPatient.userName}}" is-link />
+<view class="tab-view">
+        <view class="tab-btn {{status==''?'activebtn':''}}" bindtap="bindAllTap" >全部</view>
+        <view class="tab-btn {{status=='3'?'activebtn':''}}" bindtap="bindSuccessTap" >成功</view>
+    </view>
+</van-sticky>
+<van-empty wx:if="{{ !appointList || appointList.length == 0 }}" description="暂无记录" />
+<view wx:for="{{appointList}}" wx:for-item="items">
+    <view class="contentview" bindtap="goDetailPage" data-id="{{items.tradeId}}">
+
+        <view class="taskcard">
+            <view class="task-content">
+                <text decode class="content2" style="font-weight: bold;">{{items.appointItemName}}</text>
+                <van-divider />
+             
+               
+              
+                <block wx:if="{{items.status==3}}">
+                    <span style="border-top-color:#007BF5">
+                        <em>成功</em>
+                    </span>
+                    <view class="content-txt">
+                        <view>预约时间：</view>
+                        <text class="content-in-txt" style="color: #007BF5;">{{items.appointDate}} {{items.appointTime}}</text>
+                    </view>
+                    <view class="content-txt">
+                        <text decode>地&emsp;&emsp;点：</text>
+                        <text class="content-in-txt" style="color: #007BF5;">{{items.remark}}</text>
+                    </view>
+                   
+                </block>
+              
+                <block wx:if="{{items.status==6}}">
+                    <span style="border-top-color:#E90D0D">
+                        <em>已取消</em>
+                    </span>
+                </block>
+                <block wx:if="{{items.status==8}}">
+                    <span style="border-top-color:#FF9C00">
+                        <em>已报到</em>
+                    </span>
+                    <view class="content-txt">
+                        <view>预约时间：</view>
+                        <text class="content-in-txt" style="color: #007BF5;">{{items.appointDate}} {{items.appointTime}}</text>
+                    </view>
+                    <view class="content-txt">
+                        <text decode>地&emsp;&emsp;点：</text>
+                        <text class="content-in-txt" style="color: #007BF5;">{{items.remark}}</text>
+                    </view>
+                </block>
+              
+                <view wx:for="{{items.tradeAppointLog}}" wx:for-item="itemLog" wx:for-index="indexLog" class="content-txt">
+                    <text decode wx:if="{{indexLog>0}}">&emsp;&emsp;&emsp;&emsp;&emsp;</text>
+                    <view wx:if="{{indexLog === 0}}">预约记录：</view>
+                    <text class="content-in-txt">{{computed.formatFullDate2(itemLog.createTime)}} {{itemLog.dealDetail}}</text>
+                </view>
+            </view>
+        </view>
+
+    </view>
+</view>
+
+<!-- 就诊人选择 -->
+<van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%; " bind:close="closePatientTap">
+    <van-picker custom-class="picker-custom" show-toolbar title="切换就诊人" cancel-button-text="添加" columns="{{ patientList }}" value-key="userName" visible-item-count='4' bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
+</van-popup>

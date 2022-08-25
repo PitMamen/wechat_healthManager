@@ -1,0 +1,31 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+<view class="top-back" style="background-size:cover;background-image: url('https://hmg.mclouds.org.cn/content-api/file/I20220523163003867EPQWDGUYNQJ5KB-yjyy_qr_bg.png'); ">
+
+    <view style="display: flex;flex-direction: row;margin-left: 30rpx;margin-top: 30rpx; ">
+    <view class="top-l">
+        选择日期
+    </view>
+        <view style="margin-left: 20rpx;margin-top: 10rpx; font-size: 28rpx;">{{minDateFormat}} ~ {{maxDateFormat}}</view>
+    </view>
+</view>
+<view class="date-box">
+    <view style="margin:20rpx;">
+        <van-calendar show-title="{{false}}" poppable="{{ false }}" show-confirm="{{ false }}" show-mark="{{ false }}" class="calendar" color="#007AFF" show-subtitle="{{false}}" row-height="48" first-day-of-week="1" min-date="{{ minDate }}" max-date="{{ maxDate }}" default-date="{{defaultDate}}" bind:confirm="dateConfirm"/>
+    </view>
+
+</view>
+<view class="title">选择时间段</view>
+
+    <view wx:if="{{sourceList.length>0}}" class="source-view" >
+    <view class="fdetail_header_item {{item.checked?'actived':''}}" wx:for="{{sourceList}}" bindtap="{{item.RemainNum>0?'onSourceItemClick':''}}" data-index="{{index}}">
+        <view style="margin-top: 20rpx;color: {{item.checked?'#ffffff;':'#9AA8BB;'}}">{{computed.dateSub2(item.Time)}}</view>
+        <view wx:if="{{item.RemainNum>0}}" style="margin-top: 12rpx;">(剩余{{item.RemainNum}})</view>
+        <view wx:if="{{item.RemainNum<=0}}" style="margin-top: 12rpx;color: #9AA8BB;">(剩余{{item.RemainNum}})</view>
+        <van-icon wx:if="{{item.checked}}" style=" float: right;margin-top: -21rpx;margin-right:-2rpx;" name="/image/yyyj_check.png" size="40rpx" />
+    </view>
+</view>
+<van-empty wx:else description="此日期无号源" />
+
+<view style="margin: 100rpx 30rpx 50rpx 30rpx;">
+<van-button type="primary"  color="#047AFF" block disabled="{{!checkedSource}}"  bind:click="confirm">预约</van-button>
+</view>

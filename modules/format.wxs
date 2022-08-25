@@ -1,0 +1,458 @@
+/* eslint-disable */
+
+function formatDate(date) {
+    if (date) {
+        date = getDate(date);
+        return date.getMonth() + 1 + '/' + date.getDate();
+    }
+}
+
+function formatFullDate(date) {
+    if (date) {
+        date = getDate(date);
+        return date.getFullYear() + '/' + formatDate(date);
+    }
+}
+
+function formatDate0(date) {
+    if (date) {
+        date = getDate(date);
+        return date.getMonth() + 1 + '-' + date.getDate();
+    }
+}
+
+function formatFullDate4(date) {
+
+    if (date) {
+        date = getDate(date);
+        return date.getFullYear() + '-' + formatDate0(date);
+    }
+}
+
+function formatFullDate5(date) {
+    if (date) {
+        date = getDate(date);
+        var md = date.getMonth() + 1 + '.' + date.getDate()
+        return date.getFullYear() + '.' + md;
+    }
+}
+
+function formatFullDate7(date) {
+    if (date) {
+        date = getDate(date);
+        var md = date.getMonth() + 1 + '月' + date.getDate() + '日'
+        return date.getFullYear() + '年' + md;
+    }
+}
+
+function formatFullDate2(date) {
+    if (date) {
+        date = getDate(date);
+        var month = date.getMonth() + 1
+        var day = date.getDate()
+        var hours = date.getHours()
+        var minute = date.getMinutes()
+        if (month < 10) {
+            month = '0' + month
+        }
+        if (day < 10) {
+            day = '0' + day
+        }
+        if (hours < 10) {
+            hours = '0' + hours
+        }
+        if (minute < 10) {
+            minute = '0' + minute
+        }
+        return date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minute;
+    }
+}
+
+function formatFullDate3(date) {
+    console.log(date)
+    if (date) {
+        return date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
+    }
+}
+
+function formatSecondDate(date) {
+
+    if (date) {
+        date = getDate(parseInt(date) * 1000);
+        if (isToday(date)) {
+
+            var h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            var minute = date.getMinutes();
+            minute = minute < 10 ? ('0' + minute) : minute;
+            return h + ":" + minute
+        }
+        return date.getFullYear() + '/' + formatDate(date);
+    }
+}
+
+function isToday(date) {
+
+    return date.toDateString() === getDate().toDateString()
+}
+
+function formatMultiple(dates) {
+    if (dates.length) {
+        return '选择了 ' + dates.length + '个日期';
+    }
+}
+
+function formatRange(dateRange) {
+    if (dateRange.length) {
+        return formatDate(dateRange[0]) + ' - ' + formatDate(dateRange[1]);
+    }
+}
+//预约
+function reservationType(type) {
+    if (type == 1) {
+        return '待就诊'
+    } else if (type == 2) {
+        return '视频就诊'
+    } else if (type == 3) {
+        return '处方病例'
+    } else if (type == 4) {
+        return '已完成'
+    }
+}
+//病床预约
+function bedType(type) {
+    if (type == 1) {
+        return '单人'
+    } else if (type == 2) {
+        return '双人间'
+    } else if (type == 3) {
+        return '三人间'
+    } else if (type == 4) {
+        return '四人间'
+    } else if (type == 5) {
+        return '五人间'
+    }
+}
+//我的订单
+function orderType(type) {
+    if (type == 1) {
+        return '待支付'
+    } else if (type == 4) {
+        return '待收货'
+    } else if (type == 2) {
+        return '已完成'
+    } else if (type == 5) {
+        return '已取消'
+    }
+}
+//号源
+function sourceType(type) {
+    if (type == 0) {
+        return '预约'
+    } else if (type == 1) {
+        return '约满'
+    } else if (type == 2) {
+        return '无号'
+    }
+}
+//号源
+function sourceTypeNew(num) {
+    if (num == 0) {
+        return '无号'
+    } else {
+        return '预约'
+    }
+}
+
+//健康记录类型
+function recordType(type) {
+    if (type == 'DailyRecord') {
+        return '日常记录'
+    } else if (type == 'Exam') {
+        return '检验单'
+    } else if (type == 'Check') {
+        return '检查单'
+    } else {
+        return '健康记录'
+    }
+}
+
+
+/*
+任务类型
+*/
+function taskType(type) {
+    if (type == 'Exam') { //检验单
+        var t = {
+            icon: '/image/jh_icon_jyd.png',
+            title: '检验单'
+        }
+        return t;
+
+    } else if (type == 'Check') { //检查单
+        var t = {
+            icon: '/image/jh_icon_jcd.png',
+            title: '检查单'
+        }
+        return t;
+
+    } else if (type == 'Quest') { //问卷
+        var t = {
+            icon: '/image/jh_icon_wj.png',
+            title: '健康问卷'
+
+        }
+        return t;
+
+    } else if (type == 'DailyRecord') { //日常记录
+        var t = {
+            icon: '/image/jh_icon_rcjl.png',
+            title: '日常记录',
+
+        }
+        return t;
+
+    } else if (type == 'Knowledge') { //文章
+        var t = {
+            icon: '/image/jh_icon_xj.png',
+            title: '文章阅读',
+        }
+        return t;
+
+    } else if (type == 'Remind') { //消息
+        var t = {
+            icon: '/image/jh_icon_fz.png',
+            title: '健康提醒',
+        }
+        return t;
+
+    } else if (type == 'Evaluate') { //评估
+        var t = {
+            icon: '/image/jh_icon_fz.png',
+            title: '健康评估',
+        }
+        return t;
+
+    }else if (type == 'appointNum') { //复诊开方
+        var t = {
+            icon: '/image/jh_icon_fzkf.png',
+            title: '复诊开方',
+            btnText: '进入'
+        }
+        return t;
+
+    } 
+}
+//我的待办2
+/*
+ */
+function taskType2(type, execFlag) {
+
+    if (type == '1') {
+        var t = {
+            icon: 'home_icon_txda.png',
+            title: '完善您的健康档案',
+            btnText: '填写'
+        }
+        return t;
+    } else if (type == '2') {
+        var t = {
+            icon: 'home_icon_dzjkjh.png',
+            title: '制定您的专属健康计划',
+            btnText: '定制'
+        }
+        return t;
+
+    } else if (type == 'Exam') { //检验单
+        var t = {
+            icon: 'home_icon_scjyd.png',
+            title: '上传检验单',
+            btnText: '上传'
+        }
+        return t;
+
+    } else if (type == 'Check') { //检查单
+        var t = {
+            icon: 'home_icon_csjcd.png',
+            title: '上传检查单',
+            btnText: '上传'
+        }
+        return t;
+
+    } else if (type == 'Quest') { //问卷
+        var t = {
+            icon: 'home_icon_wj.png',
+            title: '健康问卷',
+            btnText: '查看'
+        }
+        return t;
+
+    } else if (type == 'appointNum') { //复诊开方
+        var t = {
+            icon: 'home_icon_fzkf.png',
+            title: '复诊开方',
+            btnText: '进入'
+        }
+        return t;
+
+    } else if (type == 'DailyRecord') { //日常记录
+        var t = {
+            icon: 'home_icon_rcjl.png',
+            title: '日常记录',
+            btnText: '上传'
+        }
+        return t;
+
+    } else if (type == 'Knowledge') { //文章
+        var t = {
+            icon: 'home_icon_wz.png',
+            title: '健康宣教',
+            btnText: '查看'
+        }
+        return t;
+
+    } else if (type == 'Remind') { //消息
+        var t = {
+            icon: 'home_icon_xx.png',
+            title: '健康提醒',
+            btnText: '查看'
+        }
+        return t;
+
+    } else if (type == 'Evaluate') { //健康评估
+        var t = {
+            icon: 'home_icon_jkpg.png',
+            title: '健康评估',
+            btnText: '查看'
+        }
+        return t;
+
+    } else if (type == 'videoNum') {
+        var t = {
+            icon: 'home_icon_spzx.png',
+            title: '视频咨询',
+            btnText: execFlag === 2 ? '进入' : '进入'
+        }
+        return t;
+
+    } else if (type == 'textNum') {
+        var t = {
+            icon: 'home_icon_twzx.png',
+            title: '图文咨询',
+            btnText: execFlag === 2 ? '进入' : '进入'
+        }
+        return t;
+    } else if (type == 'telNum') {
+        var t = {
+            icon: 'home_icon_dhzx.png',
+            title: '电话咨询',
+            btnText: '进入'
+        }
+        return t;
+    } else if (type == 'ICUConsultNum') {
+        var t = {
+            icon: 'home_icon_zzhy.png',
+            title: '重症会诊',
+            btnText: execFlag === 2 ? '进入' : '上传'
+        }
+        return t;
+    }
+}
+
+function periondTime(type) {
+    if (type == 'SW') {
+        return '上午'
+    } else if (type == 'XW') {
+        return '下午'
+    } else {
+        return ''
+    }
+}
+
+function planType(type) {
+    if (type == 'Check') {
+        return '检&ensp;查&ensp;单'
+    } else if (type == 'Exam') {
+        return '检&ensp;验&ensp;单'
+    } else if (type == 'Knowledge') {
+        return '文章阅读'
+    } else if (type == 'Remind') {
+        return '健康提醒'
+    } else if (type == 'Quest') {
+        return '健康问卷'
+    } else if (type == 'Evaluate') {
+        return '健康评估'
+    } else {
+        return ''
+    }
+}
+
+//手机号脱敏
+function phoneReplace(phone) {
+    return phone.replace(getRegExp('/(\d{3})\d{4}(\d{4})/'), '$1****$2')
+
+}
+//截取时间 2022-05-12 10:40:38 -> 2022-05-12
+function dateSub(time) {
+    return time.substring(0, 10)
+
+}
+//截取时间10:30:00-11:00:00->10:30-11:00
+function dateSub2(time) {
+    if (time) {
+        return time.substring(0, 5) + time.substring(8, 14)
+    } else {
+        return ''
+    }
+
+
+
+
+}
+//倒计时
+function countDown(dateStr) {
+    // var appointtimestamp = Date.parse(appointTime.replace(/-/g, '/')) 
+    var date = getDate(dateStr.replace(getRegExp('-', 'g'), '/'))
+
+    console.log(date)
+
+    return 15 * 60 * 1000 - (getDate().getTime() - date.getTime())
+
+}
+
+//订单商品数计算
+function orderNum(goodsInfo) {
+    var num = 0
+    goodsInfo.forEach(function (item) {
+        num = num + item.number
+    });
+
+
+    return num
+}
+module.exports = {
+    formatDate: formatDate,
+    formatFullDate: formatFullDate, //毫秒   年/月/日
+    formatFullDate4: formatFullDate4, //毫秒   年-月-日
+    formatFullDate7: formatFullDate7, //毫秒   年月日中文
+    formatFullDate5: formatFullDate5, //毫秒   年.月.日
+    formatFullDate2: formatFullDate2, //毫秒  年-月-日+时间
+    formatSecondDate: formatSecondDate, //秒
+    formatFullDate3: formatFullDate3,
+    formatMultiple: formatMultiple,
+    formatRange: formatRange,
+    reservationType: reservationType,
+    orderType: orderType,
+    sourceType: sourceType,
+    countDown: countDown,
+    periondTime: periondTime,
+    phoneReplace: phoneReplace,
+    recordType: recordType,
+    taskType: taskType,
+    taskType2: taskType2,
+    bedType: bedType,
+    planType: planType,
+    orderNum: orderNum,
+    dateSub: dateSub,
+    dateSub2: dateSub2
+};

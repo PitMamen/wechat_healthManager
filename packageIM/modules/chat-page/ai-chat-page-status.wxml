@@ -1,0 +1,32 @@
+<template name="chat-page-status">
+    <view class="chat-page-status-p">
+  
+    <block wx:if="{{chatStatue=='AIDOCTOR'}}">
+        <view class="chat-page-status-style">
+            <view class="chat-page-status-block">
+                <view style="height: 20rpx;width: 20rpx;border-radius: 50%;background-color: #05C100;margin-right: 10rpx;"></view>
+                <view style="color: #0079FF;">您目前进入智慧自诊服务中</view>
+            </view>  
+            <van-icon bindtap="endAIchat" name="/image/jieshu-2.png" size="40rpx" />      
+        </view>
+    </block>
+    <block wx:elif="{{chatStatue=='AIDOCTOR_END'}}">
+        <view class="chat-page-status-style">
+            <view class="chat-page-status-block">
+                <view style="height: 20rpx;width: 20rpx;border-radius: 50%;background-color: #999999;margin-right: 10rpx;"></view>
+                <view style="color: #999999;">本次智慧自诊服务已结束</view>
+            </view>  
+              
+        </view>
+    </block>
+    <block wx:else>
+        <view class="chat-page-status-style">
+            <view class="chat-page-status-block">
+                <view style="height: 20rpx;width: 20rpx;border-radius: 50%;background-color: #05C100;margin-right: 10rpx;"></view>
+                <view style="color: #101010 ;">咨询中...</view>
+            </view>
+           
+        </view>
+    </block>
+    </view>
+</template>

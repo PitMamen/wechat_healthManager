@@ -1,0 +1,32 @@
+<view class="top-view">请您确认当前就诊人信息，便于后续为您提供院后随访等健康管理服务。</view>
+<view style="height: 20rpx;background: #F9F9F9;"></view>
+<van-cell-group>
+  <van-field value="{{ deptName }}" label="就诊科室：" placeholder="请输入科室名称" readonly clearable size="large" border="{{ true }}" />
+  <van-field wx:if="{{areaName}}" value="{{ areaName }}" label="所在病区：" placeholder="请输入所在病区" readonly clearable size="large" border="{{ true }}" />
+  <van-field value="{{ disease }}" required clearable label="专病：" readonly is-link arrow-direction="down" placeholder="请选择专病" clearable="{{false}}" border="{{ true }}" size="large" bindtap="bindLXTap" />
+</van-cell-group>
+
+<van-field label="选择就诊人：" required placeholder="" readonly size="large" border="{{ false }}" />
+<van-radio-group value="{{ radio }}">
+  <view class="choose-view" wx:for="{{patientList}}">
+    <van-radio name="{{index}}" bindtap="onCheckedChange" data-item="{{item}}" data-index="{{index}}" />
+    <view class="card" bindtap="onCheckedChange" data-item="{{item}}" data-index="{{index}}" style="{{radio===index?'background-image: linear-gradient(to right, #87CEFF , #007BF5);':''}}">
+      <view style="margin-bottom: 27rpx;">{{item.userName}}</view>
+      <view>{{item.identificationNo_x}}</view>
+    </view>
+  </view>
+
+</van-radio-group>
+<view class="add-view" bindtap="addPatient">
+  <van-icon color="#007BF5" name="plus" size="34rpx" />
+  <view style="margin-left: 10rpx;">添加就诊人</view>
+</view>
+
+<view style="padding: 30rpx;margin-top: 100rpx;">
+  <van-button round type="info" bindtap="confrim" icon="{{success?'success':''}}" color="#007BF5" block>{{success?'提交成功':'确认提交'}}</van-button>
+</view>
+
+<!-- 选择专病 -->
+<van-popup show="{{ !hideLXShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closeLXTap">
+  <van-picker show-toolbar title="选择专病" columns="{{ nameColumns }}" value-key="diseaseName" visible-item-count='4' bind:cancel="closeLXTap" bind:confirm="onLXConfirm" />
+</van-popup>

@@ -1,0 +1,17 @@
+
+<van-empty wx:if="{{ !doctors || doctors.length == 0 }}" description="请扫码绑定您的专属医生。" />
+<view wx:for="{{doctors}}" wx:key="id3" class="doctor-card">
+  <view class="doctor-back" bindtap="goDoctorPage" data-item="{{item}}">
+    <image src="{{item.doctorImage || '/image/doctor_portrait.png'}}" class="doctor-image" />
+    <view class="doctor-content">
+      <view class="doctor-title">
+        <view class="doctor-name">{{item.doctorName}}</view>
+        <view class="doctor-jb">{{item.doctorPosition}}</view>
+        <view class="doctor-button"><view class="doctor-button-tx">去咨询</view><van-icon name="arrow" /></view>
+      </view>
+      <view class="doctor-ks">{{item.departmentName}}</view>
+      <view class="doctor-des">{{item.disease?item.disease:''}}</view>
+    </view>
+  </view>
+
+</view>

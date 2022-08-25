@@ -1,0 +1,14 @@
+
+page{
+  background-color: #F7F8FA;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+}
+.uploader{
+  margin-left: 30rpx;
+}
+.value-class{
+  --cell-value-color: #37383E;
+}

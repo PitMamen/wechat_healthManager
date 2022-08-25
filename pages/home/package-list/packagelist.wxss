@@ -1,0 +1,44 @@
+@import "../shop-cart/index.wxss";
+page {
+  background-color: #F7F8FF;
+}
+.container2 {
+  min-height: 100%;
+  display: block;
+  padding: 20rpx;
+}
+.cell-title {
+  color: #1A1A1A !important;
+  font-size: 30rpx !important;
+
+}
+
+.kanjia-vcard {
+  background-color: white !important;
+  font-size: 18rpx;
+  margin-bottom: 20rpx;
+}
+
+.van-card__price {
+  margin-top: 24rpx;
+}
+
+.van-card__price-integer {
+  font-size: 18px !important;
+}
+.top-screen{
+  display: flex;
+  height: 82rpx;
+  width: 50%;
+  color: #666666;
+  font-size: 30rpx;
+  background-color: white;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+.thumb-class{
+  width: 160rpx !important;
+  height: 91.5rpx !important;
+  margin-top: 30rpx !important;
+}

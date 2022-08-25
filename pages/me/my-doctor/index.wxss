@@ -1,0 +1,80 @@
+page{
+  background-color: #F7F8FA;
+}
+/* pages/my-doctor/index.wxss *//* 医生条目 */
+.doctor-card{
+  margin-right: 12px;
+  margin-left: 12px;
+  margin-top: 12px;
+  border-radius: 8px;
+  background-color: white;
+  padding: 9px;
+}
+.doctor-back{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+}
+.doctor-content{
+  margin-top: 6px; 
+  margin-right: 15rpx;
+  margin-left: 10rpx;
+  flex-direction: row;
+  flex: 1; 
+
+}
+.doctor-title{
+  display: flex;
+  flex-direction: row;
+  align-items:flex-end;
+}
+.doctor-name{
+  font-size: 16px;
+  font-weight: bold;
+}
+.doctor-jb{
+  margin-left: 8px;
+  font-size: 14px;
+
+}
+.doctor-button{
+  margin-left: auto;
+  width: 80px;
+  height: 30px;
+  background-color: #0379FF ;
+  background-image: linear-gradient(to right, #4CA0FF , #0379FF );
+  border-radius: 15px;
+  color: white;
+  font-size: 14px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.doctor-button-tx{
+  font-size: 14px;
+  line-height: 30px;
+}
+.doctor-ks{
+  font-size: 13px;
+  color: #666666;
+  margin-top:3px;
+}
+.doctor-des{
+  color: #cccccc;
+  margin-top: 4px;
+  font-size:12px;
+  width:460rpx;
+  overflow: hidden;
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
+}
+.doctor-image{
+  display: flex;
+  width: 72px;
+  height: 72px;
+  background-color: #F7F8FF ;
+  margin-right: 7px;
+  border-radius: 50%;
+}
+/* 医生条目 */

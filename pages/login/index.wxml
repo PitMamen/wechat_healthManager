@@ -1,0 +1,9 @@
+
+
+
+   <view class="loading-view">
+     <van-loading  type="spinner"  size="36px" text-size="16px" color="#1989fa" vertical>登录中...</van-loading>
+   </view>
+   
+
+

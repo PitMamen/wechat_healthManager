@@ -1,0 +1,91 @@
+<view class="invite-call" wx:if="{{callType === 2}}">
+    <camera class="local-video"  device-position="{{pusher.frontCamera}}"  />
+    <cover-view class="invite-calling">
+        <cover-view class="invite-calling-header"  >
+            <cover-view class="invite-calling-header-left">
+                <cover-image src="../../static/swtich-camera.png" data-device="{{pusher.frontCamera}}" catch:tap="toggleSwitchCamera" />
+            </cover-view>
+            <cover-view class="invite-calling-header-right">
+                <cover-view class="invite-calling-header-message">
+                    <cover-view class="tips" >{{remoteUsers[0].nick || remoteUsers[0].userID}}</cover-view>
+                    <cover-view class="tips-subtitle" wx:if="{{!isSponsor}}" >邀请你视频通话</cover-view>
+                    <cover-view class="tips-subtitle" wx:else >等待对方接受</cover-view> 
+                </cover-view>
+                <cover-image src="{{remoteUsers[0].avatar || '../../static/default_avatar.png'}}" binderror="handleErrorImage" />
+            </cover-view>
+        </cover-view>
+  
+        <cover-view class="footer">
+            <!-- <cover-view class="btn-operate" wx:if="{{isSponsor}}">
+                <cover-view class="btn-operate-item call-switch" catch:tap="switchAudioCall">
+                    <cover-view class="call-switch-text">切换到语音通话</cover-view>
+                    <cover-view class="call-operate">
+                        <cover-image src="../../static/trans.png" />
+                    </cover-view>
+                </cover-view>
+            </cover-view> -->
+            <cover-view class="btn-operate" wx:if="{{isSponsor}}">
+                <cover-view  class="btn-operate-item">
+                    <cover-view class="call-operate" style="background-color: red" catch:tap="hangup">
+                        <cover-image src="../../static/hangup.png" />
+                    </cover-view>
+                    <cover-view class="btn-operate-item-text">挂断</cover-view>
+                </cover-view>
+            </cover-view>
+            <cover-view class="btn-operate"  wx:if="{{!isSponsor}}">
+                <cover-view class="btn-operate-item">
+                    <cover-view class="call-operate" style="background-color: red" catch:tap="reject">
+                        <cover-image src="../../static/hangup.png" />
+                    </cover-view>
+                    <cover-view class="btn-operate-item-text">挂断</cover-view>
+                </cover-view>
+                <cover-view class="btn-operate-item">
+                    <cover-view class="call-operate" style="background-color: #07c160" catch:tap="accept">
+                        <cover-image src="../../static/hangup.png" style="transform: rotate(-135deg); "/>
+                    </cover-view>
+                    <cover-view class="btn-operate-item-text">接听</cover-view>
+                </cover-view>
+            </cover-view>
+        </cover-view>
+    </cover-view> 
+</view>
+<cover-view class="incoming-call audio-call" wx:if="{{callType === 1}}">
+    <cover-view class="invite-calling-single"  wx:if="{{remoteUsers.length === 1}}">
+        <cover-image class="avatar-image" src="{{remoteUsers[0].avatar || './static/default_avatar.png'}}" binderror="handleErrorImage" />
+        <cover-view class="tips" >{{remoteUsers[0].nick || remoteUsers[0].userID}}</cover-view>
+        <cover-view wx:if="{{isSponsor && callType === 1}}" class="tips-subtitle" >{{'等待对方接受'}}</cover-view>
+    </cover-view>
+    <cover-view class="invite-calling-header invite-calling-list"  wx:else>
+            <cover-view class="invite-calling-item" wx:for="{{remoteUsers}}" wx:key="userID">
+                <cover-image src="{{item.avatar || '../../static/default_avatar.png'}}" binderror="handleErrorImage" />
+            <cover-view class="invite-calling-item-message">
+                <cover-view class="tips" >{{item.nick || item.userID}}</cover-view>
+                <cover-view class="tips-subtitle" wx:if="{{!isSponsor}}" >邀请你视频通话</cover-view>
+                <cover-view class="tips-subtitle" wx:else >等待对方接受</cover-view> 
+            </cover-view>
+        </cover-view>
+    </cover-view>
+    <cover-view class="footer">
+        <!-- <cover-view class="btn-operate">
+            <cover-view class="btn-operate-item call-switch">
+                <text>切换到视频通话</text>
+                <cover-view class="call-operate">
+                    <image src="../../static/trans.png" />
+                </cover-view>
+            </cover-view>
+        </cover-view> -->
+        <cover-view wx:if="{{!isSponsor && callType === 1}}" class="btn-operate">
+            <cover-view class="call-operate" style="background-color: red" catch:tap="reject">
+                <cover-image src="../../static/hangup.png" />
+            </cover-view>
+            <cover-view class="call-operate" style="background-color: #07c160" catch:tap="accept">
+                <cover-image src="../../static/hangup.png" style="transform: rotate(-135deg); "/>
+            </cover-view>
+        </cover-view>
+        <cover-view wx:if="{{isSponsor && callType === 1}}" class="btn-operate">
+            <cover-view class="call-operate" style="background-color: red" catch:tap="hangup">
+                <cover-image src="../../static/hangup.png" />
+            </cover-view>
+        </cover-view>
+    </cover-view>
+</cover-view>

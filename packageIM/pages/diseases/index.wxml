@@ -1,0 +1,22 @@
+
+<van-sticky>
+    <view style="  display:flex;flex-wrap:wrap;background-color: #ffffff;height: 100rpx;">
+        <view class="namecard2" style="font-weight:{{activeIndex===index?'bold':''}} ;" bindtap="CustomSymptomClickEvent" data-index="{{index}}" wx:for="{{symptomList}}" wx:key="fwzxkey">
+            {{item}}
+        </view>
+
+    </view>
+    <view style=" height: 60rpx; font-size: 28rpx;color: #302f2f;background-color: #ffffff;">
+    <view style="margin-left: 30rpx;line-height: 60rpx;">建议科室：{{department}}</view>
+    </view>
+    <view id="tabs" class="tabs" wx:if="{{tabs.length>0}}">
+        <van-tabs color="#0379FF" title-active-color="#0379FF" ellipsis="{{false}}" swipeable line-width="28px" bind:click="onTabsChange" custom-class="" active="{{ active }}">
+            <van-tab wx:for="{{tabs}}" wx:key="id" title="{{item.name}}" >
+            </van-tab>
+        </van-tabs>
+    </view>
+</van-sticky>
+<van-empty wx:if="{{ !tabs || tabs.length == 0 }}" description="未找到疾病知识" ></van-empty>
+<view wx:else class="htmlcontent">
+    <mp-html  content="{{tabs[active].content}}" />
+</view>

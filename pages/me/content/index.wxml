@@ -1,0 +1,6 @@
+
+
+
+  <view class="page">
+    <mp-html content="{{content}}" />
+</view>

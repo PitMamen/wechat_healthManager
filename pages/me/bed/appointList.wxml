@@ -1,0 +1,76 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+<van-empty wx:if="{{ !appointList || appointList.length == 0 }}" description="暂无记录" />
+<view wx:for="{{appointList}}" wx:for-item="items">
+  <view class="contentview" bindtap="goTaskDetailPage">
+
+    <view class="taskcard">
+      <view class="task-content">
+        <text decode class="content2">{{items.userInfo.userName}}&emsp;&ensp;{{items.userInfo.userSex}}&emsp;&ensp;{{items.userInfo.userAge}}岁</text>
+        <van-divider />
+        <view class="content-txt">
+          <view>住院科室：</view>
+          <text class="content-in-txt">{{items.appointDeptName}}</text>
+        </view>
+        <view class="content-txt">
+          <view>开单日期：</view>
+          <text class="content-in-txt">{{computed.formatFullDate4(items.reqTime)}}</text>
+        </view>
+        <block wx:if="{{items.status==0}}">
+          <span style="border-top-color:#FF9C00">
+            <em>审核中</em>
+          </span>
+        </block>
+        <block wx:if="{{items.status==1}}">
+          <span style="border-top-color:#007BF5">
+            <em>成功</em>
+          </span>
+          <view class="content-txt">
+            <view>入院时间：</view>
+            <text class="content-in-txt"></text>
+          </view>
+          <view style="margin-top: 10rpx;">
+            <van-button type="primary" color="#007BF5" block round bindtap="cancleAppoint" data-item="{{items}}">取消预约</van-button>
+          </view>
+        </block>
+        <block wx:if="{{items.status==2}}">
+          <span style="border-top-color:#0EAE24">
+            <em>退回</em>
+          </span>
+          <view class="content-txt">
+            <view>预约反馈：</view>
+            <text class="content-in-txt">资料不足请补充</text>
+          </view>
+          <view style="margin-top: 10rpx;">
+            <van-button type="primary" color="#0EAE24" block round bindtap="furtherInformation" data-item="{{items}}">补充资料</van-button>
+          </view>
+        </block>
+        <block wx:if="{{items.status==3}}">
+          <span style="border-top-color:#007BF5">
+            <em>已完成</em>
+          </span>
+          <view class="content-txt">
+            <view>入院时间：</view>
+            <text class="content-in-txt"></text>
+          </view>
+        </block>
+        <block wx:if="{{items.status==4}}">
+          <span style="border-top-color:#E90D0D">
+            <em>失败</em>
+          </span>
+          <view class="content-txt">
+            <view>失败原因：</view>
+            <text class="content-in-txt">不符合条件</text>
+          </view>
+       
+        </block>
+        <block wx:if="{{items.status==5}}">
+          <span style="border-top-color:#E90D0D">
+            <em>已取消</em>
+          </span>
+        </block>
+
+      </view>
+    </view>
+
+  </view>
+</view>

@@ -1,0 +1,8 @@
+/* pages/histDisease/histDisease.wxss */
+.value-class {
+  flex: none !important;
+}
+
+.title {
+  font-weight: 700;
+}

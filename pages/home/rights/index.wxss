@@ -1,0 +1,157 @@
+page{
+  background-color: #F7F8FF ;
+
+}
+tab-view{
+ 
+  background:black;
+}
+.tabs{
+
+  padding-top:  20rpx;
+  padding-bottom: 20rpx;
+  background:white;
+}
+
+.titleviw{
+  height: 40px;
+ 
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+  display: flex;
+ justify-content: space-between;
+ align-items: center;
+  }
+  .title-text {
+   left: 0;
+   font-weight: bold;
+   font-size: 16px;
+   color: #1A1A1A;
+ }
+
+ .bottom-view{
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 20rpx;
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+  font-size: 30rpx;
+ }
+
+ .title-right{
+padding-right: 8px;
+   height: 20px;
+   border-radius: 10px ;
+   background-color: #FFE5E5;
+  font-size: 12px;
+  color: #FF0000;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+ }
+
+.order-list{
+  width: 100%;
+}
+.order-list .a-order{
+  width: 100%;
+  margin-bottom: 20rpx;
+}
+.ordercard{
+  width: 94%;
+  margin-left: 3%;
+  background-color: #fff;
+}
+.a-order  .goods-info,
+.goods-img-container{
+  width: 720rpx;
+  margin-left: 30rpx;
+  /* border-top: 1rpx solid #eee; */
+  padding: 30rpx 0;
+  display: flex;
+  align-items: center;
+}
+.goods-price {
+font-size:26rpx;
+text-align: right;
+
+}
+.goods-price .p {
+font-size:36rpx;
+color:#e64340;
+}
+.goods-info .img-box{
+  width: 120rpx;
+  height: 120rpx;
+  overflow: hidden;
+  margin-right: 30rpx;
+  background-color: #f7f7f7;
+}
+.goods-info .img-box .goods-img,
+.goods-img-container .img-box .goods-img{
+  width: 120rpx;
+  height: 120rpx;
+}
+.goods-info  .goods-des{
+  font-size:26rpx;
+  color:#000000;
+}
+.goods-img-container{
+  height: 180rpx;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+.goods-img-container .img-box{
+  width: 120rpx;
+  height: 120rpx;
+  overflow: hidden;
+  margin-right: 20rpx;
+  background-color: #f7f7f7;
+  display: inline-block;
+}
+.price-box{
+  width: 720rpx;
+  display: flex;
+  flex-direction:row-reverse;
+  padding-bottom: 30rpx;
+}
+.price-box .btn{
+  width: 166rpx;
+  height: 60rpx;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 60rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 30rpx;
+  margin-left: 20rpx;
+  font-size:26rpx;
+}
+.price-box .active{
+  border:1px solid #0379FF;
+  color: #0379FF;
+}
+.remark {
+color:#0379FF;
+margin-bottom: 20rpx;
+}
+
+.cell-title {
+  color: #1A1A1A !important;
+  font-size: 16px !important;
+  font-weight: bold;
+}
+
+.kanjia-vcard {
+  background-color: white !important;
+  font-size: 15rpx;
+  margin: 0rpx;
+}
+
+.van-card__price {
+  margin-top: 24rpx;
+}
+
+.van-card__price-integer {
+  font-size: 18px !important;
+}

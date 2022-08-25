@@ -1,0 +1,42 @@
+<!-- 已注册 （默认已注册 直接登录）-->
+<block wx:if="{{registered}}">
+ <!-- 登录中 -->
+  <block wx:if="{{isLogining}}">
+    <view class="loading-view">
+      <van-loading type="spinner" size="36px" text-size="16px" color="#1989fa" vertical>登录中...</van-loading>
+    </view>
+
+  </block>
+   <!-- 登录失败 -->
+  <block wx:else>
+    <view class="top-logo">
+        <image src="/image/logo.png" class="icon-image"></image>
+        <text class="top-label">健康管家在线</text>
+      </view>
+    <button wx:if="{{canIUseGetUserProfile}}" class="loginTap" bindtap="WXloginForLogin"> 重新登录 </button>
+  </block>
+</block>
+<!-- 未注册 -->
+<block wx:if="{{!registered}}">
+  <!-- 先授权 -->
+  <block wx:if="{{!hasUserInfo}}">
+    <block wx:if="{{!isAuthed}}">
+      <view class="top-logo">
+        <image src="/image/logo.png" class="icon-image"></image>
+        <text class="top-label">健康管家在线</text>
+      </view>
+      <button wx:if="{{canIUseGetUserProfile}}" class="loginTap" bindtap="getUserProfile"> 一键授权登录 </button>
+      <button wx:else open-type="getUserInfo" class="loginTap" bindgetuserinfo="getUserInfo"> 一键授权登录 </button>
+    </block>
+
+
+  </block>
+  <!-- 再绑定手机 -->
+  <block wx:else>
+    <view class="top-logo">
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </view>
+    <button class="loginTap" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">绑定手机号</button>
+  </block>
+</block>

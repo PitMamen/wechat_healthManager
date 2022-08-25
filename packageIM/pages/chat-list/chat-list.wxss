@@ -1,0 +1,10 @@
+/* pages/chat-list/chat-list.wxss */
+@import "view/chat-item.wxss";
+.search-title {
+  left: 0;
+  font-weight: bold;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

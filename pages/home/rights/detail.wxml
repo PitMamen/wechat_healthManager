@@ -1,0 +1,51 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+<view class="space"></view>
+<view class="order-list">
+  <view class="a-order">
+    <view class="ordercard">
+      <van-card custom-class="kanjia-vcard" tag="{{item.requesting>0?'使用中':''}}" thumb="{{item.previewList}}" >
+        <view class="cell-title" slot="title">
+          <van-tag round type="primary">{{item.deptName}}</van-tag>
+          {{item.goodsClassInfo.className}}
+        </view>
+        <view style="margin-top: 16rpx;" slot="desc">
+          <van-tag size="large" plain type="primary">{{item.goodsName}}</van-tag>
+        </view>
+        <view style="margin-top: 16rpx;" slot="tags">
+          <view style="font-size: 30rpx;">有效期至：{{computed.formatFullDate4(item.endTime)}}</view>
+        </view>
+      </van-card>
+
+      <view wx:for="{{item.userGoodsAttr}}" wx:key="id2" wx:for-item="items" class="bottom-view">
+        <view> {{items.attrTypeName}}：</view>
+        <text style="color:#0379FF ;">剩余{{items.attrValue-items.usedValue}}次 / 共{{items.attrValue}}次</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="todo-card">
+  <view class="todo-title-view" bindtap="goPlanListPage">
+    <text class="todo-title">使用记录</text>
+  </view>
+  <van-divider />
+  <block wx:if="{{steps&&steps.length>0}}">
+    <view class="todo-back">
+      <van-steps steps="{{ steps }}" active="{{ active }}"  direction="vertical" active-color="#4179FB" />
+      <!-- <van-steps steps="{{ steps }}" active="{{ active }}"  direction="vertical" active-color="red" /> -->
+    </view>
+  </block>
+  <block  wx:else>
+    <van-empty description="暂无记录" />
+  </block>
+ 
+</view>
+
+<view wx:if="{{numRights>0}}" class="safe-bottom-box">
+  <van-button type="primary" color="#047AFF" disabled="{{isReminded}}" block bind:click="apply">{{item.requesting>0?isReminded?'已提醒':'提醒':'立即使用'}}</van-button>
+</view>
+
+
+<van-popup show="{{ !hidePoupShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;z-index: 999;" bind:close="onPoupPickerCancel">
+  <van-picker show-toolbar title="选择要使用的权益" columns="{{ nameColumns }}" value-key="attrTypeName" visible-item-count='4' bind:cancel="onPoupPickerCancel" bind:confirm="onPoupPickerConfirm" />
+</van-popup>

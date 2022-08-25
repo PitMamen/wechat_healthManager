@@ -1,0 +1,27 @@
+<template name="chat-page-status">
+    <view class="chat-page-status-p">
+   
+    <block wx:if="{{chatStatue=='Doctor' || chatStatue=='Nurse'}}">
+        <view class="chat-page-status-style2">
+            <view class="chat-page-status-block">
+                <view style="height: 20rpx;width: 20rpx;border-radius: 50%;background-color: #05C100;margin-right: 10rpx;"></view>
+                <view style="color: #0079FF;">您已进入中南大学湘雅二医院互联网医院平台就诊室</view>
+            </view>        
+        </view>
+        <view wx:if="{{chatStatusContent}}" class="chat-page-status-style2">
+            <view class="chat-page-status-block">              
+                <view style="color: #9DA7B1;">{{chatStatusContent}}</view>
+            </view>         
+        </view>
+    </block>
+    <block wx:else>
+        <view class="chat-page-status-style">
+            <view class="chat-page-status-block">
+                <view style="height: 20rpx;width: 20rpx;border-radius: 50%;background-color: #05C100;margin-right: 10rpx;"></view>
+                <view style="color: #101010 ;">咨询中...</view>
+            </view>
+           
+        </view>
+    </block>
+    </view>
+</template>

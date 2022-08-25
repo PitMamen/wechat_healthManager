@@ -1,0 +1,70 @@
+<view class="top">
+  <view  class="doctor-card">
+    <view class="doctor-back">
+      <image src="{{doctor.avatarUrl?doctor.avatarUrl:'/image/doctor_portrait.png'}}" class="doctor-image" />
+      <!-- <van-icon  name="{{doctor.avatarUrl?doctor.avatarUrl:'/image/doctor_portrait.png'}}" size="73px" info="{{unreadIMmessageCount>0?unreadIMmessageCount:''}}" /> -->
+      <view class="doctor-content">
+        <view class="doctor-title">
+          <view class="doctor-name">{{doctor.userName}}</view>
+          <van-tag round type="primary" color="#F5A622" size="medium ">{{doctor.professionalTitle}}</van-tag>
+
+        </view>
+        <view class="doctor-ks">{{doctor.hospitalName}} </view>
+        <!-- <view class="doctor-ks">{{doctor.departmentName}}</view> -->
+        <view class="doctor-ks">骨科</view>
+
+
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="content">
+  <view class="card1" id="yuyue-view">
+    <van-cell title-class="title-class" title="专业擅长" is-link value="查看简介" />
+    <view class="yyjzin">
+      <!-- <view class="des">{{doctor.doctorBrief}}</view> -->
+      <view class="des">颈椎病前路后路手术、腰椎疾病、人工关节置换和各种复杂的四肢骨科手术。</view>
+    </view>
+
+  </view>
+
+  <view class="card" id="yiliao-view">
+    <van-cell title-class="title-class" title="医生服务" />
+    <view class="header-box">
+      <view class="tipview">
+        <image class="tip-img" src="/image/icon_fw1.png" mode="aspectFill"></image>
+        <view class="r">
+          <view style=" font-size: 30rpx;color: #1A1A1A;font-weight: bold;">线上优质服务</view>
+          <view  style=" font-size: 24rpx;color: #999999;">无须请假看病、无须小病大看</view>
+        </view>
+      </view>
+      <view class="tipview">
+        <image class="tip-img" src="/image/icon_fw2.png" mode="aspectFill"></image>
+        <view class="r">
+          <view style=" font-size: 30rpx;color: #1A1A1A;font-weight: bold;">7*24小时随叫随到</view>
+          <view  style=" font-size: 24rpx;color: #999999;margin-top: 6rpx;">健康管家全天候诊，懂你状况，为你操心</view>
+        </view>
+      </view>
+      <view class="tipview">
+        <image class="tip-img" src="/image/icon_fw3.png" mode="aspectFill"></image>
+        <view class="r">
+          <view style=" font-size: 30rpx;color: #1A1A1A;font-weight: bold;">医生团队会诊</view>
+          <view  style=" font-size: 24rpx;color: #999999;">支持专科名医转诊，解决疑难问题</view>
+        </view>
+      </view>
+
+      <view style="margin-top: 50rpx;"></view>
+      <view wx:if="{{isContracted}}" >
+        <van-button round type="info" color="linear-gradient(to right, #4CA0FF, #0379FF)" bindtap="goIMPage" block>立即咨询</van-button>
+      </view>
+
+      <view wx:else >
+        <van-button round type="info" color="linear-gradient(to right, #4CA0FF, #0379FF)" bindtap="contractDoctor" block>签约医生团队</van-button>
+      </view>
+
+    </view>
+  </view>
+
+
+</view>

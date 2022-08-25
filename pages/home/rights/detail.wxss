@@ -1,0 +1,102 @@
+@import "./index.wxss";
+/* 待办条目 */
+.todo-title-view{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.todo-title{
+    left: 0;
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #1A1A1A;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.todo-title-right{
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.todo-card {
+  margin-right: 12px;
+  margin-left: 12px;
+  margin-top: 9px;
+  margin-bottom: 80px;
+  border-radius: 8px;
+  background-color: white;
+  padding: 9px 24rpx;
+}
+
+.todo-back {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 40rpx;
+  margin-bottom: 40rpx;
+}
+.todo-back2 {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10rpx;
+  margin-bottom: 15rpx;
+}
+.todo-content {
+  margin-right: 15rpx;
+  margin-left: 20rpx;
+  flex-direction: row;
+  flex: 1;
+}
+
+.todo-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #1A1A1A;
+}
+
+.todo-button {
+  margin-left: auto;
+  width: 108rpx;
+  height: 48rpx;
+  background-color: #4179FB;
+  color: white;
+  font-size: 24rpx;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.todo-des {
+  color: #999999;
+  margin-top: 4px;
+  font-size: 24rpx;
+  width: 400rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.todo-image {
+  display: flex;
+  width: 82rpx;
+  height: 82rpx;
+  background-color: #F7F8FF;
+ 
+  border-radius: 50%;
+}
+
+/* 待办条目 */
+
+.safe-bottom-box {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 99;
+}

@@ -1,0 +1,76 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+
+<van-cell  size="large" title="就诊人" is-link value="{{defaultPatient.userName}}" bindtap="bindPatientTap" />
+<van-empty wx:if="{{ !planList || planList.length == 0 }}" description="暂无数据" />
+<view wx:for="{{planList}}" wx:key="id3" class="card" data-planid="{{item.planId}}">
+
+  <view class="card-black">
+    <view class="titleviw">
+      <text class="title-date">住院证</text>
+
+      <view class="title-right">
+
+        <van-tag size="large" round type="primary" bindtap="applyTap" data-item="{{item}}">开始预约</van-tag>
+      </view>
+    </view>
+    <view class="divider-view">
+      <view class="divider"></view>
+    </view>
+
+    <text decode class="content">开单医生：{{item.reqDocName}}</text>
+    <text class="content">开单科室：{{item.reqDeptName}}</text>
+    <text class="content">诊断名称：{{item.diagnosis}}</text>
+    <text class="content">住院科室：{{item.appointDeptName}}</text>
+    <text class="content">开单时间：2022-03-09</text>
+
+
+  </view>
+</view>
+
+<!-- 就诊人选择 -->
+<van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePatientTap">
+  <van-picker custom-class="picker-custom" show-toolbar title="切换就诊人" cancel-button-text="添加" columns="{{ nameColumns }}" visible-item-count='4' bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
+</van-popup>
+
+<!-- 无预约权益提醒 -->
+<van-popup show="{{ noTipShow }}" bind:close="onClose" custom-style="height: 60%;width: 100%;" closeable  bind:close="onNoTipClose" position="bottom">
+  <view class="popview">
+    <view style="font-size: 32rpx;margin-bottom: 28rpx;font-weight: bold;">提示</view>
+    <view style="font-size: 24rpx;color: #999999;">当前就诊人未购买相关服务，暂不能提供预约床位的服务，如需预约请点击下面服务进行购买。</view>
+    <van-card wx:for="{{packageList}}" custom-class="kanjia-vcard" bindtap="toDetailsTap" data-id="{{item.goodsId}}" price="{{item.price}}" num="销量{{item.buyTheNumber}}"  thumb="{{item.previewList}}" >
+      <view class="cell-title" slot="title">
+        <van-tag round type="primary">{{item.deptName}}</van-tag>
+        {{item.goodsName}}
+      </view>
+      <view style="margin-top: 16rpx;" slot="tags">
+        <van-tag plain type="primary">{{item.goodsSpec}}</van-tag>
+      </view>
+    </van-card>
+  </view>
+</van-popup>
+
+<!-- 权益选择 -->
+<van-popup show="{{ chooseTipShow }}" bind:close="onClose" custom-style="height: 60%;width: 100%;" bind:close="onChooseTipClose" closeable  position="bottom">
+  <view class="popview">
+    
+    <view style="font-size: 32rpx;margin-bottom: 28rpx;font-weight: bold;">确认扣件权益</view>
+    <view style="font-size: 24rpx;color: #999999;">我们将从当前就诊人购买的服务中扣减预约床位的权益，请您选择确认！</view>
+    <van-radio-group value="{{ radio }}" >
+    <view class="choose-view" wx:for="{{rightsList}}">
+      <van-radio  name="{{index}}" bindtap="onCheckedChange" data-item="{{item}}" data-index="{{index}}"/>
+      <van-card  custom-class="kanjia-vcard2" bindtap="onCheckedChange" data-item="{{item}}" data-index="{{index}}" price="{{item.price}}"  thumb="{{item.previewList}}" >
+      <view class="cell-title" slot="title">
+        <van-tag round type="primary">{{item.deptName}}</van-tag>
+        {{item.goodsName}}
+      </view>
+      <view style="margin-top: 36rpx;" slot="tags">
+        <van-tag plain type="primary">{{item.goodsSpec}}</van-tag>
+      </view>
+    </van-card>
+    </view>
+
+  </van-radio-group>
+  <van-button style="position: fixed;bottom: 0;left: 0; right: 0;" color="#4179FB" bindtap="confirm"  block>确认提交</van-button>
+  </view>
+
+</van-popup>

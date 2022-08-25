@@ -1,0 +1,9 @@
+
+
+    <view class="top-logo">
+    <image src="https://hmg.mclouds.org.cn/content-api/file/I20220427092245213LQXDJJZEASQP1M-success.png" class="icon-image"></image>
+    <text class="top-label">预约申请成功！</text>
+    <text class="top-des">您的申请已提交，我们会尽快审核，请留意消息。</text>
+  </view>
+    <button class="loginTap" bindtap="goHome"> 确定 </button>
+

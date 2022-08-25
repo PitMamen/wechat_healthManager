@@ -1,0 +1,15 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+  <view class="header-box">
+    <image class="avatar" src="{{doctor.avatarUrl || '/image/avatar.png'}}" mode="aspectFill"></image>
+    <view class="r">
+      <view class="nick">{{doctor.userName}} <van-tag plain type="primary">{{doctor.userType==='doctor'?'医生':'个案管理师'}}</van-tag></view>
+      <text decode class="des">{{doctor.departmentName||''}}</text>
+    </view>
+     
+    
+  </view>
+
+  <view class="page">
+  <text class="text">{{content}}</text>
+  <view class="top-right">{{createTime||''}}</view> 
+</view>

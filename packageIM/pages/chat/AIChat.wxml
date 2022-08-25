@@ -1,0 +1,33 @@
+<!--pages/list/list.wxml-->
+<import src="../../modules/chat-page/ai-chat-item.wxml"/>
+<import src="../../modules/chat-page/ai-chat-page-status.wxml"/>
+
+<template  is="chat-page-status" data="{{chatStatue,chatStatusContent}}"/>
+
+<scroll-view
+        style="height:{{pageHeight-136}}px;width: 100%;display: flex;flex-direction: column;margin-top: 54rpx;"
+        scroll-y="true"
+        scroll-top="{{scrollTopVal}}"
+        bindtap="resetInputStatus">
+    <block wx:for="{{chatItems}}" wx:key="id2">
+        <template is="chat-item"
+                  data="{{length:chatItems.length,index:index,item:item,avatar:item.avatar,patientList:patientList}}"/>
+    </block>
+
+</scroll-view>
+<chat-input
+        wx:if="{{showChatInput}}"
+        id="chatInput"
+        min-voice-time="{{1}}"
+        max-voice-time="{{60}}"
+        start-time-down="{{54}}"
+        tabBarHeight="{{0}}"
+        format="mp3"
+        inputType="{{inputType}}"
+        top-array="{{topArr}}"
+        bind:extraClickEvent="onExtraClickEvent"
+        bind:extraItemClickEvent="onExtraItemClickEvent"
+        bind:heathItemClickEvent="heathItemClickEvent"
+        bind:voiceRecordEvent="onVoiceRecordEvent"
+        bind:sendMessageEvent="onSendMessageEvent"></chat-input>
+<!--<template is="chat-input" data="{{inputObj,textMessage,showVoicePart:true}}"/>-->

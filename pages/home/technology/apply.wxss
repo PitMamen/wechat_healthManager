@@ -1,0 +1,85 @@
+/* pages/manage/upload/index.wxss */
+page{
+}
+.t-box {
+  margin-top: -60rpx;
+  background-color: white;
+  height: 100rpx;
+  border-radius: 8px;
+  padding: 15rpx;
+  margin-left: 26rpx;
+  margin-right: 26rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 10px 0px rgba(153, 153, 153, 0.35);
+}
+
+.cicle{
+  border-radius: 50%;
+  width: 10px;
+  height: 10px; 
+  border: 2px solid #0379FF;
+  background-color: white;
+  margin-right: 5rpx;
+}
+.top-title-active{
+  font-size:  30rpx;
+  font-weight: bold;
+}
+.top-title{
+  font-size: 28rpx;
+  color: #999999;
+}
+.dash{
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+  width:40px;height:0px;
+  border-bottom:2px dashed #000;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+}
+.uploader{
+  margin-left: 30rpx;
+}
+.value-class{
+  --cell-value-color: #37383E;
+}
+.top-back{
+  display: flex;
+  height: 210rpx;
+  color: white;
+  background-color: #0379FF;
+}
+.conten-title{
+  font-size:  30rpx;
+  font-weight: bold;
+  background-color: white;
+  margin-top: 20rpx;
+  padding-top: 30rpx;
+  padding-bottom: 15rpx;
+  padding-left: 30rpx;
+}
+.tab-view{
+  display: flex;
+  background-color: white;
+  height: 96rpx;
+  align-items: center;
+  padding: 0 12rpx;
+}
+.content-view{
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 28rpx;
+color: #9AA8BB;
+margin-right: 80rpx;
+margin-left: 30rpx;
+}
+.content-view .right{
+  width: 200rpx;
+}

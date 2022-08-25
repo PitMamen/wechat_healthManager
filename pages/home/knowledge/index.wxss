@@ -1,0 +1,173 @@
+/* pages/home/news/news-list.wxss *//* pages/index/new.wxss */
+@import '../../../utils/refreshView.wxss';
+page{
+  background-color: #F7F8FF;
+}
+.top-screen{
+  display: flex;
+  height: 82rpx;
+  width: 50%;
+  color: #666666;
+  font-size: 30rpx;
+  background-color: white;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+.tab-view{
+  display: flex;
+  background-color: white;
+  height: 96rpx;
+  align-items: center;
+  padding: 0 12rpx;
+}
+.tab-btn{
+  margin-left: 12rpx;
+  margin-right: 12rpx;
+  width: 190rpx;
+  height: 56rpx;
+  border-radius: 28rpx;
+  border-width: 0.5px;
+  border-color: #c5daf3;
+  border-style: solid;
+  color: #1A1A1A;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  
+}
+.activebtn{
+  background-color: #4179FB;
+  color: white;
+}
+.item-style{  
+  padding: 30rpx;  
+  font-size: 40rpx;  
+  text-align: center;  
+  border-top: 2rpx solid #eee;  
+}  
+.tag-view{
+  margin-right: 26rpx;
+  margin-left: 26rpx;
+  padding-top: 20rpx;
+  /* border-radius: 20rpx;
+  padding: 10rpx;
+  border: 1rpx solid  #BBBBBB ;
+  background-color: white; */
+}
+.tag-class{
+  margin-right: 20rpx;
+  margin-top: 20rpx;
+}
+
+.back{
+    margin-left: 20rpx;
+    margin-right: 20rpx;
+    margin-top: 20rpx;
+    border-radius: 8px;
+    background-color: white;
+  }
+  .item-back{
+    display: flex;
+    width: 100%;
+    border-bottom: 0.5rpx solid #eee;
+    padding-top: 10rpx;
+    min-height: 182rpx;
+  }
+  .left-content{
+    float: left;
+    margin-top: 6px; 
+    margin-right: 15rpx;
+    margin-left: 10rpx;
+    flex-direction: row;
+    flex: 1; 
+    position: relative;
+  }
+  .title{
+    font-size: 32rpx;
+  }
+  .content{
+    font-size: 30rpx;
+    color: rgb(181, 183, 185);
+    margin-top: 15rpx;
+  }
+  .read-num{
+    display: flex;
+    font-size: 28rpx;
+    color: rgb(181, 183, 185);
+    margin-top: 20rpx;
+    margin-bottom: 20rpx;
+    flex-direction: row;
+    flex: 1; 
+    float: left;
+    position: relative;
+  }
+  .send-time{
+    display: flex;
+    font-size: 28rpx;
+    color: rgb(181, 183, 185);
+    margin-top: 20rpx;
+    flex-direction: row;
+    float: right;
+    margin-bottom: 20rpx;
+    position: relative;
+  }
+  .image-content{
+    display: flex;
+    width: 160rpx;
+    height: 140rpx;
+    padding: 0;
+    background-color: rgb(212, 213, 214);
+    float: right;
+    margin-top: 6px; 
+    margin-right: 15rpx;
+    border-radius: 10rpx;
+    flex-direction: row;
+    position: relative;
+  }
+  .bottom-line{
+    display: inline;
+    margin-left: 15rpx;
+    margin-right: 15rpx;
+    height: 1rpx;
+    background-color: #5e5353;
+    flex-direction: row-reverse;
+    position: fixed;
+  }
+  /* 上拉加载 */
+  .loadmore {
+    height: 35px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loadmore text{
+    font-size: 13px;
+    color: #bfbfbf;
+    font-weight: bold;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  
+  .icon{
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+  }
+  
+  .active {
+    animation: weuiLoading 0.6s steps(12, end) infinite;
+  }
+  
+  @keyframes weuiLoading {
+    0% {
+      transform: rotate3d(0, 0, 1, 0deg);
+    }
+  
+    100% {
+      transform: rotate3d(0, 0, 1, 360deg);
+    }
+  }

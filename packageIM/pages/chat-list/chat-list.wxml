@@ -1,0 +1,7 @@
+<import src="view/chat-item.wxml"/>
+<van-empty wx:if="{{ !conversationList || conversationList.length == 0 }}" description="暂无数据" />
+<block wx:for="{{conversationList}}" wx:key="conversationId">
+    <template is="chat-item" data="{{item:item,userID:userID}}"/>
+    <van-divider />
+</block>
+
