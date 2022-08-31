@@ -170,7 +170,8 @@ module.exports =
 
                 if (Config.ProgramEnvVersion === 'develop') {//开发版
 
-                    API_BASE_URL = 'https://develop.mclouds.org.cn';//外网测试环境
+                    // API_BASE_URL = 'https://develop.mclouds.org.cn';//外网测试环境
+                    API_BASE_URL = 'http://develop.mclouds.org.cn:8009';//外网测试环境
 
                 } else if (Config.ProgramEnvVersion === 'trial') {//演示版
 
@@ -192,7 +193,8 @@ module.exports =
                 var EDIT_SERVICE = '/bone-api';
                 var MANAGER_SERVICE = '/manager-api';
                 var QUESTION_SERVICE = '/questionnaire-api';
-
+                var PUSH_SERVICE = '/push-api';
+                var INFO_SERVICE = '/info-api';
 
 
 
@@ -482,13 +484,13 @@ module.exports =
                     //获取验证码(未登录)
                     codeQuery: function codeQuery(data) {
                         console.log(data)
-                        var url = ACCOUNT_SERVICE + '/wx/user/getVerificationCode'
+                        var url = PUSH_SERVICE + '/sms/getVerificationCode'
                         return request(url, 'post', data, true);
                     },
                     //获取验证码(登录)
                     codeLoginedQuery: function codeLoginedQuery(data) {
                         console.log(data)
-                        var url = ACCOUNT_SERVICE + '/getVerificationCode'
+                        var url = PUSH_SERVICE + '/sms/getVerificationCode'
                         return request(url, 'post', data, true);
                     },
                     //注册新用户
@@ -769,12 +771,9 @@ module.exports =
                     },
                     //修改订单状态
                     updateOrderStatusById: function updateOrderStatusById(orderId, status) {
-                        return request(ORDER_SERVICE + '/order/tbOrder/updateOrderStatusById', 'post', { orderId: orderId, status: status });
+                        return request(ORDER_SERVICE + '/order/tbOrder/updateOrderStatusById', 'get', { orderId: orderId, status: status });
                     },
-                    //我的预约   type :0：全部 1：待就诊 2：就诊中 3：已完成
-                    getPatientAppointment: function getPatientAppointment(accountId, type) {
-                        return request(ACCOUNT_SERVICE + '/individualInfo/getPatientAppointment?accountId=' + accountId + '&type=' + type, 'get', null);
-                    },
+                   
                     //文件上传
                     uploadOtherFile: function uploadOtherFile(filePath) {
                         return uploadRequest(CONTENT_SERVICE + '/fileUpload/uploadOtherFile', filePath, null)
@@ -861,25 +860,17 @@ module.exports =
                     //根据ID查询医生信息
                     doctorInfoQuery: function doctorInfoQuery(data) {
                         console.log(data)
-                        var url = ACCOUNT_SERVICE + '/doctorFilter/queryDoctorByUserIds'
+                        var url = INFO_SERVICE + '/doctorFilter/queryDoctorByUserIds'
                         return request(url, 'post', data, true);
                     },
                     //查询医生信息或者个案管理师
                     queryDoctorAndCaseManagerByUserIds: function queryDoctorAndCaseManagerByUserIds(data) {
                         console.log(data)
-                        var url = ACCOUNT_SERVICE + '/doctorFilter/queryDoctorAndCaseManagerByUserIds'
+                        var url = INFO_SERVICE + '/doctorFilter/queryDoctorAndCaseManagerByUserIds'
                         return request(url, 'post', data, true);
                     },
-                    //创建组
-                    createIMGroup: function createIMGroup(data) {
-                        var url = ACCOUNT_SERVICE + '/tencentIM/createIMGroup'
-                        return request(url, 'post', data, true);
-                    },
-                    //腾讯IM发送群组消息
-                    sendGroupMessage: function sendGroupMessage(data) {
-                        var url = ACCOUNT_SERVICE + '/tencentIM/sendGroupMessage'
-                        return request(url, 'post', data, true);
-                    },
+                  
+                   
                     //就医记录门诊详情
                     getHospitalRecordMzDetail: function getHospitalRecordMzDetail(hospitalCode, serialNumber) {
 
@@ -895,15 +886,15 @@ module.exports =
                     },
                     //获取专病
                     getDiseaseList: function getDiseaseList(departmentId) {
-                        return request(ACCOUNT_SERVICE + '/businessManagement/getDiseaseList?departmentId=' + departmentId, 'get', {});
+                        return request(INFO_SERVICE + '/disease/getDiseaseList?departmentId=' + departmentId, 'get', {});
                     },
                     //科室详情接口
                     getDepartmentDetail: function getDepartmentDetail(departmentId) {
-                        return request(ACCOUNT_SERVICE + '/businessManagement/getDepartmentDetail?departmentId=' + departmentId, 'get', {});
+                        return request(INFO_SERVICE + '/departments/getDepartmentDetail?departmentId=' + departmentId, 'get', {});
                     },
                     //病区详情接口
                     getInpatientAreaDetail: function getInpatientAreaDetail(id) {
-                        return request(ACCOUNT_SERVICE + '/businessManagement/getInpatientAreaDetail?id=' + id, 'get', {});
+                        return request(INFO_SERVICE + '/wards/getInpatientAreaDetail?id=' + id, 'get', {});
                     },
                     //是否签约医生
                     isContractDoctor: function isContractDoctor(userId) {

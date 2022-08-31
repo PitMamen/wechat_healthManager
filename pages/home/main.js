@@ -512,6 +512,7 @@ Page({
                     extraData: {
                         userId: task.userId,
                         tradeId: task.tradeId,
+                        rightsId:task.rightsId,
                         execFlag: task.execFlag,
                         attrName: task.rightsType,
                         execUser: task.execUser,
@@ -530,6 +531,7 @@ Page({
                 extraData: {
                     userId: task.userId,
                     tradeId: task.tradeId,
+                    rightsId:task.rightsId,
                     execFlag: task.execFlag,
                     attrName: task.rightsType,
                     execUser: task.execUser,

@@ -67,12 +67,16 @@ App({
       var userInfo = wx.getStorageSync('userInfo')
       if (userInfo && userInfo.account && userInfo.account.accountId) {
         if (!userInfo.account.user || userInfo.account.user.length === 0) {
-          //保存转发页面
-          wx.setStorageSync('routPage-w', urlWithArgs);
+         
           //如果没有就诊人就跳转到添加就诊人
-          wx.navigateTo({
-            url: '/pages/me/patients/addPatient',
-          })
+          if(ret.path !== 'pages/me/patients/addPatient'){
+               //保存转发页面
+          wx.setStorageSync('routPage-w', urlWithArgs);
+            wx.navigateTo({
+                url: '/pages/me/patients/addPatient',
+              })
+          }
+         
         }
 
       } else {

@@ -213,9 +213,19 @@ Page({
     that.addPatientQuery();
 
   },
-   addPatientQuery(e) {
-    //发起网络请求
-    var that = this;
+    //防抖动
+    debounced: false,
+    addPatientQuery(e) {
+
+        var that = this;
+
+        if (that.debounced) {
+            return
+        }
+        that.debounced = true
+        setTimeout(() => {
+            that.debounced = false
+        }, 2000)
 
     var idInfo = Util.getBirthdayAndSex(that.data.identificationNo)
 
