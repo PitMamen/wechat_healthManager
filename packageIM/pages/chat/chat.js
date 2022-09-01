@@ -323,7 +323,7 @@ Page({
     getMessageList() {
         // 打开某个会话时，第一次拉取消息列表
         let that = this;
-        let promise = getApp().tim.getMessageList({ conversationID: this.data.conversationID, nextReqMessageID: this.data.nextReqMessageID, count: 30 });
+        let promise = getApp().tim.getMessageList({ conversationID: this.data.conversationID,count: 15 });
         promise.then(function (imResponse) {
             console.log(imResponse.data.messageList)
             const messageList = imResponse.data.messageList; // 消息列表。
@@ -331,7 +331,7 @@ Page({
             const isCompleted = imResponse.data.isCompleted; // 表示是否已经拉完所有消息。
 
 
-            that.setMultItemAndScrollPage(messageList, false, that.data.chatItems.length === 0)
+            that.setMultItemAndScrollPage(messageList, false, that.data.chatItems.length === 0,false)
 
 
             that.setData({
@@ -369,6 +369,52 @@ Page({
             })
         });;
     },
+    // 下拉获取更多消息记录
+    getMoreMessageList() {
+       
+        let that = this;
+     var   postdata={
+            conversationID: this.data.conversationID,
+            nextReqMessageID:this.data.nextReqMessageID,
+            count: 15//需要拉取的消息数量，默认值和最大值为15。
+        }
+     
+        let promise = getApp().tim.getMessageList(postdata);
+        promise.then(function (imResponse) {
+            console.log(imResponse.data.messageList)
+            const messageList = imResponse.data.messageList; // 消息列表。
+            const nextReqMessageID = imResponse.data.nextReqMessageID; // 用于续拉，分页续拉时需传入该字段。
+            const isCompleted = imResponse.data.isCompleted; // 表示是否已经拉完所有消息。
+
+
+            that.setMultItemAndScrollPage(messageList, false, that.data.chatItems.length === 0,true)
+
+
+            that.setData({
+                nextReqMessageID: nextReqMessageID,
+                isCompleted: isCompleted
+            })
+            that.setData({
+                triggered: false,
+            })
+            that._freshing = false
+            // 将某会话下所有未读消息已读上报
+            getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
+            
+
+        }).catch(function (imError) {
+            console.error(imError)
+            that.setData({
+                triggered: false,
+            })
+            that._freshing = false
+            wx.showToast({
+                title: '获取聊天列表失败',
+                icon: "none",
+                duration: 2000
+            })
+        });;
+    },
     // 下拉查看更多消息
     onRefresh: function (e) {
         console.log("onRefresh")
@@ -386,7 +432,7 @@ Page({
             this._freshing = false
             return
         }
-        this.getMessageList()
+        this.getMoreMessageList()
 
     },
     async queryRightsUserRecord() {
@@ -1051,13 +1097,17 @@ Page({
 
     },
 
-    /**
-     * 添加多个消息在尾部 刷新列表
+  /**
+     * 添加多个消息在尾部或者顶部 刷新列表
      * @param {*} newItems 
      * @param {*} isIMReceived 是否监听来的消息
      * @param {*} isScrollToBootom 是否滑动到底部
+     * @param {*} isLoadmore true添加到头部 false添加到尾部
      */
-    setMultItemAndScrollPage(newItems, isIMReceived = false, isScrollToBootom = true,) {
+    setMultItemAndScrollPage(newItems, isIMReceived = false, isScrollToBootom = true,isLoadmore) {
+        if(newItems.length===0){
+            return
+        }
         let that = this
         newItems.forEach(function (item, index) {
             //计算是否显示时间
@@ -1071,7 +1121,13 @@ Page({
         })
 
         if (this.data.chatItems.length > 0) {
-            const mergeChatList = this.data.chatItems.concat(newItems)
+            var mergeChatList=[]
+            if(isLoadmore){
+                 mergeChatList =newItems.concat(this.data.chatItems)
+            }else{
+                 mergeChatList = this.data.chatItems.concat(newItems)
+            }
+           
             this.setData({
                 chatItems: mergeChatList,
             });

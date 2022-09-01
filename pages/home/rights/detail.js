@@ -174,9 +174,10 @@ Page({
 
 
         //不需要个案管理师参与  直接填写资料 分配给医生
-        if (rightContent.remark.whoDeal!=='nurse' && rightContent.remark && rightContent.remark.caseFlag === 0) {
+        if (rightContent.remark && rightContent.remark.whoDeal!=='nurse' &&  rightContent.remark.caseFlag === 0) {
             var extraData={
                 userId:this.data.userId,
+                tradeId: '',
                 rightsId:this.data.orderId,
                 execFlag:0,
                 attrName:rightContent.attrName,
