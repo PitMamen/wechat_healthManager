@@ -1,5 +1,5 @@
 //上线前修改成release  每一个版本会对应不同的接口地址和常量
-//develop:开发测试版 trial:演示版   release:正式版
+//develop:开发测试版  trial:演示版   release:正式版
 export const ProgramEnvVersion = 'trial'
 
 /**
@@ -9,8 +9,8 @@ export const ProgramEnvVersion = 'trial'
 export function getConstantData() {
 
     var obj = {
-        // RheumatologyID: '1030810', //风湿科代码
-        RheumatologyID: '2350010', //风湿科代码 营养门诊
+        RheumatologyID: '1030810', //风湿科代码
+        // RheumatologyID: '2350010', //风湿科代码 营养门诊
         RheumatologyQuestionnaire: '', //风湿科问卷
         JingshenQuestionnaire: '', //精神科问卷问卷 目前写死
         //http://192.168.1.122/s/70ff576008984e119f817890b3317f33
@@ -27,7 +27,7 @@ export function getConstantData() {
         obj.envVersion = 'trial'
     } else if (ProgramEnvVersion === 'release') { //正式版
         obj.RheumatologyQuestionnaire = '/s/5d548de41cde45518c6b41288584ac5f'
-        obj.JingshenQuestionnaire = '/s/668eb8e4ca8f468cbab066e963919dc5'
+        obj.JingshenQuestionnaire = '/s/dd548f53476443d599c1bec5ea33961e'
         obj.envVersion = 'release'
     }
     return obj
