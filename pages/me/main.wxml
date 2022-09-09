@@ -91,6 +91,14 @@
     </view>
   </view>
   <van-divider />
+  <view class="todo-title-view"  bindtap='goMyConsultPage' >
+    <image class="todo-icon" src="/image/lszx.png" />
+    <text class="todo-title">历史咨询</text>
+    <view class="todo-title-right">
+      <van-icon color="#999999" name="arrow" />
+    </view>
+  </view>
+  <van-divider />
 </view>
 
 

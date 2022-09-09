@@ -76,7 +76,9 @@
         "pages/home/technology/source",
         "pages/home/technology/record-list",
         "pages/home/rights/rheumatism-result",
-        "pages/home/purchase-instructions/buyknow"
+        "pages/home/purchase-instructions/buyknow",
+        "pages/me/consult/index",
+        "pages/login/confirm-patient2"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

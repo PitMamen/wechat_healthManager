@@ -2,8 +2,8 @@
   "dependencies": {
     "@vant/weapp": "^1.7.2",
     "dayjs": "^1.10.6",
-    "tim-upload-plugin": "^1.0.3",
-    "tim-wx-sdk": "^2.12.1"
+    "tim-upload-plugin": "^1.0.5",
+    "tim-wx-sdk": "^2.22.1"
   },
   "devDependencies": {
     "@vant/area-data": "^1.1.1"

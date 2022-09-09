@@ -5,7 +5,7 @@ const WXAPI = require('./static/apifm-wxapi/index')
 App({
   onLaunch() {
 
-
+    this.updateApp()
 
     wx.setInnerAudioOption({
       obeyMuteSwitch: false,
@@ -69,7 +69,7 @@ App({
         if (!userInfo.account.user || userInfo.account.user.length === 0) {
          
           //如果没有就诊人就跳转到添加就诊人
-          if(ret.path !== 'pages/me/patients/addPatient'){
+          if(ret.path !== 'pages/me/patients/addPatient' && ret.path !== 'pages/login/confirm-patient' ){
                //保存转发页面
           wx.setStorageSync('routPage-w', urlWithArgs);
             wx.navigateTo({
@@ -89,6 +89,38 @@ App({
       }
     }
 
+  },
+
+  updateApp(){
+
+// 获取小程序更新机制兼容
+if (wx.canIUse('getUpdateManager')) {
+    const updateManager = wx.getUpdateManager()
+    updateManager.onCheckForUpdate(function (res) {
+      // 请求完新版本信息的回调
+      if (res.hasUpdate) {
+        updateManager.onUpdateReady(function () {
+          wx.showModal({
+            title: '更新提示',
+            content: '新版本已经准备好，是否重启应用？',
+            success: function (res) {
+              if (res.confirm) {
+                // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+                updateManager.applyUpdate()
+              }
+            }
+          })
+        })
+        updateManager.onUpdateFailed(function () {
+          // 新的版本下载失败
+          wx.showModal({
+            title: '更新提示',
+            content: '新版本已经上线啦~，请您删除当前小程序，重新搜索打开',
+          })
+        })
+      }
+    })
+  } 
   },
 
    //获取权益类别集合

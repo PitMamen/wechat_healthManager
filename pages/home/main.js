@@ -70,12 +70,14 @@ Page({
     },
     //我的消息
     goMyMessagePage() {
-        if (this.checkLoginStatus() && getApp().globalData.sdkReady) {
-            wx.navigateTo({
-                url: '/packageIM/pages/chat-list/chat-list?userId=' + this.data.defaultPatient.userId,
-            })
-        }
-
+        // if (this.checkLoginStatus() && getApp().globalData.sdkReady) {
+        //     wx.navigateTo({
+        //         url: '/packageIM/pages/chat-list/chat-list?userId=' + this.data.defaultPatient.userId,
+        //     })
+        // }
+        wx.navigateTo({
+          url: '../login/confirm-patient?ks=1030200&&bq=',
+        })
     },
     onReady() {
         // this.goWenjuanPage('http://192.168.1.122/s/17f6a6dbe2834aaf860efd81d176ca2a?userId=375')

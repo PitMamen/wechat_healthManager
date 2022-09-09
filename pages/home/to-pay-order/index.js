@@ -17,7 +17,7 @@ Page({
         shopIndex: -1,
         pageIsEnd: false,
         checked: false,
-        noDoc: false,
+        noDoc: true,
         chooseDayIndex: 0,
         isNurseSource: false,
         sericeItem: {},
@@ -39,12 +39,13 @@ Page({
                     goodsList: buyNowInfo
                 });
             }
-
+            this.shippingCarPrice()
             //判断是否为护士号源套餐
             let chooseOne = this.data.goodsList[0].goodsDetail.goodsAttr.find((item) => {
                 return item.attrTypeName
             })
-            if (chooseOne && chooseOne.plusInfo.whoDeal == 'nurse') {
+            console.log(chooseOne)
+            if (chooseOne && chooseOne.plusInfo && chooseOne.plusInfo.whoDeal  && chooseOne.plusInfo.whoDeal == 'nurse') {
                 this.setData({
                     isNurseSource: true,
                     sericeItem: chooseOne
@@ -52,7 +53,7 @@ Page({
                 this.getWeekData(this.data.sericeItem.attrName)
             }
 
-            this.shippingCarPrice()
+            
         }
 
     },

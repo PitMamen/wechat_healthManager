@@ -173,34 +173,37 @@ Page({
         }
 
 
-        //不需要个案管理师参与  直接填写资料 分配给医生
-        if (rightContent.remark && rightContent.remark.whoDeal!=='nurse' &&  rightContent.remark.caseFlag === 0) {
-            var extraData={
-                userId:this.data.userId,
-                tradeId: '',
-                rightsId:this.data.orderId,
-                execFlag:0,
-                attrName:rightContent.attrName,
-                execUser: rightContent.remark.docId,
-                departmentId:this.data.item.belong 
-            }
-            if(this.data.item.belong ===Config.getConstantData().RheumatologyID  ){
-                //如果是风湿免疫科门诊  风湿免疫科
-                //需要去填风湿科的问卷 从提交结果页面去跳转互联网小程序
-                getApp().extraData=extraData
-                this.goWenjuanPage( WXAPI.getAPI_BASE_URL()+Config.getConstantData().RheumatologyQuestionnaire+ '?showDas28=show&userId='+this.data.userId)
-            }else {
-                wx.navigateToMiniProgram({
-                    appId: 'wxe0cbf88bcc095244',
-                    envVersion:Config.getConstantData().envVersion,
-                    path:'/pages/login/auth?type=FROMPROGRAM&action=1&userId='+this.data.userId,
-                    extraData:extraData
-                  })
-            }
+        //不需要个案参与 并且是医生 
+        if (rightContent.remark &&  rightContent.remark.caseFlag === 0 && rightContent.remark.whoDeal && rightContent.remark.whoDeal =='doctor') {
            
-              return
+                var extraData={
+                    userId:this.data.userId,
+                    tradeId: '',
+                    rightsId:this.data.orderId,
+                    execFlag:0,
+                    attrName:rightContent.attrName,
+                    execUser: rightContent.remark.docId,
+                    departmentId:this.data.item.belong 
+                }
+                if(this.data.item.belong ===Config.getConstantData().RheumatologyID  ){
+                    //如果是风湿免疫科门诊  风湿免疫科
+                    //需要去填风湿科的问卷 从提交结果页面去跳转互联网小程序
+                    getApp().extraData=extraData
+                    this.goWenjuanPage( WXAPI.getAPI_BASE_URL()+Config.getConstantData().RheumatologyQuestionnaire+ '?showDas28=show&userId='+this.data.userId)
+                }else {
+                    wx.navigateToMiniProgram({
+                        appId: 'wxe0cbf88bcc095244',
+                        envVersion:Config.getConstantData().envVersion,
+                        path:'/pages/login/auth?type=FROMPROGRAM&action=1&userId='+this.data.userId,
+                        extraData:extraData
+                      })
+                }
            
-        }else { //需要个案参与
+            
+           
+           
+           
+        }else { //需要个案参与或者是护士等
             if (!this.data.CustUserId) {
                 wx.showToast({
                     title: '获取个案管理师列表失败',
@@ -220,28 +223,13 @@ Page({
                 "tradeId": Util.formatTime4(new Date()),
                 "userId": this.data.userId
             }
-        }
+        
         
        
         console.log(postData)
         const res = await WXAPI.saveRightsUseRecord(postData)
         if (res.code == 0) {
-            if (rightContent.remark && rightContent.remark.caseFlag === 0) {
-                 //不需要个案管理师参与  直接填写资料 分配给医生
-                 wx.navigateToMiniProgram({
-                    appId: 'wxe0cbf88bcc095244',
-                    envVersion:Config.getConstantData().envVersion,
-                    path:'/pages/login/auth?type=FROMPROGRAM&action=1&userId='+res.data.userId,
-                    extraData:{
-                        userId:res.data.userId,
-                        tradeId:res.data.tradeId,
-                        execFlag:0,
-                        attrName:rightContent.attrName,
-                        execUser: rightContent.remark.docId,
-                        departmentId:this.data.item.belong 
-                    }
-                  })
-            } else if (rightContent.remark && rightContent.remark.uploadDocFlag === '1') {
+           if (rightContent.remark && rightContent.remark.uploadDocFlag === '1') {
                 //重症会诊 需要填写资料
                 wx.navigateTo({
                     url: '../upload/rightsUpload?userId=' + res.data.userId + '&tradeId=' + res.data.tradeId + '&CaseManagerName=' + this.data.CustUserName,
@@ -254,7 +242,7 @@ Page({
 
 
         }
-
+    }
 
     },
 //问卷
