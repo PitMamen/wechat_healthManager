@@ -1,5 +1,6 @@
 const WXAPI = require('../../static/apifm-wxapi/index')
 const UserManager = require('../../utils/UserManager')
+const Util = require('../../utils/util')
 Page({
 
   /**
@@ -105,9 +106,13 @@ Page({
       */
   async getDiseaseList(areaId) {
     const res = await WXAPI.getDiseaseList(areaId)
-    this.setData({
-      nameColumns:res.data
-    })
+    if(res.data.length>0){
+        this.setData({
+            nameColumns:res.data,
+            disease:res.data[0].diseaseName
+          })
+    }
+ 
   },
    /**
       * 获取科室名称
@@ -136,7 +141,8 @@ Page({
       "deptCode": this.data.deptCode,
       "deptName": this.data.deptName,
       "areaName": this.data.areaName,
-      "disease": this.data.disease
+      "disease": this.data.disease,
+      "ipNo":this.data.zyh
     }
 
     const res = await WXAPI.addPatientMedicalRecords(postData)
@@ -212,10 +218,40 @@ Page({
       hideGXShow: true
     })
   },
+
+  idCardBlurChange(event){
+      let that=this
+      console.log(event)
+   var sfzh= event.detail.value
+    var patientInfoList= UserManager.getPatientInfoList()
+   
+     var user={}
+     if (patientInfoList && patientInfoList.length > 0) {
+        patientInfoList.forEach(item => {
+          if (item.identificationNo === sfzh) {      
+            user=item
+                        
+          }
+        })
+      }
+      if(user.userId){
+        wx.showModal({
+            title: '提示',
+            content: user.userName+'('+user.identificationNo+')'+'此就诊人已存在，可直接提交',
+            success (res) {
+            if (res.confirm) {
+                that.addPatientMedicalRecords(user.userId)  
+            } 
+            }
+            })
+        
+      }
+  },
+
    //防抖动
    debounced: false,
   confrim() {
-      
+      let that=this
     if (that.debounced) {
         return
     }
@@ -288,6 +324,7 @@ Page({
         return
       }
      var patientInfoList= UserManager.getPatientInfoList()
+     console.log(patientInfoList)
      var userId=''
      if (patientInfoList && patientInfoList.length > 0) {
         patientInfoList.forEach(item => {
@@ -324,7 +361,9 @@ Page({
         relationship: that.data.guanxi,
         isDefault: true,
         cardNo: '',//就诊卡号
-        userSex: idInfo.sex == 0 ? '女' : '男'
+        userSex: idInfo.sex == 0 ? '女' : '男',
+        ipNo:this.data.zyh,
+        contactTel:this.data.jjlxdh
       }
       WXAPI.addPatientQuery(postData).then(res=>{
           if (res.code == 0) {

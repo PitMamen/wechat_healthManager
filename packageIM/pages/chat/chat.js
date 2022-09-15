@@ -46,6 +46,7 @@ Page({
     onMessageReadByPeer: '',
     _freshing: false,
     data: {
+        showChatInput:true,
         hideTimeShow: true,
         type: '',
         config: {},
@@ -117,7 +118,7 @@ Page({
             myAvatarUrl: myAvatarUrl,
             inquiryType: options.inquiryType,//问诊类型  图文textNum  视频videoNum 电话telNum
             tradeId: options.tradeId,//工单ID
-            //工单进程 CONFIRM:确认（发送病情简介）CONFIRM2:确认2（不用发送） REFUSED:已拒诊  START:开始咨询 
+            //工单进程 CONFIRM:确认（发送病情简介）CONFIRM2:确认2（不用发送） REFUSED:已拒诊  START:开始咨询 END:已完成
             tradeAction: options.tradeAction,
 
         })
@@ -130,7 +131,11 @@ Page({
 
         if (this.data.DocType == 'Doctor'||this.data.DocType == 'Nurse') {//医生
 
-            if (this.data.tradeAction == 'START') {
+            if(this.data.tradeAction == 'END'){
+                this.setData({
+                    showChatInput:false
+                })
+            }else if (this.data.tradeAction == 'START') {
                 //开始咨询问诊
                 //查询是否添加过发送记录  没有则在发送消息后添加
                 this.qryRightsUserLog()
@@ -581,6 +586,9 @@ Page({
 
     //点击视频看就诊
     CustomVideoCallClickEvent(e) {
+        if(this.data.tradeAction == 'END'){
+            return
+         }
         console.log(e)
         // if(e.currentTarget.dataset.canenter){
         //     this.enterRoom(e.currentTarget.dataset.roomid,e.currentTarget.dataset.index)
@@ -652,6 +660,9 @@ Page({
     },
     //点击选择时间
     CustomAppointmentTimeClickEvent(e) {
+        if(this.data.tradeAction == 'END'){
+            return
+         }
         console.log(e)
         var time = e.currentTarget.dataset.item.data.timeArr
         var tradeId = e.currentTarget.dataset.item.data.tradeId

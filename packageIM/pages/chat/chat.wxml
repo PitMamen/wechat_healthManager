@@ -2,7 +2,7 @@
 <import src="../../modules/chat-page/chat-item.wxml"/>
 <import src="../../modules/chat-page/chat-page-status.wxml"/>
 
-<template  is="chat-page-status" data="{{chatStatue,chatStatusContent}}"/>
+<template wx:if="{{tradeAction !== 'END'}}"  is="chat-page-status" data="{{chatStatue,chatStatusContent}}"/>
 
 <scroll-view
         style="height:{{pageHeight-60}}px;width: 100%;display: flex;flex-direction: column;margin-top: 54rpx;"
@@ -21,6 +21,7 @@
 
 </scroll-view>
 <chat-input
+wx:if="{{showChatInput}}"
         id="chatInput"
         min-voice-time="{{1}}"
         max-voice-time="{{60}}"

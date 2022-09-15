@@ -74,7 +74,8 @@ Page({
         var postData = {
             userId: this.data.defaultPatient.userId,
             pageNo: 1,
-            pageSize: 10000
+            pageSize: 10000,
+            source:'1'
         }
 
         const res = await WXAPI.qryMyConsulation(postData)
@@ -112,7 +113,12 @@ Page({
         console.log(e)
         var item=e.currentTarget.dataset.item
         if(item.myStatus===1){//已完成
-            this.goInternetHostpitalIMChat( item.appointDoc,'Doctor',item.appointItem,item.hisId,'END')  
+            if(item.tradeTypeCode==='register'){
+                this.goInternetHostpitalIMChat( item.appointDoc,'Doctor',item.appointItem,item.hisId,'END') 
+            }else {
+                IMUtil.goIMChat( this.data.defaultPatient.userId,this.data.defaultPatient.userSig,'navigateTo',item.appointDoc,'Nurse',item.appointItem,item.hisId,'END')
+            }
+             
         }
     },
 
