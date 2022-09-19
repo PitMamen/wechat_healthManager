@@ -75,7 +75,7 @@ Page({
                 url: '/packageIM/pages/chat-list/chat-list?userId=' + this.data.defaultPatient.userId,
             })
         }
-
+       
     },
     onReady() {
         // this.goWenjuanPage('http://192.168.1.122/s/17f6a6dbe2834aaf860efd81d176ca2a?userId=375')

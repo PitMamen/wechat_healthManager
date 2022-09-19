@@ -116,11 +116,7 @@ var goIMChat = function goIMChat(userId, userSig, routeType, doctorId, DocType, 
                 }).catch(function (imError) {
                     wx.hideLoading()
                     console.warn('login error:', imError); // 登录失败的相关信息
-                    wx.showToast({
-                        title: '打开失败请重试',
-                        icon: "none",
-                        duration: 2000
-                    })
+                    
                 });
             }).catch(function (imError) {
                 wx.hideLoading()
@@ -192,16 +188,15 @@ var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) 
     }).catch(function (imError) {
         wx.hideLoading()
         console.warn('login error:', imError); // 登录失败的相关信息
-        wx.showToast({
-            title: '打开失败请重试',
-            icon: "none",
-            duration: 2000
-        })
+      
     });
 }
 
     //获取未读消息数
     var getConversationList = function  getConversationList() {
+        if(!getApp().globalData.sdkReady){
+            return
+        }
         let promise = getApp().tim.getConversationList();
         let that = this;
         promise.then(function (imResponse) {

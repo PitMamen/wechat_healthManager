@@ -136,6 +136,13 @@ avatarBinderror(e){
     }
 
   },
+  goMyConsultPage(){
+    if(this.checkLoginStatus()){
+        wx.navigateTo({
+            url: './consult/index',
+          })
+    }
+  },
   goOrderListPage(e) {
     if(this.checkLoginStatus()){
         var type = e.currentTarget.dataset.type

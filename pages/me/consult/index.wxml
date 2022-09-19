@@ -1,0 +1,50 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+<van-sticky>
+
+    <!-- <view id="tabs" class="tabs">
+    <van-tabs color="#0379FF" type="card" swipeable bind:click="onTabsChange" active="{{ active }}">
+      <van-tab wx:for="{{tabs}}" wx:key="id" title="{{item.title}}" name="{{item.appointItem}}">
+      </van-tab>
+    </van-tabs>
+  </view> -->
+
+    <van-cell title-class="title-class" title="就诊人" bindtap="bindPatientTap" size="large" value="{{defaultPatient.userName}}" is-link />
+
+</van-sticky>
+<van-empty wx:if="{{ !appointList || appointList.length == 0 }}" description="暂无记录" />
+
+<view bindtap="bindItemTap" data-item="{{item}}" class="a-order" wx:for="{{appointList}}" wx:key="index">
+    <view class="flagbg">
+        <view class="flagView" style="background-color: {{item.flagColor}};">{{item.myFlag}}</view>
+    </view>
+    <view class="titleviw">
+        <van-icon style="margin-top: -16rpx;" name="{{computed.zixunType(item.appointItem)}}" size="40rpx" />
+        <text style="margin-top: -16rpx;" class="title-text">{{item.appointItemName}}</text>
+    </view>
+    <view class="content">
+        <view>问诊医生：</view>
+        <view style="color: #999999;">{{item.appointDocName}}</view>
+    </view>
+    <view wx:if="{{item.appointItem==='textNum'}}" class="content">
+        <view>图文条数：</view>
+        <view style="color: #999999;">{{item.myStatus===3 || item.myStatus===4|| item.myStatus===5?'待确认':item.textNumLimit+'条'}}</view>
+    </view>
+    <view wx:if="{{item.appointItem==='videoNum'||item.appointItem==='telNum'}}" class="content">
+        <view>问诊时长：</view>
+        <view style="color: #999999;">{{item.myStatus===3 || item.myStatus===4|| item.myStatus===5?'待确认':item.timeLimit+'分钟'}}</view>
+    </view>
+    <view class="content">
+        <view>预约时间：</view>
+        <view style="color: #999999;">{{computed.formatFullDate4(item.appointDate)}} {{item.appointTime}}</view>
+    </view>
+    <view class="content">
+        <view>开始时间：</view>
+        <view style="color: #999999;">{{item.myStatus===3 || item.myStatus===4|| item.myStatus===5?'待确认':item.rightsUseInfo.execTime}}</view>
+    </view>
+</view>
+
+
+<!-- 就诊人选择 -->
+<van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%; " bind:close="closePatientTap">
+    <van-picker custom-class="picker-custom" show-toolbar title="切换就诊人" cancel-button-text="添加" columns="{{ patientList }}" value-key="userName" visible-item-count='4' bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
+</van-popup>

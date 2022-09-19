@@ -1096,7 +1096,10 @@ module.exports =
                     getScheduleNumberForDay: function getScheduleNumberForDay(data) {
                          return request(HEALTH_SERVICE + '/sys/getScheduleNumberForDay', 'get', data);
                     },
-
+                    //我的咨询
+                    qryMyConsulation: function qryMyConsulation(data) {
+                        return request(HEALTH_SERVICE + '/appoint/qryMyConsulation', 'post', data, true);
+                    },
 
                 };
 

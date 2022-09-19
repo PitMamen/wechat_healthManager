@@ -9,7 +9,7 @@
         <block wx:if="{{inputStatus==='voice'}}">
             <template is="voice" data="{{voiceObj:voiceObj}}" />
         </block>
-        <input wx:elif="{{inputStatus==='text'}}" class="chat-input-style" style="margin-left:{{showVoicePart?0:16}}rpx;width: {{showVoice?520:585}}rpx;" maxlength="500" confirm-type="send" value="{{textMessage}}" focus="{{focus}}" type="{{inputType}}" confirm-hold="true" bindconfirm="_chatInput$send$text$message" bindfocus="_chatInput$bind$focus$event" bindblur="_chatInput$bind$blur$event" bindinput="_chatInput$getValue$event">
+        <textarea 	fixed	auto-height="{{autoHeight}}" show-confirm-bar="{{false}}" wx:elif="{{inputStatus==='text'}}" class="chat-input-style" style="margin-left:{{showVoicePart?0:16}}rpx;width: {{showVoice?520:585}}rpx;" maxlength="200" confirm-type="send" value="{{textMessage}}" focus="{{focus}}" type="{{inputType}}" confirm-hold="true" bindconfirm="_chatInput$send$text$message" bindfocus="_chatInput$bind$focus$event" bindblur="_chatInput$bind$blur$event" bindinput="_chatInput$getValue$event">
         
         <view wx:if="{{showAdd && inputType === 'none'}}" class="press-style-add">
 
@@ -19,7 +19,7 @@
         <view  wx:else class="press-style-opacity">
             <view class="chat-input-send-button-style" catchtap="_chatInput$send$text$message02">发送</view>
         </view>
-        </input>
+        </textarea>
 
     </view>
     <block wx:if="{{extraObj.chatInputShowExtra}}">

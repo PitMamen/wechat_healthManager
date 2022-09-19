@@ -56,6 +56,7 @@ Component({
         }
     },
     data: {
+        autoHeight:false,
         windowHeight: 0,
         windowWidth: 0,
         cancelLineYPosition: 0,
@@ -301,7 +302,9 @@ Component({
             });
         },
         _chatInput$bind$focus$event() {
-            
+            this.setData({
+                autoHeight:true
+            })
             // this.setData({
             //     'inputType': this.data.inputType?this.data.inputType:'text'
             // })
@@ -358,6 +361,14 @@ Component({
             this.setData({
                 textMessage
             })
+            if(textMessage && textMessage.length>=200){
+                wx.showModal({
+                    title: '温馨提示',
+                    content: '消息发送限制200字内，无法继续编辑',
+                    showCancel:false,
+                    })
+                
+            }
         },
         _chatInput$extra$item$click$event(e) {
             const { currentTarget: { dataset } } = e;

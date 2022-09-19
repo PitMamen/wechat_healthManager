@@ -2,6 +2,7 @@ const WXAPI = require('../../../static/apifm-wxapi/index')
 const WXPAY = require('../../../utils/pay')
 const MoneyUtils = require('../../../utils/MoneyUtils')
 const shopCarUtil = require('../../../utils/shopCarUtil')
+const Util = require('../../../utils/util')
 const Config = require('../../../utils/config')
 Page({
     data: {
@@ -17,7 +18,7 @@ Page({
         shopIndex: -1,
         pageIsEnd: false,
         checked: false,
-        noDoc: false,
+        noDoc: true,
         chooseDayIndex: 0,
         isNurseSource: false,
         sericeItem: {},
@@ -39,12 +40,13 @@ Page({
                     goodsList: buyNowInfo
                 });
             }
-
+            this.shippingCarPrice()
             //判断是否为护士号源套餐
             let chooseOne = this.data.goodsList[0].goodsDetail.goodsAttr.find((item) => {
                 return item.attrTypeName
             })
-            if (chooseOne && chooseOne.plusInfo.whoDeal == 'nurse') {
+            console.log(chooseOne)
+            if (chooseOne && chooseOne.plusInfo && chooseOne.plusInfo.whoDeal  && chooseOne.plusInfo.whoDeal == 'nurse') {
                 this.setData({
                     isNurseSource: true,
                     sericeItem: chooseOne
@@ -52,7 +54,7 @@ Page({
                 this.getWeekData(this.data.sericeItem.attrName)
             }
 
-            this.shippingCarPrice()
+            
         }
 
     },
@@ -69,26 +71,23 @@ Page({
                 workingList: res.data
             });
             this.data.workingList.forEach((item, index) => {
-                item.checked = false
-                if (index == 0) {
-                    item.checked = true
-                }
-                console.log('itemCheck', item.checked)
+              
+                item.checked = index == 0
+                item.active = item.number > 0
             })
 
-            this.data.workingList.forEach(item => {
-                item.active = false
-                if (item.number > 0) {
-                    item.active = true
-                }
-            })
-            console.log('dddff', this.data.workingList)
+            
+          
             this.getDayData(this.data.workingList[0].dateStr)
         }
 
     },
 
     async getDayData(date) {
+
+        var today= Util.formatTime2(new Date()) 
+        console.log("today",today)
+
         const postData = {
             "dateStr": date,
             "serviceType": this.data.sericeItem.attrName,
@@ -96,23 +95,56 @@ Page({
         console.log('postDataDate', postData)
         const res = await WXAPI.getScheduleNumberForDay(postData)
         if (res.code == 0) {
-            console.log('postDataRes', res)
-            console.log('postDataResData', Object.entries(res.data))
-            this.setData({
-                docList: Object.entries(res.data)
-            });
+          
+            var docList=Object.entries(res.data)
+            console.log('postDataResData', docList)
+            if (today === date) {
+                //如果是当天  剔除已过期的号源
+               docList.forEach(item => {
+                    var dateList=[]
+                    item[1].forEach(inside => {
+                        console.log(inside.sche_preriod,this.CompareDate(inside.sche_preriod))
+                       if (this.CompareDate(inside.sche_preriod)) {
+                        dateList.push(inside)
+                       }                 
+                    })
+                   item[1]=dateList
+                })
 
-            this.data.docList.forEach(item => {
-                item.active = false
-                if (item.number > 0) {
-                    item.active = true
-                }
-            })
+                var docList2=[]
+                docList.forEach(item => {
+                    if (item[1].length>0) {
+                        docList2.push(item)
+                    }
+                })
+                docList=docList2
+            }
+          
+            this.setData({
+                docList: docList,
+                noDoc:this.data.length===0
+            });
+         
+            
+
             console.log('dddff', this.data.docList)
         }
 
     },
+   //比较号源和当前时间的大小 如：8:00
+   CompareDate: function (t1) {
+  
+    var date = new Date();
 
+    var a = t1.split(":");
+
+    date.setHours(a[0])
+    date.setMinutes(a[1])
+    date.setMilliseconds(0)
+    console.log(date)
+    return date >= new Date();
+
+},
     onClickDate(e) {
         this.setData({
             chooseDayIndex: e.currentTarget.dataset.index
