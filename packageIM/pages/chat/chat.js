@@ -104,7 +104,7 @@ Page({
         tim: getApp().tim, // 参数适用于业务中已存在 TIM 实例，为保证 TIM 实例唯一性
     }
     
-        var defaultPatient = getApp().getDefaultPatient() 
+       
         //统一用微信账号的头像
         var myAvatarUrl = wx.getStorageSync('userInfo').account.avatarUrl
         this.setData({
@@ -112,7 +112,7 @@ Page({
             pageHeight: wx.getSystemInfoSync().windowHeight,
             type: options.type,
             DocType: options.DocType,
-            defaultPatient: defaultPatient,
+            defaultPatient: getApp().getDefaultPatient() ,
             toUserID: options.userID,
             conversationID: options.conversationID,
             myAvatarUrl: myAvatarUrl,
