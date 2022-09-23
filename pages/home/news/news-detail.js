@@ -42,4 +42,10 @@ Page({
   async addArticleClickNum(id) {
      await WXAPI.addArticleClickNum(id)
   },
+  onShareAppMessage: function () {
+    // 页面被用户转发
+  },
+  onShareTimeline: function () {
+    // 页面被用户分享到朋友圈
+  },
 })

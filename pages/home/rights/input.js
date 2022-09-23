@@ -57,7 +57,7 @@ Page({
    */
     onShow: function () {
         this.setData({
-            defaultPatient: wx.getStorageSync('defaultPatient'),
+            defaultPatient: getApp().getDefaultPatient(),
             patientList: wx.getStorageSync('userInfo').account.user,
 
         })
@@ -324,5 +324,10 @@ Page({
     async uploadImgFile(filePath) {
         return await WXAPI.uploadImgFile(filePath, "DEFAULT")
     },
-
+    onShareAppMessage: function () {
+        // 页面被用户转发
+      },
+      onShareTimeline: function () {
+        // 页面被用户分享到朋友圈
+      },
 })

@@ -23,7 +23,7 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      defaultPatient: wx.getStorageSync('defaultPatient'),
+      defaultPatient: getApp().getDefaultPatient(),
       patientList: wx.getStorageSync('userInfo').account.user
     })
     var names = []

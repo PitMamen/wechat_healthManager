@@ -28,7 +28,7 @@ Page({
  */
     onShow: function () {
         this.setData({
-            defaultPatient: wx.getStorageSync('defaultPatient'),
+            defaultPatient:getApp().getDefaultPatient(),
             patientList: wx.getStorageSync('userInfo').account.user,
  
         })

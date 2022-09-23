@@ -286,26 +286,12 @@ Page({
         if (item.isDefault) {
           //保存默认就诊人
           wx.setStorageSync('defaultPatient', item)
-          //登录成功后跳转
-          this.routToPage()
+          IMUtil.LoginOrGoIMChat(item.userId, item.userSig)
         }
       })
-
-    } else {
-         //获取缓存的路径地址      
-    var routPage = wx.getStorageSync('routPage-w');
-        if(routPage && routPage.indexOf("pages/login/confirm-patient") != -1){
-            wx.reLaunch({
-                url: '/' + routPage
-              });
-              //使用后删除
-              wx.removeStorageSync('routPage-w');
-         return     
-        }
-      wx.navigateTo({
-        url: '../me/patients/addPatient'
-      })
-    }
+    } 
+              //登录成功后跳转
+              this.routToPage()
   },
 
 
@@ -330,5 +316,12 @@ Page({
         url: '../home/main'
       })
     }
-  }
+  },
+  onShareAppMessage: function () {
+    // 页面被用户转发
+  },
+  onShareTimeline: function () {
+    // 页面被用户分享到朋友圈
+  },
+
 })

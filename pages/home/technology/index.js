@@ -23,7 +23,7 @@ Page({
      */
     onLoad: function (options) {
         this.setData({
-            defaultPatient: wx.getStorageSync('defaultPatient'),
+            defaultPatient: getApp().getDefaultPatient(),
             userInfo: wx.getStorageSync('userInfo').account,
             InputCardNo:wx.getStorageSync('CardNo')
         })

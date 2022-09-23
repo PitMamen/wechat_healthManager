@@ -32,3 +32,25 @@ export function getConstantData() {
     }
     return obj
 }
+
+/**
+ * 无需登录的页面 
+ */
+export function checkNoLoginPage(routPage) {
+    console.log('routPage',routPage)
+  var pages=[
+      'pages/home/main',
+      'pages/me/main',
+      'pages/home/package-detail/packagedetail',
+      'pages/home/package-list/packagelist',
+      'pages/home/news/news-list',
+      'pages/home/news/news-detail'
+  ]
+  var b=false
+  pages.forEach(item=>{
+      if(routPage.indexOf(item) != -1){
+          b= true
+      }
+  })
+  return b
+}

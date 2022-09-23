@@ -268,9 +268,9 @@ module.exports =
                                 } else if (request.data.code == 20005 || request.data.code == 10001) { //token错误
 
 
-                                    wx.navigateTo({
-                                        url: '/pages/login/auth?type=TOKENFAIL'
-                                    })
+                                    // wx.navigateTo({
+                                    //     url: '/pages/login/auth?type=TOKENFAIL'
+                                    // })
                                     return reject(request.data);
                                 } else if (request.data.code == 20009) { //没有添加就诊卡号
 
@@ -353,9 +353,9 @@ module.exports =
                                 }
 
                                 if (request.data.code == 20005 || request.data.code == 10001) { //token错误
-                                    wx.navigateTo({
-                                        url: '/pages/login/auth?type=TOKENFAIL'
-                                    })
+                                    // wx.navigateTo({
+                                    //     url: '/pages/login/auth?type=TOKENFAIL'
+                                    // })
                                     return reject(request.data);
                                 } else if (request.data.code == 20009) { //没有添加就诊卡号
 

@@ -195,7 +195,7 @@ Page({
 
         if (!this.data.defaultPatient) {
             this.setData({
-                defaultPatient: wx.getStorageSync('defaultPatient'),
+                defaultPatient: getApp().getDefaultPatient()
             })
         }
 

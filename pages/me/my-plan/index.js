@@ -14,7 +14,7 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      defaultPatient: wx.getStorageSync('defaultPatient')
+      defaultPatient:getApp().getDefaultPatient()
     })
     this.queryHealthPlanList(this.data.defaultPatient.userId)
  
@@ -101,5 +101,10 @@ Page({
 
   },
 
-
+  onShareAppMessage: function () {
+    // 页面被用户转发
+  },
+  onShareTimeline: function () {
+    // 页面被用户分享到朋友圈
+  },
 })

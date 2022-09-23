@@ -58,7 +58,7 @@ Page({
             config: config
         })
 
-        var defaultPatient = wx.getStorageSync('defaultPatient')
+        var defaultPatient = getApp().getdef
         //统一用微信账号的头像
         var myAvatarUrl = wx.getStorageSync('userInfo').account.avatarUrl
         this.setData({

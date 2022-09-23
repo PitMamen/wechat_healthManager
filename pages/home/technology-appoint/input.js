@@ -58,7 +58,7 @@ Page({
    */
   onShow: function () {
     this.setData({
-      defaultPatient:this.data.defaultPatient?this.data.defaultPatient: wx.getStorageSync('defaultPatient'),
+      defaultPatient:this.data.defaultPatient?this.data.defaultPatient: getApp().getDefaultPatient(),
       patientList: wx.getStorageSync('userInfo').account.user,
      
     })

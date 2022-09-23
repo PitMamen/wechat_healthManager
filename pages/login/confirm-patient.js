@@ -69,7 +69,8 @@ Page({
             areaId: options.bq,
           })
       }
-
+console.log(this.data.deptCode)
+console.log(this.data.areaId)
   this.getDiseaseList(this.data.deptCode)
   this.getDepartmentDetail(this.data.deptCode)
   if(this.data.areaId){
@@ -90,16 +91,6 @@ Page({
    */
   onShow: function () {
    
-    // var patientList = UserManager.getPatientInfoList()
-    // if (patientList && patientList.length > 0) {
-    //   patientList.forEach(patient => {
-    //     patient.identificationNo_x = patient.identificationNo.replace(/^(.{6})(?:\w+)(.{4})$/, "$1********$2");
-    //   })
-    // }
-
-    // this.setData({
-    //   patientList: patientList
-    // })
   },
   /**
       * 获取专病
@@ -128,9 +119,12 @@ Page({
       */
   async getInpatientAreaDetail(areaId) {
     const res = await WXAPI.getInpatientAreaDetail(areaId)
-    this.setData({
-      areaName:res.data.inpatientAreaName
-    })
+    if(res.code===0 && res.data && res.data.inpatientAreaName){
+        this.setData({
+            areaName:res.data.inpatientAreaName
+          })
+    }
+
   },
   /**
       * 提交
