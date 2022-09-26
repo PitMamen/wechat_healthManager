@@ -319,17 +319,26 @@ console.log(this.data.areaId)
       }
      var patientInfoList= UserManager.getPatientInfoList()
      console.log(patientInfoList)
-     var userId=''
+     var user=null
      if (patientInfoList && patientInfoList.length > 0) {
         patientInfoList.forEach(item => {
           if (item.identificationNo === this.data.sfzh) {      
-                  userId=item.userId
+            user=item
                         
           }
         })
       }
-      if(userId){
-        this.addPatientMedicalRecords(userId)  
+      if(user){
+        wx.showModal({
+            title: '提示',
+            content: user.userName+'('+user.identificationNo+')'+'此就诊人已存在，可直接提交',
+            success (res) {
+            if (res.confirm) {
+                that.addPatientMedicalRecords(user.userId)  
+            } 
+            }
+            })
+       
       }else{
         this.addPatientQuery()
       }

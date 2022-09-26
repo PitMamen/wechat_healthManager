@@ -14,13 +14,13 @@
 
 <view class="name-type">
   <view class="item-title">就诊卡号</view>
-  <input type="text" class="item-content" name="cardNo" bindinput="getCardNoValue" focus placeholder="请输入就诊卡号" value="{{cardNo}}"/>
+  <input type="text" class="item-content" name="cardNo" bindinput="getCardNoValue"  placeholder="请输入就诊卡号" value="{{cardNo}}"/>
 </view>
 <view class="bottom-line"></view>
 
 <view class="name-type">
   <view class="item-title">手机号码</view>
-  <input type="text" class="item-content" name="phone" bindinput="getPhoneValue" focus placeholder="请输入手机号码" value="{{phone}}"/>
+  <input type="text" class="item-content" name="phone" bindinput="getPhoneValue"  placeholder="请输入手机号码" value="{{phone}}"/>
 </view>
 <view class="bottom-line"></view>
 <view class="code-type">

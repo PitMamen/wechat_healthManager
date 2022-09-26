@@ -79,15 +79,16 @@ function formatSecondDate(date) {
 
     if (date) {
         date = getDate(parseInt(date) * 1000);
-        if (isToday(date)) {
-
-            var h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            var minute = date.getMinutes();
-            minute = minute < 10 ? ('0' + minute) : minute;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        if (isToday(date)) {          
             return h + ":" + minute
+        }else {
+            return date.getFullYear() + '/' + formatDate(date) + ' '+h + ":" + minute;
         }
-        return date.getFullYear() + '/' + formatDate(date);
+        
     }
 }
 

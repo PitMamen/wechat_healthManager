@@ -134,15 +134,15 @@ App({
         this.globalData.sdkAppID = userInfo.account.imAppId
 
         if (userInfo.account.user && userInfo.account.user.length > 0) {
+            var defaultPatient = userInfo.account.user[0]
             userInfo.account.user.forEach(item => {
                 if (item.isDefault) {
-                    //保存默认就诊人
-                    wx.setStorageSync('defaultPatient', item)
-                    IMUtil.LoginOrGoIMChat(item.userId, item.userSig)
-
+                    defaultPatient=item
                 }
             })
-
+            //保存默认就诊人
+            wx.setStorageSync('defaultPatient', defaultPatient)
+            IMUtil.LoginOrGoIMChat(defaultPatient.userId, defaultPatient.userSig)
 
         }
         this.globalData.loginReady = true
