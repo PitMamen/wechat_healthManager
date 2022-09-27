@@ -384,11 +384,15 @@ module.exports =
                         _url = url
                     }
                     console.log(_url)
+                    var header = {                      
+                        'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : ''
+                    };
                     return new Promise(function (resolve, reject) {
                         wx.uploadFile({
                             url: _url,
                             filePath: filePath,
                             name: 'file',
+                            header: header,
                             formData: {
                                 previewType: previewType //预览图大小 HEAD_IMAGE DEFAULT HOME_BANNER
                             },
