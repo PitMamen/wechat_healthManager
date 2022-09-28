@@ -85,13 +85,13 @@
 
 
     <block wx:for="{{taskList}}">
-        <view class="todo-back" bindtap="onTaskItemClick" data-item="{{item}}">
+        <view class="todo-back">
             <van-icon name="/image/{{computed.taskType2(item.planType,item.execFlag).icon}}" dot="{{item.planType !== 'DailyRecord'}}" mode="scaleToFill" size="82rpx" class="todo-image" />
             <view class="todo-content">
                 <view class="todo-name">{{computed.taskType2(item.planType,item.execFlag).title}}</view>
                 <text class="todo-des">{{item.planDescribe||''}}</text>
             </view>
-            <view class="todo-button">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
+            <view class="todo-button"  bindtap="onTaskItemClick" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
         </view>
         <view wx:if="{{index+1 !== taskList.length}}" class="split" />
     </block>

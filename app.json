@@ -9,7 +9,8 @@
                 "pages/chat/AIChat",
                 "pages/diseases/index",
                 "pages/diseases/content",
-                "pages/diseases/knowledge-list"
+                "pages/diseases/knowledge-list",
+                "pages/chat/historyChat"
             ]
         }
     ],

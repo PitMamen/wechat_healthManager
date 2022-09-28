@@ -27,7 +27,7 @@
                 data-index="{{index}}">
                 <template is="voice-item" data="{{isMy:isMy,isPlaying:content.isPlaying}}" />
             </view>
-            <view class="voice-duration-style">{{content.second}}"</view>
+            <view wx:if="{{content.second}}" class="voice-duration-style">{{content.second}}"</view>
         </block>
 
         <block  wx:if="{{type==='TIMVideoFileElem'}}">

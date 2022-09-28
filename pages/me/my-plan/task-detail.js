@@ -106,6 +106,12 @@ Page({
         url: '/pages/home/evaluate/index?userId=' + this.data.userId+'&contentId='+task.contentId,
       })
 
+    }else if (type == 'Rdiagnosis' || type == 'Ddiagnosis') {//复诊提醒 用药提醒
+        this.updateUnfinishedTaskStatus(task.contentId)
+        wx.showToast({
+          title: '已完成',
+        })
+        this.onShow()
     }
   },
 

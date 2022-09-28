@@ -195,7 +195,7 @@ module.exports =
                 var QUESTION_SERVICE = '/questionnaire-api';
                 var PUSH_SERVICE = '/push-api';
                 var INFO_SERVICE = '/info-api';
-
+                var IM_SERVICE = '/im-api';
 
 
 
@@ -1104,7 +1104,10 @@ module.exports =
                     qryMyConsulation: function qryMyConsulation(data) {
                         return request(HEALTH_SERVICE + '/appoint/qryMyConsulation', 'post', data, true);
                     },
-
+                     //历史消息 
+                     queryHistoryIMRecordPage: function queryHistoryIMRecordPage(data) {
+                        return request(IM_SERVICE + '/tencentIM/queryHistoryIMRecordPage', 'get', data, true);
+                    },
                 };
 
                 /***/

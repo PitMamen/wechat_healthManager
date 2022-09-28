@@ -1,4 +1,3 @@
-<TUICalling id="TUICalling-component" config="{{config}}"></TUICalling>
 <import src="../../modules/chat-page/chat-item.wxml"/>
 <import src="../../modules/chat-page/chat-page-status.wxml"/>
 
@@ -6,8 +5,8 @@
 
 
 
-<scroll-view wx:if="{{chatItems.length>0}}"
-        style="height:{{pageHeight-60}}px;width: 100%;display: flex;flex-direction: column;margin-top: {{tradeAction !== 'END'?54:0}}rpx;"
+<scroll-view
+        style="height:{{pageHeight}}px;width: 100%;display: flex;flex-direction: column;"
         scroll-y="true"
         scroll-top="{{scrollTopVal}}"
         refresher-enabled="{{true}}"
@@ -16,13 +15,12 @@
         refresher-triggered="{{triggered}}"
         bindrefresherrefresh="onRefresh"
         bindtap="resetInputStatus">
-    <block  wx:for="{{chatItems}}" wx:key="id2">
+    <block wx:for="{{chatItems}}" wx:key="id2">
         <template is="chat-item"
                   data="{{length:chatItems.length,index:index,item:item,avatar:item.flow=== 'out'?myAvatar:toAvatar}}"/>
     </block>
-   
+
 </scroll-view>
-<van-empty wx:else description="暂无最新消息" />
 <chat-input
 wx:if="{{showChatInput}}"
         id="chatInput"
@@ -40,15 +38,7 @@ wx:if="{{showChatInput}}"
 <!--<template is="chat-input" data="{{inputObj,textMessage,showVoicePart:true}}"/>-->
 
 
-<view wx:if="{{tradeAction === 'END'}}"  class="bottom-box">
-    <view style="margin-left: 30rpx;margin-top: 30rpx;font-size: 28rpx;">本次咨询已结束</view>
-    <view class="bottom-box-btnview">
-        <button class="loginTap"  bindtap="goDoctorDetail"> 再次咨询 </button>
-    <button class="loginTap"  style="background-color: #A4ADB3 ;" bindtap="goHistoryPage">查看历史消息</button>
-    </view>
 
-   
-  </view>
 
 
 <!-- 选择时间 -->
