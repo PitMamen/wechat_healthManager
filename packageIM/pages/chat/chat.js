@@ -120,14 +120,14 @@ Page({
         if (this.data.DocType == 'Doctor') {//医生
             this.doctorDetailQuery()
         }else{
-            this.getUserProfile()
+           this.getUserInfo()
         }
         this.updateChatStatus()
         this.getMessageList()
         this.voiceManager = new voiceManager(this)
         this.onIMReceived()
 
-        if (this.data.DocType == 'Doctor') {//医生
+        if (this.data.DocType == 'Doctor' || this.data.DocType == 'Nurse') {//医生
 
             if(this.data.tradeAction == 'END'){
                 this.setData({
@@ -1189,16 +1189,18 @@ Page({
         //非自定义消息
         if (message.type !== 'TIMCustomElem') {
             if (this.data.DocType == 'Doctor'||this.data.DocType == 'Nurse') {   
-                // console.log("总条数"+this.data.tradeRemark.textNumLimit)  
-               var dNum = this.data.tradeRemark.textNumLimit - this.data.textNumRecord
-               // console.log("剩余条数：" + dNum)
-               if (dNum < 1) {
-                   wx.showToast({
-                       icon: "none",
-                       title: '图文条数已用完，无法发送',
-                   })
-                   return
-               }
+              if(this.data.tradeRemark && this.data.tradeRemark.textNumLimit){
+                var dNum = this.data.tradeRemark.textNumLimit - this.data.textNumRecord
+              
+                if (dNum < 1) {
+                    wx.showToast({
+                        icon: "none",
+                        title: '图文条数已用完，无法发送',
+                    })
+                    return
+                }
+              }
+              
            }        
            index = this.setOneItemAndScrollPage(message)
 
@@ -1349,40 +1351,43 @@ Page({
     //聊天状态
     updateChatStatus() {
         var content = ''
-        if (this.data.DocType == 'Doctor' && this.data.tradeRemark) {
-            var textNumContent=''
-            if(this.data.tradeRemark.textNumLimit){
-                var dTextNum = parseInt(this.data.tradeRemark.textNumLimit) - this.data.textNumRecord
-                if (dTextNum < 0) {
-                    dTextNum = 0
+        if (this.data.DocType == 'Doctor'||this.data.DocType == 'Nurse') { 
+            if (this.data.tradeRemark ) {
+                var textNumContent=''
+                if(this.data.tradeRemark.textNumLimit){
+                    var dTextNum = parseInt(this.data.tradeRemark.textNumLimit) - this.data.textNumRecord
+                    if (dTextNum < 0) {
+                        dTextNum = 0
+                    }
+                    textNumContent = '当前剩余图文' + dTextNum + '条'
+                }else{
+                    dTextNum='无限'
+                    //不显示
                 }
-                textNumContent = '当前剩余图文' + dTextNum + '条'
-            }else{
-                dTextNum='无限'
-                //不显示
-            }
-            
-            
-
-            var second = parseInt(this.data.videoNumRecord % 60)
-            var min = parseInt(this.data.videoNumRecord / 60)
-            if (second > 30) {
-                min = min + 1
-            }
-            var dTimeNum = parseInt(this.data.tradeRemark.timeLimit) - min
-
-            if (dTimeNum < 0) {
-                dTimeNum = 0
-            }
-
-            if (this.data.inquiryType == 'videoNum') {
-                content = '视频咨询:' + textNumContent + ' 剩余通话时长' + dTimeNum + '分钟'
-            } else if (this.data.inquiryType == 'telNum') {
-                content = '电话咨询:' + textNumContent + ' 剩余通话时长' + dTimeNum + '分钟'
-            } else if (this.data.inquiryType == 'textNum') {
-                content = '图文咨询:' + textNumContent
+                
+                
+    
+                var second = parseInt(this.data.videoNumRecord % 60)
+                var min = parseInt(this.data.videoNumRecord / 60)
+                if (second > 30) {
+                    min = min + 1
+                }
+                var dTimeNum = parseInt(this.data.tradeRemark.timeLimit) - min
+    
+                if (dTimeNum < 0) {
+                    dTimeNum = 0
+                }
+    
+                if (this.data.inquiryType == 'videoNum') {
+                    content = '视频咨询:' + textNumContent + ' 剩余通话时长' + dTimeNum + '分钟'
+                } else if (this.data.inquiryType == 'telNum') {
+                    content = '电话咨询:' + textNumContent + ' 剩余通话时长' + dTimeNum + '分钟'
+                } else if (this.data.inquiryType == 'textNum') {
+                    content = '图文咨询:' + textNumContent
+                }
             }
         }
+
 
 
 
