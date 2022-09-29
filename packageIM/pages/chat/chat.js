@@ -173,7 +173,7 @@ Page({
       },
       //查看历史记录
       goHistoryPage(){
-        wx.navigateTo({
+        wx.redirectTo({
             url: '/packageIM/pages/chat/historyChat?userId='+this.data.config.userID+'&toUserId='+this.data.toUserID,
           })
       },
@@ -267,9 +267,12 @@ Page({
     },
 
     onReady() {
+
         this.chatInput = this.selectComponent('#chatInput');
         this.TUICallingInit()
+        this.videoContext = wx.createVideoContext('myVideo')
     },
+
     //视频语音通话初始化
     TUICallingInit() {
 
@@ -713,6 +716,28 @@ Page({
         let id = e.detail.item.id;
 
 
+    },
+
+    onVideoPlayClick(e){
+        console.log(e)
+        var videoObj=e.currentTarget.dataset.item
+        this.setData({
+            videoObj:videoObj,
+            showVideo:true,
+        })
+        this.videoContext.requestFullScreen()
+    },
+    onShowVideoBoxClick(){
+        this.videoContext.stop()
+        this.setData({           
+            showVideo:false,
+        })
+    },
+    bindfullscreenchange(event){
+      
+        this.setData({           
+            showVideo:event.detail.fullScreen,
+        })
     },
 
     //点击视频看就诊
@@ -1256,6 +1281,11 @@ Page({
                 //记录第一次发送了消息
                 that.sendFirstMsgToDoc()
             }
+              //非自定义消息计数
+              if (message.type !== 'TIMCustomElem') {
+
+                that.recordTradeTextNum()
+            }
         }).catch(function (imError) {
             // 重发失败
             console.warn('resendMessage error:', imError);
@@ -1397,7 +1427,18 @@ Page({
         })
         // console.log(this.data.chatStatue+content)
     },
-
+    videoErrorCallback(e) {
+        console.log('视频错误信息:')
+        console.log(e)
+      },
+      bindwaiting(e){
+        console.log('视频出现缓冲时触发:')
+        console.log(e)
+      },
+      bindloadedmetadata(e){
+        console.log('视频元数据加载完成时触发:')
+        console.log(e)
+      },
     getInfoFromCallMessage(item, isIMReceived = false) {
         try {
 

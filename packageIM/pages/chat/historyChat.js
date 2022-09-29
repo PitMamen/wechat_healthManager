@@ -17,6 +17,8 @@ Page({
     onMessageReadByPeer: '',
     _freshing: false,
     data: {
+        showVideo:false,
+        videoObj:{},
         showChatInput: false,
         hideTimeShow: true,
         toAvatar:'../../../image/avatar.png',//聊天对象头像
@@ -181,7 +183,9 @@ Page({
     
     },
 
-    
+    onReady: function (res) {
+        this.videoContext = wx.createVideoContext('myVideo')
+      },
     // 下拉查看更多消息
     onRefresh: function (e) {
         console.log("onRefresh")
@@ -384,7 +388,28 @@ Page({
     CustomCaseHistoryClickEvent(e) {
 
     },
-
+    onVideoPlayClick(e){
+        console.log(e)
+        var videoObj=e.currentTarget.dataset.item
+        videoObj.videoUrl=videoObj.videoUrl+'?bitValueOsType = miniProgram'
+        this.setData({
+            videoObj:videoObj,
+            showVideo:true,
+        })
+        this.videoContext.requestFullScreen()
+    },
+    onShowVideoBoxClick(){
+        this.videoContext.stop()
+        this.setData({           
+            showVideo:false,
+        })
+    },
+    bindfullscreenchange(event){
+      
+        this.setData({           
+            showVideo:event.detail.fullScreen,
+        })
+    },
     //播放或暂停音频
     chatVoiceItemClickEvent(e) {
         this.voiceManager._page.chatVoiceItemClickEvent(e)
@@ -525,7 +550,8 @@ Page({
                 
             }else if(item.msgType == 'TIMVideoFileElem'){
                 item.payload.videoUrl=item.message
-                
+                // item.payload.thumbUrl="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg2.niutuku.com%2Fdesk%2F1208%2F1300%2Fntk-1300-31979.jpg&refer=http%3A%2F%2Fimg2.niutuku.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1667040796&t=b99c4039d5798ecf1eb038f730f8184b"
+                item.payload.isHistory=true
             }else if(item.msgType == 'TIMSoundElem'){
                 item.payload.url=item.message
             }

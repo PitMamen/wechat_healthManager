@@ -114,10 +114,12 @@ Page({
         }
     },
     onReady() {
-        // this.goWenjuanPage('http://192.168.1.122/s/17f6a6dbe2834aaf860efd81d176ca2a?userId=375')
-        // wx.navigateTo({
-        //   url: './rights/rheumatism-result',
-        // })
+        var header = {
+            'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : ''
+        };
+        // wx.redirectTo({
+        //     url: '/packageIM/pages/chat/historyChat?userId=712&toUserId=606'
+        //   })
 
 
     },

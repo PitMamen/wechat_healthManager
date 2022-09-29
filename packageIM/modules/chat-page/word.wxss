@@ -50,3 +50,28 @@
   .my-video {
     border-radius: 10px 2px 10px 10px;
   }
+  .video-box-img {
+	width: 180rpx;
+	height: 320rpx;
+	background-color: black;
+	border-radius: 10rpx;
+    display: flex;
+    position: relative;
+
+}
+.video-icon {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+	width: 70rpx;
+    height: 70rpx;
+    
+}
+.video-img{
+    position: relative;
+	width: 180rpx;
+    height: 320rpx;
+    border-radius: 10rpx;
+}
