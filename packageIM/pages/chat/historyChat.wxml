@@ -15,7 +15,7 @@
 
 
 <view wx:if="{{showVideo}}" class="container-box">
-    <video wx:if="{{showVideo}}" class="video-message" id="myVideo" poster="{{videoObj.thumbUrl }}" src="{{videoObj.videoUrl}}" object-fit="cover" autoplay direction="0" bindfullscreenchange="bindfullscreenchange"></video>
+    <video wx:if="{{showVideo}}" class="video-message" id="myVideo" poster="{{videoObj.thumbUrl }}" src="{{videoObj.videoUrl}}" object-fit="contain" autoplay direction="0" bindfullscreenchange="bindfullscreenchange"></video>
 </view>
 
 

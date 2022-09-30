@@ -292,6 +292,7 @@ Page({
             wx.setStorageSync('defaultPatient', defaultPatient)
             IMUtil.LoginOrGoIMChat(defaultPatient.userId, defaultPatient.userSig)
         }
+        getApp().globalData.loginReady=true
         //登录成功后跳转
         this.routToPage()
     },

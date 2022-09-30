@@ -69,13 +69,13 @@ Page({
             areaId: options.bq,
           })
       }
-console.log(this.data.deptCode)
-console.log(this.data.areaId)
-  this.getDiseaseList(this.data.deptCode)
-  this.getDepartmentDetail(this.data.deptCode)
-  if(this.data.areaId){
-    this.getInpatientAreaDetail(this.data.areaId)
-  }
+
+      if(!getApp().globalData.loginReady){
+          wx.navigateTo({
+            url: './auth?type=RELOGIN',
+          })
+      }
+
 
   },
 
@@ -90,7 +90,14 @@ console.log(this.data.areaId)
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-   
+    if(getApp().globalData.loginReady){
+        this.getDiseaseList(this.data.deptCode)
+        this.getDepartmentDetail(this.data.deptCode)
+        if(this.data.areaId){
+          this.getInpatientAreaDetail(this.data.areaId)
+        }
+    }
+
   },
   /**
       * 获取专病

@@ -117,11 +117,7 @@ Page({
             tradeAction: options.tradeAction,
 
         })
-        if (this.data.DocType == 'Doctor') {//医生
-            this.doctorDetailQuery()
-        }else{
-           this.getUserInfo()
-        }
+        this.getUserInfo()
         this.updateChatStatus()
         this.getMessageList()
         this.voiceManager = new voiceManager(this)
@@ -173,7 +169,7 @@ Page({
       },
       //查看历史记录
       goHistoryPage(){
-        wx.redirectTo({
+        wx.navigateTo({
             url: '/packageIM/pages/chat/historyChat?userId='+this.data.config.userID+'&toUserId='+this.data.toUserID,
           })
       },

@@ -389,13 +389,13 @@ Page({
 
     },
     onVideoPlayClick(e){
-        console.log(e)
+      
         var videoObj=e.currentTarget.dataset.item
-        videoObj.videoUrl=videoObj.videoUrl+'?bitValueOsType = miniProgram'
         this.setData({
             videoObj:videoObj,
             showVideo:true,
         })
+        console.log(videoObj.videoUrl)
         this.videoContext.requestFullScreen()
     },
     onShowVideoBoxClick(){
@@ -549,9 +549,7 @@ Page({
                 item.payload.imageInfoArray=imageInfoArray
                 
             }else if(item.msgType == 'TIMVideoFileElem'){
-                item.payload.videoUrl=item.message
-                // item.payload.thumbUrl="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg2.niutuku.com%2Fdesk%2F1208%2F1300%2Fntk-1300-31979.jpg&refer=http%3A%2F%2Fimg2.niutuku.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1667040796&t=b99c4039d5798ecf1eb038f730f8184b"
-                item.payload.isHistory=true
+                item.payload.videoUrl=item.message+'?bitValueOsType=miniProgram'
             }else if(item.msgType == 'TIMSoundElem'){
                 item.payload.url=item.message
             }
