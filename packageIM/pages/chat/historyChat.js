@@ -551,7 +551,7 @@ Page({
             }else if(item.msgType == 'TIMVideoFileElem'){
                 item.payload.videoUrl=item.message+'?bitValueOsType=miniProgram'
             }else if(item.msgType == 'TIMSoundElem'){
-                item.payload.url=item.message+'?bitValueOsType=miniProgram'
+                item.payload.url=item.message
                 item.payload.isHistory=true
             }
 
