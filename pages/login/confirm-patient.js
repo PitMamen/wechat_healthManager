@@ -316,6 +316,14 @@ Page({
         })
         return
       }
+      if (this.data.jjlxdh.length !== 11) {
+        wx.showToast({
+          title: '请输入正确的紧急联系电话',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
       if (!this.data.guanxi) {
         wx.showToast({
           title: '请选择与就诊人关系',
