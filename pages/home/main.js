@@ -48,7 +48,9 @@ Page({
         //监听客服和个案管理师发来的消息数
         getApp().watch('unreadServerMessageCount', this.watchBack);
 
-
+        wx.navigateTo({
+          url: '../login/follow-checkin',
+        })
     },
     watchBack: function (name, value) {
         console.log('name==' + name);

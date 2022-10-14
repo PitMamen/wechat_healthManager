@@ -79,7 +79,7 @@
         "pages/home/rights/rheumatism-result",
         "pages/home/purchase-instructions/buyknow",
         "pages/me/consult/index",
-        "pages/login/confirm-patient2"
+        "pages/login/follow-checkin"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",
