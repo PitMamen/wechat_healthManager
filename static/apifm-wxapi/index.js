@@ -196,6 +196,7 @@ module.exports =
                 var PUSH_SERVICE = '/push-api';
                 var INFO_SERVICE = '/info-api';
                 var IM_SERVICE = '/im-api';
+                var FOLLOW_SERVICE = '/follow-api';
 
 
 
@@ -1107,6 +1108,14 @@ module.exports =
                      //历史消息 
                      queryHistoryIMRecordPage: function queryHistoryIMRecordPage(data) {
                         return request(IM_SERVICE + '/tencentIM/queryHistoryIMRecordPage', 'get', data, true);
+                    },
+                     //查询患者资料
+                     qryPatientInfo: function qryPatientInfo(data) {
+                        return request(HEALTH_SERVICE + '/revisit/qryPatientInfo', 'post', data, true);
+                    },
+                      //微信扫描注册后添加随访名单
+                      addPatientMedicalRecords: function addPatientMedicalRecords(data) {
+                        return request(HEALTH_SERVICE + '/followMetaConfigure/addPatientMedicalRecords', 'post', data, true);
                     },
                 };
 

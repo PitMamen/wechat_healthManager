@@ -79,7 +79,8 @@
         "pages/home/rights/rheumatism-result",
         "pages/home/purchase-instructions/buyknow",
         "pages/me/consult/index",
-        "pages/login/follow-checkin"
+        "pages/login/follow-checkin",
+        "pages/login/follow-info"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

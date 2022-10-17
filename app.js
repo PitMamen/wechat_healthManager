@@ -309,4 +309,5 @@ App({
     jcxq: null,//检查详情
     rightsDetail: null,//权益详情
     extraData: null,//使用权益跳转互联网医院小程序的参数（风湿科提交成功）
+    followInfo:null,//随访登记详情
 })  
