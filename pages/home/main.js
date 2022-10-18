@@ -48,9 +48,7 @@ Page({
         //监听客服和个案管理师发来的消息数
         getApp().watch('unreadServerMessageCount', this.watchBack);
 
-        wx.navigateTo({
-          url: '../login/follow-checkin',
-        })
+
     },
     watchBack: function (name, value) {
         console.log('name==' + name);
@@ -99,8 +97,11 @@ Page({
 
     },
     goConfirmPatientPage() {
+        // wx.navigateTo({
+        //     url: '/pages/login/confirm-patient?ks=1030400'
+        // })
         wx.navigateTo({
-            url: '/pages/login/confirm-patient?ks=1030400'
+            url: '/pages/login/follow-checkin'
         })
     },
     //我的消息
@@ -713,7 +714,7 @@ Page({
 
 
     checkLoginStatus() {
-        console.log(this.data.userInfo)
+       
         if (this.data.userInfo) {
             return true
         } else {

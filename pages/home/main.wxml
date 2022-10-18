@@ -57,7 +57,7 @@
 </van-grid>
 <van-grid custom-class="grid-class2" border="{{false}}" clickable column-num="5" icon-size="40px">
 
-    <van-grid-item icon="/image/home_icon_yyyj.png" bindtap='goTechnologyAppointPage'>
+    <van-grid-item icon="/image/home_icon_yyyj.png" bindtap='goConfirmPatientPage'>
         <view class="grid-title" slot="text">预约医技</view>
     </van-grid-item>
 

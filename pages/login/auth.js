@@ -1,6 +1,6 @@
 // pages/login/login.js
 const WXAPI = require('../../static/apifm-wxapi/index')
-
+const IMUtil = require('../../utils/IMUtil')
 
 Page({
 
@@ -8,6 +8,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        type:'',//类型  RELOGIN   TOKENFAIL  
         userInfo: {},
         registered: true,
         isLogining: true,

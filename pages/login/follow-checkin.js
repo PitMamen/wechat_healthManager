@@ -5,7 +5,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        showNegativeDialog:true,
+        showNegativeDialog:false,
         identificationNo:'430101200312122589',
         emergencyPhone:'',
         emergencyName:'',
@@ -68,6 +68,10 @@ Page({
        //提交
   nextAction: function () {
 
+    if(!this.checkLoginStatus()){
+        return
+    }
+
     let that = this
     if (that.data.identificationNo.length <= 0) {
       wx.showToast({
@@ -107,8 +111,8 @@ Page({
     /**
       * 获取患者信息
       */
-     async qryPatientInfo(idno) {
-
+      qryPatientInfo(idno) {
+        let that=this
         var postdata={
             "cardType":"",
             "cardNum":"",
@@ -116,16 +120,23 @@ Page({
             "ipNo":""
         }
 
-        const res = await WXAPI.qryPatientInfo(postdata)
-        if(res.code === 0){
-            res.data.urgentTel=this.data.emergencyPhone
-            res.data.urgentName=this.data.emergencyName
-            res.data.relationship=this.data.relationship
+        WXAPI.qryPatientInfo(postdata)
+         .then(function (res) {
+            res.data.urgentTel=that.data.emergencyPhone
+            res.data.urgentName=that.data.emergencyName
+            res.data.relationship=that.data.relationship
+            res.data.idno='433130199009255913'
             getApp().followInfo= res.data
             wx.navigateTo({
               url: './follow-info',
             })
-        }
+         
+          }).catch(function (error) {
+            this.setData({
+                qryPatientInfo:true
+            })
+          });
+   
       },
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -140,7 +151,28 @@ Page({
     onShow() {
 
     },
+    checkLoginStatus() {
+       
+        if (getApp().globalData.loginReady) {
+            return true
+        } else {
+            wx.showModal({
+                title: '温馨提示',
+                content: '您还没有登录，请先完成登录再登记。',
+                confirmText: '去登录',
+                cancelText: '取消',
+                success(res) {
+                    if (res.confirm) {
+                        wx.navigateTo({
+                            url: '/pages/login/auth?type=RELOGIN',
+                        })
+                    }
+                }
+            })
+            return false
+        }
 
+    },
     /**
      * 生命周期函数--监听页面隐藏
      */
