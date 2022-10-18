@@ -84,7 +84,7 @@ Page({
       },
       goDoctorDetail(){
         wx.navigateTo({
-          url: '/pages/me/my-doctor/doctor-detail?doctorId='+this.data.toUserID,
+            url: '/pages/home/package-list/packagelist',
         })
       },
 
