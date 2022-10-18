@@ -16,7 +16,7 @@
 </van-sticky>
 <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" description="暂无记录" />
 <view wx:for="{{appointList}}" wx:for-item="items">
-    <view class="contentview" bindtap="goDetailPage" data-id="{{items.tradeId}}">
+    <view class="contentview"  data-id="{{items.tradeId}}">
 
         <view class="taskcard">
             <view class="task-content">

@@ -26,9 +26,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var defaultPatient = wx.getStorageSync('defaultPatient')
+   
     this.setData({
-      defaultPatient: defaultPatient,
+      defaultPatient: getApp().getDefaultPatient(),
     })
     this.qryPatientBaseInfo()
   },

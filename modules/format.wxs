@@ -79,15 +79,16 @@ function formatSecondDate(date) {
 
     if (date) {
         date = getDate(parseInt(date) * 1000);
-        if (isToday(date)) {
-
-            var h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            var minute = date.getMinutes();
-            minute = minute < 10 ? ('0' + minute) : minute;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        if (isToday(date)) {          
             return h + ":" + minute
+        }else {
+            return date.getFullYear() + '/' + formatDate(date) + ' '+h + ":" + minute;
         }
-        return date.getFullYear() + '/' + formatDate(date);
+        
     }
 }
 
@@ -179,7 +180,7 @@ function recordType(type) {
 
 
 /*
-任务类型
+计划任务类型
 */
 function taskType(type) {
     if (type == 'Exam') { //检验单
@@ -233,7 +234,15 @@ function taskType(type) {
         }
         return t;
 
-    }else if (type == 'appointNum') { //复诊开方
+    }else if (type == 'Rdiagnosis') { //复诊提醒
+        var t = {
+            icon: '/image/fztx.png',
+            title: '复诊提醒',
+            btnText: '进入'
+        }
+        return t;
+
+    } else if (type == 'appointNum') { //复诊开方
         var t = {
             icon: '/image/jh_icon_fzkf.png',
             title: '复诊开方',
@@ -241,10 +250,18 @@ function taskType(type) {
         }
         return t;
 
+    }else if (type == 'Ddiagnosis') { //用药提醒
+        var t = {
+            icon: '/image/time.png',
+            title: '用药提醒',
+            btnText: '进入'
+        }
+        return t;
+
     } 
 }
-//我的待办2
-/*
+
+/*首页我的待办
  */
 function taskType2(type, execFlag) {
 
@@ -356,7 +373,23 @@ function taskType2(type, execFlag) {
             btnText: execFlag === 2 ? '进入' : '上传'
         }
         return t;
-    }
+    }else if (type == 'Rdiagnosis') { //复诊提醒
+        var t = {
+            icon: 'home_icon_fztx.png',
+            title: '复诊提醒',
+            btnText: '已读'
+        }
+        return t;
+
+    } else if (type == 'Ddiagnosis') { //用药提醒
+        var t = {
+            icon: 'home_icon_yytx.png',
+            title: '用药提醒',
+            btnText: '已读'
+        }
+        return t;
+
+    } 
 }
 
 function periondTime(type) {
@@ -382,7 +415,9 @@ function planType(type) {
         return '健康问卷'
     } else if (type == 'Evaluate') {
         return '健康评估'
-    } else {
+    }  else if (type == 'Rdiagnosis') {
+        return '复诊提醒'
+    }else {
         return ''
     }
 }

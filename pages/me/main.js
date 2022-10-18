@@ -100,9 +100,12 @@ avatarBinderror(e){
   //健康记录
   goRecordListPage(){
       if(this.checkLoginStatus()){
-        wx.navigateTo({
-            url: '../home/upload/recordList?userId='+this.data.defaultPatient.userId,
-          })
+        if(getApp().getDefaultPatient()){
+            wx.navigateTo({
+                url: '../home/upload/recordList?userId='+this.data.defaultPatient.userId,
+              })
+        }
+
       }
   },
   goRecordPage() {
@@ -122,41 +125,51 @@ avatarBinderror(e){
   },
   goPlanPage(e){
     if(this.checkLoginStatus()){
+        if(getApp().getDefaultPatient()){
         wx.navigateTo({
             url: './my-plan/index',
           })
+        }
     }
 
   },
   goMyEvalPage(){
     if(this.checkLoginStatus()){
+        if(getApp().getDefaultPatient()){
         wx.navigateTo({
             url: './my-eval/index',
           })
+        }
     }
 
   },
   goMyConsultPage(){
     if(this.checkLoginStatus()){
+        if(getApp().getDefaultPatient()){
         wx.navigateTo({
             url: './consult/index',
           })
+        }
     }
   },
   goOrderListPage(e) {
     if(this.checkLoginStatus()){
+        if(getApp().getDefaultPatient()){
         var type = e.currentTarget.dataset.type
         wx.navigateTo({
           url: './order/order-list?active=' + type,
         })
     }
+    }
 
   },
   goTechnologyListPage(){
     if(this.checkLoginStatus()){
+        if(getApp().getDefaultPatient()){
         wx.navigateTo({
             url: '../home/technology/record-list',
           })
+        }
     }
 
   },
@@ -173,14 +186,7 @@ avatarBinderror(e){
       }
 
   },
-  goMyDoctorListPage() {
-    // wx.navigateTo({
-    //   url: './my-doctor/index',
-    // })
-    wx.navigateTo({
-      url: './my-doctor/doctor-detail?doctorId='+getApp().globalData.doctorId+'&patientId='+this.data.defaultPatient.userId,
-    })
-  },
+
 
   //预约床位
   goBedPage(){
@@ -280,8 +286,21 @@ wx.navigateTo({
     }
 
   },
- 
+  addPatientTap: function () {
+      console.log('addPatientTap')
+    if(this.checkLoginStatus()){
+      wx.navigateTo({
+          url: './patients/addPatient',
+        })
+    }
 
-  
+},
+
+  onShareAppMessage: function () {
+    // 页面被用户转发
+  },
+  onShareTimeline: function () {
+    // 页面被用户分享到朋友圈
+  },
   
 })

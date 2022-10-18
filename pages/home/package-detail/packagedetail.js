@@ -5,7 +5,7 @@ Page({
   data: {
     createTabs: true, //绘制tabs
     tabs: [{
-      tabs_name: '服务简介',
+      tabs_name: '服务简介',  
       view_id: 'swiper-container',
       topHeight: 0
     }, {
@@ -423,6 +423,9 @@ Page({
     if (!this.checkLoginStatus()) {
       return
     }
+    if(!getApp().getDefaultPatient()){
+        return
+    }
     this.buliduBuyNow()
     //如果是风湿科 判断是否需要审核资料 
     //     if (this.data.goodsDetail.belong === '2350010' ) {
@@ -518,49 +521,9 @@ Page({
 
     return buyNowInfo;
   },
-  onShareAppMessage() {
-    // let _data = {
-    //   title: this.data.goodsDetail.goodsName,
-    //   path: '/pages/home/package-detail/packagedetail?id=' + this.data.goodsDetail.goodsId,
-    //   success: function (res) {
-    //     // 转发成功
-    //     wx.showToast({
-    //       title: '转发成功',
-    //       icon: 'success',
-    //       duration: 2000
-    //       })
-    //   },
-    //   fail: function (res) {
-    //     // 转发失败
-    //   }
-    // }
 
-    // return _data
-  },
 
-  pingtuanList: function (goodsId) {
-    var that = this;
-    WXAPI.pingtuanList({
-      goodsId: goodsId,
-      status: 0
-    }).then(function (res) {
-      if (res.code == 0) {
-        that.setData({
-          pingtuanList: res.data.result
-        });
-      }
-    })
-  },
-  getVideoSrc: function (videoId) {
-    var that = this;
-    WXAPI.videoDetail(videoId).then(function (res) {
-      if (res.code == 0) {
-        that.setData({
-          videoMp4Src: res.data.fdMp4
-        });
-      }
-    })
-  },
+
 
 
   previewImage(e) {
@@ -571,6 +534,11 @@ Page({
     })
   },
 
-
+  onShareAppMessage: function () {
+    // 页面被用户转发
+  },
+  onShareTimeline: function () {
+    // 页面被用户分享到朋友圈
+  },
 
 })

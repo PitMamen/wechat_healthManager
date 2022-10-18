@@ -57,6 +57,8 @@ var goIMChat = function goIMChat(userId, userSig, routeType, doctorId, DocType, 
 
 }
 
+var isLoginUser=''
+
 /**
         *  登录/聊天 不填后面2个参数则只登录
         * @param {*} userId 登录账号id 
@@ -68,6 +70,7 @@ var goIMChat = function goIMChat(userId, userSig, routeType, doctorId, DocType, 
 
         var that = this;
         var userID = String(userId)    
+
     
         if (userID == getApp().globalData.IMuserID) {
     
@@ -99,33 +102,16 @@ var goIMChat = function goIMChat(userId, userSig, routeType, doctorId, DocType, 
                 that.IMLoginToChat(userID, userSig, routeType, routUrl)
                 return
             }
-    
+     //有登录账户则先登出再登录
             let promise = getApp().tim.logout();
             promise.then(function (imResponse) {
                 console.log(imResponse.data); // 登出成功
     
-                let promise = getApp().tim.login({
-                    userID: userID,
-                    userSig: userSig
-                });
-                promise.then(function (imResponse) {
-                    console.log("IM登录成功", imResponse); // 登录成功
-    
-                    that.IMLoginToChat(userID, userSig,  routeType,routUrl)
-    
-                }).catch(function (imError) {
-                    wx.hideLoading()
-                    console.warn('login error:', imError); // 登录失败的相关信息
-                    
-                });
+                that.IMLoginToChat(userID, userSig,  routeType,routUrl)
             }).catch(function (imError) {
                 wx.hideLoading()
                 console.warn('login error:', imError); // 登出失败的相关信息
-                wx.showToast({
-                    title: '登出失败请重试',
-                    icon: "none",
-                    duration: 2000
-                })
+              
             });
         }
     }
@@ -145,6 +131,11 @@ var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) 
     if (userID == getApp().globalData.IMuserID) {
         return
     }
+    if(isLoginUser == userID){
+        console.log(userID+'正在登录，不能重复登录')
+        return
+    }
+    isLoginUser=userID
 
     let promise = getApp().tim.login({
         userID: userID,
@@ -153,6 +144,7 @@ var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) 
     promise.then(function (imResponse) {
         console.log("IM登录成功", imResponse); // 登录成功
 
+        isLoginUser=''
         getApp().globalData.IMuserID = userID
         getApp().globalData.IMuserSig = userSig
         let onSdkReady = function () {
@@ -188,7 +180,7 @@ var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) 
     }).catch(function (imError) {
         wx.hideLoading()
         console.warn('login error:', imError); // 登录失败的相关信息
-      
+        isLoginUser=''
     });
 }
 
@@ -201,7 +193,7 @@ var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) 
         let that = this;
         promise.then(function (imResponse) {
             const conversationList = imResponse.data.conversationList; // 会话列表，用该列表覆盖原有的会话列表
-           
+           console.log('getConversationList',conversationList)
             var userIDList = []
           
             conversationList.forEach(function (item, index) {
@@ -225,6 +217,7 @@ var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) 
             userIDList: userIDList // 请注意：即使只拉取一个用户的资料，也需要用数组类型，例如：userIDList: ['user1']
         });
         promise.then(function (imResponse) {
+            console.log( imResponse.data)
             imResponse.data.forEach(function (item, index) {
                 if(item.role == 4 ||item.role == 6){//3 医生 4 个案管理师 5护士 6客服
                     

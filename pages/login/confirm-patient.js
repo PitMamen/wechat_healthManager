@@ -70,11 +70,12 @@ Page({
           })
       }
 
-  this.getDiseaseList(this.data.deptCode)
-  this.getDepartmentDetail(this.data.deptCode)
-  if(this.data.areaId){
-    this.getInpatientAreaDetail(this.data.areaId)
-  }
+      if(!getApp().globalData.loginReady){
+          wx.navigateTo({
+            url: './auth?type=RELOGIN',
+          })
+      }
+
 
   },
 
@@ -89,17 +90,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-   
-    // var patientList = UserManager.getPatientInfoList()
-    // if (patientList && patientList.length > 0) {
-    //   patientList.forEach(patient => {
-    //     patient.identificationNo_x = patient.identificationNo.replace(/^(.{6})(?:\w+)(.{4})$/, "$1********$2");
-    //   })
-    // }
+    if(getApp().globalData.loginReady){
+        this.getDiseaseList(this.data.deptCode)
+        this.getDepartmentDetail(this.data.deptCode)
+        if(this.data.areaId){
+          this.getInpatientAreaDetail(this.data.areaId)
+        }
+    }
 
-    // this.setData({
-    //   patientList: patientList
-    // })
   },
   /**
       * 获取专病
@@ -128,9 +126,12 @@ Page({
       */
   async getInpatientAreaDetail(areaId) {
     const res = await WXAPI.getInpatientAreaDetail(areaId)
-    this.setData({
-      areaName:res.data.inpatientAreaName
-    })
+    if(res.code===0 && res.data && res.data.inpatientAreaName){
+        this.setData({
+            areaName:res.data.inpatientAreaName
+          })
+    }
+
   },
   /**
       * 提交
@@ -315,6 +316,14 @@ Page({
         })
         return
       }
+      if (this.data.jjlxdh.length !== 11) {
+        wx.showToast({
+          title: '请输入正确的紧急联系电话',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
       if (!this.data.guanxi) {
         wx.showToast({
           title: '请选择与就诊人关系',
@@ -325,17 +334,26 @@ Page({
       }
      var patientInfoList= UserManager.getPatientInfoList()
      console.log(patientInfoList)
-     var userId=''
+     var user=null
      if (patientInfoList && patientInfoList.length > 0) {
         patientInfoList.forEach(item => {
           if (item.identificationNo === this.data.sfzh) {      
-                  userId=item.userId
+            user=item
                         
           }
         })
       }
-      if(userId){
-        this.addPatientMedicalRecords(userId)  
+      if(user){
+        wx.showModal({
+            title: '提示',
+            content: user.userName+'('+user.identificationNo+')'+'此就诊人已存在，可直接提交',
+            success (res) {
+            if (res.confirm) {
+                that.addPatientMedicalRecords(user.userId)  
+            } 
+            }
+            })
+       
       }else{
         this.addPatientQuery()
       }

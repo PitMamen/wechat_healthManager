@@ -58,14 +58,14 @@ Page({
             config: config
         })
 
-        var defaultPatient = wx.getStorageSync('defaultPatient')
+       
         //统一用微信账号的头像
         var myAvatarUrl = wx.getStorageSync('userInfo').account.avatarUrl
         this.setData({
             pageHeight: wx.getSystemInfoSync().windowHeight,
             type: 'C2C',
             DocType: 'FWZX',
-            defaultPatient: defaultPatient,
+            defaultPatient: getApp().getDefaultPatient(),
             toUserID: '1',
             conversationID: 'C2C1',
             myAvatarUrl: myAvatarUrl,

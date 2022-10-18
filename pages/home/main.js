@@ -43,50 +43,28 @@ Page({
         wx.showShareMenu({
             withShareTicket: true,
         })
+        //监听app.js里登录完成状态
+        getApp().watch('loginReady', this.watchBack);
         //监听客服和个案管理师发来的消息数
         getApp().watch('unreadServerMessageCount', this.watchBack);
-
-        //清除本地用户信息 然后获取用户信息
-        wx.removeStorageSync('userInfo')
-        wx.removeStorageSync('defaultPatient')
-        this.WXloginForLogin()
 
 
     },
     watchBack: function (name, value) {
         console.log('name==' + name);
         console.log(value);
-        if (name === 'unreadServerMessageCount') {
+        if (name === 'loginReady') {
+            //监听到app.js里登录完成状态
+            if (value) {
+                this.onShow()
+            }
+        } else if (name === 'unreadServerMessageCount') {
             this.setData({
                 unreadMymessageCount: value
             })
         }
 
     },
-    goConfirmPatientPage() {
-        wx.navigateTo({
-            url: '/pages/login/confirm-patient?ks=1030400'
-        })
-    },
-    //我的消息
-    goMyMessagePage() {
-        if (this.checkLoginStatus() && getApp().globalData.sdkReady) {
-            wx.navigateTo({
-                url: '/packageIM/pages/chat-list/chat-list?userId=' + this.data.defaultPatient.userId,
-            })
-        }
-       
-    },
-    onReady() {
-        // this.goWenjuanPage('http://192.168.1.122/s/17f6a6dbe2834aaf860efd81d176ca2a?userId=375')
-        // wx.navigateTo({
-        //   url: './rights/rheumatism-result',
-        // })
-
-
-    },
-
-
     onShow: function (e) {
 
         var userInfoSync = wx.getStorageSync('userInfo')
@@ -100,25 +78,54 @@ Page({
             patientList: wx.getStorageSync('userInfo').account.user,
             userInfo: wx.getStorageSync('userInfo').account
         })
-        var names = []
-        this.data.patientList.forEach(item => {
-            names.push(item.userName)
-        })
-        this.setData({
-            nameColumns: names
-        })
-
-
-        if (this.data.defaultPatient) {
-
+        if (this.data.patientList && this.data.patientList.length > 0) {
+            var names = []
+            this.data.patientList.forEach(item => {
+                names.push(item.userName)
+            })
+            this.setData({
+                nameColumns: names
+            })
             this.allTallskRequset()
             IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
             IMUtil.getConversationList()
         }
 
-        // this.cureHistoryListQuery()
+
+
+
 
     },
+    goConfirmPatientPage() {
+        wx.navigateTo({
+            url: '/pages/login/confirm-patient?ks=1030400'
+        })
+    },
+    //我的消息
+    goMyMessagePage() {
+        if (this.checkLoginStatus()) {
+            if (getApp().getDefaultPatient()) {
+                if (getApp().globalData.sdkReady) {
+                    wx.navigateTo({
+                        url: '/packageIM/pages/chat-list/chat-list?userId=' + this.data.defaultPatient.userId,
+                    })
+                }
+            }
+        }
+    },
+    onReady() {
+        var header = {
+            'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : ''
+        };
+        // wx.redirectTo({
+        //     url: '/packageIM/pages/chat/historyChat?userId=712&toUserId=606'
+        //   })
+
+
+    },
+
+
+
     //就医记录
     async cureHistoryListQuery() {
 
@@ -135,26 +142,6 @@ Page({
         }
     },
 
-    async getRecord(serialNumber, recordType) {
-
-        const postData = {
-            "dataOwnerId": this.data.defaultPatient.userId,
-            "dataUserId": this.data.defaultPatient.userId,
-            "recordType": recordType,
-            "serialNumber": serialNumber
-        }
-        console.log(postData)
-        const res = await WXAPI.getRecord(postData)
-        if (res.code == 0) {
-            //加密后的病历
-            var encryptedRecord = res.encryptedRecord
-            //加密封装后的会话秘钥，用于解密encryptedRecord。该会话秘钥为随机生成的AES 256bit对 称秘钥，再由客户端提供的公钥进行加密。
-            var wrappedDEK = res.wrappedDEK
-
-
-        }
-
-    },
 
     //我的权益 数量
     async queryMyRights() {
@@ -223,10 +210,10 @@ Page({
                     }
                 }
                 var nameTitle = '会诊医生：'
-                var docName='医生'
+                var docName = '医生'
                 if (item.userAttrInfo && item.userAttrInfo.length > 0 && item.userAttrInfo[0].remark && item.userAttrInfo[0].remark.whoDeal && item.userAttrInfo[0].remark.whoDeal === 'nurse') {
                     nameTitle = '会诊护士：'
-                    docName='护士'
+                    docName = '护士'
                 }
                 //处理完成
                 if (item.execFlag === 2) {
@@ -234,7 +221,7 @@ Page({
 
                     if (item.rightsType === 'ICUConsultNum') {
                         //重症会诊 不需要操作 只是显示
-                        item.planDescribe = "会诊开始：" + item.execTime + '\n' + nameTitle + item.execName + "\n会诊科室：" + item.deptName + "\n(请耐心等待"+docName+"会诊结果)"
+                        item.planDescribe = "会诊开始：" + item.execTime + '\n' + nameTitle + item.execName + "\n会诊科室：" + item.deptName + "\n(请耐心等待" + docName + "会诊结果)"
                     } else if (item.rightsType === 'videoNum' || item.rightsType === 'telNum') {
                         item.planDescribe = "问诊开始：" + item.execTime + "\n问诊时长：" + item.remark + "分钟" + '\n' + nameTitle + item.execName + "\n问诊科室：" + item.deptName
                     } else if (item.rightsType === 'textNum') {
@@ -260,12 +247,12 @@ Page({
                         } else if (item.rightsType === 'textNum') {
                             //图文咨询 等待接诊
                             item.planType = item.rightsType
-                            item.planDescribe = '等待'+docName+'接诊' + '\n' + nameTitle + item.execName + "\n问诊科室：" + item.deptName + '\n申请时间：' + Util.formatTime(new Date(item.createTime))
+                            item.planDescribe = '等待' + docName + '接诊' + '\n' + nameTitle + item.execName + "\n问诊科室：" + item.deptName + '\n申请时间：' + Util.formatTime(new Date(item.createTime))
                             item.caseFlag = 0
                         } else if (item.rightsType === 'appointNum') {
                             //复诊开方 等待接诊
                             item.planType = item.rightsType
-                            item.planDescribe = '等待'+docName+'接诊' + '\n' + nameTitle + item.execName + "\n问诊科室：" + item.deptName + '\n申请时间：' + Util.formatTime(new Date(item.createTime))
+                            item.planDescribe = '等待' + docName + '接诊' + '\n' + nameTitle + item.execName + "\n问诊科室：" + item.deptName + '\n申请时间：' + Util.formatTime(new Date(item.createTime))
                             item.caseFlag = 0
                         }
 
@@ -308,27 +295,36 @@ Page({
     },
     //预约医技
     goTechnologyAppointPage() {
-        // if (this.checkLoginStatus()) {
-        //     // wx.navigateTo({
-        //     //     url: './technology-appoint/input',
-        //     // })
-        //     wx.navigateTo({
-        //       url: './technology/index',
-        //     })
-        // }
-        wx.navigateToMiniProgram({
-            appId: 'wxe0cbf88bcc095244',
-            envVersion: Config.getConstantData().envVersion,
-        })
+        if (this.checkLoginStatus()) {
+            if (getApp().getDefaultPatient()) {
+                wx.navigateToMiniProgram({
+                    appId: 'wxe0cbf88bcc095244',
+                    envVersion: Config.getConstantData().envVersion,
+                })
+            }
+        }
+
+    },
+    addPatientTap: function () {
+        console.log('addPatientTap')
+        if (this.checkLoginStatus()) {
+            wx.navigateTo({
+                url: '../me/patients/addPatient',
+            })
+        }
+
     },
     //在线咨询
     goIMPage() {
 
-        console.log("sdkReady=" + getApp().globalData.sdkReady)
-        if (this.checkLoginStatus() && getApp().globalData.sdkReady) {
-            wx.navigateTo({
-                url: '/packageIM/pages/chat/AIChat',
-            })
+        if (this.checkLoginStatus()) {
+            if (getApp().getDefaultPatient()) {
+                if (getApp().globalData.sdkReady) {
+                    wx.navigateTo({
+                        url: '/packageIM/pages/chat/AIChat',
+                    })
+                }
+            }
         }
 
     },
@@ -377,6 +373,12 @@ Page({
                 url: './evaluate/index?userId=' + this.data.defaultPatient.userId + '&contentId=' + task.contentId,
             })
 
+        }else if (type == 'Rdiagnosis' || type == 'Ddiagnosis') {//复诊提醒 用药提醒
+            this.updateUnfinishedTaskStatus(task.contentId)
+            wx.showToast({
+              title: '已完成',
+            })
+            this.qryUnfinishedTaskListAndRightsUsingRecord()
         }
         //权益类
         if (task.rightsId > 0) {
@@ -512,7 +514,7 @@ Page({
                     extraData: {
                         userId: task.userId,
                         tradeId: task.tradeId,
-                        rightsId:task.rightsId,
+                        rightsId: task.rightsId,
                         execFlag: task.execFlag,
                         attrName: task.rightsType,
                         execUser: task.execUser,
@@ -531,7 +533,7 @@ Page({
                 extraData: {
                     userId: task.userId,
                     tradeId: task.tradeId,
-                    rightsId:task.rightsId,
+                    rightsId: task.rightsId,
                     execFlag: task.execFlag,
                     attrName: task.rightsType,
                     execUser: task.execUser,
@@ -566,9 +568,11 @@ Page({
     goMyRightsPage() {
 
         if (this.checkLoginStatus()) {
-            wx.navigateTo({
-                url: './rights/index',
-            })
+            if (getApp().getDefaultPatient()) {
+                wx.navigateTo({
+                    url: './rights/index',
+                })
+            }
         }
 
     },
@@ -660,11 +664,11 @@ Page({
             url: './news/news-detail?id=' + id,
         })
     },
-    /**
-   * 用户点击右上角分享
-   */
     onShareAppMessage: function () {
-
+        // 页面被用户转发
+    },
+    onShareTimeline: function () {
+        // 页面被用户分享到朋友圈
     },
     goEmptyPage() {
         wx.showToast({
@@ -706,74 +710,6 @@ Page({
     },
 
 
-    //登录时获取code
-    WXloginForLogin() {
-        wx.showLoading({
-            title: '加载中...',
-        })
-        this.setData({
-            isLogining: true
-        })
-        let that = this
-        wx.login({
-            success(res) {
-                console.log("WXlogin", res)
-                if (res.code) {
-                    that.loginQuery(res.code);
-                } else {
-                    //   wx.showToast({
-                    //     title: '获取微信code失败',
-                    //     icon: "none",
-                    //     duration: 2000
-                    //   })
-                    wx.hideLoading()
-                }
-            }, fail(e) {
-                wx.hideLoading()
-            }
-        })
-    },
-    //登录
-    async loginQuery(e) {
-
-
-
-        const res = await WXAPI.loginQuery({
-            code: e,
-            appId: wx.getAccountInfoSync().miniProgram.appId
-        })
-        wx.hideLoading()
-        if (res.code == 0) {
-            this.loginSuccess(res.data)
-
-        }
-    },
-    loginSuccess(userInfo) {
-
-        //保存用户信息
-        wx.setStorageSync('userInfo', userInfo)
-        //IM apppid
-        getApp().globalData.sdkAppID = userInfo.account.imAppId
-        if (userInfo.account.user && userInfo.account.user.length > 0) {
-            userInfo.account.user.forEach(item => {
-                if (item.isDefault) {
-                    //保存默认就诊人
-                    wx.setStorageSync('defaultPatient', item)
-                    IMUtil.LoginOrGoIMChat(item.userId, item.userSig)
-                }
-            })
-            this.setData({
-                userInfo: userInfo.account
-            })
-            this.onShow()
-        } else {
-            wx.navigateTo({
-                url: '/pages/me/patients/addPatient'
-            })
-        }
-
-
-    },
     checkLoginStatus() {
         console.log(this.data.userInfo)
         if (this.data.userInfo) {

@@ -52,20 +52,33 @@ export default class VoiceManager extends FileManager {
             this.stopAllVoicePlay();
         } else {
             this._startPlayVoice(dataset);
-            let filePath = dataset.voicePath;//优先读取本地路径，可能不存在此文件
+            let filePath = dataset.voicePath;
 
             try {
-                await this._myPlayVoice({filePath});
-                console.log('成功读取了本地语音');
+                if(data.chatItems[dataset.index].payload.isHistory){
+                    console.log('直接从服务器下载');
+                    this._downloadFileToPlay(filePath)
+                }else{
+                    await this._myPlayVoice({filePath});
+                    console.log('成功播放了远程视频');
+                }
+                
             } catch (e) {
-                console.log('读取本地语音文件失败，一般情况下是本地没有该文件，需要从服务器下载');
-                await downloadFile({url: filePath});
-                await this._myPlayVoice({filePath});
+                console.log('需要从服务器下载');
+                this._downloadFileToPlay(filePath)
             }
         }
     }
 
+    async _downloadFileToPlay(filePath){
+        const res=  await downloadFile({url: filePath});
+        console.log("下载结果",res)
+     
+        await this._myPlayVoice({filePath:res.tempFilePath});
+    }
+
     async _myPlayVoice({filePath}) {
+        console.log(filePath)
         await this.__playVoice({filePath});
         this.stopAllVoicePlay();
     }
@@ -77,6 +90,7 @@ export default class VoiceManager extends FileManager {
      */
     __playVoice({filePath}) {
         return new Promise((resolve, reject) => {
+            console.log('innerAudioContext.src',filePath)
             this.innerAudioContext.src = filePath;
             this.innerAudioContext.startTime = 0;
             this.innerAudioContext.play();

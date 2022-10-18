@@ -20,7 +20,7 @@
 
         <view class="topview2" style="background-size: cover;background-image: url('https://hmg.mclouds.org.cn/content-api/file/I20220331104628351RI6YMUTH3JWWJH-home_bg.jpg'); ">
             <image src="{{userInfo.avatarUrl || '/image/avatar.png'}}" class="top-image" mode="aspectFill"  binderror="avatarBinderror" />
-            <block wx:if="{{userInfo}}" >
+            <block wx:if="{{defaultPatient}}" >
                 <view class="v1" >
                     <view class="top-des">当前就诊人</view>
                     <view class="top-name">{{defaultPatient.userName}}</view>
@@ -30,7 +30,7 @@
                     <view style="margin-left: 14rpx;color: #1a1a1a;">切换</view>
                 </view>
             </block>
-            <view class="top-right" wx:else bindtap="checkLoginStatus">
+            <view class="top-right" wx:else bindtap="addPatientTap">
                 <view style=" font-size: 30rpx;   color: #4071A1; margin-left: 20rpx;">添加就诊人</view>
             </view>
         </view>
@@ -85,13 +85,13 @@
 
 
     <block wx:for="{{taskList}}">
-        <view class="todo-back" bindtap="onTaskItemClick" data-item="{{item}}">
+        <view class="todo-back">
             <van-icon name="/image/{{computed.taskType2(item.planType,item.execFlag).icon}}" dot="{{item.planType !== 'DailyRecord'}}" mode="scaleToFill" size="82rpx" class="todo-image" />
             <view class="todo-content">
                 <view class="todo-name">{{computed.taskType2(item.planType,item.execFlag).title}}</view>
                 <text class="todo-des">{{item.planDescribe||''}}</text>
             </view>
-            <view class="todo-button">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
+            <view class="todo-button"  bindtap="onTaskItemClick" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
         </view>
         <view wx:if="{{index+1 !== taskList.length}}" class="split" />
     </block>

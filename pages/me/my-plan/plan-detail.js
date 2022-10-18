@@ -15,7 +15,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var defaultPatient = wx.getStorageSync('defaultPatient')
+    var defaultPatient =getApp().getDefaultPatient()
     defaultPatient.phone = defaultPatient.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
     this.setData({
       planId: options.planId,
@@ -131,5 +131,10 @@ Page({
 
   },
 
-
+  onShareAppMessage: function () {
+    // 页面被用户转发
+  },
+  onShareTimeline: function () {
+    // 页面被用户分享到朋友圈
+  },
 })

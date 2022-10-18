@@ -30,7 +30,7 @@ Page({
    */
   onShow: function () {
     this.setData({
-      defaultPatient: wx.getStorageSync('defaultPatient'),
+      defaultPatient:getApp().getDefaultPatient(),
       patientList: wx.getStorageSync('userInfo').account.user,
      
     })
@@ -119,14 +119,7 @@ closePatientTap: function () {
     })
     this.qryTradeAppointList()
   },
-  goDetailPage(event){
-    console.log(event)
-    var tradeId = event.currentTarget.dataset.id
-   
-    wx.navigateTo({
-      url: './detail?tradeId='+tradeId+'&userId='+this.data.defaultPatient.userId,
-    })
-  },
+
 
   /**
   * 取消预约
@@ -167,13 +160,7 @@ closePatientTap: function () {
     var item = event.target.dataset.item
     this.cancelTradeAppoint(item.tradeId)
   },
-  //补充资料
-  furtherInformation(event) {
-    var item = event.target.dataset.item
-    wx.navigateTo({
-      url: './upload?tradeId='+item.tradeId,
-    })
-  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

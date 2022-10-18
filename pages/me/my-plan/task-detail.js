@@ -106,6 +106,12 @@ Page({
         url: '/pages/home/evaluate/index?userId=' + this.data.userId+'&contentId='+task.contentId,
       })
 
+    }else if (type == 'Rdiagnosis' || type == 'Ddiagnosis') {//复诊提醒 用药提醒
+        this.updateUnfinishedTaskStatus(task.contentId)
+        wx.showToast({
+          title: '已完成',
+        })
+        this.onShow()
     }
   },
 
@@ -198,6 +204,11 @@ async updateUnfinishedTaskStatus(contentId) {
   onReachBottom: function () {
 
   },
-
+  onShareAppMessage: function () {
+    // 页面被用户转发
+  },
+  onShareTimeline: function () {
+    // 页面被用户分享到朋友圈
+  },
 
 })

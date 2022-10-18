@@ -195,7 +195,7 @@ module.exports =
                 var QUESTION_SERVICE = '/questionnaire-api';
                 var PUSH_SERVICE = '/push-api';
                 var INFO_SERVICE = '/info-api';
-
+                var IM_SERVICE = '/im-api';
 
 
 
@@ -268,9 +268,9 @@ module.exports =
                                 } else if (request.data.code == 20005 || request.data.code == 10001) { //token错误
 
 
-                                    wx.navigateTo({
-                                        url: '/pages/login/auth?type=TOKENFAIL'
-                                    })
+                                    // wx.navigateTo({
+                                    //     url: '/pages/login/auth?type=TOKENFAIL'
+                                    // })
                                     return reject(request.data);
                                 } else if (request.data.code == 20009) { //没有添加就诊卡号
 
@@ -353,9 +353,9 @@ module.exports =
                                 }
 
                                 if (request.data.code == 20005 || request.data.code == 10001) { //token错误
-                                    wx.navigateTo({
-                                        url: '/pages/login/auth?type=TOKENFAIL'
-                                    })
+                                    // wx.navigateTo({
+                                    //     url: '/pages/login/auth?type=TOKENFAIL'
+                                    // })
                                     return reject(request.data);
                                 } else if (request.data.code == 20009) { //没有添加就诊卡号
 
@@ -384,11 +384,15 @@ module.exports =
                         _url = url
                     }
                     console.log(_url)
+                    var header = {                      
+                        'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : ''
+                    };
                     return new Promise(function (resolve, reject) {
                         wx.uploadFile({
                             url: _url,
                             filePath: filePath,
                             name: 'file',
+                            header: header,
                             formData: {
                                 previewType: previewType //预览图大小 HEAD_IMAGE DEFAULT HOME_BANNER
                             },
@@ -1100,7 +1104,10 @@ module.exports =
                     qryMyConsulation: function qryMyConsulation(data) {
                         return request(HEALTH_SERVICE + '/appoint/qryMyConsulation', 'post', data, true);
                     },
-
+                     //历史消息 
+                     queryHistoryIMRecordPage: function queryHistoryIMRecordPage(data) {
+                        return request(IM_SERVICE + '/tencentIM/queryHistoryIMRecordPage', 'get', data, true);
+                    },
                 };
 
                 /***/

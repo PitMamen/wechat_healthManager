@@ -1,6 +1,6 @@
 //上线前修改成release  每一个版本会对应不同的接口地址和常量
 //develop:开发测试版  trial:演示版   release:正式版
-export const ProgramEnvVersion = 'develop'
+export const ProgramEnvVersion = 'release'
 
 /**
  * 获取常量
@@ -31,4 +31,26 @@ export function getConstantData() {
         obj.envVersion = 'release'
     }
     return obj
+}
+
+/**
+ * 无需登录的页面 
+ */
+export function checkNoLoginPage(routPage) {
+    console.log('routPage',routPage)
+  var pages=[
+      'pages/home/main',
+      'pages/me/main',
+      'pages/home/package-detail/packagedetail',
+      'pages/home/package-list/packagelist',
+      'pages/home/news/news-list',
+      'pages/home/news/news-detail'
+  ]
+  var b=false
+  pages.forEach(item=>{
+      if(routPage.indexOf(item) != -1){
+          b= true
+      }
+  })
+  return b
 }

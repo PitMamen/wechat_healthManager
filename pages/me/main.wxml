@@ -1,7 +1,7 @@
 
 <view class="header-box">
   <image class="avatar" src="{{userInfo.avatarUrl || '/image/avatar.png'}}" mode="aspectFill" binderror="avatarBinderror"></image>
-  <view wx:if="{{userInfo}}" class="r">
+  <view wx:if="{{defaultPatient}}" class="r">
     <view style="display: flex;flex-direction: row;float: left;flex: 1;">
       <view style=" font-size: 36rpx;">{{defaultPatient.userName}}</view>
       <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;color: #92ADFB;">{{defaultPatient.userSex}}</view>
@@ -9,15 +9,10 @@
     </view>
     <view bindtap="bindPatientTap" class="uid">当前就诊人</view>
   </view>
-  <view wx:else  class="top-r" bindtap="checkLoginStatus">
+  <view wx:else  class="top-r" bindtap="addPatientTap">
     <view style=" font-size: 30rpx;margin-left: 20rpx;">添加就诊人</view>
   </view>
-  <!-- <view class="top-right">
 
-    <van-icon name="/static/icons/shezhi.png" size="20px" bindtap="goSetPage" />
-    <view class="leftdiv"></view>
-    <van-icon name="/static/icons/xiaoxi-2.png" size="20px" dot="{{unMyMessageNum>0}}" bindtap="goMessagePage" />
-  </view> -->
 </view>
 <!-- <view style="width: 100%;height:20px;background-color: #4179FB;border-radius: 100%;margin-top: -10px;"></view> -->
 
