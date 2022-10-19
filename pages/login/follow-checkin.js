@@ -125,7 +125,7 @@ Page({
             res.data.urgentTel=that.data.emergencyPhone
             res.data.urgentName=that.data.emergencyName
             res.data.relationship=that.data.relationship
-            res.data.idno='433130199009255913'
+            res.data.idno=that.data.identificationNo
             getApp().followInfo= res.data
             wx.navigateTo({
               url: './follow-info',
