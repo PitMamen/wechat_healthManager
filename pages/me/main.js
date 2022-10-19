@@ -186,14 +186,7 @@ avatarBinderror(e){
       }
 
   },
-  goMyDoctorListPage() {
-    // wx.navigateTo({
-    //   url: './my-doctor/index',
-    // })
-    wx.navigateTo({
-      url: './my-doctor/doctor-detail?doctorId='+getApp().globalData.doctorId+'&patientId='+this.data.defaultPatient.userId,
-    })
-  },
+
 
   //预约床位
   goBedPage(){
