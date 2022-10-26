@@ -96,7 +96,7 @@ Page({
 
 
     },
-    goConfirmPatientPage() {
+    testBtn() {
         // wx.navigateTo({
         //     url: '/pages/login/confirm-patient?ks=1030400'
         // })
