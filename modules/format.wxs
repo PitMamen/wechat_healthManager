@@ -120,6 +120,20 @@ function reservationType(type) {
         return '已完成'
     }
 }
+//咨询图标
+function zixunType(type) {
+    if (type === 'textNum') {
+        return '/image/wdzx_tw@3x.png'
+    } else if (type === 'telNum') {
+        return '/image/wdzx_dh@3x.png'
+    } else if (type === 'videoNum') {
+        return '/image/wdzx_shipin@3x.png'
+    } else if (type === 'appointNum') {
+        return '/image/wdzx_fzkf@3x.png'
+    } else if (type === 'consult') {
+        return '/image/wdzx_hz@3x.png'
+    }
+}
 //病床预约
 function bedType(type) {
     if (type == 1) {
@@ -299,8 +313,8 @@ function taskType2(type, execFlag) {
     } else if (type == 'Quest') { //问卷
         var t = {
             icon: 'home_icon_wj.png',
-            title: '健康问卷',
-            btnText: '查看'
+            title: '问卷采集',
+            btnText: '填写'
         }
         return t;
 
@@ -489,5 +503,6 @@ module.exports = {
     planType: planType,
     orderNum: orderNum,
     dateSub: dateSub,
-    dateSub2: dateSub2
+    dateSub2: dateSub2,
+    zixunType:zixunType
 };

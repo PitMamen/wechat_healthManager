@@ -47,7 +47,8 @@ Page({
         getApp().watch('loginReady', this.watchBack);
         //监听客服和个案管理师发来的消息数
         getApp().watch('unreadServerMessageCount', this.watchBack);
-
+ //监听医生发来的消息数
+ getApp().watch('unreadDocoterMessageCount', this.watchBack);
 
     },
     watchBack: function (name, value) {
@@ -62,6 +63,17 @@ Page({
             this.setData({
                 unreadMymessageCount: value
             })
+        } else if (name === 'unreadDocoterMessageCount') {
+            if (value > 0) {
+                wx.showTabBarRedDot({
+                    index: 1,
+                })
+            } else {
+                wx.hideTabBarRedDot({
+                    index: 1,
+                })
+            }
+
         }
 
     },
@@ -115,6 +127,7 @@ Page({
                 }
             }
         }
+
     },
     onReady() {
         var header = {
@@ -178,7 +191,8 @@ Page({
     allTallskRequset() {
 
         //查询未完成的任务 和 查询正在使用的权益
-        this.qryUnfinishedTaskListAndRightsUsingRecord()
+        // this.qryUnfinishedTaskListAndRightsUsingRecord()
+        this.qryMyFollowTask()
 
         //查询全部权益 计算权益算
         this.queryMyRights()
@@ -191,6 +205,30 @@ Page({
         this.setData({
             userInfo: this.data.userInfo
         })
+    },
+
+    async qryMyFollowTask() {
+        //后查未完成的任务
+        const res = await WXAPI.qryMyFollowTask({ userId: this.data.defaultPatient.userId })
+        var allTaskList = []
+        res.data.forEach(item => {
+            item.planDescribe = "《" + item.jumpTitle + "》\n" + item.executeTime
+            if (item.taskType.value == 1) {
+                item.planType = "Quest"
+                allTaskList.push(item)
+            } else if (item.taskType.value == 2) {
+                item.planType = "Knowledge"
+                allTaskList.push(item)
+            }
+
+
+
+        })
+
+        this.setData({
+            taskList: allTaskList
+        })
+
     },
 
     //查询未完成的任务 和 查询正在使用的权益
@@ -293,7 +331,7 @@ Page({
                 taskList: allTaskList
             })
 
-            console.log(this.data.taskList)
+            console.log("taskList", this.data.taskList)
         }
     },
     //预约医技
@@ -332,7 +370,24 @@ Page({
 
     },
 
+    //新版随访我的待办 
     onTaskItemClick(e) {
+        var task = e.currentTarget.dataset.item
+        var type = task.planType
+        //随访任务类
+        if (type == 'Quest') {//问卷
+
+            this.goWenjuanPage(task.jumpValue)
+        } else if (type == 'Knowledge') {//文章
+            wx.navigateTo({
+                url: './news/news-detail?id=' + task.jumpValue
+            })
+
+        }
+    },
+
+    //老版我的待办
+    onPlanTaskItemClick(e) {
         var task = e.currentTarget.dataset.item
         var type = task.planType
         //随访任务类
@@ -376,10 +431,10 @@ Page({
                 url: './evaluate/index?userId=' + this.data.defaultPatient.userId + '&contentId=' + task.contentId,
             })
 
-        }else if (type == 'Rdiagnosis' || type == 'Ddiagnosis') {//复诊提醒 用药提醒
+        } else if (type == 'Rdiagnosis' || type == 'Ddiagnosis') {//复诊提醒 用药提醒
             this.updateUnfinishedTaskStatus(task.contentId)
             wx.showToast({
-              title: '已完成',
+                title: '已完成',
             })
             this.qryUnfinishedTaskListAndRightsUsingRecord()
         }
@@ -554,7 +609,6 @@ Page({
     //问卷
     goWenjuanPage(url) {
         // var url='https://hmg.mclouds.org.cn/s/8a755f7c24ad49c9a2be6e6f79c3ee60?userId=195&groupId=162109195&contentId=164031276865637402&execTime=2021-12-24'
-
         var encodeUrl = encodeURIComponent(url)
         console.log(encodeUrl)
         wx.navigateTo({
@@ -714,7 +768,7 @@ Page({
 
 
     checkLoginStatus() {
-       
+
         if (this.data.userInfo) {
             return true
         } else {

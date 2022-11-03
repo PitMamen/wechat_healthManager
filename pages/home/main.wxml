@@ -77,7 +77,7 @@
 </view> -->
 
 
-<view class="todo-card">
+<view class="todo-card" wx:if="{{taskList.length>0}}">
     <view class="todo-title-view" bindtap="">
         <text class="todo-title">我的待办</text>
         <van-icon info="{{taskList.length>0?taskList.length:''}}" />

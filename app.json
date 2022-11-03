@@ -63,7 +63,8 @@
         "pages/home/purchase-instructions/buyknow",
         "pages/me/consult/index",
         "pages/login/follow-checkin",
-        "pages/login/follow-info"
+        "pages/login/follow-info",
+        "pages/consult/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",
@@ -84,6 +85,12 @@
                 "pagePath": "pages/home/main",
                 "iconPath": "static/icons/tab_home_n.png",
                 "selectedIconPath": "static/icons/tab_home_s.png"
+            },
+            {
+                "text": "咨询",
+                "pagePath": "pages/consult/index",
+                "iconPath": "static/icons/tab_jkgl_n.png",
+                "selectedIconPath": "static/icons/tab_jkgl_s.png"
             },
             {
                 "text": "个人中心",

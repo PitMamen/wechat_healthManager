@@ -220,34 +220,7 @@ Page({
     })
   },
 
-  idCardBlurChange(event){
-      let that=this
-      console.log(event)
-   var sfzh= event.detail.value
-    var patientInfoList= UserManager.getPatientInfoList()
-   
-     var user={}
-     if (patientInfoList && patientInfoList.length > 0) {
-        patientInfoList.forEach(item => {
-          if (item.identificationNo === sfzh) {      
-            user=item
-                        
-          }
-        })
-      }
-      if(user.userId){
-        wx.showModal({
-            title: '提示',
-            content: user.userName+'('+user.identificationNo+')'+'此就诊人已存在，可直接提交',
-            success (res) {
-            if (res.confirm) {
-                that.addPatientMedicalRecords(user.userId)  
-            } 
-            }
-            })
-        
-      }
-  },
+
 
    //防抖动
    debounced: false,
@@ -344,15 +317,7 @@ Page({
         })
       }
       if(user){
-        wx.showModal({
-            title: '提示',
-            content: user.userName+'('+user.identificationNo+')'+'此就诊人已存在，可直接提交',
-            success (res) {
-            if (res.confirm) {
-                that.addPatientMedicalRecords(user.userId)  
-            } 
-            }
-            })
+        this.addPatientMedicalRecords(user.userId) 
        
       }else{
         this.addPatientQuery()

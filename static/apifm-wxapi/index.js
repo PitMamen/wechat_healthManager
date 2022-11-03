@@ -1117,6 +1117,22 @@ module.exports =
                       addFollowMedicalRecords: function addFollowMedicalRecords(data) {
                         return request(FOLLOW_SERVICE + '/followMetaConfigure/addPatientMedicalRecords', 'post', data, true);
                     },
+                        //查询用户待办随访任务
+                        qryMyFollowTask: function qryMyFollowTask(data) {
+                            return request2(FOLLOW_SERVICE + '/health/qryMyFollowTask', 'post', data, true);
+                        },
+                          //查询用户随访计划
+                          qryMyFollow: function qryMyFollow(data) {
+                            return request(FOLLOW_SERVICE + '/health/qryMyFollow', 'post', data, true);
+                        },
+                         //查询用户随访任务详情
+                         qryMyFollowDetail: function qryMyFollowDetail(data) {
+                            return request(FOLLOW_SERVICE + '/health/qryMyFollowDetail', 'post', data, true);
+                        },
+                         //查询用户随访计划
+                         qryMyFollowDetailContent: function qryMyFollowDetailContent(data) {
+                            return request(FOLLOW_SERVICE + '/health/qryMyFollowDetailContent', 'post', data, true);
+                        },
                 };
 
                 /***/

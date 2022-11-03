@@ -2,7 +2,7 @@
 
 
 <van-empty wx:if="{{ !planList || planList.length == 0 }}" description="暂无数据" />
-<view  wx:for="{{planList}}" wx:key="id3" class="card" bindtap="goPlanDetailPage" data-planid="{{item.planId}}">
+<view  wx:for="{{planList}}" wx:key="id3" class="card" bindtap="goPlanDetailPage" data-item="{{item}}">
 
   <view class="card-black" >
     <view class="titleviw">
@@ -10,17 +10,17 @@
       
       <view class="title-right">
       
-        <van-tag size="large" color="{{item.status===1?'#4179FB':'#999'}}" type="primary">{{item.statusText}}</van-tag>
+        <van-tag size="large" color="{{item.status.value===2?'#4179FB':'#999'}}" type="primary">{{item.status.description}}</van-tag>
       </view>
     </view>
     <view class="divider-view">
       <view class="divider"></view>
     </view>
     
-    <text decode class="content">就&ensp;诊&ensp;人：{{defaultPatient.userName}}</text>
+    <text decode class="content">就&ensp;诊&ensp;人：{{item.userName}}</text>
     <!-- <text class="content">随访医生：{{item.owner}}</text> -->
-    <text class="content">随访方式：免费随访</text>
-    <text class="content">开始时间：{{item.startDate}}</text>
+    <text class="content">随访方式：{{item.messageType.description}}</text>
+    <text class="content">开始时间：{{item.bindTime}}</text>
 
 
   </view>

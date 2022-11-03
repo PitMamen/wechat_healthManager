@@ -16,47 +16,24 @@ Page({
     this.setData({
       defaultPatient:getApp().getDefaultPatient()
     })
-    this.queryHealthPlanList(this.data.defaultPatient.userId)
+    this.qryMyFollow()
  
   },
     //获取健康管理列表
-    async queryHealthPlanList(userId) {
-      const res = await WXAPI.queryHealthPlanList(userId)
-      if (res.code !== 0) {
-        wx.showToast({
-          icon: "none",
-          title: res.message,
-          duration: 2000
-        })
-        return
-      }
-      var timestamp = Date.parse(new Date());
-      if (res.data && res.data.length > 0) {
-        res.data.forEach(item=>{
-         if(item.endTime>timestamp){
-           item.status=1
-           item.statusText='进行中'
-         }else{
-          item.status=2
-          item.statusText='已结束'
-         }
-          
-        })
+    async qryMyFollow() {
+      const res = await WXAPI.qryMyFollow({userId:791})
+      if (res.code==0) {
         this.setData({
-          planList: res.data,
-        })
-      } else {
-        this.setData({
-          planList: [],       
-        })
+            planList: res.data,
+          })
       }
   
       
     },
   goPlanDetailPage(event){
-    var planid = event.currentTarget.dataset.planid
+    var item = event.currentTarget.dataset.item
     wx.navigateTo({
-      url: './plan-detail?planId=' + planid,
+      url: './plan-detail?planId=' + item.planId+'&planTaskDetailId=' + item.planTaskDetailId+'&userId=' + item.userId,
     })
   },
   /**

@@ -1,0 +1,45 @@
+<wxs src="../../modules/format.wxs" module="computed"></wxs>
+<van-sticky>
+
+
+
+    <van-cell title-class="title-class" title="就诊人" bindtap="bindPatientTap" size="large" value="{{defaultPatient.userName}}" is-link />
+
+</van-sticky>
+<van-empty wx:if="{{ !appointList || appointList.length == 0 }}" description="暂无数据" />
+
+<view bindtap="bindItemTap" data-item="{{item}}" class="a-order" wx:for="{{appointList}}" wx:key="index">
+    <view class="flagbg">
+        <view class="flagView" style="background-color: {{item.flagColor}};">{{item.myFlag}}</view>
+    </view>
+    <view class="titleviw">
+        <van-icon style="margin-top: -16rpx;" name="{{computed.zixunType(item.rightsType)}}" size="40rpx" />
+        <text style="margin-top: -16rpx;" class="title-text">{{item.rightsName}}</text>
+    </view>
+    <view class="content">
+        <view>问诊{{item.DoctorName}}：</view>
+        <view style="color: #999999;">{{item.execName}}</view>
+    </view>
+    <view wx:if="{{item.rightsType==='textNum'}}" class="content">
+        <view>图文条数：</view>
+        <view style="color: #999999;">{{item.textNumLimit+'条'}}</view>
+    </view>
+    <view wx:if="{{item.rightsType==='videoNum'||item.rightsType==='telNum'}}" class="content">
+        <view>问诊时长：</view>
+        <view style="color: #999999;">{{item.timeLimit+'分钟'}}</view>
+    </view>
+    <view class="content">
+        <view>预约时间：</view>
+        <view style="color: #999999;">{{computed.formatFullDate4(item.createTime)}}</view>
+    </view>
+    <view class="content">
+        <view>开始时间：</view>
+        <view style="color: #999999;">{{item.execTime}}</view>
+    </view>
+</view>
+
+
+<!-- 就诊人选择 -->
+<van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%; " bind:close="closePatientTap">
+    <van-picker custom-class="picker-custom" show-toolbar title="切换就诊人" cancel-button-text="添加" columns="{{ patientList }}" value-key="userName" visible-item-count='4' bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
+</van-popup>

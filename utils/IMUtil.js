@@ -227,7 +227,7 @@ var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) 
                             unreadServerMessageCount = unreadServerMessageCount + conver.unreadCount
                         }
                     }
-                }else if(item.role == 3){
+                }else if(item.role == 3 || item.role == 5){
                     for(var i = 0; i < conversationList.length; i++) {
                         var conver= conversationList[i]
                         if (item.userID === conver.userProfile.userID) {

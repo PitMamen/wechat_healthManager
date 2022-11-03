@@ -296,7 +296,7 @@ App({
         loginReady:false,//登录状态
 
         unreadServerMessageCount: 0,//个案和客服未读消息数
-        unreadDocoterMessageCount: 0,//护士未读消息数
+        unreadDocoterMessageCount: 0,//护士医生未读消息数
 
         yljgdm: '444885559',//医疗机构代码
         remindedRights: [],//提醒过的权益
