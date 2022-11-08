@@ -80,10 +80,10 @@ Page({
             url= url.replace("/s/","/r/")　
            this.goWenjuanPage(url)
           }else if (type == 2) {//文章
-            wx.navigateTo({
-              url: '/pages/home/news/news-detail?id=' + task.jumpId
-            })
-           
+            // wx.navigateTo({
+            //   url: '/pages/home/news/news-detail?id=' + task.jumpId
+            // })
+            this.goWenjuanPage(task.jumpValue)
           } else if (type == 3) {//消息
             wx.navigateTo({
               url: '/pages/home/health-remind/detail?userId=' + this.data.userId+'&taskId='+task.id,
@@ -116,11 +116,11 @@ async updateUnfinishedTaskStatus(contentId) {
 },
   //问卷
   goWenjuanPage(url) {
-    // var url='https://hmg.mclouds.org.cn/s/8a755f7c24ad49c9a2be6e6f79c3ee60?userId=195&groupId=162109195&contentId=164031276865637402&execTime=2021-12-24'
+
     var encodeUrl = encodeURIComponent(url)
     console.log(encodeUrl)
     wx.navigateTo({
-        url: '../home/webpage/index?url=' + encodeUrl
+        url: '../../home/webpage/index?url=' + encodeUrl
     })
 },
   /**

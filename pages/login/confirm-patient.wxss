@@ -21,9 +21,8 @@
     padding-top: 12rpx;
   }
   .name-back{
-    margin-top: 10rpx;
-  
-    height: 75rpx;
+    margin-top: 16rpx;
+    margin-bottom: 6rpx;
     background-color:white;
     border-radius: 5rpx;
     border-color: gray;
@@ -66,7 +65,7 @@
     height: 80rpx; 
   }
   .title-detail{
-    margin-top: 60rpx;
+    margin-top: 40rpx;
     display: flex;
     flex-direction: row;
     font-size: 26rpx;

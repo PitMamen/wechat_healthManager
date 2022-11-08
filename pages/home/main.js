@@ -104,8 +104,7 @@ Page({
         }
 
 
-
-
+       
 
     },
     testBtn() {
@@ -389,10 +388,10 @@ Page({
             console.log("问卷",url)
             this.goWenjuanPage(url)
         } else if (type == 'Knowledge') {//文章
-            wx.navigateTo({
-                url: './news/news-detail?id=' + task.jumpValue
-            })
-
+            // wx.navigateTo({
+            //     url: './news/news-detail?id=' + task.jumpValue
+            // })
+            this.goWenjuanPage(task.jumpValue)
         }else if (type == 'Remind') {//消息
             wx.navigateTo({
                 url: './health-remind/detail?userId=' + this.data.defaultPatient.userId + '&taskId=' + task.id 

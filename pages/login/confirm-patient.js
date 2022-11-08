@@ -184,11 +184,11 @@ Page({
         return;
       }
 
-      this.nextAction()
+      this.confirm()
   },
 
    //提交
-   nextAction () {
+   confirm () {
 
     var patientInfoList = UserManager.getPatientInfoList()
    console.log(patientInfoList)
@@ -278,7 +278,7 @@ async addPatientMedicalRecords(userId) {
         adm: this.data.zyhNo,//住院号
         mobile:user.phone,
         name:this.data.realName,
-        sex: idInfo.sex ,
+        sex: idInfo.sex == 0 ? 2 : 1 ,
         birthday: idInfo.birthDay,
         userId:userId,
         deptCode:this.data.deptCode,
