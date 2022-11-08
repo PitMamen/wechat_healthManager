@@ -1133,6 +1133,10 @@ module.exports =
                          qryMyFollowDetailContent: function qryMyFollowDetailContent(data) {
                             return request(FOLLOW_SERVICE + '/health/qryMyFollowDetailContent', 'post', data, true);
                         },
+                         //查询用户随访计划 任务内容 
+                         followhistoryDetail: function followhistoryDetail(data) {
+                            return request(FOLLOW_SERVICE + '/followPlanPhone/historyDetail/'+data, 'post', {}, true);
+                        },
                 };
 
                 /***/

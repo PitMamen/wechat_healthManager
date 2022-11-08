@@ -194,6 +194,34 @@ function recordType(type) {
 
 
 /*
+计划任务类型 V2
+*/
+function taskTypeV2(type) {
+    if (type == 1) { //问卷
+        var t = {
+            icon: '/image/jh_icon_wj.png',
+            title: '问卷收集'
+
+        }
+        return t;
+
+    } else if (type == 2) { //文章
+        var t = {
+            icon: '/image/jh_icon_xj.png',
+            title: '健康宣教',
+        }
+        return t;
+
+    } else if (type == 3) { //消息
+        var t = {
+            icon: '/image/jh_icon_fz.png',
+            title: '消息提醒',
+        }
+        return t;
+
+    } 
+}
+/*
 计划任务类型
 */
 function taskType(type) {
@@ -230,7 +258,7 @@ function taskType(type) {
     } else if (type == 'Knowledge') { //文章
         var t = {
             icon: '/image/jh_icon_xj.png',
-            title: '文章阅读',
+            title: '健康宣教',
         }
         return t;
 
@@ -274,7 +302,6 @@ function taskType(type) {
 
     } 
 }
-
 /*首页我的待办
  */
 function taskType2(type, execFlag) {
@@ -345,7 +372,7 @@ function taskType2(type, execFlag) {
     } else if (type == 'Remind') { //消息
         var t = {
             icon: 'home_icon_xx.png',
-            title: '健康提醒',
+            title: '消息提醒',
             btnText: '查看'
         }
         return t;
@@ -405,6 +432,7 @@ function taskType2(type, execFlag) {
 
     } 
 }
+
 
 function periondTime(type) {
     if (type == 'SW') {
@@ -504,5 +532,6 @@ module.exports = {
     orderNum: orderNum,
     dateSub: dateSub,
     dateSub2: dateSub2,
-    zixunType:zixunType
+    zixunType:zixunType,
+    taskTypeV2:taskTypeV2
 };

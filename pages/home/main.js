@@ -49,7 +49,7 @@ Page({
         getApp().watch('unreadServerMessageCount', this.watchBack);
  //监听医生发来的消息数
  getApp().watch('unreadDocoterMessageCount', this.watchBack);
-
+        // this.goWenjuanPage('http://develop.mclouds.org.cn:8009/s/66c25a255a0044c697d8990a73e31ade?userId=835&recordId=1306&modifyTaskBizStatus=yes')
     },
     watchBack: function (name, value) {
         console.log('name==' + name);
@@ -109,12 +109,12 @@ Page({
 
     },
     testBtn() {
-        // wx.navigateTo({
-        //     url: '/pages/login/confirm-patient?ks=1030400'
-        // })
         wx.navigateTo({
-            url: '/pages/login/follow-checkin'
+            url: '/pages/login/confirm-patient?ks=1030400'
         })
+        // wx.navigateTo({
+        //     url: '/pages/login/follow-checkin?ks=1030400'
+        // })
     },
     //我的消息
     goMyMessagePage() {
@@ -208,16 +208,24 @@ Page({
     },
 
     async qryMyFollowTask() {
-        //后查未完成的任务
         const res = await WXAPI.qryMyFollowTask({ userId: this.data.defaultPatient.userId })
         var allTaskList = []
         res.data.forEach(item => {
-            item.planDescribe = "《" + item.jumpTitle + "》\n" + item.executeTime
+            
             if (item.taskType.value == 1) {
+                //问卷
                 item.planType = "Quest"
+                item.planDescribe =   item.jumpTitle + "\n" + item.executeTime
                 allTaskList.push(item)
             } else if (item.taskType.value == 2) {
+                //文章
                 item.planType = "Knowledge"
+                item.planDescribe =   item.jumpTitle + "\n" + item.executeTime
+                allTaskList.push(item)
+            } else if (item.taskType.value == 3) {
+                //消息提醒
+                item.planType = "Remind"
+                item.planDescribe =   item.templateTitle + "\n" + item.executeTime
                 allTaskList.push(item)
             }
 
@@ -370,24 +378,31 @@ Page({
 
     },
 
-    //新版随访我的待办 
-    onTaskItemClick(e) {
+    //随访我的待办 V2
+    onTaskItemClickV2(e) {
         var task = e.currentTarget.dataset.item
         var type = task.planType
         //随访任务类
         if (type == 'Quest') {//问卷
-
-            this.goWenjuanPage(task.jumpValue)
+            var url = task.jumpValue + '?userId=' + task.userId + '&recordId=' +task.id+'&modifyTaskBizStatus=yes'
+            url= url.replace("/r/","/s/")　
+            console.log("问卷",url)
+            this.goWenjuanPage(url)
         } else if (type == 'Knowledge') {//文章
             wx.navigateTo({
                 url: './news/news-detail?id=' + task.jumpValue
+            })
+
+        }else if (type == 'Remind') {//消息
+            wx.navigateTo({
+                url: './health-remind/detail?userId=' + this.data.defaultPatient.userId + '&taskId=' + task.id 
             })
 
         }
     },
 
     //老版我的待办
-    onPlanTaskItemClick(e) {
+    onTaskItemClick(e) {
         var task = e.currentTarget.dataset.item
         var type = task.planType
         //随访任务类

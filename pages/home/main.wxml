@@ -91,7 +91,7 @@
                 <view class="todo-name">{{computed.taskType2(item.planType,item.execFlag).title}}</view>
                 <text class="todo-des">{{item.planDescribe||''}}</text>
             </view>
-            <view class="todo-button"  bindtap="onTaskItemClick" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
+            <view class="todo-button"  bindtap="onTaskItemClickV2" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
         </view>
         <view wx:if="{{index+1 !== taskList.length}}" class="split" />
     </block>

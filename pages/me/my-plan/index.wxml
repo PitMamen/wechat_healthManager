@@ -9,8 +9,12 @@
       <text class="title-date">{{item.planName}}</text>
       
       <view class="title-right">
-      
-        <van-tag size="large" color="{{item.status.value===2?'#4179FB':'#999'}}" type="primary">{{item.status.description}}</van-tag>
+        <van-tag  size="large" color="#4179FB" type="primary">进行中</van-tag>
+        <!-- <van-tag wx:if="{{item.status.value==2}}" size="large" color="#4179FB" type="primary">进行中</van-tag>
+        <van-tag wx:elif="{{item.status.value==1}}" size="large" color="#F59B0E" type="primary">待开启</van-tag>
+        <van-tag wx:elif="{{item.status.value==3}}" size="large" color="#999999" type="primary">已完成</van-tag>
+        <van-tag wx:else size="large" color="#999999" type="primary">{{item.status.description}}</van-tag> -->
+       
       </view>
     </view>
     <view class="divider-view">
