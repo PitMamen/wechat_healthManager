@@ -23,9 +23,9 @@
         <text class="title" style="margin-left: 10rpx;">{{item.taskType.description}}</text>
         <text  class="top-content" style="margin-left: 30rpx;">{{item.executeTime2}}</text>
 
-        <text wx:if="{{item.taskBizStatus.value==2}}" style="margin-left: auto;font-size: 29rpx;color:#0088F4;">已完成</text>
-        <text wx:elif="{{item.taskBizStatus.value==1}}" style="margin-left: auto;font-size: 29rpx;color:#F59B0E;">待开启</text>
-        <text wx:else style="margin-left: auto;font-size: 29rpx;color:#999999;">失败</text>
+        <text wx:if="{{item.taskBizStatus.value==2}}" style="margin-left: auto;font-size: 29rpx;color:#0088F4;">完成</text>
+        <text wx:elif="{{item.taskBizStatus.value==1}}" style="margin-left: auto;font-size: 29rpx;color:#F59B0E;">未完成</text>
+        <text wx:else style="margin-left: auto;font-size: 29rpx;color:#0088F4;">完成</text>
       </view>
       <text decode class="top-content">{{item.jumpTitle || item.templateTitle}}</text>
 

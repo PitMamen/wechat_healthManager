@@ -64,20 +64,22 @@ Page({
     //1:问卷收集2:健康宣教3:消息提醒
     var type = task.taskType.value
     //1未执行 2成功 3失败
-    if(task.taskBizStatus.value==1){
+    if(task.taskBizStatus.value==17){
       wx.showToast({
         icon:"none",
         title: '等待开启'
       })
       return
-    }else if(task.taskBizStatus.value==3){
-        return
-      }else if(task.taskBizStatus.value==2){
+    }else{
         if (type == 1) {//问卷
-     
-            var url = task.jumpValue + '?userId=' + task.userId + '&recordId=' +task.id+'&modifyTaskBizStatus=yes'
-           
-            url= url.replace("/s/","/r/")　
+            var url = task.jumpValue
+            if(task.taskBizStatus.value==2){
+                url = task.jumpValue + '?userId=' + task.userId + '&recordId=' +task.id+'&modifyTaskBizStatus=yes'
+                url= url.replace("/s/","/r/")　
+            }else{
+                url= url.replace("/r/","/s/")　
+            }
+        
            this.goWenjuanPage(url)
           }else if (type == 2) {//文章
             // wx.navigateTo({

@@ -7,7 +7,7 @@
         <view style="color: #EE0C0C;">*</view>就诊科室
     </view>
     <view class="name-back">
-        <input maxlength="20" value="{{deptName}}"  />
+        <input maxlength="20" value="{{deptName}}"  disabled/>
     </view>
     <view class="bottom-line"></view>
     <view class="title-detail">

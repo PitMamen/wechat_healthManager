@@ -23,7 +23,7 @@
     
     <text decode class="content">就&ensp;诊&ensp;人：{{item.userName}}</text>
     <!-- <text class="content">随访医生：{{item.owner}}</text> -->
-    <text class="content">随访方式：{{item.messageType.description}}</text>
+    <!-- <text class="content">随访方式：{{item.messageType.description}}</text> -->
     <text class="content">开始时间：{{item.bindTime}}</text>
 
 
