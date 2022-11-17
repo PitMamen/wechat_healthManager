@@ -45,7 +45,7 @@ Page({
         var user = null
         if (patientInfoList && patientInfoList.length > 0) {
             patientInfoList.forEach(item => {
-                if (item.identificationNo === this.data.info.idno) {
+                if (item.identificationNo == this.data.info.IDCard+'') {
                     user = item
 
                 }
@@ -65,21 +65,22 @@ Page({
 
         var that = this;
       
-        var idInfo = Util.getBirthdayAndSex(that.data.info.idno)
+        var idInfo = Util.getBirthdayAndSex(that.data.info.IDCard+'')
         var user = wx.getStorageSync('userInfo').account
+     
         const postData = {
             accountId: user.accountId,
-            userName: that.data.info.name,
-            identificationNo: that.data.info.idno,
+            userName: that.data.info.patName,
+            identificationNo: that.data.info.IDCard+'',
             identificationType: '01',//默认身份证
-            phone: that.data.info.mobile,
+            phone:user.phone,//使用微信手机号
             code: '1',
             birthday: idInfo.birthDay,
             relationship: that.data.info.relationship,
             isDefault: true,
-            cardNo: that.data.info.cardNum,//就诊卡号
+            cardNo: '',//就诊卡号
             userSex: idInfo.sex == 0 ? '女' : '男',
-            ipNo: that.data.info.adm,//住院号
+            ipNo: that.data.info.regNumber,//住院号
             contactTel: that.data.info.urgentTel,//紧急联系电话
         }
         WXAPI.addPatientQuery(postData).then(res => {
@@ -121,6 +122,8 @@ Page({
       
         var postData=this.data.info
         postData.userId=userId
+        var user = wx.getStorageSync('userInfo').account
+        postData.mobile=user.phone
 
         const res = await WXAPI.addFollowMedicalRecords(postData)
 

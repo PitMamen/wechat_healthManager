@@ -1,37 +1,37 @@
 <view class="page">
     <view class="title-detail">姓名</view>
     <view class="name-back">
-        <view class="real-name" >{{info.name}}</view>
+        <view class="real-name" >{{info.patName}}</view>
     </view>
     <view class="bottom-line"></view>
 
     <view class="title-detail">身份证号</view>
     <view class="name-back">
-        <view class="real-name" >{{info.idno}}</view>
+        <view class="real-name" >{{info.IDCard}}</view>
     </view>
     <view class="bottom-line"></view>
 
     <view class="title-detail">住院号</view>
     <view class="name-back">
-        <view class="real-name" >{{info.adm}}</view>
+        <view class="real-name" >{{info.regNumber}}</view>
     </view>
     <view class="bottom-line"></view>
 
     <view class="title-detail">就诊科室</view>
     <view class="name-back">
-        <view class="real-name" ></view>
+        <view class="real-name" >{{info.deptName}}</view>
     </view>
     <view class="bottom-line"></view>
 
     <view class="title-detail">床位号</view>
     <view class="name-back">
-        <view class="real-name" ></view>
+        <view class="real-name" >{{info.bedNo}}</view>
     </view>
     <view class="bottom-line"></view>
 
     <view class="title-detail">主治医生</view>
     <view class="name-back">
-        <view class="real-name" ></view>
+        <view class="real-name" >{{info.residentDocName}}</view>
     </view>
     <view class="bottom-line"></view>
 

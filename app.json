@@ -67,7 +67,6 @@
         "pages/consult/index",
         "pages/me/my-plan/plan-detail-v2",
         "pages/home/health-remind/detail",
-        "pages/login/follow-checkin2",
         "pages/login/confirm-patient2"
     ],
     "window": {

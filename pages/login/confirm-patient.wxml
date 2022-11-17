@@ -28,7 +28,7 @@
         <view style="color: #EE0C0C;">*</view>住院号
     </view>
     <view class="name-back">
-        <input type="number" maxlength="30" bindinput="getzyhNoValue" placeholder="请输入住院号" />
+        <input  maxlength="30" bindinput="getzyhNoValue" placeholder="请输入住院号" />
     </view>
     <view class="bottom-line"></view>
     <view class="title-detail">
