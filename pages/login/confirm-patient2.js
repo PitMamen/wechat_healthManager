@@ -1,5 +1,6 @@
 const WXAPI = require('../../static/apifm-wxapi/index')
 const UserManager = require('../../utils/UserManager')
+const Util = require('../../utils/util')
 Page({
 
   /**
@@ -14,9 +15,38 @@ Page({
     radio: '',
     choosePatient: {},//选择的就诊人
     hideLXShow: true,
+    hideGXShow:true,
     nameColumns: [],
     btntx: '确认提交',
-    success: false
+    success: false,
+    zyh:'',xm:'',sfzh:'',jjlxdh:'',
+    guanxi:'本人',
+    relationArray: [
+        {
+          id: 0,
+          name: '本人'
+        },
+        {
+          id: 1,
+          name: '配偶'
+        },
+        {
+          id: 2,
+          name: '子'
+        },
+        {
+          id: 3,
+          name: '女'
+        },
+        {
+          id: 4,
+          name: '父母'
+        },
+        {
+          id: 5,
+          name: '其他'
+        }
+      ],
   },
 
   /**
@@ -40,11 +70,12 @@ Page({
           })
       }
 
-  this.getDiseaseList(this.data.deptCode)
-  this.getDepartmentDetail(this.data.deptCode)
-  if(this.data.areaId){
-    this.getInpatientAreaDetail(this.data.areaId)
-  }
+      if(!getApp().globalData.loginReady){
+          wx.navigateTo({
+            url: './auth?type=RELOGIN',
+          })
+      }
+
 
   },
 
@@ -59,25 +90,27 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var patientList = UserManager.getPatientInfoList()
-    if (patientList && patientList.length > 0) {
-      patientList.forEach(patient => {
-        patient.identificationNo_x = patient.identificationNo.replace(/^(.{6})(?:\w+)(.{4})$/, "$1********$2");
-      })
+    if(getApp().globalData.loginReady){
+        this.getDiseaseList(this.data.deptCode)
+        this.getDepartmentDetail(this.data.deptCode)
+        if(this.data.areaId){
+          this.getInpatientAreaDetail(this.data.areaId)
+        }
     }
 
-    this.setData({
-      patientList: patientList
-    })
   },
   /**
       * 获取专病
       */
   async getDiseaseList(areaId) {
     const res = await WXAPI.getDiseaseList(areaId)
-    this.setData({
-      nameColumns:res.data
-    })
+    if(res.data.length>0){
+        this.setData({
+            nameColumns:res.data,
+            disease:res.data[0].diseaseName
+          })
+    }
+ 
   },
    /**
       * 获取科室名称
@@ -93,21 +126,24 @@ Page({
       */
   async getInpatientAreaDetail(areaId) {
     const res = await WXAPI.getInpatientAreaDetail(areaId)
-    this.setData({
-      areaName:res.data.inpatientAreaName
-    })
+    if(res.code===0 && res.data && res.data.inpatientAreaName){
+        this.setData({
+            areaName:res.data.inpatientAreaName
+          })
+    }
+
   },
   /**
       * 提交
       */
-  async addPatientMedicalRecords() {
+  async addPatientMedicalRecords(userId) {
     var postData = {
-      // "userId":249,
-      "userId": this.data.choosePatient.userId,
+      "userId": userId,
       "deptCode": this.data.deptCode,
       "deptName": this.data.deptName,
       "areaName": this.data.areaName,
-      "disease": this.data.disease
+      "disease": this.data.disease,
+      "ipNo":this.data.zyh
     }
 
     const res = await WXAPI.addPatientMedicalRecords(postData)
@@ -165,7 +201,38 @@ Page({
       hideLXShow: true
     })
   },
+  bindGXTap() {
+    this.setData({
+      hideGXShow: false
+    })
+  },
+  closeGXTap() {
+    this.setData({
+      hideGXShow: true
+    })
+  },
+  onGXConfirm(event) {
+    console.log(event)
+    var value = event.detail.value
+    this.setData({
+      guanxi: value.name,
+      hideGXShow: true
+    })
+  },
+
+
+
+   //防抖动
+   debounced: false,
   confrim() {
+      let that=this
+    if (that.debounced) {
+        return
+    }
+    that.debounced = true
+    setTimeout(() => {
+        that.debounced = false
+    }, 2000)
     if (this.data.success) {
       //页面跳转首页
       wx.switchTab({
@@ -181,24 +248,139 @@ Page({
       })
       return
     }
-    if (!this.data.disease) {
-      wx.showToast({
-        title: '请选择专病',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
-    if (!this.data.choosePatient.userId) {
-      wx.showToast({
-        title: '请选择就诊人',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }
-    this.addPatientMedicalRecords()
+    
+    // if (!this.data.disease) {
+    //   wx.showToast({
+    //     title: '请选择专病',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return
+    // }
+    if (!this.data.zyh) {
+        wx.showToast({
+          title: '请输入患者住院号',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      if (!this.data.xm) {
+        wx.showToast({
+          title: '请输入患者姓名',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      if (!this.data.sfzh) {
+        wx.showToast({
+          title: '请输入患者身份证号',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      if (!this.data.jjlxdh) {
+        wx.showToast({
+          title: '请输入紧急联系电话',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      if (this.data.jjlxdh.length !== 11) {
+        wx.showToast({
+          title: '请输入正确的紧急联系电话',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      if (!this.data.guanxi) {
+        wx.showToast({
+          title: '请选择与就诊人关系',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+     var patientInfoList= UserManager.getPatientInfoList()
+     console.log(patientInfoList)
+     var user=null
+     if (patientInfoList && patientInfoList.length > 0) {
+        patientInfoList.forEach(item => {
+          if (item.identificationNo === this.data.sfzh) {      
+            user=item
+                        
+          }
+        })
+      }
+      if(user){
+        this.addPatientMedicalRecords(user.userId) 
+       
+      }else{
+        this.addPatientQuery()
+      }
+      
+   
   },
+     
+      addPatientQuery() {
+  
+          var that = this;
+  
+  
+      var idInfo = Util.getBirthdayAndSex(that.data.sfzh)
+      var user = wx.getStorageSync('userInfo').account
+      const postData = {
+        accountId: user.accountId,
+        userName: that.data.xm,
+        identificationNo: that.data.sfzh,
+        identificationType: '01',//默认身份证
+        phone: user.phone,
+        code: '1',
+        birthday: idInfo.birthDay,
+        relationship: that.data.guanxi,
+        isDefault: true,
+        cardNo: '',//就诊卡号
+        userSex: idInfo.sex == 0 ? '女' : '男',
+        ipNo:this.data.zyh,
+        contactTel:this.data.jjlxdh
+      }
+      WXAPI.addPatientQuery(postData).then(res=>{
+          if (res.code == 0) {
+              var patientInfoList=res.data
+              UserManager.savePatientInfoList(patientInfoList)
+
+              if (patientInfoList && patientInfoList.length > 0) {
+                patientInfoList.forEach(item => {
+                  if (item.isDefault) {      
+                          
+                       that.addPatientMedicalRecords(item.userId)           
+                  }
+                })
+              }
+            } else {
+              wx.showModal({
+                  title: '系统提示',
+                  content: res.message,
+                  showCancel:false,             
+                  })
+             
+            
+            }
+      }).catch(e=>{
+          wx.showModal({
+              title: '系统提示',
+              content: '请求失败，请重试',
+              showCancel:false,             
+              })
+         
+      })
+  
+  
+    },
   /**
    * 生命周期函数--监听页面隐藏
    */

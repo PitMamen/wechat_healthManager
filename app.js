@@ -296,7 +296,7 @@ App({
         loginReady:false,//登录状态
 
         unreadServerMessageCount: 0,//个案和客服未读消息数
-        unreadDocoterMessageCount: 0,//护士未读消息数
+        unreadDocoterMessageCount: 0,//护士医生未读消息数
 
         yljgdm: '444885559',//医疗机构代码
         remindedRights: [],//提醒过的权益
@@ -309,4 +309,5 @@ App({
     jcxq: null,//检查详情
     rightsDetail: null,//权益详情
     extraData: null,//使用权益跳转互联网医院小程序的参数（风湿科提交成功）
+    followInfo:null,//随访登记详情
 })  

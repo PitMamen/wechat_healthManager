@@ -1,0 +1,47 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+
+    <view class="header-box">
+  <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+  <view class="r">
+    <view style="display: flex;flex-direction: row;float: left;flex: 1;color: #999999;">
+      <view style=" font-size: 36rpx;color: #1A1A1A;">{{defaultPatient.userName}}</view>
+      <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;">{{defaultPatient.userSex}}</view>
+      <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;">{{defaultPatient.userAge}}岁</view>
+    </view>
+    <view class="uid">{{defaultPatient.phone}}</view>
+  </view>
+</view>
+<view class="top-divider"></view>
+<view class="contail">
+
+    <text class="title-date">{{planName}}</text>
+
+  <block wx:for="{{taskDetail}}" >
+    <view class="card-black"  bindtap="onTaskItemClick" data-item="{{item}}">
+      <view class="top-content-view">
+        <van-icon size="24px" name="{{computed.taskTypeV2(item.taskType.value).icon}}" />
+        <text class="title" style="margin-left: 10rpx;">{{item.taskType.description}}</text>
+        <text  class="top-content" style="margin-left: 30rpx;">{{item.executeTime2}}</text>
+
+        <text wx:if="{{item.taskBizStatus.value==2}}" style="margin-left: auto;font-size: 29rpx;color:#0088F4;">完成</text>
+        <text wx:elif="{{item.taskBizStatus.value==1}}" style="margin-left: auto;font-size: 29rpx;color:#F59B0E;">未完成</text>
+        <text wx:else style="margin-left: auto;font-size: 29rpx;color:#0088F4;">完成</text>
+      </view>
+      <text decode class="top-content">{{item.jumpTitle || item.templateTitle}}</text>
+
+      <view wx:if="{{item.contentInfo.healthImages && item.contentInfo.healthImages.length>0}}" class="card-black">
+
+        <view class="goods-container">
+          <view class="goods-box" wx:for="{{item.contentInfo.healthImages}}" wx:for-item="picItem" wx:key="id" bindtap="toDetailsTap" data-url="{{picItem.fileUrl}}" data-item="{{item.contentInfo.healthImages}}">
+
+            <image src="{{picItem.previewFileUrl||'/image/keshi.png'}}" class="image" mode="aspectFill" lazy-load="true" />
+
+          </view>
+
+        </view>
+      </view>
+
+    </view>
+    <van-divider />
+  </block>
+</view>

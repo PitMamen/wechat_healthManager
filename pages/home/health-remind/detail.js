@@ -1,4 +1,3 @@
-// pages/me/my-plan/index.js
 const WXAPI = require('../../../static/apifm-wxapi/index')
 Page({
 
@@ -6,37 +5,35 @@ Page({
    * 页面的初始数据
    */
   data: {
-    planList:null,
+    contentData: {},
+    doctor: {},
+    patientName: '',
+    userId:''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      defaultPatient:getApp().getDefaultPatient()
-    })
-    this.qryMyFollow()
- 
+   
+    console.log(options)
+    this.followhistoryDetail(options.taskId)
   },
-    //获取健康管理列表
-    async qryMyFollow() {
-      const res = await WXAPI.qryMyFollow({userId:this.data.defaultPatient.userId})
-      if (res.code==0) {
-        this.setData({
-            planList: res.data,
-          })
-      }
   
-      
-    },
-  goPlanDetailPage(event){
-    var item = event.currentTarget.dataset.item
-    var planTaskDetailId=item.planTaskDetailId?item.planTaskDetailId:''
-    wx.navigateTo({
-      url: './plan-detail-v2?planId=' + item.planId+'&planTaskDetailId=' +planTaskDetailId +'&userId=' + item.userId+'&planName=' + item.planName,
-    })
+  async followhistoryDetail(taskId) {
+
+    const res = await WXAPI.followhistoryDetail(taskId)
+    if (res.data) {
+
+      this.setData({
+        content: res.data.contentText
+      })
+
+    }
   },
+
+   
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

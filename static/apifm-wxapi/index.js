@@ -196,6 +196,7 @@ module.exports =
                 var PUSH_SERVICE = '/push-api';
                 var INFO_SERVICE = '/info-api';
                 var IM_SERVICE = '/im-api';
+                var FOLLOW_SERVICE = '/follow-api';
 
 
 
@@ -1108,6 +1109,34 @@ module.exports =
                      queryHistoryIMRecordPage: function queryHistoryIMRecordPage(data) {
                         return request(IM_SERVICE + '/tencentIM/queryHistoryIMRecordPage', 'get', data, true);
                     },
+                     //查询患者资料
+                     qryPatientInfo: function qryPatientInfo(data) {
+                        return request2(HEALTH_SERVICE + '/revisit/qryPatientInfo', 'post', data, true);
+                    },
+                      //微信扫描注册后添加随访名单
+                      addFollowMedicalRecords: function addFollowMedicalRecords(data) {
+                        return request(FOLLOW_SERVICE + '/followMetaConfigure/addPatientMedicalRecords', 'post', data, true);
+                    },
+                        //查询用户待办随访任务
+                        qryMyFollowTask: function qryMyFollowTask(data) {
+                            return request2(FOLLOW_SERVICE + '/health/qryMyFollowTask', 'post', data, true);
+                        },
+                          //查询用户随访计划
+                          qryMyFollow: function qryMyFollow(data) {
+                            return request(FOLLOW_SERVICE + '/health/qryMyFollow', 'post', data, true);
+                        },
+                         //查询用户随访任务详情
+                         qryMyFollowDetail: function qryMyFollowDetail(data) {
+                            return request(FOLLOW_SERVICE + '/health/qryMyFollowDetail', 'post', data, true);
+                        },
+                         //查询用户随访计划
+                         qryMyFollowDetailContent: function qryMyFollowDetailContent(data) {
+                            return request(FOLLOW_SERVICE + '/health/qryMyFollowDetailContent', 'post', data, true);
+                        },
+                         //查询用户随访计划 任务内容 
+                         followhistoryDetail: function followhistoryDetail(data) {
+                            return request(FOLLOW_SERVICE + '/followPlanPhone/historyDetail/'+data, 'post', {}, true);
+                        },
                 };
 
                 /***/

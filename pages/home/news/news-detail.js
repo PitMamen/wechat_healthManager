@@ -20,6 +20,7 @@ Page({
     })
     this.articleById(options.id)
     this.addArticleClickNum(options.id)
+   
   },
   async articleById(id) {
     const res = await WXAPI.articleById(id)
@@ -39,6 +40,10 @@ Page({
 
     
   },
+      //更新内容成已完成
+      async updateUnfinishedTaskStatus(contentId) {
+        await WXAPI.updateUnfinishedTaskStatus(contentId)
+    },
   async addArticleClickNum(id) {
      await WXAPI.addArticleClickNum(id)
   },

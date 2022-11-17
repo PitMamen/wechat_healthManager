@@ -21,8 +21,8 @@
     padding-top: 12rpx;
   }
   .name-back{
-    margin-top: 16rpx;
-    margin-bottom: 6rpx;
+    margin-top: 19rpx;
+    margin-bottom: 30rpx;
     background-color:white;
     border-radius: 5rpx;
     border-color: gray;
@@ -65,7 +65,7 @@
     height: 80rpx; 
   }
   .title-detail{
-    margin-top: 40rpx;
+    margin-top: 28rpx;
     display: flex;
     flex-direction: row;
     font-size: 26rpx;
@@ -157,4 +157,9 @@
     left: 26rpx;
     width: 698rpx;
     z-index: 99;
+  }
+  .safe-bottom-box-content{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
   }

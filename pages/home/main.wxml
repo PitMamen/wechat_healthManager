@@ -77,7 +77,7 @@
 </view> -->
 
 
-<view class="todo-card">
+<view class="todo-card" wx:if="{{taskList.length>0}}">
     <view class="todo-title-view" bindtap="">
         <text class="todo-title">我的待办</text>
         <van-icon info="{{taskList.length>0?taskList.length:''}}" />
@@ -91,7 +91,7 @@
                 <view class="todo-name">{{computed.taskType2(item.planType,item.execFlag).title}}</view>
                 <text class="todo-des">{{item.planDescribe||''}}</text>
             </view>
-            <view class="todo-button"  bindtap="onTaskItemClick" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
+            <view class="todo-button"  bindtap="onTaskItemClickV2" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
         </view>
         <view wx:if="{{index+1 !== taskList.length}}" class="split" />
     </block>

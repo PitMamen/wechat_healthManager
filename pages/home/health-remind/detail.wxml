@@ -1,0 +1,4 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+  <view class="page">
+  <text class="text">{{content}}</text>
+</view>
