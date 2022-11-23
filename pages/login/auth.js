@@ -240,7 +240,7 @@ Page({
     async registerQuery(phone) {
         //发起网络请求
         var that = this;
-
+       
         var data = {
             appId: wx.getAccountInfoSync().miniProgram.appId,
             phone: phone,
@@ -250,7 +250,7 @@ Page({
             unionId: this.data.unionid,
             userName: phone,
             avatarUrl: this.data.userInfo.avatarUrl,
-            nickName: this.data.userInfo.nickName,
+            nickName: phone,
 
         };
         const res = await WXAPI.registerQuery(data)
