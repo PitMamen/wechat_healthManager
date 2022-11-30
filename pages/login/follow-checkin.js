@@ -116,18 +116,24 @@ Page({
 
         WXAPI.qryPatientInfo(postdata)
          .then(function (res) {
-            res.data.urgentTel=that.data.emergencyPhone
-            res.data.urgentName=that.data.emergencyName
-            res.data.relationship=that.data.relationship
-          
-            getApp().followInfo= res.data
-            wx.navigateTo({
-              url: './follow-info',
-            })
+            if(res.code == 0 && res.data && res.data.IDCard){
+                res.data.urgentTel=that.data.emergencyPhone
+                res.data.urgentName=that.data.emergencyName
+                res.data.relationship=that.data.relationship
+              
+                getApp().followInfo= res.data
+                wx.navigateTo({
+                  url: './follow-info',
+                })
+             }else{
+                that.setData({
+                    showNegativeDialog:true
+                })
+             }
          
           }).catch(function (error) {
             this.setData({
-                qryPatientInfo:true
+                showNegativeDialog:true
             })
           });
    

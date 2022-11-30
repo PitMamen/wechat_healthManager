@@ -30,7 +30,7 @@ Page({
  */
     onShow: function () {
         this.setData({
-            defaultPatient:getApp().getDefaultPatient(),
+            defaultPatient: wx.getStorageSync('defaultPatient'),
             patientList: wx.getStorageSync('userInfo').account.user,
  
         })
@@ -71,6 +71,9 @@ Page({
     },
 
 async queryRightsUsingRecord(){
+    if(!this.data.defaultPatient){
+        return
+    }
     var allTaskList = []
     const res = await WXAPI.queryRightsUsingRecord(this.data.defaultPatient.userId, '')
     if (res.code == 0) {
