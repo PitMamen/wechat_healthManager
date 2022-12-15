@@ -631,8 +631,8 @@ module.exports =
                         return request(url, 'get', data, true);
                     },
                     //根据id查询文章
-                    articleById: function articleById(id) {
-                        return request(HEALTH_SERVICE + '/health/patient/articleById?id=' + id, 'get', {});
+                    articleById: function articleById(id,recordId) {
+                        return request(HEALTH_SERVICE + '/health/patient/articleById?id=' + id+'&recordId='+recordId, 'get', {});
                     },
                     //更新文章点击次数
                     addArticleClickNum: function addArticleClickNum(id) {

@@ -82,10 +82,10 @@ Page({
         
            this.goWenjuanPage(url)
           }else if (type == 2) {//文章
-            // wx.navigateTo({
-            //   url: '/pages/home/news/news-detail?id=' + task.jumpId
-            // })
-            this.goWenjuanPage(task.jumpValue)
+            wx.navigateTo({
+              url: '/pages/home/news/news-detail?id=' + task.jumpId
+            })
+            // this.goWenjuanPage(task.jumpValue)
           } else if (type == 3) {//消息
             wx.navigateTo({
               url: '/pages/home/health-remind/detail?userId=' + this.data.userId+'&taskId='+task.id,
