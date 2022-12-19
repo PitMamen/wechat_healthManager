@@ -3,54 +3,67 @@
 
 const WXAPI = require('../../../static/apifm-wxapi/index')
 Page({
-  /**
-   * 页面的初始数据
-   */
-  data: {
-    article:{},
-  },
+    /**
+     * 页面的初始数据
+     */
+    data: {
+        article: {},
+        id:'',
+        recordId:0
+    },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-   console.log(options)
-    this.setData({
-      id: options.id
-    })
-    this.articleById(options.id)
-    this.addArticleClickNum(options.id)
-   
-  },
-  async articleById(id) {
-    const res = await WXAPI.articleById(id)
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad: function (options) {
+        console.log(options)
 
-    if(res.code==0){
+        if (options.scene) {
+            const scene = decodeURIComponent(options.scene)
+            console.log(scene)
+            console.log(scene.split('&'))
+            this.setData({
+                id: scene.split('&')[0],
+                recordId: scene.split('&')[1],
+            })
+        } else {
+            this.setData({
+                id: options.id,
+                recordId: options.recordId || 0,
+            })
+        }
 
-      // var content="<p data-we-video-p='true'><video  controls='controls' style='max-width:100%'><source src='http://192.168.1.122/content-api/file/V202201271136443174ATQYTOA8FOPXW-35510a361c998b2997eb7b8246f50b8a.mp4' type='video/mp4'></video></p>"
-      // res.data.content=content
-      this.setData({
-        article: res.data
-      })
-      wx.setNavigationBarTitle({
-        title: res.data.title
-        })
-    }
- 
+        this.articleById()
+        // this.addArticleClickNum(this.data.id)
 
-    
-  },
-      //更新内容成已完成
-      async updateUnfinishedTaskStatus(contentId) {
+    },
+    async articleById() {
+        const res = await WXAPI.articleById(this.data.id, this.data.recordId)
+
+        if (res.code == 0) {
+
+            this.setData({
+                article: res.data
+            })
+            wx.setNavigationBarTitle({
+              title: res.title || '健康宣教',
+            })
+        }
+
+
+
+    },
+    //更新内容成已完成
+    async updateUnfinishedTaskStatus(contentId) {
         await WXAPI.updateUnfinishedTaskStatus(contentId)
     },
-  async addArticleClickNum(id) {
-     await WXAPI.addArticleClickNum(id)
-  },
-  onShareAppMessage: function () {
-    // 页面被用户转发
-  },
-  onShareTimeline: function () {
-    // 页面被用户分享到朋友圈
-  },
+    async addArticleClickNum(id) {
+        await WXAPI.addArticleClickNum(id)
+    },
+    onShareAppMessage: function () {
+        // 页面被用户转发
+    },
+    onShareTimeline: function () {
+        // 页面被用户分享到朋友圈
+    },
 })
