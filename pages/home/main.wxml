@@ -2,26 +2,25 @@
 
 <van-sticky>
 
-    <!-- <view class="search-contianer">
-    <view class="" style="height:{{navHeight + 50}}px;">
-      <view class="top-view2" style="height:{{navHeight + 40}}px;">
-        <image src="/image/home_logo.png" style="width: 60px; height: 20px;margin-top:{{navTop + 12}}px ;" mode="aspectFit"></image>
-        <view style="color: rgb(255, 255, 255,0.6);font-size: 14px;width: 100%;margin-left: 8px;margin-top: {{navTop + 13}}px;display: flex;">
-          您的专属健康管家</view>
-      </view>
-      <view style="width: 100%;height:20px;background-color: #4179FB;border-radius: 100%;margin-top: -10px;"></view>
 
+    <view class="navigation-custom-view" style="height:{{navHeight + 0}}px;">
+        <view class="navigation-custom-content" style="padding-top :{{navTop +8 }}px ;" bindtap="goHospitalSelectPage">
+            <image src="/image/jigou.png" style="width: 36rpx; height: 36rpx;" mode="aspectFit"></image>
+            <view style="color: #1A1A1A;font-size: 14px;margin-left: 5px;font-weight: bold;">
+                中南大学湘雅二医院</view>
+            <van-icon name="arrow" color="#1A1A1A" size="14px" style="margin-top: 2px;margin-left: 3px;" />
+        </view>
 
     </view>
-  </view> -->
 
 
-    <view class="header-box">
+
+    <!-- <view class="header-box">
 
         <view class="topview2" style="background-size: cover;background-image: url('https://hmg.mclouds.org.cn/content-api/file/I20220331104628351RI6YMUTH3JWWJH-home_bg.jpg'); ">
-            <image src="{{userInfo.avatarUrl || '/image/avatar.png'}}" class="top-image" mode="aspectFill"  binderror="avatarBinderror" />
-            <block wx:if="{{defaultPatient}}" >
-                <view class="v1" >
+            <image src="{{userInfo.avatarUrl || '/image/avatar.png'}}" class="top-image" mode="aspectFill" binderror="avatarBinderror" />
+            <block wx:if="{{defaultPatient}}">
+                <view class="v1">
                     <view class="top-des">当前就诊人</view>
                     <view class="top-name">{{defaultPatient.userName}}</view>
                 </view>
@@ -34,47 +33,42 @@
                 <view style=" font-size: 30rpx;   color: #4071A1; margin-left: 20rpx;">添加就诊人</view>
             </view>
         </view>
-    </view>
+    </view> -->
 </van-sticky>
-<van-grid custom-class="grid-class" border="{{false}}" clickable column-num="5" icon-size="40px">
 
-    <van-grid-item icon="/image/home_icon_wdqy2.png" badge="{{myRightsCount>0?myRightsCount:''}}" bindtap='goMyRightsPage'>
-        <view class="grid-title" slot="text">我的权益</view>
-    </van-grid-item>
-    <van-grid-item icon="/image/home_icon_zxzx.png" badge="{{unreadMymessageCount>0?unreadMymessageCount:''}}" bindtap='goMyMessagePage'>
-        <view class="grid-title" slot="text">我的消息</view>
-    </van-grid-item>
-    <van-grid-item icon="/image/home_icon_sfwj.png" badge="" bindtap='goPackageListPage'>
-        <view class="grid-title" slot="text">健康服务</view>
-    </van-grid-item>
-    <van-grid-item icon="/image/home_icon_jkjh.png" badge="" bindtap='goNewsListPage'>
-        <view class="grid-title" slot="text">健康教育</view>
-    </van-grid-item>
-    <van-grid-item icon="/image/home_icon_jkjl.png" badge="{{unreadIMmessageCount>0?unreadIMmessageCount:''}}" bindtap='goIMPage'>
-        <view class="grid-title" slot="text">在线咨询</view>
-    </van-grid-item>
-
-</van-grid>
-<van-grid custom-class="grid-class2" border="{{false}}" clickable column-num="5" icon-size="40px">
-
-    <van-grid-item icon="/image/home_icon_yyyj.png" bindtap='goTechnologyAppointPage'>
-        <view class="grid-title" slot="text">预约医技</view>
-    </van-grid-item>
+<view class="mid-view"> 
+   
+    <image src="/image/home_mid_myzx.png" class="mid-view-item" style="margin-right: 30rpx;" bindtap="testBtn"></image>
+   
+    <image src="/image/home_mid_jkfw.png" class="mid-view-item" bindtap="goPackageListPage"></image>
+  
+ </view>
 
 
+<view class="todo-card" style="padding:9px 0 0 0;">
+    <van-grid custom-class="grid-class" border="{{false}}" clickable column-num="5" icon-size="40px">
 
-</van-grid>
+        <van-grid-item icon="/image/home_icon_wdqy2.png" badge="{{myRightsCount>0?myRightsCount:''}}" bindtap='goMyRightsPage'>
+            <view class="grid-title" slot="text">我的权益</view>
+        </van-grid-item>
+        <van-grid-item icon="/image/home_icon_zxzx.png" badge="{{unreadMymessageCount>0?unreadMymessageCount:''}}" bindtap='goMyMessagePage'>
+            <view class="grid-title" slot="text">我的消息</view>
+        </van-grid-item>
 
-
-
-
-
+        <van-grid-item icon="/image/home_icon_jkjh.png" badge="" bindtap='goNewsListPage'>
+            <view class="grid-title" slot="text">健康教育</view>
+        </van-grid-item>
+        <van-grid-item icon="/image/home_icon_jkjl.png" badge="{{unreadIMmessageCount>0?unreadIMmessageCount:''}}" bindtap='goIMPage'>
+            <view class="grid-title" slot="text">在线咨询</view>
+        </van-grid-item>
+        <van-grid-item icon="/image/home_icon_yyyj.png" bindtap='goTechnologyAppointPage'>
+            <view class="grid-title" slot="text">预约医技</view>
+        </van-grid-item>
+    </van-grid>
+</view>
 
 
 
-<!-- <view wx:if="{{lastConversation}}" class="notice-view" bindtap="bindLastConversationTap">
-  <van-notice-bar left-icon="chat-o" wrapable scrollable="{{ false }}" text="{{lastConversation.userProfile.nick}}: {{lastConversation.lastMessage.messageForShow}}" />
-</view> -->
 
 
 <view class="todo-card" wx:if="{{taskList.length>0}}">
@@ -91,7 +85,7 @@
                 <view class="todo-name">{{computed.taskType2(item.planType,item.execFlag).title}}</view>
                 <text class="todo-des">{{item.planDescribe||''}}</text>
             </view>
-            <view class="todo-button"  bindtap="onTaskItemClickV2" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
+            <view class="todo-button" bindtap="onTaskItemClickV2" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
         </view>
         <view wx:if="{{index+1 !== taskList.length}}" class="split" />
     </block>
@@ -100,7 +94,3 @@
 </view>
 
 
-<!-- 就诊人选择 -->
-<van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%; " bind:close="closePatientTap">
-    <van-picker custom-class="picker-custom" show-toolbar title="切换就诊人" cancel-button-text="添加" columns="{{ nameColumns }}" visible-item-count='4' bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
-</van-popup>

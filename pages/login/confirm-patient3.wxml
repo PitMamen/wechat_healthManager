@@ -47,14 +47,6 @@
     </view>
     <view class="bottom-line"></view>
 
-    <!-- <picker bindchange="bindPickerChange" value='{{index}}'  range="{{relationArray}}" range-key="name">
-  <view class="title-detail"><view style="color: #EE0C0C;">*</view>与就诊人关系</view>
-  <view class="name-back">
-        <input type="text" name="birthday" class="real-name" placeholder="请选择与就诊人关系" disabled="true" value="{{relationship}}"/>
-
-  </view>
-</picker>
-<view class="bottom-line"></view> -->
 
     <view class="safe-bottom-box">
         <van-button block bind:click="nextAction" type="info">登记</van-button>

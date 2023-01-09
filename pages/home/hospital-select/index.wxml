@@ -1,0 +1,17 @@
+<van-search placeholder="搜索医院" value="{{keyWords}}" bind:search="onSearch" bind:change="onChange" bind:cancel="onCancel" />
+
+<view class="title">我的医院 </view>
+<view class="hospital-item">
+    <view class="item-name">中南大学湘雅二医院</view>
+    <view class="item-des">一级甲等</view>
+</view>
+<view class="title">其他医院 </view>
+
+
+<view wx:for="{{packageList}}" wx:key="id" bindtap="onHospitalSeleced" data-id="{{item.id}}">
+    <view class="hospital-item">
+        <view class="item-name">{{item.className}}</view>
+        <view class="item-des">一级甲等</view>
+    </view>
+    <view class="split"></view>
+</view>

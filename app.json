@@ -68,7 +68,8 @@
         "pages/me/my-plan/plan-detail-v2",
         "pages/home/health-remind/detail",
         "pages/login/confirm-patient2",
-        "pages/login/confirm-patient3"
+        "pages/login/confirm-patient3",
+        "pages/home/hospital-select/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

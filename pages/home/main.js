@@ -139,7 +139,11 @@ Page({
 
     },
 
-
+    goHospitalSelectPage(){
+        wx.navigateTo({
+          url: './hospital-select/index',
+        })
+    },
 
     //就医记录
     async cureHistoryListQuery() {

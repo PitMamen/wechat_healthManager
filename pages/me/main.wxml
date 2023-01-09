@@ -7,8 +7,9 @@
       <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;color: #92ADFB;">{{defaultPatient.userSex}}</view>
       <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;color: #92ADFB;">{{defaultPatient.userAge}}岁</view>
     </view>
-    <view bindtap="bindPatientTap" class="uid">当前就诊人</view>
+    <view bindtap="bindPatientTap" class="uid"> 切换就诊人</view>
   </view>
+  
   <view wx:else  class="top-r" bindtap="addPatientTap">
     <view style=" font-size: 30rpx;margin-left: 20rpx;">添加就诊人</view>
   </view>

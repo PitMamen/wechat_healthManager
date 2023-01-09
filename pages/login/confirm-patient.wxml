@@ -1,8 +1,10 @@
 <view class="top-view">
     <van-icon name="/image/xiaoxi-2.png" size="40rpx" /> 请您完成随访登记，便于后续为您提供院后随访等健康管理服务
 </view>
-
-<view class="page">
+<view class="loadingPage" wx:if="{{hasHIS==-1}}">
+    <van-loading type="spinner" />
+</view>
+<view class="page" wx:if="{{hasHIS==1}}">
 
     <view class="title-detail">
         <view style="color: #EE0C0C;">*</view>住院号
@@ -28,20 +30,62 @@
     </view>
     <view class="bottom-line"></view>
 
-    <!-- <picker bindchange="bindPickerChange" value='{{index}}'  range="{{relationArray}}" range-key="name">
-  <view class="title-detail"><view style="color: #EE0C0C;">*</view>与就诊人关系</view>
-  <view class="name-back">
-        <input type="text" name="birthday" class="real-name" placeholder="请选择与就诊人关系" disabled="true" value="{{relationship}}"/>
-
-  </view>
-</picker>
-<view class="bottom-line"></view> -->
+ 
 
     <view class="safe-bottom-box">
-        <van-button block bind:click="nextAction" type="info">登记</van-button>
+        <van-button block bind:click="hasHisNextAction" type="info">登记</van-button>
     </view>
 </view>
+<view class="page" wx:if="{{hasHIS==0}}">
+    <view class="title-detail">
+        <view style="color: #EE0C0C;">*</view>就诊科室
+    </view>
+    <view class="name-back">
+        <input maxlength="20" value="{{deptName}}"  disabled/>
+    </view>
+    <view class="bottom-line"></view>
+    <view class="title-detail">
+        <view style="color: #EE0C0C;">*</view>姓名
+    </view>
+    <view class="name-back">
+        <input maxlength="20" bindinput="getRealNameValue"  placeholder="请输入姓名" />
+    </view>
+    <view class="bottom-line"></view>
+    <view class="title-detail">
+        <view style="color: #EE0C0C;">*</view>身份证号
+    </view>
+    <view class="name-back">
+        <input type="idcard" maxlength="18" bindinput="getIDCardNoValue" placeholder="请输入身份证号码" />
+    </view>
+    <view class="bottom-line"></view>
+    <view class="title-detail">
+        <view style="color: #EE0C0C;">*</view>住院号
+    </view>
+    <view class="name-back">
+        <input  maxlength="30" bindinput="getzyhNoValue" placeholder="请输入住院号" />
+    </view>
+    <view class="bottom-line"></view>
+    <view class="title-detail">
+        <view style="color: #EE0C0C;">*</view>紧急联系人姓名
+    </view>
+    <view class="name-back">
+        <input maxlength="20" bindinput="getNameValue"  placeholder="请输入紧急联系人姓名" />
+    </view>
+    <view class="bottom-line"></view>
 
+    <view class="title-detail">
+        <view style="color: #EE0C0C;">*</view>紧急联系人电话
+    </view>
+    <view class="name-back">
+        <input type="number" maxlength="11" bindinput="getPhoneValue"  placeholder="请输入紧急联系人电话" />
+    </view>
+    <view class="bottom-line"></view>
+
+
+    <view class="safe-bottom-box">
+        <van-button block bind:click="noHisNextAction" type="info">登记</van-button>
+    </view>
+</view>
 
 <van-dialog use-slot show="{{ showNegativeDialog }}" bind:confirm="" confirm-button-color="#3579ED" >
     <view style="   padding: 40rpx;display: flex;flex-direction: column; align-items: center;justify-content: center;">
@@ -51,3 +95,10 @@
     </view>
 </van-dialog>
 
+<van-dialog use-slot show="{{ showPositiveDialog }}" bind:confirm="onDialogConfirm" confirm-button-color="#3579ED" >
+    <view style="   padding: 40rpx;display: flex;flex-direction: column; align-items: center;justify-content: center;">
+        <image style="width: 180rpx;height: 138rpx;" src="/image/icon_success.png" />
+        <view style="font-size: 30rpx;margin-bottom: 27rpx;margin-top: 19rpx; color: #4D4D4D;">登记成功</view>
+        <view style="font-size: 24rpx;color: #999999;">您已经成功完成登记，后续将对您进行随访请您留意公众号消息！</view>
+    </view>
+</van-dialog>
