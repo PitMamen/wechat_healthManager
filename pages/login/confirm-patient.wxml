@@ -1,7 +1,7 @@
 <view class="top-view">
     <van-icon name="/image/xiaoxi-2.png" size="40rpx" /> 请您完成随访登记，便于后续为您提供院后随访等健康管理服务
 </view>
-<view class="loadingPage" wx:if="{{hasHIS==-1}}">
+<view class="loadingPage" wx:if="{{hasHIS==0}}">
     <van-loading type="spinner" />
 </view>
 <view class="page" wx:if="{{hasHIS==1}}">
@@ -36,12 +36,12 @@
         <van-button block bind:click="hasHisNextAction" type="info">登记</van-button>
     </view>
 </view>
-<view class="page" wx:if="{{hasHIS==0}}">
+<view class="page" wx:if="{{hasHIS==2}}">
     <view class="title-detail">
         <view style="color: #EE0C0C;">*</view>就诊科室
     </view>
     <view class="name-back">
-        <input maxlength="20" value="{{deptName}}"  disabled/>
+        <input maxlength="20" value="{{deptName || '-'}}"  disabled/>
     </view>
     <view class="bottom-line"></view>
     <view class="title-detail">

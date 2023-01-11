@@ -197,6 +197,7 @@ module.exports =
                 var INFO_SERVICE = '/info-api';
                 var IM_SERVICE = '/im-api';
                 var FOLLOW_SERVICE = '/follow-api';
+                var UAM_SERVICE = '/uam-api';
 
 
 
@@ -385,7 +386,7 @@ module.exports =
                         _url = url
                     }
                     console.log(_url)
-                    var header = {                      
+                    var header = {
                         'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : ''
                     };
                     return new Promise(function (resolve, reject) {
@@ -631,8 +632,8 @@ module.exports =
                         return request(url, 'get', data, true);
                     },
                     //根据id查询文章
-                    articleById: function articleById(id,recordId) {
-                        return request(HEALTH_SERVICE + '/health/patient/articleById?id=' + id+'&recordId='+recordId, 'get', {});
+                    articleById: function articleById(id, recordId) {
+                        return request(HEALTH_SERVICE + '/health/patient/articleById?id=' + id + '&recordId=' + recordId, 'get', {});
                     },
                     //更新文章点击次数
                     addArticleClickNum: function addArticleClickNum(id) {
@@ -752,7 +753,7 @@ module.exports =
                     //支付
                     smallWxPay: function smallWxPay(data) {
 
-                        return request(ORDER_SERVICE + '/order/tbOrder/smallWxPay', 'post', data,true);
+                        return request(ORDER_SERVICE + '/order/tbOrder/smallWxPay', 'post', data, true);
                     },
                     //订单列表   functionType 0 服务 1云门诊
                     getOrderList: function getOrderList(status, userId, functionType) {
@@ -778,7 +779,7 @@ module.exports =
                     updateOrderStatusById: function updateOrderStatusById(orderId, status) {
                         return request(ORDER_SERVICE + '/order/tbOrder/updateOrderStatusById', 'get', { orderId: orderId, status: status });
                     },
-                   
+
                     //文件上传
                     uploadOtherFile: function uploadOtherFile(filePath) {
                         return uploadRequest(CONTENT_SERVICE + '/fileUpload/uploadOtherFile', filePath, null)
@@ -874,8 +875,8 @@ module.exports =
                         var url = INFO_SERVICE + '/doctorFilter/queryDoctorAndCaseManagerByUserIds'
                         return request(url, 'post', data, true);
                     },
-                  
-                   
+
+
                     //就医记录门诊详情
                     getHospitalRecordMzDetail: function getHospitalRecordMzDetail(hospitalCode, serialNumber) {
 
@@ -1093,50 +1094,70 @@ module.exports =
                     getDas28AndHqa: function getDas28AndHqa(userId, projectKey) {
                         return request(QUESTION_SERVICE + '/user/project/getDas28AndHqa?userId=' + userId + '&projectKey=' + projectKey, 'get', {});
                     },
-										                    //获取未来一周的号源情况
+                    //获取未来一周的号源情况
                     getScheduleNumberForWeek: function getScheduleNumberForWeek(data) {
-                         return request(HEALTH_SERVICE + '/sys/getScheduleNumberForWeek', 'get', data);
+                        return request(HEALTH_SERVICE + '/sys/getScheduleNumberForWeek', 'get', data);
                     },
                     //获取某一天的号源情况
                     getScheduleNumberForDay: function getScheduleNumberForDay(data) {
-                         return request(HEALTH_SERVICE + '/sys/getScheduleNumberForDay', 'get', data);
+                        return request(HEALTH_SERVICE + '/sys/getScheduleNumberForDay', 'get', data);
                     },
                     //我的咨询
                     qryMyConsulation: function qryMyConsulation(data) {
                         return request(HEALTH_SERVICE + '/appoint/qryMyConsulation', 'post', data, true);
                     },
-                     //历史消息 
-                     queryHistoryIMRecordPage: function queryHistoryIMRecordPage(data) {
+                    //历史消息 
+                    queryHistoryIMRecordPage: function queryHistoryIMRecordPage(data) {
                         return request(IM_SERVICE + '/tencentIM/queryHistoryIMRecordPage', 'get', data, true);
                     },
-                     //查询患者资料
-                     qryPatientInfo: function qryPatientInfo(data) {
+                    //查询患者资料
+                    qryPatientInfo: function qryPatientInfo(data) {
                         return request2(HEALTH_SERVICE + '/revisit/qryPatientInfo', 'post', data, true);
                     },
-                      //微信扫描注册后添加随访名单
-                      addFollowMedicalRecords: function addFollowMedicalRecords(data) {
+                    //微信扫描注册后添加随访名单
+                    addFollowMedicalRecords: function addFollowMedicalRecords(data) {
                         return request(FOLLOW_SERVICE + '/followMetaConfigure/addPatientMedicalRecords', 'post', data, true);
                     },
-                        //查询用户待办随访任务
-                        qryMyFollowTask: function qryMyFollowTask(data) {
-                            return request2(FOLLOW_SERVICE + '/health/qryMyFollowTask', 'post', data, true);
-                        },
-                          //查询用户随访计划
-                          qryMyFollow: function qryMyFollow(data) {
-                            return request(FOLLOW_SERVICE + '/health/qryMyFollow', 'post', data, true);
-                        },
-                         //查询用户随访任务详情
-                         qryMyFollowDetail: function qryMyFollowDetail(data) {
-                            return request(FOLLOW_SERVICE + '/health/qryMyFollowDetail', 'post', data, true);
-                        },
-                         //查询用户随访计划
-                         qryMyFollowDetailContent: function qryMyFollowDetailContent(data) {
-                            return request(FOLLOW_SERVICE + '/health/qryMyFollowDetailContent', 'post', data, true);
-                        },
-                         //查询用户随访计划 任务内容 
-                         followhistoryDetail: function followhistoryDetail(data) {
-                            return request(FOLLOW_SERVICE + '/followPlanPhone/historyDetail/'+data, 'post', {}, true);
-                        },
+                    //查询用户待办随访任务
+                    qryMyFollowTask: function qryMyFollowTask(data) {
+                        return request2(FOLLOW_SERVICE + '/health/qryMyFollowTask', 'post', data, true);
+                    },
+                    //查询用户随访计划
+                    qryMyFollow: function qryMyFollow(data) {
+                        return request(FOLLOW_SERVICE + '/health/qryMyFollow', 'post', data, true);
+                    },
+                    //查询用户随访任务详情
+                    qryMyFollowDetail: function qryMyFollowDetail(data) {
+                        return request(FOLLOW_SERVICE + '/health/qryMyFollowDetail', 'post', data, true);
+                    },
+                    //查询用户随访计划
+                    qryMyFollowDetailContent: function qryMyFollowDetailContent(data) {
+                        return request(FOLLOW_SERVICE + '/health/qryMyFollowDetailContent', 'post', data, true);
+                    },
+                    //查询用户随访计划 任务内容 
+                    followhistoryDetail: function followhistoryDetail(data) {
+                        return request(FOLLOW_SERVICE + '/followPlanPhone/historyDetail/' + data, 'post', {}, true);
+                    },
+                    //机构列表 
+                    gethospitalList: function gethospitalList(data) {
+                        return request(UAM_SERVICE + '/hospital/medHosOrgs', 'get', data, true);
+                    },
+                    //切换医疗机构 
+                    switchHospital: function switchHospital(data) {
+                        return request(ACCOUNT_SERVICE + '/accountInfo/switchHospital', 'post', data, true);
+                    },
+                    //获取登录信息 
+                    getMaLoginInfo: function getMaLoginInfo(data) {
+                        return request2(ACCOUNT_SERVICE + '/getMaLoginInfo', 'get', data, true);
+                    },
+                    //商城首页菜单 
+                    getTdShopmallMainpageMenuList: function getTdShopmallMainpageMenuList(data) {
+                        return request2(UAM_SERVICE + '/tdShopmallMainpageMenu/getTdShopmallMainpageMenuList', 'post', data, true);
+                    },
+                       //获取机构详情 
+                       gethospitalInfo: function gethospitalInfo(data) {
+                        return request(UAM_SERVICE + '/hospital/info', 'get', data, true);
+                    },
                 };
 
                 /***/

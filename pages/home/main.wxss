@@ -1,3 +1,9 @@
+::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+    color: transparent;
+  }
 page {
     background-color: #DDEFF3;
     width: 100%;
@@ -8,6 +14,7 @@ page {
     background: #DDEFF3;
     width: 100%;
     padding-left: 15px;
+    position: relative;
 }
 
 .navigation-custom-content {
@@ -18,7 +25,13 @@ page {
     width: 100%;
     background: #DDEFF3;
 }
-
+.toprightimg{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 144rpx; 
+    height: 108rpx;
+}
 .mid-view {
     display: flex;
     flex-direction: row;
@@ -35,6 +48,63 @@ page {
     height: 187rpx;
 
 }
+.mid-card {
+   
+    width: 702rpx;
+    margin-left: 24rpx;
+    margin-bottom: 20rpx;
+
+    border-radius: 8px;
+    background-color: white;
+    box-sizing: border-box;
+}
+.hotServiceList_box {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+
+  }
+.hotServiceList_scroll{
+    height: 150rpx;
+    padding: 20rpx 0;
+
+}
+.hotService_content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-shrink:0;
+
+}
+.menu-item{
+  
+    margin-top: 15rpx;
+    width: 140rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink:0;
+   
+}
+.slide{
+    height: 20rpx;
+   
+    width:100%;
+   
+   }
+   .slide .slide-bar{
+    width: 80rpx;
+    margin:0 auto;
+    height: 10rpx;
+    background:#eee;
+    border-radius: 8rpx;
+   }
+   .slide .slide-bar .slide-show{
+    height:100%;
+    border-radius: 8rpx;
+    background-color: #409EFF;
+   }
 
 .todo-card {
     margin-right: 24rpx;
@@ -43,7 +113,7 @@ page {
 
     border-radius: 8px;
     background-color: white;
-    padding: 9px 24rpx;
+    padding: 20rpx 24rpx;
 }
 
 .grid-class {
@@ -95,8 +165,8 @@ page {
     width: 100%;
     flex-direction: row;
 
-    margin-top: 40rpx;
-    margin-bottom: 40rpx;
+    margin-top: 30rpx;
+    margin-bottom: 30rpx;
 }
 
 .todo-back2 {
@@ -114,6 +184,9 @@ page {
     flex-direction: row;
     flex: 1;
 }
+.todo-btnview{
+    flex-direction: row;
+}
 
 .todo-name {
     font-size: 30rpx;
@@ -124,7 +197,7 @@ page {
 .todo-button {
     margin-left: auto;
     width: 108rpx;
-    height: 48rpx;
+    height: 42rpx;
     background-image: linear-gradient(#409EFF, #3A9DFF);
     color: white;
     font-size: 24rpx;
@@ -132,15 +205,15 @@ page {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    box-shadow: 0px 3px 5px 0px rgba(58, 157, 255, 0.35);
-    border-radius: 4px;
+    box-shadow: 0px 3rpx 5rpx 0px rgba(58, 157, 255, 0.35);
+    border-radius: 4rpx;
 }
 
 .todo-des {
     color: #999999;
     margin-top: 4px;
-    font-size: 26rpx;
-    width: 400rpx;
+    font-size: 25rpx;
+    
     /* overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis; */

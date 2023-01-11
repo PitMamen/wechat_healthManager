@@ -22,8 +22,8 @@ Page({
     onLoad(options) {
         // 拉取会话列表
         console.info("onLoad:", options)
-
-        var userID = String(options.userId)
+       
+        var userID = String(wx.getStorageSync('defaultPatient').userId)
         this.setData({
             userID: userID
         })

@@ -6,7 +6,14 @@ const APP = getApp()
 
 Page({
     data: {
-
+        currentHospital: {},
+        topMenuList: [],
+        midMenuList: [],
+        slideWidth: '', //滑块宽
+        slideLeft: 0, //滑块位置
+        totalLength: '', //当前滚动列表总长
+        slideShow: false, //滑块是否显示
+        slideRatio: '', //滑块比例
         loadingHidden: false, // loading
         selectCurrent: 0,
         activeCategoryId: 0,
@@ -16,13 +23,12 @@ Page({
         userInfo: null,
         defaultPatient: null,
         patientList: [],
-        unreadIMmessageCount: 0,//在线咨询消息数
         unreadMymessageCount: 0,//我的消息数
         taskList: [],
         lastConversation: null,
         healthRecordPercentage: '',//健康档案完成度
         rightsList: [],
-        myRightsCount: 0
+        myRightsCount: 0//我的权益数
     },
 
 
@@ -39,7 +45,7 @@ Page({
             menuButtonObject: APP.globalData.menuButtonObject, //小程序胶囊信息
 
         })
-
+        this.getRatio()
         wx.showShareMenu({
             withShareTicket: true,
         })
@@ -47,9 +53,9 @@ Page({
         getApp().watch('loginReady', this.watchBack);
         //监听客服和个案管理师发来的消息数
         getApp().watch('unreadServerMessageCount', this.watchBack);
- //监听医生发来的消息数
- getApp().watch('unreadDocoterMessageCount', this.watchBack);
-        // this.goWenjuanPage('http://develop.mclouds.org.cn:8009/s/66c25a255a0044c697d8990a73e31ade?userId=835&recordId=1306&modifyTaskBizStatus=yes')
+        //监听医生发来的消息数
+        getApp().watch('unreadDocoterMessageCount', this.watchBack);
+
     },
     watchBack: function (name, value) {
         console.log('name==' + name);
@@ -63,6 +69,14 @@ Page({
             this.setData({
                 unreadMymessageCount: value
             })
+            this.data.midMenuList.forEach(item=>{
+                if(item.menuName == '我的消息'){
+                    item.unReadCount=value
+                }
+            })
+            this.setData({
+                midMenuList: this.data.midMenuList
+            })
         } else if (name === 'unreadDocoterMessageCount') {
             if (value > 0) {
                 wx.showTabBarRedDot({
@@ -75,16 +89,24 @@ Page({
             }
 
         }
-        
+
     },
     onShow: function (e) {
-
+        
         var userInfoSync = wx.getStorageSync('userInfo')
 
         if (!userInfoSync || userInfoSync === undefined) {
+            //有2种情况：1、游客 2、正在登录还未返回数据
             console.log("无用户信息")
+            if( getApp().globalData.currentHospital.hospitalCode){
+                this.setData({
+                    currentHospital:  getApp().globalData.currentHospital
+                })
+                this.getTdShopmallMainpageMenuList()
+            }
             return
         }
+        this.getMaLoginInfo()
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient'),
             patientList: wx.getStorageSync('userInfo').account.user,
@@ -98,50 +120,170 @@ Page({
             this.setData({
                 nameColumns: names
             })
-            this.allTallskRequset()
+            
+            this.qryMyFollowTask()
             IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
             IMUtil.getConversationList()
         }
 
 
-       
 
+
+    },
+    //菜单滑块
+    getRatio() {
+        if (this.data.midMenuList.length < 6) {
+            this.setData({
+                slideShow: false
+            })
+        } else {
+            var windowWidth = wx.getSystemInfoSync().windowWidth;
+
+            var _totalLength = this.data.midMenuList.length * 140; //分类列表总长度
+            var _ratio = 80 / _totalLength * (750 / windowWidth); //滚动列表长度与滑条长度比例
+            var _showLength = 702 / _totalLength * 80; //当前显示蓝色滑条的长度(保留两位小数)
+            this.setData({
+                slideWidth: _showLength,
+                totalLength: _totalLength,
+                slideShow: true,
+                slideRatio: _ratio
+            })
+        }
+    },
+    //slideLeft动态变化
+    getleft(e) {
+
+        this.setData({
+            slideLeft: e.detail.scrollLeft * this.data.slideRatio
+        })
+        console.log(this.data.slideLeft)
     },
     testBtn() {
         wx.navigateTo({
-            url: '/pages/login/confirm-patient?ks=1030400'
+            url: '/pages/login/confirm-patient?ks=1030400&tenantId=100000&hospitalCode=444885559'
         })
         // wx.navigateTo({
         //     url: '/pages/login/follow-checkin?ks=1030400'
         // })
     },
+    //获取登录信息
+    getMaLoginInfo() {
+        let that = this
+        WXAPI.getMaLoginInfo({})
+            .then(res => {
+                if (res.code == 0) {
+
+                    if (res.data.loginStatus == '1') {
+
+                        var currentHospital = {
+                            hospitalCode: res.data.hospitalCode,
+                            hospitalName: res.data.hospitalName,
+                            hospitalLevelName: res.data.hospitalLevelName
+                        }
+                        this.setData({
+                            currentHospital: currentHospital
+                        })
+                        getApp().globalData.currentHospital = currentHospital
+                        this.getTdShopmallMainpageMenuList()
+                    } else {
+                        //没有选择机构
+                        if( getApp().globalData.currentHospital.hospitalCode){
+                            this.setData({
+                                currentHospital:  getApp().globalData.currentHospital
+                            })
+                            this.getTdShopmallMainpageMenuList()
+                        }else {
+                            that.goHospitalSelectPage()
+                        }
+
+
+                    }
+
+                }
+            })
+    },
+
+    //获取菜单列表
+    getTdShopmallMainpageMenuList() {
+        console.log("getTdShopmallMainpageMenuList")
+        WXAPI.getTdShopmallMainpageMenuList({
+            "hospitalCode": getApp().globalData.currentHospital.hospitalCode,
+            "sysApplicationId": 4
+        })
+            .then(res => {
+                if (res.code == 0) {
+                    var topMenuList=[]
+                    var midMenuList=[]
+                    res.data.forEach(item=>{
+                        if(item.menuType==2){
+                            topMenuList.push(item) 
+                        }else if(item.menuType==1){
+                            midMenuList.push(item)
+                        }
+                    })
+                    this.setData({
+                        topMenuList:topMenuList,
+                        midMenuList:midMenuList
+                    })
+                    this.getRatio()
+                    this.queryMyRights()
+                }
+            })
+    },
+
+    //菜单点击
+    topMenuClick(e){
+        var menu= e.currentTarget.dataset.menu
+        console.log(menu)
+        if(menu.jumpType == 1){ //小程序内部
+
+                    //判断是否需要校验登录
+                      if(Config.checkMenuLoginPage(menu.jumpUrl)) {
+
+                        if (this.checkLoginStatus()) {
+                            if (getApp().getDefaultPatient()) {
+                                wx.navigateTo({
+                                    url: menu.jumpUrl,
+                                  })
+                            }
+                        }
+                      }else {
+                        wx.navigateTo({
+                            url: menu.jumpUrl,
+                          })
+                      }
+            
+        }else if(menu.jumpType == 2){ //第三方小程序
+           
+                    wx.navigateToMiniProgram({
+                        appId: menu.appId,
+                        path:menu.jumpUrl,
+                        envVersion: Config.getConstantData().envVersion,
+                    })
+            
+        }else if(menu.jumpType == 3){ //第三方链接
+            this.goWenjuanPage(menu.jumpUrl)
+        }
+    },
+
     //我的消息
     goMyMessagePage() {
         if (this.checkLoginStatus()) {
             if (getApp().getDefaultPatient()) {
                 if (getApp().globalData.sdkReady) {
                     wx.navigateTo({
-                        url: '/packageIM/pages/chat-list/chat-list?userId=' + this.data.defaultPatient.userId,
+                        url: '/packageIM/pages/chat-list/chat-list',
                     })
                 }
             }
         }
 
     },
-    onReady() {
-        var header = {
-            'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : ''
-        };
-        // wx.redirectTo({
-        //     url: '/packageIM/pages/chat/historyChat?userId=712&toUserId=606'
-        //   })
 
 
-    },
-
-    goHospitalSelectPage(){
+    goHospitalSelectPage() {
         wx.navigateTo({
-          url: './hospital-select/index',
+            url: './hospital-select/index',
         })
     },
 
@@ -186,49 +328,36 @@ Page({
         this.setData({
             myRightsCount: res.data.length,
         })
-    },
-
-
-
-    //首页任务需要请求的接口
-    allTallskRequset() {
-
-        //查询未完成的任务 和 查询正在使用的权益
-        // this.qryUnfinishedTaskListAndRightsUsingRecord()
-        this.qryMyFollowTask()
-
-        //查询全部权益 计算权益算
-        this.queryMyRights()
-        //查询权益类型集合
-        this.qryRightsTypeCodeValue()
-    },
-    avatarBinderror(e) {
-
-        this.data.userInfo.avatarUrl = '/image/avatar.png'
+        this.data.midMenuList.forEach(item=>{
+            if(item.menuName == '我的权益'){
+                item.unReadCount=res.data.length
+            }
+        })
         this.setData({
-            userInfo: this.data.userInfo
+            midMenuList: this.data.midMenuList
         })
     },
+
 
     async qryMyFollowTask() {
         const res = await WXAPI.qryMyFollowTask({ userId: this.data.defaultPatient.userId })
         var allTaskList = []
         res.data.forEach(item => {
-            
+
             if (item.taskType.value == 1) {
                 //问卷
                 item.planType = "Quest"
-                item.planDescribe =   item.jumpTitle + "\n" + item.executeTime
+                item.planDescribe = item.jumpTitle
                 allTaskList.push(item)
             } else if (item.taskType.value == 2) {
                 //文章
                 item.planType = "Knowledge"
-                item.planDescribe =   item.jumpTitle + "\n" + item.executeTime
+                item.planDescribe = item.jumpTitle
                 allTaskList.push(item)
             } else if (item.taskType.value == 3) {
                 //消息提醒
                 item.planType = "Remind"
-                item.planDescribe =   item.templateTitle + "\n" + item.executeTime
+                item.planDescribe = item.templateTitle
                 allTaskList.push(item)
             }
 
@@ -387,18 +516,18 @@ Page({
         var type = task.planType
         //随访任务类
         if (type == 'Quest') {//问卷
-            var url = task.jumpValue + '?userId=' + task.userId + '&recordId=' +task.id+'&modifyTaskBizStatus=yes'
-            url= url.replace("/r/","/s/")　
-            console.log("问卷",url)
+            var url = task.jumpValue + '?userId=' + task.userId + '&recordId=' + task.id + '&modifyTaskBizStatus=yes'
+            url = url.replace("/r/", "/s/")
+            console.log("问卷", url)
             this.goWenjuanPage(url)
         } else if (type == 'Knowledge') {//文章
             wx.navigateTo({
-                url: './news/news-detail?id=' + task.jumpId+'&recordId='+task.id
+                url: './news/news-detail?id=' + task.jumpId + '&recordId=' + task.id
             })
             // this.goWenjuanPage(task.jumpValue)
-        }else if (type == 'Remind') {//消息
+        } else if (type == 'Remind') {//消息
             wx.navigateTo({
-                url: './health-remind/detail?userId=' + this.data.defaultPatient.userId + '&taskId=' + task.id 
+                url: './health-remind/detail?userId=' + this.data.defaultPatient.userId + '&taskId=' + task.id
             })
 
         }
@@ -674,7 +803,7 @@ Page({
                 duration: 2000
             })
             IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
-            this.allTallskRequset()
+            this.onShow()
         }
         this.setData({
             hidePatientShow: true

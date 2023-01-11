@@ -5,10 +5,12 @@ Page({
      * 页面的初始数据
      */
     data: {
-        hasHIS: -1,
+        hasHIS: 0,//HIS接口状态;1开启,2关闭
         showNegativeDialog: false,
         showPositiveDialog:false,
         deptCode: '',//科室代码
+        tenantId:'',//租户代码
+        hospitalCode:'',//机构代码
         regNumber: '',
         deptName: '',
         realName:'',
@@ -24,7 +26,23 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-
+        if(options.scene){
+            const scene = decodeURIComponent(options.scene)
+            console.log(scene)
+            console.log(scene.split('&'))
+             this.setData({
+                deptCode:   scene.split('&')[0]  ,         
+                tenantId:   scene.split('&')[1]  ,         
+                hospitalCode:   scene.split('&')[2]  ,         
+              })
+          }else{
+            this.setData({ 
+                deptCode: options.ks   ,            
+                tenantId: options.tenantId   ,            
+                hospitalCode: options.hospitalCode   ,            
+              })
+          }
+          this.gethospitalInfo(this.data.hospitalCode)
     },
     getRegNoValue(e) {
         this.setData({
@@ -41,7 +59,15 @@ Page({
             emergencyName: e.detail.value
         })
     },
-
+    //查询是否His接口
+    async gethospitalInfo(hospitalCode) {
+      const res =await WXAPI.gethospitalInfo({hospitalCode:hospitalCode})
+      if(res.code == 0){
+          this.setData({
+            hasHIS:res.data.hisStatus.value
+          })
+      }
+    },
     //有HIS接口的提交
     hasHisNextAction: function () {
 
@@ -125,14 +151,14 @@ Page({
 
     let that = this
 
-    if (that.data.deptCode.length <= 0) {
-        wx.showToast({
-          title: '科室代码为空',
-          icon: 'none',
-          duration: 1500
-        })
-        return;
-      }
+    // if (that.data.deptCode.length <= 0) {
+    //     wx.showToast({
+    //       title: '科室代码为空',
+    //       icon: 'none',
+    //       duration: 1500
+    //     })
+    //     return;
+    //   }
       if (that.data.realName.length <= 0) {
         wx.showToast({
           title: '请输入姓名',

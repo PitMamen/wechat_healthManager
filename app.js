@@ -111,12 +111,21 @@ App({
 
         } else if (res.code == 10003) { //用户不存在 去注册
             let routPage = wx.getStorageSync('routPage-w');
+            if (routPage.indexOf('pages/home/main') >-1) {
+                //如果是首页则先去选择医疗机构
+                wx.navigateTo({
+                    url: '/pages/home/hospital-select/index'
+                });
+                wx.removeStorageSync('routPage-w')
+            }else {
             //排除不需要登录的页面
             if(!Config.checkNoLoginPage(routPage)) {
                 wx.reLaunch({
                     url: '/pages/login/auth',
                 })
             }
+            }
+
 
         } else {
             wx.showModal({
@@ -301,6 +310,7 @@ App({
         yljgdm: '444885559',//医疗机构代码
         remindedRights: [],//提醒过的权益
         rightTypeList: [],//权益类型列表
+        currentHospital:{},//当前切换的医疗机构
     },
     bedApplyInfo: null,//床位预约申请
     technologyAppointInfo: null,//医技预约申请

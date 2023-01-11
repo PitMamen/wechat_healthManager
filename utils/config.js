@@ -45,11 +45,30 @@ export function checkNoLoginPage(routPage) {
       'pages/home/package-detail/packagedetail',
       'pages/home/package-list/packagelist',
       'pages/home/news/news-list',
-      'pages/home/news/news-detail'
+      'pages/home/news/news-detail',
+      'pages/home/hospital-select/index'
   ]
   var b=false
   pages.forEach(item=>{
-      if(routPage.indexOf(item) != -1){
+      if(routPage.indexOf(item) > -1){
+          b= true
+      }
+  })
+  console.log("checkNoLoginPage",b)
+  return b
+}
+
+/**
+ * 首页菜单 点击需要判断是否登录的页面合集 
+ */
+export function checkMenuLoginPage(routPage) {
+    console.log('routPage',routPage)
+  var pages=[
+      '/packageIM', //聊天相关页面
+  ]
+  var b=false
+  pages.forEach(item=>{
+      if(routPage.indexOf(item) > -1){
           b= true
       }
   })
