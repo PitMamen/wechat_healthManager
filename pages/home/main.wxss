@@ -36,8 +36,8 @@ page {
     display: flex;
     flex-direction: row;
     width: 750rpx;
-    margin-left: 24rpx;
-    margin-right: 24rpx;
+    padding-left: 24rpx;
+    padding-right: 24rpx;
     margin-bottom: 20rpx;
     margin-top: 20rpx;
 

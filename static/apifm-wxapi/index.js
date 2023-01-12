@@ -520,7 +520,7 @@ module.exports =
                     //新增就诊人
                     addPatientQuery: function addPatientQuery(data) {
                         console.log(data)
-                        var url = ACCOUNT_SERVICE + '/userInfo/addPatientUserInfo'
+                        var url = ACCOUNT_SERVICE + '/userInfo/healthAddPatientUserInfo'
                         return request2(url, 'post', data, true);
                     },
                     //修改就诊人
@@ -538,7 +538,7 @@ module.exports =
                     //就诊人列表
                     patientListQuery: function patientListQuery(data) {
                         console.log(data)
-                        var url = ACCOUNT_SERVICE + '/userInfo/batchQueryUserInfo'
+                        var url = ACCOUNT_SERVICE + '/userInfo/healthBatchQueryUserInfo'
                         return request(url, 'get', data, true);
                     },
                     //就诊人详情

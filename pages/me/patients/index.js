@@ -36,9 +36,17 @@ Page({
     },
 
     addBtn() {
-        wx.navigateTo({
-            url: './addPatient',
-        })
+        if(getApp().globalData.currentHospital.hospitalCode){
+            wx.navigateTo({
+                url: './addPatient',
+            })
+        }else{
+            wx.showToast({
+              title: '请先选择机构',
+              icon:'none'
+            })
+        }
+
     },
     async patientListQuery(e) {
         //发起网络请求

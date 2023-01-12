@@ -45,10 +45,12 @@ Page({
         var user = null
         if (patientInfoList && patientInfoList.length > 0) {
             patientInfoList.forEach(item => {
-                if (item.identificationNo == this.data.info.IDCard+'') {
-                    user = item
-
+                if( this.data.info.hospitalCode == item.hospitalCode){
+                    if (item.identificationNo == this.data.info.IDCard+'' ) {
+                        user = item
+                    }
                 }
+
             })
         }
         if (user) {
@@ -69,6 +71,8 @@ Page({
         var user = wx.getStorageSync('userInfo').account
      
         const postData = {
+            tenantId:that.data.info.tenantId,
+            hospitalCode:that.data.info.hospitalCode,  
             accountId: user.accountId,
             userName: that.data.info.patName,
             identificationNo: that.data.info.IDCard+'',
@@ -128,18 +132,34 @@ Page({
         const res = await WXAPI.addFollowMedicalRecords(postData)
 
         if (res.code === 0) {
-            this.setData({
-                showPositiveDialog:true
-            })
+            this.switchHospital(this.data.info.hospitalCode)
         }
 
     },
+    //切换医院
+    async switchHospital(hospitalCode) {
+        const res = await WXAPI.switchHospital({ hospitalCode: hospitalCode })
+        if (res.code == 0) {
+            var currentHospital = {
+                tenantId:'',
+                hospitalCode: hospitalCode,
+                hospitalName: '',
+                hospitalLevelName: ''
+            }
 
+            getApp().globalData.currentHospital = currentHospital
+
+            this.setData({
+                showPositiveDialog: true
+            })
+        }
+    },
     onDialogConfirm() {
         wx.reLaunch({
-            url: '/pages/home/main',
+            url: '/pages/home/main?type=1',
         })
     },
+
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

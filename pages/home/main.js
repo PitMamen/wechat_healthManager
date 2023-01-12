@@ -2,6 +2,8 @@ const WXAPI = require('../../static/apifm-wxapi/index')
 const Util = require('../../utils/util')
 const IMUtil = require('../../utils/IMUtil')
 const Config = require('../../utils/config')
+const UserManager = require('../../utils/UserManager')
+import bus from '../../utils/EventBus.js'
 const APP = getApp()
 
 Page({
@@ -36,7 +38,7 @@ Page({
 
 
 
-    onLoad: function (e) {
+    onLoad: function (options) {
 
         this.setData({
             navHeight: APP.globalData.navHeight,
@@ -49,23 +51,32 @@ Page({
         wx.showShareMenu({
             withShareTicket: true,
         })
-        //监听app.js里登录完成状态
-        getApp().watch('loginReady', this.watchBack);
+       
         //监听客服和个案管理师发来的消息数
         getApp().watch('unreadServerMessageCount', this.watchBack);
         //监听医生发来的消息数
         getApp().watch('unreadDocoterMessageCount', this.watchBack);
-
+        //监听登录成功
+        bus.on('loginSuccess', (msg) => {
+            // 支持多参数
+            console.log("监听登录成功",msg)
+            this.getMaLoginInfo()
+          })
+        //监听机构切换
+        bus.on('switchHospital', (msg) => {
+            // 支持多参数
+            console.log("监听机构切换",msg)
+            this.getMaLoginInfo()
+          })
+          if(options.type==1){
+              //扫码用户进入首页 重新获取登录信息 
+              this.getMaLoginInfo()
+          }
     },
     watchBack: function (name, value) {
         console.log('name==' + name);
         console.log(value);
-        if (name === 'loginReady') {
-            //监听到app.js里登录完成状态
-            if (value) {
-                this.onShow()
-            }
-        } else if (name === 'unreadServerMessageCount') {
+         if (name === 'unreadServerMessageCount') {
             this.setData({
                 unreadMymessageCount: value
             })
@@ -106,29 +117,75 @@ Page({
             }
             return
         }
-        this.getMaLoginInfo()
+        this.afterMaLogin()
+    },
+     //获取登录信息
+     getMaLoginInfo() {
+       
+        WXAPI.getMaLoginInfo({})
+            .then(res => {
+                if (res.code == 0) {
+
+                    if (res.data.loginStatus == '1') {
+
+                        var currentHospital = {
+                            tenantId:res.data.tenantId,
+                            hospitalCode: res.data.hospitalCode,
+                            hospitalName: res.data.hospitalName,
+                            hospitalLevelName: res.data.hospitalLevelName
+                        }
+                        this.setData({
+                            currentHospital: currentHospital
+                        })
+                        getApp().globalData.currentHospital = currentHospital
+                        UserManager.savePatientInfoList( res.data.patients)
+
+                        this.getTdShopmallMainpageMenuList()
+                        this.afterMaLogin()
+                    } else {
+                        //没有选择机构
+                        if( getApp().globalData.currentHospital.hospitalCode){
+                            this.setData({
+                                currentHospital:  getApp().globalData.currentHospital
+                            })
+                            this.getTdShopmallMainpageMenuList()
+                        }else {
+                            this.goHospitalSelectPage()
+                        }
+
+
+                    }
+
+                }
+            })
+    },
+    //获取到登录信息之后
+    afterMaLogin(){
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient'),
             patientList: wx.getStorageSync('userInfo').account.user,
             userInfo: wx.getStorageSync('userInfo').account
         })
-        if (this.data.patientList && this.data.patientList.length > 0) {
-            var names = []
-            this.data.patientList.forEach(item => {
-                names.push(item.userName)
-            })
-            this.setData({
-                nameColumns: names
-            })
-            
+        if (this.data.defaultPatient && this.data.defaultPatient.userId) {  
             this.qryMyFollowTask()
             IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
             IMUtil.getConversationList()
+        }else {
+            this.setData({
+                taskList: []
+            })
+            this.data.midMenuList.forEach(item=>{
+                if(item.menuName == '我的消息'){
+                    item.unReadCount=0
+                }
+                if(item.menuName == '我的权益'){
+                    item.unReadCount=0
+                }
+            })
+            this.setData({
+                midMenuList: this.data.midMenuList
+            })
         }
-
-
-
-
     },
     //菜单滑块
     getRatio() {
@@ -166,42 +223,7 @@ Page({
         //     url: '/pages/login/follow-checkin?ks=1030400'
         // })
     },
-    //获取登录信息
-    getMaLoginInfo() {
-        let that = this
-        WXAPI.getMaLoginInfo({})
-            .then(res => {
-                if (res.code == 0) {
-
-                    if (res.data.loginStatus == '1') {
-
-                        var currentHospital = {
-                            hospitalCode: res.data.hospitalCode,
-                            hospitalName: res.data.hospitalName,
-                            hospitalLevelName: res.data.hospitalLevelName
-                        }
-                        this.setData({
-                            currentHospital: currentHospital
-                        })
-                        getApp().globalData.currentHospital = currentHospital
-                        this.getTdShopmallMainpageMenuList()
-                    } else {
-                        //没有选择机构
-                        if( getApp().globalData.currentHospital.hospitalCode){
-                            this.setData({
-                                currentHospital:  getApp().globalData.currentHospital
-                            })
-                            this.getTdShopmallMainpageMenuList()
-                        }else {
-                            that.goHospitalSelectPage()
-                        }
-
-
-                    }
-
-                }
-            })
-    },
+   
 
     //获取菜单列表
     getTdShopmallMainpageMenuList() {
@@ -214,12 +236,14 @@ Page({
                 if (res.code == 0) {
                     var topMenuList=[]
                     var midMenuList=[]
+                   
                     res.data.forEach(item=>{
-                        if(item.menuType==2){
+                        if(item.menuType==1){
                             topMenuList.push(item) 
-                        }else if(item.menuType==1){
+                        }else if(item.menuType==2){
                             midMenuList.push(item)
                         }
+                        
                     })
                     this.setData({
                         topMenuList:topMenuList,
@@ -309,28 +333,17 @@ Page({
 
 
         const res = await WXAPI.queryMyRights(this.data.defaultPatient.userId, '', '', '')
-
-        // var num = 0
-
-        // res.data.forEach(item => {
-        //     if (item.userGoodsAttr && item.userGoodsAttr.length > 0) {
-        //         item.userGoodsAttr.forEach(at => {
-        //             if (at.attrName === 'videoNum' || at.attrName === 'textNum') {
-        //                 var d = Number(at.attrValue) - Number(at.usedValue)      
-        //                 num = num + d
-        //             }
-
-
-        //         });
-        //     }
-        // });
+        var myRightsCount= 0
+        if(res.code==0){
+            myRightsCount=res.data.length
+        }
 
         this.setData({
-            myRightsCount: res.data.length,
+            myRightsCount:myRightsCount,
         })
         this.data.midMenuList.forEach(item=>{
             if(item.menuName == '我的权益'){
-                item.unReadCount=res.data.length
+                item.unReadCount=myRightsCount
             }
         })
         this.setData({

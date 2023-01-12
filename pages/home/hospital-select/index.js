@@ -1,5 +1,6 @@
 
 const WXAPI = require('../../../static/apifm-wxapi/index')
+import bus from '../../../utils/EventBus.js'
 Page({
     data: {
         queryText:'',
@@ -12,6 +13,7 @@ Page({
         })
         
         this.gethospitalList()
+        
     },
 
     //医院列表
@@ -54,23 +56,9 @@ Page({
             success(res) {
                 if (res.confirm) {
                     if(that.checkLoginStatus()){
-                        that.switchHospital(hospital.hospitalCode)
+                        that.switchHospital(hospital)
                     }else{
-                        var currentHospital={
-                            hospitalCode:hospital.hospitalCode,
-                            hospitalName:hospital.hospitalName,
-                            hospitalLevelName:hospital.hospitalLevelName
-                          }
-                      
-                         getApp().globalData.currentHospital=currentHospital
-                        wx.showToast({
-                            title: '切换成功！',
-                        })
-                        setTimeout(function () {
-                            wx.switchTab({
-                              url: '/pages/home/main',
-                            })
-                        }, 1000)
+                        that.switchHospitalSuccess(hospital)
                     }
                    
                 }
@@ -81,19 +69,37 @@ Page({
 
     },
       //切换医院
-      async switchHospital(hospitalCode) {
-        const res = await WXAPI.switchHospital({hospitalCode:hospitalCode})
+      async switchHospital(hospital) {
+        const res = await WXAPI.switchHospital({hospitalCode:hospital.hospitalCode})
         if(res.code==0){
-            wx.showToast({
-                title: '切换成功！',
-            })
-            setTimeout(function () {
-                wx.switchTab({
-                    url: '/pages/home/main',
-                  })
-            }, 1000)
+           this.switchHospitalSuccess(hospital)
         }
     },
+    //切换成功
+    switchHospitalSuccess(hospital){
+        var currentHospital={
+            tenantId:hospital.tenantId,
+            hospitalCode:hospital.hospitalCode,
+            hospitalName:hospital.hospitalName,
+            hospitalLevelName:hospital.hospitalLevelName
+          }
+      
+         getApp().globalData.currentHospital=currentHospital
+
+        //发送事件 切换机构
+        bus.emit('switchHospital', hospital.hospitalCode)
+
+        wx.showToast({
+            title: '切换成功！',
+        })
+        setTimeout(function () {
+            wx.switchTab({
+                url: '/pages/home/main',
+              })
+        }, 1000)
+
+    },
+
     checkLoginStatus() {
         var userInfoSync = wx.getStorageSync('userInfo')
         if (userInfoSync) {

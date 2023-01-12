@@ -2,6 +2,7 @@
 const WXAPI = require('./static/apifm-wxapi/index')
 const IMUtil = require('./utils/IMUtil')
 const Config = require('./utils/config')
+import bus from './utils/EventBus.js'
 App({
     onLaunch(ret) {
 
@@ -111,19 +112,21 @@ App({
 
         } else if (res.code == 10003) { //用户不存在 去注册
             let routPage = wx.getStorageSync('routPage-w');
-            if (routPage.indexOf('pages/home/main') >-1) {
+            if (routPage.indexOf('pages/home/main') > -1) {
                 //如果是首页则先去选择医疗机构
                 wx.navigateTo({
                     url: '/pages/home/hospital-select/index'
                 });
                 wx.removeStorageSync('routPage-w')
-            }else {
-            //排除不需要登录的页面
-            if(!Config.checkNoLoginPage(routPage)) {
-                wx.reLaunch({
-                    url: '/pages/login/auth',
-                })
-            }
+            } else {
+                //排除不需要登录的页面
+                if (!Config.checkNoLoginPage(routPage)) {
+                    wx.reLaunch({
+                        url: '/pages/login/auth',
+                    })
+                } else {
+                    wx.removeStorageSync('routPage-w')
+                }
             }
 
 
@@ -136,7 +139,7 @@ App({
         }
     },
     loginSuccess(userInfo) {
-     
+
         //保存用户信息
         wx.setStorageSync('userInfo', userInfo)
         //IM apppid
@@ -146,7 +149,7 @@ App({
             var defaultPatient = userInfo.account.user[0]
             userInfo.account.user.forEach(item => {
                 if (item.isDefault) {
-                    defaultPatient=item
+                    defaultPatient = item
                 }
             })
             //保存默认就诊人
@@ -155,18 +158,27 @@ App({
 
         }
         this.globalData.loginReady = true
+        //发送事件 登录成功
+        bus.emit('loginSuccess', true)
+
         let routPage = wx.getStorageSync('routPage-w');
         console.log("登录成功，重新加载页面" + routPage)
 
 
-        if (routPage.indexOf('pages/home/main') !== 0) {
+        // if (routPage.indexOf('pages/home/main') !== 0) {
+        //     wx.reLaunch({
+        //         url: '/' + routPage
+        //     });
+        //     wx.removeStorageSync('routPage-w')
+        // }
+        //排除不需要登录的页面
+        if (!Config.checkNoLoginPage(routPage)) {
             wx.reLaunch({
                 url: '/' + routPage
             });
-            wx.removeStorageSync('routPage-w')
+
         }
-
-
+        wx.removeStorageSync('routPage-w')
 
     },
     updateApp() {
@@ -236,28 +248,28 @@ App({
         }
 
     },
-  //获取默认就诊人
-  getDefaultPatient() {
-    const userInfo = wx.getStorageSync('userInfo')
-    const defaultPatient= wx.getStorageSync('defaultPatient')
-    if (userInfo && userInfo.account && userInfo.account.accountId) {
-        if(defaultPatient){
-            return defaultPatient
-        }else {
+    //获取默认就诊人
+    getDefaultPatient() {
+        const userInfo = wx.getStorageSync('userInfo')
+        const defaultPatient = wx.getStorageSync('defaultPatient')
+        if (userInfo && userInfo.account && userInfo.account.accountId) {
+            if (defaultPatient) {
+                return defaultPatient
+            } else {
+                wx.navigateTo({
+                    url: '/pages/me/patients/addPatient'
+                })
+                return null
+            }
+        } else {
+            //如果没有用户信息就跳转登录
             wx.navigateTo({
-                url: '/pages/me/patients/addPatient'
-              })
-              return null
+                url: '/pages/login/auth',
+            })
+            return null
         }
-    } else {
-      //如果没有用户信息就跳转登录
-      wx.navigateTo({
-        url: '/pages/login/auth',
-      })
-      return null
-    }
-  
-  },
+
+    },
 
     //获取权益类型和名称
     getRightsType(type) {
@@ -302,7 +314,7 @@ App({
         IMuserSig: '',
         sdkReady: false,
 
-        loginReady:false,//登录状态
+        loginReady: false,//登录状态
 
         unreadServerMessageCount: 0,//个案和客服未读消息数
         unreadDocoterMessageCount: 0,//护士医生未读消息数
@@ -310,7 +322,7 @@ App({
         yljgdm: '444885559',//医疗机构代码
         remindedRights: [],//提醒过的权益
         rightTypeList: [],//权益类型列表
-        currentHospital:{},//当前切换的医疗机构
+        currentHospital: {},//当前切换的医疗机构
     },
     bedApplyInfo: null,//床位预约申请
     technologyAppointInfo: null,//医技预约申请
@@ -319,5 +331,5 @@ App({
     jcxq: null,//检查详情
     rightsDetail: null,//权益详情
     extraData: null,//使用权益跳转互联网医院小程序的参数（风湿科提交成功）
-    followInfo:null,//随访登记详情
+    followInfo: null,//随访登记详情
 })  
