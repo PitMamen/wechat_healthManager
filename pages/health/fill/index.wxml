@@ -1,0 +1,5 @@
+<view class="wrap">
+    <view class="top"></view>
+    <view class="middle"></view>
+    <view class="bottom"></view>
+</view>

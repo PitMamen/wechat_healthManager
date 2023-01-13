@@ -1,0 +1,85 @@
+<view class="wrap">
+    <view class="background">
+        <view class="header">
+            <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
+            <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #FFFFFF;text-align: center;">
+                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 24rpx;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
+                <text style="{{'line-height: '+ navBarHeight +'px;'}}">{{ title }}</text>
+            </view>
+        </view>
+    </view>
+    <view class="top">
+        <view class="swipe card">
+            <swiper autoplay>
+                <block wx:for="{{ swipers }}" wx:key="*this">
+                    <swiper-item>
+                        <image src="{{ item }}" mode="aspectFill" />
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+    </view>
+    <view class="middle card">
+        <view class="title">问诊服务</view>
+        <van-empty class="empty" description="暂无记录" wx:if="{{ list.length === 0 }}" />
+        <view class="list" wx:else>
+            <view class="item">
+                <van-checkbox class="left" shape="square" value="{{ activeId === 1 }}" bind:change="onRadioChange"></van-checkbox>
+                <view class="center">
+                    <image src="/image/myjk/taocan.png" mode="aspectFill" />
+                </view>
+                <view class="right">
+                    <view class="service">
+                        <text class="name">图文咨询</text>
+                        <text class="num">8次</text>
+                        <text class="price">¥300</text>
+                    </view>
+                    <view class="service">
+                        <text class="name">图文咨询</text>
+                        <text class="num">8次</text>
+                        <text class="price">¥300</text>
+                    </view>
+                </view>
+                <view class="must">必选品</view>
+            </view>
+            <view class="item">
+                <van-checkbox class="left" value="{{ activeId === 1 }}" bind:change="onRadioChange"></van-checkbox>
+                <view class="center">
+                    <image src="/image/myjk/taocan.png" mode="aspectFill" />
+                </view>
+                <view class="right">
+                    <view class="service">
+                        <text class="name">图文咨询</text>
+                        <text class="num">8次</text>
+                        <text class="price">¥300</text>
+                    </view>
+                    <view class="service">
+                        <text class="name">图文咨询</text>
+                        <text class="num">8次</text>
+                        <text class="price">¥300</text>
+                    </view>
+                </view>
+                <view class="must">必选品</view>
+            </view>
+        </view>
+        <view class="list2">
+            <image src="https://shangshanren.cn/mp/files/20221031/505800d55f2e45319bee32e6e0788566.png" mode="widthFix" />
+        </view>
+    </view>
+    <view class="fix" wx:if="{{ list.length > 0 }}">
+        <view class="row">
+            <text class="intro">选择医生</text>
+            <view class="select" bind:tap="onSelectTap">
+                <text class="name">张三</text>
+                <van-icon class="icon" name="arrow" />
+            </view>
+        </view>
+        <view class="row">
+            <view class="price">
+                <text>合计：</text>
+                <text class="num">¥3000</text>
+            </view>
+        </view>
+        <van-button class="abs" color="#E95454" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick">立即购买</van-button>
+    </view>
+</view>

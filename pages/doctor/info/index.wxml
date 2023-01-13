@@ -1,0 +1,141 @@
+<view class="wrap">
+    <view class="background">
+        <view class="header">
+            <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
+            <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #FFFFFF;text-align: center;">
+                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 24rpx;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
+                <text style="{{'line-height: '+ navBarHeight +'px;'}}">{{ title }}</text>
+            </view>
+        </view>
+    </view>
+    <view class="top">
+        <view class="doctor card">
+            <view class="left">
+                <image src="/image/myjk/doctor.png" mode="aspectFill" />
+            </view>
+            <view class="right">
+                <view class="name">刘医生</view>
+                <view class="info">
+                    <text class="job">主任医师</text>
+                    <text class="depart">心血管内科</text>
+                </view>
+                <view class="server">服务量：<text class="num">100</text>人</view>
+                <view class="share">分享</view>
+                <view class="store">收藏</view>
+            </view>
+        </view>
+    </view>
+    <view class="middle">
+        <view class="intro card">
+            <view class="best">
+                <image src="/image/myjk/best.png" mode="aspectFill" />
+                <text>饮食健康指导，产后康复，饮食健康指饮食健康指导，产后康复，饮食健康指饮食健康指导，产后康复，饮食健康指饮食健康指导，产后康复，饮食健康指</text>
+            </view>
+            <view class="desc">
+                <image src="/image/myjk/desc.png" mode="aspectFill" />
+                <text>饮食健康指导，产后康复，饮食健康指饮食健康指导，产后康复，饮食健康指饮食健康指导，产后康复，饮食健康指饮食健康指导，产后康复，饮食健康指</text>
+                <view class="more" bind:tap="onMoreTap">更多信息</view>
+            </view>
+        </view>
+    </view>
+    <view class="bottom card">
+        <view class="title">问诊服务</view>
+        <van-empty class="empty" description="暂无记录" wx:if="{{ list.length === 0 }}" />
+        <view class="list" wx:else>
+            <view class="{{ 'item ' + 'image' }}">
+                <view class="intro">
+                    <image src="/image/myjk/image.png" mode="aspectFill" />
+                    <text class="name">图文咨询</text>
+                    <view class="detail" bind:tap="onDetailTap">
+                        <text>查看详情</text>
+                        <van-icon class="icon" name="arrow" />
+                    </view>
+                </view>
+                <view class="goods">
+                    <view class="{{ 'good ' + 'active' }}" bind:tap="onGoodTap">
+                        <text class="price">200元</text>
+                        <text class="num">/5条</text>
+                    </view>
+                    <view class="{{ 'good ' + '' }}" bind:tap="onGoodTap">
+                        <text class="price">200元</text>
+                        <text class="num">/5条</text>
+                    </view>
+                </view>
+            </view>
+            <view class="{{ 'item ' + 'video' }}">
+                <view class="intro">
+                    <image src="/image/myjk/video.png" mode="aspectFill" />
+                    <text class="name">视频咨询</text>
+                    <view class="detail" bind:tap="onDetailTap">
+                        <text>查看详情</text>
+                        <van-icon class="icon" name="arrow" />
+                    </view>
+                </view>
+                <view class="goods">
+                    <view class="{{ 'good ' + 'active' }}" bind:tap="onGoodTap">
+                        <text class="price">200元</text>
+                        <text class="num">/5条</text>
+                    </view>
+                    <view class="{{ 'good ' + '' }}" bind:tap="onGoodTap">
+                        <text class="price">200元</text>
+                        <text class="num">/5条</text>
+                    </view>
+                </view>
+            </view>
+            <view class="{{ 'item ' + 'phone' }}">
+                <view class="intro">
+                    <image src="/image/myjk/phone.png" mode="aspectFill" />
+                    <text class="name">电话咨询</text>
+                    <view class="detail" bind:tap="onDetailTap">
+                        <text>查看详情</text>
+                        <van-icon class="icon" name="arrow" />
+                    </view>
+                </view>
+                <view class="goods">
+                    <view class="{{ 'good ' + 'active' }}" bind:tap="onGoodTap">
+                        <text class="price">200元</text>
+                        <text class="num">/5条</text>
+                    </view>
+                    <view class="{{ 'good ' + '' }}" bind:tap="onGoodTap">
+                        <text class="price">200元</text>
+                        <text class="num">/5条</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <van-button class="fix" type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick" wx:if="{{ list.length > 0 }}">去购买</van-button>
+</view>
+
+<van-popup
+    round
+    closeable
+    show="{{ show }}"
+    position="bottom"
+    custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;"
+    bind:close="closePopup"
+>
+    <view class="pop-wrap">
+        <view class="head">
+            <view class="title">
+                <text class="name">刘涛</text>
+                <text class="job">主治医师</text>
+                <view class="bg"></view>
+            </view>
+        </view>
+        <view class="part">
+            <view class="title">
+                <image src="/image/myjk/part.png" mode="aspectFill" />
+                <text>专业擅长</text>
+            </view>
+            <view class="desc">这是医生的个人介绍，这是医生的个人介绍，这是医生的个人介绍，这是医生的个人这生的个人介绍，这是医生的个人介绍，这是医生的个人介绍，这是医生的个人介绍，这是医生的个人介绍，这是医生的这是医生的个人介绍。</view>
+        </view>
+        <view class="part">
+            <view class="title">
+                <image src="/image/myjk/part.png" mode="aspectFill" />
+                <text>个人简介</text>
+            </view>
+            <view class="desc">这是医生的个人介绍，这是医生的个人介绍，这是医生的个人介绍，这是医生的个人这生的个人介绍，这是医生的个人介绍，这是医生的个人介绍，这是医生的个人介绍，这是医生的个人介绍，这是医生的这是医生的个人介绍。</view>
+        </view>
+    </view>
+</van-popup>

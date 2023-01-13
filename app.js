@@ -29,11 +29,14 @@ App({
             success: res => {
                 let statusBarHeight = res.statusBarHeight,
                     navTop = menuButtonObject.top, //胶囊按钮与顶部的距离
+                    navBarHeight = menuButtonObject.height + (menuButtonObject.top - statusBarHeight) * 2,
                     navHeight = statusBarHeight + menuButtonObject.height + (menuButtonObject.top - statusBarHeight) * 2; //导航高度
                 this.globalData.navHeight = navHeight;
                 this.globalData.navTop = navTop;
                 this.globalData.windowHeight = res.windowHeight;
                 this.globalData.menuButtonObject = menuButtonObject;
+                this.globalData.statusBarHeight = statusBarHeight;
+                this.globalData.navBarHeight = navBarHeight;
                 console.log("navHeight", navHeight);
             },
             fail(err) {
@@ -310,4 +313,4 @@ App({
     rightsDetail: null,//权益详情
     extraData: null,//使用权益跳转互联网医院小程序的参数（风湿科提交成功）
     followInfo:null,//随访登记详情
-})  
+})
