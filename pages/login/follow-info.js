@@ -4,7 +4,8 @@ const Util = require('../../utils/util')
 Page({
     data: {
         showPositiveDialog: false,
-        info: {}
+        info: {},
+        debounced:false,//防抖动
     },
 
     /**
@@ -39,6 +40,17 @@ Page({
     },
     //提交
     nextAction: function () {
+        if (this.data.debounced) {
+            return
+        }
+        this.setData({
+            debounced: true
+        })
+        setTimeout(() => {
+            this.setData({
+                debounced: false
+            })
+        }, 2000)
 
         var patientInfoList = UserManager.getPatientInfoList()
         console.log(patientInfoList)

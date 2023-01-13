@@ -225,7 +225,7 @@ Page({
         that.debounced = true
         setTimeout(() => {
             that.debounced = false
-        }, 2000)
+        }, 3000)
 
         var idInfo = Util.getBirthdayAndSex(that.data.identificationNo)
 

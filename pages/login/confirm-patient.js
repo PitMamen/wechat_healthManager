@@ -22,7 +22,7 @@ Page({
         emergencyPhone: '',
         emergencyName: '',
         relationship: '本人',
-
+        debounced:false,//防抖动
     },
 
     /**
@@ -93,8 +93,21 @@ Page({
             })
         }
     },
+
     //有HIS接口的提交
     hasHisNextAction: function () {
+
+        if (this.data.debounced) {
+            return
+        }
+        this.setData({
+            debounced: true
+        })
+        setTimeout(() => {
+            this.setData({
+                debounced: false
+            })
+        }, 2000)
 
         if (!this.checkLoginStatus()) {
             return
@@ -172,6 +185,17 @@ Page({
 
     //没有HIS接口提交
     noHisNextAction: function () {
+        if (this.data.debounced) {
+            return
+        }
+        this.setData({
+            debounced: true
+        })
+        setTimeout(() => {
+            this.setData({
+                debounced: false
+            })
+        }, 2000)
 
         if (!this.checkLoginStatus()) {
             return

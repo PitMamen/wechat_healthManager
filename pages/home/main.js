@@ -167,6 +167,7 @@ Page({
             userInfo: wx.getStorageSync('userInfo').account
         })
         if (this.data.defaultPatient && this.data.defaultPatient.userId) {  
+            this.queryMyRights()
             this.qryMyFollowTask()
             IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
             IMUtil.getConversationList()
