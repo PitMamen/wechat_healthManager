@@ -43,61 +43,70 @@ page{
   }
   .item-back{
     display: flex;
-    width: 100%;
+    flex-direction: row;
+    width:710rpx;
     border-bottom: 0.5rpx solid #eee;
     padding-top: 10rpx;
     min-height: 182rpx;
   }
   .left-content{
-    float: left;
+   
     margin-top: 6px; 
+  
     margin-right: 15rpx;
     margin-left: 10rpx;
-    flex-direction: row;
-    flex: 1; 
-    position: relative;
+   
+
+    width: 515rpx;
+
   }
   .title{
-    font-size: 32rpx;
+    width: 515rpx;
+    font-size: 30rpx;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .content{
-    font-size: 30rpx;
+    font-size: 28rpx;
     color: rgb(181, 183, 185);
     margin-top: 15rpx;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .read-num{
-    display: flex;
     font-size: 28rpx;
     color: rgb(181, 183, 185);
     margin-top: 20rpx;
     margin-bottom: 20rpx;
-    flex-direction: row;
-    flex: 1; 
     float: left;
-    position: relative;
   }
   .send-time{
-    display: flex;
+   
     font-size: 28rpx;
     color: rgb(181, 183, 185);
     margin-top: 20rpx;
-    flex-direction: row;
+   
     float: right;
     margin-bottom: 20rpx;
-    position: relative;
+  
   }
   .image-content{
-    display: flex;
+ 
     width: 160rpx;
     height: 140rpx;
-    padding: 0;
+   
     background-color: rgb(212, 213, 214);
-    float: right;
+   
     margin-top: 6px; 
-    margin-right: 15rpx;
+   
     border-radius: 10rpx;
-    flex-direction: row;
-    position: relative;
+
   }
   .bottom-line{
     display: inline;
