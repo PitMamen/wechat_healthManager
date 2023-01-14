@@ -2,15 +2,11 @@ const WXAPI = require('../../../static/apifm-wxapi/index')
 const Config = require('../../../utils/config')
 
 Page({
-    data: {},
+    data: {
+        loading: false
+    },
     onLoad: function (options) {
         // 页面创建时执行
-        wx.showShareMenu({
-            withShareTicket: true
-        })
-        wx.setNavigationBarTitle({
-            title: options.title
-        })
     },
     onShow: function () {
         // 页面出现在前台时执行
@@ -42,8 +38,16 @@ Page({
     onTabItemTap(item) {
         // tab 点击时执行
     },
-    // 事件响应函数
-    viewTap: function () {
-        this.setData({})
+
+    onRadioChange(event) {
+        console.log(event)
+    },
+    onBuyClick() {
+        this.setData({
+            loading: true
+        })
+        wx.reLaunch({
+          url: '/pages/home/main',
+        })
     }
 })

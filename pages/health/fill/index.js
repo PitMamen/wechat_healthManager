@@ -2,14 +2,30 @@ const WXAPI = require('../../../static/apifm-wxapi/index')
 const Config = require('../../../utils/config')
 
 Page({
-    data: {},
+    data: {
+        show: false,
+        loading: false,
+        inputTxt: '',
+        fileList: [
+            {
+                url: 'https://shangshanren.cn/mp/files/20221031/505800d55f2e45319bee32e6e0788566.png',
+                // status: 'done'
+            },
+            {
+                url: 'https://shangshanren.cn/mp/files/20221031/505800d55f2e45319bee32e6e0788566.png',
+                status: 'done'
+            }
+        ],
+        columns: [
+            { text: '杭州', id: 1 },
+            { text: '宁波', id: 2 },
+            { text: '温州', id: 3 }
+        ]
+    },
     onLoad: function (options) {
         // 页面创建时执行
         wx.showShareMenu({
             withShareTicket: true
-        })
-        wx.setNavigationBarTitle({
-            title: options.title
         })
     },
     onShow: function () {
@@ -42,8 +58,51 @@ Page({
     onTabItemTap(item) {
         // tab 点击时执行
     },
-    // 事件响应函数
-    viewTap: function () {
-        this.setData({})
+
+    afterRead(event) {
+        const file = event.detail.file
+        this.data.fileList.push(file)
+        this.setData({
+            fileList: this.data.fileList
+        })
+    },
+    delete(event) {
+        const index = event.detail.index
+        this.data.fileList.splice(index, 1)
+        this.setData({
+            fileList: this.data.fileList
+        })
+    },
+    closePopup() {
+        this.setData({
+            show: false
+        })
+    },
+    onCancel() {
+        this.setData({
+            show: false
+        })
+    },
+    onConfirm(event) {
+        console.log(event)
+        this.setData({
+            show: false
+        })
+    },
+    onSelectTap() {
+        this.setData({
+            show: true
+        })
+    },
+    onRadioChange(event) {
+        console.log(event)
+    },
+    onNextClick() {
+        this.setData({
+            loading: true
+        })
+        wx.navigateTo({
+            url: `/pages/doctor/buy/index?id=${123}`
+        })
     }
 })

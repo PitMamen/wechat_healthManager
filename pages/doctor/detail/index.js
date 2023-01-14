@@ -68,5 +68,8 @@ Page({
         this.setData({
             loading: true
         })
+        wx.navigateTo({
+          url: `/pages/doctor/fill/index`,
+        })
     }
 })
