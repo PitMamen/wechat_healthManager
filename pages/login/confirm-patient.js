@@ -46,6 +46,7 @@ Page({
             })
         }
         this.gethospitalInfo(this.data.hospitalCode)
+        this.getDepartmentDetail(this.data.deptCode)
     },
     //住院号
     getRegNoValue(e) {
@@ -93,7 +94,18 @@ Page({
             })
         }
     },
-
+  //查询科室接口
+  async getDepartmentDetail(deptCode) {
+      if(deptCode == 0 || deptCode == '0'){
+          return
+      }
+    const res = await WXAPI.getDepartmentDetail(deptCode)
+    if (res.code == 0) {
+        this.setData({
+            deptName: res.data.departmentName
+        })
+    }
+},
     //有HIS接口的提交
     hasHisNextAction: function () {
 
@@ -348,6 +360,8 @@ Page({
         var idInfo = Util.getBirthdayAndSex(this.data.identificationNo)
         var user = wx.getStorageSync('userInfo').account
         var postData = {
+            tenantId: this.data.tenantId,
+            hospitalCode: this.data.hospitalCode,
             urgentTel: this.data.emergencyPhone,
             urgentName: this.data.emergencyName,
             relationship: this.data.relationship,

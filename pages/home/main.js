@@ -218,7 +218,7 @@ Page({
     },
     testBtn() {
         wx.navigateTo({
-            url: '/pages/login/confirm-patient?ks=1030400&tenantId=100000&hospitalCode=444885559'
+            url: '/pages/login/confirm-patient?ks=1&tenantId=100000&hospitalCode=444885559'
         })
         // wx.navigateTo({
         //     url: '/pages/login/follow-checkin?ks=1030400'
