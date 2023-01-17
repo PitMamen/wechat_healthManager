@@ -4,24 +4,15 @@ const Config = require('../../../utils/config')
 Page({
     data: {
         mainActiveIndex: 0,
-        items: [
-            {
-                text: '疾病管理',
-                children: [
-                ]
-            },
-            {
-                text: '远程监护',
-                children: [
-                ]
-            }
-        ]
+        children: [],
+        items: []
     },
     onLoad: function (options) {
         // 页面创建时执行
         wx.showShareMenu({
             withShareTicket: true
         })
+        this.getList()
     },
     onShow: function () {
         // 页面出现在前台时执行
@@ -54,16 +45,33 @@ Page({
         // tab 点击时执行
     },
 
-    onTaoCanTap(event) {
-        console.log(event)
-        wx.navigateTo({
-          url: `/pages/health/detail/index?id=${123}&title=${456}`
+    getList() {
+        WXAPI.classifyCommodities(null).then((res) => {
+            const items = (res.data || []).map(item => {
+                return {
+                    ...item,
+                    children: [],
+                    id: item.classifyId,
+                    text: item.classifyName
+                }
+            })
+            this.setData({
+                items,
+                children: items[this.data.mainActiveIndex].classify || []
+            })
         })
     },
     onClickNav(event) {
-        console.log(event)
+        const mainActiveIndex = event.detail.index || 0
         this.setData({
-            mainActiveIndex: event.detail.index || 0
+            mainActiveIndex,
+            children: this.data.items[mainActiveIndex].classify || []
+        })
+    },
+    onTaoCanTap(event) {
+        const item = event.currentTarget.dataset.item
+        wx.navigateTo({
+            url: `/pages/health/detail/index?id=${item.commodityId}`
         })
     }
 })

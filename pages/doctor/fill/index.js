@@ -4,32 +4,32 @@ const Config = require('../../../utils/config')
 Page({
     data: {
         show: false,
+        checked: true,
         loading: false,
         inputTxt: '',
-        fileList: [
-            {
-                url: 'https://shangshanren.cn/mp/files/20221031/505800d55f2e45319bee32e6e0788566.png',
-                // status: 'done'
-            },
-            {
-                url: 'https://shangshanren.cn/mp/files/20221031/505800d55f2e45319bee32e6e0788566.png',
-                status: 'done'
-            }
-        ],
-        columns: [
-            { text: '杭州', id: 1 },
-            { text: '宁波', id: 2 },
-            { text: '温州', id: 3 }
-        ]
+        appealDesc: '',
+        docId: null,
+        commodityId: null,
+        selectUser: {},
+        collectionIds: [],
+        fileList: [],
+        columns: []
     },
     onLoad: function (options) {
         // 页面创建时执行
-        wx.showShareMenu({
-            withShareTicket: true
+        this.setData({
+            docId: options.docId,
+            commodityId: options.commodityId,
+            collectionIds: options.collectionIds.split(',')
         })
     },
     onShow: function () {
         // 页面出现在前台时执行
+        this.setData({
+            loading: false,
+            selectUser: wx.getStorageSync('defaultPatient'),
+            columns: wx.getStorageSync('userInfo').account.user
+        })
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
@@ -60,10 +60,20 @@ Page({
     },
 
     afterRead(event) {
-        const file = event.detail.file
-        this.data.fileList.push(file)
-        this.setData({
-            fileList: this.data.fileList
+        const files = event.detail.file
+        files.forEach(item => {
+            WXAPI.uploadImgFile(item.url, "DEFAULT").then((res) => {
+                this.data.fileList.push({
+                    url: res.fileLinkUrl,
+                    fileId: res.id,
+                    fileUrl: res.fileLinkUrl,
+                    previewFileId: res.previewFileId,
+                    previewFileUrl: res.previewUrl
+                })
+                this.setData({
+                    fileList: this.data.fileList
+                })
+            })
         })
     },
     delete(event) {
@@ -79,14 +89,15 @@ Page({
         })
     },
     onCancel() {
-        this.setData({
-            show: false
+        wx.navigateTo({
+            url: '/pages/me/patients/addPatient'
         })
     },
     onConfirm(event) {
-        console.log(event)
+        const index = event.detail.index
         this.setData({
-            show: false
+            show: false,
+            selectUser: this.data.columns[index]
         })
     },
     onSelectTap() {
@@ -95,14 +106,57 @@ Page({
         })
     },
     onRadioChange(event) {
-        console.log(event)
+        this.setData({
+            checked: event.detail
+        })
     },
+    onSchemeTap() {},
     onNextClick() {
+        this.setData({
+            inputTxt: this.data.inputTxt.trim()
+        })
+        if (!this.data.selectUser.userId){
+            wx.showToast({
+                title: '请选择就诊人',
+                icon: 'none'
+            })
+            return
+        }
+        if (this.data.inputTxt.length < 10){
+            wx.showToast({
+                title: '病情描述至少输入十个字符',
+                icon: 'none'
+            })
+            return
+        }
+        if (!this.data.checked){
+            wx.showToast({
+                title: '请先阅读协议并勾选',
+                icon: 'none'
+            })
+            return
+        }
         this.setData({
             loading: true
         })
-        wx.navigateTo({
-            url: `/pages/doctor/buy/index?id=${123}`
+        WXAPI.createStewardOrder({
+            appealDesc: this.data.appealDesc.trim(),
+            collectionIds: this.data.collectionIds || [],
+            commodityId: this.data.commodityId,
+            doctorUserId: this.data.docId,
+            diseaseDesc: this.data.inputTxt,
+            userId: this.data.selectUser.userId,
+            images: this.data.fileList.map(item => {
+                return item.url
+            })
+        }).then((res) => {
+            wx.showToast({
+                title: '保存成功',
+                icon: 'success'
+            })
+            wx.navigateTo({
+                url: `/pages/doctor/buy/index?id=${res.data.orderId}&userName=${this.data.selectUser.userName}`
+            })
         })
     }
 })

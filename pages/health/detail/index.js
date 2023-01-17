@@ -5,15 +5,17 @@ Page({
     data: {
         navBarHeight: null,
         statusBarHeight: null,
-        title: '',
+        collectionId: null,
+        id: null,
+        docId: null,
+        docName: '',
+        name: '',
         loading: false,
-        activeId: null,
-        list: [1],
-        swipers: [
-            'https://shangshanren.cn/mp/files/20221031/505800d55f2e45319bee32e6e0788566.png',
-            'https://shangshanren.cn/mp/files/20221031/505800d55f2e45319bee32e6e0788566.png',
-            'https://shangshanren.cn/mp/files/20221031/505800d55f2e45319bee32e6e0788566.png'
-        ]
+        price: 0,
+        list1: [],
+        list2: [],
+        images: [],
+        swipers: []
     },
     onLoad: function (options) {
         // 页面创建时执行
@@ -21,13 +23,20 @@ Page({
             withShareTicket: true
         })
         this.setData({
-            title: options.title,
+            id: options.id,
+            docId: options.docId,
+            docName: options.docName,
+            collectionId: options.collectionId,
             navBarHeight: getApp().globalData.navBarHeight,
             statusBarHeight: getApp().globalData.statusBarHeight
         })
     },
     onShow: function () {
         // 页面出现在前台时执行
+        this.setData({
+            loading: false
+        })
+        this.getInfo()
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
@@ -57,16 +66,76 @@ Page({
         // tab 点击时执行
     },
 
+    getInfo() {
+        WXAPI.goodsDetail({
+            commodityId: this.data.id
+        }).then((res) => {
+            res.data = res.data || {}
+            this.setData({
+                name: res.data.commodityName || '',
+                list1: res.data.optionalPkgs || [],
+                list2: res.data.compulsoryPkgs || [],
+                images: res.data.detailImgs || [],
+                swipers: res.data.bannerImgs || []
+            })
+            this.setPrice()
+        })
+    },
+    setPrice() {
+        let price = this.data.list2.reduce((sum, item) => {
+            return sum + item.totalAmount
+        }, 0)
+        if (this.data.collectionId){
+            let select = this.data.list1.find(item => {
+                return this.data.collectionId == item.collectionId
+            })
+            if (select){
+                price += select.totalAmount
+            }
+        }
+        price = new Number(price).toFixed(2)
+        this.setData({
+            price
+        })
+    },
     onBackTap() {
         wx.navigateBack({})
     },
     onRadioChange(event) {
-        console.log(event)
+        const item = event.currentTarget.dataset.item
+        this.setData({
+            collectionId: item.collectionId
+        })
+        this.setPrice()
     },
-    onSelectTap() {},
+    onSelectTap() {
+        wx.navigateTo({
+            url: `/pages/health/doctors/index?id=${this.data.id}`
+        })
+    },
     onBuyClick() {
+        if (!this.data.collectionId){
+            wx.showToast({
+                title: '请选择具体套餐',
+                icon: 'error'
+            })
+            return
+        }
+        if (!this.data.docId){
+            wx.showToast({
+                title: '请选择医生',
+                icon: 'error'
+            })
+            return
+        }
         this.setData({
             loading: true
+        })
+        const collectionIds = [this.data.collectionId].concat(this.data.list2.map(item => {
+            return item.collectionId
+        }))
+        wx.navigateTo({
+            url: `/pages/doctor/fill/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
         })
     }
 })

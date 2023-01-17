@@ -31,8 +31,6 @@
         "pages/health/service/index",
         "pages/health/doctors/index",
         "pages/health/detail/index",
-        "pages/health/fill/index",
-        "pages/health/buy/index",
         "pages/me/main",
         "pages/me/patients/index",
         "pages/me/patients/editUser",

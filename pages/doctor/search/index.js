@@ -7,47 +7,21 @@ Page({
         show2: false,
         keyWords: '',
         activeId: null,
+        activeName: '',
         mainActiveIndex: 0,
-        list: [1],
-        items: [
-            {
-                text: '城市1',
-                children: [
-                    {
-                        text: '温州1',
-                        id: 1
-                    },
-                    {
-                        text: '杭州1',
-                        id: 2
-                    },
-                ]
-            },
-            {
-                text: '城市2',
-                children: [
-                    {
-                        text: '温州2',
-                        id: 3
-                    },
-                    {
-                        text: '杭州2',
-                        id: 4
-                    },
-                ]
-            }
-        ],
-        columns: [
-            { text: '杭州', id: 1 },
-            { text: '宁波', id: 2 },
-            { text: '温州', id: 3 }
-        ]
+        professionalTitle: '',
+        list: [],
+        items: [],
+        columns: []
     },
     onLoad: function (options) {
         // 页面创建时执行
         wx.showShareMenu({
             withShareTicket: true
         })
+        this.getLists()
+        this.getItems()
+        this.getColumns()
     },
     onShow: function () {
         // 页面出现在前台时执行
@@ -80,8 +54,52 @@ Page({
         // tab 点击时执行
     },
 
+    getLists() {
+        WXAPI.accurateDoctors({
+            queryText: this.data.keyWords.trim(),
+            subjectClassifyId: this.data.activeId || '',
+            professionalTitle: this.data.professionalTitle
+        }).then((res) => {
+            this.setData({
+                list: res.data || []
+            })
+        })
+    },
+    getItems() {
+        WXAPI.treeMedicalSubjects(null).then((res) => {
+            const items = (res.data || []).map(item => {
+                return {
+                    text: item.subjectClassifyName,
+                    children: (item.children || []).map(subItem => {
+                        return {
+                            id: subItem.subjectClassifyId,
+                            text: subItem.subjectClassifyName
+                        }
+                    })
+                }
+            })
+            this.setData({
+                items
+            })
+        })
+    },
+    getColumns() {
+        WXAPI.professionalTitles({
+            type: 1
+        }).then((res) => {
+            const columns = (res.data || []).map(item => {
+                return {
+                    id: item.value,
+                    text: item.value
+                }
+            })
+            this.setData({
+                columns
+            })
+        })
+    },
     onInputChange(event) {
-        console.log(event)
+        this.getLists()
     },
     onKeShiTap() {
         this.setData({
@@ -94,22 +112,23 @@ Page({
         })
     },
     onDoctorTap(event) {
-        console.log(event)
+        const item = event.currentTarget.dataset.item
         wx.navigateTo({
-          url: `/pages/doctor/info/index?id=${123}&title=${456}`
+            url: `/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
         })
     },
     onKeShiClickNav(event) {
-        console.log(event)
         this.setData({
             mainActiveIndex: event.detail.index || 0
         })
     },
     onKeShiClickItem(event) {
-        console.log(event)
         this.setData({
-            show1: false
+            show1: false,
+            activeId: event.detail.id,
+            activeName: event.detail.text
         })
+        this.getLists()
     },
     closePopup() {
         this.setData({
@@ -122,9 +141,10 @@ Page({
         })
     },
     onZhiJiConfirm(event) {
-        console.log(event)
         this.setData({
-            show2: false
+            show2: false,
+            professionalTitle: event.detail.value.text
         })
+        this.getLists()
     }
 })

@@ -3,13 +3,25 @@ const Config = require('../../../utils/config')
 
 Page({
     data: {
-        loading: false
+        loading: false,
+        checked: false,
+        id: null,
+        userName: '',
+        info: {}
     },
     onLoad: function (options) {
         // 页面创建时执行
+        this.setData({
+            id: options.id,
+            userName: options.userName
+        })
+        this.getInfo()
     },
     onShow: function () {
         // 页面出现在前台时执行
+        this.setData({
+            loading: false
+        })
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
@@ -39,15 +51,73 @@ Page({
         // tab 点击时执行
     },
 
-    onRadioChange(event) {
-        console.log(event)
+    getInfo() {
+        WXAPI.paymentCommodity({
+            orderId: this.data.id
+        }).then((res) => {
+            this.setData({
+                info: res.data || {}
+            })
+        })
+    },
+    onSchemeTap() {
+        wx.navigateTo({
+            url: '/pages/home/consent/index?title=健康管家服务授权协议&type=1'
+        })
     },
     onBuyClick() {
+        if (!this.data.checked){
+            wx.showToast({
+                title: '请先阅读并同意《健康管家服务授权协议》',
+                icon: 'none'
+            })
+            return
+        }
         this.setData({
             loading: true
         })
-        wx.reLaunch({
-          url: '/pages/home/main',
+        if (this.data.info.payMoney === 0){
+            wx.showToast({
+                title: '支付成功',
+                icon: 'success',
+                duration: 2000
+            })
+            setTimeout(() => {
+                wx.reLaunch({
+                    url: '/pages/home/main'
+                })
+            }, 2000)
+            return
+        }
+        WXAPI.registerPayOrder({
+            orderId: this.data.id,
+            payMethod: 'weixin_miniapp'
+        }).then((res) => {
+            wx.requestPayment({
+                timeStamp: res.data.timeStamp,
+                nonceStr: res.data.nonceStr,
+                package: res.data.packageStr,
+                signType: 'MD5',
+                paySign: res.data.paySign,
+                success() {
+                    wx.showToast({
+                        title: '支付成功',
+                        icon: 'success',
+                        duration: 2000
+                    })
+                    setTimeout(() => {
+                        wx.reLaunch({
+                            url: '/pages/home/main'
+                        })
+                    }, 2000)
+                },
+                fail(err) {
+                    console.info(err)
+                    this.setData({
+                        loading: false
+                    })
+                }
+            })
         })
     }
 })

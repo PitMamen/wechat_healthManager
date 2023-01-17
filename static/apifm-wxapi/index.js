@@ -196,6 +196,8 @@ module.exports =
                 var PUSH_SERVICE = '/push-api';
                 var INFO_SERVICE = '/info-api';
                 var IM_SERVICE = '/im-api';
+                var UAM_SERVICE = '/uam-api';
+                var MEDICAL_SERVICE = '/medical-api';
                 var FOLLOW_SERVICE = '/follow-api';
 
 
@@ -552,6 +554,74 @@ module.exports =
                         var url = ACCOUNT_SERVICE + '/userInfo/queryUserInfo?userId=' + userId
                         return request(url, 'get', null);
                     },
+
+                    //小程序端-医疗学科树形列表
+                    treeMedicalSubjects: function treeMedicalSubjects(data) {
+                        console.log(data)
+                        var url = UAM_SERVICE + '/tdMedicalSubject/treeMedicalSubjects'
+                        return request(url, 'get', data, true);
+                    },
+                    //新版-创建健康商城订单
+                    createStewardOrder: function createStewardOrder(data) {
+                        console.log(data)
+                        var url = ORDER_SERVICE + '/order/tbOrder/createStewardOrder'
+                        return request(url, 'post', data, true);
+                    },
+                    //新版-支付下单操作
+                    registerPayOrder: function registerPayOrder(data) {
+                        console.log(data)
+                        var url = ORDER_SERVICE + '/order/tbOrder/registerPayOrder'
+                        return request(url, 'post', data, true);
+                    },
+                    //新版-健康商城支付商品信息
+                    paymentCommodity: function paymentCommodity(data) {
+                        console.log(data)
+                        var url = ORDER_SERVICE + '/order/tbOrder/paymentCommodity'
+                        return request(url, 'get', data, true);
+                    },
+                    //小程序端-名医咨询医生列表
+                    accurateDoctors: function accurateDoctors(data) {
+                        console.log(data)
+                        var url = MEDICAL_SERVICE + '/commodity/accurateDoctors'
+                        return request(url, 'post', data, true);
+                    },
+                    //小程序端-商品分类列表
+                    classifies: function classifies(data) {
+                        console.log(data)
+                        var url = MEDICAL_SERVICE + '/commodity/classifies'
+                        return request(url, 'get', data, true);
+                    },
+                    //小程序端-按分类商品列表
+                    classifyCommodities: function classifyCommodities(data) {
+                        console.log(data)
+                        var url = MEDICAL_SERVICE + '/commodity/classifyCommodities'
+                        return request(url, 'get', data, true);
+                    },
+                    //小程序端-套餐可选医务人员列表
+                    commodityOptionalDoctors: function commodityOptionalDoctors(data) {
+                        console.log(data)
+                        var url = MEDICAL_SERVICE + '/commodity/commodityOptionalDoctors'
+                        return request(url, 'post', data, true);
+                    },
+                    //小程序端-商品详情
+                    goodsDetail: function goodsDetail(data) {
+                        console.log(data)
+                        var url = MEDICAL_SERVICE + '/commodity/detail'
+                        return request(url, 'get', data, true);
+                    },
+                    //小程序端-名医咨询医生详情(医生详情 + 商品列表)
+                    doctorCommodities: function doctorCommodities(data) {
+                        console.log(data)
+                        var url = MEDICAL_SERVICE + '/commodity/doctorCommodities'
+                        return request(url, 'get', data, true);
+                    },
+                    //职称类型[正主任医生,副主任医生,...]
+                    professionalTitles: function professionalTitles(data) {
+                        console.log(data)
+                        var url = ACCOUNT_SERVICE + '/accountDict/professionalTitles'
+                        return request(url, 'get', data, true);
+                    },
+                    
                     //健康档案用户基本信息
                     healthRecordUserInfo: function healthRecordUserInfo(userId) {
 

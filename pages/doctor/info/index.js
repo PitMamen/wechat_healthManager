@@ -5,11 +5,14 @@ Page({
     data: {
         navBarHeight: null,
         statusBarHeight: null,
+        id: null,
         title: '',
         show: false,
         loading: false,
-        activeId: null,
-        list: [1]
+        info: {},
+        activeItem: {},
+        activepItem: {},
+        list: []
     },
     onLoad: function (options) {
         // 页面创建时执行
@@ -17,13 +20,18 @@ Page({
             withShareTicket: true
         })
         this.setData({
+            id: options.id,
             title: options.title,
             navBarHeight: getApp().globalData.navBarHeight,
             statusBarHeight: getApp().globalData.statusBarHeight
         })
+        this.getInfo()
     },
     onShow: function () {
         // 页面出现在前台时执行
+        this.setData({
+            loading: false
+        })
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
@@ -53,6 +61,28 @@ Page({
         // tab 点击时执行
     },
 
+    getInfo() {
+        WXAPI.doctorCommodities({
+            doctorUserId: this.data.id
+        }).then((res) => {
+            this.setData({
+                info: res.data || {},
+                list: ((res.data || {}).commodities || []).map(item => {
+                    return {
+                        ...item,
+                        className: this.getClassName(item.classifyCode)
+                    }
+                })
+            })
+        })
+    },
+    getClassName(code) {
+        return {
+            '101': 'image',
+            '102': 'phone',
+            '103': 'video'
+        }[code]
+    },
     onBackTap() {
         wx.navigateBack({})
     },
@@ -67,20 +97,32 @@ Page({
         })
     },
     onDetailTap(event) {
-        console.log(event)
+        const item = event.currentTarget.dataset.item
         wx.navigateTo({
-          url: `/pages/doctor/detail/index?id=${123}&title=${456}`
+            url: `/pages/doctor/detail/index?id=${item.commodityId}&docId=${this.data.id}&docName=${this.data.title}`
         })
     },
     onGoodTap(event) {
-        console.log(event)
+        const item = event.currentTarget.dataset.item
+        const pitem = event.currentTarget.dataset.pitem
         this.setData({
-            activeId: 1
+            activeItem: item,
+            activepItem: pitem
         })
     },
     onBuyClick() {
+        if (!this.data.activeItem.collectionId){
+            wx.showToast({
+                title: '请选择具体套餐',
+                icon: 'error'
+            })
+            return
+        }
         this.setData({
             loading: true
+        })
+        wx.navigateTo({
+            url: `/pages/doctor/detail/index?id=${this.data.activepItem.commodityId}&docId=${this.data.id}&docName=${this.data.title}&collectionId=${this.data.activeItem.collectionId}`
         })
     }
 })

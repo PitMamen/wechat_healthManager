@@ -19,6 +19,7 @@
     left: 50%;
     bottom: 100rpx;
     transform: translateX(-50%);
+    z-index: 1;
     border-radius: 8rpx;
 }
 .wrap .top {

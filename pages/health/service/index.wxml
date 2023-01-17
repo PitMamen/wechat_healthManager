@@ -12,45 +12,18 @@
             style="width: 100%;"
         >
             <view slot="content" class="slot-wrap">
-                <van-empty class="empty" description="暂无记录" wx:if="{{ false }}" />
-                <view class="list">
-                    <view class="item">
-                        <view class="title">疾病管理</view>
-                        <view class="sub-list">
-                            <view class="sub-item" bind:tap="onTaoCanTap">
-                                <image src="/image/myjk/taocan.png" mode="aspectFill" />
+                <van-empty class="empty" description="暂无记录" wx:if="{{ children.length === 0 }}" />
+                <view class="list" wx:else>
+                    <view class="item" wx:for="{{ children }}" wx:key="classifyId">
+                        <view class="title">{{ item.classifyName }}</view>
+                        <view class="sub-list" wx:if="{{ item.commodities && item.commodities.length>0 }}">
+                            <view class="sub-item" wx:for="{{ item.commodities }}" wx:key="commodityId" wx:for-item="subItem" wx:for-index="subIndex" data-item="{{ subItem }}" bind:tap="onTaoCanTap">
+                                <image src="{{ subItem.frontImg }}" mode="aspectFill" />
                                 <view class="right">
-                                    <view class="name">张医生高血压全病程管理</view>
-                                    <view class="depart">精神科</view>
+                                    <view class="name">{{ subItem.commodityName }}</view>
+                                    <view class="depart">{{ subItem.subjectClassifyName }}</view>
                                     <view class="price">
-                                        <text class="num">¥ 300</text>
-                                        <text>起</text>
-                                    </view>
-                                </view>
-                            </view>
-                            <view class="sub-item" bind:tap="onTaoCanTap">
-                                <image src="/image/myjk/taocan.png" mode="aspectFill" />
-                                <view class="right">
-                                    <view class="name">张医生高血压全病程管理</view>
-                                    <view class="depart">精神科</view>
-                                    <view class="price">
-                                        <text class="num">¥ 300</text>
-                                        <text>起</text>
-                                    </view>
-                                </view>
-                            </view>
-                        </view>
-                    </view>
-                    <view class="item">
-                        <view class="title">疾病管理</view>
-                        <view class="sub-list">
-                            <view class="sub-item" bind:tap="onTaoCanTap">
-                                <image src="/image/myjk/taocan.png" mode="aspectFill" />
-                                <view class="right">
-                                    <view class="name">张医生高血压全病程管理</view>
-                                    <view class="depart">精神科</view>
-                                    <view class="price">
-                                        <text class="num">¥ 300</text>
+                                        <text class="num">¥ {{ subItem.startPrice }}</text>
                                         <text>起</text>
                                     </view>
                                 </view>

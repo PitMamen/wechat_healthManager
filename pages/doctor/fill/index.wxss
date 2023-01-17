@@ -8,6 +8,7 @@
     left: 50%;
     bottom: 100rpx;
     transform: translateX(-50%);
+    z-index: 1;
     border-radius: 8rpx;
 }
 .wrap .top {
@@ -30,7 +31,8 @@
 .wrap .bottom {
     margin-top: 60rpx;
     margin-bottom: 188rpx;
-    padding: 0 22rpx; 
+    padding: 0 22rpx;
+    overflow-y: auto;
 }
 .wrap .bottom .row {
     margin-bottom: 60rpx;
