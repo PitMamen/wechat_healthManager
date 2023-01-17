@@ -14,6 +14,10 @@ function savePatientInfoList(patientInfoList) {
         })
         //保存默认就诊人
         wx.setStorageSync('defaultPatient', defaultPatient)
+    }else {
+         //删除默认就诊人
+         wx.removeStorageSync('defaultPatient')
+        
     }
 
 }

@@ -306,22 +306,7 @@ function taskType(type) {
  */
 function taskType2(type, execFlag) {
 
-    if (type == '1') {
-        var t = {
-            icon: 'home_icon_txda.png',
-            title: '完善您的健康档案',
-            btnText: '填写'
-        }
-        return t;
-    } else if (type == '2') {
-        var t = {
-            icon: 'home_icon_dzjkjh.png',
-            title: '制定您的专属健康计划',
-            btnText: '定制'
-        }
-        return t;
-
-    } else if (type == 'Exam') { //检验单
+    if (type == 'Exam') { //检验单
         var t = {
             icon: 'home_icon_scjyd.png',
             title: '上传检验单',
@@ -353,14 +338,6 @@ function taskType2(type, execFlag) {
         }
         return t;
 
-    } else if (type == 'DailyRecord') { //日常记录
-        var t = {
-            icon: 'home_icon_rcjl.png',
-            title: '日常记录',
-            btnText: '上传'
-        }
-        return t;
-
     } else if (type == 'Knowledge') { //文章
         var t = {
             icon: 'home_icon_wz.png',
@@ -379,42 +356,13 @@ function taskType2(type, execFlag) {
 
     } else if (type == 'Evaluate') { //健康评估
         var t = {
-            icon: 'home_icon_jkpg.png',
+            icon: 'home_icon_xx.png',
             title: '健康评估',
             btnText: '查看'
         }
         return t;
 
-    } else if (type == 'videoNum') {
-        var t = {
-            icon: 'home_icon_spzx.png',
-            title: '视频咨询',
-            btnText: execFlag === 2 ? '进入' : '进入'
-        }
-        return t;
-
-    } else if (type == 'textNum') {
-        var t = {
-            icon: 'home_icon_twzx.png',
-            title: '图文咨询',
-            btnText: execFlag === 2 ? '进入' : '进入'
-        }
-        return t;
-    } else if (type == 'telNum') {
-        var t = {
-            icon: 'home_icon_dhzx.png',
-            title: '电话咨询',
-            btnText: '进入'
-        }
-        return t;
-    } else if (type == 'ICUConsultNum') {
-        var t = {
-            icon: 'home_icon_zzhy.png',
-            title: '重症会诊',
-            btnText: execFlag === 2 ? '进入' : '上传'
-        }
-        return t;
-    }else if (type == 'Rdiagnosis') { //复诊提醒
+    }else  if (type == 'Rdiagnosis') { //复诊提醒
         var t = {
             icon: 'home_icon_fztx.png',
             title: '复诊提醒',
