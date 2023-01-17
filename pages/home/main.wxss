@@ -6,8 +6,7 @@
   }
 page {
     background-color: #DDEFF3;
-    width: 100%;
-    overflow-x: hidden;
+
 }
 
 .navigation-custom-view {
@@ -35,9 +34,9 @@ page {
 .mid-view {
     display: flex;
     flex-direction: row;
-    width: 750rpx;
-    padding-left: 24rpx;
-    padding-right: 24rpx;
+    width: 702rpx;
+    margin-left: 24rpx;
+   
     margin-bottom: 20rpx;
     margin-top: 20rpx;
 

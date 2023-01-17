@@ -66,6 +66,7 @@ Page({
         bus.on('switchHospital', (msg) => {
             // 支持多参数
             console.log("监听机构切换",msg)
+          
             this.getMaLoginInfo()
           })
           if(options.type==1){

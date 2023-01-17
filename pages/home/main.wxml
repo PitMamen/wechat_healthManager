@@ -14,7 +14,7 @@
     </view>
 
 </van-sticky>
-<view class="mid-view">
+<view class="mid-view"  wx:if="{{topMenuList.length>0}}">
     <block wx:if="{{topMenuList.length==1}}">
         <image src="{{topMenuList[0].iconLong}}" class="mid-view-item" style="width:702rpx" bindtap="topMenuClick" data-menu="{{topMenuList[0]}}"></image>
     </block>
@@ -52,7 +52,7 @@
 
 
 
-<view class="todo-card" wx:if="{{taskList.length>0}}">
+<view class="todo-card" style="min-height: 800rpx;">
     <view class="todo-title-view" bindtap="">
         <text class="todo-title">我的待办</text>
         <van-icon info="{{taskList.length>0?taskList.length:''}}" />
@@ -74,6 +74,6 @@
         </view>
         <view wx:if="{{index+1 !== taskList.length}}" class="split" />
     </block>
-
+    <van-empty wx:if="{{ !taskList || taskList.length == 0 }}" description="暂无待办" />
 
 </view>
