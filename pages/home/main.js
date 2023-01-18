@@ -376,9 +376,6 @@ Page({
                 item.planDescribe = item.templateTitle
                 allTaskList.push(item)
             }
-
-
-
         })
 
         this.setData({

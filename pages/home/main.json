@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "健康管家在线",
   "navigationBarBackgroundColor": "#DDEFF3",
-  "navigationStyle":"custom"
+  "navigationStyle":"custom",
+  "disableScroll": true
 }
