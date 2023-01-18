@@ -51,7 +51,7 @@ Page({
         wx.showShareMenu({
             withShareTicket: true,
         })
-       
+
         //监听客服和个案管理师发来的消息数
         getApp().watch('unreadServerMessageCount', this.watchBack);
         //监听医生发来的消息数
@@ -59,31 +59,31 @@ Page({
         //监听登录成功
         bus.on('loginSuccess', (msg) => {
             // 支持多参数
-            console.log("监听登录成功",msg)
+            console.log("监听登录成功", msg)
             this.getMaLoginInfo()
-          })
+        })
         //监听机构切换
         bus.on('switchHospital', (msg) => {
             // 支持多参数
-            console.log("监听机构切换",msg)
-          
+            console.log("监听机构切换", msg)
+
             this.getMaLoginInfo()
-          })
-          if(options.type==1){
-              //扫码用户进入首页 重新获取登录信息 
-              this.getMaLoginInfo()
-          }
+        })
+        if (options.type == 1) {
+            //扫码用户进入首页 重新获取登录信息 
+            this.getMaLoginInfo()
+        }
     },
     watchBack: function (name, value) {
         console.log('name==' + name);
         console.log(value);
-         if (name === 'unreadServerMessageCount') {
+        if (name === 'unreadServerMessageCount') {
             this.setData({
                 unreadMymessageCount: value
             })
-            this.data.midMenuList.forEach(item=>{
-                if(item.menuName == '我的消息'){
-                    item.unReadCount=value
+            this.data.midMenuList.forEach(item => {
+                if (item.menuName == '我的消息') {
+                    item.unReadCount = value
                 }
             })
             this.setData({
@@ -104,15 +104,15 @@ Page({
 
     },
     onShow: function (e) {
-        
+
         var userInfoSync = wx.getStorageSync('userInfo')
 
         if (!userInfoSync || userInfoSync === undefined) {
             //有2种情况：1、游客 2、正在登录还未返回数据
             console.log("无用户信息")
-            if( getApp().globalData.currentHospital.hospitalCode){
+            if (getApp().globalData.currentHospital.hospitalCode) {
                 this.setData({
-                    currentHospital:  getApp().globalData.currentHospital
+                    currentHospital: getApp().globalData.currentHospital
                 })
                 this.getTdShopmallMainpageMenuList()
             }
@@ -120,9 +120,9 @@ Page({
         }
         this.afterMaLogin()
     },
-     //获取登录信息
-     getMaLoginInfo() {
-       
+    //获取登录信息
+    getMaLoginInfo() {
+
         WXAPI.getMaLoginInfo({})
             .then(res => {
                 if (res.code == 0) {
@@ -130,7 +130,7 @@ Page({
                     if (res.data.loginStatus == '1') {
 
                         var currentHospital = {
-                            tenantId:res.data.tenantId,
+                            tenantId: res.data.tenantId,
                             hospitalCode: res.data.hospitalCode,
                             hospitalName: res.data.hospitalName,
                             hospitalLevelName: res.data.hospitalLevelName
@@ -139,18 +139,21 @@ Page({
                             currentHospital: currentHospital
                         })
                         getApp().globalData.currentHospital = currentHospital
-                        UserManager.savePatientInfoList( res.data.patients)
+
+                        //保存机构
+                        wx.setStorageSync('currentHospital', currentHospital)
+                        UserManager.savePatientInfoList(res.data.patients)
 
                         this.getTdShopmallMainpageMenuList()
                         this.afterMaLogin()
                     } else {
                         //没有选择机构
-                        if( getApp().globalData.currentHospital.hospitalCode){
+                        if (getApp().globalData.currentHospital.hospitalCode) {
                             this.setData({
-                                currentHospital:  getApp().globalData.currentHospital
+                                currentHospital: getApp().globalData.currentHospital
                             })
                             this.getTdShopmallMainpageMenuList()
-                        }else {
+                        } else {
                             this.goHospitalSelectPage()
                         }
 
@@ -161,27 +164,27 @@ Page({
             })
     },
     //获取到登录信息之后
-    afterMaLogin(){
+    afterMaLogin() {
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient'),
             patientList: wx.getStorageSync('userInfo').account.user,
             userInfo: wx.getStorageSync('userInfo').account
         })
-        if (this.data.defaultPatient && this.data.defaultPatient.userId) {  
+        if (this.data.defaultPatient && this.data.defaultPatient.userId) {
             this.queryMyRights()
             this.qryMyFollowTask()
             IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
             IMUtil.getConversationList()
-        }else {
+        } else {
             this.setData({
                 taskList: []
             })
-            this.data.midMenuList.forEach(item=>{
-                if(item.menuName == '我的消息'){
-                    item.unReadCount=0
+            this.data.midMenuList.forEach(item => {
+                if (item.menuName == '我的消息') {
+                    item.unReadCount = 0
                 }
-                if(item.menuName == '我的权益'){
-                    item.unReadCount=0
+                if (item.menuName == '我的权益') {
+                    item.unReadCount = 0
                 }
             })
             this.setData({
@@ -225,7 +228,7 @@ Page({
         //     url: '/pages/login/follow-checkin?ks=1030400'
         // })
     },
-   
+
 
     //获取菜单列表
     getTdShopmallMainpageMenuList() {
@@ -236,20 +239,20 @@ Page({
         })
             .then(res => {
                 if (res.code == 0) {
-                    var topMenuList=[]
-                    var midMenuList=[]
-                   
-                    res.data.forEach(item=>{
-                        if(item.menuType==1){
-                            topMenuList.push(item) 
-                        }else if(item.menuType==2){
+                    var topMenuList = []
+                    var midMenuList = []
+
+                    res.data.forEach(item => {
+                        if (item.menuType == 1) {
+                            topMenuList.push(item)
+                        } else if (item.menuType == 2) {
                             midMenuList.push(item)
                         }
-                        
+
                     })
                     this.setData({
-                        topMenuList:topMenuList,
-                        midMenuList:midMenuList
+                        topMenuList: topMenuList,
+                        midMenuList: midMenuList
                     })
                     this.getRatio()
                     this.queryMyRights()
@@ -258,36 +261,36 @@ Page({
     },
 
     //菜单点击
-    topMenuClick(e){
-        var menu= e.currentTarget.dataset.menu
+    topMenuClick(e) {
+        var menu = e.currentTarget.dataset.menu
         console.log(menu)
-        if(menu.jumpType == 1){ //小程序内部
+        if (menu.jumpType == 1) { //小程序内部
 
-                    //判断是否需要校验登录
-                      if(Config.checkMenuLoginPage(menu.jumpUrl)) {
+            //判断是否需要校验登录
+            if (Config.checkMenuLoginPage(menu.jumpUrl)) {
 
-                        if (this.checkLoginStatus()) {
-                            if (getApp().getDefaultPatient()) {
-                                wx.navigateTo({
-                                    url: menu.jumpUrl,
-                                  })
-                            }
-                        }
-                      }else {
+                if (this.checkLoginStatus()) {
+                    if (getApp().getDefaultPatient()) {
                         wx.navigateTo({
                             url: menu.jumpUrl,
-                          })
-                      }
-            
-        }else if(menu.jumpType == 2){ //第三方小程序
-           
-                    wx.navigateToMiniProgram({
-                        appId: menu.appId,
-                        path:menu.jumpUrl,
-                        envVersion: Config.getConstantData().envVersion,
-                    })
-            
-        }else if(menu.jumpType == 3){ //第三方链接
+                        })
+                    }
+                }
+            } else {
+                wx.navigateTo({
+                    url: menu.jumpUrl,
+                })
+            }
+
+        } else if (menu.jumpType == 2) { //第三方小程序
+
+            wx.navigateToMiniProgram({
+                appId: menu.appId,
+                path: menu.jumpUrl,
+                envVersion: Config.getConstantData().envVersion,
+            })
+
+        } else if (menu.jumpType == 3) { //第三方链接
             this.goWenjuanPage(menu.jumpUrl)
         }
     },
@@ -335,17 +338,17 @@ Page({
 
 
         const res = await WXAPI.queryMyRights(this.data.defaultPatient.userId, '', '', '')
-        var myRightsCount= 0
-        if(res.code==0){
-            myRightsCount=res.data.length
+        var myRightsCount = 0
+        if (res.code == 0) {
+            myRightsCount = res.data.length
         }
 
         this.setData({
-            myRightsCount:myRightsCount,
+            myRightsCount: myRightsCount,
         })
-        this.data.midMenuList.forEach(item=>{
-            if(item.menuName == '我的权益'){
-                item.unReadCount=myRightsCount
+        this.data.midMenuList.forEach(item => {
+            if (item.menuName == '我的权益') {
+                item.unReadCount = myRightsCount
             }
         })
         this.setData({

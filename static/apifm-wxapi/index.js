@@ -227,12 +227,16 @@ module.exports =
                     if (!isJson) {
                         var header = {
                             'Content-Type': 'application/x-www-form-urlencoded',
-                            'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : ''
+                            'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
+                            'X-hospitalCode':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').hospitalCode : '',
+                            'X-tenantId':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').tenantId : '',
                         };
                     } else {
                         var header = {
                             'Content-Type': 'application/json',
-                            'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : ''
+                            'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
+                            'X-hospitalCode':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').hospitalCode : '',
+                            'X-tenantId':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').tenantId : '',
                         };
                     }
 
@@ -324,12 +328,16 @@ module.exports =
                     if (!isJson) {
                         var header = {
                             'Content-Type': 'application/x-www-form-urlencoded',
-                            'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : ''
+                            'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
+                            'X-hospitalCode':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').hospitalCode : '',
+                            'X-tenantId':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').tenantId : '',
                         };
                     } else {
                         var header = {
                             'Content-Type': 'application/json',
-                            'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : ''
+                            'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
+                            'X-hospitalCode':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').hospitalCode : '',
+                            'X-tenantId':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').tenantId : '',
                         };
                     }
 

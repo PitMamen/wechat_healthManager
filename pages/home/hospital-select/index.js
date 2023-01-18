@@ -49,7 +49,7 @@ Page({
     //选择医院
     onHospitalSeleced(e) {
 
-       
+
         var hospital = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
             this.switchHospital(hospital)
@@ -76,7 +76,8 @@ Page({
         }
 
         getApp().globalData.currentHospital = currentHospital
-
+        //保存机构
+        wx.setStorageSync('currentHospital', currentHospital)
         //发送事件 切换机构
         bus.emit('switchHospital', hospital.hospitalCode)
         wx.switchTab({
