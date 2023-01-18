@@ -42,8 +42,11 @@ Page({
     //发起网络请求
     var that = this;
     var list = this.data.list
-    // const res = await WXAPI.articleListQuery({ disease: this.data.disease, pageSize: that.data.pageSize, start: page,status:2 })
-    const res = await WXAPI.articleListQuery({ disease: this.data.disease, pageSize: that.data.pageSize, start: page })
+    const res = await WXAPI.articleListQuery({
+        hospitalCode:getApp().globalData.currentHospital.hospitalCode, 
+        disease: this.data.disease, 
+        pageSize: that.data.pageSize, 
+        start: page })
     console.log(res)
     if (res.code == 0) {
       if (page == 1) {
@@ -71,7 +74,11 @@ Page({
     //发起网络请求
     var that = this;
     var list = this.data.list
-    const res = await WXAPI.getArticleByClickNum({ userId: this.data.defaultPatient.userId, pageSize: that.data.pageSize, pageNo: page })
+    const res = await WXAPI.getArticleByClickNum({ 
+        hospitalCode:getApp().globalData.currentHospital.hospitalCode, 
+        userId: this.data.defaultPatient.userId, 
+        pageSize: that.data.pageSize, 
+        pageNo: page })
     console.log(res)
     if (res.code == 0) {
 
@@ -98,7 +105,7 @@ Page({
   //获取的是大家都在看
   async getTagsByClickNum() {
 
-    const res = await WXAPI.getArticleByClickNum({ pageSize: 20, pageNo: 1 })
+    const res = await WXAPI.getArticleByClickNum({ hospitalCode:getApp().globalData.currentHospital.hospitalCode,  pageSize: 100, pageNo: 1 })
 
     if (res.code == 0) {
       var list = []
@@ -109,7 +116,7 @@ Page({
             hased=true
           }
         })
-        if(!hased){
+        if(!hased && item.articleType){
           list.push(item.articleType)
         }
        
@@ -125,8 +132,11 @@ Page({
     //发起网络请求
     var that = this;
     var list = this.data.list
-    // const res = await WXAPI.articleByTitle({ title: this.data.keyWords, pageSize: that.data.pageSize, start: page ,status:2 })
-    const res = await WXAPI.articleByTitle({ title: this.data.keyWords, pageSize: that.data.pageSize, start: page })
+    const res = await WXAPI.articleByTitle({ 
+        hospitalCode:getApp().globalData.currentHospital.hospitalCode,  
+        title: this.data.keyWords, 
+        pageSize: that.data.pageSize, 
+        start: page })
     console.log(res)
     if (res.code == 0) {
       if (page == 1) {

@@ -17,8 +17,8 @@
       </view>
     </view> -->
     </van-sticky>
-    <view class="tag-view">
-      <view style="font-size: 30rpx;">大家都在看</view>
+    <view class="tag-view" wx:if="{{tagList.length>0}}">
+      <view style="font-size: 30rpx;" >大家都在看</view>
       <van-tag custom-class="tag-class" round size='large' wx:for="{{tagList}}" plain="{{index !== diseaseIndex}}" type="primary" bindtap="binddiseaseTop" data-item="{{item}}  " data-index="{{index}}">{{item}}</van-tag>
     </view>
     <view class="back">

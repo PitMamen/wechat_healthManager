@@ -1,0 +1,18 @@
+<van-search placeholder="搜索医院" value="{{keyWords}}" bind:search="onSearch" bind:change="onChange" bind:cancel="onCancel" />
+
+
+<view class="title" wx:if="{{currentHospital.hospitalName}}">我的医院 </view>
+<view class="hospital-item" bindtap="onCurrentHospitalClick" wx:if="{{currentHospital.hospitalName}}">
+    <view class="item-name">{{currentHospital.hospitalName}}</view>
+    <view class="item-des">{{currentHospital.hospitalLevelName}}</view>
+</view>
+<view class="title">全部医院 </view>
+
+
+<view wx:for="{{hospitalList}}" wx:key="id" bindtap="onHospitalSeleced" data-item="{{item}}">
+    <view class="hospital-item">
+        <view class="item-name">{{item.hospitalName}}</view>
+        <view class="item-des">{{item.hospitalLevelName}}</view>
+    </view>
+    <view class="split"></view>
+</view>
