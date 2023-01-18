@@ -397,7 +397,9 @@ module.exports =
                     }
                     console.log(_url)
                     var header = {
-                        'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : ''
+                        'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
+                        'X-hospitalCode':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').hospitalCode : '',
+                        'X-tenantId':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').tenantId : '',
                     };
                     return new Promise(function (resolve, reject) {
                         wx.uploadFile({
