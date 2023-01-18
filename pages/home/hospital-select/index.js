@@ -76,8 +76,7 @@ Page({
         }
 
         getApp().globalData.currentHospital = currentHospital
-        //保存机构
-        wx.setStorageSync('currentHospital', currentHospital)
+
         //发送事件 切换机构
         bus.emit('switchHospital', hospital.hospitalCode)
         wx.switchTab({

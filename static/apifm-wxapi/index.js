@@ -228,15 +228,15 @@ module.exports =
                         var header = {
                             'Content-Type': 'application/x-www-form-urlencoded',
                             'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
-                            'X-hospitalCode':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').hospitalCode : '',
-                            'X-tenantId':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').tenantId : '',
+                            'X-hospitalCode':getApp().globalData.currentHospital.hospitalCode || '',
+                            'X-tenantId':getApp().globalData.currentHospital.tenantId || '',
                         };
                     } else {
                         var header = {
                             'Content-Type': 'application/json',
                             'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
-                            'X-hospitalCode':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').hospitalCode : '',
-                            'X-tenantId':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').tenantId : '',
+                            'X-hospitalCode':getApp().globalData.currentHospital.hospitalCode || '',
+                            'X-tenantId':getApp().globalData.currentHospital.tenantId || '',
                         };
                     }
 
@@ -329,15 +329,15 @@ module.exports =
                         var header = {
                             'Content-Type': 'application/x-www-form-urlencoded',
                             'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
-                            'X-hospitalCode':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').hospitalCode : '',
-                            'X-tenantId':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').tenantId : '',
+                            'X-hospitalCode':getApp().globalData.currentHospital.hospitalCode || '',
+                            'X-tenantId':getApp().globalData.currentHospital.tenantId || '',
                         };
                     } else {
                         var header = {
                             'Content-Type': 'application/json',
                             'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
-                            'X-hospitalCode':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').hospitalCode : '',
-                            'X-tenantId':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').tenantId : '',
+                            'X-hospitalCode':getApp().globalData.currentHospital.hospitalCode || '',
+                            'X-tenantId':getApp().globalData.currentHospital.tenantId || '',
                         };
                     }
 
@@ -398,8 +398,8 @@ module.exports =
                     console.log(_url)
                     var header = {
                         'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
-                        'X-hospitalCode':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').hospitalCode : '',
-                        'X-tenantId':wx.getStorageSync('currentHospital') ? wx.getStorageSync('currentHospital').tenantId : '',
+                        'X-hospitalCode':getApp().globalData.currentHospital.hospitalCode || '',
+                        'X-tenantId':getApp().globalData.currentHospital.tenantId || '',
                     };
                     return new Promise(function (resolve, reject) {
                         wx.uploadFile({

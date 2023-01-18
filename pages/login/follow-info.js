@@ -160,8 +160,7 @@ Page({
             }
 
             getApp().globalData.currentHospital = currentHospital
-            //保存机构
-            wx.setStorageSync('currentHospital', currentHospital)
+
             this.setData({
                 showPositiveDialog: true
             })

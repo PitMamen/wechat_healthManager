@@ -140,8 +140,6 @@ Page({
                         })
                         getApp().globalData.currentHospital = currentHospital
 
-                        //保存机构
-                        wx.setStorageSync('currentHospital', currentHospital)
                         UserManager.savePatientInfoList(res.data.patients)
 
                         this.getTdShopmallMainpageMenuList()
