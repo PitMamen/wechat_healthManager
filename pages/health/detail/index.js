@@ -114,6 +114,22 @@ Page({
         })
     },
     onBuyClick() {
+        if (!wx.getStorageSync('userInfo')){
+            wx.showModal({
+                title: '提示',
+                content: '此功能需要登录',
+                confirmText: '去登录',
+                cancelText: '取消',
+                success(res) {
+                    if (res.confirm) {
+                        wx.navigateTo({
+                            url: '/pages/login/auth?type=RELOGIN'
+                        })
+                    }
+                }
+            })
+            return
+        }
         if (!this.data.collectionId){
             wx.showToast({
                 title: '请选择具体套餐',

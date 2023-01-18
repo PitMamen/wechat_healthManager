@@ -1,7 +1,7 @@
 <view class="wrap">
     <view class="top">
         <image src="/image/myjk/hospital.png" mode="aspectFill" />
-        <text class="name">中南大学湘雅二医院</text>
+        <text class="name">{{ currentHospital.hospitalName || '' }}</text>
     </view>
     <view class="bottom">
         <van-tree-select

@@ -4,6 +4,7 @@ const Config = require('../../../utils/config')
 Page({
     data: {
         mainActiveIndex: 0,
+        currentHospital: {},
         children: [],
         items: []
     },
@@ -16,6 +17,9 @@ Page({
     },
     onShow: function () {
         // 页面出现在前台时执行
+        this.setData({
+            currentHospital: getApp().globalData.currentHospital || {}
+        })
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
