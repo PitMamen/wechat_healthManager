@@ -71,6 +71,13 @@
     color: #999999 !important;
     line-height: 37rpx !important;
 }
+.wrap .bottom .row .textarea .input-class2 {
+    height: 200rpx;
+    font-size: 30rpx !important;
+    font-weight: 400 !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+    line-height: 37rpx !important;
+}
 .wrap .bottom .row .subtitle {
     margin-top: 20rpx;
     font-size: 28rpx;
