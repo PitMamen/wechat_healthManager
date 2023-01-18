@@ -641,9 +641,7 @@ Page({
         if (this.checkLoginStatus()) {
             if (getApp().getDefaultPatient()) {
                 wx.navigateTo({
-                    // url: './rights/index',
-                    // url: '/pages/doctor/search/index'
-                    url: '/pages/health/service/index'
+                    url: './rights/index',
                 })
             }
         }
