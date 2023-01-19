@@ -1,114 +1,89 @@
-
-<view class="header-box">
-  <image class="avatar" src="{{userInfo.avatarUrl || '/image/avatar.png'}}" mode="aspectFill" binderror="avatarBinderror"></image>
-  <view wx:if="{{defaultPatient}}" class="r">
-    <view style="display: flex;flex-direction: row;float: left;flex: 1;">
-      <view style=" font-size: 36rpx;">{{defaultPatient.userName}}</view>
-      <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;color: #92ADFB;">{{defaultPatient.userSex}}</view>
-      <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;color: #92ADFB;">{{defaultPatient.userAge}}岁</view>
+<view class="header-box"  style="background-size: cover;background-image: url('https://hmg.mclouds.org.cn/content-api/file/I20220331104628351RI6YMUTH3JWWJH-home_bg.jpg'); ">
+    <image class="avatar" src="{{userInfo.avatarUrl || '/image/avatar.png'}}" mode="aspectFill" binderror="avatarBinderror"></image>
+    <view wx:if="{{defaultPatient}}" class="r">
+        <view class="top-des">当前就诊人</view>
+        <view style="display: flex;flex-direction: row;margin-top: 10rpx;align-items: baseline;">
+            <view class="top-name">{{defaultPatient.userName}}</view>
+            <view class="top-name-r">{{defaultPatient.userSex}}</view>
+            <view class="top-name-r">{{defaultPatient.userAge}}岁</view>
+        </view>      
     </view>
-    <view bindtap="bindPatientTap" class="uid"> 切换就诊人</view>
-  </view>
-  
-  <view wx:else  class="top-r" bindtap="addPatientTap">
-    <view style=" font-size: 30rpx;margin-left: 20rpx;">添加就诊人</view>
-  </view>
+    <view wx:if="{{defaultPatient}}" class="top-button" bindtap="bindPatientTap">
+        <van-icon name="exchange" size="30rpx" color="#1a1a1a"/>
+        <view style="margin-left: 14rpx;color: #1a1a1a;">切换</view>
+    </view>
+    <view wx:if="{{!defaultPatient}}" class="top-r" bindtap="addPatientTap">
+        <view style="font-size: 30rpx;   color: #4071A1; margin-left: 20rpx;">添加就诊人</view>
+    </view>
 
 </view>
-<!-- <view style="width: 100%;height:20px;background-color: #4179FB;border-radius: 100%;margin-top: -10px;"></view> -->
 
-<!-- <view class="t-box">
 
-  <view class="category-box">
 
-    <van-grid border="{{false}}" clickable column-num="4">
-      <van-grid-item icon="/image/me_icon_jkda.png" text="健康档案" badge="" bindtap='goHealthRecords' />
-      <van-grid-item icon="/image/me_icon_jkjl.png" text="健康记录" badge="" bindtap='goRecordListPage' />
-      <van-grid-item icon="/image/me_icon_wdjzr.png" text="我的就诊人" badge="" bindtap='goMyPatientPage' />
-      <van-grid-item icon="/image/me_icon_wdys.png" text="我的医生" badge="" bindtap='goEmptyPage' />
-    </van-grid>
-    <van-grid border="{{false}}" clickable column-num="4">
-      <van-grid-item icon="/image/me_icon_wdjh.png" text="我的计划" badge="" bindtap='goPlanPage' />
-      <van-grid-item icon="/image/me_icon_wddd.png" text="我的订单" badge="" bindtap='goOrderListPage' data-type="0" />
-     <van-grid-item icon="/image/me_icon_wdwj.png" text="我的问卷" badge="" bindtap='goEmptyPage' /> 
-     <van-grid-item icon="/image/me_icon_cwyy.png" text="床位预约" badge="" bindtap='goBedPage' />
-    </van-grid>
-  </view>
-</view> -->
 
 <view class="todo-card">
 
 
-  <view class="todo-title-view"  bindtap='goRecordListPage' >
-    <image class="todo-icon" src="/image/me_icon_jkjl.png" />
-    <text class="todo-title">健康记录</text>
-    <view class="todo-title-right">
-      <van-icon color="#999999" name="arrow" />
+    <view class="todo-title-view" bindtap='goRecordListPage'>
+        <image class="todo-icon" src="/image/me_icon_jkjl.png" />
+        <text class="todo-title">健康记录</text>
+        <view class="todo-title-right">
+            <van-icon color="#999999" name="arrow" />
+        </view>
     </view>
-  </view>
-  <van-divider />
-  <view class="todo-title-view"  bindtap='goMyPatientPage' >
-    <image class="todo-icon" src="/image/me_icon_wdjzr.png" />
-    <text class="todo-title">我的就诊人</text>
-    <view class="todo-title-right">
-      <van-icon color="#999999" name="arrow" />
+    <van-divider />
+    <view class="todo-title-view" bindtap='goMyPatientPage'>
+        <image class="todo-icon" src="/image/me_icon_wdjzr.png" />
+        <text class="todo-title">我的就诊人</text>
+        <view class="todo-title-right">
+            <van-icon color="#999999" name="arrow" />
+        </view>
     </view>
-  </view>
-  <van-divider />
-  <view class="todo-title-view"  bindtap='goPlanPage' >
-    <image class="todo-icon" src="/image/me_icon_wdjh.png" />
-    <text class="todo-title">我的计划</text>
-    <view class="todo-title-right">
-      <van-icon color="#999999" name="arrow" />
+    <van-divider />
+    <view class="todo-title-view" bindtap='goPlanPage'>
+        <image class="todo-icon" src="/image/me_icon_wdjh.png" />
+        <text class="todo-title">我的计划</text>
+        <view class="todo-title-right">
+            <van-icon color="#999999" name="arrow" />
+        </view>
     </view>
-  </view>
-  <van-divider />
-  <view class="todo-title-view"  bindtap='goOrderListPage' data-type="0">
-    <image class="todo-icon" src="/image/me_icon_wddd.png" />
-    <text class="todo-title">我的订单</text>
-    <view class="todo-title-right">
-      <van-icon color="#999999" name="arrow" />
+    <van-divider />
+    <view class="todo-title-view" bindtap='goOrderListPage' data-type="0">
+        <image class="todo-icon" src="/image/me_icon_wddd.png" />
+        <text class="todo-title">我的订单</text>
+        <view class="todo-title-right">
+            <van-icon color="#999999" name="arrow" />
+        </view>
     </view>
-  </view>
-  <van-divider />
-  <view class="todo-title-view"  bindtap='goTechnologyListPage' data-type="0">
-    <image class="todo-icon" src="/image/me_icon_yyyj.png" />
-    <text class="todo-title">预约医技</text>
-    <view class="todo-title-right">
-      <van-icon color="#999999" name="arrow" />
+    <van-divider />
+    <view class="todo-title-view" bindtap='goTechnologyListPage' data-type="0">
+        <image class="todo-icon" src="/image/me_icon_yyyj.png" />
+        <text class="todo-title">预约医技</text>
+        <view class="todo-title-right">
+            <van-icon color="#999999" name="arrow" />
+        </view>
     </view>
-  </view>
-  <van-divider />
-  <view class="todo-title-view"  bindtap='goMyEvalPage' >
-    <image class="todo-icon" src="/image/me_jkpg.png" />
-    <text class="todo-title">健康评估</text>
-    <view class="todo-title-right">
-      <van-icon color="#999999" name="arrow" />
+    <van-divider />
+    <view class="todo-title-view" bindtap='goMyEvalPage'>
+        <image class="todo-icon" src="/image/me_jkpg.png" />
+        <text class="todo-title">健康评估</text>
+        <view class="todo-title-right">
+            <van-icon color="#999999" name="arrow" />
+        </view>
     </view>
-  </view>
-  <van-divider />
-  <view class="todo-title-view"  bindtap='goMyConsultPage' >
-    <image class="todo-icon" src="/image/lszx.png" />
-    <text class="todo-title">历史咨询</text>
-    <view class="todo-title-right">
-      <van-icon color="#999999" name="arrow" />
+    <van-divider />
+    <view class="todo-title-view" bindtap='goMyConsultPage'>
+        <image class="todo-icon" src="/image/lszx.png" />
+        <text class="todo-title">历史咨询</text>
+        <view class="todo-title-right">
+            <van-icon color="#999999" name="arrow" />
+        </view>
     </view>
-  </view>
-  <van-divider />
+    <van-divider />
 </view>
 
 
 <!-- 就诊人选择 -->
-<van-popup show="{{ !hidePatientShow }}" round  position="bottom"
-  custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePatientTap">
-  <van-picker
-  show-toolbar
-  custom-class="picker-custom"
-  title="切换就诊人"
-  columns="{{ nameColumns }}"
-  visible-item-count='4'
-  cancel-button-text="添加"
-  bind:cancel="onPatientPickerCancel"
-  bind:confirm="onPatientPickerConfirm"
-/>
+<van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePatientTap">
+    <van-picker show-toolbar custom-class="picker-custom" title="切换就诊人" columns="{{ nameColumns }}" visible-item-count='4' cancel-button-text="添加" bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
 </van-popup>

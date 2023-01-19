@@ -83,7 +83,7 @@ Page({
                 duration: 2000
             })
             setTimeout(() => {
-                wx.reLaunch({
+                wx.switchTab({
                     url: '/pages/home/main'
                 })
             }, 2000)
@@ -106,7 +106,7 @@ Page({
                         duration: 2000
                     })
                     setTimeout(() => {
-                        wx.reLaunch({
+                        wx.switchTab({
                             url: '/pages/home/main'
                         })
                     }, 2000)

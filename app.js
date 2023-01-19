@@ -60,7 +60,7 @@ App({
             this.WXloginForLogin()
 
         }
-        this.qryRightsTypeCodeValue()
+       
     },
 
 
@@ -140,6 +140,7 @@ App({
                 showCancel: false,
             })
         }
+        this.qryRightsTypeCodeValue()
     },
     loginSuccess(userInfo) {
 
@@ -218,6 +219,9 @@ App({
 
     //获取权益类别集合
     async qryRightsTypeCodeValue() {
+        if(getApp().globalData.rightTypeList && getApp().globalData.rightTypeList.length>0){
+            return
+        }
         const res = await WXAPI.qryCodeValue('GOODS_SERVICE_TYPE')
         if (res.code === 0 && res.data.length > 0) {
             getApp().globalData.rightTypeList = res.data
