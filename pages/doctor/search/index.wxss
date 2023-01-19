@@ -80,6 +80,7 @@
 .wrap .bottom .list .item .right .tags .tag {
     margin-right: 10rpx;
     padding: 0 12rpx;
+    padding-bottom: 1rpx;
     box-sizing: border-box;
     font-size: 24rpx;
     color: #0379FF;
@@ -124,4 +125,10 @@
     font-weight: 400;
     color: #4D4D4D;
     line-height: 38rpx;
+}
+.content-item-class {
+    max-width: 420rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
