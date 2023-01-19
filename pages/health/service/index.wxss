@@ -29,11 +29,15 @@
     margin-bottom: 10rpx;
 }
 .slot-wrap .list .item .title {
-    margin-bottom: 38rpx;
+    max-width: 430rpx;
+    margin-bottom: 35rpx;
     font-size: 30rpx;
     font-weight: 400;
     color: #1A1A1A;
-    line-height: 30rpx;
+    line-height: 36rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .slot-wrap .list .item .sub-list .sub-item {
     display: flex;

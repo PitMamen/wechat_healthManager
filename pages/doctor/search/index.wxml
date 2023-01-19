@@ -22,7 +22,7 @@
                 <view class="right">
                     <view class="title">
                         <text class="name">{{ item.userName }}</text>
-                        <text class="job">{{ item.professionalTitle }}</text>
+                        <text class="job">{{ item.professionalTitle || '' }}</text>
                     </view>
                     <view class="tags">
                         <text class="tag">{{ item.hospitalLevelName }}</text>

@@ -194,8 +194,14 @@
     vertical-align: bottom;
 }
 .wrap .bottom .list .item .intro .name {
+    display: inline-block;
+    max-width: 420rpx;
     font-size: 30rpx;
     color: #1A1A1A;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: sub;
 }
 .wrap .bottom .list .item .intro .detail {
     float: right;
@@ -217,6 +223,7 @@
     display: inline-block;
     height: 52rpx;
     margin-right: 20rpx;
+    margin-bottom: 20rpx;
     padding: 0 22rpx;
     box-sizing: border-box;
     font-size: 28rpx;
@@ -241,6 +248,11 @@
     color: #ECA55F;
     background: #FDF8EF;
     border: 1rpx solid #FBF0DF;
+}
+.wrap .bottom .list .item.other .good.active {
+    color: #007BF5;
+    background: #ECF2FD;
+    border: 1rpx solid #D8E4FC;
 }
 
 .pop-wrap {

@@ -4,7 +4,9 @@
             <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
             <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #FFFFFF;text-align: center;">
                 <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 24rpx;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
-                <text style="{{'line-height: '+ navBarHeight +'px;'}}">{{ name }}</text>
+                <view style="padding: 0 185rpx 0 70rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                    <text style="{{'line-height: '+ navBarHeight +'px;'}}">{{ name }}</text>
+                </view>
             </view>
         </view>
     </view>
@@ -13,7 +15,7 @@
             <swiper autoplay>
                 <block wx:for="{{ swipers }}" wx:key="*this">
                     <swiper-item>
-                        <image src="{{ item }}" mode="aspectFit" lazy-load="{{ true }}" />
+                        <image src="{{ item }}" mode="aspectFill" lazy-load="{{ true }}" />
                     </swiper-item>
                 </block>
             </swiper>

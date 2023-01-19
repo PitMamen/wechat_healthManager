@@ -74,14 +74,25 @@ Page({
                     }
                 })
             })
+            if (this.data.list.length > 0){
+                const pitem = this.data.list[0]
+                if (pitem.pkgRules.length > 0){
+                    const item = pitem.pkgRules[0]
+                    this.setData({
+                        activeItem: item,
+                        activepItem: pitem
+                    })
+                }
+            }
         })
     },
     getClassName(code) {
-        return {
+        const name = {
             '101': 'image',
             '102': 'phone',
             '103': 'video'
-        }[code]
+        }[code + '']
+        return name || 'other'
     },
     onBackTap() {
         wx.navigateBack({})
@@ -121,8 +132,9 @@ Page({
         this.setData({
             loading: true
         })
+        const collectionIds = (this.data.activepItem.compulsoryCollectionIds || []).concat([this.data.activeItem.collectionId])
         wx.navigateTo({
-            url: `/pages/doctor/detail/index?id=${this.data.activepItem.commodityId}&docId=${this.data.id}&docName=${this.data.title}&collectionId=${this.data.activeItem.collectionId}`
+            url: `/pages/doctor/fill/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
         })
     }
 })

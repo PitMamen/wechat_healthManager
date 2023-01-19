@@ -36,20 +36,26 @@
     text-overflow: ellipsis;
 }
 .wrap .top .card .right .row {
-    margin-bottom: 28rpx;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25rpx;
     font-size: 28rpx;
     font-weight: 400;
     color: #999999;
-    line-height: 28rpx;
+    line-height: 34rpx;
 }
 .wrap .top .card .right .row:last-child {
     margin-bottom: 0rpx;
 }
 .wrap .top .card .right .row .name {
-    margin-right: 60rpx;
+    /* margin-right: 60rpx; */
+    width: 250rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .wrap .top .card .right .row .num {
-    margin-right: 120rpx;
+    /* margin-right: 120rpx; */
 }
 .wrap .bottom {
     padding: 30rpx 24rpx;
