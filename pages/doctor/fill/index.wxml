@@ -12,7 +12,7 @@
             </view>
         </view>
         <view class="row">
-            <view class="title">病情描述</view>
+            <view class="title"><text style="color: #E95454;">*</text>病情描述</view>
             <view class="textarea">
                 <van-field
                     show-word-limit

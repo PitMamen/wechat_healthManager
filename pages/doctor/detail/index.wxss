@@ -144,7 +144,11 @@
 .wrap .fix .abs {
     position: absolute;
     width: 228rpx;
+    height: 68rpx;
     right: 24rpx;
-    bottom: 78rpx;
+    bottom: 82rpx;
     border-radius: 8rpx;
+}
+.wrap .fix .abs button {
+    height: 68rpx !important;
 }
