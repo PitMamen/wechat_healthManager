@@ -174,7 +174,7 @@ Page({
                     res.data.relationship = that.data.relationship
                     res.data.tenantId = that.data.tenantId
                     res.data.hospitalCode = that.data.hospitalCode
-                    res.data.tenantId = that.data.tenantId
+                    
 
                     getApp().followInfo = res.data
                     wx.navigateTo({
@@ -380,18 +380,18 @@ Page({
         const res = await WXAPI.addFollowMedicalRecords(postData)
 
         if (res.code === 0) {
-            this.switchHospital(this.data.hospitalCode)
+            this.switchHospital()
 
         }
 
     },
     //切换医院
-    async switchHospital(hospitalCode) {
-        const res = await WXAPI.switchHospital({ hospitalCode: hospitalCode })
+    async switchHospital() {
+        const res = await WXAPI.switchHospital({ hospitalCode: this.data.hospitalCode })
         if (res.code == 0) {
             var currentHospital = {
-                tenantId:'',
-                hospitalCode: hospitalCode,
+                tenantId:this.data.tenantId,
+                hospitalCode: this.data.hospitalCode,
                 hospitalName: '',
                 hospitalLevelName: ''
             }

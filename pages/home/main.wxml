@@ -1,8 +1,5 @@
 <wxs src="../../modules/format.wxs" module="computed"></wxs>
 
-<van-sticky>
-
-
     <view class="navigation-custom-view" style="height:{{navHeight + 0}}px;">
         <view class="navigation-custom-content" style="padding-top :{{navTop +8 }}px ;" bindtap="goHospitalSelectPage">
             <image src="/image/jigou.png" style="width: 36rpx; height: 36rpx;" mode="aspectFit"></image>
@@ -13,67 +10,64 @@
         <image src="/image/home_topright_icon.png" class="toprightimg" mode="aspectFit"></image>
     </view>
 
-</van-sticky>
-<view class="mid-view"  wx:if="{{topMenuList.length>0}}">
-    <block wx:if="{{topMenuList.length==1}}">
-        <image src="{{topMenuList[0].iconLong}}" class="mid-view-item" style="width:702rpx" bindtap="topMenuClick" data-menu="{{topMenuList[0]}}"></image>
-    </block>
-    <block wx:else>
-        <image src="{{topMenuList[0].icon}}" class="mid-view-item" style="margin-right: 30rpx" bindtap="topMenuClick" data-menu="{{topMenuList[0]}}"></image>
-        <image src="{{topMenuList[1].icon}}" class="mid-view-item" bindtap="topMenuClick" data-menu="{{topMenuList[1]}}"></image>
-    </block>
+<scroll-view scroll-y="true">
+    <view style="height: {{windowHeight-navHeight-10}}px;">
+
+        <view class="mid-view" wx:if="{{topMenuList.length>0}}">
+            <block wx:if="{{topMenuList.length==1}}">
+                <image src="{{topMenuList[0].iconLong}}" class="mid-view-item" style="width:702rpx" bindtap="topMenuClick" data-menu="{{topMenuList[0]}}"></image>
+            </block>
+            <block wx:else>
+                <image src="{{topMenuList[0].icon}}" class="mid-view-item" style="margin-right: 30rpx" bindtap="topMenuClick" data-menu="{{topMenuList[0]}}"></image>
+                <image src="{{topMenuList[1].icon}}" class="mid-view-item" bindtap="topMenuClick" data-menu="{{topMenuList[1]}}"></image>
+            </block>
+        </view>
+
+        <view class="mid-card" wx:if="{{midMenuList.length>0}}">
+            <view class="hotServiceList_box">
+                <scroll-view class="hotServiceList_scroll" scroll-x="true" bindscroll="getleft">
+                    <view class="hotService_content">
+                        <view class="menu-item" wx:for="{{midMenuList}}" wx:key="3" bindtap="topMenuClick" data-menu="{{item}}">
+                            <van-icon name="{{item.icon}}" info="{{item.unReadCount>0?item.unReadCount:''}}" size="40px" />
+                            <view class="grid-title">{{item.menuName}}</view>
+                        </view>
+
+                    </view>
+
+                </scroll-view>
+                <!--滚动条部分-->
+                <view class="slide" wx:if="{{slideShow}}">
+                    <view class='slide-bar'>
+                        <view class="slide-show" style="width:{{slideWidth}}rpx; margin-left:{{slideLeft<=1 ? 0 : slideLeft+'rpx'}};"></view>
+                    </view>
+                </view>
+            </view>
+        </view>
 
 
+        <view class="todo-card" style="min-height: {{windowHeight-navHeight-280}}px;">
+            <view class="todo-title-view" bindtap="">
+                <text class="todo-title">我的待办</text>
+                <van-icon info="{{taskList.length>0?taskList.length:''}}" />
+            </view>
 
-</view>
+            <view wx:for="{{taskList}}" wx:key="4">
 
-
-<view class="mid-card" wx:if="{{midMenuList.length>0}}">
-    <view class="hotServiceList_box">
-        <scroll-view class="hotServiceList_scroll" scroll-x="true" bindscroll="getleft">
-            <view class="hotService_content">
-                <view class="menu-item" wx:for="{{midMenuList}}" wx:key="3" bindtap="topMenuClick" data-menu="{{item}}">
-                    <van-icon name="{{item.icon}}" info="{{item.unReadCount>0?item.unReadCount:''}}" size="40px" />
-                    <view class="grid-title">{{item.menuName}}</view>
+                <view class="todo-back">
+                    <van-icon name="/image/{{computed.taskType2(item.planType,item.execFlag).icon}}" dot="{{item.planType !== 'DailyRecord'}}" mode="scaleToFill" size="82rpx" class="todo-image" />
+                    <view class="todo-content">
+                        <view class="todo-name">{{computed.taskType2(item.planType,item.execFlag).title}}</view>
+                        <text class="todo-des">{{item.planDescribe||''}}</text>
+                    </view>
+                    <view class="todo-btnview">
+                        <view class="todo-button" bindtap="onTaskItemClickV2" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
+                        <text class="todo-des">{{computed.dateSub(item.executeTime)}}</text>
+                    </view>
                 </view>
 
+                <view wx:if="{{index+1 !== taskList.length}}" class="split" />
             </view>
-
-        </scroll-view>
-        <!--滚动条部分-->
-        <view class="slide" wx:if="{{slideShow}}">
-            <view class='slide-bar'>
-                <view class="slide-show" style="width:{{slideWidth}}rpx; margin-left:{{slideLeft<=1 ? 0 : slideLeft+'rpx'}};"></view>
-            </view>
+            <van-empty wx:if="{{ !taskList || taskList.length == 0 }}" description="暂无待办" />
         </view>
     </view>
-</view>
-
-
-
-
-<view class="todo-card" style="min-height: 800rpx;">
-    <view class="todo-title-view" bindtap="">
-        <text class="todo-title">我的待办</text>
-        <van-icon info="{{taskList.length>0?taskList.length:''}}" />
-    </view>
-
-
-    <block wx:for="{{taskList}}" wx:key="4">
-        <view class="todo-back">
-            <van-icon name="/image/{{computed.taskType2(item.planType,item.execFlag).icon}}" dot="{{item.planType !== 'DailyRecord'}}" mode="scaleToFill" size="82rpx" class="todo-image" />
-            <view class="todo-content">
-                <view class="todo-name">{{computed.taskType2(item.planType,item.execFlag).title}}</view>
-                <text class="todo-des">{{item.planDescribe||''}}</text>
-            </view>
-            <view class="todo-btnview">
-                <view class="todo-button" bindtap="onTaskItemClickV2" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
-                <text class="todo-des">{{computed.dateSub(item.executeTime)}}</text>
-            </view>
-
-        </view>
-        <view wx:if="{{index+1 !== taskList.length}}" class="split" />
-    </block>
-    <van-empty wx:if="{{ !taskList || taskList.length == 0 }}" description="暂无待办" />
-
-</view>
+</scroll-view>

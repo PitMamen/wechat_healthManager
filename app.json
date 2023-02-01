@@ -23,6 +23,14 @@
         "pages/home/package-detail/packagedetail",
         "pages/home/package-list/packagelist",
         "pages/home/to-pay-order/index",
+        "pages/doctor/search/index",
+        "pages/doctor/info/index",
+        "pages/doctor/detail/index",
+        "pages/doctor/fill/index",
+        "pages/doctor/buy/index",
+        "pages/health/service/index",
+        "pages/health/doctors/index",
+        "pages/health/detail/index",
         "pages/me/main",
         "pages/me/patients/index",
         "pages/me/patients/editUser",
@@ -158,7 +166,8 @@
         "van-checkbox": "@vant/weapp/checkbox/index",
         "van-checkbox-group": "@vant/weapp/checkbox-group/index",
         "van-loading": "@vant/weapp/loading/index",
-        "van-circle": "@vant/weapp/circle/index"
+        "van-circle": "@vant/weapp/circle/index",
+        "van-tree-select": "@vant/weapp/tree-select/index"
     },
     "sitemapLocation": "sitemap.json"
 }

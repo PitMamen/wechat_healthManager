@@ -5,31 +5,21 @@
   align-items: center;
   color: white;
 
-  background-color: #5690fa;
-
-  /* background-image: linear-gradient(to bottom,#4180F1,#61BAC0); */
+  background-color: #AFCEED;
 }
 .header-box .avatar {
   width: 110rpx;
   height: 110rpx;
   border-radius: 50%;
 }
-.header-box .btn {
-  margin-left: 32rpx;
-}
+
 .header-box .r {
   margin-left: 32rpx;
   font-size: 28rpx;
-}
-.top-right{
-  margin-left: auto;
-  display: flex;
-  flex-direction:row;
-}
-.r{
   display: flex;
   flex-direction: column;
 }
+
 .top-r{
     display: flex;
     flex-direction: row;
@@ -37,29 +27,32 @@
     width: 400rpx;
     height: 100%;
 }
-.uid{
-  font-size: 22rpx;
-  width: 148rpx;
-  height: 30rpx;
-  margin-top: 20rpx;
-  background-color: #799AE8;
-  border-radius: 16rpx;
-  display: flex;
-  color: #E0E7F8;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-}
-.glxx{
-  background-color: #1464BC ;
-  border-radius: 10px;
-  height: 20px;
-  font-size: 12px;
-  line-height: 20px;
-  width: 130rpx;
-  padding-left: 12rpx;
-  padding-right: 12rpx;
-}
+.top-button{
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: 20rpx;
+    background-color: white;
+    padding: 15rpx 30rpx;
+    border-radius: 40rpx;
+    font-size: 30rpx;
+  }
+  .top-des {
+    font-size: 24rpx;
+    color: #4071A1;
+  }
+  .top-name {
+    font-size: 30rpx;
+    color: #4071A1;
+    font-weight: bold;
+  }
+  .top-name-r {
+    font-size: 28rpx;
+    color: #4071A1;
+    margin-left: 20rpx;
+  }
+
+
 page{
   background-color: #F7F8FA;
 

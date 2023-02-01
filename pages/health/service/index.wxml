@@ -1,0 +1,37 @@
+<view class="wrap">
+    <view class="top">
+        <image src="/image/myjk/hospital.png" mode="aspectFill" />
+        <text class="name">{{ currentHospital.hospitalName || '' }}</text>
+    </view>
+    <view class="bottom">
+        <van-tree-select
+            height="100vh"
+            items="{{ items }}"
+            main-active-index="{{ mainActiveIndex }}"
+            bind:click-nav="onClickNav"
+            style="width: 100%;"
+        >
+            <view slot="content" class="slot-wrap">
+                <van-empty class="empty" description="暂无记录" wx:if="{{ children.length === 0 }}" />
+                <view class="list" wx:else>
+                    <view class="item" wx:for="{{ children }}" wx:key="classifyId">
+                        <view class="title">{{ item.classifyName }}</view>
+                        <view class="sub-list" wx:if="{{ item.commodities && item.commodities.length>0 }}">
+                            <view class="sub-item" wx:for="{{ item.commodities }}" wx:key="commodityId" wx:for-item="subItem" wx:for-index="subIndex" data-item="{{ subItem }}" bind:tap="onTaoCanTap">
+                                <image src="{{ subItem.frontImg }}" mode="aspectFill" />
+                                <view class="right">
+                                    <view class="name">{{ subItem.commodityName }}</view>
+                                    <view class="depart">{{ subItem.subjectClassifyName }}</view>
+                                    <view class="price">
+                                        <text class="num">¥ {{ subItem.startPrice }}</text>
+                                        <text>起</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </van-tree-select>
+    </view>
+</view>

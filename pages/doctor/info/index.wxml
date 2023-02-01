@@ -1,0 +1,99 @@
+<view class="wrap">
+    <view class="background">
+        <view class="header">
+            <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
+            <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #FFFFFF;text-align: center;">
+                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 24rpx;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
+                <text style="{{'line-height: '+ navBarHeight +'px;'}}">{{ title }}</text>
+            </view>
+        </view>
+    </view>
+    <view class="top">
+        <view class="doctor card">
+            <view class="left">
+                <image src="{{ info.avatarUrl || '/image/myjk/doctor.png' }}" mode="aspectFill" />
+            </view>
+            <view class="right">
+                <view class="name">{{ info.userName }}</view>
+                <view class="info">
+                    <text class="job">{{ info.professionalTitle }}</text>
+                    <!-- <text class="depart">{{ info.departmentName }}</text> -->
+                </view>
+                <view class="server">{{ info.departmentName }}</view>
+                <view class="share">分享</view>
+                <view class="store">收藏</view>
+            </view>
+        </view>
+    </view>
+    <view class="middle">
+        <view class="intro card">
+            <view class="best">
+                <image src="/image/myjk/best.png" mode="aspectFill" />
+                <text>{{ info.expertInDisease || '暂无' }}</text>
+            </view>
+            <view class="desc">
+                <image src="/image/myjk/desc.png" mode="aspectFill" />
+                <text>{{ info.doctorBrief || '暂无' }}</text>
+                <view class="more" bind:tap="onMoreTap">更多信息</view>
+            </view>
+        </view>
+    </view>
+    <view class="bottom card">
+        <view class="title">问诊服务</view>
+        <van-empty class="empty" description="暂无记录" wx:if="{{ list.length === 0 }}" />
+        <view class="list" wx:else>
+            <view class="{{ 'item ' + item.className }}" wx:for="{{ list }}" wx:key="commodityId">
+                <view class="intro">
+                    <image src="/image/myjk/image.png" mode="aspectFill" wx:if="{{ item.classifyCode == 101 }}" />
+                    <image src="/image/myjk/phone.png" mode="aspectFill" wx:if="{{ item.classifyCode == 102 }}" />
+                    <image src="/image/myjk/video.png" mode="aspectFill" wx:if="{{ item.classifyCode == 103 }}" />
+                    <text class="name">{{ item.commodityName }}</text>
+                    <view class="detail" bind:tap="onDetailTap" data-item="{{ item }}">
+                        <text>查看详情</text>
+                        <van-icon class="icon" name="arrow" />
+                    </view>
+                </view>
+                <view class="goods" wx:if="{{ item.pkgRules && item.pkgRules.length>0 }}">
+                    <view class="{{ 'good' + (activeItem.collectionId == subItem.collectionId ? ' active' : '') }}" wx:for="{{ item.pkgRules }}" wx:for-item="subItem" wx:for-index="subIndex" wx:key="collectionId" bind:tap="onGoodTap" data-item="{{ subItem }}" data-pitem="{{ item }}">
+                        <text class="price">{{ subItem.saleAmount }}元</text>
+                        <text class="num">/{{ subItem.serviceValue }}{{ subItem.unit }}</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <van-button class="fix" type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick" wx:if="{{ list.length > 0 }}">去购买</van-button>
+</view>
+
+<van-popup
+    round
+    closeable
+    show="{{ show }}"
+    position="bottom"
+    custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;"
+    bind:close="closePopup"
+>
+    <view class="pop-wrap">
+        <view class="head">
+            <view class="title">
+                <text class="name">{{ info.userName }}</text>
+                <text class="job">{{ info.professionalTitle }}</text>
+                <view class="bg"></view>
+            </view>
+        </view>
+        <view class="part">
+            <view class="title">
+                <image src="/image/myjk/part.png" mode="aspectFill" />
+                <text>专业擅长</text>
+            </view>
+            <view class="desc">{{ info.expertInDisease || '暂无' }}</view>
+        </view>
+        <view class="part">
+            <view class="title">
+                <image src="/image/myjk/part.png" mode="aspectFill" />
+                <text>个人简介</text>
+            </view>
+            <view class="desc">{{ info.doctorBrief || '暂无' }}</view>
+        </view>
+    </view>
+</van-popup>

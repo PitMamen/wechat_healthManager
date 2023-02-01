@@ -144,17 +144,17 @@ Page({
         const res = await WXAPI.addFollowMedicalRecords(postData)
 
         if (res.code === 0) {
-            this.switchHospital(this.data.info.hospitalCode)
+            this.switchHospital()
         }
 
     },
     //切换医院
-    async switchHospital(hospitalCode) {
-        const res = await WXAPI.switchHospital({ hospitalCode: hospitalCode })
+    async switchHospital() {
+        const res = await WXAPI.switchHospital({ hospitalCode: this.data.info.hospitalCode })
         if (res.code == 0) {
             var currentHospital = {
-                tenantId:'',
-                hospitalCode: hospitalCode,
+                tenantId:this.data.info.tenantId,
+                hospitalCode: this.data.info.hospitalCode,
                 hospitalName: '',
                 hospitalLevelName: ''
             }

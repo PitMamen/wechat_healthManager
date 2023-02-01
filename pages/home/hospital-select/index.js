@@ -49,7 +49,7 @@ Page({
     //选择医院
     onHospitalSeleced(e) {
 
-       
+
         var hospital = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
             this.switchHospital(hospital)
