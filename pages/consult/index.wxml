@@ -1,45 +1,149 @@
 <wxs src="../../modules/format.wxs" module="computed"></wxs>
 <van-sticky>
-
-
-
-    <van-cell title-class="title-class" title="就诊人" bindtap="bindPatientTap" size="large" value="{{defaultPatient.userName}}" is-link />
-
+    <view id="tabs" class="tabs">
+        <van-tabs color="#0379FF" title-active-color="#0379FF" swipeable line-width="33px" bind:click="onTabsChange" custom-class="" active="{{ active }}">
+            <van-tab title="我的问诊" name="0" info="20" />
+            <van-tab title="待办事项" name="1" info="44" />
+        </van-tabs>
+    </view>
 </van-sticky>
+<block wx:if="{{active=='0'}}">
+
+<view style="height: 30rpx;"></view>
+<view class="ai-card" bindtap="goIMPage">
+    <view class="ai-img">
+        <image src="/image/ai_icon.png" style="width: 70rpx;height: 70rpx;"></image>
+    </view>
+    <view class="ai-name">
+        <view style="font-size: 36rpx;color: #1A1A1A; margin-bottom: 12rpx;">
+            AI咨询
+        </view>
+        <view>
+            可智能回复您的健康问题
+        </view>
+    </view>
+    <van-button class="ai-btn" color="#3894FF" round type="info" size="small">进入诊室</van-button>
+</view>
 <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" description="暂无数据" />
 
-<view bindtap="bindItemTap" data-item="{{item}}" class="a-order" wx:for="{{appointList}}" wx:key="index">
-    <view class="flagbg">
-        <view class="flagView" style="background-color: {{item.flagColor}};">{{item.myFlag}}</view>
+<view bindtap="bindItemTap" data-item="{{item}}" class="card" wx:for="{{appointList}}" wx:key="1">
+
+    <view class="card-top">
+        <view class="chat-item-head-super-style">
+            <image class="chat-head-style" src="https://img2.baidu.com/it/u=3304620759,1323144983&fm=253&fmt=auto&app=138&f=JPEG?w=756&h=500" />
+            <text wx:if="{{unread>0}}" class="unread-style">{{unread<=99?unread:'99+'}} </text>
+                    <view class="chat-item-status" style=" background: {{Module.formartStatus(item.status).background}};">{{item.status.description}}</view>
+        </view>
+        <view class="name-view">
+            <view class="name-view-top">
+                <view>
+                    领衔医生：
+                </view>
+                <view style="font-size: 36rpx;color: #1A1A1A; margin-right: 12rpx;">李医生</view>
+                <view>
+                    副主任医师
+                </view>
+            </view>
+            <view style="margin-top: 10rpx;">
+                中南大学湘雅二医院 内分泌内科
+            </view>
+            <view style="margin-top: 10rpx;">
+                就诊人：张三 图文咨询
+            </view>
+        </view>
     </view>
-    <view class="titleviw">
-        <van-icon style="margin-top: -16rpx;" name="{{computed.zixunType(item.rightsType)}}" size="40rpx" />
-        <text style="margin-top: -16rpx;" class="title-text">{{item.rightsName}}</text>
+    <view style="height: 0.5px;background: #E6E6E6;margin-left: 30rpx;"></view>
+    <view class="card-bottom">
+        <view wx:if="{{item.status.value==1}}">
+            <van-tag color="#367BF5" size="medium" plain style="margin-right: 10rpx;">图文*1</van-tag>
+            <van-tag color="#E99D42" size="medium" plain style="margin-right: 10rpx;">视频*1</van-tag>
+            <van-tag color="#88CF65" size="medium" plain style="margin-right: 10rpx;">电话*1</van-tag>
+        </view>
+
+        <view class="btn-blue">
+            <van-button  bindtap="goConsultDetail" data-item="{{item}}" plain color="#3894FF" round type="info" size="small">问诊详情</van-button>
+            <van-button wx:if="{{item.status.value==3}}" bindtap="enterRoom" data-item="{{item}}" style="margin-left: 20rpx;"  color="#3894FF" round type="info" size="small">进入诊室</van-button>
+            <van-button wx:if="{{item.status.value==1}}" bindtap="goApplyRights" data-item="{{item}}" style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">使用权益</van-button>
+            <van-button wx:if="{{item.status.value==4}}" bindtap="bugAgain" data-item="{{item}}" style="margin-left: 20rpx;"  color="#3894FF" round type="info" size="small">申请复诊</van-button>
+        </view>
+
     </view>
-    <view class="content">
-        <view>问诊{{item.DoctorName}}：</view>
-        <view style="color: #999999;">{{item.execName}}</view>
-    </view>
-    <view wx:if="{{item.rightsType==='textNum'}}" class="content">
-        <view>图文条数：</view>
-        <view style="color: #999999;">{{item.textNumLimit+'条'}}</view>
-    </view>
-    <view wx:if="{{item.rightsType==='videoNum'||item.rightsType==='telNum'}}" class="content">
-        <view>问诊时长：</view>
-        <view style="color: #999999;">{{item.timeLimit+'分钟'}}</view>
-    </view>
-    <view class="content">
-        <view>预约时间：</view>
-        <view style="color: #999999;">{{computed.formatFullDate4(item.createTime)}}</view>
-    </view>
-    <view class="content">
-        <view>开始时间：</view>
-        <view style="color: #999999;">{{item.execTime}}</view>
-    </view>
+
 </view>
 
+</block>
 
-<!-- 就诊人选择 -->
-<van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%; " bind:close="closePatientTap">
-    <van-picker custom-class="picker-custom" show-toolbar title="切换就诊人" cancel-button-text="添加" columns="{{ patientList }}" value-key="userName" visible-item-count='4' bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
-</van-popup>
+<block wx:if="{{active=='1'}}">
+
+<view style="height: 30rpx;"></view>
+
+<view bindtap="bindItemTap" data-item="{{item}}" class="card" wx:for="{{todoList}}" wx:key="1">
+
+<view class="todo-card-top" >
+   <view class="cicle"></view>
+   <view class="todo-title">{{item.title}}</view>
+   <view class="todo-date">2023-01-19 09:12</view>
+</view>
+<view class="todo-content">您申请李医生的图文问诊，医生已经接诊，请您尽快
+进入诊室跟医生交流吧。</view>
+<view style="height: 0.5px;background: #E6E6E6;margin-left: 30rpx;"></view>
+<view class="card-bottom">
+    <view wx:if="{{item.status.value==1}}">
+        <van-tag color="#367BF5" size="medium" plain style="margin-right: 10rpx;">图文*1</van-tag>
+        <van-tag color="#E99D42" size="medium" plain style="margin-right: 10rpx;">视频*1</van-tag>
+        <van-tag color="#88CF65" size="medium" plain style="margin-right: 10rpx;">电话*1</van-tag>
+    </view>
+
+    <view class="btn-blue">  
+        <van-button style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">{{Module.formartTodoStatus(item.type)}}</van-button>
+    </view>
+
+</view>
+
+</view>
+</block>
+<wxs module="Module">
+    //咨询不同状态
+    function formartStatus(status) {
+        if (status.value == 1) {
+            //服务中
+            return {
+                background: '#3894FF'
+            }
+        } else if (status.value == 2) {
+            //待接诊
+            return {
+                background: '#E99D42'
+            }
+        } else if (status.value == 3) {
+            //问诊中
+            return {
+                background: '#88CF65'
+            }
+        } else if (status.value == 4) {
+            //已结束
+            return {
+                background: '#959595'
+            }
+        } else {
+            return {
+                background: '#959595'
+            }
+        }
+    }
+
+        //待办不同状态
+        function formartTodoStatus(status) {
+        if (status.value == 2) {
+            return '去阅读'
+        } else if (status.value == 3) {
+            return '去填写'
+        } else {
+            return '去交流'
+        } 
+    }
+    module.exports = {
+        formartStatus: formartStatus,
+        formartTodoStatus:formartTodoStatus
+    };
+</wxs>

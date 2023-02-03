@@ -262,8 +262,8 @@ Page({
 
   },
   checkLoginStatus() {
-    if (this.data.userInfo) {
-      return true
+    if (getApp().globalData.loginReady) {
+        return true
     } else {
       wx.showModal({
         title: '提示',

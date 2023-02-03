@@ -1,0 +1,81 @@
+<view style="height: 20rpx;background: #F5F5F5;"></view>
+<view class="pagewaper">
+    <view class="card-top">
+        <image class="chat-head-style" src="{{detail.docInfo.avatarUrl}}" />
+        <view class="name-view">
+            <view class="name-view-top">
+                <view style="font-size: 36rpx;color: #1A1A1A; margin-right: 12rpx;">{{detail.docInfo.userName}}</view>
+                <view>{{detail.docInfo.professionalTitle}}</view>
+            </view>
+            <view style="margin-top: 19rpx;"> {{detail.docInfo.hospitalName}} {{detail.docInfo.departmentName}} </view>
+
+        </view>
+    </view>
+    <text class="mid-text"> 医疗团队（{{detail.teamInfo.length}}人）：<text wx:for="{{detail.teamInfo}}" wx:key="2">{{item}}{{index==detail.teamInfo.length-1?'':'、'}}</text> </text>
+   
+    <!-- 待接诊和问诊中 显示时间条 -->
+    <view wx:if="{{status==2 || status==3}}" class="right-card" >
+        <view class="chat-content">
+            <view class="chat-cicle-view">
+                <view class="chat-cicle">1</view>
+                <view class="chat-line"></view>
+            </view>
+            <view class="chat-des" >{{detail.rightsUseRecordStatus.appointTime}} 申请提交成功</view>
+        </view>
+        <view class="chat-content" >
+            <view class="chat-cicle-view">
+                <view class="chat-cicle">2</view>
+                <view class="chat-line"></view>
+            </view>
+            <view class="chat-des" style="color: {{status==2?'#1A1A1A':'#999999'}};">正在等待医生接诊</view>
+        </view>
+        <view class="chat-content" style="margin-bottom: 20rpx;">
+            <view class="chat-cicle-view">
+                <view class="chat-cicle">3</view>             
+            </view>
+            <view class="chat-des" style="color:#1A1A1A;">{{status==3?detail.rightsUseRecordStatus.confirmTime:''}}  医生接诊</view>
+        </view>
+    </view>
+     <!-- 待接诊和问诊中 显示权益列表 -->
+    <view wx:else class="right-card">
+        <text class="right-content" wx:for="{{detail.rightsItemInfo}}" wx:key="id2" wx:for-item="items">{{items.serviceItemName}}【{{items.serviceItemAttrs}}】：<text style="color: #367BF5;">剩余</text><text style="color: #F60505;">{{items.surplusQuantity}}</text><text style="color: #367BF5;">次/共{{items.equityQuantity}}次</text></text>
+    </view>
+    <view class="card-title-view">
+        <view style="font-weight: bold;">患者提交的信息 </view>
+        <view>患者：{{reqInfo.userName}}</view>
+    </view>
+    <view class="card-title">病情描述</view>
+    <text class="info-content">{{reqInfo.diseaseDesc}}</text>
+    <view class="card-title">希望获得帮助</view>
+    <text class="info-content">{{reqInfo.appealDesc}}</text>
+    <view class="card-title">上传检查报告或患处图片</view>
+    <view class="goods-container">
+
+        <image src="{{picItem}}" class="goods-box" mode="aspectFill" lazy-load="true" wx:for="{{reqInfo.healthImagesList}}" wx:for-item="picItem" wx:key="id" bindtap="onImageTap" data-url="{{picItem}}" />
+
+
+    </view>
+
+    <view style="margin-top: 50rpx;">
+        <view wx:if="{{status==1}}" class="remind-text">正在服务中，您可{{isUsed?'再次':''}}申请使用权益</view>
+        <view wx:if="{{status==2}}" class="remind-text">正在等待医生接诊，预计需要10～30分钟，如果30分钟后仍无医
+生无医生接诊，系统会自动帮您提醒医生，请您耐心等候</view>
+        <view wx:if="{{status==3}}" class="remind-text">正在问诊中</view>
+        <view wx:if="{{status==4}}" class="remind-text">服务已经结束，请重新购买服务</view>
+        <van-button wx:if="{{status==1}}" type="primary" color="#367BF5" block bind:click="apply">申请权益</van-button>
+        <van-button wx:if="{{status==3}}" type="primary" color="#367BF5" block bind:click="enterRoom">进入诊室</van-button>
+        <van-button wx:if="{{status==4}}" type="primary" color="#367BF5" block bind:click="bugAgain">再次购买</van-button>
+       
+    </view>
+
+
+</view>
+<!-- 服务中 已结束 可以查看记录 -->
+<view  wx:if="{{isUsed && (status==1 || status==4)}}" class="history-tag">
+        <view style="margin-left: 25rpx;margin-top: 2rpx;">查看交</view>
+        <view style="margin-left: 25rpx;">流记录</view>
+    </view>
+<van-popup show="{{ !hidePoupShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;z-index: 999;" bind:close="onPoupPickerCancel">
+  <van-picker show-toolbar title="请选择" columns="{{ nameColumns }}" value-key="serviceItemName" visible-item-count='4' bind:cancel="onPoupPickerCancel" bind:confirm="onPoupPickerConfirm" />
+</van-popup>
+

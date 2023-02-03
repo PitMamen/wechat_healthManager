@@ -928,8 +928,7 @@ Page({
 
 
     checkLoginStatus() {
-
-        if (this.data.userInfo) {
+        if (getApp().globalData.loginReady) {
             return true
         } else {
             wx.showModal({

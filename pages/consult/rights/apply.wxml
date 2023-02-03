@@ -1,0 +1,43 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+
+    <view class="ordercard">
+        <view class="card-top">
+            <image class="img" src="{{detail.frontImg}}" />
+            <view class="card-top-r">
+            <view class="card-title">{{detail.commodityName}}</view>
+            <view class="card-line"></view>
+            <view class="card-content">套餐类型：<view style="color: #1A1A1A;">{{detail.commodityClassName}}</view></view>
+            <view class="card-content" style="margin-top: 19rpx;">所属专科：<view style="color: #1A1A1A;">{{detail.subjectClassifyName}}</view></view>
+        </view>
+        </view>
+       
+      <view class="right-card">
+        <text class="right-content" wx:for="{{detail.rightsItemInfo}}" wx:key="id2" wx:for-item="items">{{items.serviceItemName}}【{{items.serviceItemAttrs}}】：<text style="color: #367BF5;">剩余</text><text style="color: #F60505;">{{items.surplusQuantity}}</text><text style="color: #367BF5;">次/共{{items.equityQuantity}}次</text></text>
+    </view>
+    </view>
+
+
+    <view class="ordercard" >
+    <view class="ordercontarl">
+        <view class="card-title">使用记录</view>
+        <view class="his-line"></view>
+        <view class="his-view" wx:for="{{rightsRecordList}}" wx:key="2">
+            <view class="his-title" style="color: {{index==0?'#1A1A1A':'#999999'}};">
+            <view class="cicle" style="background: {{index==0?'#367BF5':'#959595'}};"></view>
+            <view>{{computed.formatFullDate8(item.createdTime)}}</view>
+            </view>
+            <view class="his-content" style="color: {{index==0?'#1A1A1A':'#999999'}};">{{item.dealDesc}}</view>
+        </view>
+        <van-empty wx:if="{{ !rightsRecordList || rightsRecordList.length == 0 }}" description="暂无使用记录" />
+    </view>
+       
+    </view>
+<view style="height: 100rpx;"></view>
+<view wx:if="{{numRights>0}}" class="safe-bottom-box">
+  <van-button  type="primary" color="#367BF5"  block bind:click="apply">立即使用</van-button>
+</view>
+
+
+<van-popup show="{{ !hidePoupShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;z-index: 999;" bind:close="onPoupPickerCancel">
+  <van-picker show-toolbar title="请选择" columns="{{ nameColumns }}" value-key="serviceItemName" visible-item-count='4' bind:cancel="onPoupPickerCancel" bind:confirm="onPoupPickerConfirm" />
+</van-popup>

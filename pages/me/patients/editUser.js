@@ -175,7 +175,7 @@ Page({
         var code = that.data.code
         var phone = that.data.phone
         var oldPhone = that.data.oldPhone
-        if (that.data.cardNo.length <= 0) {
+        if (!that.data.cardNo || that.data.cardNo.length <= 0) {
             wx.showToast({
                 title: '请输入就诊卡号',
                 icon: 'none',

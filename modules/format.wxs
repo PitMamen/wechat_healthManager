@@ -67,7 +67,28 @@ function formatFullDate2(date) {
         return date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minute;
     }
 }
-
+function formatFullDate8(date) {
+    if (date) {
+        date = getDate(date);
+        var month = date.getMonth() + 1
+        var day = date.getDate()
+        var hours = date.getHours()
+        var minute = date.getMinutes()
+        if (month < 10) {
+            month = '0' + month
+        }
+        if (day < 10) {
+            day = '0' + day
+        }
+        if (hours < 10) {
+            hours = '0' + hours
+        }
+        if (minute < 10) {
+            minute = '0' + minute
+        }
+        return date.getFullYear() + '年' + month + '月' + day + '日 ' + hours + ':' + minute;
+    }
+}
 function formatFullDate3(date) {
     console.log(date)
     if (date) {
@@ -457,11 +478,12 @@ function orderNum(goodsInfo) {
 }
 module.exports = {
     formatDate: formatDate,
-    formatFullDate: formatFullDate, //毫秒   年/月/日
-    formatFullDate4: formatFullDate4, //毫秒   年-月-日
-    formatFullDate7: formatFullDate7, //毫秒   年月日中文
-    formatFullDate5: formatFullDate5, //毫秒   年.月.日
-    formatFullDate2: formatFullDate2, //毫秒  年-月-日+时间
+    formatFullDate: formatFullDate, //毫秒   2023/1/18 
+    formatFullDate4: formatFullDate4, //毫秒   2023-1-18 
+    formatFullDate7: formatFullDate7, //毫秒   2023年1月18日 
+    formatFullDate8: formatFullDate8, //毫秒  2023年1月18日 12:00
+    formatFullDate5: formatFullDate5, //毫秒   2023.1.18 
+    formatFullDate2: formatFullDate2, //毫秒  2023-1-18 12:00:00
     formatSecondDate: formatSecondDate, //秒
     formatFullDate3: formatFullDate3,
     formatMultiple: formatMultiple,
