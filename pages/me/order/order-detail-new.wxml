@@ -1,0 +1,151 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+<block wx:if="{{order.status==1}}">
+    <view class="top">
+        <van-icon name="clock" color="red" />
+        <view class="top-tx">剩余支付时间： </view>
+        <van-count-down class="countdown-class" time="{{ computed.countDown(order.orderTime) }} " format="mm分ss秒" />
+    </view>
+</block>
+
+<view bindtap="goOrder" data-id="{{item.orderId}}">
+    <view class="wrap-top">
+        <view class="titleviw">
+            <text class="title-text">中南大学湘雅二医院</text>
+            <view wx:if="{{item.status==1}}" class="title-right">
+                <view class="title-right-tx">等待付款</view>
+                <!-- <van-count-down class="countdown-class" time="{{ computed.countDown(item.orderTime) }} " format="mm分ss秒" /> -->
+                <van-count-down class="countdown-class" time="{{ time }}" format="mm分ss秒" />
+            </view>
+            <text wx:else class="plan-text-min">{{computed.orderType(item.status)}}</text>
+        </view>
+
+        <view class="view-top-wrap">
+            <!-- <image mode="aspectFill" src="{{item.pic}}" class="goods-img"></image> -->
+            <image mode="aspectFill" src="https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2021%2F0102%2F42269b19j00qmable001ud000hp00pep.jpg&thumbnail=650x2147483647&quality=80&type=jpg" class="goods-img"></image>
+            <view class="view-contents">
+                <view style="font-size: 32rpx;color: #1A1A1A;font-weight: bold;">高泄压全病程管理</view>
+                <view wx:for="{{nuts}}" style="margin-top: 10rpx;">
+                    <view class="desItem">
+                        <view>图文咨询</view>
+                        <view style="margin-left: 20rpx;">2次</view>
+                        <view style="margin-left: 20rpx;">图文咨询</view>
+                    </view>
+                </view>
+
+            </view>
+        </view>
+
+        <view class="v-divider"></view>
+
+        <view class="wrap-person">
+            <view class="wrap-person-left">
+                <view>就诊人：</view>
+                <view>张三</view>
+            </view>
+
+            <view class="wrap-person-right">
+                <view>合计：</view>
+                <view>￥300</view>
+            </view>
+        </view>
+    </view>
+
+    <!-- <view class="v-divider"></view> -->
+
+    <view>
+
+
+        <view class="v-describe">
+            <view class="v-des-item">
+                <view class="des-name">
+                    订单编号：
+                </view>
+                <view class="des-value">
+                    李四
+                </view>
+            </view>
+
+            <view class="v-des-item">
+                <view class="des-name">
+                    下单时间：
+                </view>
+                <view class="des-value">
+                    李四
+                </view>
+            </view>
+            <!-- 已取消 特有 -->
+            <view class="v-des-item">
+                <view class="des-name">
+                    取消时间：
+                </view>
+                <view class="des-value">
+                    李四
+                </view>
+            </view>
+            <view class="v-des-item">
+                <view class="des-name">
+                    支付时间：
+                </view>
+                <view class="des-value">
+                    李四
+                </view>
+            </view>
+            <view class="v-des-item">
+                <view class="des-name">
+                    订单效期：
+                </view>
+                <view class="des-value">
+                    李四
+                </view>
+            </view>
+
+            <view class="v-des-item">
+                <view class="des-name">
+                    支付方式：
+                </view>
+                <view class="des-value">
+                    李四
+                </view>
+            </view>
+            <view class="v-des-item">
+                <view class="des-name">
+                    支付商户：
+                </view>
+                <view class="des-value">
+                    李四
+                </view>
+            </view>
+
+        </view>
+    </view>
+
+    <!-- <view class="v-divider"></view> -->
+</view>
+
+
+
+<block>
+    <!-- 服务 -->
+    <block wx:if="{{order.functionType==0}}">
+        <view class="price-box">
+
+            <!-- 待支付 -->
+            <view class="btn" hidden="{{order.status==1? false : true}}" bindtap="cancelOrderTap" data-id="{{order.orderId}}">取消订单
+            </view>
+            <view class="btn active" hidden="{{order.status==1? false : true}}" bindtap="goOrder" data-id="{{order.orderId}}" data-money="{{order.amountReal}}" data-score="{{order.score}}">去支付</view>
+            <!-- <view class="btn" hidden="{{item.status==1? false : true}}" bindtap="changeOrderTap" data-id="{{item.orderId}}">修改订单
+      </view> -->
+            <!-- 已完成 和 已取消 -->
+            <view class="btn active" style="width: 80%;" hidden="{{order.status==2? false : true}}" bindtap="buyAgain" data-goods="{{order.orderId}}">
+                再次购买
+            </view>
+            <!-- 进行中 -->
+            <view class="btn active" style="width: 80%;" hidden="{{order.status==3? false : true}}" bindtap="buyAgain" data-goods="{{order.orderId}}">
+                立即咨询
+            </view>
+
+
+        </view>
+    </block>
+
+</block>

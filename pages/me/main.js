@@ -157,7 +157,8 @@ avatarBinderror(e){
         if(getApp().getDefaultPatient()){
         var type = e.currentTarget.dataset.type
         wx.navigateTo({
-          url: './order/order-list?active=' + type,
+        //   url: './order/order-list?active=' + type,
+          url: './order/order-list-new?active=' + type,
         })
     }
     }
