@@ -10,10 +10,10 @@ Page({
      * 1服务中2待接诊3问诊中4已结束
      */
     data: {
-        appointList: [{ status: { value: 1, description: '服务中' } }, { status: { value: 2, description: '待接诊' } }, { status: { value: 3, description: '问诊中' } }, { status: { value: 4, description: '已结束' } }],
+        appointList: [],
         todoList: [{ type: 1, title: '您申请的图文问诊已被接诊' }, { type: 2, title: '医生给您推送李健康宣教文章' }, { type: 3, title: '医生邀请您填写问卷' }],
         active: '0',
-        unread: 6,
+        unreadConsult: 0,
     },
 
     /**
@@ -31,7 +31,7 @@ Page({
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient')
         })
-
+        this.getConsultList()
     },
     onTabsChange(e) {
 
@@ -41,38 +41,109 @@ Page({
         })
 
     },
+
+    //获取问诊列表
+    async getConsultList() {
+        const res = await WXAPI.getConsultList()
+        if (res.code == 0 && res.data && res.data.length>0) {        
+            var conversationIDArray=[]
+                // var appointList=[] 
+                res.data[0].imGroupId='@TGS#1MOLE7GMW'
+                res.data[0].status={
+                    value:3,description:'进行中'
+                }
+                
+                res.data.forEach(item=>{
+                    if(item.imGroupId){
+                        conversationIDArray.push(item.imGroupId)
+                    }
+                    
+                })
+                
+                this.setData({
+                    appointList: res.data,
+                })
+                this.getConversationList(conversationIDArray)
+            
+
+            
+        } else {
+            this.setData({
+                appointList: []
+            })
+        }
+
+    },
+    //获取问诊列表的未读数
+    getConversationList(conversationIDArray) {
+        if(conversationIDArray.length==0){
+            return
+        }
+        if (getApp().globalData.sdkReady) {
+            var appointList=this.data.appointList
+            // 获取指定的会话列表
+            let promise = getApp().tim.getConversationList(conversationIDArray);
+            let that=this
+            promise.then(function (imResponse) {
+                const conversationList = imResponse.data.conversationList; // 缓存中已存在的指定的会话列表
+                console.log("获取指定的会话列表",conversationList)
+                var num=0
+                if(conversationList && conversationList.length>0){
+                    for(var i=0;i<conversationList.length;i++){
+                        for(var j=0;j<appointList.length;j++){
+                            if( conversationList[i].imGroupId == appointList[j].conversationID){
+                                appointList[j].unreadCount= conversationList[i].unreadCount
+                                num=num+conversationList[i].unreadCount
+                            }
+                        }
+                    }
+                    that.setData({
+                        appointList:appointList,
+                        unreadConsult:num
+                    })
+                }
+            }).catch(function (imError) {
+                console.warn('getConversationList error:', imError); // 获取会话列表失败的相关信息
+            });
+        }
+
+    },
     //问诊详情
     goConsultDetail(e) {
-        var rightInfo = e.currentTarget.dataset.item
+        var info = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
-            if (getApp().getDefaultPatient()) {
-                wx.navigateTo({
-                    url: './detail/index?rightsId=' + 60 + '&userId=' + this.data.defaultPatient.userId + '&status=' + rightInfo.status.value,
-                })
-            }
+
+            wx.navigateTo({
+                url: './detail/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
+            })
+
         }
 
 
     },
     //进入诊室
-    enterRoom() {
-
+    enterRoom(e) {
+        var info = e.currentTarget.dataset.item
+      
+        IMUtil.goGroupChat(info.userId,  'navigateTo', info.imGroupId, 'textNum', info.rightsId, 'START')
     },
     //再次购买
-    bugAgain() {
-
+    bugAgain(e) {
+        var info = e.currentTarget.dataset.item
+        wx.navigateTo({
+            url: `/pages/health/detail/index?id=${info.commodityId}`
+        })
     },
     //使用权益
     goApplyRights(e) {
-        // var id = e.currentTarget.dataset.id
+        var info = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
-            if (getApp().getDefaultPatient()) {
 
-                wx.navigateTo({
-                    url: './rights/apply?rightsId=' + 60 + '&userId=' + this.data.defaultPatient.userId,
-                })
+            wx.navigateTo({
+                url: './rights/apply?rightsId=' + info.rightsId + '&userId=' + info.userId,
+            })
 
-            }
+
         }
 
     },

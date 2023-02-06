@@ -4,59 +4,20 @@ import voiceManager from "./msg-type/voice-manager";
 const WXAPI = require('../../../static/apifm-wxapi/index')
 const Util = require('../../../utils/util')
 
-export const ACTION_TYPE = {
-    INVITE: 1, // 邀请方发起邀请
-    CANCEL_INVITE: 2, // 邀请方取消邀请
-    ACCEPT_INVITE: 3, // 被邀请方同意邀请
-    REJECT_INVITE: 4, // 被邀请方拒绝邀请
-    INVITE_TIMEOUT: 5, // 被邀请方超时未回复
-}
-/**
- * 聊天页面
- * MSG_TEXT:"TIMTextElem",文本消息
- * MSG_IMAGE:"TIMImageElem",图片消息
- * MSG_AUDIO:"TIMSoundElem",音频消息
- * MSG_FILE:"TIMFileElem",文件消息
- * MSG_FACE:"TIMFaceElem",
- * MSG_VIDEO:"TIMVideoFileElem",视频消息
- * MSG_GEO:"TIMLocationElem",位置消息
- * MSG_GRP_TIP:"TIMGroupTipElem",群提示消息
- * MSG_GRP_SYS_NOTICE:"TIMGroupSystemNoticeElem",群系统通知消息
- * MSG_CUSTOM:"TIMCustomElem",自定义消息
- * MSG_MERGER:"TIMRelayElem",合并消息（v2.10.1起支持）
- */
 Page({
-    /**
-     * extraArr: [{
-            picName: 'choose_picture',
-            description: '图片'
-        }, {
-            picName: 'take_photos',
-            description: '视频'
-        }, {
-            picName: 'voice_call',
-            description: '语音通话'
-        }, {
-            picName: 'video_call',
-            description: '视频通话'
-        }]
-     * 页面的初始数据
-     */
+    
     onMessageReceived: '',
     onMessageReadByPeer: '',
     _freshing: false,
     data: {
         showChatInput: true,
         hideTimeShow: true,
-        type: '',
         config: {},
-        toUserID: '',//聊天对象ID 或者群ID
         toAvatar:'../../../image/avatar.png',//聊天对象头像
         myAvatar:'../../../image/avatar.png',//自己头像
         conversationID: '',//聊天会话ID
-
-        DocType: '',//Doctor医生  CaseManager个案管理师  ServiceAccount 客服人员
-        userProfile: {},//聊天对象信息
+        groupID:'',//群ID
+        DocType: 'Doctor',
         groupProfile: {},//群信息
 
         tradeId: '',//工单id
@@ -77,9 +38,6 @@ Page({
         extraArr: [{
             picName: 'choose_picture',
             description: '图片'
-        }, {
-            picName: 'take_photos',
-            description: '视频'
         }],
         topArr: []
     },
@@ -100,47 +58,39 @@ Page({
         }
 
         var defaultPatient = getApp().getDefaultPatient()
-        //统一用微信账号的头像
-        var myAvatar = wx.getStorageSync('userInfo').account.avatarUrl
+        
         this.setData({
             config: config,
             pageHeight: wx.getSystemInfoSync().windowHeight,
-            type: options.type,
-            DocType: options.DocType,
             defaultPatient: defaultPatient,
-            toUserID: options.userID,
-            conversationID: options.conversationID,
-            myAvatar: myAvatar,
+            groupID:options.groupID,
+            conversationID: 'GROUP'+options.groupID,           
             inquiryType: options.inquiryType,//问诊类型  图文textNum  视频videoNum 电话telNum
             tradeId: options.tradeId,//工单ID   
             //工单进程 CONFIRM:确认  REFUSED:已拒诊  START:开始咨询 END:已完成
             tradeAction: options.tradeAction,
 
         })
-        this.getUserInfo()
+       
+        this.getGroupProfile()
         this.updateChatStatus()
         this.getMessageList()
         this.voiceManager = new voiceManager(this)
         this.onIMReceived()
 
-        if (this.data.DocType == 'Doctor' || this.data.DocType == 'Nurse') {//医生
+       
 
             if(this.data.tradeAction == 'END'){
                 this.setData({
                     showChatInput:false
                 })
             }else {
-                if (this.data.tradeAction == 'START') {
-                    //开始咨询问诊
-                    //查询是否添加过发送记录  没有则在发送消息后添加
-                    this.qryRightsUserLog()
-                }
                 //查询工单详情
-                this.queryRightsUserRecord()
+                // this.queryRightsUserRecord()
             }
 
             
-        }
+        
 
    
 
@@ -155,7 +105,7 @@ Page({
     },
     onShow: function (e) {
         console.log("chat page: onShow")
-        this.qryVideoNumRecord()
+        // this.qryVideoNumRecord()
     },
     goHome(){
         wx.switchTab({
@@ -167,31 +117,8 @@ Page({
           url: '/pages/home/package-list/packagelist',
         })
       },
-      //查看历史记录
-      goHistoryPage(){
-        wx.navigateTo({
-            url: '/packageIM/pages/chat/historyChat?userId='+this.data.config.userID+'&toUserId='+this.data.toUserID,
-          })
-      },
-   //模拟收到文本消息和发送文字消息
-   onGetMessageEvent_local(flow, content) {
 
-    // 发送文本消息，Web 端与小程序端相同
-    // 1. 创建消息实例，接口返回的实例可以上屏
-    console.log(content)
-    let message = getApp().tim.createTextMessage({
-        to: String(this.data.defaultPatient.userId),
-        conversationType: this.data.type == 'C2C' ? TIM.TYPES.CONV_C2C : TIM.TYPES.CONV_GROUP,
-        payload: {
-            text: content
-        },
-    });
-    message.flow = flow
-    message.avatar = flow === 'in' ? '/image/ai_icon.png' : '',
-        console.log(message)
-    var index = this.setOneItemAndScrollPage(message)
-    this.updateChatItemStatus(index, "success")
-},
+   
     //监听
     onIMReceived() {
         let that = this
@@ -215,22 +142,7 @@ Page({
 
         //消息已读
         let onMessageReadByPeer = function (event) {
-            // event.data - 存储 Message 对象的数组 - [Message] - 每个 Message 对象的 isPeerRead 属性值为 true
-            // console.log(event)
-            // var isPeerRead=false
-            // event.data.forEach(item=>{
-            //     if(item.to === that.data.toUserID){
-            //         isPeerRead=true
-            //     }
-            // })
-            // if(isPeerRead){
-            //     that.data.chatItems.forEach(message=>{
-            //         message.isPeerRead=true
-            //     })
-            //     that.setData({
-            //         chatItems:that.data.chatItems
-            //     })
-            // }
+           
         };
         getApp().tim.on(TIM.EVENT.MESSAGE_READ_BY_PEER, onMessageReadByPeer);
         this.onMessageReadByPeer = onMessageReadByPeer
@@ -292,28 +204,11 @@ Page({
       
     },
 
-    //查询用户信息
-    getUserInfo(){
-        let that=this
-        WXAPI.healthRecordUserInfo(this.data.toUserID)
-        .then(res=>{
-            wx.setNavigationBarTitle({
-                title: res.data.baseInfo.userName || that.data.toUserID
-            });
-
-            that.setData({
-                userProfile: res.data.baseInfo,
-            });
-        }).catch(e=>{
-            wx.setNavigationBarTitle({
-                title:  that.data.toUserID
-            });
-        })
-    },
+   
     //获取医生信息
-    async doctorDetailQuery() {
+    async doctorDetailQuery(userId) {
 
-        var doctor_list = [this.data.toUserID]
+        var doctor_list = [userId]
        
         const res = await WXAPI.doctorInfoQuery(doctor_list)
         if (res.code == 0 && res.data.length>0) {
@@ -325,31 +220,13 @@ Page({
             })
         }
     },
-    //获取聊天对象信息 单聊
-    getUserProfile() {
-        let that = this
-        let promise = getApp().tim.getUserProfile({
-            userIDList: [this.data.toUserID] // 请注意：即使只拉取一个用户的资料，也需要用数组类型，例如：userIDList: ['user1']
-        });
-        promise.then(function (imResponse) {
-            console.log(imResponse);
-            const userProfile = imResponse.data[0];
-
-            wx.setNavigationBarTitle({
-                title: userProfile.nick || userProfile.userID
-            });
-
-        }).catch(function (imError) {
-            console.warn('getUserProfile error:', imError); // 获取其他用户资料失败的相关信息
-        });
-
-    },
+   
     //获取聊天对象信息 群聊
     getGroupProfile() {
         let that = this
 
         let promise = getApp().tim.getGroupProfile({
-            groupID: this.data.toUserID,
+            groupID: this.data.groupID,
 
         });
         promise.then(function (imResponse) {
@@ -400,19 +277,7 @@ Page({
             that._freshing = false
             // 将某会话下所有未读消息已读上报
            getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
-        
-            if(that.data.DocType === 'ServiceAccount'){
-                that.onGetMessageEvent_local('in', '您好，我是医生助理，请输入并提交您想询问的内容，我会竭诚为您服务。')
-            }
-           
-             //为了防止发送消息上屏 获取列表又上屏的情况 ，再获取到列表后再发送卡片
-             if(that.data.tradeAction !== 'END'){
-                if (that.data.DocType == 'Doctor') {//医生
-                    //查询是否发送过病情卡片记录 没有则查询填写资料并发送卡片
-                    that.qrySendCardsUserLog()
-                }
-            }
-            
+          
 
         }).catch(function (imError) {
             console.error(imError)
@@ -502,103 +367,10 @@ Page({
         this.getMoreMessageList()
 
     },
-    async queryRightsUserRecord() {
-
-        const res = await WXAPI.queryRightsUserRecord(this.data.config.userID, '', this.data.tradeId)
-        console.log("queryRightsUserRecord1")
-        if (res.code == 0 && res.data && res.data.rows && res.data.rows.length > 0) {
-            console.log("queryRightsUserRecord2", res.data.rows)
-            var tradeDetail = res.data.rows[0]
-            this.setData({
-                tradeDetail: tradeDetail,
-            })
-            if (tradeDetail.userAttrInfo && tradeDetail.userAttrInfo.length > 0 && tradeDetail.userAttrInfo[0].remark) {
-                this.setData({
-                    tradeRemark: tradeDetail.userAttrInfo[0].remark
-                })
-            }
-            console.log("queryRightsUserRecord3---tradeRemark", this.data.tradeRemark)
-            this.qryTextNumRecord()
-            this.qryVideoNumRecord()
-        }
 
 
-    },
-    //查询填写的资料
-    async qryInputUserLog() {
-        if (!this.data.tradeId) {
-            return
-        }
-        const postData = {
-            dealType: 'REQUEST_DATA',
-            tradeId: this.data.tradeId,
-            userId: this.data.config.userID
-        }
-        const res = await WXAPI.qryRightsUserLog(postData)
 
-        console.log("查询填写的资料并发送卡片",res)
-        if (res.code === 0 && res.data.length > 0) {
-
-            // //发送病情简介
-            this.sendIllnessMessageEvent(res.data[0])
-
-            if (res.data[0].execFlag === 0) {
-                if (this.data.inquiryType == 'videoNum' || this.data.inquiryType == 'telNum') {
-                    //视频和电话需要患者医生双方确认时间
-                    this.sendAppointmentTimeMessageEvent('预约时间', res.data[0].dealResult)
-                }
-            }else if (res.data[0].execFlag === 2) {
-                this.setData({
-                    tradeAction:'START'
-                })
-            }
-            //保存已发送的记录
-          this.saveSendCardsUserLog()
-
-        }
-
-    },
-       //查询是否添加发送过病情描述卡片  没有则在发送
-       async qrySendCardsUserLog() {
-        console.log("qrySendCardsUserLog:", this.data.tradeId)
-        if (!this.data.tradeId) {
-            return
-        }
-        const postData = {
-            dealType: 'SEND_CARD_DATA',
-            tradeId: this.data.tradeId,
-            userId: this.data.config.userID
-        }
-        const res = await WXAPI.qryRightsUserLog(postData)
-        if (res.code === 0 ) {
-           if( !res.data || res.data.length === 0){    
-               //没有记录
-               this.qryInputUserLog()
-           }
-        }
-
-    },
-    //查询是否添加过发送记录  没有则在发送消息后添加
-    async qryRightsUserLog() {
-        console.log("qryRightsUserLog:", this.data.tradeId)
-        if (!this.data.tradeId) {
-            return
-        }
-        const postData = {
-            dealType: 'TextTimeoutRemind',
-            tradeId: this.data.tradeId,
-            userId: this.data.config.userID
-        }
-        const res = await WXAPI.qryRightsUserLog(postData)
-
-        if (res.code === 0 && res.data.length > 0) {
-            //有记录
-            this.setData({
-                isTradeReminded: true
-            })
-        }
-
-    },
+ 
     //查询当前工单图文咨询计数条数
     async qryTextNumRecord() {
         if (!this.data.tradeId) {
@@ -665,40 +437,8 @@ Page({
 
     },
 
- //保存已经发送过病情卡片
- async saveSendCardsUserLog() {
-    if (!this.data.tradeId) {
-        return
-    }
-    const postData = {
-        dealType: 'SEND_CARD_DATA',
-        tradeId: this.data.tradeId,
-        userId: this.data.config.userID        
-          
-    }
-    await WXAPI.saveRightsUserLog(postData)
 
-},
-    //患者给医生发送第一条消息
-    async sendFirstMsgToDoc() {
-        if (!this.data.tradeId) {
-            return
-        }
-        const postData = {
-            docId: this.data.toUserID,
-            tradeId: this.data.tradeId,
-            userId: this.data.config.userID
-        }
-        const res = await WXAPI.sendFirstMsgToDoc(postData)
 
-        if (res.code === 0) {
-            this.setData({
-                isTradeReminded: true
-            })
-            console.log("sendFirstMsgToDoc success")
-        }
-
-    },
     //图预览
     imageClickEvent(e) {
         wx.previewImage({
@@ -710,8 +450,6 @@ Page({
     heathItemClickEvent(e) {
         console.log(e)
         let id = e.detail.item.id;
-
-
     },
 
     onVideoPlayClick(e){
@@ -736,23 +474,7 @@ Page({
         })
     },
 
-    //点击视频看就诊
-    CustomVideoCallClickEvent(e) {
-        if(this.data.tradeAction == 'END'){
-           return
-        }
-       
-        if (this.data.inquiryType !== 'videoNum') {
-            wx.showToast({
-                title: '此会话非视频咨询,不能进入房间',
-                icon: 'none',
-                duration: 2000
-            })
-        } else {
-            this.enterRoom(e.currentTarget.dataset.roomid)
-        }
-
-    },
+ 
     //点击随访跟踪
     CustomWenJuanClickEvent(e) {
         var url = e.currentTarget.dataset.url
@@ -765,74 +487,8 @@ Page({
         })
 
     },
-    //点击疾病知识
-    CustomArticleMessageClickEvent(e) {
-        var id = e.currentTarget.dataset.id
-        console.log(id)
-        wx.navigateTo({
-            url: '/pages/home/news/news-detail?id=' + id,
-        })
-    },
+   
 
-
-    //点击上传资料
-    CustomUploadClickEvent(e) {
-
-    },
-    //点击评估消息
-    CustomAnalyseClickEvent(e) {
-
-        // wx.navigateTo({
-        //     url: '/pages/home/evaluate/index?msgDetailId=' + e.currentTarget.dataset.id,
-        // })
-
-    },
-
-   //点击电子处方卡片进入详情
-   CustomDianziChufangClickEven(e){
-       var preNo = e.currentTarget.dataset.id
-       var time = e.currentTarget.dataset.time
-       console.log("处方编号：",time)
-      wx.navigateTo({
-            url: '/pages/home/electronic-prescription/prescription_detail_page?preNo=' + preNo+'&createTime='+time,
-        })
-   },
-
-   // 医生回复问题 点击查看详情
-   ClickQueryAdetail(e){
-    var question1 = e.currentTarget.dataset.question1
-    var question2 = e.currentTarget.dataset.question2
-    var question3 = e.currentTarget.dataset.question3
-    var answer1 = e.currentTarget.dataset.answer1
-    var answer2 = e.currentTarget.dataset.answer2
-    var answer3 = e.currentTarget.dataset.answer3
-    var time = e.currentTarget.dataset.time
-    console.log("详情内容",time)
-   wx.navigateTo({
-         url: '/pages/home/doctor-answer/doctor-answer?question1=' + question1+'&question2='+question2+'&question3='+question3+'&answer1='+answer1+'&answer2='+answer2+'&answer3='+answer3+'&time='+time
-     })
-},
-
-    //点击健康消息
-    CustomHealthClickEvent(e) {
-
-    },
-
-    //购买服务卡片点击
-    onCustomHealthManageMessageClickEvent(e) {
-        console.log(e)
-        var goodsId = e.currentTarget.dataset.id
-        this.queryPlanId(goodsId)
-    },
-    //根据就诊人ID，商品ID查询服务ID
-    async queryPlanId(goodsId) {
-        var userId = this.data.defaultPatient.userId
-        const res = await WXAPI.queryPlanId(goodsId, userId)
-        var planId = res.data
-        wx.navigateTo({
-            url: '/pages/me/my-plan/plan-detail?planId=' + planId,
-        })
-    },
     //点击选择时间
     CustomAppointmentTimeClickEvent(e) {
         if(this.data.tradeAction == 'END'){
@@ -885,23 +541,11 @@ Page({
                 })
                 this.sendAppointmentTimeMessageEvent('确认时间', chooseTime)
             }
-            // else if(this.data.inquiryType == 'textNum'){
-            //     //如果是图文则不用确认 直接聊天
-            //     wx.showToast({
-            //         icon:'none',
-            //         title: '发送成功',
-            //       })
-            //     this.setData({
-            //         tradeAction:'START'
-            //     })
-            // }
+ 
 
         }
     },
-    //病历
-    CustomCaseHistoryClickEvent(e) {
-
-    },
+   
 
     //播放或暂停音频
     chatVoiceItemClickEvent(e) {
@@ -922,85 +566,17 @@ Page({
      * @param e
      */
     onExtraItemClickEvent(e) {
-        console.warn(e);
-        let that = this
+       
+       
         let chooseIndex = parseInt(e.detail.index);
         if (chooseIndex === 0) {//发送图片
             this.sendImageMessage()
-        } else if (chooseIndex === 1) {//发送视频
-            this.sendVideoMessage()
-        }
-        else if (chooseIndex === 2) {//语音通话
-            this.setData({
-                config: {
-                    type: 1
-                }
-            })
-            this.TRTCCalling.call({ userID: this.data.toUserID, type: 1 })
-        } else if (chooseIndex === 3) {//视频通话
-            // this.setData({
-            //     config: {
-            //         type: 2
-            //     }
-            // })
-            // this.TRTCCalling.call({ userID: this.data.toUserID, type: 2 })
-
-            // this.enterRoom(100)
-
-        } else if (chooseIndex === 4) {
-            wx.showModal({
-                title: '提示',
-                content: '发送资料给医生',
-                success(res) {
-                    if (res.confirm) {
-
-                    }
-                }
-            })
-
-
-            return;
-        }
+        } 
+       
 
     },
 
-    //进入房间
-    enterRoom(roomID) {
-
-
-        var dTime = parseInt(this.data.tradeRemark.timeLimit) * 60 - this.data.videoNumRecord
-        if (dTime < 1) {
-            wx.showModal({
-                title: '提示',
-                content: '通话时长已使用完，无法进入房间',
-                showCancel: false,
-                success(res) {
-                    if (res.confirm) {
-                        console.log('用户点击确定')
-                    }
-                }
-            })
-            return
-        }
-        const url = `./room/room?roomID=${roomID}&tradeId=${this.data.tradeId}&chatTime=${dTime}`
-
-        this.checkDeviceAuthorize().then((result) => {
-            console.log('授权成功', result)
-            console.log(url)
-
-            wx.navigateTo({
-                url: url,
-            })
-
-        })
-            .catch((error) => {
-                console.log('没有授权', error)
-            })
-
-
-
-    },
-
+   
 
     //发生文本消息
     onSendMessageEvent(e) {
@@ -1009,8 +585,8 @@ Page({
         // 1. 创建消息实例，接口返回的实例可以上屏
        
         let message = getApp().tim.createTextMessage({
-            to: this.data.toUserID,
-            conversationType: this.data.type == 'C2C' ? TIM.TYPES.CONV_C2C : TIM.TYPES.CONV_GROUP,
+            to: this.data.groupID,
+            conversationType: TIM.TYPES.CONV_GROUP,
             payload: {
                 text: content
             },
@@ -1021,41 +597,52 @@ Page({
     //发送图片消息
     sendImageMessage() {
         let that = this
-        wx.chooseImage({
+ 
+        wx.chooseMedia({
+            mediaType: ['image'], // 图片
             sourceType: ['album', 'camera'], // 从相册选择
             count: 1, // 只选一张，目前 SDK 不支持一次发送多张图片
             success: function (res) {
                 console.log(res)
-                // 2. 创建消息实例，接口返回的实例可以上屏
-                let message = getApp().tim.createImageMessage({
-                    to: that.data.toUserID,
-                    conversationType: that.data.type == 'C2C' ? TIM.TYPES.CONV_C2C : TIM.TYPES.CONV_GROUP,
-                    payload: { file: res },
-                    onProgress: function (event) { console.log('file uploading:', event) }
-                });
-                that.sendMsg(message)
+                res.tempFilePaths=[res.tempFiles[0].tempFilePath]
+                           
+                
+              // 2. 创建消息实例，接口返回的实例可以上屏
+              let message = getApp().tim.createImageMessage({
+                to: that.data.groupID,
+                conversationType: TIM.TYPES.CONV_GROUP,
+                payload: { file: res},
+                onProgress: function(event) { console.log('file uploading:', event) }
+              });
+              that.sendMsg(message)
             }
-        })
+          })
     },
     //发送视频消息
     sendVideoMessage() {
         let that = this
-        wx.chooseVideo({
+
+        wx.chooseMedia({
+            mediaType: ['video'], // 视频
             sourceType: ['album', 'camera'], // 来源相册或者拍摄
             maxDuration: 60, // 设置最长时间60s
             camera: 'back', // 后置摄像头
-            success(res) {
-                // 2. 创建消息实例，接口返回的实例可以上屏
-                let message = getApp().tim.createVideoMessage({
-                    to: that.data.toUserID,
-                    conversationType: that.data.type == 'C2C' ? TIM.TYPES.CONV_C2C : TIM.TYPES.CONV_GROUP,
-                    payload: {
-                        file: res
-                    },
-                })
-                that.sendMsg(message)
+            success (res) {
+              // 2. 创建消息实例，接口返回的实例可以上屏
+              let message = getApp().tim.createVideoMessage({
+                to: that.data.groupID,
+                conversationType: TIM.TYPES.CONV_GROUP,
+                payload: {
+                  file: res
+                },
+                // 消息自定义数据（云端保存，会发送到对端，程序卸载重装后还能拉取到，v2.10.2起支持）
+                // cloudCustomData: 'your cloud custom data'
+                // v2.12.2起，支持小程序端视频上传进度回调
+                onProgress: function(event) { console.log('file uploading:', event) }
+              })
+              that.sendMsg(message)
             }
-        })
+          })
     },
     //发送语音
     onVoiceRecordEvent(e) {
@@ -1067,8 +654,8 @@ Page({
 
             // 4. 创建音频消息
             const message = getApp().tim.createAudioMessage({
-                to: this.data.toUserID,
-                conversationType: this.data.type == 'C2C' ? TIM.TYPES.CONV_C2C : TIM.TYPES.CONV_GROUP,
+                to: this.data.groupID,
+                conversationType: TIM.TYPES.CONV_GROUP,
                 payload: {
                     file: e.detail
                 },
@@ -1082,67 +669,8 @@ Page({
         }
 
     },
-    //发生文病情简介
-    sendIllnessMessageEvent(inputData) {
-       console.log("病情描述:",inputData)
-       var sendData;
-        if (inputData.dealType=='USED_INQUIRYFORM') {
-             sendData = {
-                type: 'FengshikeIllnessMessage',
-                title:'病情咨询',
-                content: '我已向您发起咨询问题',
-                question1: inputData.question1,
-                question2: inputData.question2,
-                question3: inputData.question3,
-                imageList: inputData.dealImages,
-                time: inputData.dealResult,
-                tradeId: inputData.tradeId
-            }
-        }else{
-             sendData = {
-                type: 'CustomIllnessMessage',
-                content: inputData.dealDetail,
-                imageList: inputData.dealImages,
-                time: inputData.dealResult,
-                tradeId: inputData.tradeId
-            }
-        }
-        let message = getApp().tim.createCustomMessage({
-            to: this.data.toUserID,
-            conversationType: TIM.TYPES.CONV_C2C,
-            payload: {
-                data: JSON.stringify(sendData),
-                description: '病情概述',
-                extension: ''
-
-            },
-        });
-
-        this.sendMsg(message)
-    },
-    //发生预约时间
-    sendAppointmentTimeMessageEvent(description, time) {
-
-        const sendData = {
-            type: 'CustomAppointmentTimeMessage',
-            description: description,
-            time: time,
-            tradeId: this.data.tradeId
-        }
-
-        let message = getApp().tim.createCustomMessage({
-            to: this.data.toUserID,
-            conversationType: TIM.TYPES.CONV_C2C,
-            payload: {
-                data: JSON.stringify(sendData),
-                description: description,
-                extension: ''
-
-            },
-        });
-
-        this.sendMsg(message)
-    },
+    
+    
     // 展示消息时间
     messageTimeForShow(messageTime) {
         const interval = 5 * 60;
@@ -1160,37 +688,6 @@ Page({
         }
 
     },
-
-    //模拟上传文件，注意这里的cbOk回调函数传入的参数应该是上传文件成功时返回的文件url，这里因为模拟，我直接用的savedFilePath
-    simulateUploadFile({ savedFilePath, duration, itemIndex }) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                let urlFromServerWhenUploadSuccess = savedFilePath;
-                resolve({ url: urlFromServerWhenUploadSuccess });
-            }, 1000);
-        });
-    },
-
-    /**
-     * 自定义事件
-     */
-    myFun() {
-        wx.showModal({
-            title: '小贴士',
-            content: '演示更新会话状态',
-            confirmText: '确认',
-            showCancel: true,
-            success: (res) => {
-
-            }
-        })
-    },
-
-    resetInputStatus() {
-        // this.chatInput.closeExtraView();
-    },
-
-
 
 
     /**
@@ -1210,7 +707,7 @@ Page({
         //技术原因 自定义消息先发送后上屏  其他消息先上屏后发送
         //非自定义消息
         if (message.type !== 'TIMCustomElem') {
-            if (this.data.DocType == 'Doctor'||this.data.DocType == 'Nurse') {   
+            
               if(this.data.tradeRemark && this.data.tradeRemark.textNumLimit){
                 var dNum = this.data.tradeRemark.textNumLimit - this.data.textNumRecord
               
@@ -1223,7 +720,7 @@ Page({
                 }
               }
               
-           }        
+                   
            index = this.setOneItemAndScrollPage(message)
 
         }
@@ -1236,10 +733,7 @@ Page({
                 index = that.setOneItemAndScrollPage(message)
             }
             that.updateChatItemStatus(index, "success")
-            if (that.data.tradeAction == 'START' && !that.data.isTradeReminded) {
-                //记录第一次发送了消息
-                that.sendFirstMsgToDoc()
-            }
+          
             //非自定义消息计数
             if (message.type !== 'TIMCustomElem') {
 
@@ -1274,10 +768,7 @@ Page({
             // 重发成功
             console.log(imResponse);
             that.updateChatItemStatus(index, "success")
-            if (that.data.tradeAction == 'START' && !that.data.isTradeReminded) {
-                //记录第一次发送了消息
-                that.sendFirstMsgToDoc()
-            }
+           
               //非自定义消息计数
               if (message.type !== 'TIMCustomElem') {
 
@@ -1378,7 +869,7 @@ Page({
     //聊天状态
     updateChatStatus() {
         var content = ''
-        if (this.data.DocType == 'Doctor'||this.data.DocType == 'Nurse') { 
+       
             if (this.data.tradeRemark ) {
                 var textNumContent=''
                 if(this.data.tradeRemark.textNumLimit){
@@ -1413,7 +904,7 @@ Page({
                     content = '图文咨询:' + textNumContent
                 }
             }
-        }
+        
 
 
 
@@ -1422,7 +913,10 @@ Page({
             chatStatue: this.data.DocType,
             chatStatusContent: content
         })
-        // console.log(this.data.chatStatue+content)
+  
+    },
+    resetInputStatus() {
+        // this.chatInput.closeExtraView();
     },
     videoErrorCallback(e) {
         console.log('视频错误信息:')
@@ -1443,7 +937,7 @@ Page({
          
             var type = signalingData.type
             if (type) {//自己业务的自定义消息
-                if (type == 'CustomAnalyseMessage') {//问诊小结
+                 if (type == 'CustomAnalyseMessage') {//问诊小结
                     item.payload.customType = "CustomAnalyseMessage"
 
                 } else if (type == 'CustomHealthManageMessage') {//购买服务
@@ -1525,8 +1019,11 @@ Page({
 
 
         } catch (error) {
-            console.error(error)
-            item.payload.description = "[自定义消息]"
+            console.log(error)
+            if(item.payload.data == 'group_create'){
+                item.payload.description = "医生创建房间"
+            }
+            
         }
         return item
 

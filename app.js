@@ -249,9 +249,12 @@ App({
     },
     //获取就诊人列表
     getPatientInfoList() {
-        const userInfo = this.getAccountInfo()
-        if (userInfo) {
+        const userInfo = wx.getStorageSync('userInfo')
+        
+        if (userInfo && userInfo.account &&  userInfo.account.user) {
             return userInfo.account.user
+        }else{
+            return []
         }
 
     },
@@ -324,8 +327,7 @@ App({
         loginReady: false,//登录状态
 
         unreadServerMessageCount: 0,//个案和客服未读消息数
-        unreadDocoterMessageCount: 0,//护士医生未读消息数
-
+       
         yljgdm: '444885559',//医疗机构代码
         remindedRights: [],//提醒过的权益
         rightTypeList: [],//权益类型列表

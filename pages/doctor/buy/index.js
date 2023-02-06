@@ -107,7 +107,7 @@ Page({
                     })
                     setTimeout(() => {
                         wx.switchTab({
-                            url: '/pages/home/main'
+                            url: '/pages/consult/index'
                         })
                     }, 2000)
                 },

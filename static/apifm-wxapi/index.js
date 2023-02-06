@@ -1268,6 +1268,12 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/rightsUse/saveRightsUseRecord'
                         return request(url, 'post', data, true);
                     },
+                      //小程序端-问诊列表
+                      getConsultList: function getConsultList(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/consult/list'
+                        return request(url, 'get', data, true);
+                    },
                 };
 
                 /***/

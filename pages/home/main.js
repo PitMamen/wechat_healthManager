@@ -53,9 +53,7 @@ Page({
         })
 
         //监听客服和个案管理师发来的消息数
-        getApp().watch('unreadServerMessageCount', this.watchBack);
-        //监听医生发来的消息数
-        getApp().watch('unreadDocoterMessageCount', this.watchBack);
+        // getApp().watch('unreadServerMessageCount', this.watchBack);
         //监听登录成功
         bus.on('loginSuccess', (msg) => {
             // 支持多参数
@@ -69,40 +67,42 @@ Page({
 
             this.getMaLoginInfo()
         })
-        if (options.type == 1) {
-            //扫码用户进入首页 重新获取登录信息 
-            this.getMaLoginInfo()
-        }
-    },
-    watchBack: function (name, value) {
-        console.log('name==' + name);
-        console.log(value);
-        if (name === 'unreadServerMessageCount') {
-            this.setData({
-                unreadMymessageCount: value
-            })
+        //监听个案管理师、客服未读消息
+        bus.on('unreadServer', (msg) => {
+            // 支持多参数
+            // console.log("监听未读消息成功", msg)
             this.data.midMenuList.forEach(item => {
                 if (item.menuName == '我的消息') {
-                    item.unReadCount = value
+                    item.unReadCount = msg
                 }
             })
             this.setData({
                 midMenuList: this.data.midMenuList
             })
-        } else if (name === 'unreadDocoterMessageCount') {
-            if (value > 0) {
-                wx.showTabBarRedDot({
-                    index: 1,
-                })
-            } else {
-                wx.hideTabBarRedDot({
-                    index: 1,
-                })
-            }
-
+        })
+        if (options.type == 1) {
+            //扫码用户进入首页 重新获取登录信息 
+            this.getMaLoginInfo()
         }
-
     },
+    // watchBack: function (name, value) {
+    //     console.log('name==' + name);
+    //     console.log(value);
+    //     if (name === 'unreadServerMessageCount') {
+    //         this.setData({
+    //             unreadMymessageCount: value
+    //         })
+    //         this.data.midMenuList.forEach(item => {
+    //             if (item.menuName == '我的消息') {
+    //                 item.unReadCount = value
+    //             }
+    //         })
+    //         this.setData({
+    //             midMenuList: this.data.midMenuList
+    //         })
+    //     }
+
+    // },
     onShow: function (e) {
 
         var userInfoSync = wx.getStorageSync('userInfo')
@@ -169,7 +169,7 @@ Page({
             userInfo: wx.getStorageSync('userInfo').account
         })
         if (this.data.defaultPatient && this.data.defaultPatient.userId) {
-            this.queryMyRights()
+         
             this.qryMyFollowTask()
             IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
             IMUtil.getConversationList()
@@ -253,7 +253,7 @@ Page({
                         midMenuList: midMenuList
                     })
                     this.getRatio()
-                    this.queryMyRights()
+                   
                 }
             })
     },
@@ -331,28 +331,7 @@ Page({
     },
 
 
-    //我的权益 数量
-    async queryMyRights() {
-
-
-        const res = await WXAPI.queryMyRights(this.data.defaultPatient.userId, '', '', '')
-        var myRightsCount = 0
-        if (res.code == 0) {
-            myRightsCount = res.data.length
-        }
-
-        this.setData({
-            myRightsCount: myRightsCount,
-        })
-        this.data.midMenuList.forEach(item => {
-            if (item.menuName == '我的权益') {
-                item.unReadCount = myRightsCount
-            }
-        })
-        this.setData({
-            midMenuList: this.data.midMenuList
-        })
-    },
+   
 
 
     async qryMyFollowTask() {
