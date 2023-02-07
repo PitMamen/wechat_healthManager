@@ -20,10 +20,9 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        console.log(options)
+        console.log('order detail', options)
         this.setData({
             orderId: options.orderId,
-            fromtype: options.fromtype
         })
 
 
@@ -40,47 +39,29 @@ Page({
      */
     onShow: function () {
         let that = this
-        // if(this.data.fromtype == '1'){
-        //   //支付成功 等待一会再请求详情
-        //   wx.showLoading({
-        //     title: '等待中...',
-        //   })
-        //   setTimeout(function(){
-        //     that.getOrderById(that.data.orderId)
-        // },1000)
-        // }else {
-        //   that.getOrderById(that.data.orderId)
-        // }
-
-
+        this.getOrderById()
     },
-    async getOrderById(id) {
-
-
-        const res = await WXAPI.getOrderById(id, 0)
+    async getOrderById() {
+        const res = await WXAPI.getOrderDetail({
+            orderId: this.data.orderId
+        })
         if (res.code == 0) {
             this.setData({
                 order: res.data
             })
             wx.setNavigationBarTitle({
-                title: this.orderType(res.data.status)
+                title: this.orderType(res.data.status.value)
             })
-            this.queryUserInfo(res.data.patientId)
+            // this.queryUserInfo(res.data.patientId)
         }
-
-
     },
     async queryUserInfo(userId) {
-
-
         const res = await WXAPI.queryUserInfo(userId)
         if (res.code == 0) {
             this.setData({
                 patient: res.data.user
             })
         }
-
-
     },
     goMain() {
         wx.switchTab({
@@ -88,48 +69,83 @@ Page({
         })
     },
 
+    //订单状态：0全部;1待支付、2进行中、3已完成、4已取消
     orderType(type) {
-        if (this.data.fromtype == '1') {
-            return '购买成功'
-        } else {
-            if (type == 1) {
-                return '订单待支付'
-            } else if (type == 4) {
-                return '订单待收货'
-            } else if (type == 2) {
-                return '订单已完成'
-            } else if (type == 5) {
-                return '订单已取消'
-            }
+        // if (this.data.fromtype == '1') {
+        //     return '购买成功'
+        // } else {
+        if (type == 1) {
+            return '待支付订单'
+        } else if (type == 2) {
+            return '进行中订单'
+        } else if (type == 3) {
+            return '已完成订单'
+        } else if (type == 4) {
+            return '已取消订单'
         }
+        // }
 
     },
     toPay() {
-        //去支付 
-        let that = this
-        WXPAY.pay(this.data.order.payMoney, this.data.order.orderId, this.data.order.goodsInfo.goodsName, 1, 0)
-            .then(function () {
-                console.log("支付成功：")
-                //支付成功 等待一会再请求详情
-                wx.showLoading({
-                    title: '加载中...',
-                })
-                setTimeout(function () {
-                    that.getOrderById(that.data.orderId)
-                }, 1000)
+        var orderId = e.currentTarget.dataset.id
+        console.log('toPay Detail', orderId)
+        WXAPI.registerPayOrder({
+            orderId: orderId,
+            payMethod: 'weixin_miniapp'
+        }).then((res) => {
+            wx.requestPayment({
+                timeStamp: res.data.timeStamp,
+                nonceStr: res.data.nonceStr,
+                package: res.data.packageStr,
+                signType: 'MD5',
+                paySign: res.data.paySign,
+                success() {
+                    wx.showToast({
+                        title: '支付成功',
+                        icon: 'success',
+                        duration: 2000
+                    })
+                    setTimeout(() => {
+                        wx.redirectTo({
+                            url: 'pages/me/order/order-list-new'
+                        })
+                    }, 2000)
+                },
+                fail(err) {
+                    console.info(err)
+                    this.setData({
+                        loading: false
+                    })
+                }
+            })
+        })
 
 
-            }).catch(function (error) {
-                console.log(error)
-                wx.showToast({
-                    title: '支付失败',
-                    icon: 'error',
-                    duration: 2000
-                })
-                that.setData({
-                    isBuying: false
-                })
-            });
+        // //去支付 
+        // let that = this
+        // WXPAY.pay(this.data.order.payMoney, this.data.order.orderId, this.data.order.goodsInfo.goodsName, 1, 0)
+        //     .then(function () {
+        //         console.log("支付成功：")
+        //         //支付成功 等待一会再请求详情
+        //         wx.showLoading({
+        //             title: '加载中...',
+        //         })
+        //         setTimeout(function () {
+        //             that.getOrderById(that.data.orderId)
+        //         }, 1000)
+
+
+        //     }).catch(function (error) {
+        //         console.log(error)
+        //         wx.showToast({
+        //             title: '支付失败',
+        //             icon: 'error',
+        //             duration: 2000
+        //         })
+        //         that.setData({
+        //             isBuying: false
+        //         })
+        //     });
     },
 
     changeOrderTap(e) {
@@ -147,19 +163,31 @@ Page({
             content: '确定取消此订单？',
             success(res) {
                 if (res.confirm) {
-                    that.updateOrderStatusById(id, 5)
+                    that.cancelOrderOut(id)
                 }
             }
         })
     },
-    async updateOrderStatusById(id, status) {
 
-        const res = await WXAPI.updateOrderStatusById(id, status)
+    async cancelOrderOut(id) {
+        // cancelOrder
+        const res = await WXAPI.cancelOrder({
+            orderId: id
+        })
         if (res.code == 0) {
-            this.getOrderById(this.data.orderId)
+            wx.showToast({
+                title: '取消成功',
+                icon: "none",
+            })
+            this.getOrderById()
+        } else {
+            wx.showToast({
+                title: res.message,
+                icon: "none",
+            })
         }
-
     },
+
     buyAgain(e) {
         var id = e.currentTarget.dataset.id
 

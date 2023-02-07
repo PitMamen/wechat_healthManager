@@ -67,6 +67,7 @@ function formatFullDate2(date) {
         return date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minute;
     }
 }
+
 function formatFullDate8(date) {
     if (date) {
         date = getDate(date);
@@ -89,6 +90,7 @@ function formatFullDate8(date) {
         return date.getFullYear() + '年' + month + '月' + day + '日 ' + hours + ':' + minute;
     }
 }
+
 function formatFullDate3(date) {
     console.log(date)
     if (date) {
@@ -104,12 +106,12 @@ function formatSecondDate(date) {
         h = h < 10 ? ('0' + h) : h;
         var minute = date.getMinutes();
         minute = minute < 10 ? ('0' + minute) : minute;
-        if (isToday(date)) {          
+        if (isToday(date)) {
             return h + ":" + minute
-        }else {
-            return date.getFullYear() + '/' + formatDate(date) + ' '+h + ":" + minute;
+        } else {
+            return date.getFullYear() + '/' + formatDate(date) + ' ' + h + ":" + minute;
         }
-        
+
     }
 }
 
@@ -181,6 +183,18 @@ function orderType(type) {
         return '已取消'
     }
 }
+// 1待支付、2进行中、3已完成、4已取消
+function myOrderType(type) {
+    if (type == 1) {
+        return '待支付'
+    } else if (type == 2) {
+        return '进行中'
+    } else if (type == 3) {
+        return '已完成'
+    } else if (type == 4) {
+        return '已取消'
+    }
+}
 //号源
 function sourceType(type) {
     if (type == 0) {
@@ -240,7 +254,7 @@ function taskTypeV2(type) {
         }
         return t;
 
-    } 
+    }
 }
 /*
 计划任务类型
@@ -297,7 +311,7 @@ function taskType(type) {
         }
         return t;
 
-    }else if (type == 'Rdiagnosis') { //复诊提醒
+    } else if (type == 'Rdiagnosis') { //复诊提醒
         var t = {
             icon: '/image/fztx.png',
             title: '复诊提醒',
@@ -313,7 +327,7 @@ function taskType(type) {
         }
         return t;
 
-    }else if (type == 'Ddiagnosis') { //用药提醒
+    } else if (type == 'Ddiagnosis') { //用药提醒
         var t = {
             icon: '/image/time.png',
             title: '用药提醒',
@@ -321,7 +335,7 @@ function taskType(type) {
         }
         return t;
 
-    } 
+    }
 }
 /*首页我的待办
  */
@@ -383,7 +397,7 @@ function taskType2(type, execFlag) {
         }
         return t;
 
-    }else  if (type == 'Rdiagnosis') { //复诊提醒
+    } else if (type == 'Rdiagnosis') { //复诊提醒
         var t = {
             icon: 'home_icon_fztx.png',
             title: '复诊提醒',
@@ -399,7 +413,7 @@ function taskType2(type, execFlag) {
         }
         return t;
 
-    } 
+    }
 }
 
 
@@ -426,9 +440,9 @@ function planType(type) {
         return '健康问卷'
     } else if (type == 'Evaluate') {
         return '健康评估'
-    }  else if (type == 'Rdiagnosis') {
+    } else if (type == 'Rdiagnosis') {
         return '复诊提醒'
-    }else {
+    } else {
         return ''
     }
 }
@@ -490,6 +504,7 @@ module.exports = {
     formatRange: formatRange,
     reservationType: reservationType,
     orderType: orderType,
+    myOrderType: myOrderType,
     sourceType: sourceType,
     countDown: countDown,
     periondTime: periondTime,
@@ -502,6 +517,6 @@ module.exports = {
     orderNum: orderNum,
     dateSub: dateSub,
     dateSub2: dateSub2,
-    zixunType:zixunType,
-    taskTypeV2:taskTypeV2
+    zixunType: zixunType,
+    taskTypeV2: taskTypeV2
 };

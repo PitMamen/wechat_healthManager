@@ -632,6 +632,18 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/userorder/list'
                         return request(url, 'POST', data, true);
                     },
+                    //小程序端-订单详情
+                    getOrderDetail: function getOrderDetail(data) {
+                        console.log(data)
+                        var url = MEDICAL_SERVICE + '/userorder/detail'
+                        return request(url, 'get', data, true);
+                    },
+                    //小程序端-取消（未付款）订单
+                    cancelOrder: function cancelOrder(data) {
+                        console.log(data)
+                        var url = MEDICAL_SERVICE + '/userorder/cancel'
+                        return request(url, 'POST', data, true);
+                    },
                     //职称类型[正主任医生,副主任医生,...]
                     professionalTitles: function professionalTitles(data) {
                         console.log(data)
