@@ -3,6 +3,7 @@ const IMUtil = require('../../utils/IMUtil')
 const Config = require('../../utils/config')
 const Util = require('../../utils/util')
 const APP = getApp()
+import bus from '../../utils/EventBus.js'
 Page({
 
     /**
@@ -11,6 +12,7 @@ Page({
      */
     data: {
         appointList: [],
+        conversationIDList:[],
         todoList: [],
         active: '0',
         unreadConsult: 0,
@@ -20,7 +22,13 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+ //监听机构切换
+ bus.on('consultUpdate', (msg) => {
+    // 支持多参数
+    console.log("监听consultUpdate", msg)
 
+    this.getConversationList()
+})
     },
 
     /**
@@ -48,9 +56,9 @@ Page({
         "pageNo": 1,
         "pageSize": 9999
       })
-    if (res.code == 0 && res.data && res.data.length>0) {                
+    if (res.code == 0 && res.data && res.data.records && res.data.records.length>0) {                
             this.setData({
-                todoList: res.data,
+                todoList: res.data.records,
             })
        
     } else {
@@ -64,24 +72,35 @@ Page({
     async getConsultList() {
         const res = await WXAPI.getConsultList()
         if (res.code == 0 && res.data && res.data.length>0) {        
-            var conversationIDArray=[]
-                // var appointList=[] 
-                res.data[0].imGroupId='@TGS#1MOLE7GMW'
-                res.data[0].status={
-                    value:3,description:'进行中'
-                }
+            var conversationIDList=[]
                 
+                res.data[0].imGroupId='@TGS#1ZV5FEHME' 
+                res.data[0].conversationID='GROUP@TGS#1ZV5FEHME' 
+                res.data[0].status={
+                    value:3,description:'问诊中'
+                }
+               
                 res.data.forEach(item=>{
-                    if(item.imGroupId){
-                        conversationIDArray.push(item.imGroupId)
+                    if(item.rightsId == 78){
+                        item.imGroupId='@TGS#1ZV5FEHME' 
+                        item.conversationID='GROUP@TGS#1ZV5FEHME' 
+                        item.status={
+                            value:3,description:'问诊中'
+                        }
                     }
+                    item.conversationID='GROUP'+item.imGroupId
+                    if(item.imGroupId){
+                        conversationIDList.push(item.conversationID)
+                    }
+                  
                     
                 })
                 
                 this.setData({
+                    conversationIDList:conversationIDList,
                     appointList: res.data,
                 })
-                this.getConversationList(conversationIDArray)
+                this.getConversationList()
             
 
             
@@ -94,14 +113,15 @@ Page({
     },
     
     //获取问诊列表的未读数
-    getConversationList(conversationIDArray) {
-        if(conversationIDArray.length==0){
+    getConversationList() {
+        if(this.data.conversationIDList.length==0){
             return
         }
+        console.log(this.data.conversationIDList)
         if (getApp().globalData.sdkReady) {
             var appointList=this.data.appointList
             // 获取指定的会话列表
-            let promise = getApp().tim.getConversationList(conversationIDArray);
+            let promise = getApp().tim.getConversationList(this.data.conversationIDList);
             let that=this
             promise.then(function (imResponse) {
                 const conversationList = imResponse.data.conversationList; // 缓存中已存在的指定的会话列表
@@ -110,7 +130,7 @@ Page({
                 if(conversationList && conversationList.length>0){
                     for(var i=0;i<conversationList.length;i++){
                         for(var j=0;j<appointList.length;j++){
-                            if( conversationList[i].imGroupId == appointList[j].conversationID){
+                            if( conversationList[i].conversationID == appointList[j].conversationID){
                                 appointList[j].unreadCount= conversationList[i].unreadCount
                                 num=num+conversationList[i].unreadCount
                             }
@@ -141,10 +161,22 @@ Page({
 
 
     },
-    
+    bindTodoItemTap(e){
+        var item = e.currentTarget.dataset.item
+        if(item.originalType.value == 1){
+            //问卷
+        }else if(item.originalType.value == 2){
+            //文章
+        }else {
+            //其他
+            if(item.imGroupId){
+                IMUtil.goGroupChat(info.userId,  'navigateTo', info.imGroupId, 'textNum', info.rightsId, 'START')
+            }
+        }
+    },
      //设置已读
-      getInquiriesAgencyRead(idid) {
-        WXAPI.getInquiriesAgencyRead(idid)
+      getInquiriesAgencyRead(id) {
+        WXAPI.getInquiriesAgencyRead(id)
     },
     //进入诊室
     enterRoom(e) {
@@ -180,6 +212,7 @@ Page({
                     wx.navigateTo({
                         url: '/packageIM/pages/chat/AIChat',
                     })
+                    
                 }
             }
         }

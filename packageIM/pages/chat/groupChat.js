@@ -37,9 +37,10 @@ Page({
         chatStatue: '',
         extraArr: [{
             picName: 'choose_picture',
-            description: '图片'
+            description: '发送图片'
         }],
-        topArr: []
+        topArr: [],
+        bottomtext:'剩余19次医生回复机会'
     },
 
     /**

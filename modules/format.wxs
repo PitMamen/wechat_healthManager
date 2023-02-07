@@ -479,13 +479,16 @@ function orderNum(goodsInfo) {
 module.exports = {
     formatDate: formatDate,
     formatFullDate: formatFullDate, //毫秒   2023/1/18 
+    formatFullDate2: formatFullDate2, //毫秒  2023-1-18 12:00:00
+    formatFullDate3: formatFullDate3,
     formatFullDate4: formatFullDate4, //毫秒   2023-1-18 
+    formatFullDate5: formatFullDate5, //毫秒   2023.1.18 
     formatFullDate7: formatFullDate7, //毫秒   2023年1月18日 
     formatFullDate8: formatFullDate8, //毫秒  2023年1月18日 12:00
-    formatFullDate5: formatFullDate5, //毫秒   2023.1.18 
-    formatFullDate2: formatFullDate2, //毫秒  2023-1-18 12:00:00
+
+
     formatSecondDate: formatSecondDate, //秒
-    formatFullDate3: formatFullDate3,
+
     formatMultiple: formatMultiple,
     formatRange: formatRange,
     reservationType: reservationType,

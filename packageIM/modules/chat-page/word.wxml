@@ -3,10 +3,10 @@
 <template name="chat-word">
     <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{index===length-1?150:20}}rpx;margin-top: 20rpx;">
         <image style="width: 70rpx;height: 70rpx;border-radius: 50%;margin-left: 15rpx;margin-right: 15rpx;" src="{{headUrl}}" />
-        <image wx:if="{{type==='TIMTextElem'||type==='TIMSoundElem'}}" class="chat-list-arrow-style" src="./../../image/chat/popu_{{isMy?'blue':'white'}}.png" />
+       
 
         <block wx:if="{{type==='TIMTextElem'}}">
-            <text wx:if="{{type==='TIMTextElem'}}" class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;max-width: 60%;" bindtap="chatTextItemClickEvent" data-index="{{index}}" decode>{{content.text}}</text>
+            <text wx:if="{{type==='TIMTextElem'}}" class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="chatTextItemClickEvent" data-index="{{index}}" decode>{{content.text}}</text>
         </block>
 
         <block wx:if="{{type==='TIMImageElem'}}">
@@ -14,10 +14,13 @@
         </block>
 
         <block wx:if="{{type==='TIMSoundElem'}}">
-            <view style="width: {{(content.second-1)*0.6+10}}%;border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;max-width: 60%;display: flex;justify-content: {{isMy?'flex-end':'flex-start'}}" class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="chatVoiceItemClickEvent" data-voice-path="{{content.url}}" data-voice-duration="{{content.second}}" data-is-my="{{isMy}}" data-index="{{index}}">
+            <view  style="width: {{(content.second-1)*0.6+10}}%;display: flex;justify-content: {{isMy?'flex-end':'flex-start'}}" class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="chatVoiceItemClickEvent" data-voice-path="{{content.url}}" data-voice-duration="{{content.second}}" data-is-my="{{isMy}}" data-index="{{index}}">
+                <view wx:if="{{isMy}}" class="voice-duration-my-style">{{content.second}}"</view>
+               
                 <template is="voice-item" data="{{isMy:isMy,isPlaying:content.isPlaying}}" />
+                <view wx:if="{{!isMy}}" class="voice-duration-other-style">{{content.second}}"</view>
             </view>
-            <view wx:if="{{content.second}}" class="voice-duration-style">{{content.second}}"</view>
+           
         </block>
 
         <block wx:if="{{type==='TIMVideoFileElem'}}">

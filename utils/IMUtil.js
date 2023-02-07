@@ -29,13 +29,14 @@ var IMinit = function IMinit() {
     };
     getApp().tim.on(TIM.EVENT.SDK_READY, onSdkReady);
 
-    // //监听新消息
+    //监听新消息
 
-    // let onMessageReceived = function (event) {
+    let onMessageReceived = function (event) {
 
-    //     getConversationList()
-    // };
-    // getApp().tim.on(TIM.EVENT.MESSAGE_RECEIVED, onMessageReceived);
+         //发送事件 通知咨询列表更新未读消息
+         bus.emit('consultUpdate', true)
+    };
+    getApp().tim.on(TIM.EVENT.MESSAGE_RECEIVED, onMessageReceived);
 
 }
 /**

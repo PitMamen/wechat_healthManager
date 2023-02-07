@@ -76,10 +76,7 @@ Page({
         chatStatue: '',
         extraArr: [{
             picName: 'choose_picture',
-            description: '图片'
-        }, {
-            picName: 'take_photos',
-            description: '视频'
+            description: '发送图片'
         }],
         topArr: []
     },

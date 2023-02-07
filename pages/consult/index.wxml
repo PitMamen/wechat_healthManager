@@ -3,7 +3,7 @@
     <view id="tabs" class="tabs">
         <van-tabs color="#0379FF" title-active-color="#0379FF" swipeable line-width="33px" bind:click="onTabsChange" custom-class="" active="{{ active }}">
             <van-tab title="我的问诊" name="0" info="{{unreadConsult>0?unreadConsult:''}}" />
-            <van-tab title="待办事项" name="1" info="44" />
+            <van-tab title="待办事项" name="1" info="{{todoList.length>0 ?todoList.length:''}}" />
         </van-tabs>
     </view>
 </van-sticky>
@@ -80,19 +80,18 @@
 
 <view style="height: 30rpx;"></view>
 
-<view bindtap="bindItemTap" data-item="{{item}}" class="card" wx:for="{{todoList}}" wx:key="1">
+<view bindtap="bindTodoItemTap" data-item="{{item}}" class="card" wx:for="{{todoList}}" wx:key="1">
 
 <view class="todo-card-top" >
    <view class="cicle"></view>
    <view class="todo-title">{{item.title}}</view>
-   <view class="todo-date">2023-01-19 09:12</view>
+   <view class="todo-date">{{computed.formatFullDate2(item.agencyDate)}}</view>
 </view>
-<view class="todo-content">您申请李医生的图文问诊，医生已经接诊，请您尽快
-进入诊室跟医生交流吧。</view>
+<view class="todo-content">{{item.content}}</view>
 <view style="height: 0.5px;background: #E6E6E6;margin-left: 30rpx;"></view>
 <view class="card-bottom">
     <view class="btn-blue">  
-        <van-button style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">{{Module.formartTodoStatus(item.type)}}</van-button>
+        <van-button style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">{{Module.formartTodoStatus(item.originalType.value)}}</van-button>
     </view>
 
 </view>
@@ -131,11 +130,11 @@
 
 
       //待办不同状态
-      function formartTodoStatus(status) {
-        if (status.value == 2) {
-            return '去阅读'
-        } else if (status.value == 3) {
+      function formartTodoStatus(type) {
+        if (type == 1) {
             return '去填写'
+        } else if (type == 2) {
+            return '去阅读'
         } else {
             return '去交流'
         } 

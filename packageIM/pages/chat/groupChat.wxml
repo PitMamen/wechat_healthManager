@@ -2,12 +2,12 @@
 <import src="../../modules/chat-page/chat-item.wxml"/>
 <import src="../../modules/chat-page/chat-page-status.wxml"/>
 
-<template wx:if="{{tradeAction !== 'END'}}"  is="chat-page-status" data="{{chatStatue,chatStatusContent}}"/>
+<!-- <template wx:if="{{tradeAction !== 'END'}}"  is="chat-page-status" data="{{chatStatue,chatStatusContent}}"/> -->
 
 
 
 <scroll-view wx:if="{{chatItems.length>0}}"
-        style="height:{{pageHeight-60}}px;width: 100%;display: flex;flex-direction: column;margin-top: {{tradeAction !== 'END'?54:0}}rpx;"
+        style="height:{{pageHeight-25}}px;width: 100%;display: flex;flex-direction: column;"
         scroll-y="true"
         scroll-top="{{scrollTopVal}}"
         refresher-enabled="{{true}}"
@@ -18,7 +18,7 @@
         bindtap="resetInputStatus">
     <block  wx:for="{{chatItems}}" wx:key="id2">
         <template is="chat-item"
-                  data="{{length:chatItems.length,index:index,item:item,avatar:item.flow=== 'out'?myAvatar:toAvatar}}"/>
+                  data="{{length:chatItems.length,index:index,item:item,avatar:item.flow=== 'out'?myAvatar:item.avatar || myAvatar}}"/>
     </block>
    
 </scroll-view>
@@ -31,6 +31,7 @@ wx:if="{{showChatInput}}"
         start-time-down="{{54}}"
         tabBarHeight="{{0}}"
         format="mp3"
+        bottomtext='{{bottomtext}}'
         extra-array="{{extraArr}}"
         bind:extraClickEvent="onExtraClickEvent"
         bind:extraItemClickEvent="onExtraItemClickEvent"
