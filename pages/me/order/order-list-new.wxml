@@ -11,29 +11,33 @@
 
 <van-empty wx:if="{{ !orderList || orderList.length == 0 }}" description="暂无数据" />
 <view class="order-list" hidden="{{orderList ? false : true}}">
-    <view class="a-order" wx:for="{{orderList}}" wx:key="index">
+    <view class="a-order" wx:for="{{orderList}}" wx:key="index" wx:for-index="index" wx:for-item="item">
 
         <view bindtap="goOrder" data-id="{{item.orderId}}">
             <view class="titleviw">
-                <text class="title-text">中南大学湘雅二医院</text>
-                <view wx:if="{{item.status==1}}" class="title-right">
+                <text class="title-text">{{item.hospitalName}}</text>
+                <!-- 1待支付、2进行中、3已完成、4已取消 -->
+                <view wx:if="{{item.status.value==1}}" class="title-right">
                     <view class="title-right-tx">等待付款</view>
                     <!-- <van-count-down class="countdown-class" time="{{ computed.countDown(item.orderTime) }} " format="mm分ss秒" /> -->
-                    <van-count-down class="countdown-class" time="{{ time }}" format="mm分ss秒" />
+                    <van-count-down class="countdown-class" time="{{ item.timeoutSecond*1000 }}" format="mm分ss秒" />
                 </view>
-                <text wx:else class="plan-text-min">{{computed.orderType(item.status)}}</text>
+                <view wx:else class="plan-text-min">
+                    <text style=" color: #2B9F1B;" hidden="{{item.status.value==2? false : true}}">{{computed.myOrderType(item.status.value)}}</text>
+                    <text style="color: #367BF5;" hidden="{{item.status.value==3? false : true}}">{{computed.myOrderType(item.status.value)}}</text>
+                    <text hidden="{{item.status.value==4? false : true}}">{{computed.myOrderType(item.status.value)}}</text>
+                </view>
             </view>
 
             <view class="view-top-wrap">
-                <!-- <image mode="aspectFill" src="{{item.pic}}" class="goods-img"></image> -->
-                <image mode="aspectFill" src="https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2021%2F0102%2F42269b19j00qmable001ud000hp00pep.jpg&thumbnail=650x2147483647&quality=80&type=jpg" class="goods-img"></image>
+                <image mode="aspectFill" src="{{item.frontImg}}" class="goods-img"></image>
                 <view class="view-contents">
-                    <view style="font-size: 32rpx;color: #1A1A1A;font-weight: bold;">高泄压全病程管理</view>
-                    <view wx:for="{{nuts}}" style="margin-top: 10rpx;">
+                    <view style="font-size: 32rpx;color: #1A1A1A;font-weight: bold;">{{item.commodityName}}</view>
+                    <view wx:for="{{item.rightItems}}" wx:key="indexType" wx:for-index="indexType" wx:for-item="itemType" style="margin-top: 10rpx;">
                         <view class="desItem">
-                            <view>图文咨询</view>
-                            <view style="margin-left: 20rpx;">2次</view>
-                            <view style="margin-left: 20rpx;">图文咨询</view>
+                            <view style="width: 30%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{itemType.rightsItemName}}</view>
+                            <view style="margin-left: 20rpx;">{{itemType.equityQuantity}}次</view>
+                            <view style="margin-left: 20rpx;">￥{{itemType.saleAmount}}</view>
                         </view>
                     </view>
 
@@ -48,25 +52,33 @@
                         就 诊 人：
                     </view>
                     <view class="des-value">
-                        李四
+                        {{item.userName}}
                     </view>
                 </view>
 
-                <view class="v-des-item">
+                <view class="v-des-item" style="margin-top: 10rpx;">
                     <view class="des-name">
                         下单时间：
                     </view>
-                    <view class="des-value">
-                        李四
+                    <view class="des-value" style="margin-top: 10rpx;">
+                        {{item.createTime}}
                     </view>
                 </view>
 
-                <view class="v-des-item">
+                <view hidden="{{(item.status.value==2||item.status.value==3)? false : true}}" class="v-des-item" style="margin-top: 10rpx;">
                     <view class="des-name">
                         订单效期：
                     </view>
                     <view class="des-value">
-                        李四
+                        {{item.effectiveStartTime}}至{{ item.effectiveEndTime}}
+                    </view>
+                </view>
+                <view class="v-des-item" style="margin-top: 10rpx;">
+                    <view class="des-name">
+                        合计金额：
+                    </view>
+                    <view class="des-value" style="color: red;font-weight: bold;">
+                        ￥{{item.orderTotal}}
                     </view>
                 </view>
 
@@ -77,19 +89,19 @@
 
         <!-- 服务 -->
         <block>
+            <!-- 1待支付、2进行中、3已完成、4已取消 -->
             <view class="price-box">
                 <!-- 待支付 -->
-                <view class="btn" hidden="{{item.status==1? false : true}}" bindtap="cancelOrderTap" data-id="{{item.orderId}}">取消订单
+                <view class="btn" hidden="{{item.status.value==1? false : true}}" bindtap="cancelOrderTap" data-id="{{item.orderId}}">取消订单
                 </view>
-                <view class="btn active" hidden="{{item.status==1? false : true}}" bindtap="goOrder" data-id="{{item.orderId}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">去支付</view>
-                <!-- <view class="btn" hidden="{{item.status==1? false : true}}" bindtap="changeOrderTap" data-id="{{item.orderId}}">修改订单
-      </view> -->
+                <view class="btn active" hidden="{{item.status.value==1? false : true}}" bindtap="toPay" data-id="{{item.orderId}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">去支付</view>
+
                 <!-- 已完成 和 已取消 -->
-                <view class="btn active" style="width: 80%;" hidden="{{item.status==2? false : true}}" bindtap="buyAgain" data-goods="{{item.orderId}}">
+                <view class="btn active" style="width: 80%;" hidden="{{(item.status.value==3||item.status.value==4)? false : true}}" bindtap="buyAgain" data-goods="{{item.commodityId}}">
                     再次购买
                 </view>
                 <!-- 进行中 -->
-                <view class="btn active" style="width: 80%;" hidden="{{item.status==3? false : true}}" bindtap="buyAgain" data-goods="{{item.orderId}}">
+                <view class="btn active" style="width: 80%;" hidden="{{item.status.value==2? false : true}}" bindtap="buyAgain" data-goods="{{item.orderId}}">
                     立即咨询
                 </view>
 

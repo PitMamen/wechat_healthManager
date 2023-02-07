@@ -8,9 +8,10 @@ Page({
     data: {
         userId: '',
         listType: 0,
-        active: '0',
+        status: '0',
         nuts: [{}, {}],
         time: 15 * 60 * 1000,
+        // 0全部;1待支付、2进行中、3已完成、4已取消
         tabs: [{
                 title: '全部',
                 status: '0'
@@ -19,14 +20,17 @@ Page({
                 title: '待支付',
                 status: '1'
             },
-            // { title: '待收货', status: '4' },
             {
-                title: '已完成',
+                title: '进行中',
                 status: '2'
             },
             {
+                title: '已完成',
+                status: '3'
+            },
+            {
                 title: '已取消',
-                status: '5'
+                status: '4'
             }
         ],
         orderList: [],
@@ -37,28 +41,18 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        var active = options.active
-
-        if (active) {
-            this.setData({
-                active: active
-            })
-
-        }
-        console.log("active:", this.data.active)
-
         this.setData({
             userId: wx.getStorageSync('userInfo').account.accountId
         })
 
     },
     onTabsChange(e) {
-        console.log(e)
-        var status = e.detail.name
+        console.log('onTabsChange', e)
+        var status = e.detail.index
         this.setData({
-            active: status
+            status: status
         })
-        this.getOrderList(status)
+        this.getMyOrders()
 
     },
 
@@ -74,35 +68,22 @@ Page({
      */
     onShow: function () {
 
-        this.getOrderList(this.data.active)
+        this.getMyOrders()
 
     },
 
 
-    async getOrderList(status) {
-
-        if (status == 0 || status == '0') {
-            status = ''
-        }
-
-        const res = await WXAPI.getOrderList(status, this.data.userId, 0)
-        this.setData({
-            //   orderList: res.data.rows
-            orderList: [{
-                status: 1,
-                functionType: 0,
-                orderTime: 15
-            }, {
-                status: 2,
-                functionType: 1
-            }]
+    /**
+     * 
+     * @param {订单状态：0全部;1待支付、2进行中、3已完成、4已取消} status 
+     */
+    async getMyOrders() {
+        const res = await WXAPI.getMyOrders({
+            status: this.data.status
         })
-    },
-
-    async updateOrderStatusById(id, status) {
-
-        const res = await WXAPI.updateOrderStatusById(id, status)
-        this.onShow()
+        this.setData({
+            orderList: res.data
+        })
     },
 
     /**
@@ -111,22 +92,52 @@ Page({
     onHide: function () {
 
     },
+
     goOrder(e) {
         var id = e.currentTarget.dataset.id
-
+        debugger
         console.log(id)
 
         wx.navigateTo({
             url: './order-detail-new?orderId=' + id,
         })
     },
-    changeOrderTap(e) {
-        var id = e.currentTarget.dataset.id
 
-        wx.navigateTo({
-            url: './order-change?id=' + id,
+    toPay(e) {
+        var orderId = e.currentTarget.dataset.id
+        console.log('toPay List', orderId)
+        WXAPI.registerPayOrder({
+            orderId: orderId,
+            payMethod: 'weixin_miniapp'
+        }).then((res) => {
+            wx.requestPayment({
+                timeStamp: res.data.timeStamp,
+                nonceStr: res.data.nonceStr,
+                package: res.data.packageStr,
+                signType: 'MD5',
+                paySign: res.data.paySign,
+                success() {
+                    wx.showToast({
+                        title: '支付成功',
+                        icon: 'success',
+                        duration: 2000
+                    })
+                    setTimeout(() => {
+                        wx.redirectTo({
+                            url: 'pages/me/order/order-list-new'
+                        })
+                    }, 2000)
+                },
+                fail(err) {
+                    console.info(err)
+                    this.setData({
+                        loading: false
+                    })
+                }
+            })
         })
     },
+
     cancelOrderTap(e) {
         var id = e.currentTarget.dataset.id
         let that = this
@@ -135,17 +146,34 @@ Page({
             content: '确定取消此订单？',
             success(res) {
                 if (res.confirm) {
-                    that.updateOrderStatusById(id, 5)
+                    that.cancelOrderOut(id)
                 }
             }
         })
     },
+    async cancelOrderOut(id) {
+        // cancelOrder
+        const res = await WXAPI.cancelOrder({
+            orderId: id
+        })
+        if (res.code == 0) {
+            wx.showToast({
+                title: '取消成功',
+                icon: "none",
+            })
+            this.onShow()
+        } else {
+            wx.showToast({
+                title: res.message,
+                icon: "none",
+            })
+        }
+    },
     buyAgain(e) {
         console.log(e)
-        var goods = e.currentTarget.dataset.goods
-
+        var commodityId = e.currentTarget.dataset.commodityId
         wx.navigateTo({
-            url: '../../home/package-detail/packagedetail?departmentId=' + goods.belong + "&goodsClass=" + goods.goodsClass + "&goodsId=" + goods.goodsId,
+            url: `/pages/health/detail/index?id=${commodityId}`
         })
     },
     /**
