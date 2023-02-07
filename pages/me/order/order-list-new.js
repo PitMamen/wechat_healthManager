@@ -58,7 +58,7 @@ Page({
         this.setData({
             active: status
         })
-        this.getOrderList(status)
+        this.getMyOrders(status)
 
     },
 
@@ -74,18 +74,24 @@ Page({
      */
     onShow: function () {
 
-        this.getOrderList(this.data.active)
+        this.getMyOrders(this.data.active)
 
     },
 
 
-    async getOrderList(status) {
+    /**
+     * 
+     * @param {订单状态：0全部;1待支付、2进行中、3已完成、4已取消} status 
+     */
+    async getMyOrders(status) {
 
         if (status == 0 || status == '0') {
             status = ''
         }
 
-        const res = await WXAPI.getOrderList(status, this.data.userId, 0)
+        const res = await WXAPI.getMyOrders({
+            status: status
+        })
         this.setData({
             //   orderList: res.data.rows
             orderList: [{

@@ -91,7 +91,7 @@ Page({
         }
         WXAPI.registerPayOrder({
             orderId: this.data.id,
-            payMethod: 'weixin_miniapp'
+            payMethod: 'weixin_miniapp' 
         }).then((res) => {
             wx.requestPayment({
                 timeStamp: res.data.timeStamp,
