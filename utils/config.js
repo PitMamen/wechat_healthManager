@@ -41,7 +41,6 @@ export function checkNoLoginPage(routPage) {
   var pages=[
       'pages/home/main',
       'pages/me/main',
-      'pages/consult/index',
       'pages/home/package-detail/packagedetail',
       'pages/home/package-list/packagelist',
       'pages/home/news/news-list',

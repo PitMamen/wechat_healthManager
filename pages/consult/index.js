@@ -11,7 +11,7 @@ Page({
      */
     data: {
         appointList: [],
-        todoList: [{ type: 1, title: '您申请的图文问诊已被接诊' }, { type: 2, title: '医生给您推送李健康宣教文章' }, { type: 3, title: '医生邀请您填写问卷' }],
+        todoList: [],
         active: '0',
         unreadConsult: 0,
     },
@@ -32,6 +32,7 @@ Page({
             defaultPatient: wx.getStorageSync('defaultPatient')
         })
         this.getConsultList()
+        this.getInquiriesAgencyList()
     },
     onTabsChange(e) {
 
@@ -41,7 +42,24 @@ Page({
         })
 
     },
+  //获取待办列表
+  async getInquiriesAgencyList() {
+    const res = await WXAPI.getInquiriesAgencyList({
+        "pageNo": 1,
+        "pageSize": 9999
+      })
+    if (res.code == 0 && res.data && res.data.length>0) {                
+            this.setData({
+                todoList: res.data,
+            })
+       
+    } else {
+        this.setData({
+            todoList: []
+        })
+    }
 
+},
     //获取问诊列表
     async getConsultList() {
         const res = await WXAPI.getConsultList()
@@ -74,6 +92,7 @@ Page({
         }
 
     },
+    
     //获取问诊列表的未读数
     getConversationList(conversationIDArray) {
         if(conversationIDArray.length==0){
@@ -108,6 +127,7 @@ Page({
         }
 
     },
+
     //问诊详情
     goConsultDetail(e) {
         var info = e.currentTarget.dataset.item
@@ -120,6 +140,11 @@ Page({
         }
 
 
+    },
+    
+     //设置已读
+      getInquiriesAgencyRead(idid) {
+        WXAPI.getInquiriesAgencyRead(idid)
     },
     //进入诊室
     enterRoom(e) {

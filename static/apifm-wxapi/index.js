@@ -1292,6 +1292,18 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/consult/list'
                         return request(url, 'get', data, true);
                     },
+                     //代办-列表
+                     getInquiriesAgencyList: function getInquiriesAgencyList(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/inquiriesAgency/list'
+                        return request(url, 'post', data, true);
+                    },
+                    //代办-已读
+                    getInquiriesAgencyRead: function getInquiriesAgencyRead(id) {
+                        
+                        var url = MEDICAL_SERVICE + '/inquiriesAgency/read/'+id
+                        return request(url, 'post', {}, true);
+                    },
                 };
 
                 /***/
