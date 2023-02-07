@@ -7,241 +7,197 @@ Page({
 
     /**
      * 页面的初始数据
+     * 1服务中2待接诊3问诊中4已结束
      */
     data: {
         appointList: [],
-        hidePatientShow: true,
-        activeStatus: 'all',
-        active: 0,
-        appointItem: '',
-        status: '',
-
+        todoList: [{ type: 1, title: '您申请的图文问诊已被接诊' }, { type: 2, title: '医生给您推送李健康宣教文章' }, { type: 3, title: '医生邀请您填写问卷' }],
+        active: '0',
+        unreadConsult: 0,
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-       
+
     },
- 
+
     /**
  * 生命周期函数--监听页面显示
  */
     onShow: function () {
+
         this.setData({
-            defaultPatient: wx.getStorageSync('defaultPatient'),
-            patientList: wx.getStorageSync('userInfo').account.user,
- 
+            defaultPatient: wx.getStorageSync('defaultPatient')
         })
-        this.queryRightsUsingRecord()
-      
+        this.getConsultList()
     },
-    onPatientPickerConfirm(event) {
-        console.log(event)
-        var index = event.detail.index
-        var selectPatient = this.data.patientList[index]
-        if (selectPatient.userId !== this.data.defaultPatient.userId) {
+    onTabsChange(e) {
+
+        var status = e.detail.name
+        this.setData({
+            active: status
+        })
+
+    },
+
+    //获取问诊列表
+    async getConsultList() {
+        const res = await WXAPI.getConsultList()
+        if (res.code == 0 && res.data && res.data.length>0) {        
+            var conversationIDArray=[]
+                // var appointList=[] 
+                res.data[0].imGroupId='@TGS#1MOLE7GMW'
+                res.data[0].status={
+                    value:3,description:'进行中'
+                }
+                
+                res.data.forEach(item=>{
+                    if(item.imGroupId){
+                        conversationIDArray.push(item.imGroupId)
+                    }
+                    
+                })
+                
+                this.setData({
+                    appointList: res.data,
+                })
+                this.getConversationList(conversationIDArray)
+            
+
+            
+        } else {
             this.setData({
-                defaultPatient: this.data.patientList[index],
-            });
-            wx.setStorageSync('defaultPatient', this.data.patientList[index])
-            IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
-            this.queryRightsUsingRecord()
-        }
-        this.setData({
-            hidePatientShow: true
-        });
-
-    },
-    onPatientPickerCancel() {
-        wx.navigateTo({
-            url: '/pages/me/patients/addPatient',
-        })
-    },
-    bindPatientTap: function () {
-        this.setData({
-            hidePatientShow: false
-        })
-    },
-    closePatientTap: function () {
-        this.setData({
-            hidePatientShow: true
-        })
-    },
-
-async queryRightsUsingRecord(){
-    if(!this.data.defaultPatient){
-        return
-    }
-    var allTaskList = []
-    const res = await WXAPI.queryRightsUsingRecord(this.data.defaultPatient.userId, '')
-    if (res.code == 0) {
-     
-        res.data.forEach(item => {
-            //时效限制
-            item.serviceExpire = 0
-            //条数限制
-            item.textNumLimit = 0
-            //时长
-            item.timeLimit = 0
-            if (item.userAttrInfo && item.userAttrInfo.length > 0 && item.userAttrInfo[0].remark) {
-                if (item.userAttrInfo[0].remark.serviceExpire) {
-                    item.serviceExpire = item.userAttrInfo[0].remark.serviceExpire
-                }
-                if (item.userAttrInfo[0].remark.textNumLimit) {
-                    item.textNumLimit = item.userAttrInfo[0].remark.textNumLimit
-                }
-                if (item.userAttrInfo[0].remark.timeLimit) {
-                    item.timeLimit = item.userAttrInfo[0].remark.timeLimit
-                }
-            }
-            
-            //医生护士类型
-            item.DoctorName = '医生'
-            item.DoctorType = 'Doctor'
-            if (item.userAttrInfo && item.userAttrInfo.length > 0 && item.userAttrInfo[0].remark && item.userAttrInfo[0].remark.whoDeal && item.userAttrInfo[0].remark.whoDeal === 'nurse') {           
-                item.DoctorName = '护士'
-                item.DoctorType = 'Nurse'
-            }
-            //处理完成
-            if (item.execFlag === 2) {
-                var execTime = (new Date(item.execTime)).getTime();
-                var nowTime=new Date().getTime()
-
-                if(execTime>nowTime){
-                    item.myFlag = '待进行'
-                item.myStatus = 2
-                item.flagColor = '#F0990F'
-                }else{
-                    item.myFlag = '进行中'
-                    item.myStatus = 2
-                    item.flagColor = '#F0990F'
-                }
-                allTaskList.push(item)
-            }else if (item.execFlag === 0) {
-                item.myFlag = '待使用'
-                item.myStatus = 4
-                item.flagColor = '#1880E8'
-                allTaskList.push(item)
-            } 
-  
-        })
-        this.setData({
-            appointList: allTaskList
-        })
-    }
-},
-
-
-
-    
-    bindItemTap(e){
-        var task = e.currentTarget.dataset.item
-    
-                if (task.DoctorType == 'Nurse') {
-
-                    IMUtil.goIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig, 'navigateTo', task.execUser, 'Nurse', task.rightsType, task.tradeId, 'START')
-                } else if (task.DoctorType = 'Doctor') {
-                    this.getRegisterTradeByRights(task)
-                }
-
-            
-      
-    },
-
-/**
-     * 跳转到互联网医院聊天
-     * @param {*} doctorId 对方ID
-     * @param {*} DocType 医生：Doctor  个案管理师：CaseManager   护士：Nurse
-     * @param {*} inquiryType 问诊类型  图文textNum  视频videoNum
-     * @param {*} tradeId 权益工单类型  
-     */
-    goInternetHostpitalIMChat(doctorId, DocType, inquiryType, tradeId, tradeAction) {
-        var routUrl = `/packageIM/pages/chat/chat?type=C2C&userID=` + doctorId + '&DocType=' + DocType + '&conversationID=' + 'C2C' + doctorId + '&inquiryType=' + inquiryType + '&tradeId=' + tradeId + '&tradeAction=' + tradeAction
-
-        console.log('跳转聊天'.routUrl)
-
-        if (DocType === 'Doctor') {
-            //如果师医生 则跳转到互联网医院咨询
-            wx.navigateToMiniProgram({
-                appId: 'wxe0cbf88bcc095244',
-                envVersion: Config.getConstantData().envVersion,
-                path: '/pages/login/auth?type=FROMPROGRAM&action=2&userId=' + this.data.defaultPatient.userId,
-                extraData: {
-                    routUrl: routUrl
-                }
+                appointList: []
             })
+        }
+
+    },
+    //获取问诊列表的未读数
+    getConversationList(conversationIDArray) {
+        if(conversationIDArray.length==0){
             return
         }
+        if (getApp().globalData.sdkReady) {
+            var appointList=this.data.appointList
+            // 获取指定的会话列表
+            let promise = getApp().tim.getConversationList(conversationIDArray);
+            let that=this
+            promise.then(function (imResponse) {
+                const conversationList = imResponse.data.conversationList; // 缓存中已存在的指定的会话列表
+                console.log("获取指定的会话列表",conversationList)
+                var num=0
+                if(conversationList && conversationList.length>0){
+                    for(var i=0;i<conversationList.length;i++){
+                        for(var j=0;j<appointList.length;j++){
+                            if( conversationList[i].imGroupId == appointList[j].conversationID){
+                                appointList[j].unreadCount= conversationList[i].unreadCount
+                                num=num+conversationList[i].unreadCount
+                            }
+                        }
+                    }
+                    that.setData({
+                        appointList:appointList,
+                        unreadConsult:num
+                    })
+                }
+            }).catch(function (imError) {
+                console.warn('getConversationList error:', imError); // 获取会话列表失败的相关信息
+            });
+        }
+
     },
+    //问诊详情
+    goConsultDetail(e) {
+        var info = e.currentTarget.dataset.item
+        if (this.checkLoginStatus()) {
 
- //获取权益申请互联网挂号支付记录
- async getRegisterTradeByRights(task) {
-    const res = await WXAPI.getRegisterTradeByRights(task.tradeId, task.userId)
-    if (res.data && res.data.orderId) {
-
-        if (res.data.status === 11) {
-            if (task.execFlag === 2) {
-                //myFlag = '进行中'
-                this.goInternetHostpitalIMChat(task.execUser, 'Doctor', task.rightsType, task.tradeId, 'START')
-            } else if (task.execFlag === 1) {
-                //myFlag = '已完成'
-
-            } else if (task.execFlag === 0) {
-                //item.myFlag = '待使用'
-                this.goInternetHostpitalIMChat(task.execUser, 'Doctor', task.rightsType, task.tradeId, 'CONFIRM2')
-            }
-        } else if (res.data.status === 10) {
-            //item.myFlag = '待支付'
-            wx.navigateToMiniProgram({
-                appId: 'wxe0cbf88bcc095244',
-                envVersion: Config.getConstantData().envVersion,
-                path: '/pages/login/auth?type=FROMPROGRAM&action=3&userId=' + task.userId,
-                extraData: {
-                    orderId: res.data.orderId,
-                }
+            wx.navigateTo({
+                url: './detail/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
             })
-        } else if (res.data.status === 6) {
-            //item.myFlag = '已取消'
-            wx.navigateToMiniProgram({
-                appId: 'wxe0cbf88bcc095244',
-                envVersion: Config.getConstantData().envVersion,
-                path: '/pages/login/auth?type=FROMPROGRAM&action=1&userId=' + task.userId,
-                extraData: {
-                    userId: task.userId,
-                    tradeId: task.tradeId,
-                    rightsId: task.rightsId,
-                    execFlag: task.execFlag,
-                    attrName: task.rightsType,
-                    execUser: task.execUser,
-                    departmentId: task.execDept
-                }
-            })
+
         }
 
 
-    } else {
-        //跳转到资料填写
-        wx.navigateToMiniProgram({
-            appId: 'wxe0cbf88bcc095244',
-            envVersion: Config.getConstantData().envVersion,
-            path: '/pages/login/auth?type=FROMPROGRAM&action=1&userId=' + task.userId,
-            extraData: {
-                userId: task.userId,
-                tradeId: task.tradeId,
-                rightsId: task.rightsId,
-                execFlag: task.execFlag,
-                attrName: task.rightsType,
-                execUser: task.execUser,
-                departmentId: task.execDept
-            }
+    },
+    //进入诊室
+    enterRoom(e) {
+        var info = e.currentTarget.dataset.item
+      
+        IMUtil.goGroupChat(info.userId,  'navigateTo', info.imGroupId, 'textNum', info.rightsId, 'START')
+    },
+    //再次购买
+    bugAgain(e) {
+        var info = e.currentTarget.dataset.item
+        wx.navigateTo({
+            url: `/pages/health/detail/index?id=${info.commodityId}`
         })
-    }
+    },
+    //使用权益
+    goApplyRights(e) {
+        var info = e.currentTarget.dataset.item
+        if (this.checkLoginStatus()) {
 
-},
+            wx.navigateTo({
+                url: './rights/apply?rightsId=' + info.rightsId + '&userId=' + info.userId,
+            })
 
 
+        }
+
+    },
+    //在线咨询
+    goIMPage() {
+        if (this.checkLoginStatus()) {
+            if (getApp().getDefaultPatient()) {
+                if (getApp().globalData.sdkReady) {
+                    wx.navigateTo({
+                        url: '/packageIM/pages/chat/AIChat',
+                    })
+                }
+            }
+        }
+
+    },
+    async queryRightsUsingRecord() {
+
+
+        const res = await WXAPI.queryRightsUsingRecord(this.data.defaultPatient.userId, '')
+
+    },
+
+
+
+
+    bindItemTap(e) {
+
+
+
+    },
+
+    checkLoginStatus() {
+
+        if (getApp().globalData.loginReady) {
+            return true
+        } else {
+            wx.showModal({
+                title: '提示',
+                content: '此功能需要登录',
+                confirmText: '去登录',
+                cancelText: '取消',
+                success(res) {
+                    if (res.confirm) {
+                        wx.navigateTo({
+                            url: '/pages/login/auth',
+                        })
+                    }
+                }
+            })
+            return false
+        }
+
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

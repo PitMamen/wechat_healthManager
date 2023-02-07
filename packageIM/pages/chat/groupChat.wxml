@@ -1,0 +1,61 @@
+<TUICalling id="TUICalling-component" config="{{config}}"></TUICalling>
+<import src="../../modules/chat-page/chat-item.wxml"/>
+<import src="../../modules/chat-page/chat-page-status.wxml"/>
+
+<template wx:if="{{tradeAction !== 'END'}}"  is="chat-page-status" data="{{chatStatue,chatStatusContent}}"/>
+
+
+
+<scroll-view wx:if="{{chatItems.length>0}}"
+        style="height:{{pageHeight-60}}px;width: 100%;display: flex;flex-direction: column;margin-top: {{tradeAction !== 'END'?54:0}}rpx;"
+        scroll-y="true"
+        scroll-top="{{scrollTopVal}}"
+        refresher-enabled="{{true}}"
+        refresher-default-style="white"
+        refresher-background="#8fcbf7"
+        refresher-triggered="{{triggered}}"
+        bindrefresherrefresh="onRefresh"
+        bindtap="resetInputStatus">
+    <block  wx:for="{{chatItems}}" wx:key="id2">
+        <template is="chat-item"
+                  data="{{length:chatItems.length,index:index,item:item,avatar:item.flow=== 'out'?myAvatar:toAvatar}}"/>
+    </block>
+   
+</scroll-view>
+<van-empty wx:else description="暂无最新消息" />
+<chat-input
+wx:if="{{showChatInput}}"
+        id="chatInput"
+        min-voice-time="{{1}}"
+        max-voice-time="{{60}}"
+        start-time-down="{{54}}"
+        tabBarHeight="{{0}}"
+        format="mp3"
+        extra-array="{{extraArr}}"
+        bind:extraClickEvent="onExtraClickEvent"
+        bind:extraItemClickEvent="onExtraItemClickEvent"
+        bind:heathItemClickEvent="heathItemClickEvent"
+        bind:voiceRecordEvent="onVoiceRecordEvent"
+        bind:sendMessageEvent="onSendMessageEvent"></chat-input>
+<!--<template is="chat-input" data="{{inputObj,textMessage,showVoicePart:true}}"/>-->
+
+
+<view wx:if="{{tradeAction === 'END'}}"  class="bottom-box">
+    <view style="margin-left: 30rpx;margin-top: 30rpx;font-size: 28rpx;">本次咨询已结束</view>
+    <view class="bottom-box-btnview">
+        <button class="loginTap"  bindtap="goDoctorDetail"> 再次咨询 </button>
+    <button class="loginTap"  style="background-color: #A4ADB3 ;" bindtap="goHistoryPage">查看历史消息</button>
+    </view>
+
+   
+  </view>
+
+  <view wx:if="{{showVideo}}" class="container-box">
+    <video wx:if="{{showVideo}}" class="video-message" id="myVideo" poster="{{videoObj.thumbUrl }}" src="{{videoObj.videoUrl}}" object-fit="contain" autoplay direction="0" bindfullscreenchange="bindfullscreenchange"></video>
+</view>
+
+
+<!-- 选择时间 -->
+<van-popup show="{{ !hideTimeShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%; ">
+    <van-picker  show-toolbar title="选择时间"  columns="{{ timeColumns }}" visible-item-count='4' bind:cancel="onTimePickerCancel" bind:confirm="onTimePickerConfirm" />
+</van-popup>

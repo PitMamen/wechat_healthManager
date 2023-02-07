@@ -1244,6 +1244,42 @@ module.exports =
                        gethospitalInfo: function gethospitalInfo(data) {
                         return request(UAM_SERVICE + '/hospital/info', 'get', data, true);
                     },
+                     //权益详情
+                     getRightsInfo: function getRightsInfo(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/rightsUse/getRightsInfo'
+                        return request(url, 'get', data, true);
+                    },
+                     //获取权益购买时提交的资料
+                     getRightsReqData: function getRightsReqData(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/rightsUse/getRightsReqData'
+                        return request(url, 'get', data, true);
+                    },
+                     //权益使用日志查询
+                     qryRightsUseLog: function qryRightsUseLog(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/rightsUse/qryRightsUseLog'
+                        return request(url, 'post', data, true);
+                    },
+                     //保存权益使用日志
+                     saveRightsUseLog: function saveRightsUseLog(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/rightsUse/saveRightsUseLog'
+                        return request(url, 'post', data, true);
+                    },
+                     //申请权益使用
+                     saveRightsUseRecordNew: function saveRightsUseRecordNew(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/rightsUse/saveRightsUseRecord'
+                        return request(url, 'post', data, true);
+                    },
+                      //小程序端-问诊列表
+                      getConsultList: function getConsultList(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/consult/list'
+                        return request(url, 'get', data, true);
+                    },
                 };
 
                 /***/

@@ -1,0 +1,54 @@
+@import "../../modules/chat-page/word.wxss";
+@import "../../modules/chat-page/chat-page-status.wxss";
+page {
+    background-color: #EFEFEF;
+}
+.refresh {
+    width: 100%;
+    height: 0;
+    align-items: center;
+}
+.bottom-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 160rpx;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #FAFAFA;
+    z-index: 999;
+  }
+  .bottom-box-btnview{
+      display: flex;
+      justify-content: space-between;
+  }
+
+  .loginTap{
+    height: 60rpx;
+    width: 250rpx;
+    background-color: #0379FF;
+    border-radius: 10rpx;
+    color: white;
+    font-size: 28rpx;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .container-box {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.video-message {
+	width: 200rpx;
+	height: 200rpx;
+}

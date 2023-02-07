@@ -1,0 +1,63 @@
+page{
+    background-color: #ffffff;
+    padding-bottom: 50rpx;
+  }
+  .contentview{
+    display: flex;
+    flex-direction: row;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+  }
+  
+  .title-class{
+      color: #1a1a1a;
+      font-size:29rpx ;
+      font-weight: 500;
+      margin-left: 13rpx;
+  }
+  .a-order{
+    width: 702rpx;
+    margin-left: 24rpx;
+    margin-top: 20rpx;
+    border: 1px solid #E6E6E6;
+  border-radius: 10rpx;
+  box-sizing:border-box;
+  }
+  .flagbg{
+    background-color: #FAFAFA;
+    border-top-left-radius:10rpx;
+    border-top-right-radius:10rpx;
+     }
+  .titleviw{
+    background-color: #FAFAFA;
+     padding-left: 17rpx;
+     padding-bottom: 36rpx;
+     
+     display: flex;
+    align-items: center;
+     }
+     .title-text {
+   
+        font-weight: bold;
+        font-size: 30rpx;
+        color: #4D4D4D;
+        margin-left: 17rpx;
+      }
+      .content{
+          display: flex;
+        color: #1A1A1A;
+        font-size: 28rpx;
+        margin-left: 20rpx;
+        margin-top: 30rpx;
+        margin-bottom: 30rpx;
+      }
+      .flagView{
+        width: 138rpx;
+        height: 52rpx;
+        border-radius: 0px 10rpx 0px 10rpx;
+        text-align: center;
+        margin-left: auto;
+        color: white;
+        font-size: 24rpx;
+        line-height:52rpx
+      }

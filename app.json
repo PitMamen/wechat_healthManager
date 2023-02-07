@@ -10,7 +10,8 @@
                 "pages/diseases/index",
                 "pages/diseases/content",
                 "pages/diseases/knowledge-list",
-                "pages/chat/historyChat"
+                "pages/chat/historyChat",
+                "pages/chat/groupChat"
             ]
         }
     ],
@@ -77,12 +78,14 @@
         "pages/consult/index",
         "pages/me/my-plan/plan-detail-v2",
         "pages/home/health-remind/detail",
-        "pages/home/hospital-select/index"
+        "pages/home/hospital-select/index",
+        "pages/consult/detail/index",
+        "pages/consult/rights/apply"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",
         "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#ededed",
+        "navigationBarBackgroundColor": "#FFFFFF",
         "navigationBarTitleText": "WeChat",
         "navigationBarTextStyle": "black",
         "renderingMode": "seperated"

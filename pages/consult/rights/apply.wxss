@@ -1,0 +1,107 @@
+page {
+    background: #F5F5F5;
+}
+
+.ordercard {
+    width: 702rpx;
+    margin-left: 24rpx;
+    margin-top: 30rpx;
+    margin-bottom: 30rpx;
+    background: #FFFFFF;
+    border: 1rpx solid #E6E6E6;
+    box-shadow: 0px 3rpx 6rpx 0px rgba(204, 204, 204, 0.35);
+    border-radius: 4rpx;
+}
+.ordercontarl{
+    margin: 30rpx;
+    min-height: 500rpx;
+   
+}
+.card-top {
+    display: flex;
+    flex-direction: row;
+    margin: 30rpx;
+}
+
+.card-top-r {
+    display: flex;
+    width: 386rpx;
+    flex-direction: column;
+
+    margin-left: 30rpx;
+}
+
+.card-title {
+    font-size: 30rpx;
+    color: #1A1A1A;
+    font-weight: bold;
+}
+
+.card-line {
+    width: 100%;
+    height: 0.5px;
+    background: #CCCCCC;
+    margin-top: 13rpx;
+    margin-bottom: 19rpx;
+}
+.card-content{
+    display: flex;
+    flex-direction: row;
+    font-size: 28rpx;
+    color: #999999;
+}
+
+.right-card{
+    display: flex;
+    flex-direction: column;
+padding-left: 30rpx;
+
+}
+.right-content{
+    font-size: 28rpx;
+    color: #999999;
+    margin-bottom: 30rpx;
+}
+.img {
+    width: 226rpx;
+    height: 168rpx;
+    background: #F5F5F5;
+    border-radius: 4rpx;
+}
+.his-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.his-view{
+    font-size: 28rpx;
+    color: #999999;
+    margin-bottom: 30rpx;
+}
+.his-line {
+    width: 100%;
+    height: 0.5px;
+    background: #CCCCCC;
+    margin-top: 20rpx;
+    margin-bottom: 30rpx;
+}
+.his-content{
+   
+    margin-left: 30rpx;
+    margin-top: 20rpx;
+}
+.cicle{
+    width: 14rpx;
+height: 14rpx;
+background: #959595;
+border-radius: 50%;
+margin-right: 30rpx;
+}
+.safe-bottom-box {
+    position: fixed;
+    width: 704rpx;
+    bottom: 30rpx;
+    left: 26rpx;
+   
+    z-index: 99;
+  }
