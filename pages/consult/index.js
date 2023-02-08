@@ -74,20 +74,10 @@ Page({
         if (res.code == 0 && res.data && res.data.length>0) {        
             var conversationIDList=[]
                 
-                res.data[0].imGroupId='@TGS#1ZV5FEHME' 
-                res.data[0].conversationID='GROUP@TGS#1ZV5FEHME' 
-                res.data[0].status={
-                    value:3,description:'问诊中'
-                }
+            
                
                 res.data.forEach(item=>{
-                    if(item.rightsId == 78){
-                        item.imGroupId='@TGS#1ZV5FEHME' 
-                        item.conversationID='GROUP@TGS#1ZV5FEHME' 
-                        item.status={
-                            value:3,description:'问诊中'
-                        }
-                    }
+                   
                     item.conversationID='GROUP'+item.imGroupId
                     if(item.imGroupId){
                         conversationIDList.push(item.conversationID)
@@ -165,14 +155,23 @@ Page({
         var item = e.currentTarget.dataset.item
         if(item.originalType.value == 1){
             //问卷
+            this.goWebPage(1, item.jumpUrl)
         }else if(item.originalType.value == 2){
             //文章
+            this.goWebPage(2,item.jumpUrl)
         }else {
             //其他
             if(item.imGroupId){
-                IMUtil.goGroupChat(info.userId,  'navigateTo', info.imGroupId, 'textNum', info.rightsId, 'START')
+                IMUtil.goGroupChat(item.userId,  'navigateTo', item.imGroupId, 'textNum', item.rightsId, 'START')
             }
         }
+    },
+     //问卷 文章 详情
+     goWebPage(type,url) {
+        var encodeUrl = encodeURIComponent(url)
+        wx.navigateTo({
+            url: './webpage/index?url=' + encodeUrl+'&type='+type
+        })
     },
      //设置已读
       getInquiriesAgencyRead(id) {
@@ -209,10 +208,10 @@ Page({
         if (this.checkLoginStatus()) {
             if (getApp().getDefaultPatient()) {
                 if (getApp().globalData.sdkReady) {
-                    wx.navigateTo({
-                        url: '/packageIM/pages/chat/AIChat',
-                    })
-                    
+                    // wx.navigateTo({
+                    //     url: '/packageIM/pages/chat/AIChat',
+                    // })
+                    IMUtil.goGroupChat(1447,  'navigateTo', '@TGS#1ZV5FEHME', 'textNum', '1', 'START')
                 }
             }
         }

@@ -106,8 +106,62 @@ Page({
     },
     onShow: function (e) {
         console.log("chat page: onShow")
-        // this.qryVideoNumRecord()
+       
+        // this.sendIllnessMessageEvent()
     },
+
+  //发生文病情简介
+  sendIllnessMessageEvent() {
+
+    var sendData = {
+             type: 'CustomIllnessMessage',
+             title:'问诊卡',
+             userInfo:'张三 男 32岁',
+             content: '案件假的假的假的假的假的假的',
+             imageList: 'http://develop.mclouds.org.cn:8009/content-api/file/I20230202153528098W8RSM7Q8XLIYCJ-HPhvBnOOtdcibb66ed1cf3561a9782b4a764535f0bbb.png',
+             time: '2022-12-12',
+             tradeId: 60
+         }
+     
+     let message = getApp().tim.createCustomMessage({
+         to: this.data.groupID,
+         conversationType: TIM.TYPES.CONV_GROUP,
+         payload: {
+             data: JSON.stringify(sendData),
+             description: '问诊卡',
+             extension: ''
+
+         },
+     });
+
+     this.sendMsg(message)
+ },
+  //发文章
+  sendwz() {
+
+    var sendData = {
+        content: '我度假酒店酒店',
+        description: '文章内容',
+        id: 1,
+        title: '文章标题',
+        type: 'CustomArticleMessage',
+        url: 'http://192.168.1.121:8087/#/pages/article?id=1'
+       }
+     
+     let message = getApp().tim.createCustomMessage({
+         to: this.data.groupID,
+         conversationType: TIM.TYPES.CONV_GROUP,
+         payload: {
+             data: JSON.stringify(sendData),
+             description: '文章卡',
+             extension: ''
+
+         },
+     });
+
+     this.sendMsg(message)
+ },
+
     goHome(){
         wx.switchTab({
           url: '/pages/consult/index',
@@ -1023,6 +1077,7 @@ Page({
             console.log(error)
             if(item.payload.data == 'group_create'){
                 item.payload.description = "医生创建房间"
+                
             }
             
         }

@@ -283,5 +283,6 @@ margin-left: auto;
     opacity: 0;
 }
 .picker-custom{
-  --picker-cancel-action-color:#4179FB !important;
+  --picker-cancel-action-color:#367BF5 !important;
+  --picker-confirm-action-color:#367BF5 !important;
 }

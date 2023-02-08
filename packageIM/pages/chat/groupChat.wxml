@@ -9,6 +9,7 @@
 <scroll-view wx:if="{{chatItems.length>0}}"
         style="height:{{pageHeight-25}}px;width: 100%;display: flex;flex-direction: column;"
         scroll-y="true"
+        enable-flex="true"
         scroll-top="{{scrollTopVal}}"
         refresher-enabled="{{true}}"
         refresher-default-style="white"

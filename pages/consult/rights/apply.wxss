@@ -105,3 +105,7 @@ margin-right: 30rpx;
    
     z-index: 99;
   }
+  .picker-custom{
+    --picker-cancel-action-color:#367BF5 !important;
+    --picker-confirm-action-color:#367BF5 !important;
+  }

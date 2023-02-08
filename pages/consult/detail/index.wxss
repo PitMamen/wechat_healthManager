@@ -155,3 +155,7 @@ background: #CCCCCC;
     font-size: 24rpx;
 color: #999999;
 }
+.picker-custom{
+    --picker-cancel-action-color:#367BF5 !important;
+    --picker-confirm-action-color:#367BF5 !important;
+  }

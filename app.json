@@ -80,7 +80,8 @@
         "pages/home/health-remind/detail",
         "pages/home/hospital-select/index",
         "pages/consult/detail/index",
-        "pages/consult/rights/apply"
+        "pages/consult/rights/apply",
+        "pages/consult/webpage/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

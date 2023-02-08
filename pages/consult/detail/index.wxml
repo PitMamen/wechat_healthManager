@@ -76,6 +76,6 @@
         <view style="margin-left: 25rpx;">流记录</view>
     </view>
 <van-popup show="{{ !hidePoupShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;z-index: 999;" bind:close="onPoupPickerCancel">
-  <van-picker show-toolbar title="请选择" columns="{{ nameColumns }}" value-key="serviceItemName" visible-item-count='4' bind:cancel="onPoupPickerCancel" bind:confirm="onPoupPickerConfirm" />
+  <van-picker show-toolbar custom-class="picker-custom"  title="请选择" columns="{{ nameColumns }}" value-key="serviceItemName" visible-item-count='4' bind:cancel="onPoupPickerCancel" bind:confirm="onPoupPickerConfirm" />
 </van-popup>
 

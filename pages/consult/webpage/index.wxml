@@ -1,0 +1,8 @@
+
+
+<!-- <web-view  src="{{url}}"></web-view>
+<view  class="safe-bottom-box">
+  <van-button  type="primary" color="#367BF5"  block bind:click="apply">立即使用</van-button>
+</view> -->
+<mp-html content="{{url}}" />
+
