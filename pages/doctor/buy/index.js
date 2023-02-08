@@ -66,7 +66,7 @@ Page({
         })
     },
     onBuyClick() {
-        if (!this.data.checked){
+        if (!this.data.checked) {
             wx.showToast({
                 title: '请先阅读并同意《健康管家服务授权协议》',
                 icon: 'none'
@@ -76,7 +76,8 @@ Page({
         this.setData({
             loading: true
         })
-        if (this.data.info.payMoney === 0){
+        let that = this
+        if (this.data.info.payMoney === 0) {
             wx.showToast({
                 title: '支付成功',
                 icon: 'success',
@@ -91,7 +92,7 @@ Page({
         }
         WXAPI.registerPayOrder({
             orderId: this.data.id,
-            payMethod: 'weixin_miniapp' 
+            payMethod: 'weixin_miniapp'
         }).then((res) => {
             wx.requestPayment({
                 timeStamp: res.data.timeStamp,
@@ -106,13 +107,17 @@ Page({
                         duration: 2000
                     })
                     setTimeout(() => {
-                        wx.switchTab({
-                            url: '/pages/consult/index'
+                        wx.redirectTo({
+                            // url: `/pages/health/detail/index?id=${that.data.id}`
+                            url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
                         })
                     }, 2000)
                 },
                 fail(err) {
                     console.info(err)
+                    wx.redirectTo({
+                        url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
+                    })
                     this.setData({
                         loading: false
                     })

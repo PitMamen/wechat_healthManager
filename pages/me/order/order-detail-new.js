@@ -114,9 +114,6 @@ Page({
                     })
                     setTimeout(() => {
                         that.onShow()
-                        // wx.redirectTo({
-                        //     url: 'pages/me/order/order-list-new'
-                        // })
                     }, 2000)
                 },
                 fail(err) {

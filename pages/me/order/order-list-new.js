@@ -111,6 +111,7 @@ Page({
     toPay(e) {
         var orderId = e.currentTarget.dataset.id
         console.log('toPay List', orderId)
+        let that = this
         WXAPI.registerPayOrder({
             orderId: orderId,
             payMethod: 'weixin_miniapp'
@@ -128,9 +129,10 @@ Page({
                         duration: 2000
                     })
                     setTimeout(() => {
-                        wx.redirectTo({
-                            url: 'pages/me/order/order-list-new'
-                        })
+                        // wx.redirectTo({
+                        //     url: 'pages/me/order/order-list-new'
+                        // })
+                        that.onShow()
                     }, 2000)
                 },
                 fail(err) {

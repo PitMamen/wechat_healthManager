@@ -70,7 +70,8 @@
                         订单效期：
                     </view>
                     <view class="des-value">
-                        {{item.effectiveStartTime}}至{{ item.effectiveEndTime}}
+                        {{item.effectiveEndTime == null?'永久有效': (item.effectiveStartTime + '至' + item.effectiveEndTime)}}
+                        <!-- {{item.effectiveStartTime}}至{{ item.effectiveEndTime}} -->
                     </view>
                 </view>
                 <view class="v-des-item" style="margin-top: 10rpx;">
@@ -102,7 +103,7 @@
                     再次购买
                 </view>
                 <!-- 进行中 -->
-                <view class="btn active" style="width: 80%;" wx:if="{{(item.status.value==2&& item.goodsType!=2)? true : false}}" bindtap="goConsult" >
+                <view class="btn active" style="width: 80%;" wx:if="{{(item.status.value==2&& item.goodsType!=2)? true : false}}" bindtap="goConsult">
                     立即咨询
                 </view>
 
