@@ -38,7 +38,6 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        let that = this
         this.getOrderById()
     },
     async getOrderById() {
@@ -86,7 +85,15 @@ Page({
         // }
 
     },
-    toPay() {
+
+    goConsult(e) {
+        wx.switchTab({
+            url: '/pages/consult/index',
+        })
+    },
+
+    toPay(e) {
+        let that = this
         var orderId = e.currentTarget.dataset.id
         console.log('toPay Detail', orderId)
         WXAPI.registerPayOrder({
@@ -106,9 +113,7 @@ Page({
                         duration: 2000
                     })
                     setTimeout(() => {
-                        wx.redirectTo({
-                            url: 'pages/me/order/order-list-new'
-                        })
+                        that.onShow()
                     }, 2000)
                 },
                 fail(err) {
@@ -189,10 +194,10 @@ Page({
     },
 
     buyAgain(e) {
-        var id = e.currentTarget.dataset.id
-
+        var item = e.currentTarget.dataset.goods
+        console.log('buyAgain detail',e)
         wx.navigateTo({
-            url: '../../home/package-detail/packagedetail?id=' + id,
+            url: `/pages/health/detail/index?id=${item.commodityId}`
         })
     },
 

@@ -102,10 +102,16 @@ Page({
             url: './order-detail-new?orderId=' + id,
         })
     },
+    goConsult(e) {
+        wx.switchTab({
+            url: '/pages/consult/index',
+        })
+    },
 
     toPay(e) {
         var orderId = e.currentTarget.dataset.id
         console.log('toPay List', orderId)
+        let that = this
         WXAPI.registerPayOrder({
             orderId: orderId,
             payMethod: 'weixin_miniapp'
@@ -123,9 +129,10 @@ Page({
                         duration: 2000
                     })
                     setTimeout(() => {
-                        wx.redirectTo({
-                            url: 'pages/me/order/order-list-new'
-                        })
+                        // wx.redirectTo({
+                        //     url: 'pages/me/order/order-list-new'
+                        // })
+                        that.onShow()
                     }, 2000)
                 },
                 fail(err) {
@@ -170,10 +177,10 @@ Page({
         }
     },
     buyAgain(e) {
+        var item = e.currentTarget.dataset.goods
         console.log(e)
-        var commodityId = e.currentTarget.dataset.commodityId
         wx.navigateTo({
-            url: `/pages/health/detail/index?id=${commodityId}`
+            url: `/pages/health/detail/index?id=${item.commodityId}`
         })
     },
     /**

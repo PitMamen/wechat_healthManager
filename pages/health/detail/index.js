@@ -19,6 +19,7 @@ Page({
     },
     onLoad: function (options) {
         // 页面创建时执行
+        console.log('fff',options)
         wx.showShareMenu({
             withShareTicket: true
         })
