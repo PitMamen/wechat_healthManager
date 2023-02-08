@@ -25,7 +25,7 @@
     /* box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35); */
     border-radius: 20rpx 0px 20rpx 20rpx;
     padding: 30rpx;
-    max-width:500rpx;
+    max-width:440rpx;
 }
 
 .isOtherWordStyle {
@@ -38,7 +38,7 @@
     /* box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35); */
     border-radius: 0px 20rpx 20rpx 20rpx;
     padding: 30rpx;
-    max-width:500rpx;
+    max-width:440rpx;
 }
 
 .chat-list-pic-style {

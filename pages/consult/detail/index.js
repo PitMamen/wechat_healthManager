@@ -113,11 +113,13 @@ Page({
     },
     //进入诊室
     enterRoom() {
-
+        wx.navigateBack()
     },
     //再次购买
     bugAgain() {
-
+        wx.navigateTo({
+            url: `/pages/health/detail/index?id=${this.data.detail.commodityId}`
+        })
     },
     //图片预览
     onImageTap: function (e) {

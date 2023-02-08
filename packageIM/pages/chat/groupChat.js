@@ -19,7 +19,6 @@ Page({
         groupID:'',//群ID
         DocType: 'Doctor',
         groupProfile: {},//群信息
-
         tradeId: '',//工单id
         isTradeReminded: false,//是否已经提醒过
         textNumRecord: 0,//当前图文咨询计数
@@ -57,13 +56,10 @@ Page({
             type: 1,
             tim: getApp().tim, // 参数适用于业务中已存在 TIM 实例，为保证 TIM 实例唯一性
         }
-
-        var defaultPatient = getApp().getDefaultPatient()
         
         this.setData({
             config: config,
             pageHeight: wx.getSystemInfoSync().windowHeight,
-            defaultPatient: defaultPatient,
             groupID:options.groupID,
             conversationID: 'GROUP'+options.groupID,           
             inquiryType: options.inquiryType,//问诊类型  图文textNum  视频videoNum 电话telNum
@@ -107,7 +103,7 @@ Page({
     onShow: function (e) {
         console.log("chat page: onShow")
        
-        // this.sendIllnessMessageEvent()
+       
     },
 
   //发生文病情简介
@@ -140,10 +136,10 @@ Page({
   sendwz() {
 
     var sendData = {
-        content: '我度假酒店酒店',
-        description: '文章内容',
+        content: '如何正确使用胰岛素？',
+        description: '文章卡',
         id: 1,
-        title: '文章标题',
+        title: '文章卡',
         type: 'CustomArticleMessage',
         url: 'http://192.168.1.121:8087/#/pages/article?id=1'
        }
@@ -161,7 +157,31 @@ Page({
 
      this.sendMsg(message)
  },
+//发问卷
+sendwj() {
 
+    var sendData ={
+        description: '问卷卡',
+        id: 1,
+        name: '出院后健康情况调查问卷',
+        type: 'CustomWenJuanMessage',
+        url: 'http://192.168.1.121/s/9ed72fd8846c4cd69d4a0f50cbeb6467?source=medical-steward&agencyId=1',
+        userId: 1
+       } 
+     
+     let message = getApp().tim.createCustomMessage({
+         to: this.data.groupID,
+         conversationType: TIM.TYPES.CONV_GROUP,
+         payload: {
+             data: JSON.stringify(sendData),
+             description: '文章卡',
+             extension: ''
+
+         },
+     });
+
+     this.sendMsg(message)
+ },
     goHome(){
         wx.switchTab({
           url: '/pages/consult/index',
@@ -506,7 +526,34 @@ Page({
         console.log(e)
         let id = e.detail.item.id;
     },
+    //点击问卷卡
+    onCustomWenJuanMessageClick(e){
+        console.log(e)
+        let item = e.currentTarget.dataset.item;
+        var encodeUrl = encodeURIComponent(item.url)
+        wx.navigateTo({
+            url: '/pages/consult/webpage/index?url=' + encodeUrl+'&type=1'
+        })
+      
+    },
+    //点击文章卡
+    onCustomArticleMessageClick(e){
+        console.log(e)
+        let item = e.currentTarget.dataset.item;
+        var encodeUrl = encodeURIComponent(item.url)
+        wx.navigateTo({
+            url: '/pages/consult/webpage/index?url=' + encodeUrl+'&type=2'
+        })
+      
+    },
+    //点击问诊卡
+    onCustomIllnessMessageClick(e){
 
+        let item = e.currentTarget.dataset.item;
+        wx.navigateTo({
+            url: '/pages/consult/detail/index?rightsId=' + 60 + '&userId=' + this.data.config.userID + '&status=3' ,
+        })
+    },
     onVideoPlayClick(e){
         console.log(e)
         var videoObj=e.currentTarget.dataset.item
@@ -533,7 +580,7 @@ Page({
     //点击随访跟踪
     CustomWenJuanClickEvent(e) {
         var url = e.currentTarget.dataset.url
-        url = url + '?userId=' + this.data.defaultPatient.userId + '&execTime=' + Util.formatTime2(new Date())
+        url = url + '?userId=' + this.data.config.userID+ '&execTime=' + Util.formatTime2(new Date())
         console.log(url)
         var encodeUrl = encodeURIComponent(url)
         console.log(encodeUrl)
