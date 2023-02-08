@@ -7,7 +7,7 @@
     </view>
 </block>
 
-<view  data-id="{{order.orderId}}">
+<view data-id="{{order.orderId}}">
     <view class="wrap-top">
         <view class="titleviw">
             <text class="title-text">{{order.hospitalName}}</text>
@@ -134,11 +134,11 @@
             <view class="btn active" hidden="{{order.status.value==1? false : true}}" bindtap="toPay" data-id="{{order.orderId}}" data-money="{{order.amountReal}}" data-score="{{order.score}}">去支付</view>
 
             <!-- 已完成 和 已取消 -->
-            <view class="btn active" style="width: 80%;" hidden="{{(order.status.value==3||order.status.value==4)? false : true}}" bindtap="buyAgain" data-goods="{{order.orderId}}">
+            <view class="btn active" style="width: 80%;" hidden="{{(order.status.value==3||order.status.value==4)? false : true}}" bindtap="buyAgain" data-goods="{{order}}">
                 再次购买
             </view>
             <!-- 进行中 -->
-            <view class="btn active" style="width: 80%;" hidden="{{order.status.value==2? false : true}}" bindtap="buyAgain" data-goods="{{order.orderId}}">
+            <view class="btn active" style="width: 80%;" wx:if="{{(order.status.value==2&& order.goodsType!=2)? true : false}}" bindtap="goConsult" data-goods="{{order.orderId}}">
                 立即咨询
             </view>
 

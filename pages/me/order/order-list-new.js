@@ -102,6 +102,11 @@ Page({
             url: './order-detail-new?orderId=' + id,
         })
     },
+    goConsult(e) {
+        wx.switchTab({
+            url: '/pages/consult/index',
+        })
+    },
 
     toPay(e) {
         var orderId = e.currentTarget.dataset.id
@@ -170,10 +175,10 @@ Page({
         }
     },
     buyAgain(e) {
+        var item = e.currentTarget.dataset.goods
         console.log(e)
-        var commodityId = e.currentTarget.dataset.commodityId
         wx.navigateTo({
-            url: `/pages/health/detail/index?id=${commodityId}`
+            url: `/pages/health/detail/index?id=${item.commodityId}`
         })
     },
     /**
