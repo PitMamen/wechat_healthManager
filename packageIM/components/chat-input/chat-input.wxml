@@ -14,7 +14,7 @@
             <template is="voice" data="{{voiceObj:voiceObj}}" />
         </block>
         <block wx:else>
-            <textarea fixed auto-height="{{autoHeight}}" show-confirm-bar="{{false}}" wx:if="{{inputStatus==='text'}}" class="chat-input-style"  maxlength="200" confirm-type="send" value="{{textMessage}}" focus="{{focus}}" type="{{inputType}}" confirm-hold="true" bindconfirm="_chatInput$send$text$message" bindfocus="_chatInput$bind$focus$event" bindblur="_chatInput$bind$blur$event" bindinput="_chatInput$getValue$event">
+            <textarea fixed auto-height="{{autoHeight}}" show-confirm-bar="{{false}}" wx:if="{{inputStatus==='text'}}" class="chat-input-style"  maxlength="1500" confirm-type="send" value="{{textMessage}}" focus="{{focus}}" type="{{inputType}}" confirm-hold="true" bindconfirm="_chatInput$send$text$message" bindfocus="_chatInput$bind$focus$event" bindblur="_chatInput$bind$blur$event" bindinput="_chatInput$getValue$event">
             </textarea>
             <view wx:if="{{ showAdd && inputType === 'none'}}" class="press-style-add">
 

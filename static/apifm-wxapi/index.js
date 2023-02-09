@@ -1293,16 +1293,19 @@ module.exports =
                         return request(url, 'get', data, true);
                     },
                      //代办-列表
-                     getInquiriesAgencyList: function getInquiriesAgencyList(data) {
-                        
+                     getInquiriesAgencyList: function getInquiriesAgencyList(data) {                       
                         var url = MEDICAL_SERVICE + '/inquiriesAgency/list'
                         return request(url, 'post', data, true);
                     },
                     //代办-已读
-                    getInquiriesAgencyRead: function getInquiriesAgencyRead(id) {
-                        
+                    setInquiriesAgencyRead: function setInquiriesAgencyRead(id) {                      
                         var url = MEDICAL_SERVICE + '/inquiriesAgency/read/'+id
-                        return request(url, 'post', {}, true);
+                        return request(url, 'post', '', true);
+                    },
+                    //权益使用记录查询
+                    qryRightsUseRecord: function qryRightsUseRecord(data) {                       
+                        var url = MEDICAL_SERVICE + '/rightsUse/qryRightsUseRecord'
+                        return request(url, 'post', data, true);
                     },
                 };
 

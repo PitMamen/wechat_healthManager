@@ -4,8 +4,6 @@
 
 <!-- <template wx:if="{{tradeAction !== 'END'}}"  is="chat-page-status" data="{{chatStatue,chatStatusContent}}"/> -->
 
-
-
 <scroll-view wx:if="{{chatItems.length>0}}"
         style="height:{{pageHeight-25}}px;width: 100%;display: flex;flex-direction: column;"
         scroll-y="true"
@@ -39,18 +37,16 @@ wx:if="{{showChatInput}}"
         bind:heathItemClickEvent="heathItemClickEvent"
         bind:voiceRecordEvent="onVoiceRecordEvent"
         bind:sendMessageEvent="onSendMessageEvent"></chat-input>
-<!--<template is="chat-input" data="{{inputObj,textMessage,showVoicePart:true}}"/>-->
 
 
-<view wx:if="{{tradeAction === 'END'}}"  class="bottom-box">
+
+<!-- <view wx:if="{{tradeAction === 'END'}}"  class="bottom-box">
     <view style="margin-left: 30rpx;margin-top: 30rpx;font-size: 28rpx;">本次咨询已结束</view>
     <view class="bottom-box-btnview">
         <button class="loginTap"  bindtap="goDoctorDetail"> 再次咨询 </button>
     <button class="loginTap"  style="background-color: #A4ADB3 ;" bindtap="goHistoryPage">查看历史消息</button>
     </view>
-
-   
-  </view>
+  </view> -->
 
   <view wx:if="{{showVideo}}" class="container-box">
     <video wx:if="{{showVideo}}" class="video-message" id="myVideo" poster="{{videoObj.thumbUrl }}" src="{{videoObj.videoUrl}}" object-fit="contain" autoplay direction="0" bindfullscreenchange="bindfullscreenchange"></video>

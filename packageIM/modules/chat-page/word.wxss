@@ -42,7 +42,6 @@
 }
 
 .chat-list-pic-style {
-    border-radius: 10rpx;
     margin-left: 5rpx;
     width: 150rpx;
     height: 280rpx;

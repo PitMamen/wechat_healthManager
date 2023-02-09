@@ -45,15 +45,15 @@ var IMinit = function IMinit() {
         * @param {*} routeType 路由跳转类型 navigateTo   redirectTo（关闭当前页面跳转） reLaunch（关闭所有页面跳转）
         * @param {*} groupID 群ID
         * @param {*} inquiryType 问诊类型  图文textNum  视频videoNum 电话telNum
-        * @param {*} rightsId 权益工单id  
+        * @param {*} tradeId 当前使用的权益ID  
         * @param {*} tradeAction 工单进程 CONFIRM:确认  REFUSED:已拒诊  START:开始咨询 END:已完成 
         */
-       var goGroupChat = function goGroupChat(userId, routeType, groupID, inquiryType, rightsId, tradeAction) {
+       var goGroupChat = function goGroupChat(userId, routeType, groupID, inquiryType,tradeId, tradeAction) {
 
         var userList=getApp().getPatientInfoList()
         userList.forEach(patient=>{
             if(patient.userId == userId){
-                var routUrl = `/packageIM/pages/chat/groupChat?groupID=${groupID}&inquiryType=${inquiryType}&rightsId=${rightsId}&tradeAction=${tradeAction}`
+                var routUrl = `/packageIM/pages/chat/groupChat?groupID=${groupID}&inquiryType=${inquiryType}&tradeId=${tradeId}&tradeAction=${tradeAction}`
     
                 this.LoginOrGoIMChat(userId, patient.userSig, routeType, routUrl)
             }

@@ -73,17 +73,11 @@ Page({
         const res = await WXAPI.getConsultList()
         if (res.code == 0 && res.data && res.data.length>0) {        
             var conversationIDList=[]
-                
-            
-               
                 res.data.forEach(item=>{
-                   
                     item.conversationID='GROUP'+item.imGroupId
                     if(item.imGroupId){
                         conversationIDList.push(item.conversationID)
-                    }
-                  
-                    
+                    }                
                 })
                 
                 this.setData({
@@ -91,9 +85,7 @@ Page({
                     appointList: res.data,
                 })
                 this.getConversationList()
-            
-
-            
+                     
         } else {
             this.setData({
                 appointList: []
@@ -151,19 +143,32 @@ Page({
 
 
     },
-    bindTodoItemTap(e){
+    //待办事项 进入诊室
+    bindTodoItemEnterRoomTap(e){
+        var item = e.currentTarget.dataset.item
+        if(item.imGroupId){
+            IMUtil.goGroupChat(item.userId,  'navigateTo', item.imGroupId, 'textNum',item.tradeId, 'START')
+        }
+        if(item.originalType.value !== 1 && item.originalType.value !== 2){  //不是问卷和文章 设置已读
+            this.setInquiriesAgencyRead(item)
+        }
+    },
+    //待办事项 详情
+    bindTodoItemDetailTap(e){
         var item = e.currentTarget.dataset.item
         if(item.originalType.value == 1){
-            //问卷
+            //问卷 提交问卷后后台会设置已读和发送卡片
             this.goWebPage(1, item.jumpUrl)
         }else if(item.originalType.value == 2){
             //文章
             this.goWebPage(2,item.jumpUrl)
+            //设置已读
+            this.setInquiriesAgencyRead(item)
         }else {
-            //其他
             if(item.imGroupId){
-                IMUtil.goGroupChat(item.userId,  'navigateTo', item.imGroupId, 'textNum', item.rightsId, 'START')
+                IMUtil.goGroupChat(item.userId,  'navigateTo', item.imGroupId, 'textNum',item.tradeId, 'START')            
             }
+            this.setInquiriesAgencyRead(item)
         }
     },
      //问卷 文章 详情
@@ -174,14 +179,17 @@ Page({
         })
     },
      //设置已读
-      getInquiriesAgencyRead(id) {
-        WXAPI.getInquiriesAgencyRead(id)
+     setInquiriesAgencyRead(item) {
+         if(item.readStatus.value == 1){
+            WXAPI.setInquiriesAgencyRead(id)
+         }
+        
     },
     //进入诊室
     enterRoom(e) {
         var info = e.currentTarget.dataset.item
       
-        IMUtil.goGroupChat(info.userId,  'navigateTo', info.imGroupId, 'textNum', info.rightsId, 'START')
+        IMUtil.goGroupChat(info.userId,  'navigateTo', info.imGroupId, 'textNum', info.lastUseRecordId, 'START')
     },
     //再次购买
     bugAgain(e) {
@@ -203,7 +211,7 @@ Page({
         }
 
     },
-    //在线咨询
+    //AI咨询
     goIMPage() {
         if (this.checkLoginStatus()) {
             if (getApp().getDefaultPatient()) {
@@ -211,7 +219,7 @@ Page({
                     // wx.navigateTo({
                     //     url: '/packageIM/pages/chat/AIChat',
                     // })
-                    IMUtil.goGroupChat(1447,  'navigateTo', '@TGS#1ZV5FEHME', 'textNum', '1', 'START')
+                    IMUtil.goGroupChat(1447,  'navigateTo', '@TGS#1ZV5FEHME', 'textNum', 20, 'START')
                 }
             }
         }

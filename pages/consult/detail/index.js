@@ -121,6 +121,10 @@ Page({
             url: `/pages/health/detail/index?id=${this.data.detail.commodityId}`
         })
     },
+    //查询历史咨询
+    onHistroyBtnClick(){
+        IMUtil.goGroupChat(this.data.detail.userId,  'navigateTo', item.imGroupId, 'textNum',item.tradeId, 'END')  
+    },
     //图片预览
     onImageTap: function (e) {
         var url = e.currentTarget.dataset.url

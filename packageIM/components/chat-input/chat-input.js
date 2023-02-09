@@ -372,10 +372,10 @@ Component({
             this.setData({
                 textMessage
             })
-            if(textMessage && textMessage.length>=200){
+            if(textMessage && textMessage.length>=1500){
                 wx.showModal({
                     title: '温馨提示',
-                    content: '消息发送限制200字内，无法继续编辑',
+                    content: '消息发送限制1500字内，无法继续编辑',
                     showCancel:false,
                     })
                 

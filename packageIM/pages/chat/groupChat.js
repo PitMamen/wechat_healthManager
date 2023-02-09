@@ -5,7 +5,7 @@ const WXAPI = require('../../../static/apifm-wxapi/index')
 const Util = require('../../../utils/util')
 
 Page({
-    
+
     onMessageReceived: '',
     onMessageReadByPeer: '',
     _freshing: false,
@@ -13,17 +13,17 @@ Page({
         showChatInput: true,
         hideTimeShow: true,
         config: {},
-        toAvatar:'../../../image/avatar.png',//聊天对象头像
-        myAvatar:'../../../image/avatar.png',//自己头像
+        toAvatar: '../../../image/avatar.png',//聊天对象头像
+        myAvatar: '../../../image/avatar.png',//自己头像
         conversationID: '',//聊天会话ID
-        groupID:'',//群ID
+        groupID: '',//群ID
         DocType: 'Doctor',
         groupProfile: {},//群信息
         tradeId: '',//工单id
         isTradeReminded: false,//是否已经提醒过
         textNumRecord: 0,//当前图文咨询计数
         videoNumRecord: 0,//当前视频咨询已使用时长
-
+        tradeRemark: {},//当前使用权益的详情
         textMessage: '',
         chatItems: [],//消息列表
         nextReqMessageID: '',//用于续拉，分页续拉时需传入该字段。
@@ -39,7 +39,7 @@ Page({
             description: '发送图片'
         }],
         topArr: [],
-        bottomtext:'剩余19次医生回复机会'
+        bottomtext: ''
     },
 
     /**
@@ -56,41 +56,30 @@ Page({
             type: 1,
             tim: getApp().tim, // 参数适用于业务中已存在 TIM 实例，为保证 TIM 实例唯一性
         }
-        
+
         this.setData({
             config: config,
             pageHeight: wx.getSystemInfoSync().windowHeight,
-            groupID:options.groupID,
-            conversationID: 'GROUP'+options.groupID,           
+            groupID: options.groupID,
+            conversationID: 'GROUP' + options.groupID,
             inquiryType: options.inquiryType,//问诊类型  图文textNum  视频videoNum 电话telNum
             tradeId: options.tradeId,//工单ID   
-            //工单进程 CONFIRM:确认  REFUSED:已拒诊  START:开始咨询 END:已完成
+            //CONFIRM:确认  REFUSED:已拒诊  START:开始咨询 END:已完成
+            //2:待接诊 3:问诊中 4:已结束 5:已中止（拒诊等）
             tradeAction: options.tradeAction,
 
         })
-       
         this.getGroupProfile()
-        this.updateChatStatus()
+        this.qryRightsUseRecord()
         this.getMessageList()
         this.voiceManager = new voiceManager(this)
         this.onIMReceived()
 
-       
-
-            if(this.data.tradeAction == 'END'){
-                this.setData({
-                    showChatInput:false
-                })
-            }else {
-                //查询工单详情
-                // this.queryRightsUserRecord()
-            }
-
-            
-        
-
-   
-
+        if (this.data.tradeAction == 'END') {
+            this.setData({
+                showChatInput: false
+            })
+        }
 
         //禁止截屏录屏
         wx.setVisualEffectOnCapture({
@@ -102,98 +91,124 @@ Page({
     },
     onShow: function (e) {
         console.log("chat page: onShow")
-       
-       
     },
 
-  //发生文病情简介
-  sendIllnessMessageEvent() {
+    //查询使用中的权益详情
+    qryRightsUseRecord() {
+        WXAPI.qryRightsUseRecord({ id: this.data.tradeId }).then(res => {
+            this.setData({
+                tradeRemark: res.data[0]
+            })
+            wx.setNavigationBarTitle({
+                title: res.data[0].docName+'团队'
+            });
+            var status= res.data[0].status
+            var tradeAction=''
+            //工单进程 CONFIRM:确认  REFUSED:已拒诊  START:开始咨询 END:已完成
+            //2待接诊 3问诊中 4已结束 5已中止（拒诊等）
+            if(status == 2){
+                tradeAction='CONFIRM'
+            }else if(status == 3){
+                tradeAction='START'
+            }else if(status == 4){
+                tradeAction='END'
+            }else if(status == 5){
+                tradeAction='REFUSED'
+            }
+            this.setData({
+                tradeAction: tradeAction 
+            })
+            if (this.data.tradeAction == 'END') {
+                this.setData({
+                    showChatInput: false
+                })
+            }
+            this.updateChatStatus()
+        })
 
-    var sendData = {
-             type: 'CustomIllnessMessage',
-             title:'问诊卡',
-             userInfo:'张三 男 32岁',
-             content: '案件假的假的假的假的假的假的',
-             imageList: 'http://develop.mclouds.org.cn:8009/content-api/file/I20230202153528098W8RSM7Q8XLIYCJ-HPhvBnOOtdcibb66ed1cf3561a9782b4a764535f0bbb.png',
-             time: '2022-12-12',
-             tradeId: 60
-         }
-     
-     let message = getApp().tim.createCustomMessage({
-         to: this.data.groupID,
-         conversationType: TIM.TYPES.CONV_GROUP,
-         payload: {
-             data: JSON.stringify(sendData),
-             description: '问诊卡',
-             extension: ''
+    },
+    //发生文病情简介
+    sendIllnessMessageEvent() {
 
-         },
-     });
+        var sendData = {
+            type: 'CustomIllnessMessage',
+            title: '问诊卡',
+            userInfo: '张三 男 32岁',
+            content: '案件假的假的假的假的假的假的',
+            imageList: 'http://develop.mclouds.org.cn:8009/content-api/file/I20230202153528098W8RSM7Q8XLIYCJ-HPhvBnOOtdcibb66ed1cf3561a9782b4a764535f0bbb.png',
+            time: '2022-12-12',
+            tradeId: 60
+        }
 
-     this.sendMsg(message)
- },
-  //发文章
-  sendwz() {
+        let message = getApp().tim.createCustomMessage({
+            to: this.data.groupID,
+            conversationType: TIM.TYPES.CONV_GROUP,
+            payload: {
+                data: JSON.stringify(sendData),
+                description: '问诊卡',
+                extension: ''
 
-    var sendData = {
-        content: '如何正确使用胰岛素？',
-        description: '文章卡',
-        id: 1,
-        title: '文章卡',
-        type: 'CustomArticleMessage',
-        url: 'http://192.168.1.121:8087/#/pages/article?id=1'
-       }
-     
-     let message = getApp().tim.createCustomMessage({
-         to: this.data.groupID,
-         conversationType: TIM.TYPES.CONV_GROUP,
-         payload: {
-             data: JSON.stringify(sendData),
-             description: '文章卡',
-             extension: ''
+            },
+        });
 
-         },
-     });
+        this.sendMsg(message)
+    },
+    //发文章
+    sendwz() {
 
-     this.sendMsg(message)
- },
-//发问卷
-sendwj() {
+        var sendData = {
+            content: '如何正确使用胰岛素？',
+            description: '文章卡',
+            id: 1,
+            title: '文章卡',
+            type: 'CustomArticleMessage',
+            url: 'http://192.168.1.121:8087/#/pages/article?id=1'
+        }
 
-    var sendData ={
-        description: '问卷卡',
-        id: 1,
-        name: '出院后健康情况调查问卷',
-        type: 'CustomWenJuanMessage',
-        url: 'http://192.168.1.121/s/9ed72fd8846c4cd69d4a0f50cbeb6467?source=medical-steward&agencyId=1',
-        userId: 1
-       } 
-     
-     let message = getApp().tim.createCustomMessage({
-         to: this.data.groupID,
-         conversationType: TIM.TYPES.CONV_GROUP,
-         payload: {
-             data: JSON.stringify(sendData),
-             description: '文章卡',
-             extension: ''
+        let message = getApp().tim.createCustomMessage({
+            to: this.data.groupID,
+            conversationType: TIM.TYPES.CONV_GROUP,
+            payload: {
+                data: JSON.stringify(sendData),
+                description: '文章卡',
+                extension: ''
 
-         },
-     });
+            },
+        });
 
-     this.sendMsg(message)
- },
-    goHome(){
+        this.sendMsg(message)
+    },
+    //发问卷
+    sendwj() {
+
+        var sendData = {
+            description: '问卷卡',
+            id: 1,
+            name: '出院后健康情况调查问卷',
+            type: 'CustomWenJuanMessage',
+            url: 'http://192.168.1.121/s/9ed72fd8846c4cd69d4a0f50cbeb6467?source=medical-steward&agencyId=1',
+            userId: 1
+        }
+
+        let message = getApp().tim.createCustomMessage({
+            to: this.data.groupID,
+            conversationType: TIM.TYPES.CONV_GROUP,
+            payload: {
+                data: JSON.stringify(sendData),
+                description: '文章卡',
+                extension: ''
+
+            },
+        });
+
+        this.sendMsg(message)
+    },
+    goHome() {
         wx.switchTab({
-          url: '/pages/consult/index',
+            url: '/pages/consult/index',
         })
-      },
-      goDoctorDetail(){
-        wx.navigateTo({
-          url: '/pages/home/package-list/packagelist',
-        })
-      },
+    },
 
-   
     //监听
     onIMReceived() {
         let that = this
@@ -208,7 +223,7 @@ sendwj() {
                     newItems.push(item)
                 }
             });
-            that.setMultItemAndScrollPage(newItems, true, true,false)
+            that.setMultItemAndScrollPage(newItems, true, true, false)
             // 将某会话下所有未读消息已读上报
             getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
         };
@@ -217,7 +232,7 @@ sendwj() {
 
         //消息已读
         let onMessageReadByPeer = function (event) {
-           
+
         };
         getApp().tim.on(TIM.EVENT.MESSAGE_READ_BY_PEER, onMessageReadByPeer);
         this.onMessageReadByPeer = onMessageReadByPeer
@@ -276,26 +291,26 @@ sendwj() {
         getApp().tim.off(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived);
         getApp().tim.off(TIM.EVENT.MESSAGE_READ_BY_PEER, this.onMessageReadByPeer);
         getApp().tim.off(TIM.EVENT.NET_STATE_CHANGE, this.onNetStateChange);
-      
+
     },
 
-   
+
     //获取医生信息
-    async doctorDetailQuery(userId) {
+    // async doctorDetailQuery(userId) {
 
-        var doctor_list = [userId]
-       
-        const res = await WXAPI.doctorInfoQuery(doctor_list)
-        if (res.code == 0 && res.data.length>0) {
-            wx.setNavigationBarTitle({
-                title: res.data[0].userName 
-            });
-            this.setData({
-                toAvatar:res.data[0].avatarUrl
-            })
-        }
-    },
-   
+    //     var doctor_list = [userId]
+
+    //     const res = await WXAPI.doctorInfoQuery(doctor_list)
+    //     if (res.code == 0 && res.data.length > 0) {
+    //         wx.setNavigationBarTitle({
+    //             title: res.data[0].userName
+    //         });
+    //         this.setData({
+    //             toAvatar: res.data[0].avatarUrl
+    //         })
+    //     }
+    // },
+
     //获取聊天对象信息 群聊
     getGroupProfile() {
         let that = this
@@ -308,12 +323,8 @@ sendwj() {
             console.log("获取群资料成功", imResponse);
             var groupProfile = imResponse.data.group;
 
-            wx.setNavigationBarTitle({
-                title: groupProfile.name || groupProfile.groupID
-            });
             that.setData({
                 groupProfile: groupProfile,
-
             });
 
 
@@ -326,11 +337,11 @@ sendwj() {
     getMessageList() {
         // 打开某个会话时，第一次拉取消息列表
         let that = this;
-     var   postdata={
+        var postdata = {
             conversationID: this.data.conversationID,
             count: 15//需要拉取的消息数量，默认值和最大值为15。
         }
-    
+
         let promise = getApp().tim.getMessageList(postdata);
         promise.then(function (imResponse) {
             console.log(imResponse.data.messageList)
@@ -339,7 +350,7 @@ sendwj() {
             const isCompleted = imResponse.data.isCompleted; // 表示是否已经拉完所有消息。
 
 
-            that.setMultItemAndScrollPage(messageList, false, that.data.chatItems.length === 0,false)
+            that.setMultItemAndScrollPage(messageList, false, that.data.chatItems.length === 0, false)
 
 
             that.setData({
@@ -351,8 +362,8 @@ sendwj() {
             })
             that._freshing = false
             // 将某会话下所有未读消息已读上报
-           getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
-          
+            getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
+
 
         }).catch(function (imError) {
             console.error(imError)
@@ -369,14 +380,14 @@ sendwj() {
     },
     // 下拉获取更多消息记录
     getMoreMessageList() {
-       
+
         let that = this;
-     var   postdata={
+        var postdata = {
             conversationID: this.data.conversationID,
-            nextReqMessageID:this.data.nextReqMessageID,
+            nextReqMessageID: this.data.nextReqMessageID,
             count: 15//需要拉取的消息数量，默认值和最大值为15。
         }
-     
+
         let promise = getApp().tim.getMessageList(postdata);
         promise.then(function (imResponse) {
             console.log(imResponse.data.messageList)
@@ -385,7 +396,7 @@ sendwj() {
             const isCompleted = imResponse.data.isCompleted; // 表示是否已经拉完所有消息。
 
 
-            that.setMultItemAndScrollPage(messageList, false, that.data.chatItems.length === 0,true)
+            that.setMultItemAndScrollPage(messageList, false, that.data.chatItems.length === 0, true)
 
 
             that.setData({
@@ -398,7 +409,7 @@ sendwj() {
             that._freshing = false
             // 将某会话下所有未读消息已读上报
             getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
-            
+
 
         }).catch(function (imError) {
             console.error(imError)
@@ -419,20 +430,14 @@ sendwj() {
         if (this._freshing) return
         this._freshing = true
         if (this.data.isCompleted) {
-            if(this.data.tradeAction === 'END'){
-                wx.showToast({
-                    icon: 'none',
-                    title: "已全部加载完，点击下方按钮可查看更多历史消息",
-                    duration: 4000
-                })
-            }else {
+            
                 wx.showToast({
                     icon: 'none',
                     title: "没有更多消息了",
                     duration: 2000
                 })
-            }
             
+
             this.setData({
                 triggered: false,
             })
@@ -445,7 +450,7 @@ sendwj() {
 
 
 
- 
+
     //查询当前工单图文咨询计数条数
     async qryTextNumRecord() {
         if (!this.data.tradeId) {
@@ -467,34 +472,14 @@ sendwj() {
         }
         this.updateChatStatus()
     },
-    //查询当前工单视频咨询时长
-    async qryVideoNumRecord() {
-        if (!this.data.tradeId) {
-            return
-        }
-        const postData = {
-            dealType: 'USED_VIDEONUM',
-            tradeId: this.data.tradeId,
-            userId: this.data.config.userID
-        }
-        const res = await WXAPI.qryRightsUserLog(postData)
 
-        if (res.code === 0 && res.data.length > 0) {
-            //有记录
-            this.setData({
-                videoNumRecord: Number(res.data[0].dealResult)
-            })
-
-        }
-        this.updateChatStatus()
-    },
     //图文咨询计数
     async recordTradeTextNum() {
 
         if (!this.data.tradeId) {
             return
         }
-        if(!this.data.tradeRemark.textNumLimit){
+        if (!this.data.tradeRemark.serviceFrequency) {
             return
         }
         const postData = {
@@ -527,60 +512,60 @@ sendwj() {
         let id = e.detail.item.id;
     },
     //点击问卷卡
-    onCustomWenJuanMessageClick(e){
+    onCustomWenJuanMessageClick(e) {
         console.log(e)
         let item = e.currentTarget.dataset.item;
         var encodeUrl = encodeURIComponent(item.url)
         wx.navigateTo({
-            url: '/pages/consult/webpage/index?url=' + encodeUrl+'&type=1'
+            url: '/pages/consult/webpage/index?url=' + encodeUrl + '&type=1'
         })
-      
+
     },
     //点击文章卡
-    onCustomArticleMessageClick(e){
+    onCustomArticleMessageClick(e) {
         console.log(e)
         let item = e.currentTarget.dataset.item;
         var encodeUrl = encodeURIComponent(item.url)
         wx.navigateTo({
-            url: '/pages/consult/webpage/index?url=' + encodeUrl+'&type=2'
+            url: '/pages/consult/webpage/index?url=' + encodeUrl + '&type=2'
         })
-      
+
     },
     //点击问诊卡
-    onCustomIllnessMessageClick(e){
+    onCustomIllnessMessageClick(e) {
 
         let item = e.currentTarget.dataset.item;
         wx.navigateTo({
-            url: '/pages/consult/detail/index?rightsId=' + 60 + '&userId=' + this.data.config.userID + '&status=3' ,
+            url: '/pages/consult/detail/index?rightsId=' + this.data.tradeRemark.rightsId + '&userId=' + this.data.config.userID + '&status=3',
         })
     },
-    onVideoPlayClick(e){
+    onVideoPlayClick(e) {
         console.log(e)
-        var videoObj=e.currentTarget.dataset.item
+        var videoObj = e.currentTarget.dataset.item
         this.setData({
-            videoObj:videoObj,
-            showVideo:true,
+            videoObj: videoObj,
+            showVideo: true,
         })
         this.videoContext.requestFullScreen()
     },
-    onShowVideoBoxClick(){
+    onShowVideoBoxClick() {
         this.videoContext.stop()
-        this.setData({           
-            showVideo:false,
+        this.setData({
+            showVideo: false,
         })
     },
-    bindfullscreenchange(event){
-      
-        this.setData({           
-            showVideo:event.detail.fullScreen,
+    bindfullscreenchange(event) {
+
+        this.setData({
+            showVideo: event.detail.fullScreen,
         })
     },
 
- 
+
     //点击随访跟踪
     CustomWenJuanClickEvent(e) {
         var url = e.currentTarget.dataset.url
-        url = url + '?userId=' + this.data.config.userID+ '&execTime=' + Util.formatTime2(new Date())
+        url = url + '?userId=' + this.data.config.userID + '&execTime=' + Util.formatTime2(new Date())
         console.log(url)
         var encodeUrl = encodeURIComponent(url)
         console.log(encodeUrl)
@@ -589,13 +574,13 @@ sendwj() {
         })
 
     },
-   
+
 
     //点击选择时间
     CustomAppointmentTimeClickEvent(e) {
-        if(this.data.tradeAction == 'END'){
+        if (this.data.tradeAction == 'END') {
             return
-         }
+        }
         console.log(e)
         var time = e.currentTarget.dataset.item.data.timeArr
         var tradeId = e.currentTarget.dataset.item.data.tradeId
@@ -635,7 +620,7 @@ sendwj() {
 
         const res = await WXAPI.updateRightsRequestTime(postData)
         if (res.code === 0) {
-            console.log('确认时间',this.data.inquiryType)
+            console.log('确认时间', this.data.inquiryType)
             if (this.data.inquiryType == 'videoNum' || this.data.inquiryType == 'telNum') {
                 //视频和电话需要患者医生双方确认时间
                 wx.showToast({
@@ -643,11 +628,11 @@ sendwj() {
                 })
                 this.sendAppointmentTimeMessageEvent('确认时间', chooseTime)
             }
- 
+
 
         }
     },
-   
+
 
     //播放或暂停音频
     chatVoiceItemClickEvent(e) {
@@ -668,24 +653,24 @@ sendwj() {
      * @param e
      */
     onExtraItemClickEvent(e) {
-       
-       
+
+
         let chooseIndex = parseInt(e.detail.index);
         if (chooseIndex === 0) {//发送图片
             this.sendImageMessage()
-        } 
-       
+        }
+
 
     },
 
-   
+
 
     //发生文本消息
     onSendMessageEvent(e) {
         let content = e.detail.value;
         // 发送文本消息，Web 端与小程序端相同
         // 1. 创建消息实例，接口返回的实例可以上屏
-       
+
         let message = getApp().tim.createTextMessage({
             to: this.data.groupID,
             conversationType: TIM.TYPES.CONV_GROUP,
@@ -699,26 +684,26 @@ sendwj() {
     //发送图片消息
     sendImageMessage() {
         let that = this
- 
+
         wx.chooseMedia({
             mediaType: ['image'], // 图片
             sourceType: ['album', 'camera'], // 从相册选择
             count: 1, // 只选一张，目前 SDK 不支持一次发送多张图片
             success: function (res) {
                 console.log(res)
-                res.tempFilePaths=[res.tempFiles[0].tempFilePath]
-                           
-                
-              // 2. 创建消息实例，接口返回的实例可以上屏
-              let message = getApp().tim.createImageMessage({
-                to: that.data.groupID,
-                conversationType: TIM.TYPES.CONV_GROUP,
-                payload: { file: res},
-                onProgress: function(event) { console.log('file uploading:', event) }
-              });
-              that.sendMsg(message)
+                res.tempFilePaths = [res.tempFiles[0].tempFilePath]
+
+
+                // 2. 创建消息实例，接口返回的实例可以上屏
+                let message = getApp().tim.createImageMessage({
+                    to: that.data.groupID,
+                    conversationType: TIM.TYPES.CONV_GROUP,
+                    payload: { file: res },
+                    onProgress: function (event) { console.log('file uploading:', event) }
+                });
+                that.sendMsg(message)
             }
-          })
+        })
     },
     //发送视频消息
     sendVideoMessage() {
@@ -729,22 +714,22 @@ sendwj() {
             sourceType: ['album', 'camera'], // 来源相册或者拍摄
             maxDuration: 60, // 设置最长时间60s
             camera: 'back', // 后置摄像头
-            success (res) {
-              // 2. 创建消息实例，接口返回的实例可以上屏
-              let message = getApp().tim.createVideoMessage({
-                to: that.data.groupID,
-                conversationType: TIM.TYPES.CONV_GROUP,
-                payload: {
-                  file: res
-                },
-                // 消息自定义数据（云端保存，会发送到对端，程序卸载重装后还能拉取到，v2.10.2起支持）
-                // cloudCustomData: 'your cloud custom data'
-                // v2.12.2起，支持小程序端视频上传进度回调
-                onProgress: function(event) { console.log('file uploading:', event) }
-              })
-              that.sendMsg(message)
+            success(res) {
+                // 2. 创建消息实例，接口返回的实例可以上屏
+                let message = getApp().tim.createVideoMessage({
+                    to: that.data.groupID,
+                    conversationType: TIM.TYPES.CONV_GROUP,
+                    payload: {
+                        file: res
+                    },
+                    // 消息自定义数据（云端保存，会发送到对端，程序卸载重装后还能拉取到，v2.10.2起支持）
+                    // cloudCustomData: 'your cloud custom data'
+                    // v2.12.2起，支持小程序端视频上传进度回调
+                    onProgress: function (event) { console.log('file uploading:', event) }
+                })
+                that.sendMsg(message)
             }
-          })
+        })
     },
     //发送语音
     onVoiceRecordEvent(e) {
@@ -771,15 +756,15 @@ sendwj() {
         }
 
     },
-    
-    
+
+
     // 展示消息时间
     messageTimeForShow(messageTime) {
         const interval = 5 * 60;
         const nowTime = messageTime.time;
         if (this.data.chatItems && this.data.chatItems.length > 0) {
             const lastTime = this.data.chatItems.slice(-1)[0].time;
-            
+
             Object.assign(messageTime, {
                 isShowTime: nowTime - lastTime > interval,
             })
@@ -809,10 +794,10 @@ sendwj() {
         //技术原因 自定义消息先发送后上屏  其他消息先上屏后发送
         //非自定义消息
         if (message.type !== 'TIMCustomElem') {
-            
-              if(this.data.tradeRemark && this.data.tradeRemark.textNumLimit){
-                var dNum = this.data.tradeRemark.textNumLimit - this.data.textNumRecord
-              
+
+            if (this.data.tradeRemark && this.data.tradeRemark.serviceFrequency) {
+                var dNum = this.data.tradeRemark.serviceFrequency - this.data.textNumRecord
+
                 if (dNum < 1) {
                     wx.showToast({
                         icon: "none",
@@ -820,10 +805,10 @@ sendwj() {
                     })
                     return
                 }
-              }
-              
-                   
-           index = this.setOneItemAndScrollPage(message)
+            }
+
+
+            index = this.setOneItemAndScrollPage(message)
 
         }
         // 2. 发送消息
@@ -835,7 +820,7 @@ sendwj() {
                 index = that.setOneItemAndScrollPage(message)
             }
             that.updateChatItemStatus(index, "success")
-          
+
             //非自定义消息计数
             if (message.type !== 'TIMCustomElem') {
 
@@ -870,9 +855,9 @@ sendwj() {
             // 重发成功
             console.log(imResponse);
             that.updateChatItemStatus(index, "success")
-           
-              //非自定义消息计数
-              if (message.type !== 'TIMCustomElem') {
+
+            //非自定义消息计数
+            if (message.type !== 'TIMCustomElem') {
 
                 that.recordTradeTextNum()
             }
@@ -906,19 +891,19 @@ sendwj() {
      * @param {*} isScrollToBootom 是否滑动到底部
      * @param {*} isLoadmore true添加到头部 false添加到尾部
      */
-    setMultItemAndScrollPage(newItems, isIMReceived = false, isScrollToBootom = true,isLoadmore) {
-        if(newItems.length===0){
+    setMultItemAndScrollPage(newItems, isIMReceived = false, isScrollToBootom = true, isLoadmore) {
+        if (newItems.length === 0) {
             return
         }
         let that = this
         newItems.forEach(function (item, index) {
             //计算是否显示时间
-            if(isLoadmore){
-                item.isShowTime=true
-            }else{
+            if (isLoadmore) {
+                item.isShowTime = true
+            } else {
                 that.messageTimeForShow(item)
             }
-            
+
             if (item.type == "TIMCustomElem") {
 
                 item = that.getInfoFromCallMessage(item, isIMReceived)
@@ -928,13 +913,13 @@ sendwj() {
         })
 
         if (this.data.chatItems.length > 0) {
-            var mergeChatList=[]
-            if(isLoadmore){
-                 mergeChatList =newItems.concat(this.data.chatItems)
-            }else{
-                 mergeChatList = this.data.chatItems.concat(newItems)
+            var mergeChatList = []
+            if (isLoadmore) {
+                mergeChatList = newItems.concat(this.data.chatItems)
+            } else {
+                mergeChatList = this.data.chatItems.concat(newItems)
             }
-           
+
             this.setData({
                 chatItems: mergeChatList,
             });
@@ -971,51 +956,43 @@ sendwj() {
     //聊天状态
     updateChatStatus() {
         var content = ''
-       
-            if (this.data.tradeRemark ) {
-                var textNumContent=''
-                if(this.data.tradeRemark.textNumLimit){
-                    var dTextNum = parseInt(this.data.tradeRemark.textNumLimit) - this.data.textNumRecord
-                    if (dTextNum < 0) {
-                        dTextNum = 0
-                    }
-                    textNumContent = '当前剩余图文' + dTextNum + '条'
-                }else{
-                    dTextNum='无限'
-                    //不显示
+
+        if (this.data.tradeRemark) {
+            var textNumContent = ''
+            if (this.data.tradeRemark.serviceFrequency) {
+                var dTextNum = this.data.tradeRemark.serviceFrequency - this.data.textNumRecord
+                if (dTextNum < 0) {
+                    dTextNum = 0
                 }
-                
-                
-    
-                var second = parseInt(this.data.videoNumRecord % 60)
-                var min = parseInt(this.data.videoNumRecord / 60)
-                if (second > 30) {
-                    min = min + 1
-                }
-                var dTimeNum = parseInt(this.data.tradeRemark.timeLimit) - min
-    
-                if (dTimeNum < 0) {
-                    dTimeNum = 0
-                }
-    
-                if (this.data.inquiryType == 'videoNum') {
-                    content = '视频咨询:' + textNumContent + ' 剩余通话时长' + dTimeNum + '分钟'
-                } else if (this.data.inquiryType == 'telNum') {
-                    content = '电话咨询:' + textNumContent + ' 剩余通话时长' + dTimeNum + '分钟'
-                } else if (this.data.inquiryType == 'textNum') {
-                    content = '图文咨询:' + textNumContent
-                }
+                textNumContent = '剩余' + dTextNum + '次医生回复机会'
             }
-        
 
 
 
+            // var second = parseInt(this.data.videoNumRecord % 60)
+            // var min = parseInt(this.data.videoNumRecord / 60)
+            // if (second > 30) {
+            //     min = min + 1
+            // }
+            // var dTimeNum = parseInt(this.data.tradeRemark.timeLimit) - min
+
+            // if (dTimeNum < 0) {
+            //     dTimeNum = 0
+            // }
+
+            if (this.data.inquiryType == 'videoNum') {
+                content = textNumContent + ' 剩余通话时长' + dTimeNum + '分钟'
+            } else if (this.data.inquiryType == 'telNum') {
+                content = textNumContent + ' 剩余通话时长' + dTimeNum + '分钟'
+            } else if (this.data.inquiryType == 'textNum') {
+                content = textNumContent
+            }
+        }
 
         this.setData({
-            chatStatue: this.data.DocType,
-            chatStatusContent: content
+            bottomtext: content
         })
-  
+
     },
     resetInputStatus() {
         // this.chatInput.closeExtraView();
@@ -1023,56 +1000,29 @@ sendwj() {
     videoErrorCallback(e) {
         console.log('视频错误信息:')
         console.log(e)
-      },
-      bindwaiting(e){
+    },
+    bindwaiting(e) {
         console.log('视频出现缓冲时触发:')
         console.log(e)
-      },
-      bindloadedmetadata(e){
+    },
+    bindloadedmetadata(e) {
         console.log('视频元数据加载完成时触发:')
         console.log(e)
-      },
+    },
     getInfoFromCallMessage(item, isIMReceived = false) {
         try {
 
             var signalingData = JSON.parse(item.payload.data)
-         
+
             var type = signalingData.type
             if (type) {//自己业务的自定义消息
-                 if (type == 'CustomAnalyseMessage') {//问诊小结
-                    item.payload.customType = "CustomAnalyseMessage"
-
-                } else if (type == 'CustomHealthManageMessage') {//购买服务
-                    item.payload.customType = "CustomHealthManageMessage"
-
-                } else if (type == 'CustomHealthMessage') {//健康消息
-                    item.payload.customType = "CustomHealthMessage"
-
-                } else if (type == 'CustomUploadMessage') {//上传资料
-                    item.payload.customType = "CustomUploadMessage"
-
-                } else if (type == 'CustomVideoCallMessage') {//视频看诊
-                    item.payload.customType = "CustomVideoCallMessage"
-                    item.payload.isIMReceived = isIMReceived
-
-                } else if (type == 'CustomCaseHistoryMessage') {//就诊病历
-                    item.payload.customType = "CustomCaseHistoryMessage"
-
-                } else if (type == 'CustomWenJuanMessage') {//问卷调查
+                if (type == 'CustomWenJuanMessage') {//问卷卡
                     item.payload.customType = "CustomWenJuanMessage"
-                } else if (type == 'CustomArticleMessage') {//疾病知识
+                } else if (type == 'CustomArticleMessage') {//文章卡
                     item.payload.customType = "CustomArticleMessage"
-                } else if (type == 'CustomYuWenZhenMessage') {//预诊表单
-                    item.payload.customType = "CustomYuWenZhenMessage"
-                } else if (type == 'CustomIllnessMessage') {//病情概述
+                } else if (type == 'CustomIllnessMessage') {//问诊卡
                     item.payload.customType = "CustomIllnessMessage"
-                } else if (type == 'CustomDoctorChuFangMessage') { //电子处方/医生取消处方卡片   FengshikeIllnessMessage
-                    item.payload.customType = "CustomDoctorChuFangMessage"    
-                }else if (type == 'FengshikeIllnessMessage') { //风湿科问题概述  
-                    item.payload.customType = "FengshikeIllnessMessage"    
-                } else if (type == 'Fengshike2IllnessMessage') { //风湿科问题答复  
-                    item.payload.customType = "Fengshike2IllnessMessage"    
-                }  else if (type == 'CustomAppointmentTimeMessage') {//预约时间
+                } else if (type == 'CustomAppointmentTimeMessage') {//预约时间
                     item.payload.customType = "CustomAppointmentTimeMessage"
 
                     var timeArr = signalingData.time ? signalingData.time.split(",") : null
@@ -1083,50 +1033,31 @@ sendwj() {
                         }
                     })
                     signalingData.timeArr = timeArr2
-                  
-                } else if (type == 'CustomDoctorReceptionMessage') {//医生接诊
-                    item.payload.customType = "CustomDoctorReceptionMessage"
-                    if (signalingData.tradeId == this.data.tradeId) {
-                        this.setData({
-                            tradeAction:'START'
-                        })
-                    }
-                } else if (type == 'CustomDoctorRefuseMessage') {//医生拒诊
-                    item.payload.customType = "CustomDoctorRefuseMessage"
-                    console.log(signalingData.tradeId)
-                    console.log(this.data.tradeId)
-                    if (signalingData.tradeId == this.data.tradeId) {
-                        this.setData({
-                            tradeAction: 'REFUSED'
-                        })
+
+                } else {//解析其他消息 比如视频语音通话
+                    item.payload.description = "[自定义消息]"
+                    if (signalingData.businessID === 1) {
+                        var data = JSON.parse(signalingData.data)
+                        if (1 === data.call_type) {
+
+                            item.payload.description = "[语音通话]"
+                        } else if (2 === data.call_type) {
+
+                            item.payload.description = "[视频通话]"
+                        }
                     }
                 }
-                item.payload.data = signalingData
-            } else {//解析其他消息 比如视频语音通话
-                item.payload.description = "[自定义消息]"
-                if (signalingData.businessID === 1) {
-                    var data = JSON.parse(signalingData.data)
-                    if (1 === data.call_type) {
-
-                        item.payload.description = "[语音通话]"
-                    } else if (2 === data.call_type) {
-
-                        item.payload.description = "[视频通话]"
-                    }
-                }
-
-
             }
 
 
 
         } catch (error) {
             console.log(error)
-            if(item.payload.data == 'group_create'){
+            if (item.payload.data == 'group_create') {
                 item.payload.description = "医生创建房间"
-                
+
             }
-            
+
         }
         return item
 

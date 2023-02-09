@@ -183,14 +183,14 @@ Page({
             })
             return;
         }
-        if (that.data.cardNo.length <= 0) {
-            wx.showToast({
-                title: '请输入就诊卡号',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
-        }
+        // if (that.data.cardNo.length <= 0) {
+        //     wx.showToast({
+        //         title: '请输入就诊卡号',
+        //         icon: 'none',
+        //         duration: 1500
+        //     })
+        //     return;
+        // }
         // if (!Util.idValidator(identificationNo)) {
         //   wx.showToast({
         //     title: '身份证号码有误',

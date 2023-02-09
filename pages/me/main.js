@@ -97,17 +97,7 @@ avatarBinderror(e){
       url: '../home/health-records/index',
     })
   },
-  //健康记录
-  goRecordListPage(){
-      if(this.checkLoginStatus()){
-        if(getApp().getDefaultPatient()){
-            wx.navigateTo({
-                url: '../home/upload/recordList?userId='+this.data.defaultPatient.userId,
-              })
-        }
 
-      }
-  },
   goRecordPage() {
     wx.navigateTo({
       url: '../record/index',

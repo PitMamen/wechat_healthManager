@@ -2,7 +2,7 @@
 
     <view class="ordercard">
         <view class="card-top">
-            <image class="img" src="{{detail.frontImg}}" />
+            <image class="img" src="{{detail.frontImg}}" lazy-load="{{ true }}" mode="aspectFill"/>
             <view class="card-top-r">
             <view class="card-title">{{detail.commodityName}}</view>
             <view class="card-line"></view>

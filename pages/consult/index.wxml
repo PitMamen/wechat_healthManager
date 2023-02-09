@@ -30,7 +30,7 @@
 
     <view class="card-top">
         <view class="chat-item-head-super-style">
-            <image class="chat-head-style" src="{{item.doctorAvatarUrl}}" />
+            <image class="chat-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{item.doctorAvatarUrl}}" />
             <text wx:if="{{item.unreadCount && item.unreadCount>0}}" class="unread-style">{{item.unreadCount<=99?item.unreadCount:'99+'}} </text>
                     <view class="chat-item-status" style=" background: {{Module.formartStatus(item.status).background}};">{{item.status.description}}</view>
         </view>
@@ -80,18 +80,19 @@
 
 <view style="height: 30rpx;"></view>
 
-<view bindtap="bindTodoItemTap" data-item="{{item}}" class="card" wx:for="{{todoList}}" wx:key="1">
+<view   class="card" wx:for="{{todoList}}" wx:key="1">
 
 <view class="todo-card-top" >
-   <view class="cicle"></view>
+   <view wx:if="{{item.readStatus.value == 1}}" class="cicle"></view>
    <view class="todo-title">{{item.title}}</view>
    <view class="todo-date">{{computed.formatFullDate2(item.agencyDate)}}</view>
 </view>
 <view class="todo-content">{{item.content}}</view>
 <view style="height: 0.5px;background: #E6E6E6;margin-left: 30rpx;"></view>
 <view class="card-bottom">
-    <view class="btn-blue">  
-        <van-button style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">{{Module.formartTodoStatus(item.originalType.value)}}</van-button>
+    <view class="btn-blue">
+        <van-button wx:if="{{item.originalType.value == 1 || item.originalType.value == 2}}"  bindtap="goConsultDetail" data-item="{{item}}" bindtap="bindTodoItemEnterRoomTap" plain color="#3894FF" round type="info" size="small">进入诊室</van-button>  
+        <van-button  style="margin-left: 20rpx;" data-item="{{item}}" bindtap="bindTodoItemDetailTap" color="#3894FF" round type="info" size="small">{{Module.formartTodoStatus(item.originalType.value)}}</van-button>
     </view>
 
 </view>

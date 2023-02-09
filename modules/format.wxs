@@ -131,18 +131,7 @@ function formatRange(dateRange) {
         return formatDate(dateRange[0]) + ' - ' + formatDate(dateRange[1]);
     }
 }
-//预约
-function reservationType(type) {
-    if (type == 1) {
-        return '待就诊'
-    } else if (type == 2) {
-        return '视频就诊'
-    } else if (type == 3) {
-        return '处方病例'
-    } else if (type == 4) {
-        return '已完成'
-    }
-}
+
 //咨询图标
 function zixunType(type) {
     if (type === 'textNum') {
@@ -157,20 +146,7 @@ function zixunType(type) {
         return '/image/wdzx_hz@3x.png'
     }
 }
-//病床预约
-function bedType(type) {
-    if (type == 1) {
-        return '单人'
-    } else if (type == 2) {
-        return '双人间'
-    } else if (type == 3) {
-        return '三人间'
-    } else if (type == 4) {
-        return '四人间'
-    } else if (type == 5) {
-        return '五人间'
-    }
-}
+
 //我的订单
 function orderType(type) {
     if (type == 1) {
@@ -205,28 +181,6 @@ function sourceType(type) {
         return '无号'
     }
 }
-//号源
-function sourceTypeNew(num) {
-    if (num == 0) {
-        return '无号'
-    } else {
-        return '预约'
-    }
-}
-
-//健康记录类型
-function recordType(type) {
-    if (type == 'DailyRecord') {
-        return '日常记录'
-    } else if (type == 'Exam') {
-        return '检验单'
-    } else if (type == 'Check') {
-        return '检查单'
-    } else {
-        return '健康记录'
-    }
-}
-
 
 /*
 计划任务类型 V2
@@ -256,87 +210,7 @@ function taskTypeV2(type) {
 
     }
 }
-/*
-计划任务类型
-*/
-function taskType(type) {
-    if (type == 'Exam') { //检验单
-        var t = {
-            icon: '/image/jh_icon_jyd.png',
-            title: '检验单'
-        }
-        return t;
 
-    } else if (type == 'Check') { //检查单
-        var t = {
-            icon: '/image/jh_icon_jcd.png',
-            title: '检查单'
-        }
-        return t;
-
-    } else if (type == 'Quest') { //问卷
-        var t = {
-            icon: '/image/jh_icon_wj.png',
-            title: '健康问卷'
-
-        }
-        return t;
-
-    } else if (type == 'DailyRecord') { //日常记录
-        var t = {
-            icon: '/image/jh_icon_rcjl.png',
-            title: '日常记录',
-
-        }
-        return t;
-
-    } else if (type == 'Knowledge') { //文章
-        var t = {
-            icon: '/image/jh_icon_xj.png',
-            title: '健康宣教',
-        }
-        return t;
-
-    } else if (type == 'Remind') { //消息
-        var t = {
-            icon: '/image/jh_icon_fz.png',
-            title: '健康提醒',
-        }
-        return t;
-
-    } else if (type == 'Evaluate') { //评估
-        var t = {
-            icon: '/image/jh_icon_fz.png',
-            title: '健康评估',
-        }
-        return t;
-
-    } else if (type == 'Rdiagnosis') { //复诊提醒
-        var t = {
-            icon: '/image/fztx.png',
-            title: '复诊提醒',
-            btnText: '进入'
-        }
-        return t;
-
-    } else if (type == 'appointNum') { //复诊开方
-        var t = {
-            icon: '/image/jh_icon_fzkf.png',
-            title: '复诊开方',
-            btnText: '进入'
-        }
-        return t;
-
-    } else if (type == 'Ddiagnosis') { //用药提醒
-        var t = {
-            icon: '/image/time.png',
-            title: '用药提醒',
-            btnText: '进入'
-        }
-        return t;
-
-    }
-}
 /*首页我的待办
  */
 function taskType2(type, execFlag) {
@@ -417,16 +291,6 @@ function taskType2(type, execFlag) {
 }
 
 
-function periondTime(type) {
-    if (type == 'SW') {
-        return '上午'
-    } else if (type == 'XW') {
-        return '下午'
-    } else {
-        return ''
-    }
-}
-
 function planType(type) {
     if (type == 'Check') {
         return '检&ensp;查&ensp;单'
@@ -505,17 +369,12 @@ module.exports = {
 
     formatMultiple: formatMultiple,
     formatRange: formatRange,
-    reservationType: reservationType,
     orderType: orderType,
     myOrderType: myOrderType,
     sourceType: sourceType,
     countDown: countDown,
-    periondTime: periondTime,
     phoneReplace: phoneReplace,
-    recordType: recordType,
-    taskType: taskType,
     taskType2: taskType2,
-    bedType: bedType,
     planType: planType,
     orderNum: orderNum,
     dateSub: dateSub,

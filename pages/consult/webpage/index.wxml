@@ -1,8 +1,8 @@
 
 
 <web-view  src="{{url}}"></web-view>
-<view  class="safe-bottom-box">
+<!-- <view  class="safe-bottom-box">
   <van-button  type="primary" color="#367BF5"  block bind:click="apply">返回诊室</van-button>
-</view>
+</view> -->
 
 
