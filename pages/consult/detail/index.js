@@ -1,5 +1,6 @@
 const WXAPI = require('../../../static/apifm-wxapi/index')
 const Util = require('../../../utils/util')
+const IMUtil = require('../../../utils/IMUtil')
 Page({
 
     /**
@@ -123,7 +124,15 @@ Page({
     },
     //查询历史咨询
     onHistroyBtnClick(){
-        IMUtil.goGroupChat(this.data.detail.userId,  'navigateTo', item.imGroupId, 'textNum',item.tradeId, 'END')  
+        if (this.checkLoginStatus()) {
+            if (getApp().globalData.sdkReady) {
+                if(this.data.detail.imGroupId && this.data.detail.rightsUseRecordStatus && this.data.detail.rightsUseRecordStatus.id){
+                    IMUtil.goGroupChat(this.data.detail.userId,  'navigateTo', this.data.detail.imGroupId, 'textNum',this.data.detail.rightsUseRecordStatus.id, 'END') 
+                }
+            }
+        }
+        
+ 
     },
     //图片预览
     onImageTap: function (e) {
@@ -157,6 +166,28 @@ Page({
         this.setData({
             hidePoupShow: true
         })
+    },
+    checkLoginStatus() {
+
+        if (getApp().globalData.loginReady) {
+            return true
+        } else {
+            wx.showModal({
+                title: '提示',
+                content: '此功能需要登录',
+                confirmText: '去登录',
+                cancelText: '取消',
+                success(res) {
+                    if (res.confirm) {
+                        wx.navigateTo({
+                            url: '/pages/login/auth',
+                        })
+                    }
+                }
+            })
+            return false
+        }
+
     },
     /**
      * 生命周期函数--监听页面隐藏

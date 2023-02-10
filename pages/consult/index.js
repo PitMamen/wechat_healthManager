@@ -1,8 +1,6 @@
 const WXAPI = require('../../static/apifm-wxapi/index')
 const IMUtil = require('../../utils/IMUtil')
-const Config = require('../../utils/config')
-const Util = require('../../utils/util')
-const APP = getApp()
+
 import bus from '../../utils/EventBus.js'
 Page({
 
@@ -12,7 +10,7 @@ Page({
      */
     data: {
         appointList: [],
-        conversationIDList:[],
+        conversationIDList: [],
         todoList: [],
         active: '0',
         unreadConsult: 0,
@@ -22,13 +20,13 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
- //监听机构切换
- bus.on('consultUpdate', (msg) => {
-    // 支持多参数
-    console.log("监听consultUpdate", msg)
+        //监听机构切换
+        bus.on('consultUpdate', (msg) => {
+            // 支持多参数
+            console.log("监听consultUpdate", msg)
 
-    this.getConversationList()
-})
+            this.getConversationList()
+        })
     },
 
     /**
@@ -50,42 +48,42 @@ Page({
         })
 
     },
-  //获取待办列表
-  async getInquiriesAgencyList() {
-    const res = await WXAPI.getInquiriesAgencyList({
-        "pageNo": 1,
-        "pageSize": 9999
-      })
-    if (res.code == 0 && res.data && res.data.records && res.data.records.length>0) {                
+    //获取待办列表
+    async getInquiriesAgencyList() {
+        const res = await WXAPI.getInquiriesAgencyList({
+            "pageNo": 1,
+            "pageSize": 9999
+        })
+        if (res.code == 0 && res.data && res.data.records && res.data.records.length > 0) {
             this.setData({
                 todoList: res.data.records,
             })
-       
-    } else {
-        this.setData({
-            todoList: []
-        })
-    }
 
-},
+        } else {
+            this.setData({
+                todoList: []
+            })
+        }
+
+    },
     //获取问诊列表
     async getConsultList() {
         const res = await WXAPI.getConsultList()
-        if (res.code == 0 && res.data && res.data.length>0) {        
-            var conversationIDList=[]
-                res.data.forEach(item=>{
-                    item.conversationID='GROUP'+item.imGroupId
-                    if(item.imGroupId){
-                        conversationIDList.push(item.conversationID)
-                    }                
-                })
-                
-                this.setData({
-                    conversationIDList:conversationIDList,
-                    appointList: res.data,
-                })
-                this.getConversationList()
-                     
+        if (res.code == 0 && res.data && res.data.length > 0) {
+            var conversationIDList = []
+            res.data.forEach(item => {
+                item.conversationID = 'GROUP' + item.imGroupId
+                if (item.imGroupId) {
+                    conversationIDList.push(item.conversationID)
+                }
+            })
+
+            this.setData({
+                conversationIDList: conversationIDList,
+                appointList: res.data,
+            })
+            this.getConversationList()
+
         } else {
             this.setData({
                 appointList: []
@@ -93,34 +91,34 @@ Page({
         }
 
     },
-    
+
     //获取问诊列表的未读数
     getConversationList() {
-        if(this.data.conversationIDList.length==0){
+        if (this.data.conversationIDList.length == 0) {
             return
         }
         console.log(this.data.conversationIDList)
         if (getApp().globalData.sdkReady) {
-            var appointList=this.data.appointList
+            var appointList = this.data.appointList
             // 获取指定的会话列表
             let promise = getApp().tim.getConversationList(this.data.conversationIDList);
-            let that=this
+            let that = this
             promise.then(function (imResponse) {
                 const conversationList = imResponse.data.conversationList; // 缓存中已存在的指定的会话列表
-                console.log("获取指定的会话列表",conversationList)
-                var num=0
-                if(conversationList && conversationList.length>0){
-                    for(var i=0;i<conversationList.length;i++){
-                        for(var j=0;j<appointList.length;j++){
-                            if( conversationList[i].conversationID == appointList[j].conversationID){
-                                appointList[j].unreadCount= conversationList[i].unreadCount
-                                num=num+conversationList[i].unreadCount
+                console.log("获取指定的会话列表", conversationList)
+                var num = 0
+                if (conversationList && conversationList.length > 0) {
+                    for (var i = 0; i < conversationList.length; i++) {
+                        for (var j = 0; j < appointList.length; j++) {
+                            if (conversationList[i].conversationID == appointList[j].conversationID) {
+                                appointList[j].unreadCount = conversationList[i].unreadCount
+                                num = num + conversationList[i].unreadCount
                             }
                         }
                     }
                     that.setData({
-                        appointList:appointList,
-                        unreadConsult:num
+                        appointList: appointList,
+                        unreadConsult: num
                     })
                 }
             }).catch(function (imError) {
@@ -144,52 +142,66 @@ Page({
 
     },
     //待办事项 进入诊室
-    bindTodoItemEnterRoomTap(e){
+    bindTodoItemEnterRoomTap(e) {
         var item = e.currentTarget.dataset.item
-        if(item.imGroupId){
-            IMUtil.goGroupChat(item.userId,  'navigateTo', item.imGroupId, 'textNum',item.tradeId, 'START')
+
+        if (this.checkLoginStatus()) {
+            if (getApp().globalData.sdkReady) {
+                if (item.imGroupId) {
+                    IMUtil.goGroupChat(item.userId, 'navigateTo', item.imGroupId, 'textNum', item.tradeId, 'START')
+                }
+            }
         }
-        if(item.originalType.value !== 1 && item.originalType.value !== 2){  //不是问卷和文章 设置已读
+        if (item.originalType.value !== 1 && item.originalType.value !== 2) {  //不是问卷和文章 设置已读
             this.setInquiriesAgencyRead(item)
         }
     },
     //待办事项 详情
-    bindTodoItemDetailTap(e){
+    bindTodoItemDetailTap(e) {
         var item = e.currentTarget.dataset.item
-        if(item.originalType.value == 1){
+        if (item.originalType.value == 1) {
             //问卷 提交问卷后后台会设置已读和发送卡片
             this.goWebPage(1, item.jumpUrl)
-        }else if(item.originalType.value == 2){
+        } else if (item.originalType.value == 2) {
             //文章
-            this.goWebPage(2,item.jumpUrl)
+            this.goWebPage(2, item.jumpUrl)
             //设置已读
             this.setInquiriesAgencyRead(item)
-        }else {
-            if(item.imGroupId){
-                IMUtil.goGroupChat(item.userId,  'navigateTo', item.imGroupId, 'textNum',item.tradeId, 'START')            
+        } else {
+            if (this.checkLoginStatus()) {
+                if (getApp().globalData.sdkReady) {
+                    if (item.imGroupId) {
+                        IMUtil.goGroupChat(item.userId, 'navigateTo', item.imGroupId, 'textNum', item.tradeId, 'START')
+                    }
+                }
             }
+
             this.setInquiriesAgencyRead(item)
         }
     },
-     //问卷 文章 详情
-     goWebPage(type,url) {
+    //问卷 文章 详情
+    goWebPage(type, url) {
         var encodeUrl = encodeURIComponent(url)
         wx.navigateTo({
-            url: './webpage/index?url=' + encodeUrl+'&type='+type
+            url: './webpage/index?url=' + encodeUrl + '&type=' + type
         })
     },
-     //设置已读
-     setInquiriesAgencyRead(item) {
-         if(item.readStatus.value == 1){
+    //设置已读
+    setInquiriesAgencyRead(item) {
+        if (item.readStatus.value == 1) {
             WXAPI.setInquiriesAgencyRead(id)
-         }
-        
+        }
+
     },
     //进入诊室
     enterRoom(e) {
         var info = e.currentTarget.dataset.item
-      
-        IMUtil.goGroupChat(info.userId,  'navigateTo', info.imGroupId, 'textNum', info.lastUseRecordId, 'START')
+        if (this.checkLoginStatus()) {
+            if (getApp().globalData.sdkReady) {
+                IMUtil.goGroupChat(info.userId, 'navigateTo', info.imGroupId, 'textNum', info.lastUseRecordId, 'START')
+            }
+        }
+
     },
     //再次购买
     bugAgain(e) {
@@ -219,7 +231,7 @@ Page({
                     // wx.navigateTo({
                     //     url: '/packageIM/pages/chat/AIChat',
                     // })
-                    IMUtil.goGroupChat(1447,  'navigateTo', '@TGS#1ZV5FEHME', 'textNum', 20, 'START')
+                    IMUtil.goGroupChat(1447, 'navigateTo', '@TGS#1ZV5FEHME', 'textNum', 20, 'START')
                 }
             }
         }

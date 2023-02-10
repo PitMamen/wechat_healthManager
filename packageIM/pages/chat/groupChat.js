@@ -39,7 +39,7 @@ Page({
             description: '发送图片'
         }],
         topArr: [],
-        bottomtext: ''
+        bottomChatStatus: ''
     },
 
     /**
@@ -95,9 +95,13 @@ Page({
 
     //查询使用中的权益详情
     qryRightsUseRecord() {
+        if(!this.data.tradeId){
+            return
+        }
         WXAPI.qryRightsUseRecord({ id: this.data.tradeId }).then(res => {
             this.setData({
-                tradeRemark: res.data[0]
+                tradeRemark: res.data[0],
+                textNumRecord: res.data[0].usedServiceFrequency || 0
             })
             wx.setNavigationBarTitle({
                 title: res.data[0].docName+'团队'
@@ -224,6 +228,7 @@ Page({
                 }
             });
             that.setMultItemAndScrollPage(newItems, true, true, false)
+            that.
             // 将某会话下所有未读消息已读上报
             getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
         };
@@ -449,55 +454,19 @@ Page({
     },
 
 
-
-
-    //查询当前工单图文咨询计数条数
-    async qryTextNumRecord() {
-        if (!this.data.tradeId) {
-            return
-        }
-        const postData = {
-            dealType: 'USED_TEXTNUM',
-            tradeId: this.data.tradeId,
-            userId: this.data.config.userID
-        }
-        const res = await WXAPI.qryRightsUserLog(postData)
-
-        if (res.code === 0 && res.data.length > 0) {
-            //有记录
-            this.setData({
-                textNumRecord: Number(res.data[0].dealResult)
-            })
-
-        }
+//查询剩余条数
+qryTextNumRecord() {
+    if (!this.data.tradeId) {
+        return
+    }
+    WXAPI.qryRightsUseRecord({ id: this.data.tradeId }).then(res => {
+        this.setData({
+            textNumRecord: res.data[0].usedServiceFrequency || 0
+        })
         this.updateChatStatus()
-    },
+    })
 
-    //图文咨询计数
-    async recordTradeTextNum() {
-
-        if (!this.data.tradeId) {
-            return
-        }
-        if (!this.data.tradeRemark.serviceFrequency) {
-            return
-        }
-        const postData = {
-            tradeId: this.data.tradeId,
-            userId: this.data.config.userID
-        }
-        const res = await WXAPI.recordTradeTextNum(postData)
-
-        if (res.code === 0) {
-            this.setData({
-                textNumRecord: res.data.dealResult
-            })
-            this.updateChatStatus()
-        }
-
-    },
-
-
+},
 
     //图预览
     imageClickEvent(e) {
@@ -821,11 +790,6 @@ Page({
             }
             that.updateChatItemStatus(index, "success")
 
-            //非自定义消息计数
-            if (message.type !== 'TIMCustomElem') {
-
-                that.recordTradeTextNum()
-            }
 
         }).catch(function (imError) {
             // 发送失败
@@ -856,11 +820,7 @@ Page({
             console.log(imResponse);
             that.updateChatItemStatus(index, "success")
 
-            //非自定义消息计数
-            if (message.type !== 'TIMCustomElem') {
-
-                that.recordTradeTextNum()
-            }
+           
         }).catch(function (imError) {
             // 重发失败
             console.warn('resendMessage error:', imError);
@@ -953,7 +913,7 @@ Page({
 
         return length - 1;
     },
-    //聊天状态
+    //更新聊天状态 条数
     updateChatStatus() {
         var content = ''
 
@@ -990,7 +950,7 @@ Page({
         }
 
         this.setData({
-            bottomtext: content
+            bottomChatStatus: content
         })
 
     },

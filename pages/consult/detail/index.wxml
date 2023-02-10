@@ -71,7 +71,7 @@
 </view>
 
 <!-- 服务中已结束可以查看记录 -->
-<view wx:if="{{isUsed && (status==1 || status==4)}}" class="history-tag" bindtap="onHistroyBtnClick">
+<view wx:if="{{isUsed && (status==1  || status==4)}}" class="history-tag" bindtap="onHistroyBtnClick">
     <view style="margin-left: 25rpx;margin-top: 2rpx;">查看交</view>
     <view style="margin-left: 25rpx;">流记录</view>
 </view>
