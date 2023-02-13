@@ -105,7 +105,7 @@ input {
     position: absolute;
     right: 0;
     bottom: 0;
-
+    opacity: 1;
 
 }
 
@@ -124,7 +124,7 @@ input {
     border-radius: 8rpx;
     background: #3894FF;
     color: white;
-
+    opacity:1;
 }
 
 .extra-btn-add {

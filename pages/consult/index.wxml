@@ -3,101 +3,101 @@
     <view id="tabs" class="tabs">
         <van-tabs color="#0379FF" title-active-color="#0379FF" swipeable line-width="33px" bind:click="onTabsChange" custom-class="" active="{{ active }}">
             <van-tab title="我的问诊" name="0" info="{{unreadConsult>0?unreadConsult:''}}" />
-            <van-tab title="待办事项" name="1" info="{{todoList.length>0 ?todoList.length:''}}" />
+            <van-tab title="待办事项" name="1" info="{{unreadTodo>0 ?unreadTodo:''}}" />
         </van-tabs>
     </view>
 </van-sticky>
 <block wx:if="{{active=='0'}}">
 
-<view style="height: 30rpx;"></view>
-<view class="ai-card" bindtap="goIMPage">
-    <view class="ai-img">
-        <image src="/image/ai_icon.png" style="width: 70rpx;height: 70rpx;"></image>
-    </view>
-    <view class="ai-name">
-        <view style="font-size: 36rpx;color: #1A1A1A; margin-bottom: 12rpx;">
-            AI咨询
+    <view style="height: 30rpx;"></view>
+    <view class="ai-card" bindtap="goIMPage">
+        <view class="ai-img">
+            <image src="/image/ai_icon.png" style="width: 70rpx;height: 70rpx;"></image>
         </view>
-        <view>
-            可智能回复您的健康问题
+        <view class="ai-name">
+            <view style="font-size: 36rpx;color: #1A1A1A; margin-bottom: 12rpx;">
+                AI咨询
+            </view>
+            <view>
+                可智能回复您的健康问题
+            </view>
         </view>
+        <van-button class="ai-btn" color="#3894FF" round type="info" size="small">进入诊室</van-button>
     </view>
-    <van-button class="ai-btn" color="#3894FF" round type="info" size="small">进入诊室</van-button>
-</view>
-<van-empty wx:if="{{ !appointList || appointList.length == 0 }}" description="暂无数据" />
+    <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" description="暂无数据" />
 
-<view bindtap="bindItemTap" data-item="{{item}}" class="card" wx:for="{{appointList}}" wx:key="1">
+    <view bindtap="bindItemTap" data-item="{{item}}" class="card" wx:for="{{appointList}}" wx:key="1">
 
-    <view class="card-top">
-        <view class="chat-item-head-super-style">
-            <image class="chat-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{item.doctorAvatarUrl}}" />
-            <text wx:if="{{item.unreadCount && item.unreadCount>0}}" class="unread-style">{{item.unreadCount<=99?item.unreadCount:'99+'}} </text>
-                    <view class="chat-item-status" style=" background: {{Module.formartStatus(item.status).background}};">{{item.status.description}}</view>
+        <view class="card-top">
+            <view class="chat-item-head-super-style">
+                <image class="chat-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{item.doctorAvatarUrl}}" />
+                <text wx:if="{{item.unreadCount && item.unreadCount>0}}" class="unread-style">{{item.unreadCount<=99?item.unreadCount:'99+'}} </text>
+                        <view class="chat-item-status" style=" background: {{Module.formartStatus(item.status).background}};">{{item.status.description}}</view>
+            </view>
+            <view class="name-view">
+                <view class="name-view-top">
+                    <view>领衔医生：</view>
+                    <view class="commodity-class" style="font-size: 32rpx;color: #1A1A1A; margin-right: 12rpx;">{{item.doctorUserName}}</view>
+                    <view>{{item.professionalTitle}}</view>
+                </view>
+                <view style="margin-top: 10rpx;">
+                    {{item.hospitalName}} {{item.subjectClassifyName}}
+                </view>
+
+                <view class="name-view-top" style="margin-top: 10rpx;">
+                    <view>就诊人：{{item.userName}}</view>
+                    <view class="commodity-class" style="margin-left: 12rpx;">{{item.commodityName}}</view>
+                </view>
+            </view>
         </view>
-        <view class="name-view">
-            <view class="name-view-top">
-                <view>领衔医生：</view>
-                <view class="commodity-class" style="font-size: 32rpx;color: #1A1A1A; margin-right: 12rpx;">{{item.doctorUserName}}</view> 
-                <view>{{item.professionalTitle}}</view>
-            </view>
-            <view style="margin-top: 10rpx;">
-                {{item.hospitalName}} {{item.subjectClassifyName}}
-            </view>
-           
-            <view class="name-view-top" style="margin-top: 10rpx;">
-                <view>就诊人：{{item.userName}}</view>
-                <view class="commodity-class" style="margin-left: 12rpx;">{{item.commodityName}}</view>
-            </view>
-        </view>
-    </view>
-    <view style="height: 0.5px;background: #E6E6E6;margin-left: 30rpx;"></view>
-    <view class="card-bottom">
-        <view wx:if="{{item.status.value==1}}" class="right-tag-view">
+        <view style="height: 0.5px;background: #E6E6E6;margin-left: 30rpx;"></view>
+        <view class="card-bottom">
+            <view wx:if="{{item.status.value==1}}" class="right-tag-view">
                 <block wx:for="{{item.leftRightItems}}" wx:key="12" wx:for-item="rightItem">
-                    <view wx:if="{{rightItem.surplusQuantity>0 && rightItem.projectType == 101}}"  class="tag-blue">{{rightItem.rightsItemName}}*{{rightItem.surplusQuantity}}</view>
-                    <view wx:if="{{rightItem.surplusQuantity>0 && rightItem.projectType == 102}}"  class="tag-green">{{rightItem.rightsItemName}}*{{rightItem.surplusQuantity}}</view>
-                    <view wx:if="{{rightItem.surplusQuantity>0 && rightItem.projectType == 103}}"  class="tag-yellow">{{rightItem.rightsItemName}}*{{rightItem.surplusQuantity}}</view>
+                    <view wx:if="{{rightItem.surplusQuantity>0 && rightItem.projectType == 101}}" class="tag-blue">{{rightItem.rightsItemName}}*{{rightItem.surplusQuantity}}</view>
+                    <view wx:if="{{rightItem.surplusQuantity>0 && rightItem.projectType == 102}}" class="tag-green">{{rightItem.rightsItemName}}*{{rightItem.surplusQuantity}}</view>
+                    <view wx:if="{{rightItem.surplusQuantity>0 && rightItem.projectType == 103}}" class="tag-yellow">{{rightItem.rightsItemName}}*{{rightItem.surplusQuantity}}</view>
                 </block>
 
-           
-           
-        </view>
 
-        <view class="btn-blue">
-            <van-button wx:if="{{item.status.value !==3 }}"  bindtap="goConsultDetail" data-item="{{item}}" plain color="#3894FF" round type="info" size="small">问诊详情</van-button>
-            <van-button wx:if="{{item.status.value==3}}" bindtap="enterRoom" data-item="{{item}}" style="margin-left: 20rpx;"  color="#3894FF" round type="info" size="small">进入诊室</van-button>
-            <van-button wx:if="{{item.status.value==1}}" bindtap="goApplyRights" data-item="{{item}}" style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">使用权益</van-button>
-            <van-button wx:if="{{item.status.value==4}}" bindtap="bugAgain" data-item="{{item}}" style="margin-left: 20rpx;"  color="#3894FF" round type="info" size="small">申请复诊</van-button>
+
+            </view>
+
+            <view class="btn-blue">
+                <van-button wx:if="{{item.status.value !==3 }}" bindtap="goConsultDetail" data-item="{{item}}" plain color="#3894FF" round type="info" size="small">问诊详情</van-button>
+                <van-button wx:if="{{item.status.value==3}}" bindtap="enterRoom" data-item="{{item}}" style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">进入诊室</van-button>
+                <van-button wx:if="{{item.status.value==1}}" bindtap="goApplyRights" data-item="{{item}}" style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">使用权益</van-button>
+                <van-button wx:if="{{item.status.value==4}}" bindtap="bugAgain" data-item="{{item}}" style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">申请复诊</van-button>
+            </view>
+
         </view>
 
     </view>
-
-</view>
 
 </block>
 
 <block wx:if="{{active=='1'}}">
 
-<view style="height: 30rpx;"></view>
+    <view style="height: 30rpx;"></view>
+    <van-empty wx:if="{{ !todoList || todoList.length == 0 }}" description="暂无数据" />
+    <view class="card" wx:for="{{todoList}}" wx:key="1">
 
-<view   class="card" wx:for="{{todoList}}" wx:key="1">
+        <view class="todo-card-top">
+            <view wx:if="{{item.readStatus.value == 1}}" class="cicle"></view>
+            <view class="todo-title">{{item.title}}</view>
+            <view class="todo-date">{{computed.formatFullDate2(item.agencyDate)}}</view>
+        </view>
+        <view class="todo-content">{{item.content}}</view>
+        <view style="height: 0.5px;background: #E6E6E6;margin-left: 30rpx;"></view>
+        <view class="card-bottom">
+            <view class="btn-blue">
+                <van-button wx:if="{{item.originalType.value == 1 || item.originalType.value == 2}}" bindtap="goConsultDetail" data-item="{{item}}" bindtap="bindTodoItemEnterRoomTap" plain color="#3894FF" round type="info" size="small">进入诊室</van-button>
+                <van-button style="margin-left: 20rpx;" data-item="{{item}}" bindtap="bindTodoItemDetailTap" color="#3894FF" round type="info" size="small">{{Module.formartTodoStatus(item.originalType.value)}}</van-button>
+            </view>
 
-<view class="todo-card-top" >
-   <view wx:if="{{item.readStatus.value == 1}}" class="cicle"></view>
-   <view class="todo-title">{{item.title}}</view>
-   <view class="todo-date">{{computed.formatFullDate2(item.agencyDate)}}</view>
-</view>
-<view class="todo-content">{{item.content}}</view>
-<view style="height: 0.5px;background: #E6E6E6;margin-left: 30rpx;"></view>
-<view class="card-bottom">
-    <view class="btn-blue">
-        <van-button wx:if="{{item.originalType.value == 1 || item.originalType.value == 2}}"  bindtap="goConsultDetail" data-item="{{item}}" bindtap="bindTodoItemEnterRoomTap" plain color="#3894FF" round type="info" size="small">进入诊室</van-button>  
-        <van-button  style="margin-left: 20rpx;" data-item="{{item}}" bindtap="bindTodoItemDetailTap" color="#3894FF" round type="info" size="small">{{Module.formartTodoStatus(item.originalType.value)}}</van-button>
+        </view>
+
     </view>
-
-</view>
-
-</view>
 </block>
 <wxs module="Module">
     //咨询不同状态
@@ -130,18 +130,18 @@
     }
 
 
-      //待办不同状态
-      function formartTodoStatus(type) {
+    //待办不同状态
+    function formartTodoStatus(type) {
         if (type == 1) {
             return '去填写'
         } else if (type == 2) {
             return '去阅读'
         } else {
             return '去交流'
-        } 
+        }
     }
     module.exports = {
         formartStatus: formartStatus,
-        formartTodoStatus:formartTodoStatus
+        formartTodoStatus: formartTodoStatus
     };
 </wxs>

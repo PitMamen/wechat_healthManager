@@ -1305,7 +1305,7 @@ module.exports =
                     //权益使用记录查询
                     qryRightsUseRecord: function qryRightsUseRecord(data) {                       
                         var url = MEDICAL_SERVICE + '/rightsUse/qryRightsUseRecord'
-                        return request(url, 'post', data, true);
+                        return request2(url, 'post', data, true);
                     },
                 };
 

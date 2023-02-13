@@ -13,7 +13,7 @@ Page({
         showChatInput: true,
         hideTimeShow: true,
         config: {},
-        toAvatar: '../../../image/avatar.png',//聊天对象头像
+        toAvatar: '../../../image/docheader.png',//聊天对象头像
         myAvatar: '../../../image/avatar.png',//自己头像
         conversationID: '',//聊天会话ID
         groupID: '',//群ID
@@ -39,7 +39,9 @@ Page({
             description: '发送图片'
         }],
         topArr: [],
-        bottomChatStatus: ''
+        bottomChatStatus: '',
+        showTextPop: false,//文本消息点击放大
+        showText: '',//文本消息点击放大
     },
 
     /**
@@ -69,8 +71,8 @@ Page({
             tradeAction: options.tradeAction,
 
         })
-        this.getGroupProfile()
         this.qryRightsUseRecord()
+        this.getGroupProfile()
         this.getMessageList()
         this.voiceManager = new voiceManager(this)
         this.onIMReceived()
@@ -81,46 +83,47 @@ Page({
             })
         }
 
-        //禁止截屏录屏
-        wx.setVisualEffectOnCapture({
-            visualEffect: 'hidden',
-            success: function (res) {
+        // //禁止截屏录屏
+        // wx.setVisualEffectOnCapture({
+        //     visualEffect: 'hidden',
+        //     success: function (res) {
 
-            },
-        })
+        //     },
+        // })
     },
     onShow: function (e) {
         console.log("chat page: onShow")
     },
 
     //查询使用中的权益详情
-    qryRightsUseRecord() {
-        if(!this.data.tradeId){
+    async qryRightsUseRecord() {
+        if (!this.data.tradeId) {
             return
         }
-        WXAPI.qryRightsUseRecord({ id: this.data.tradeId }).then(res => {
+        const res = await WXAPI.qryRightsUseRecord({ id: this.data.tradeId })
+        if (res.code == 0) {
             this.setData({
                 tradeRemark: res.data[0],
                 textNumRecord: res.data[0].usedServiceFrequency || 0
             })
             wx.setNavigationBarTitle({
-                title: res.data[0].docName+'团队'
+                title: res.data[0].docName + '团队'
             });
-            var status= res.data[0].status
-            var tradeAction=''
+            var status = res.data[0].status
+            var tradeAction = ''
             //工单进程 CONFIRM:确认  REFUSED:已拒诊  START:开始咨询 END:已完成
             //2待接诊 3问诊中 4已结束 5已中止（拒诊等）
-            if(status == 2){
-                tradeAction='CONFIRM'
-            }else if(status == 3){
-                tradeAction='START'
-            }else if(status == 4){
-                tradeAction='END'
-            }else if(status == 5){
-                tradeAction='REFUSED'
+            if (status == 2) {
+                tradeAction = 'CONFIRM'
+            } else if (status == 3) {
+                tradeAction = 'START'
+            } else if (status == 4) {
+                tradeAction = 'END'
+            } else if (status == 5) {
+                tradeAction = 'REFUSED'
             }
             this.setData({
-                tradeAction: tradeAction 
+                tradeAction: tradeAction
             })
             if (this.data.tradeAction == 'END') {
                 this.setData({
@@ -128,15 +131,16 @@ Page({
                 })
             }
             this.updateChatStatus()
-        })
+        }
 
     },
-    //发生文病情简介
+    //发生文病情简介 测试
     sendIllnessMessageEvent() {
 
         var sendData = {
             type: 'CustomIllnessMessage',
             title: '问诊卡',
+            description: '问诊卡',
             userInfo: '张三 男 32岁',
             content: '案件假的假的假的假的假的假的',
             imageList: 'http://develop.mclouds.org.cn:8009/content-api/file/I20230202153528098W8RSM7Q8XLIYCJ-HPhvBnOOtdcibb66ed1cf3561a9782b4a764535f0bbb.png',
@@ -157,56 +161,7 @@ Page({
 
         this.sendMsg(message)
     },
-    //发文章
-    sendwz() {
 
-        var sendData = {
-            content: '如何正确使用胰岛素？',
-            description: '文章卡',
-            id: 1,
-            title: '文章卡',
-            type: 'CustomArticleMessage',
-            url: 'http://192.168.1.121:8087/#/pages/article?id=1'
-        }
-
-        let message = getApp().tim.createCustomMessage({
-            to: this.data.groupID,
-            conversationType: TIM.TYPES.CONV_GROUP,
-            payload: {
-                data: JSON.stringify(sendData),
-                description: '文章卡',
-                extension: ''
-
-            },
-        });
-
-        this.sendMsg(message)
-    },
-    //发问卷
-    sendwj() {
-
-        var sendData = {
-            description: '问卷卡',
-            id: 1,
-            name: '出院后健康情况调查问卷',
-            type: 'CustomWenJuanMessage',
-            url: 'http://192.168.1.121/s/9ed72fd8846c4cd69d4a0f50cbeb6467?source=medical-steward&agencyId=1',
-            userId: 1
-        }
-
-        let message = getApp().tim.createCustomMessage({
-            to: this.data.groupID,
-            conversationType: TIM.TYPES.CONV_GROUP,
-            payload: {
-                data: JSON.stringify(sendData),
-                description: '文章卡',
-                extension: ''
-
-            },
-        });
-
-        this.sendMsg(message)
-    },
     goHome() {
         wx.switchTab({
             url: '/pages/consult/index',
@@ -227,10 +182,13 @@ Page({
                     newItems.push(item)
                 }
             });
-            that.setMultItemAndScrollPage(newItems, true, true, false)
-            that.
-            // 将某会话下所有未读消息已读上报
-            getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
+            if (newItems.length > 0) {
+                that.setMultItemAndScrollPage(newItems, true, true, false)
+                that.qryTextNumRecord()
+                // 将某会话下所有未读消息已读上报
+                getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
+            }
+
         };
         getApp().tim.on(TIM.EVENT.MESSAGE_RECEIVED, onMessageReceived);
         this.onMessageReceived = onMessageReceived
@@ -435,13 +393,13 @@ Page({
         if (this._freshing) return
         this._freshing = true
         if (this.data.isCompleted) {
-            
-                wx.showToast({
-                    icon: 'none',
-                    title: "没有更多消息了",
-                    duration: 2000
-                })
-            
+
+            wx.showToast({
+                icon: 'none',
+                title: "没有更多消息了",
+                duration: 2000
+            })
+
 
             this.setData({
                 triggered: false,
@@ -454,19 +412,19 @@ Page({
     },
 
 
-//查询剩余条数
-qryTextNumRecord() {
-    if (!this.data.tradeId) {
-        return
-    }
-    WXAPI.qryRightsUseRecord({ id: this.data.tradeId }).then(res => {
-        this.setData({
-            textNumRecord: res.data[0].usedServiceFrequency || 0
+    //查询剩余条数
+    qryTextNumRecord() {
+        if (!this.data.tradeId) {
+            return
+        }
+        WXAPI.qryRightsUseRecord({ id: this.data.tradeId }).then(res => {
+            this.setData({
+                textNumRecord: res.data[0].usedServiceFrequency || 0
+            })
+            this.updateChatStatus()
         })
-        this.updateChatStatus()
-    })
 
-},
+    },
 
     //图预览
     imageClickEvent(e) {
@@ -484,21 +442,25 @@ qryTextNumRecord() {
     onCustomWenJuanMessageClick(e) {
         console.log(e)
         let item = e.currentTarget.dataset.item;
-        var encodeUrl = encodeURIComponent(item.url)
+        var url = item.url + `?source=medical-steward&agencyId=${item.todoId}&userId=${this.data.config.userID}`
+        var encodeUrl = encodeURIComponent(url)
         wx.navigateTo({
             url: '/pages/consult/webpage/index?url=' + encodeUrl + '&type=1'
         })
-
+       
     },
     //点击文章卡
     onCustomArticleMessageClick(e) {
         console.log(e)
         let item = e.currentTarget.dataset.item;
-        var encodeUrl = encodeURIComponent(item.url)
+        // var encodeUrl = encodeURIComponent(item.url)
+        // wx.navigateTo({
+        //     url: '/pages/consult/webpage/index?url=' + encodeUrl + '&type=2'
+        // })
         wx.navigateTo({
-            url: '/pages/consult/webpage/index?url=' + encodeUrl + '&type=2'
+            url: '/pages/home/news/news-detail?id=' + item.id,
         })
-
+        this.setInquiriesAgencyRead(item.todoId)
     },
     //点击问诊卡
     onCustomIllnessMessageClick(e) {
@@ -507,7 +469,15 @@ qryTextNumRecord() {
         wx.navigateTo({
             url: '/pages/consult/detail/index?rightsId=' + this.data.tradeRemark.rightsId + '&userId=' + this.data.config.userID + '&status=3',
         })
+
     },
+    //设置卡片已读
+    setInquiriesAgencyRead(todoId) {
+        if (todoId) {
+            WXAPI.setInquiriesAgencyRead(todoId)
+        }
+    },
+
     onVideoPlayClick(e) {
         console.log(e)
         var videoObj = e.currentTarget.dataset.item
@@ -530,18 +500,19 @@ qryTextNumRecord() {
         })
     },
 
-
-    //点击随访跟踪
-    CustomWenJuanClickEvent(e) {
-        var url = e.currentTarget.dataset.url
-        url = url + '?userId=' + this.data.config.userID + '&execTime=' + Util.formatTime2(new Date())
-        console.log(url)
-        var encodeUrl = encodeURIComponent(url)
-        console.log(encodeUrl)
-        wx.navigateTo({
-            url: '/pages/home/webpage/index?url=' + encodeUrl
+    //点击文本消息 放大
+    chatTextItemClickEvent(e) {
+        this.setData({
+            showTextPop: true,
+            showText: e.currentTarget.dataset.text
         })
-
+    },
+    //关闭放大窗口
+    onShowTextClose() {
+        this.setData({
+            showTextPop: false,
+            showText: ''
+        })
     },
 
 
@@ -820,7 +791,7 @@ qryTextNumRecord() {
             console.log(imResponse);
             that.updateChatItemStatus(index, "success")
 
-           
+
         }).catch(function (imError) {
             // 重发失败
             console.warn('resendMessage error:', imError);
@@ -973,7 +944,7 @@ qryTextNumRecord() {
         try {
 
             var signalingData = JSON.parse(item.payload.data)
-
+            console.log(signalingData)
             var type = signalingData.type
             if (type) {//自己业务的自定义消息
                 if (type == 'CustomWenJuanMessage') {//问卷卡
@@ -1007,6 +978,7 @@ qryTextNumRecord() {
                         }
                     }
                 }
+                item.payload.data = signalingData
             }
 
 

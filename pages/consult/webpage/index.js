@@ -16,8 +16,10 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+      var url= decodeURIComponent(options.url)
+        console.log(url)
       this.setData({
-        url: decodeURIComponent(options.url),
+        url: url,
         type: options.type //1问卷 2文章
       })
     //   if(this.data.type == 1){

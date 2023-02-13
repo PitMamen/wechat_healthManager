@@ -17,7 +17,7 @@
         bindtap="resetInputStatus">
     <block  wx:for="{{chatItems}}" wx:key="id2">
         <template is="chat-item"
-                  data="{{length:chatItems.length,index:index,item:item,avatar:item.flow=== 'out'?myAvatar:item.avatar || myAvatar}}"/>
+                  data="{{length:chatItems.length,index:index,item:item,avatar:item.flow=== 'out'?myAvatar:item.avatar || toAvatar,isDoctor:item.from==tradeRemark.docId}}"/>
     </block>
    
 </scroll-view>
@@ -56,4 +56,8 @@ wx:if="{{showChatInput}}"
 <!-- 选择时间 -->
 <van-popup show="{{ !hideTimeShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%; ">
     <van-picker  show-toolbar title="选择时间"  columns="{{ timeColumns }}" visible-item-count='4' bind:cancel="onTimePickerCancel" bind:confirm="onTimePickerConfirm" />
+</van-popup>
+
+<van-popup show="{{ showTextPop }}" custom-style="height: 100%;width: 100%; " overlay="{{false}}" bind:close="onShowTextClose">
+<view class="show-text-view" bindtap="onShowTextClose">{{showText}}</view>
 </van-popup>

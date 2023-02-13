@@ -14,6 +14,7 @@ Page({
         todoList: [],
         active: '0',
         unreadConsult: 0,
+        unreadTodo:0,
     },
 
     /**
@@ -58,10 +59,19 @@ Page({
             this.setData({
                 todoList: res.data.records,
             })
-
+            var num=0
+            res.data.records.forEach(item=>{
+                if(item.readStatus.value == 1){
+                    num=num+1
+                }
+            })
+            this.setData({
+                unreadTodo:num
+            })
         } else {
             this.setData({
-                todoList: []
+                todoList: [],
+                unreadTodo:0
             })
         }
 
@@ -73,16 +83,22 @@ Page({
             var conversationIDList = []
             res.data.forEach(item => {
                 item.conversationID = 'GROUP' + item.imGroupId
-                if (item.imGroupId) {
+                if (item.status.value==3 && item.imGroupId) {
                     conversationIDList.push(item.conversationID)
                 }
             })
-
             this.setData({
                 conversationIDList: conversationIDList,
                 appointList: res.data,
             })
-            this.getConversationList()
+            if(conversationIDList.length>0){
+                this.getConversationList()
+            }else{
+                this.setData({
+                    unreadConsult: 0
+                })
+            }
+
 
         } else {
             this.setData({
@@ -189,7 +205,7 @@ Page({
     //设置已读
     setInquiriesAgencyRead(item) {
         if (item.readStatus.value == 1) {
-            WXAPI.setInquiriesAgencyRead(id)
+            WXAPI.setInquiriesAgencyRead(item.id)
         }
 
     },
@@ -228,10 +244,10 @@ Page({
         if (this.checkLoginStatus()) {
             if (getApp().getDefaultPatient()) {
                 if (getApp().globalData.sdkReady) {
-                    // wx.navigateTo({
-                    //     url: '/packageIM/pages/chat/AIChat',
-                    // })
-                    IMUtil.goGroupChat(1447, 'navigateTo', '@TGS#1ZV5FEHME', 'textNum', 20, 'START')
+                    wx.navigateTo({
+                        url: '/packageIM/pages/chat/AIChat',
+                    })
+                    // IMUtil.goGroupChat(1447, 'navigateTo', '@TGS#1ZV5FEHME', 'textNum', 20, 'START')
                 }
             }
         }

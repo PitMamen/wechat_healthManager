@@ -78,6 +78,10 @@ Page({
             //扫码用户进入首页 重新获取登录信息 
             this.getMaLoginInfo()
         }
+        if(getApp().globalData.loginReady && !this.data.currentHospital.hospitalCode){
+            //如果已经登陆成功 而首页后面才生成
+            this.getMaLoginInfo()
+        }
     },
     onShow: function (e) {
 
