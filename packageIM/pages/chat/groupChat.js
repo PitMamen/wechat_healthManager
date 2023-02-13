@@ -442,7 +442,12 @@ Page({
     onCustomWenJuanMessageClick(e) {
         console.log(e)
         let item = e.currentTarget.dataset.item;
-        var url = item.url + `?source=medical-steward&agencyId=${item.todoId}&userId=${this.data.config.userID}`
+        var url =''
+        if(item.done){
+             url = item.url
+        }else{
+             url = item.url + `?source=medical-steward&agencyId=${item.todoId}&userId=${this.data.config.userID}`
+        }
         var encodeUrl = encodeURIComponent(url)
         wx.navigateTo({
             url: '/pages/consult/webpage/index?url=' + encodeUrl + '&type=1'
