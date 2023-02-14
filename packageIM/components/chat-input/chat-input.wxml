@@ -28,7 +28,7 @@
 
     </view>
     <block wx:if="{{extraObj.chatInputShowExtra}}">
-        <view class="list-divide-line" />
+        <!-- <view class="list-divide-line" /> -->
         <template is="chat-extra-function-part" data="{{chat$input$extra$arr:extraObj.chatInputExtraArr}}" />
     </block>
 </view>

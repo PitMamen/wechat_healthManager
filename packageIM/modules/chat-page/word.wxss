@@ -16,8 +16,8 @@
 }
 
 .isMyWordStyle {
-    background-color: #3894FF;
-    color: #ffffff;
+    background-color: #DCEBFD;
+    color: #1A1A1A;
     font-size: 28rpx;
     margin-right: -1rpx;
     margin-left: 14rpx;
@@ -48,14 +48,14 @@
 }
 
 .voice-duration-my-style {
-    color: white;
+    color: #1A1A1A;
     font-size: 26rpx;
     align-self: center;
     margin-right: 25rpx;
 }
 
 .voice-duration-other-style {
-    color: #676767;
+    color: #1A1A1A;
     font-size: 26rpx;
     align-self: center;
     margin-left: 25rpx;

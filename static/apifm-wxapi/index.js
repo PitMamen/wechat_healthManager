@@ -1295,7 +1295,7 @@ module.exports =
                      //代办-列表
                      getInquiriesAgencyList: function getInquiriesAgencyList(data) {                       
                         var url = MEDICAL_SERVICE + '/inquiriesAgency/list'
-                        return request(url, 'post', data, true);
+                        return request2(url, 'post', data, true);
                     },
                     //代办-已读
                     setInquiriesAgencyRead: function setInquiriesAgencyRead(id) {                      

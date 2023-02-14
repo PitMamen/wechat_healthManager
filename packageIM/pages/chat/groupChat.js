@@ -901,6 +901,8 @@ Page({
                     dTextNum = 0
                 }
                 textNumContent = '剩余' + dTextNum + '次医生回复机会'
+            }else {
+                textNumContent = '剩余无限次医生回复机会'
             }
 
 

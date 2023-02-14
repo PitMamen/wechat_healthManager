@@ -46,7 +46,11 @@
     font-size: 26rpx;
     color: #4D4D4D;
     text-align: center;
-    margin-bottom: 30rpx;
+    padding-bottom:20rpx;
+    padding-top: 20rpx;
+  
+    width: 750rpx;
+    background: white;
 }
 
 .right-card {
@@ -158,4 +162,13 @@ color: #999999;
 .picker-custom{
     --picker-cancel-action-color:#367BF5 !important;
     --picker-confirm-action-color:#367BF5 !important;
+  }
+
+  .safe-bottom-box {
+    position: fixed;
+    width: 704rpx;
+    bottom: 30rpx;
+    left: 26rpx;
+    z-index: 99;
+    background: #ffffff;
   }

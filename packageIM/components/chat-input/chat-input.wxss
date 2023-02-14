@@ -61,7 +61,7 @@ input {
 .input-text-voice-super {
     display: flex;
     flex-direction: row;
-    background-color: white;
+    background-color: #F5F5F5;
     width: 100%;
     align-items: center;
     height: auto;
@@ -81,13 +81,12 @@ input {
 
 .list-divide-line {
     width: 100%;
-    height: 1rpx;
+    height: 0.5px;
     background-color: #dddddd;
 }
 
 .chat-input-style {
     border-radius: 4rpx;
-    border: 1rpx solid #CCCCCC;
     margin-top: 25rpx;
     margin-bottom: 25rpx;
     padding: 19rpx 10rpx;

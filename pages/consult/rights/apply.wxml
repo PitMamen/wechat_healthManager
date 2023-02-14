@@ -12,7 +12,7 @@
         </view>
        
       <view class="right-card">
-        <text class="right-content" wx:for="{{detail.rightsItemInfo}}" wx:key="id2" wx:for-item="items">{{items.serviceItemName}}【{{items.serviceItemAttrs}}】：<text style="color: #367BF5;">剩余</text><text style="color: #F60505;">{{items.surplusQuantity}}</text><text style="color: #367BF5;">次/共{{items.equityQuantity}}次</text></text>
+        <text class="right-content" wx:for="{{detail.rightsItemInfo}}" wx:key="id2" wx:for-item="items">{{items.serviceItemName}}【{{items.serviceItemAttrs || '无限'}}】：<text style="color: #367BF5;">剩余</text><text style="color: #F60505;">{{items.surplusQuantity}}</text><text style="color: #367BF5;">次/共{{items.equityQuantity}}次</text></text>
     </view>
     </view>
 

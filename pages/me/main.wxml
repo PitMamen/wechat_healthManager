@@ -20,7 +20,6 @@
 
 
 
-
 <view class="todo-card">
 
     <view class="todo-title-view" bindtap='goMyPatientPage'>
@@ -71,6 +70,7 @@
         </view>
     </view>
     <van-divider />
+  
 </view>
 
 

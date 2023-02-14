@@ -38,7 +38,7 @@
     </view>
     <!-- 待接诊和问诊中 显示权益列表 -->
     <view wx:else class="right-card">
-        <text class="right-content" wx:for="{{detail.rightsItemInfo}}" wx:key="id2" wx:for-item="items">{{items.serviceItemName}}【{{items.serviceItemAttrs}}】：<text style="color: #367BF5;">剩余</text><text style="color: #F60505;">{{items.surplusQuantity}}</text><text style="color: #367BF5;">次/共{{items.equityQuantity}}次</text></text>
+        <text class="right-content" wx:for="{{detail.rightsItemInfo}}" wx:key="id2" wx:for-item="items">{{items.serviceItemName}}【{{items.serviceItemAttrs || '无限'}}】：<text style="color: #367BF5;">剩余</text><text style="color: #F60505;">{{items.surplusQuantity}}</text><text style="color: #367BF5;">次/共{{items.equityQuantity}}次</text></text>
     </view>
     <view class="card-title-view">
         <view style="font-weight: bold;">患者提交的信息 </view>
@@ -56,7 +56,7 @@
 
     </view>
 
-    <view style="margin-top: 50rpx;">
+    <!-- <view style="margin-top: 50rpx;" >
         <view wx:if="{{status==1}}" class="remind-text">正在服务中，您可{{isUsed?'再次':''}}申请使用权益</view>
         <view wx:if="{{status==2}}" class="remind-text">正在等待医生接诊，预计需要10～30分钟，如果30分钟后仍无医生接诊，系统会自动帮您提醒医生，请您耐心等候</view>
         <view wx:if="{{status==3}}" class="remind-text">正在接诊中，您可直接进入诊室</view>
@@ -65,9 +65,18 @@
         <van-button wx:if="{{status==3}}" type="primary" color="#367BF5" block bind:click="enterRoom">进入诊室</van-button>
         <van-button wx:if="{{status==4}}" type="primary" color="#367BF5" block bind:click="bugAgain">再次购买</van-button>
 
-    </view>
+    </view> -->
 
-
+    <view style="height: 150rpx;"></view>
+</view>
+<view class="safe-bottom-box">
+    <view wx:if="{{status==1}}" class="remind-text">正在服务中，您可{{isUsed?'再次':''}}申请使用权益</view>
+    <view wx:if="{{status==2}}" class="remind-text">正在等待医生接诊，预计需要10～30分钟，如果30分钟后仍无医生接诊，系统会自动帮您提醒医生，请您耐心等候</view>
+    <view wx:if="{{status==3}}" class="remind-text">正在接诊中，您可直接进入诊室</view>
+    <view wx:if="{{status==4}}" class="remind-text">服务已经结束，请重新购买服务</view>
+    <van-button wx:if="{{status==1}}" type="primary" color="#367BF5" block bind:click="apply">申请权益</van-button>
+    <van-button wx:if="{{status==3}}" type="primary" color="#367BF5" block bind:click="enterRoom">进入诊室</van-button>
+    <van-button wx:if="{{status==4}}" type="primary" color="#367BF5" block bind:click="bugAgain">再次购买</van-button>
 </view>
 
 <!-- 服务中已结束可以查看记录 -->

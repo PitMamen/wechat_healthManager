@@ -136,6 +136,10 @@ Page({
                         appointList: appointList,
                         unreadConsult: num
                     })
+                }else{
+                    that.setData({
+                        unreadConsult: 0
+                    }) 
                 }
             }).catch(function (imError) {
                 console.warn('getConversationList error:', imError); // 获取会话列表失败的相关信息
