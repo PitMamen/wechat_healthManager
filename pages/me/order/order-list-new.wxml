@@ -60,7 +60,7 @@
                     <view class="des-name">
                         下单时间：
                     </view>
-                    <view class="des-value" style="margin-top: 10rpx;">
+                    <view class="des-value" >
                         {{item.createTime}}
                     </view>
                 </view>

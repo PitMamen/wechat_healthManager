@@ -14,7 +14,7 @@
             <image wx:if="{{type==='TIMImageElem'}}" class="chat-list-pic-style" src="{{content.imageInfoArray[1].url}}" mode="aspectFill" bindtap="imageClickEvent" data-url="{{content.imageInfoArray[0].url}}" />
 
 
-            <view wx:if="{{type==='TIMSoundElem'}}" style=" display: flex;flex-direction:{{isMy?'row-reverse':'row'}} ;width:{{content.second*6.6+100}}rpx;max-width: 500rpx;" class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="chatVoiceItemClickEvent" data-voice-path="{{content.url}}" data-voice-duration="{{content.second}}" data-is-my="{{isMy}}" data-index="{{index}}">
+            <view wx:if="{{type==='TIMSoundElem'}}" style=" display: flex;flex-direction:{{isMy?'row-reverse':'row'}} ;width:{{content.second*7.2+70}}rpx;max-width: 500rpx;" class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="chatVoiceItemClickEvent" data-voice-path="{{content.url}}" data-voice-duration="{{content.second}}" data-is-my="{{isMy}}" data-index="{{index}}">
                 <template is="voice-item" data="{{isMy:isMy,isPlaying:content.isPlaying}}" />
                 <view wx:if="{{isMy}}" class="voice-duration-my-style">{{content.second}}"</view>
                 <view wx:if="{{!isMy}}" class="voice-duration-other-style">{{content.second}}"</view>
