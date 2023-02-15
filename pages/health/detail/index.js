@@ -15,7 +15,8 @@ Page({
         list1: [],
         list2: [],
         images: [],
-        swipers: []
+        swipers: [],
+        isOnSale:false,//是否上架
     },
     onLoad: function (options) {
         // 页面创建时执行
@@ -68,6 +69,7 @@ Page({
     },
 
     getInfo() {
+        console.log('hhh')
         WXAPI.goodsDetail({
             commodityId: this.data.id
         }).then((res) => {
@@ -77,9 +79,16 @@ Page({
                 list1: res.data.optionalPkgs || [],
                 list2: res.data.compulsoryPkgs || [],
                 images: res.data.detailImgs || [],
-                swipers: res.data.bannerImgs || []
+                swipers: res.data.bannerImgs || [],
+                isOnSale:res.data.saleStatus?res.data.saleStatus.value==2 : false,//1下架、2上架
             })
             this.setPrice()
+            if(!this.data.isOnSale){
+                wx.showToast({
+                  title: '该商品已下架',
+                  icon:'none'
+                })
+            }
         })
     },
     setPrice() {

@@ -895,6 +895,7 @@ Page({
 
         if (this.data.tradeRemark) {
             var textNumContent = ''
+            
             if (this.data.tradeRemark.serviceFrequency) {
                 var dTextNum = this.data.tradeRemark.serviceFrequency - this.data.textNumRecord
                 if (dTextNum < 0) {
