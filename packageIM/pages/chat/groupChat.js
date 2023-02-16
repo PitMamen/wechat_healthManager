@@ -84,12 +84,12 @@ Page({
         }
 
         // //禁止截屏录屏
-        // wx.setVisualEffectOnCapture({
-        //     visualEffect: 'hidden',
-        //     success: function (res) {
+        wx.setVisualEffectOnCapture({
+            visualEffect: 'hidden',
+            success: function (res) {
 
-        //     },
-        // })
+            },
+        })
     },
     onShow: function (e) {
         console.log("chat page: onShow")
