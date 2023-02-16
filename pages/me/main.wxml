@@ -20,18 +20,8 @@
 
 
 
-
 <view class="todo-card">
 
-
-    <view class="todo-title-view" bindtap='goRecordListPage'>
-        <image class="todo-icon" src="/image/me_icon_jkjl.png" />
-        <text class="todo-title">健康记录</text>
-        <view class="todo-title-right">
-            <van-icon color="#999999" name="arrow" />
-        </view>
-    </view>
-    <van-divider />
     <view class="todo-title-view" bindtap='goMyPatientPage'>
         <image class="todo-icon" src="/image/me_icon_wdjzr.png" />
         <text class="todo-title">我的就诊人</text>
@@ -80,6 +70,7 @@
         </view>
     </view>
     <van-divider />
+  
 </view>
 
 

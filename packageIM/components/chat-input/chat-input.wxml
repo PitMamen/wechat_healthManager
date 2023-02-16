@@ -1,6 +1,10 @@
 <import src="voice.wxml" />
 <import src="extra.wxml" />
 <view class="input-flex-column" catchtap="">
+    <view wx:if="{{bottomText}}" class="top-remind-view">
+    <view>问诊中</view>
+    <view>{{bottomText}}</view>
+    </view>
     <view wx:if="{{topObj.chatInputShowTop}}" class="tab-view">
         <view wx:for="{{topObj.chatInputTopArr}}" class="tab-btn {{item.active?'activebtn':''}}" bindtap="bindHealthTap" data-item="{{item}}">{{item.name}}</view>
     </view>
@@ -9,21 +13,22 @@
         <block wx:if="{{inputStatus==='voice'}}">
             <template is="voice" data="{{voiceObj:voiceObj}}" />
         </block>
-        <textarea 	fixed	auto-height="{{autoHeight}}" show-confirm-bar="{{false}}" wx:elif="{{inputStatus==='text'}}" class="chat-input-style" style="margin-left:{{showVoicePart?0:16}}rpx;width: {{showVoice?520:585}}rpx;" maxlength="200" confirm-type="send" value="{{textMessage}}" focus="{{focus}}" type="{{inputType}}" confirm-hold="true" bindconfirm="_chatInput$send$text$message" bindfocus="_chatInput$bind$focus$event" bindblur="_chatInput$bind$blur$event" bindinput="_chatInput$getValue$event">
-        
-        <view wx:if="{{showAdd && inputType === 'none'}}" class="press-style-add">
+        <block wx:else>
+            <textarea fixed auto-height="{{autoHeight}}" show-confirm-bar="{{false}}" wx:if="{{inputStatus==='text'}}" class="chat-input-style"  maxlength="1500" confirm-type="send" value="{{textMessage}}" focus="{{focus}}" type="{{inputType}}" confirm-hold="true" bindconfirm="_chatInput$send$text$message" bindfocus="_chatInput$bind$focus$event" bindblur="_chatInput$bind$blur$event" bindinput="_chatInput$getValue$event">
+            </textarea>
+            <view wx:if="{{ showAdd && inputType === 'none'}}" class="press-style-add">
 
-            <image class="extra-btn-add" src="../../image/chat/extra.png" catchtap="_chatInput$extra$click$event" />
-        </view>
+                <image class="extra-btn-add" src="../../image/chat/extra.png" catchtap="_chatInput$extra$click$event" />
+            </view>
 
-        <view  wx:else class="press-style-opacity">
-            <view class="chat-input-send-button-style" catchtap="_chatInput$send$text$message02">发送</view>
-        </view>
-        </textarea>
+            <view wx:else class="press-style-opacity">
+                <view class="chat-input-send-button-style" catchtap="_chatInput$send$text$message02">发送</view>
+            </view>
+        </block>
 
     </view>
     <block wx:if="{{extraObj.chatInputShowExtra}}">
-        <view class="list-divide-line" />
+        <!-- <view class="list-divide-line" /> -->
         <template is="chat-extra-function-part" data="{{chat$input$extra$arr:extraObj.chatInputExtraArr}}" />
     </block>
 </view>

@@ -1,352 +1,72 @@
 <template name="chat-custom">
     <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{index===length-1?150:20}}rpx;margin-top: 20rpx;">
-        <image style="width: 70rpx;height: 70rpx;border-radius: 50%;margin-left: 15rpx;margin-right: 15rpx;" src="{{headUrl}}" />
-        <image wx:if="{{type==='TIMTextElem'||type==='TIMSoundElem'}}" class="chat-list-arrow-style" src="./../../image/chat/popu_{{isMy?'blue':'white'}}.png" />
-        <!-- 语音通话消息 -->
-        <block wx:if="{{type==='VoiceCall'}}">
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;max-width: 60%;">
-                {{content.description}}</view>
-        </block>
-        <!-- 视频通话消息 -->
-        <block wx:elif="{{type==='VideoCall'}}">
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;max-width: 60%;">
-                {{content.description}}</view>
-        </block>
-        <!-- 健康消息 -->
-        <block wx:elif="{{type==='CustomHealthMessage'}}">
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="CustomHealthClickEvent" data-id="{{content.data.msgDetailId}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 45%;">
-                <view style=" display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 38rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/jkxx.png"></image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">{{content.data.title}}
-                    </view>
-                </view>
-                <!-- <view style="margin-top: 10rpx;color: #9A9A9A;margin-left: 6rpx;">
-                    {{content.data.content}}
-                </view> -->
-                <view style="font-size:  30rpx ;margin-top: 10rpx;color: #3894FF;">
-                    <view>
-                        您有新的健康提醒，点击查看！
-                    </view>
-                </view>
-            </view>
-        </block>
+        <image style="width: 88rpx;height: 88rpx;border-radius: 50%;margin-left: 15rpx;margin-right: 15rpx;" src="{{headUrl}}" />
 
-        <!-- 评估消息 -->
-        <block wx:elif="{{type==='CustomAnalyseMessage'}}">
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="CustomAnalyseClickEvent" data-id="{{content.data.msgDetailId}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 65%;">
-                <view style=" display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 38rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/jkpg.png"></image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">{{content.data.title}}
-                    </view>
-                </view>
-                <view style="margin-top: 20rpx;margin-left: 6rpx;font-weight: bold;">
-                    病情描述：
-                </view>
-                <view style="margin-top: 10rpx;color: #9A9A9A;margin-left: 6rpx;">
-                    {{content.data.content}}
-                </view>
-                <view style="margin-top: 20rpx;margin-left: 6rpx;font-weight: bold;">
-                    处置建议：
-                </view>
-                <view style="margin-top: 10rpx;color: #9A9A9A;margin-left: 6rpx;">
-                    {{content.data.msgDetailId}}
-                </view>
-            
-            </view>
-        </block>
-
-
-        <!--电子处方卡片  -->
-     <block wx:elif="{{type==='CustomDoctorChuFangMessage'}}">
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="CustomDianziChufangClickEven" data-time="{{content.data.time}}" data-id="{{content.data.preNo}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 65%;">
-                <view style=" display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 38rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/jkpg.png"></image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">{{content.data.title}}
-                    </view>
-                </view>
-                <view style="margin-top: 20rpx;margin-left: 6rpx;font-weight: bold;">
-                    初步诊断：
-                </view>
-                <view style="margin-top: 10rpx;color: #9A9A9A;margin-left: 6rpx;">
-                    {{content.data.diagnosis}}
-                </view>
-                <view style="margin-top: 20rpx;margin-left: 6rpx;font-weight: bold;">
-                    处理意见：
-                </view>
-                <view style="margin-top: 10rpx;color: #9A9A9A;margin-left: 6rpx;">
-                    {{content.data.suggestion}}
-                </view>
-
-                <view style="margin-top: 10rpx;margin-left: 326rpx;color: #007BF5;align-items: flex-end;font-weight: bold">
-                    去支付>>>
-                </view>
-            
-            </view>
-        </block>
-
-
-
-
-
-
-        <!-- 购买服务消息 -->
-        <block wx:elif="{{type==='CustomHealthManageMessage'}}">
-            <view class="{{false?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="onCustomHealthManageMessageClickEvent" data-id="{{content.data.goodsId}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 45%;">
-                <view style="font-size:  30rpx ; display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 38rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/gmtc.png"></image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">{{content.data.userName}}
-                    </view>
-                    <view>{{content.data.userSex}} {{content.data.userAge}}岁</view>
-
-                </view>
-                <view style="font-size:  30rpx ;margin-top: 10rpx;color: #9A9A9A;">
-                    <view>
-                        就诊类别：{{content.data.jzlb?content.data.jzlb:'无'}}
-                    </view>
-                    <view style="font-size:  30rpx ;">
-                        初步诊断：{{content.data.cbzd?content.data.cbzd:'无'}}
-                    </view>
-                    <view style="font-size:  30rpx ;">
-                        健康管理：{{content.data.jkgl}}
-                    </view>
-                </view>
-                <!-- <view style="background-color: #BBBBBB ;height: 0.5px;margin-top: 20rpx;margin-bottom: 20rpx;width: 100%;"></view>
-               <view style="color: #3894FF;">点击查看详细资料</view> -->
-
-            </view>
-        </block>
-        <!-- 上传资料消息 -->
-        <block wx:elif="{{type==='CustomUploadMessage'}}">
-            <view class="{{false?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="CustomUploadClickEvent" data-id="{{content.data.contentId}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 45%;">
-                <view style="font-size:  30rpx ; display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 40rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/sczl.png"></image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">患者上传资料</view>
-
-                </view>
-                <view style="font-size:  30rpx ;margin-top: 10rpx;color: #9A9A9A;">
-                    <view>
-                        就诊医院：{{content.data.jzyy?content.data.jzyy:'无'}}
-                    </view>
-                    <view style="font-size:  30rpx ;">
-                        就诊时间：{{content.data.jzsj?content.data.jzsj:'无'}}
-                    </view>
-                    <view style="font-size:  30rpx ;">
-                        就诊类型：{{content.data.jzlx}}
-                    </view>
-                    <view style="font-size:  30rpx ;">
-                        初步诊断：{{content.data.cbzd}}
-                    </view>
-                </view>
-                <!-- <view style="background-color: #BBBBBB ;height: 0.5px;margin-top: 20rpx;margin-bottom: 20rpx;width: 100%;"></view>
-               <view style="color: #3894FF;">点击查看详细资料</view> -->
-
-            </view>
-        </block>
-         <!-- 医生接诊 -->
-         <block wx:elif="{{type==='CustomDoctorReceptionMessage'}}">
-            <view class="{{false?'isMyWordStyle':'isOtherWordStyle'}}" bindtap=""  style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 65%;">
-                <view style="font-size:  30rpx ; display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 40rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/sczl.png"></image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">医生已接诊</view>
-
-                </view>
-                <view style="font-size:  30rpx ;margin-top: 10rpx;color: #9A9A9A;">
-                    <text decode>
-                        工&ensp;单&ensp;号：{{content.data.tradeId}}
-                    </text>
-                    <text decode>
-                        医&emsp;&emsp;生：{{content.data.docName}}
-                    </text>
-                    <text decode>
-                        科&emsp;&emsp;室：{{content.data.docdeptName}}
-                    </text>
-                    <view decode>
-                        开始时间：{{content.data.time}}
-                    </view>
-                </view>
-
-            </view>
-        </block>
-         <!-- 医生拒诊 -->
-         <block wx:elif="{{type==='CustomDoctorRefuseMessage'}}">
-            <view class="{{false?'isMyWordStyle':'isOtherWordStyle'}}" bindtap=""  style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 65%;">
-                <view style="font-size:  30rpx ; display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 40rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/sczl.png"></image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">医生已拒诊</view>
-
-                </view>
-                <view style="font-size:  30rpx ;margin-top: 10rpx;color: #9A9A9A;">
-                    <text decode>
-                        工&ensp;单&ensp;号：{{content.data.tradeId}}
-                    </text>
-                    <text decode>
-                        医&emsp;&emsp;生：{{content.data.docName}}
-                    </text>
-                   
-                    <text decode>
-                        拒诊原因：{{content.data.reason}}
-                    </text><view class=""></view>
-                </view>
-
-            </view>
-        </block>
-        <!-- 视频看诊 -->
-        <block wx:elif="{{type==='CustomVideoCallMessage'}}">
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="CustomVideoCallClickEvent" data-roomid="{{content.data.msgDetailId}}" data-canenter="{{content.isIMReceived}}" data-index="{{index}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 45%;">
-                <view style="font-size:  30rpx ; display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 40rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/icon_spkz.png">
+        <view class="content-view">
+            <view wx:if="{{!isMy}}" class="name">{{nick}}</view>
+        <!-- 问诊卡 -->
+        <block wx:if="{{type==='CustomIllnessMessage'}}">
+            <view bindtap="onCustomIllnessMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
+                    <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="../../image/chat/icon_wzk.png">
                     </image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">视频看诊</view>
+                    <view>问诊卡</view>
                 </view>
-                <view style="font-size:  30rpx ;margin-top: 10rpx;color: #3894FF;">
-                    <view>
-                        医生向您发起视频看诊，请点击开始！
-                    </view>
+                <view style="font-size:  28rpx ;margin: 30rpx 20rpx 0 20rpx;display: flex;flex-direction: row;align-items: center;">
+                    <view style="color: #999999;">患者信息：</view>
+                    <view style="color: #1A1A1A;">{{content.data.userInfo}}</view>
                 </view>
-                <!-- <view wx:else style="font-size:  30rpx ;margin-top: 10rpx;color: #BBBBC1;">
-                    <view>
-                        已结束
-                    </view>
-                </view> -->
-            </view>
-        </block>
-        <!-- 就诊病历 -->
-        <block wx:elif="{{type==='CustomCaseHistoryMessage'}}">
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="CustomCaseHistoryClickEvent" data-roomid="{{content.data.msgDetailId}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 45%;">
-                <view style="font-size:  30rpx ; display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 40rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/icon_blsx.png">
-                    </image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">就诊病历</view>
+                <view style="font-size:  28rpx ;margin: 30rpx 20rpx;display: flex;flex-direction: row;align-items: center;">
+                    <view style="color: #999999;">病情描述：</view>
+                    <view style="color: #1A1A1A;flex: 1;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{content.data.content}}</view>
                 </view>
-                <view style="font-size:  30rpx ;margin-top: 10rpx;color: #3894FF;">
-                    <view>
-                        医生已完成病历，请点击查看！
-                    </view>
-                </view>
-            </view>
-        </block>
-        <!-- 病情概述 -->
-        <block wx:elif="{{type==='CustomIllnessMessage'}}">
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="" data-roomid="{{content.data.msgDetailId}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 65%;">
-                <view style="font-size:  30rpx ; display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 40rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/icon_blsx.png">
-                    </image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">病情概述</view>
-                </view>
-                <view style="font-size:  30rpx ;margin-top: 10rpx;">
-                    <view>
-                        {{content.data.content}}
-                    </view>
-
+                <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
+                <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                    <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
                 </view>
             </view>
         </block>
 
-<!-- 风湿科病情概述卡片 -->
-  <!-- 病情概述 -->
-  <block wx:elif="{{type==='FengshikeIllnessMessage'}}">
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="" data-roomid="{{content.data.msgDetailId}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 65%;">
-                <view style="font-size:  30rpx ; display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 40rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/icon_blsx.png">
-                    </image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">病情咨询</view>
-                </view>
-                <view style="font-size:  30rpx ;margin-top: 10rpx;">
-                    <view>
-                        问题1:{{content.data.question1?content.data.question1:'无'}}
-                    </view>
-                    <view style="font-size:  30rpx ;">
-                        问题2:{{content.data.question2?content.data.question2:'无'}}
-                    </view>
-                    <view style="font-size:  30rpx ;">
-                        问题3:{{content.data.question3?content.data.question3:'无'}}
-                    </view>
-                </view>
-                
-            </view>
-        </block>
-
-       <!-- 病情概述 问题 医生回复 -->
-        <block wx:elif="{{type==='Fengshike2IllnessMessage'}}">
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="ClickQueryAdetail" data-question1="{{content.data.question1}}" data-question2="{{content.data.question2}}"data-question3="{{content.data.question3}}"data-answer1="{{content.data.answer1}}"  data-answer2="{{content.data.answer2}}"data-answer3="{{content.data.answer3}}"data-time="{{content.data.time}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 65%;">
-                <view style="font-size:  30rpx ; display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 40rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/icon_blsx.png">
-                    </image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">咨询回复</view>
-                </view>
-                <view style="font-size:  30rpx ;margin-top: 10rpx;">
-                    <view>
-                        {{content.data.content}}
-                    </view>
-                </view>
-                <view style="margin-top: 10rpx;color: #007BF5;align-items: flex-end;font-weight: bold">
-                    点击查看详情>>>
-                </view>
-            </view>
-            
-        </block>
-
-
-
-
-
-
-
-        <!-- 预约时间 -->
-        <block wx:elif="{{type==='CustomAppointmentTimeMessage'}}">
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}"   style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 45%;">
-                <view style="font-size:  30rpx ; display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 40rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/icon_blsx.png">
-                    </image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">{{content.data.description}}</view>
-                </view>
-                <view wx:for="{{content.data.timeArr}}" style="font-size:  30rpx ;margin-top: 10rpx;">
-                    <view>
-                        {{item}}
-                    </view>
-
-                </view>
-                <view wx:if="{{!isMy}}"  bindtap="CustomAppointmentTimeClickEvent" data-item="{{content}}">
-                    <view style="background-color: #BBBBBB ;height: 0.5px;margin-top: 20rpx;margin-bottom: 20rpx;width: 100%;"></view>
-                    <view style="color: #3894FF;">请点击选择一个时间</view>
-                </view>
-
-            </view>
-        </block>
-        <!-- 随访跟踪 -->
-        <block wx:elif="{{type==='CustomWenJuanMessage' || type==='CustomYuWenZhenMessage'}}">
-            <view class="{{false?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="CustomWenJuanClickEvent" data-url="{{content.data.url}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 45%;">
-                <view style="font-size:  30rpx ; display: flex; flex-direction: row;align-items: center;">
-                    <image style="width: 40rpx;height: 38rpx;" mode="aspectFit" src="../../image/chat/icon_s.png">
-                    </image>
-                    <view style="font-weight: bold;margin-right: 20rpx;margin-left: 10rpx;">{{type==='CustomYuWenZhenMessage'?'预诊表单':'随访问卷'}}</view>
-                </view>
-                <view style="font-size:  30rpx ;color: #3894FF;">
-
-                    <text>
-                        《{{content.data.name}}》
-                    </text>
-                </view>
-            </view>
-        </block>
-        <!-- 科普文章 -->
+        <!-- 文章卡 -->
         <block wx:elif="{{type==='CustomArticleMessage'}}">
-            <view class="{{false?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 60%;display: flex; flex-direction: row;align-items: center;" bindtap="CustomArticleMessageClickEvent" data-id="{{content.data.id}}">
-                <image src="{{content.data.url}}" style="width: 140rpx;height: 140rpx;margin-right: 20rpx;" mode="aspectFill" />
-                <view>
-                    {{content.data.content}}
+            <view bindtap="onCustomArticleMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
+                    <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="../../image/chat/icon_jkxj.png">
+                    </image>
+                    <view>文章卡</view>
+                </view>
+                <view style="font-size:  28rpx ;margin: 30rpx 20rpx;display: flex;flex-direction: row;align-items: center;">
+                    <view style="color: #999999;">文章名称：</view>
+                    <view style="color: #1A1A1A;flex: 1;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{content.data.content}}</view>
+                </view>
+                <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
+                <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                    <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
                 </view>
             </view>
         </block>
-        <!-- 服务咨询 -->
-        <block wx:elif="{{type==='FWZX'}}">
-            <view class="{{false?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 20rpx;padding: 20rpx;font-size: 30rpx;width: 65%;display: flex; flex-direction: column;">
-                <view>让小医来猜一猜，您有什么想要了解的？您可点击下方关键词获取答案：</view>
-                <view bindtap="CustomQuestionMessageClickEvent" data-content="{{item}}" style="margin-top: 20rpx;font-size:  30rpx ;color: #3894FF;" wx:for="{{content.data.qlist}}" wx:key="fwzxkey">
-                    {{item}}
+        <!-- 问卷卡 -->
+        <block wx:elif="{{type==='CustomWenJuanMessage'}}">
+            <view bindtap="onCustomWenJuanMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
+                    <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="../../image/chat/icon_wjk.png">
+                    </image>
+                    <view>问卷卡</view>
+                    <image wx:if="{{content.data.done}}" style="width: 61rpx;margin-left: auto;margin-right: 20rpx;" mode="aspectFit" src="../../image/chat/read.png">
+                    </image>
+                </view>
+                <view style="font-size:  28rpx ;margin: 30rpx 20rpx;display: flex;flex-direction: row;align-items: center;">
+                    <view style="color: #999999;">问卷名称：</view>
+                    <view style="color: #1A1A1A;flex: 1;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{content.data.name}}</view>
+                </view>
+                <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
+                <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                    <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
                 </view>
             </view>
         </block>
+
+
         <!-- 其他消息 -->
         <block wx:else>
             <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;max-width: 60%;">
@@ -354,6 +74,6 @@
         </block>
 
 
-
+    </view>
     </view>
 </template>

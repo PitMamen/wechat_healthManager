@@ -1,9 +1,0 @@
-
-
-    <view class="top-logo">
-    <image src="https://hmg.mclouds.org.cn/content-api/file/I20220427092245213LQXDJJZEASQP1M-success.png" class="icon-image"></image>
-    <text class="top-label">{{title}}</text>
-    <text class="top-des">{{des}}</text>
-  </view>
-    <button class="loginTap" bindtap="goHome"> 确定 </button>
-

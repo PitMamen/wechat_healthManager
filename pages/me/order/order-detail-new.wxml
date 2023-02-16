@@ -1,0 +1,148 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+<block wx:if="{{order.status.value==1}}">
+    <view class="top">
+        <van-icon name="clock" color="red" />
+        <view class="top-tx">剩余支付时间： </view>
+        <van-count-down class="countdown-class" time="{{ order.timeoutSecond*1000}} " format="mm分ss秒" />
+    </view>
+</block>
+
+<view data-id="{{order.orderId}}">
+    <view class="wrap-top">
+        <view class="titleviw">
+            <text class="title-text">{{order.hospitalName}}</text>
+            <!-- <view wx:if="{{order.status.value==1}}" class="title-right">
+                <view class="title-right-tx">等待付款</view>
+                <van-count-down class="countdown-class" time="{{ order.timeoutSecond*1000 }}" format="mm分ss秒" />
+            </view> -->
+        </view>
+
+        <view class="view-top-wrap">
+            <image mode="aspectFill" src="{{order.frontImg}}" class="goods-img"></image>
+            <view class="view-contents">
+                <view style="font-size: 32rpx;color: #1A1A1A;font-weight: bold;">{{order.commodityName}}</view>
+                <view wx:for="{{order.rightItems}}" wx:key="indexType" wx:for-index="indexType" wx:for-item="itemType" style="margin-top: 10rpx;">
+                    <view class="desItem">
+                        <view style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;flex:1">{{itemType.rightsItemName}}</view>
+                        <view style="margin-left: 20rpx;">{{itemType.equityQuantity}}次</view>
+                        <view style="margin-left: 20rpx;margin-right: 30rpx;">￥{{itemType.saleAmount}}</view>
+                    </view>
+                </view>
+
+            </view>
+        </view>
+
+        <view class="v-divider"></view>
+
+        <view class="wrap-person">
+            <view class="wrap-person-left">
+                <view>就诊人：</view>
+                <view> {{order.userName}}</view>
+            </view>
+
+            <view class="wrap-person-right">
+                <view>合计：</view>
+                <view style="color: red;font-weight: bold;"> ￥{{order.orderTotal}}</view>
+            </view>
+        </view>
+    </view>
+
+    <!-- <view class="v-divider"></view> -->
+
+    <view>
+
+
+        <view class="v-describe">
+            <view class="v-des-item">
+                <view class="des-name">
+                    订单编号：
+                </view>
+                <view class="des-value">
+                    {{order.orderId}}
+                </view>
+            </view>
+
+            <view class="v-des-item">
+                <view class="des-name">
+                    下单时间：
+                </view>
+                <view class="des-value">
+                    {{order.createTime}}
+                </view>
+            </view>
+            <!-- 已取消 特有 -->
+            <view class="v-des-item" wx:if="{{order.status.value==4}}">
+                <view class="des-name">
+                    取消时间：
+                </view>
+                <view class="des-value">
+                    {{order.cancelTime}}
+                </view>
+            </view>
+            <!-- 1待支付、2进行中、3已完成、4已取消 -->
+            <view class="v-des-item" wx:if="{{order.status.value==2||order.status.value==3}}">
+                <view class="des-name">
+                    支付时间：
+                </view>
+                <view class="des-value">
+                    {{order.payTime?order.payTime:''}}
+                </view>
+            </view>
+            <view class="v-des-item" wx:if="{{order.status.value==2||order.status.value==3}}">
+                <view class="des-name">
+                    订单效期：
+                </view>
+                <view class="des-value">
+                    {{order.effectiveStartTime}}至{{ order.effectiveEndTime}}
+                </view>
+            </view>
+
+            <view class="v-des-item" wx:if="{{order.status.value==1||order.status.value==2||order.status.value==3}}">
+                <view class="des-name">
+                    支付方式：
+                </view>
+                <view class="des-value">
+                    {{order.payMode}}
+                </view>
+            </view>
+            <view class="v-des-item" wx:if="{{order.status.value==1||order.status.value==2||order.status.value==3}}">
+                <view class="des-name">
+                    支付商户：
+                </view>
+                <view class="des-value">
+                    {{order.merchantName}}
+                </view>
+            </view>
+
+        </view>
+    </view>
+
+    <!-- <view class="v-divider"></view> -->
+</view>
+
+
+
+<block>
+    <!-- 服务 -->
+    <!-- <block wx:if="{{order.functionType==0}}"> -->
+    <block>
+        <!-- 1待支付、2进行中、3已完成、4已取消 -->
+        <view class="price-box">
+            <!-- 待支付 -->
+            <view class="btn" hidden="{{order.status.value==1? false : true}}" bindtap="cancelOrderTap" data-id="{{order.orderId}}">取消订单
+            </view>
+            <view class="btn active" hidden="{{order.status.value==1? false : true}}" bindtap="toPay" data-id="{{order.orderId}}" data-money="{{order.amountReal}}" data-score="{{order.score}}">去支付</view>
+
+            <!-- 已完成 和 已取消 -->
+            <view class="btn active" style="width: 80%;" hidden="{{(order.status.value==3||order.status.value==4)? false : true}}" bindtap="buyAgain" data-goods="{{order}}">
+                再次购买
+            </view>
+            <!-- 进行中 -->
+            <view class="btn active" style="width: 80%;" wx:if="{{(order.status.value==2&& order.goodsType!=2)? true : false}}" bindtap="goConsult" data-goods="{{order.orderId}}">
+                立即咨询
+            </view>
+
+        </view>
+    </block>
+
+</block>

@@ -76,10 +76,7 @@ Page({
         chatStatue: '',
         extraArr: [{
             picName: 'choose_picture',
-            description: '图片'
-        }, {
-            picName: 'take_photos',
-            description: '视频'
+            description: '发送图片'
         }],
         topArr: []
     },
@@ -1025,6 +1022,7 @@ Page({
             sourceType: ['album', 'camera'], // 从相册选择
             count: 1, // 只选一张，目前 SDK 不支持一次发送多张图片
             success: function (res) {
+                console.log(res)
                 // 2. 创建消息实例，接口返回的实例可以上屏
                 let message = getApp().tim.createImageMessage({
                     to: that.data.toUserID,

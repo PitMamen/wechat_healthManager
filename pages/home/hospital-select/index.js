@@ -86,13 +86,7 @@ Page({
     },
 
     checkLoginStatus() {
-        var userInfoSync = wx.getStorageSync('userInfo')
-        if (userInfoSync) {
-            return true
-        } else {
-            return false
-        }
-
+        return getApp().globalData.loginReady
     },
     onShareAppMessage: function () {
         // 页面被用户转发

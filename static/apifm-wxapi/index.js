@@ -626,6 +626,24 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/commodity/doctorCommodities'
                         return request(url, 'get', data, true);
                     },
+                    //小程序端-订单列表
+                    getMyOrders: function getMyOrders(data) {
+                        console.log(data)
+                        var url = MEDICAL_SERVICE + '/userorder/list'
+                        return request(url, 'POST', data, true);
+                    },
+                    //小程序端-订单详情
+                    getOrderDetail: function getOrderDetail(data) {
+                        console.log(data)
+                        var url = MEDICAL_SERVICE + '/userorder/detail'
+                        return request(url, 'get', data, true);
+                    },
+                    //小程序端-取消（未付款）订单
+                    cancelOrder: function cancelOrder(data) {
+                        console.log(data)
+                        var url = MEDICAL_SERVICE + '/userorder/cancel'
+                        return request(url, 'POST', data, true);
+                    },
                     //职称类型[正主任医生,副主任医生,...]
                     professionalTitles: function professionalTitles(data) {
                         console.log(data)
@@ -1237,6 +1255,57 @@ module.exports =
                        //获取机构详情 
                        gethospitalInfo: function gethospitalInfo(data) {
                         return request(UAM_SERVICE + '/hospital/info', 'get', data, true);
+                    },
+                     //权益详情
+                     getRightsInfo: function getRightsInfo(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/rightsUse/getRightsInfo'
+                        return request(url, 'get', data, true);
+                    },
+                     //获取权益购买时提交的资料
+                     getRightsReqData: function getRightsReqData(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/rightsUse/getRightsReqData'
+                        return request(url, 'get', data, true);
+                    },
+                     //权益使用日志查询
+                     qryRightsUseLog: function qryRightsUseLog(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/rightsUse/qryRightsUseLog'
+                        return request(url, 'post', data, true);
+                    },
+                     //保存权益使用日志
+                     saveRightsUseLog: function saveRightsUseLog(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/rightsUse/saveRightsUseLog'
+                        return request(url, 'post', data, true);
+                    },
+                     //申请权益使用
+                     saveRightsUseRecordNew: function saveRightsUseRecordNew(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/rightsUse/saveRightsUseRecord'
+                        return request(url, 'post', data, true);
+                    },
+                      //小程序端-问诊列表
+                      getConsultList: function getConsultList(data) {
+                        
+                        var url = MEDICAL_SERVICE + '/consult/list'
+                        return request(url, 'get', data, true);
+                    },
+                     //代办-列表
+                     getInquiriesAgencyList: function getInquiriesAgencyList(data) {                       
+                        var url = MEDICAL_SERVICE + '/inquiriesAgency/list'
+                        return request2(url, 'post', data, true);
+                    },
+                    //代办-已读
+                    setInquiriesAgencyRead: function setInquiriesAgencyRead(id) {                      
+                        var url = MEDICAL_SERVICE + '/inquiriesAgency/read/'+id
+                        return request(url, 'post', '', true);
+                    },
+                    //权益使用记录查询
+                    qryRightsUseRecord: function qryRightsUseRecord(data) {                       
+                        var url = MEDICAL_SERVICE + '/rightsUse/qryRightsUseRecord'
+                        return request2(url, 'post', data, true);
                     },
                 };
 

@@ -34,6 +34,10 @@ Component({
             type: String,
             value: 'mp3'
         },
+        bottomtext: {
+            type: String,
+            value: ''
+        },
         extraArray: {
             type: Array,
             value: []
@@ -56,6 +60,7 @@ Component({
         }
     },
     data: {
+        bottomText:'',
         autoHeight:false,
         windowHeight: 0,
         windowWidth: 0,
@@ -85,6 +90,12 @@ Component({
             console.log('extraArray',value)
             this.setData({
                 'extraObj.chatInputExtraArr': value || []
+            })
+        },
+        'bottomtext'(value) {
+           
+            this.setData({
+                bottomText: value || ''
             })
         },
         'topArray'(value) {
@@ -145,7 +156,7 @@ Component({
                 }, () => {
                     this.triggerEvent(EVENT.EXTRA_CLICK, { isShow }, {});
                 });
-
+               
             }, 100)
         },
         _change$input$way$event() {
@@ -361,10 +372,10 @@ Component({
             this.setData({
                 textMessage
             })
-            if(textMessage && textMessage.length>=200){
+            if(textMessage && textMessage.length>=1500){
                 wx.showModal({
                     title: '温馨提示',
-                    content: '消息发送限制200字内，无法继续编辑',
+                    content: '消息发送限制1500字内，无法继续编辑',
                     showCancel:false,
                     })
                 
@@ -373,6 +384,9 @@ Component({
         _chatInput$extra$item$click$event(e) {
             const { currentTarget: { dataset } } = e;
             this.triggerEvent(EVENT.EXTRA_ITEM_CLICK, { ...dataset }, {});
+            this.setData({
+                'extraObj.chatInputShowExtra': false
+            })
         },
 
         _setVoiceListener() {

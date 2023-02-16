@@ -64,7 +64,7 @@ Page({
 
   },
   checkLoginStatus() {
-    if(this.data.userInfo){
+    if (getApp().globalData.loginReady) {
         return true
     }else {
         wx.showModal({
@@ -97,17 +97,7 @@ avatarBinderror(e){
       url: '../home/health-records/index',
     })
   },
-  //健康记录
-  goRecordListPage(){
-      if(this.checkLoginStatus()){
-        if(getApp().getDefaultPatient()){
-            wx.navigateTo({
-                url: '../home/upload/recordList?userId='+this.data.defaultPatient.userId,
-              })
-        }
 
-      }
-  },
   goRecordPage() {
     wx.navigateTo({
       url: '../record/index',
@@ -157,7 +147,8 @@ avatarBinderror(e){
         if(getApp().getDefaultPatient()){
         var type = e.currentTarget.dataset.type
         wx.navigateTo({
-          url: './order/order-list?active=' + type,
+        //   url: './order/order-list?active=' + type,
+          url: './order/order-list-new?active=' + type,
         })
     }
     }
