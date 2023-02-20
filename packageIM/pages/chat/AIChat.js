@@ -39,9 +39,7 @@ Page({
             id: 'JZDH', name: '就诊导航', active: false
         }, {
             id: 'AIDOCTOR', name: '智能问诊', active: false
-        }, {
-            id: 'CaseManager', name: '人 工', active: false
-        },]
+        }]
     },
 
     /**

@@ -121,6 +121,18 @@ Component({
         }
     },
     methods: {
+        //点击人工
+        contactBindtap(e){
+            this.data.topObj.chatInputTopArr.forEach(item=>{
+            
+                item.active=false
+                
+            })
+            this.setData({
+                'topObj.chatInputTopArr': this.data.topObj.chatInputTopArr,
+                
+            })
+        },
         bindHealthTap(e) {
             const { currentTarget: { dataset } } = e;
             

@@ -15,7 +15,7 @@
 
 .tab-view {
     display: flex;
-    background-color: white;
+    background-color: #F5F5F5;
     height: 96rpx;
     align-items: center;
     padding: 0 12rpx;
@@ -36,9 +36,11 @@
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    background-color: white;
+}
+.hover-class{
 
 }
-
 .activebtn {
     background-color: #2E8BEB;
     color: white;
