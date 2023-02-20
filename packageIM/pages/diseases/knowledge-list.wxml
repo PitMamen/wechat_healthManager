@@ -9,7 +9,7 @@
         <view wx:for="{{topArr}}" class="tab-btn {{topArrIndex===index?'activebtn':''}}" bindtap="bindHealthTap" data-index="{{index}}" >{{item.name}}</view>
       </view>
     </van-sticky>
-    <van-empty wx:if="{{ !list || list.length == 0 }}" description="未找到答案，您可转人工咨询" >
+    <van-empty wx:if="{{ !list || list.length == 0 }}" image="/image/icon_nodata.png" description="未找到答案，您可转人工咨询" >
       <van-button round type="danger" color="#4179FB" size="small" bindtap="goIMpage">人工咨询</van-button>
 </van-empty>
     <!-- <van-collapse wx:else accordion value="{{ activeName }}" bind:change="onCollapseChange">

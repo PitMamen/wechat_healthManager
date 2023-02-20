@@ -40,7 +40,7 @@
     </view>
     <view class="bottom card">
         <view class="title">问诊服务</view>
-        <van-empty class="empty" description="暂无记录" wx:if="{{ list.length === 0 }}" />
+        <van-empty class="empty" description="暂无记录" image="/image/icon_nodata.png" wx:if="{{ list.length === 0 }}" />
         <view class="list" wx:else>
             <view class="{{ 'item ' + item.className }}" wx:for="{{ list }}" wx:key="commodityId">
                 <view class="intro">

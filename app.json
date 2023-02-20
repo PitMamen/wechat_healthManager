@@ -11,7 +11,8 @@
                 "pages/diseases/content",
                 "pages/diseases/knowledge-list",
                 "pages/chat/historyChat",
-                "pages/chat/groupChat"
+                "pages/chat/groupChat",
+                "pages/chat/groupHistoryChat"
             ]
         }
     ],

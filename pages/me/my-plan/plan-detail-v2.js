@@ -23,12 +23,10 @@ Page({
       planName:options.planName,
     })
 
-    var defaultPatient =getApp().getDefaultPatient()
-    defaultPatient.phone = defaultPatient.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
+    // var defaultPatient =getApp().getDefaultPatient()
+    // defaultPatient.phone = defaultPatient.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
     this.setData({
       planId: options.planId,
-      userInfo: wx.getStorageSync('userInfo').account,
-      defaultPatient: defaultPatient
     })
 
    

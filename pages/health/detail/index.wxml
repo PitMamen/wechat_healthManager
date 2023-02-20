@@ -23,7 +23,7 @@
     </view>
     <view class="middle card">
         <view class="title">{{ name }}</view>
-        <van-empty class="empty" description="暂无记录" wx:if="{{ (list1.length + list2.length) === 0 }}" />
+        <van-empty class="empty" image="/image/icon_nodata.png" description="暂无记录" wx:if="{{ (list1.length + list2.length) === 0 }}" />
         <view class="list" wx:else>
             <block wx:for="{{ list1 }}" wx:key="collectionId">
                 <view class="item">

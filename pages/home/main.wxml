@@ -67,7 +67,7 @@
 
                 <view wx:if="{{index+1 !== taskList.length}}" class="split" />
             </view>
-            <van-empty wx:if="{{ !taskList || taskList.length == 0 }}" description="暂无待办" />
+            <van-empty class="empty" wx:if="{{ !taskList || taskList.length == 0 }}" image="/image/icon_nodata.png" description="暂无待办" />
         </view>
     </view>
 </scroll-view>

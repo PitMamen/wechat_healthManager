@@ -24,7 +24,7 @@
         </view>
         <van-button class="ai-btn" color="#3894FF" round type="info" size="small">进入诊室</van-button>
     </view>
-    <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" description="暂无数据" />
+    <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="/image/icon_nodata.png" description="暂无数据" />
 
     <view bindtap="bindItemTap" data-item="{{item}}" class="card" wx:for="{{appointList}}" wx:key="1">
 
@@ -79,7 +79,7 @@
 <block wx:if="{{active=='1'}}">
 
     <view style="height: 30rpx;"></view>
-    <van-empty wx:if="{{ !todoList || todoList.length == 0 }}" description="暂无数据" />
+    <van-empty wx:if="{{ !todoList || todoList.length == 0 }}" image="/image/icon_nodata.png" description="暂无数据" />
     <view class="card" wx:for="{{todoList}}" wx:key="1">
 
         <view class="todo-card-top">

@@ -75,7 +75,7 @@
         </view>
     </view>
     <!-- <view wx:if="{{noDoc}}">无数据</view> -->
-    <van-empty wx:if="{{noDoc}}" description="暂无排班" />
+    <van-empty wx:if="{{noDoc}}" description="暂无排班" image="/image/icon_nodata.png"/>
 </view>
 <!-- </scroll-view> -->
 

@@ -12,7 +12,7 @@
             style="width: 100%;"
         >
             <view slot="content" class="slot-wrap">
-                <van-empty class="empty" description="暂无记录" wx:if="{{ children.length === 0 }}" />
+                <van-empty class="empty" image="/image/icon_nodata.png" description="暂无记录" wx:if="{{ children.length === 0 }}" />
                 <view class="list" wx:else>
                     <view class="item" wx:for="{{ children }}" wx:key="classifyId">
                         <view class="title">{{ item.classifyName }}</view>

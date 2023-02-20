@@ -1,7 +1,7 @@
 <wxs src="../../../modules/format.wxs" module="computed"></wxs>
 
 
-<van-empty wx:if="{{ !planList || planList.length == 0 }}" description="暂无数据" />
+<van-empty wx:if="{{ !planList || planList.length == 0 }}" description="暂无数据" image="/image/icon_nodata.png"/>
 <view  wx:for="{{planList}}" wx:key="id3" class="card" bindtap="goPlanDetailPage" data-item="{{item}}">
 
   <view class="card-black" >
