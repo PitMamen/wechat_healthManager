@@ -19,12 +19,12 @@
     </view>
     <view style="height: 0.5px;background: #E6E6E6;"></view>
     <view class="top-view" style="margin-top: 30rpx;">
-            <view style="height:34rpx;width: 7rpx; background: #0379FF;"></view>
-            <text class="title" style="margin-left: 20rpx;">临时任务</text>
-        </view>
-        <van-empty wx:if="{{ !shortTaskList || shortTaskList.length == 0 }}" description="暂无临时任务" image="/image/icon_nodata.png"/>
+        <view style="height:34rpx;width: 7rpx; background: #0379FF;"></view>
+        <text class="title" style="margin-left: 20rpx;">临时任务</text>
+    </view>
+    <van-empty wx:if="{{ !shortTaskList || shortTaskList.length == 0 }}" description="暂无临时任务" image="/image/icon_nodata.png" />
     <view class="card-black" wx:for="{{shortTaskList}}" wx:key="1" bindtap="onTaskItemClick" data-item="{{item}}">
-       
+
         <view class="top-view">
             <van-icon size="23px" name="{{computed.taskTypeV2(item.taskType.value).icon}}" />
             <text class="title" style="margin-left: 18rpx;">{{item.taskType.description}}【{{item.messageType.description}}】</text>
@@ -37,7 +37,7 @@
             <view style="margin-left: auto;">计划执行时间：{{item.latestExecDate}}</view>
         </view>
 
-        <view style="height: 0.5px;background: #E6E6E6;"></view>
+        <view wx:if="{{index < shortTaskList.length-1}}" style="height: 0.5px;background: #E6E6E6; margin-bottom: 30rpx;"></view>
     </view>
 
 
@@ -47,16 +47,16 @@
 
 <view class="contail">
     <view class="top-view" style="margin-top: 5rpx;">
-            <view style="height:34rpx;width: 7rpx; background: #0379FF;"></view>
-            <text class="title" style="margin-left: 20rpx;">长期任务</text>
-        </view>
-        <van-empty wx:if="{{ !longTaskList || longTaskList.length == 0 }}" description="暂无长期任务" image="/image/icon_nodata.png"/>
+        <view style="height:34rpx;width: 7rpx; background: #0379FF;"></view>
+        <text class="title" style="margin-left: 20rpx;">长期任务</text>
+    </view>
+    <van-empty wx:if="{{ !longTaskList || longTaskList.length == 0 }}" description="暂无长期任务" image="/image/icon_nodata.png" />
     <view class="card-black" wx:for="{{longTaskList}}" wx:key="1" bindtap="onTaskItemClick" data-item="{{item}}">
-        
+
         <view class="top-view">
             <van-icon size="23px" name="{{computed.taskTypeV2(item.taskType.value).icon}}" />
             <text class="title" style="margin-left: 18rpx;">{{item.taskType.description}}【{{item.messageType.description}}】</text>
-            <text  style="margin-left: 67rpx;font-size: 28rpx;color:#0379FF;">执行次数：{{item.execCount}}次</text>
+            <text style="margin-left: 67rpx;font-size: 28rpx;color:#0379FF;">执行次数：{{item.execCount}}次</text>
             <text wx:if="{{item.status.value==3}}" style="margin-left: auto;font-size: 28rpx;color:#999999;">{{item.status.description}}</text>
             <text wx:else style="margin-left: auto;font-size: 28rpx;color:#F1A139;">{{item.status.description}}</text>
 

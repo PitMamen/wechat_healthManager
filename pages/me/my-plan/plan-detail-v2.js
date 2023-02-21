@@ -52,9 +52,10 @@ Page({
     var shortTaskList=[]
     if (res.data && res.data.records ) {
         res.data.records.forEach(item=>{
+           
+            item.messageType.description=item.messageType.description.replace('消息','')
            if(item.taskExecType.value ==1){
-            shortTaskList.push(item)
-            shortTaskList.push(item)
+            shortTaskList.push(item)          
            }else{
             longTaskList.push(item) 
            }

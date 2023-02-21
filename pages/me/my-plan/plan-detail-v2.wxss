@@ -74,7 +74,7 @@ page{
 .contail{
   display: flex;
   flex-direction: column;
-  padding: 25rpx;
+  padding: 25rpx 25rpx 0 25rpx;
 }
 .top-view{
   display: flex;
