@@ -1,7 +1,7 @@
 {
     "usingComponents": {
-      "chat-input": "../../components/chat-input/chat-input",
-      "component-scroll": "../../components/component-scroll/index"
+      "chat-input": "../../components/chat-input/chat-input"
+     
      
     },
     "navigationBarTitleText": "",

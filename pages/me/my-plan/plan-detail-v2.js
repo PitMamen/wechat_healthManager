@@ -7,6 +7,8 @@ Page({
    */
   data: {
     taskDetail:{},
+    longTaskList:[],
+    shortTaskList:[],
     planId:'',
     userId:'',
     taskId:''
@@ -36,24 +38,32 @@ Page({
    */
   onShow: function () {
    
-  this.qryMyFollowDetail()
+  this.getFollowUserPlanPhoneList()
 },
-  async qryMyFollowDetail() {
+  async getFollowUserPlanPhoneList() {
     var postdata={
         planId: this.data.planId,
-        planTaskDetailId: this.data.planTaskDetailId,    
-        userId: this.data.userId
+        userId: this.data.userId,
+        pageNo: 1,    
+        pageSize:9999
       }
-    const res = await WXAPI.qryMyFollowDetail(postdata)
-    if (res.data) {
-        res.data.forEach(item=>{
-            item.executeTime2= item.executeTime.substring(0,10) 
+    const res = await WXAPI.getFollowUserPlanPhoneList(postdata)
+   var longTaskList=[]
+    var shortTaskList=[]
+    if (res.data && res.data.records ) {
+        res.data.records.forEach(item=>{
+           if(item.taskExecType.value ==1){
+            shortTaskList.push(item)
+            shortTaskList.push(item)
+           }else{
+            longTaskList.push(item) 
+           }
         })
-      this.setData({
-        taskDetail:res.data
-      })
-
     }
+    this.setData({
+        longTaskList:longTaskList,
+        shortTaskList:shortTaskList
+      })
   },
 
 

@@ -7,7 +7,7 @@
     </view>
     <view wx:if="{{topObj.chatInputShowTop}}" class="tab-view">
         <view wx:for="{{topObj.chatInputTopArr}}" class="tab-btn {{item.active?'activebtn':''}}" bindtap="bindHealthTap" data-item="{{item}}">{{item.name}}</view>
-        <button  open-type="contact" size="mini" class="tab-btn " bindtap="contactBindtap">人工</button>
+        <button hover-class="top-press-style" open-type="contact" size="mini" class="tab-btn " bindtap="contactBindtap">人工</button>
     </view>
     <view class="input-text-voice-super">
         <image wx:if="{{showVoice}}" src="../../image/chat/voice/{{inputStatus==='voice'?'keyboard':'voice'}}.png" class="extra-btn-style" bindtap="_change$input$way$event" />

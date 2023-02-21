@@ -71,6 +71,7 @@
         "pages/consult/detail/index",
         "pages/consult/rights/apply",
         "pages/consult/webpage/index"
+       
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

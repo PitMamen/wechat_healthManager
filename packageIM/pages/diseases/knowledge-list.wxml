@@ -1,27 +1,17 @@
-<include src="../../../utils/refreshHeaderView.wxml" />
-<include src="../../../utils/loadMoreFooterView.wxml" />
+<van-sticky>
+    <van-search input-align="center" placeholder="搜索" value="{{keyWords}}" bind:search="onSearch" bind:change="onChange" />
+    <view class="tab-view">
+        <view wx:for="{{topArr}}" class="tab-btn {{topArrIndex===index?'activebtn':''}}" bindtap="bindHealthTap" data-index="{{index}}">{{item.name}}</view>
+    </view>
+</van-sticky>
 
-<scroll-view class="scroll_container" scroll-y="true" style="position:fixed;width:100%;left:0;height:{{windowHeight}}px;top:{{loadMoreHeight == 0? refreshHeight:-loadMoreHeight}}px;bottom:{{loadMoreHeight}}px;" bindscroll="scroll" bindscrolltolower="lower" bindscrolltoupper="upper" bindtouchstart="start" bindtouchend="end">
-  <view style="width:100%;height:100%" bindtouchmove="move">
-    <van-sticky>
-      <van-search input-align="center" placeholder="搜索" value="{{keyWords}}" bind:search="onSearch" bind:change="onChange" />
-      <view class="tab-view">
-        <view wx:for="{{topArr}}" class="tab-btn {{topArrIndex===index?'activebtn':''}}" bindtap="bindHealthTap" data-index="{{index}}" >{{item.name}}</view>
-      </view>
-    </van-sticky>
-    <van-empty wx:if="{{ !list || list.length == 0 }}" image="/image/icon_nodata.png" description="未找到答案，您可转人工咨询" >
-      <van-button round type="danger" color="#4179FB" size="small" bindtap="goIMpage">人工咨询</van-button>
+<van-empty wx:if="{{ !list || list.length == 0 }}" image="/image/icon_nodata.png" description="未找到答案，您可转人工咨询">
+    <van-button round type="danger" color="#4179FB" size="small" bindtap="goIMpage">人工咨询</van-button>
 </van-empty>
-    <!-- <van-collapse wx:else accordion value="{{ activeName }}" bind:change="onCollapseChange">
-      <van-collapse-item wx:for="{{list}}" wx:key="id" title="{{item.title}}" name="{{index}}">
-        {{item.content}}
-      </van-collapse-item>
-    </van-collapse> -->
+
 
 <view class="card" wx:for="{{list}}" wx:key="id" bindtap="knowledgeClick" data-id="{{item.id}}">
-    
     {{index+1}}.{{item.title}}
 </view>
 
-  </view>
-</scroll-view>
+<van-loading wx:if="{{isMoreLoading}}" style="margin-left: 300rpx;" size="20px" type="spinner" >加载中...</van-loading> 

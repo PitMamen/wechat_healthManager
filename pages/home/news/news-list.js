@@ -2,13 +2,14 @@
 const WXAPI = require('../../../static/apifm-wxapi/index')
 
 var page = 1
-var register = require('../../../utils/refreshLoadRegister.js');
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    isMoreLoading:false,
     deptName:'全部科室',
     screenName:'推荐服务',
     deptArray: [],
@@ -32,7 +33,10 @@ Page({
       defaultPatient: wx.getStorageSync('defaultPatient')
     })
     page = 1;
-    register.register(this);
+    wx.showLoading({
+      title: '加载中...',
+    })
+ 
     this.getArticleByClickNum();
     this.getTagsByClickNum()
 
@@ -48,6 +52,9 @@ Page({
         pageSize: that.data.pageSize, 
         start: page })
     console.log(res)
+    this.setData({
+        isMoreLoading:false
+    })
     if (res.code == 0) {
       if (page == 1) {
         list = res.data.list
@@ -61,7 +68,7 @@ Page({
       })
       page++;
       wx.hideLoading();
-      register.loadFinish(that, true);
+
     } else {
       wx.showToast({
         title: '数据加载失败',
@@ -80,6 +87,9 @@ Page({
         pageSize: that.data.pageSize, 
         pageNo: page })
     console.log(res)
+    this.setData({
+        isMoreLoading:false
+    })
     if (res.code == 0) {
 
       if (page == 1) {
@@ -94,7 +104,7 @@ Page({
       })
       page++;
       wx.hideLoading();
-      register.loadFinish(that, true);
+   
     } else {
       wx.showToast({
         title: '数据加载失败',
@@ -138,6 +148,9 @@ Page({
         pageSize: that.data.pageSize, 
         start: page })
     console.log(res)
+    this.setData({
+        isMoreLoading:false
+    })
     if (res.code == 0) {
       if (page == 1) {
         list = res.data.list
@@ -151,7 +164,7 @@ Page({
       })
       page++;
       wx.hideLoading();
-      register.loadFinish(that, true);
+    
     } else {
       wx.showToast({
         title: '数据加载失败',
@@ -169,8 +182,8 @@ Page({
     })
     this.refresh()
   },
-  //模拟刷新数据 已关掉动画
-  refresh: function () {
+  //刷新数据 
+  refresh() {
     console.log("refresh")
     page = 1
     this.setData({
@@ -185,12 +198,15 @@ Page({
     }
 
   },
-  //模拟加载更多数据
-  loadMore: function () {
+  //加载更多数据
+  loadMore() {
     console.log("loadMore")
     var that = this;
     var state = that.data.state;
     if (state == 1) {
+        this.setData({
+            isMoreLoading:true
+        })
       if (this.data.APItype === 0) {//查询推荐文章
         this.getArticleByClickNum();
       } else if (this.data.APItype === 1) {//搜索
@@ -199,7 +215,7 @@ Page({
         this.articleListQuery()
       }
     } else {
-      register.loadFinish(that, true);
+    
       wx.showToast({
         title: '没有更多数据了',
         icon: "none",
@@ -262,25 +278,15 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.refresh()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    // var that = this;
-    // var state = that.data.state;
-
-    // if (state ==1) {
-    //     this.articleListQuery(); 
-    // }else{
-    //     wx.showToast({
-    //       title: '没有更多数据了',
-    //       icon:"none",
-    //     })
-    // }
-
+      console.log("onReachBottom")
+      this.loadMore()
   },
 
   onShareAppMessage: function () {
