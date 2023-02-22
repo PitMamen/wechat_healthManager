@@ -42,6 +42,8 @@ Page({
         bottomChatStatus: '',
         showTextPop: false,//文本消息点击放大
         showText: '',//文本消息点击放大
+        pageNo:1,
+        pageSize:20
     },
 
     /**
@@ -70,7 +72,7 @@ Page({
 
         })
         this.qryRightsUseRecord()
-        this.getMessageList()
+        this.getHistoryMessageList()
         this.voiceManager = new voiceManager(this)
 
         // //禁止截屏录屏
@@ -186,120 +188,55 @@ Page({
 
     },
 
-
-
-    //第一次获取消息列表
-    getMessageList() {
-        // 打开某个会话时，第一次拉取消息列表
-        let that = this;
-        var postdata = {
-            conversationID: this.data.conversationID,
-            count: 15//需要拉取的消息数量，默认值和最大值为15。
+    async getHistoryMessageList() {
+        if(this.data.pageNo == 1){
+            wx.showLoading({
+              title: '加载中...',
+            })
         }
-
-        let promise = getApp().tim.getMessageList(postdata);
-        promise.then(function (imResponse) {
-            console.log(imResponse.data.messageList)
-            const messageList = imResponse.data.messageList; // 消息列表。
-            const nextReqMessageID = imResponse.data.nextReqMessageID; // 用于续拉，分页续拉时需传入该字段。
-            const isCompleted = imResponse.data.isCompleted; // 表示是否已经拉完所有消息。
-
-
-            that.setMultItemAndScrollPage(messageList, false, that.data.chatItems.length === 0, false)
-
-
-            that.setData({
-                nextReqMessageID: nextReqMessageID,
-                isCompleted: isCompleted
-            })
-            that.setData({
-                triggered: false,
-            })
-            that._freshing = false
-            // 将某会话下所有未读消息已读上报
-            getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
-
-
-        }).catch(function (imError) {
-            console.error(imError)
-            that.setData({
-                triggered: false,
-            })
-            that._freshing = false
-            wx.showToast({
-                title: '获取聊天列表失败',
-                icon: "none",
-                duration: 2000
-            })
-        });;
-    },
-    // 下拉获取更多消息记录
-    getMoreMessageList() {
-
-        let that = this;
-        var postdata = {
-            conversationID: this.data.conversationID,
-            nextReqMessageID: this.data.nextReqMessageID,
-            count: 15//需要拉取的消息数量，默认值和最大值为15。
+        let that=this
+        const postData = {
+            pageNo: this.data.pageNo,
+            pageSize:this.data.pageSize,
+            groupId: this.data.groupID
         }
-
-        let promise = getApp().tim.getMessageList(postdata);
-        promise.then(function (imResponse) {
-            console.log(imResponse.data.messageList)
-            const messageList = imResponse.data.messageList; // 消息列表。
-            const nextReqMessageID = imResponse.data.nextReqMessageID; // 用于续拉，分页续拉时需传入该字段。
-            const isCompleted = imResponse.data.isCompleted; // 表示是否已经拉完所有消息。
-
-
-            that.setMultItemAndScrollPage(messageList, false, that.data.chatItems.length === 0, true)
-
-
-            that.setData({
-                nextReqMessageID: nextReqMessageID,
-                isCompleted: isCompleted
+        const res = await WXAPI.qryHistoryByPage(postData)
+        wx.hideLoading()
+        if (res.code === 0 ) {
+            const messageList = res.data.rows; // 消息列表。
+            that.setMultItemAndScrollPage(messageList, false, this.data.pageNo===1,this.data.pageNo>1)
+            that.setData({            
+                isCompleted: res.data.pageNo>=res.data.totalPage,
+                pageNo: res.data.pageNo+1
             })
             that.setData({
                 triggered: false,
             })
             that._freshing = false
-            // 将某会话下所有未读消息已读上报
-            getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
-
-
-        }).catch(function (imError) {
-            console.error(imError)
-            that.setData({
-                triggered: false,
-            })
-            that._freshing = false
-            wx.showToast({
-                title: '获取聊天列表失败',
-                icon: "none",
-                duration: 2000
-            })
-        });;
+        }
+    
     },
+
+
     // 下拉查看更多消息
     onRefresh: function (e) {
+     
         console.log("onRefresh")
         if (this._freshing) return
         this._freshing = true
         if (this.data.isCompleted) {
-
             wx.showToast({
                 icon: 'none',
                 title: "没有更多消息了",
                 duration: 2000
             })
-
-
             this.setData({
                 triggered: false,
             })
             this._freshing = false
             return
         }
-        this.getMoreMessageList()
+        this.getHistoryMessageList()
 
     },
 
@@ -711,6 +648,8 @@ Page({
         }
         let that = this
         newItems.forEach(function (item, index) {
+          
+            item.flow=item.from==that.data.config.userID?'out':'in'
             //计算是否显示时间
             if (isLoadmore) {
                 item.isShowTime = true

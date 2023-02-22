@@ -1312,6 +1312,11 @@ module.exports =
                         var url = FOLLOW_SERVICE + '/follow/userplan/getFollowUserPlanPhoneList'
                         return request(url, 'post', data, true);
                     },
+                      //历史消息数据
+                      qryHistoryByPage: function qryHistoryByPage(data) {                      
+                        var url = MEDICAL_SERVICE + '/rightsUse/qryHistoryByPage'
+                        return request2(url, 'post', data, true);
+                    },
                 };
 
                 /***/

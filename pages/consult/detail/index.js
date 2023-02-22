@@ -132,7 +132,7 @@ Page({
             // }
             
             wx.navigateTo({
-              url:  `/packageIM/pages/chat/groupChat?groupID=${this.data.detail.imGroupId}&inquiryType=${'textNum'}&tradeId=${this.data.detail.rightsUseRecordStatus.id}&tradeAction=${'END'}&userId=${this.data.detail.userId}`,
+              url:  `/packageIM/pages/chat/groupHistoryChat?groupID=${this.data.detail.imGroupId}&inquiryType=${'textNum'}&tradeId=${this.data.detail.rightsUseRecordStatus.id}&tradeAction=${'END'}&userId=${this.data.detail.userId}`,
             })
         }
         
