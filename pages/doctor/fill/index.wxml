@@ -1,3 +1,4 @@
+
 <view class="wrap">
     <view class="top">
         <image src="/image/myjk/msg.png" mode="aspectFill" />
@@ -18,6 +19,7 @@
                     show-word-limit
                     type="textarea"
                     size="large"
+                    disabled="{{show}}"
                     maxlength="200"
                     border="{{ false }}"
                     model:value="{{ inputTxt }}"
@@ -34,6 +36,7 @@
                     show-word-limit
                     type="textarea"
                     size="large"
+                    disabled="{{show}}"
                     maxlength="200"
                     border="{{ false }}"
                     model:value="{{ appealDesc }}"
