@@ -88,11 +88,18 @@ Page({
     //查询是否His接口
     async gethospitalInfo(hospitalCode) {
         const res = await WXAPI.gethospitalInfo({ hospitalCode: hospitalCode })
-        if (res.code == 0) {
-            this.setData({
-                hasHIS: res.data.hisStatus.value
-            })
+        if(res.code == 0){
+            if (res.data.hisStatus) {
+                this.setData({
+                    hasHIS: res.data.hisStatus.value || 2
+                })
+            }else {
+                this.setData({
+                    hasHIS:  2
+                })
+            }
         }
+       
     },
   //查询科室接口
   async getDepartmentDetail(deptCode) {
