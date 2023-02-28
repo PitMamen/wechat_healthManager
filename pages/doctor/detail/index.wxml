@@ -4,8 +4,8 @@
             <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
             <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #FFFFFF;text-align: center;">
                 <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 0; padding: 0 24rpx ;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
-                <view style="padding: 0 185rpx 0 70rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                    <text style="{{'line-height: '+ navBarHeight +'px;'}}">{{ name }}</text>
+                <view style="padding: 0 185rpx 0 185rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                    <text style="{{'line-height: '+ navBarHeight +'px;'}}">套餐详情</text>
                 </view>
             </view>
         </view>
@@ -26,7 +26,7 @@
         <van-empty class="empty" description="暂无记录" image="/image/icon_nodata.png" wx:if="{{ (list1.length + list2.length) === 0 }}" />
         <view class="list" wx:else>
             <block wx:for="{{ list1 }}" wx:key="collectionId">
-                <view class="item" >
+                <view class="item" bindtap="onItemClick" data-item="{{item}}">
                     <van-checkbox class="left" value="{{ collectionId == item.collectionId }}" bind:change="onRadioChange" data-item="{{ item }}"></van-checkbox>
                     <view class="center">
                         <image src="{{ item.collectionImg }}" lazy-load="{{ true }}" mode="aspectFill" />

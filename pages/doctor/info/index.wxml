@@ -3,7 +3,7 @@
         <view class="header">
             <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
             <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #FFFFFF;text-align: center;">
-                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 24rpx;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
+                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 0; padding: 0 24rpx ;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
                 <text style="{{'line-height: '+ navBarHeight +'px;'}}">{{ title }}</text>
             </view>
         </view>
