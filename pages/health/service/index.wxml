@@ -5,7 +5,7 @@
     </view>
     <view class="bottom">
         <van-tree-select
-            height="95vh"
+            height="90vh"
             items="{{ items }}"
             main-active-index="{{ mainActiveIndex }}"
             bind:click-nav="onClickNav"
