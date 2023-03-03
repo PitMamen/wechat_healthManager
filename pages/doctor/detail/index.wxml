@@ -3,7 +3,7 @@
         <view class="header">
             <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
             <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #FFFFFF;text-align: center;">
-                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 0; padding: 0 24rpx ;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
+                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 0; padding: 0 50rpx 0 24rpx ;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
                 <view style="padding: 0 185rpx 0 185rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                     <text style="{{'line-height: '+ navBarHeight +'px;'}}">套餐详情</text>
                 </view>
