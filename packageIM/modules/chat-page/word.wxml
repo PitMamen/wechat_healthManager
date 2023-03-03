@@ -16,8 +16,8 @@
 
             <view wx:if="{{type==='TIMSoundElem'}}" style=" display: flex;flex-direction:{{isMy?'row-reverse':'row'}} ;width:{{content.second*7.2+70}}rpx;max-width: 500rpx;" class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="chatVoiceItemClickEvent" data-voice-path="{{content.url}}" data-voice-duration="{{content.second}}" data-is-my="{{isMy}}" data-index="{{index}}">
                 <template is="voice-item" data="{{isMy:isMy,isPlaying:content.isPlaying}}" />
-                <view wx:if="{{isMy}}" class="voice-duration-my-style">{{content.second}}"</view>
-                <view wx:if="{{!isMy}}" class="voice-duration-other-style">{{content.second}}"</view>
+                <view wx:if="{{isMy}}" class="voice-duration-my-style">{{content.second?content.second+'"':''}}</view>
+                <view wx:if="{{!isMy}}" class="voice-duration-other-style">{{content.second?content.second+'"':''}}"</view>
             </view>
 
             <view wx:if="{{type==='TIMVideoFileElem'}}" class="video-box-img" bindtap="onVideoPlayClick" data-item="{{content}}">

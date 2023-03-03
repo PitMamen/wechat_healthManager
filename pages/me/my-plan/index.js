@@ -32,9 +32,8 @@ Page({
     },
   goPlanDetailPage(event){
     var item = event.currentTarget.dataset.item
-    var planTaskDetailId=item.planTaskDetailId?item.planTaskDetailId:''
     wx.navigateTo({
-      url: './plan-detail-v2?planId=' + item.planId+'&planTaskDetailId=' +planTaskDetailId +'&userId=' + item.userId+'&planName=' + item.planName,
+      url: './plan-detail-v2?planId=' + item.planId+'&followMetaDataId=' +item.followMetaDataId +'&userId=' + item.userId+'&planName='+item.planName+'&statusStr='+item.statusStr
     })
   },
   /**

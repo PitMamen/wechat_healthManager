@@ -115,6 +115,7 @@ page {
     padding: 20rpx 24rpx;
 }
 
+
 .grid-class {
     --grid-item-content-background-color: transparent !important;
 

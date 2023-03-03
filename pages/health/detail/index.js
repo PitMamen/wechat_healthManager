@@ -111,6 +111,13 @@ Page({
     onBackTap() {
         wx.navigateBack({})
     },
+    onItemClick(event){
+        const item = event.currentTarget.dataset.item
+        this.setData({
+            collectionId: item.collectionId
+        })
+        this.setPrice()
+    },
     onRadioChange(event) {
         const item = event.currentTarget.dataset.item
         this.setData({

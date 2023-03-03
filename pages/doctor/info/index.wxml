@@ -3,7 +3,7 @@
         <view class="header">
             <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
             <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #FFFFFF;text-align: center;">
-                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 24rpx;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
+                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 0; padding: 0 50rpx 0 24rpx;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
                 <text style="{{'line-height: '+ navBarHeight +'px;'}}">{{ title }}</text>
             </view>
         </view>
@@ -40,7 +40,7 @@
     </view>
     <view class="bottom card">
         <view class="title">问诊服务</view>
-        <van-empty class="empty" description="暂无记录" wx:if="{{ list.length === 0 }}" />
+        <van-empty class="empty" description="暂无记录" image="/image/icon_nodata.png" wx:if="{{ list.length === 0 }}" />
         <view class="list" wx:else>
             <view class="{{ 'item ' + item.className }}" wx:for="{{ list }}" wx:key="commodityId">
                 <view class="intro">

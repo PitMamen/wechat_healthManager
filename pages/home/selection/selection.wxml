@@ -5,6 +5,6 @@
   </van-sidebar>
 </scroll-view>
 <scroll-view class="articles" scroll-y="true" scroll-top="{{scrolltop}}">
-  <van-empty wx:if="{{!cmsArticles}}" description="暂无记录" />
+  <van-empty wx:if="{{!cmsArticles}}" description="暂无记录" image="/image/icon_nodata.png"/>
   <van-cell wx:for="{{cmsArticles}}" wx:key="id" title="{{item.yyksmc}}" bindtap="clickDepartment" data-id="{{item.yyksdm}}"/>
 </scroll-view>

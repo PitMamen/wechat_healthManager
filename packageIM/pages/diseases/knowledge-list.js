@@ -2,13 +2,14 @@
 const WXAPI = require('../../../static/apifm-wxapi/index')
 
 var page = 1
-var register = require('../../../utils/refreshLoadRegister.js');
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    isMoreLoading:false,
     deptName: '全部科室',
     screenName: '推荐服务',
     deptArray: [],
@@ -55,7 +56,7 @@ Page({
       knowledgeType: this.data.topArr[this.data.topArrIndex].knowledgeType,
     })
     page = 1;
-    register.register(this);
+
     
 
     this.qrySysKnowledge()
@@ -74,9 +75,13 @@ Page({
 
     const res = await WXAPI.qrySysKnowledge(postData)
     console.log(res)
+    this.setData({
+        isMoreLoading:false
+    })
     if (res.code == 0) {
       if (page == 1) {
         list = res.data.rows
+       
       } else {
         list = list.concat(res.data.rows)
       }
@@ -87,7 +92,7 @@ Page({
       })
       page++;
       wx.hideLoading();
-      register.loadFinish(that, true);
+   
     } else {
       wx.showToast({
         title: '数据加载失败',
@@ -113,6 +118,9 @@ Page({
     }
 
     const res = await WXAPI.qrySysKnowledgeAnswer(postData)
+    this.setData({
+        isMoreLoading:false
+    })
     if (res.data && res.data.length > 0) {
       this.setData({
         list: res.data,
@@ -160,15 +168,18 @@ Page({
     })
     this.qrySysKnowledge()
   },
-  //模拟加载更多数据
-  loadMore: function () {
+  //加载更多数据
+  loadMore () {
     console.log("loadMore")
     var that = this;
     var state = that.data.state;
     if (state == 1) {
+        this.setData({
+            isMoreLoading:true
+        })
       this.qrySysKnowledge()
     } else {
-      register.loadFinish(that, true);
+  
       wx.showToast({
         title: '没有更多数据了',
         icon: "none",
@@ -243,17 +254,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    // var that = this;
-    // var state = that.data.state;
-
-    // if (state ==1) {
-    //     this.articleListQuery(); 
-    // }else{
-    //     wx.showToast({
-    //       title: '没有更多数据了',
-    //       icon:"none",
-    //     })
-    // }
+ this.loadMore()
 
   },
 

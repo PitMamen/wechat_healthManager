@@ -1,7 +1,7 @@
 <wxs src="../../../modules/format.wxs" module="computed"></wxs>
 
 
-<van-empty wx:if="{{ !planList || planList.length == 0 }}" description="暂无数据" />
+<van-empty wx:if="{{ !planList || planList.length == 0 }}" description="暂无数据" image="/image/icon_nodata.png"/>
 <view  wx:for="{{planList}}" wx:key="id3" class="card" bindtap="goPlanDetailPage" data-item="{{item}}">
 
   <view class="card-black" >
@@ -9,11 +9,11 @@
       <text class="title-date">{{item.planName}}</text>
       
       <view class="title-right">
-        <van-tag  size="large" color="#4179FB" type="primary">进行中</van-tag>
-        <!-- <van-tag wx:if="{{item.status.value==2}}" size="large" color="#4179FB" type="primary">进行中</van-tag>
-        <van-tag wx:elif="{{item.status.value==1}}" size="large" color="#F59B0E" type="primary">待开启</van-tag>
-        <van-tag wx:elif="{{item.status.value==3}}" size="large" color="#999999" type="primary">已完成</van-tag>
-        <van-tag wx:else size="large" color="#999999" type="primary">{{item.status.description}}</van-tag> -->
+       
+        <van-tag wx:if="{{item.statusStr=='进行中'}}" size="large" color="#4179FB" type="primary">进行中</van-tag>
+        <van-tag wx:elif="{{item.statusStr=='未执行'}}" size="large" color="#F59B0E" type="primary">未执行</van-tag>
+        <van-tag wx:elif="{{item.statusStr=='完成'}}" size="large" color="#999999" type="primary">已完成</van-tag>
+        <van-tag wx:else size="large" color="#4179FB" type="primary">{{item.statusStr}}</van-tag>
        
       </view>
     </view>

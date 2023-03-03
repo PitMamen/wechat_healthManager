@@ -14,7 +14,7 @@
         <view class="tab-btn {{status=='3'?'activebtn':''}}" bindtap="bindSuccessTap" >成功</view>
     </view>
 </van-sticky>
-<van-empty wx:if="{{ !appointList || appointList.length == 0 }}" description="暂无记录" />
+<van-empty wx:if="{{ !appointList || appointList.length == 0 }}" description="暂无记录" image="/image/icon_nodata.png" />
 <view wx:for="{{appointList}}" wx:for-item="items">
     <view class="contentview"  data-id="{{items.tradeId}}">
 

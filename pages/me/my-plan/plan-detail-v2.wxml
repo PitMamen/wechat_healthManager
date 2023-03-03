@@ -1,47 +1,77 @@
 <wxs src="../../../modules/format.wxs" module="computed"></wxs>
 
-    <view class="header-box">
-  <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
-  <view class="r">
-    <view style="display: flex;flex-direction: row;float: left;flex: 1;color: #999999;">
-      <view style=" font-size: 36rpx;color: #1A1A1A;">{{defaultPatient.userName}}</view>
-      <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;">{{defaultPatient.userSex}}</view>
-      <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;">{{defaultPatient.userAge}}岁</view>
+<!-- <view class="header-box">
+    <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+    <view class="r">
+        <view style="display: flex;flex-direction: row;float: left;flex: 1;color: #999999;">
+            <view style=" font-size: 36rpx;color: #1A1A1A;">{{defaultPatient.userName}}</view>
+            <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;">{{defaultPatient.userSex}}</view>
+            <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;">{{defaultPatient.userAge}}岁</view>
+        </view>
+        <view class="uid">{{defaultPatient.phone}}</view>
     </view>
-    <view class="uid">{{defaultPatient.phone}}</view>
-  </view>
-</view>
+</view> -->
 <view class="top-divider"></view>
 <view class="contail">
 
-    <text class="title-date">{{planName}}</text>
+    <view class="title-date">{{planName}}
+        
+        <van-tag wx:if="{{statusStr=='进行中'}}" size="large" color="#4179FB" type="primary">进行中</van-tag>
+        <van-tag wx:elif="{{statusStr=='未执行'}}" size="large" color="#F59B0E" type="primary">未执行</van-tag>
+        <van-tag wx:elif="{{statusStr=='完成'}}" size="large" color="#999999" type="primary">已完成</van-tag>
+        <van-tag wx:else size="large" color="#4179FB" type="primary">{{statusStr}}</van-tag>
+    </view>
+    <view style="height: 0.5px;background: #E6E6E6;"></view>
+    <view class="top-view" style="margin-top: 30rpx;">
+        <view style="height:34rpx;width: 7rpx; background: #0379FF;"></view>
+        <text class="title" style="margin-left: 20rpx;">临时任务</text>
+    </view>
+    <van-empty wx:if="{{ !shortTaskList || shortTaskList.length == 0 }}" description="暂无临时任务" image="/image/icon_nodata.png" />
+    <view class="card-black" wx:for="{{shortTaskList}}" wx:key="1" bindtap="onTaskItemClick" data-item="{{item}}">
 
-  <block wx:for="{{taskDetail}}" >
-    <view class="card-black"  bindtap="onTaskItemClick" data-item="{{item}}">
-      <view class="top-content-view">
-        <van-icon size="24px" name="{{computed.taskTypeV2(item.taskType.value).icon}}" />
-        <text class="title" style="margin-left: 10rpx;">{{item.taskType.description}}</text>
-        <text  class="top-content" style="margin-left: 30rpx;">{{item.executeTime2}}</text>
-
-        <text wx:if="{{item.taskBizStatus.value==2}}" style="margin-left: auto;font-size: 29rpx;color:#0088F4;">完成</text>
-        <text wx:elif="{{item.taskBizStatus.value==1}}" style="margin-left: auto;font-size: 29rpx;color:#F59B0E;">未完成</text>
-        <text wx:else style="margin-left: auto;font-size: 29rpx;color:#0088F4;">完成</text>
-      </view>
-      <text decode class="top-content">{{item.jumpTitle || item.templateTitle}}</text>
-
-      <view wx:if="{{item.contentInfo.healthImages && item.contentInfo.healthImages.length>0}}" class="card-black">
-
-        <view class="goods-container">
-          <view class="goods-box" wx:for="{{item.contentInfo.healthImages}}" wx:for-item="picItem" wx:key="id" bindtap="toDetailsTap" data-url="{{picItem.fileUrl}}" data-item="{{item.contentInfo.healthImages}}">
-
-            <image src="{{picItem.previewFileUrl||'/image/keshi.png'}}" class="image" mode="aspectFill" lazy-load="true" />
-
-          </view>
+        <view class="top-view">
+            <van-icon size="23px" name="{{computed.taskTypeV2(item.taskType.value).icon}}" />
+            <text class="title" style="margin-left: 18rpx;">{{item.taskType.description}}【{{item.messageType.description}}】</text>
+            <text wx:if="{{item.status.value==3}}" style="margin-left: auto;font-size: 28rpx;color:#999999;">完成</text>
+            <text wx:else style="margin-left: auto;font-size: 28rpx;color:#F1A139;">{{item.status.description}}</text>
 
         </view>
-      </view>
+        <view class="top-content-view">
+            <view class="top-content">{{item.followContent || item.taskType.description}}</view>
+            <view style="margin-left: auto;">计划执行时间：{{item.latestExecDate || '无'}}</view>
+        </view>
 
+        <view wx:if="{{index < shortTaskList.length-1}}" style="height: 0.5px;background: #E6E6E6; margin-bottom: 30rpx;"></view>
     </view>
-    <van-divider />
-  </block>
+
+
+</view>
+
+<view class="top-divider"></view>
+
+<view class="contail">
+    <view class="top-view" style="margin-top: 5rpx;">
+        <view style="height:34rpx;width: 7rpx; background: #0379FF;"></view>
+        <text class="title" style="margin-left: 20rpx;">长期任务</text>
+    </view>
+    <van-empty wx:if="{{ !longTaskList || longTaskList.length == 0 }}" description="暂无长期任务" image="/image/icon_nodata.png" />
+    <view class="card-black" wx:for="{{longTaskList}}" wx:key="1" bindtap="" data-item="{{item}}">
+
+        <view class="top-view">
+            <van-icon size="23px" name="{{computed.taskTypeV2(item.taskType.value).icon}}" />
+            <text class="title" style="margin-left: 18rpx;">{{item.taskType.description}}【{{item.messageType.description}}】</text>
+            <text style="margin-left: 67rpx;font-size: 28rpx;color:#0379FF;">{{item.execCount?'执行次数：'+item.execCount+'次':''}}</text>
+            <text wx:if="{{item.status.value==3}}" style="margin-left: auto;font-size: 28rpx;color:#999999;">完成</text>
+            <text wx:else style="margin-left: auto;font-size: 28rpx;color:#F1A139;">{{item.status.description}}</text>
+
+        </view>
+        <view class="top-content-view">
+            <view class="top-content">{{item.followContent || item.taskType.description}}</view>
+            <view style="margin-left: auto;">计划执行时间：{{item.latestExecDate || '无'}}</view>
+        </view>
+
+        <view style="height: 0.5px;background: #E6E6E6;"></view>
+    </view>
+
+
 </view>

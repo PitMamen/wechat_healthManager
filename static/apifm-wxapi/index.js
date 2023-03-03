@@ -727,7 +727,7 @@ module.exports =
                     articleListQuery: function articleListQuery(data) {
                         console.log(data)
                         var url = HEALTH_SERVICE + '/health/patient/allArticlesPage'
-                        return request(url, 'get', data, true);
+                        return request2(url, 'get', data, true);
                     },
                     //根据id查询文章
                     articleById: function articleById(id, recordId) {
@@ -740,12 +740,12 @@ module.exports =
                     //根据标题查询文章
                     articleByTitle: function articleByTitle(data) {
                         var url = HEALTH_SERVICE + '/health/patient/articleByTitle'
-                        return request(url, 'get', data, true);
+                        return request2(url, 'get', data, true);
                     },
                     //查询点击次数最多的几条文章
                     getArticleByClickNum: function getArticleByClickNum(data) {
                         var url = HEALTH_SERVICE + '/patient/getArticleByClickNum'
-                        return request(url, 'get', data, true);
+                        return request2(url, 'get', data, true);
                     },
                     //查询服务规格
                     queryGoodsSpecifications: function queryGoodsSpecifications(goodsType) {
@@ -1305,6 +1305,16 @@ module.exports =
                     //权益使用记录查询
                     qryRightsUseRecord: function qryRightsUseRecord(data) {                       
                         var url = MEDICAL_SERVICE + '/rightsUse/qryRightsUseRecord'
+                        return request2(url, 'post', data, true);
+                    },
+                      //随访计划
+                      getFollowUserPlanPhoneList: function getFollowUserPlanPhoneList(data) {                      
+                        var url = FOLLOW_SERVICE + '/follow/userplan/getFollowUserPlanPhoneList'
+                        return request(url, 'post', data, true);
+                    },
+                      //历史消息数据
+                      qryHistoryByPage: function qryHistoryByPage(data) {                      
+                        var url = MEDICAL_SERVICE + '/rightsUse/qryHistoryByPage'
                         return request2(url, 'post', data, true);
                     },
                 };

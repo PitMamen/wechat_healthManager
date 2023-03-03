@@ -1,6 +1,6 @@
 {
-  "navigationBarTitleText": "健康教育",
-  "usingComponents": {
-
+    "navigationBarTitleText": "健康教育",
+    "usingComponents": {
+    },
+    "enablePullDownRefresh": false
   }
-}

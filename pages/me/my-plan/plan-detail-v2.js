@@ -7,9 +7,12 @@ Page({
    */
   data: {
     taskDetail:{},
+    longTaskList:[],
+    shortTaskList:[],
     planId:'',
     userId:'',
-    taskId:''
+    followMetaDataId:'',
+    planName:''
   },
 
   /**
@@ -19,17 +22,13 @@ Page({
     this.setData({
       planId:options.planId,
       userId:options.userId,
-      planTaskDetailId:options.planTaskDetailId,
+      followMetaDataId:options.followMetaDataId,
       planName:options.planName,
+      statusStr:options.statusStr
     })
 
-    var defaultPatient =getApp().getDefaultPatient()
-    defaultPatient.phone = defaultPatient.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
-    this.setData({
-      planId: options.planId,
-      userInfo: wx.getStorageSync('userInfo').account,
-      defaultPatient: defaultPatient
-    })
+    // var defaultPatient =getApp().getDefaultPatient()
+    // defaultPatient.phone = defaultPatient.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
 
    
   },
@@ -38,24 +37,40 @@ Page({
    */
   onShow: function () {
    
-  this.qryMyFollowDetail()
+  this.getFollowUserPlanPhoneList()
 },
-  async qryMyFollowDetail() {
+  async getFollowUserPlanPhoneList() {
     var postdata={
         planId: this.data.planId,
-        planTaskDetailId: this.data.planTaskDetailId,    
-        userId: this.data.userId
+        userId: this.data.userId,
+        followMetaDataId:Number(this.data.followMetaDataId) ,
+        pageNo: 1,    
+        pageSize:9999
       }
-    const res = await WXAPI.qryMyFollowDetail(postdata)
-    if (res.data) {
-        res.data.forEach(item=>{
-            item.executeTime2= item.executeTime.substring(0,10) 
-        })
-      this.setData({
-        taskDetail:res.data
-      })
+    const res = await WXAPI.getFollowUserPlanPhoneList(postdata)
+   var longTaskList=[]
+    var shortTaskList=[]
+    if (res.data && res.data.records ) {
+        res.data.records.forEach(item=>{
+           
+            // item.messageType.description=item.messageType.description.replace('消息','')
+            // item.messageType.description=item.messageType.description.replace('回访','')
 
+            //状态1:未执行2长期任务执行中3:完成4:取消5:终止
+            if(item.status.value ==2){
+                item.status.description='未完成'
+            }
+           if(item.taskExecType.value ==1){
+            shortTaskList.push(item)          
+           }else{
+            longTaskList.push(item) 
+           }
+        })
     }
+    this.setData({
+        longTaskList:longTaskList,
+        shortTaskList:shortTaskList
+      })
   },
 
 
@@ -63,17 +78,29 @@ Page({
     var task = e.currentTarget.dataset.item
     //1:问卷收集2:健康宣教3:消息提醒
     var type = task.taskType.value
-    //1未执行 2成功 3失败
-    if(task.taskBizStatus.value==17){
+   //状态1:未执行2长期任务执行中3:完成4:取消5:终止
+    if(task.status.value==1){
       wx.showToast({
         icon:"none",
         title: '等待开启'
       })
       return
-    }else{
+    }else if(task.status.value==4){
+        wx.showToast({
+          icon:"none",
+          title: '该任务已取消'
+        })
+        return
+      }else if(task.status.value==5){
+        wx.showToast({
+          icon:"none",
+          title: '该任务已终止'
+        })
+        return
+      }else{
         if (type == 1) {//问卷
             var url = task.jumpValue
-            if(task.taskBizStatus.value==2){
+            if(task.status.value==2){
                 url = task.jumpValue + '?userId=' + task.userId + '&recordId=' +task.id+'&modifyTaskBizStatus=yes'
                 url= url.replace("/s/","/r/")　
             }else{

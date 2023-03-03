@@ -27,7 +27,7 @@
       </van-card>
  
   </view>
-  <van-empty wx:else description="暂无记录" />
+  <van-empty wx:else description="暂无记录" image="/image/icon_nodata.png"/>
 </view>
 
 

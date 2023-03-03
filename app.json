@@ -11,7 +11,8 @@
                 "pages/diseases/content",
                 "pages/diseases/knowledge-list",
                 "pages/chat/historyChat",
-                "pages/chat/groupChat"
+                "pages/chat/groupChat",
+                "pages/chat/groupHistoryChat"
             ]
         }
     ],
@@ -70,6 +71,7 @@
         "pages/consult/detail/index",
         "pages/consult/rights/apply",
         "pages/consult/webpage/index"
+       
     ],
     "window": {
         "backgroundColor": "#FFFFFF",
