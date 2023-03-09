@@ -70,8 +70,8 @@
         "pages/home/hospital-select/index",
         "pages/consult/detail/index",
         "pages/consult/rights/apply",
-        "pages/consult/webpage/index"
-       
+        "pages/consult/webpage/index",
+        "pages/doctor/case/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",
