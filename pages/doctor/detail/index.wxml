@@ -77,6 +77,6 @@
                 <text class="num">¥{{ price }}</text>
             </view>
         </view>
-        <van-button class="abs" color="#E95454" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick">立即购买</van-button>
+        <van-button disabled="{{!isOnSale}}" class="abs" color="#E95454" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick">立即购买</van-button>
     </view>
 </view>

@@ -50,9 +50,9 @@
 .wrap .top .card .right .row .name {
     /* margin-right: 60rpx; */
     width: 250rpx;
-    white-space: nowrap;
+    /* white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; */
 }
 .wrap .top .card .right .row .num {
     /* margin-right: 120rpx; */

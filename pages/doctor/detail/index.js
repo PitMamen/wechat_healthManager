@@ -3,6 +3,7 @@ const Config = require('../../../utils/config')
 
 Page({
     data: {
+        isOnSale:false,
         navBarHeight: null,
         statusBarHeight: null,
         collectionId: null,
@@ -76,9 +77,22 @@ Page({
                 list1: res.data.optionalPkgs || [],
                 list2: res.data.compulsoryPkgs || [],
                 images: res.data.detailImgs || [],
-                swipers: res.data.bannerImgs || []
+                swipers: res.data.bannerImgs || [],
+                isOnSale:res.data.saleStatus?res.data.saleStatus.value==2 : false,//1下架、2上架
             })
+              //第一个可选项默认勾选
+              if(this.data.list1.length>0){
+                this.setData({
+                    collectionId: this.data.list1[0].collectionId
+                })
+            }
             this.setPrice()
+            if(!this.data.isOnSale){
+                wx.showToast({
+                  title: '该商品已下架',
+                  icon:'none'
+                })
+            }
         })
     },
     setPrice() {

@@ -82,6 +82,14 @@ Page({
                 swipers: res.data.bannerImgs || [],
                 isOnSale:res.data.saleStatus?res.data.saleStatus.value==2 : false,//1下架、2上架
             })
+
+            //第一个可选项默认勾选
+            if(this.data.list1.length>0){
+                this.setData({
+                    collectionId: this.data.list1[0].collectionId
+                })
+            }
+
             this.setPrice()
             if(!this.data.isOnSale){
                 wx.showToast({
