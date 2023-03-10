@@ -8,7 +8,7 @@
         </view>
     </view>
     <view class="title left">该就诊人的既往病历，您可以选择使用</view>
-    <view class="selectbtn">
+    <view class="selectbtn" bindtap="goFillPage" >
         <van-icon name="plus" />
         <view style="margin-left: 11rpx;">填写新病历</view>
     </view>
@@ -17,16 +17,17 @@
     <view class="card" wx:for="{{todoList}}" wx:key="1">
 
         <view class="todo-card-top">
-            <image src="/image/ai_icon.png" style="width: 26rpx;height: 28rpx;"></image>
+            <image src="/image/bingli.png" style="width: 28rpx;height: 28rpx;"></image>
             <view class="todo-title">病历1：2023-01-23</view>
-            <image src="/image/ai_icon.png" style="margin-left: auto;width: 26rpx;height: 26rpx;"></image>
+            <image bindtap="deleteTap" src="/image/shanchu.png" style="margin-left: auto;width: 28rpx;height: 28rpx;padding-left: 20rpx;padding-right: 20rpx;"></image>
+            
         </view>
         <view class="todo-content">最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药害，想要咨询是否调整用药</view>
         <view style="height: 0.5px;background: #E6E6E6;"></view>
       
             <view class="btn-blue">
                
-                <van-button custom-class="custom-class" data-item="{{item}}" bindtap="bindTodoItemDetailTap" color="#3894FF"  type="info" >查看/使用此病历</van-button>
+                <van-button custom-class="custom-class" data-item="{{item}}" bindtap="goFillPage" color="#3894FF"  type="info" >查看/使用此病历</van-button>
             </view>
 
       
@@ -36,5 +37,6 @@
 
 
 <van-popup round show="{{ show }}" position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePopup">
-    <van-picker show-toolbar title="切换就诊人" cancel-button-text="添加" columns="{{ columns }}" value-key="userName" visible-item-count="4" bind:cancel="onCancel" bind:confirm="onConfirm" />
+    <van-picker show-toolbar custom-class="picker-custom" title="切换就诊人" cancel-button-text="添加" columns="{{ columns }}" value-key="userName" visible-item-count="4" bind:cancel="onCancel" bind:confirm="onConfirm" />
 </van-popup>
+

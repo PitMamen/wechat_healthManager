@@ -71,7 +71,8 @@
         "pages/consult/detail/index",
         "pages/consult/rights/apply",
         "pages/consult/webpage/index",
-        "pages/doctor/case/index"
+        "pages/doctor/case/index",
+        "pages/doctor/telinfo/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

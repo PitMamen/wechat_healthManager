@@ -84,6 +84,7 @@
     <van-picker
         show-toolbar
         title="切换就诊人"
+        custom-class="picker-custom"
         cancel-button-text="添加"
         columns="{{ columns }}"
         value-key="userName"

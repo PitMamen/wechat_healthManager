@@ -1,13 +1,14 @@
-// pages/doctor/case/index.js
+// pages/doctor/telinfo/index.js
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        show:false,
+        show: false,
+        showTime:false,
         selectUser: {},
-        todoList:[1,1]
+        timeList:[1,1,1,1,1,1,1]
     },
 
     /**
@@ -34,21 +35,9 @@ Page({
             columns: wx.getStorageSync('userInfo').account.user
         })
     },
-    goFillPage(e){
+    onCaseTap() {
         wx.navigateTo({
-          url: '../fill/index',
-        })
-    },
-
-    deleteTap(){
-        wx.showModal({
-          title: '确定删除该病历吗？',
-          content: '病历1：2023-01-23',
-          complete: (res) => {
-            if (res.confirm) {
-              
-            }
-          }
+            url: '../case/index',
         })
     },
     onSelectTap() {
@@ -73,6 +62,18 @@ Page({
             selectUser: this.data.columns[index]
         })
     },
+
+    onTimeTap(){
+        this.setData({
+            showTime: true
+        })
+    },
+    closeTimePopup(){
+        this.setData({
+            showTime: false
+        })
+    },
+
     /**
      * 生命周期函数--监听页面隐藏
      */
