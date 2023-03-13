@@ -68,11 +68,12 @@
         "pages/me/my-plan/plan-detail-v2",
         "pages/home/health-remind/detail",
         "pages/home/hospital-select/index",
-        "pages/consult/detail/index",
+        "pages/consult/detail-text/index",
         "pages/consult/rights/apply",
         "pages/consult/webpage/index",
         "pages/doctor/case/index",
-        "pages/doctor/telinfo/index"
+        "pages/doctor/telinfo/index",
+        "pages/consult/detail-tel/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

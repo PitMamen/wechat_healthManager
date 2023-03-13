@@ -154,7 +154,7 @@ Page({
         if (this.checkLoginStatus()) {
 
             wx.navigateTo({
-                url: './detail/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
+                url: './detail-tel/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
             })
 
         }

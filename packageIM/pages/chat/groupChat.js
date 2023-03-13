@@ -472,7 +472,7 @@ Page({
 
         let item = e.currentTarget.dataset.item;
         wx.navigateTo({
-            url: '/pages/consult/detail/index?rightsId=' + this.data.tradeRemark.rightsId + '&userId=' + this.data.config.userID + '&status=3',
+            url: '/pages/consult/detail-text/index?rightsId=' + this.data.tradeRemark.rightsId + '&userId=' + this.data.config.userID + '&status=3',
         })
 
     },
