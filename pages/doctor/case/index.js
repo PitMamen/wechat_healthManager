@@ -1,4 +1,4 @@
-// pages/doctor/case/index.js
+const WXAPI = require('../../../static/apifm-wxapi/index')
 Page({
 
     /**
@@ -7,14 +7,21 @@ Page({
     data: {
         show:false,
         selectUser: {},
-        todoList:[1,1]
+        caseList:[],
+        docId: null,//医生ID
+        commodityId: null,//套餐ID
+        collectionIds: [],//所选规格ID
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-
+        this.setData({
+            docId: options.docId,
+            commodityId: options.commodityId,
+            collectionIds: options.collectionIds.split(',')
+        })
     },
 
     /**
@@ -33,23 +40,60 @@ Page({
             selectUser: wx.getStorageSync('defaultPatient'),
             columns: wx.getStorageSync('userInfo').account.user
         })
+        this.getMedicalCaseList()
     },
-    goFillPage(e){
-        wx.navigateTo({
-          url: '../fill/index',
+
+    getMedicalCaseList(){
+        WXAPI.medicalCaseList({
+            userId : this.data.selectUser.userId
+        }).then((res) => {
+           
+            this.setData({
+                caseList:res.data || []
+            })
         })
     },
 
-    deleteTap(){
+
+     //新增
+     addCase(e){
+        wx.navigateTo({
+            url: `/pages/doctor/fill/index?userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}`
+        })
+    },
+    //查看
+    checkCase(e){
+        var item= e.currentTarget.dataset.item
+        wx.navigateTo({
+            url: `/pages/doctor/fill/index?caseId=${item.id}&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}`
+        })
+    },
+
+    deleteTap(e){
+        console.log(e)
+       var item= e.currentTarget.dataset.item
         wx.showModal({
           title: '确定删除该病历吗？',
-          content: '病历1：2023-01-23',
+          content: item.title,
           complete: (res) => {
             if (res.confirm) {
-              
+              this.deleteCase(item.id)
             }
           }
         })
+    },
+    //删除
+    async deleteCase(id) {
+        const res =  await  WXAPI.medicalCaseDelete({
+            id:id,             
+        })
+        if(res.code == 0){
+            wx.showToast({
+                title: '已删除',
+                icon: 'success'
+            })
+            this.getMedicalCaseList()
+        }
     },
     onSelectTap() {
         this.setData({
@@ -72,6 +116,7 @@ Page({
             show: false,
             selectUser: this.data.columns[index]
         })
+        this.getMedicalCaseList()
     },
     /**
      * 生命周期函数--监听页面隐藏

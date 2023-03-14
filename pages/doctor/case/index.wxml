@@ -8,26 +8,26 @@
         </view>
     </view>
     <view class="title left">该就诊人的既往病历，您可以选择使用</view>
-    <view class="selectbtn" bindtap="goFillPage" >
+    <view class="selectbtn" bindtap="addCase" >
         <van-icon name="plus" />
         <view style="margin-left: 11rpx;">填写新病历</view>
     </view>
 
-    <van-empty wx:if="{{ !todoList || todoList.length == 0 }}" image="/image/icon_nodata.png" description="暂无病历" />
-    <view class="card" wx:for="{{todoList}}" wx:key="1">
+    <van-empty wx:if="{{ !caseList || caseList.length == 0 }}" image="/image/icon_nodata.png" description="暂无病历" />
+    <view class="card" wx:for="{{caseList}}" wx:key="1">
 
         <view class="todo-card-top">
             <image src="/image/bingli.png" style="width: 28rpx;height: 28rpx;"></image>
-            <view class="todo-title">病历1：2023-01-23</view>
-            <image bindtap="deleteTap" src="/image/shanchu.png" style="margin-left: auto;width: 28rpx;height: 28rpx;padding-left: 20rpx;padding-right: 20rpx;"></image>
+            <view class="todo-title">{{item.title}}</view>
+            <image bindtap="deleteTap" data-item="{{item}}" src="/image/shanchu.png" style="margin-left: auto;width: 28rpx;height: 28rpx;padding-left: 20rpx;padding-right: 20rpx;"></image>
             
         </view>
-        <view class="todo-content">最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药最近心里焦虑得比较厉害，想要咨询是否调整用药害，想要咨询是否调整用药</view>
+        <view class="todo-content">{{item.diseaseDesc}}</view>
         <view style="height: 0.5px;background: #E6E6E6;"></view>
       
             <view class="btn-blue">
                
-                <van-button custom-class="custom-class" data-item="{{item}}" bindtap="goFillPage" color="#3894FF"  type="info" >查看/使用此病历</van-button>
+                <van-button custom-class="custom-class" data-item="{{item}}" bindtap="checkCase" color="#3894FF"  type="info" >查看/使用此病历</van-button>
             </view>
 
       
