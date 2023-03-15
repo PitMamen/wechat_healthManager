@@ -176,7 +176,7 @@ Page({
             return item.collectionId
         }))
         wx.navigateTo({
-            url: `/pages/doctor/fill/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
+            url: `/pages/doctor/case/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
         })
     }
 })

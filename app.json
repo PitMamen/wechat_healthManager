@@ -68,14 +68,18 @@
         "pages/me/my-plan/plan-detail-v2",
         "pages/home/health-remind/detail",
         "pages/home/hospital-select/index",
-        "pages/consult/detail/index",
+        "pages/consult/detail-text/index",
         "pages/consult/rights/apply",
         "pages/consult/webpage/index",
         "pages/doctor/case/index",
         "pages/doctor/telinfo/index",
+<<<<<<< HEAD
         "pages/me/health/healthrecords",
         "pages/me/health/baseimformation",
         "pages/me/health/healthstatus"
+=======
+        "pages/consult/detail-tel/index"
+>>>>>>> 0e583e1c34be78cb5cbdab276caf2fb1fb787dbc
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

@@ -13,23 +13,65 @@ Page({
         selectUser: {},
         collectionIds: [],
         fileList: [],
-        columns: []
+        columns: [],
+        caseId:null,//病历ID 没有则代表新增
+        doctorAppointId:null,//电话咨询排版ID
     },
     onLoad: function (options) {
+        console.log(options)
         // 页面创建时执行
+        var selectUser={
+            userId:options.userId,
+            userName:options.userName
+        }
         this.setData({
             docId: options.docId,
             commodityId: options.commodityId,
-            collectionIds: options.collectionIds.split(',')
+            collectionIds: options.collectionIds.split(','),
+            selectUser:selectUser,
+            caseId:options.caseId, 
+            doctorAppointId:options.doctorAppointId
         })
+        wx.setNavigationBarTitle({
+          title: options.caseId?'查看病历':'添加病历',
+        })
+        if(options.caseId){
+            this.getMedicalCase(options.caseId)
+        }
     },
     onShow: function () {
         // 页面出现在前台时执行
         this.setData({
             loading: false,
-            selectUser: wx.getStorageSync('defaultPatient'),
-            columns: wx.getStorageSync('userInfo').account.user
+            // selectUser: wx.getStorageSync('defaultPatient'),
+            // columns: wx.getStorageSync('userInfo').account.user
         })
+    },
+      //查看病历
+      async getMedicalCase(id) {
+        const res =  await  WXAPI.medicalCaseGet({
+            id:id,             
+        })
+        if(res.code == 0){
+           this.setData({
+            inputTxt:res.data.diseaseDesc,
+            appealDesc:res.data.appealDesc,
+           
+           })
+           var images=res.data.images||[]
+          var fileList= images.map((el,index)=>{
+            return {
+                url: el,
+                fileId: index,
+                fileUrl: el,
+                previewFileId: index,
+                previewFileUrl: el
+            }
+           })
+         this.setData({
+            fileList:fileList
+         })
+        }
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
@@ -111,7 +153,7 @@ Page({
         })
     },
     onSchemeTap() {},
-    onNextClick() {
+    async onNextClick() {
         this.setData({
             inputTxt: this.data.inputTxt.trim()
         })
@@ -139,24 +181,39 @@ Page({
         this.setData({
             loading: true
         })
-        WXAPI.createStewardOrder({
+        var postData={
             appealDesc: this.data.appealDesc.trim(),
-            collectionIds: this.data.collectionIds || [],
-            commodityId: this.data.commodityId,
-            doctorUserId: this.data.docId,
             diseaseDesc: this.data.inputTxt,
             userId: this.data.selectUser.userId,
             images: this.data.fileList.map(item => {
                 return item.url
             })
-        }).then((res) => {
-            wx.showToast({
-                title: '保存成功',
-                icon: 'success'
+        }
+        if(this.data.caseId){
+            //病历ID
+            postData.id=this.data.caseId
+        }
+        //保存或者修改病历
+        const res =  await  WXAPI.medicalCaseSave(postData)
+        if(res.code == 0){
+            const res2 =  await  WXAPI.createStewardOrder({
+                medicalCaseId:res.data.id,             
+                collectionIds: this.data.collectionIds || [],
+                commodityId: this.data.commodityId,
+                doctorUserId: this.data.docId,            
+                userId: this.data.selectUser.userId,
+                doctorAppointId:this.data.doctorAppointId
             })
-            wx.navigateTo({
-                url: `/pages/doctor/buy/index?id=${res.data.orderId}&userName=${this.data.selectUser.userName}`
-            })
-        })
+            if(res2.code == 0){
+                wx.showToast({
+                    title: '保存成功',
+                    icon: 'success'
+                })
+                wx.navigateTo({
+                    url: `/pages/doctor/buy/index?id=${res2.data.orderId}&userName=${this.data.selectUser.userName}`
+                })
+            }
+        }
+
     }
 })
