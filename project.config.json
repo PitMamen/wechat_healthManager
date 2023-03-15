@@ -36,8 +36,7 @@
         "minifyWXML": true,
         "showES6CompileOption": false,
         "useCompilerPlugins": false,
-        "ignoreUploadUnusedFiles": false,
-        "useStaticServer": true
+        "ignoreUploadUnusedFiles": false
     },
     "compileType": "miniprogram",
     "editorSetting": {
@@ -50,6 +49,6 @@
         "include": []
     },
     "appid": "wx6d21bd98748a11af",
-    "projectname": "health-manager-wx-patient",
+    "projectname": "health-manager-patient-wechat_v2",
     "condition": {}
 }

@@ -228,15 +228,15 @@ module.exports =
                         var header = {
                             'Content-Type': 'application/x-www-form-urlencoded',
                             'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
-                            'X-hospitalCode':getApp().globalData.currentHospital.hospitalCode || '',
-                            'X-tenantId':getApp().globalData.currentHospital.tenantId || '',
+                            'X-hospitalCode': getApp().globalData.currentHospital.hospitalCode || '',
+                            'X-tenantId': getApp().globalData.currentHospital.tenantId || '',
                         };
                     } else {
                         var header = {
                             'Content-Type': 'application/json',
                             'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
-                            'X-hospitalCode':getApp().globalData.currentHospital.hospitalCode || '',
-                            'X-tenantId':getApp().globalData.currentHospital.tenantId || '',
+                            'X-hospitalCode': getApp().globalData.currentHospital.hospitalCode || '',
+                            'X-tenantId': getApp().globalData.currentHospital.tenantId || '',
                         };
                     }
 
@@ -329,15 +329,15 @@ module.exports =
                         var header = {
                             'Content-Type': 'application/x-www-form-urlencoded',
                             'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
-                            'X-hospitalCode':getApp().globalData.currentHospital.hospitalCode || '',
-                            'X-tenantId':getApp().globalData.currentHospital.tenantId || '',
+                            'X-hospitalCode': getApp().globalData.currentHospital.hospitalCode || '',
+                            'X-tenantId': getApp().globalData.currentHospital.tenantId || '',
                         };
                     } else {
                         var header = {
                             'Content-Type': 'application/json',
                             'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
-                            'X-hospitalCode':getApp().globalData.currentHospital.hospitalCode || '',
-                            'X-tenantId':getApp().globalData.currentHospital.tenantId || '',
+                            'X-hospitalCode': getApp().globalData.currentHospital.hospitalCode || '',
+                            'X-tenantId': getApp().globalData.currentHospital.tenantId || '',
                         };
                     }
 
@@ -398,8 +398,8 @@ module.exports =
                     console.log(_url)
                     var header = {
                         'Authorization': wx.getStorageSync('userInfo') ? wx.getStorageSync('userInfo').jwt : '',
-                        'X-hospitalCode':getApp().globalData.currentHospital.hospitalCode || '',
-                        'X-tenantId':getApp().globalData.currentHospital.tenantId || '',
+                        'X-hospitalCode': getApp().globalData.currentHospital.hospitalCode || '',
+                        'X-tenantId': getApp().globalData.currentHospital.tenantId || '',
                     };
                     return new Promise(function (resolve, reject) {
                         wx.uploadFile({
@@ -650,7 +650,7 @@ module.exports =
                         var url = ACCOUNT_SERVICE + '/accountDict/professionalTitles'
                         return request(url, 'get', data, true);
                     },
-                    
+
                     //健康档案用户基本信息
                     healthRecordUserInfo: function healthRecordUserInfo(userId) {
 
@@ -1252,71 +1252,99 @@ module.exports =
                     getTdShopmallMainpageMenuList: function getTdShopmallMainpageMenuList(data) {
                         return request2(UAM_SERVICE + '/tdShopmallMainpageMenu/getTdShopmallMainpageMenuList', 'post', data, true);
                     },
-                       //获取机构详情 
-                       gethospitalInfo: function gethospitalInfo(data) {
+                    //获取机构详情 
+                    gethospitalInfo: function gethospitalInfo(data) {
                         return request(UAM_SERVICE + '/hospital/info', 'get', data, true);
                     },
-                     //权益详情
-                     getRightsInfo: function getRightsInfo(data) {
-                        
+                    //权益详情
+                    getRightsInfo: function getRightsInfo(data) {
+
                         var url = MEDICAL_SERVICE + '/rightsUse/getRightsInfo'
                         return request(url, 'get', data, true);
                     },
-                     //获取权益购买时提交的资料
-                     getRightsReqData: function getRightsReqData(data) {
-                        
+                    //获取权益购买时提交的资料
+                    getRightsReqData: function getRightsReqData(data) {
+
                         var url = MEDICAL_SERVICE + '/rightsUse/getRightsReqData'
                         return request(url, 'get', data, true);
                     },
-                     //权益使用日志查询
-                     qryRightsUseLog: function qryRightsUseLog(data) {
-                        
+                    //权益使用日志查询
+                    qryRightsUseLog: function qryRightsUseLog(data) {
+
                         var url = MEDICAL_SERVICE + '/rightsUse/qryRightsUseLog'
                         return request(url, 'post', data, true);
                     },
-                     //保存权益使用日志
-                     saveRightsUseLog: function saveRightsUseLog(data) {
-                        
+                    //保存权益使用日志
+                    saveRightsUseLog: function saveRightsUseLog(data) {
+
                         var url = MEDICAL_SERVICE + '/rightsUse/saveRightsUseLog'
                         return request(url, 'post', data, true);
                     },
-                     //申请权益使用
-                     saveRightsUseRecordNew: function saveRightsUseRecordNew(data) {
-                        
+                    //申请权益使用
+                    saveRightsUseRecordNew: function saveRightsUseRecordNew(data) {
+
                         var url = MEDICAL_SERVICE + '/rightsUse/saveRightsUseRecord'
                         return request(url, 'post', data, true);
                     },
-                      //小程序端-问诊列表
-                      getConsultList: function getConsultList(data) {
-                        
+                    //小程序端-问诊列表
+                    getConsultList: function getConsultList(data) {
+
                         var url = MEDICAL_SERVICE + '/consult/list'
                         return request(url, 'get', data, true);
                     },
-                     //代办-列表
-                     getInquiriesAgencyList: function getInquiriesAgencyList(data) {                       
+                    //代办-列表
+                    getInquiriesAgencyList: function getInquiriesAgencyList(data) {
                         var url = MEDICAL_SERVICE + '/inquiriesAgency/list'
                         return request2(url, 'post', data, true);
                     },
                     //代办-已读
-                    setInquiriesAgencyRead: function setInquiriesAgencyRead(id) {                      
-                        var url = MEDICAL_SERVICE + '/inquiriesAgency/read/'+id
+                    setInquiriesAgencyRead: function setInquiriesAgencyRead(id) {
+                        var url = MEDICAL_SERVICE + '/inquiriesAgency/read/' + id
                         return request(url, 'post', '', true);
                     },
                     //权益使用记录查询
-                    qryRightsUseRecord: function qryRightsUseRecord(data) {                       
+                    qryRightsUseRecord: function qryRightsUseRecord(data) {
                         var url = MEDICAL_SERVICE + '/rightsUse/qryRightsUseRecord'
                         return request2(url, 'post', data, true);
                     },
-                      //随访计划
-                      getFollowUserPlanPhoneList: function getFollowUserPlanPhoneList(data) {                      
+                    //随访计划
+                    getFollowUserPlanPhoneList: function getFollowUserPlanPhoneList(data) {
                         var url = FOLLOW_SERVICE + '/follow/userplan/getFollowUserPlanPhoneList'
                         return request(url, 'post', data, true);
                     },
-                      //历史消息数据
-                      qryHistoryByPage: function qryHistoryByPage(data) {                      
+                    //历史消息数据
+                    qryHistoryByPage: function qryHistoryByPage(data) {
                         var url = MEDICAL_SERVICE + '/rightsUse/qryHistoryByPage'
                         return request2(url, 'post', data, true);
                     },
+
+
+                    //获取用户扩展信息
+                    getUserExternalInfo: function getUserExternalInfo(userId) {
+                        var url = ACCOUNT_SERVICE + '/getUserExternalInfo/' + userId
+                        return request2(url, 'post', '', true);
+                    },
+
+
+                    //修改用户扩展信息
+                    modifyUserExternalInfo: function modifyUserExternalInfo(data) {
+                        var url = ACCOUNT_SERVICE + '/modifyUserExternalInfo'
+                        return request2(url, 'post', data, true);
+                    },
+
+
+                    //获取用户已配置的标签信息
+                    getSavedUserTagsInfo: function getSavedUserTagsInfo(userId) {
+                        var url = ACCOUNT_SERVICE + '/getSavedUserTagsInfo/' + userId
+                        return request2(url, 'post', '', true);
+                    },
+
+                    //获取所有健康分类类型的标签
+                    getUserTagsListInfo: function getUserTagsListInfo(data) {
+                        var url = ACCOUNT_SERVICE + '/getUserTagsListInfo'
+                        return request2(url, 'post', data, true);
+                    },
+
                 };
 
                 /***/

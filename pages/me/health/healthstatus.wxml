@@ -1,0 +1,23 @@
+<view class="all-view">
+<view class="top-content">
+<view style="color: #1A1A1A;font-size: 30rpx;font-weight: bold;margin-left: 29rpx;margin-top: 30rpx;">既往病史</view>
+<view class="row-cont">
+<view class="tag-item">糖尿病</view>
+<view class="tag-item">糖尿病</view>
+</view>
+</view>
+
+
+
+
+
+<view class="top-content">
+<view style="color: #1A1A1A;font-size: 30rpx;font-weight: bold;margin-left: 29rpx;margin-top: 30rpx;">家族病史</view>
+
+<view class="row-cont">
+<view class="tag-item">糖尿病</view>
+<view class="tag-item">食物过敏</view>
+</view>
+</view>
+
+</view>

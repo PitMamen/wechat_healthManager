@@ -72,7 +72,10 @@
         "pages/consult/rights/apply",
         "pages/consult/webpage/index",
         "pages/doctor/case/index",
-        "pages/doctor/telinfo/index"
+        "pages/doctor/telinfo/index",
+        "pages/me/health/healthrecords",
+        "pages/me/health/baseimformation",
+        "pages/me/health/healthstatus"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

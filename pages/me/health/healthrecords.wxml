@@ -1,0 +1,142 @@
+<view class="all-card">
+
+    <view class="top-view">
+ <view class="content-view" >{{defaultPatient.userName}}</view>
+ <view class="sex-view" >{{defaultPatient.userSex}}</view>
+ <view class="benren-view" >本人</view>
+ <view class="swicth-patient" >
+    <van-icon name="exchange" size="30rpx" color="#FFFFFF"/> 切换就诊人
+ </view>
+</view>
+
+<view class="baseinformate-view">
+  <view class="top-imfor">
+  <view class="blue-row"></view>
+  <view style="margin-left: 20rpx; margin-top: 25rpx;font-size: 32rpx;" >基本信息</view>
+  <view style="margin-left: auto;color: #5A9CF8;margin-top: 25rpx;font-size: 30rpx;margin-right: 20rpx;" bindtap="goBaseImformation" >编辑</view>
+  </view>
+
+  <view class="top-imfor">
+   <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">年龄</view>
+   <view style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;">{{defaultPatient.userAge}}岁</view>
+  </view>
+  <view class="line"></view>
+
+
+    <view class="top-imfor">
+   <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">身高</view>
+   <view style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;">{{baseInforData.height}}cm</view>
+  </view>
+  <view class="line"></view>
+
+
+  <view class="top-imfor">
+   <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">体重</view>
+   <view style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;">{{baseInforData.weight}}kg</view>
+  </view>
+  <view class="line"></view>
+
+
+
+  <view class="top-imfor">
+   <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">血型</view>
+   <view style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;">{{baseInforData.bloodType}}血</view>
+  </view>
+  <view class="line"></view>
+
+
+
+  <view class="top-imfor">
+   <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">婚姻状况</view>
+   <view wx:if="{{!baseInforData.ismarry}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;color: #999999;">未设置</view>
+
+   <view wx:if="{{baseInforData.ismarry}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;">{{baseInforData.ismarry==1?"已婚":"未婚"}}</view>
+  </view>
+  <view class="line"></view>
+
+
+  <view class="top-imfor" style="margin-bottom: 20rpx;">
+   <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">生育状况</view>
+   <view wx:if="{{!baseInforData.havechild}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;color: #999999;">未设置</view>
+   <view wx:if="{{baseInforData.havechild}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;">{{baseInforData.havechild==1?"已生育":"未生育"}}</view>
+  </view>
+</view> 
+
+
+
+
+<view class="baseinformate-view" style="margin-top: 20rpx;">
+    <view class="top-imfor">
+  <view class="blue-row"></view>
+  <view style="margin-left: 20rpx; margin-top: 25rpx;font-size: 32rpx;" >健康状况</view>
+  <view bindtap="goHealthstatus" style="margin-left: auto;color: #5A9CF8;margin-top: 25rpx;font-size: 30rpx;margin-right: 20rpx;" >编辑</view>
+  </view>
+
+
+
+  <view class="bottom-imfor">
+   <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">既往病史</view>
+   <view class="row-b">
+    <view class="small-content">糖尿病</view>
+   <view class="small-content">高血压</view>
+   </view>
+  </view>
+  <view class="line"></view>
+
+
+  <view class="top-imfor">
+   <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">家族病史</view>
+   <view style="margin-left: auto;color: #999999;margin-top: 40rpx;font-size: 30rpx;margin-right: 20rpx;" >未设置</view>
+  </view>
+  <!-- <view class="bottom-imfor">
+   <view class="row-b">
+    <view class="small-content">糖尿病</view>
+   <view class="small-content">高血压</view>
+   </view>
+   </view> -->
+  <view class="line"></view>
+
+  <view class="bottom-imfor">
+   <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">药物过敏</view>
+   <view class="row-b">
+    <view class="small-content" style="padding-left: 10rpx;width: 127rpx;">青霉素过敏</view>
+   </view>
+  </view>
+  <view class="line"></view>
+
+
+
+
+  <view class="bottom-imfor">
+   <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">个人情况</view>
+   <view class="row-b">
+    <view class="small-content" style="padding-left: 10rpx;width: 127rpx;">饮食不规律</view>
+   </view>
+  </view>
+  <view class="line"></view>
+
+
+
+  <view class="top-imfor" style="margin-bottom: 30rpx;">
+   <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">食物过敏</view>
+   <view style="margin-left: auto;color: #999999;margin-top: 40rpx;font-size: 30rpx;margin-right: 20rpx;" >未设置</view>
+  </view>
+  <!-- <view class="bottom-imfor">
+   <view class="row-b">
+    <view class="small-content">糖尿病</view>
+   <view class="small-content">高血压</view>
+   </view>
+   </view> -->
+
+
+
+
+</view>
+
+
+
+
+
+
+</view>
+
