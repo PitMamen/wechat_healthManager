@@ -1317,7 +1317,6 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/rightsUse/qryHistoryByPage'
                         return request2(url, 'post', data, true);
                     },
-<<<<<<< HEAD
 
 
                     //获取用户扩展信息
@@ -1346,7 +1345,6 @@ module.exports =
                         return request2(url, 'post', data, true);
                     },
 
-=======
                      //根据就诊人查询病历列表
                      medicalCaseList: function medicalCaseList(data) {                       
                         var url = MEDICAL_SERVICE + '/medicalCase/list'
@@ -1372,7 +1370,6 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/medicalCase/save'
                         return request(url, 'post', data, true);
                     },
->>>>>>> 0e583e1c34be78cb5cbdab276caf2fb1fb787dbc
                 };
 
                 /***/
