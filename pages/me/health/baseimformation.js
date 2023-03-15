@@ -114,7 +114,7 @@ Page({
             "tags": "",
             "userId": this.data.userId,
         }
-        console.log("请求参数：",requestData)
+        // console.log("请求参数：",requestData)
         const res = await WXAPI.modifyUserExternalInfo(requestData)
         if(res.code==0){   //返回上一页
            wx.navigateBack({

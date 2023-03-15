@@ -75,7 +75,7 @@
         "pages/doctor/telinfo/index",
         "pages/me/health/healthrecords",
         "pages/me/health/baseimformation",
-        "pages/me/health/healthstatus"
+        "pages/me/health/healthstatus",
         "pages/consult/detail-tel/index"
     ],
     "window": {

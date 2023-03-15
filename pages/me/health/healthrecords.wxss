@@ -57,6 +57,7 @@
     color: #FFFFFF;
     padding: 6rpx 20rpx;
     border-radius: 8rpx 0rpx 0rpx 8rpx;
+    align-items: center;
 }
 
 
@@ -93,7 +94,6 @@
 
 
 .small-content {
-    width: 98rpx;
     height: 42rpx;
     margin-left: 33rpx;
     margin-top: 20rpx;
@@ -104,6 +104,7 @@
     font-size: 22rpx;
     padding-left: 30rpx;
     padding-top: 14rpx;
+    padding-right: 30rpx;
     /* padding: 0rpx 0rpx 10rpx 10rpx; */
 }
 

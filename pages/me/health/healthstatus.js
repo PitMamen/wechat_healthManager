@@ -7,14 +7,18 @@ Page({
      * 页面的初始数据
      */
     data: {
-
+      tagListInfo:[],
+      userId:"",
+      checkedId:"",
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-     
+        this.setData({
+            userId:options.userId,
+        })
     },
 
     /**
@@ -66,10 +70,62 @@ Page({
 
     },
 
+    goCheck:function(e){
+        console.log("NNNN:",e)
+        var index=e.currentTarget.dataset.index
+        var idx=e.currentTarget.dataset.idx
+        this.data.tagListInfo[index].value[idx].check=!this.data.tagListInfo[index].value[idx].check
+        this.setData({
+            tagListInfo:this.data.tagListInfo
+        })
+        console.log(this.data.tagListInfo)
+    },
+
 
  
     async getUserTagsListInfoOut(e){
         const res = await WXAPI.getUserTagsListInfo('')
+        if(res.code==0){
+            this.setData({
+                tagListInfo:res.data
+            })
+        }
     },
+
+      //保存
+      saveData:function(){
+         for (let index = 0; index < this.data.tagListInfo.length; index++) {
+             var listData = this.data.tagListInfo[index].value
+            for (let index1 = 0; index1 < listData.length; index1++) {
+                if(listData[index1].check){
+                 this.data.checkedId += listData[index1].id+","
+                }
+            }
+         }
+         this.data.checkedId = this.data.checkedId.substring(0,this.data.checkedId.lastIndexOf(","))
+          console.log("GGGG:",this.data.checkedId)
+
+        let that = this
+        that.modifyUserExternalInfoOut()
+    },
+
+
+    async modifyUserExternalInfoOut(e) {
+        //发起网络请求
+        var requestData = {
+            "tags": this.data.checkedId,
+            "userId": this.data.userId,
+        }
+        console.log("请求参数：",requestData)
+        const res = await WXAPI.modifyUserExternalInfo(requestData)
+        if(res.code==0){   //返回上一页
+           wx.navigateBack({
+             delta: 1,
+           })
+        }
+    },
+
+
+
 
 })

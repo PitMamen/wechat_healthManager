@@ -12,6 +12,8 @@ Page({
         userInfo: null,
         baseInforData: null,
         tableListData:[],
+        hidePatientShow:true,
+        nameColumns:[],
 
     },
 
@@ -31,6 +33,13 @@ Page({
             userInfo: user,
         })
 
+        var names = []
+        this.data.patientList.forEach(item => {
+          names.push(item.userName)
+        })
+        this.setData({
+          nameColumns: names
+        })
         this.getUserExternalInfoOut()
         this.getSavedUserTagsInfoOut()
     },
@@ -104,13 +113,16 @@ Page({
                 duration: 2000
             })
         }
+
+        // console.log("PPP:",this.data.baseInforData)
     },
     
 
+    //获取健康标签
     async getSavedUserTagsInfoOut(e) {
         //发起网络请求
         var that = this;
-        const res = await WXAPI.getSavedUserTagsInfo(this.data.defaultPatient.userId)
+        const res = await WXAPI.getSavedUserTagsInfo(that.data.defaultPatient.userId)
         if (res.code == 0) {
             that.setData({
                 tableListData: res.data,
@@ -122,6 +134,8 @@ Page({
                 duration: 2000
             })
         }
+
+        console.log("HHH:",this.data.tableListData)
     },
 
 
@@ -141,4 +155,49 @@ Page({
              url: './healthstatus?userId=' + this.data.defaultPatient.userId,
          })
      },
+
+
+
+     onPatientPickerConfirm(event) {
+        console.log(event)
+        var index = event.detail.index
+        var selectPatient = this.data.patientList[index]
+        if (selectPatient.userId !== this.data.defaultPatient.userId) {
+          this.setData({
+            defaultPatient: this.data.patientList[index],
+          });
+          //保存默认就诊人
+          wx.setStorageSync('defaultPatient', this.data.defaultPatient)
+          IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
+          wx.showToast({
+            title: '切换成功',
+            icon: 'success',
+            duration: 2000
+          })
+        }
+        this.setData({
+          hidePatientShow: true
+        });
+    
+      },
+      onPatientPickerCancel() {
+        // this.setData({
+        //   hidePatientShow: true
+        // })
+        wx.navigateTo({
+          url: '/pages/me/patients/addPatient',
+        })
+      },
+
+
+     bindPatientTap: function () {
+        this.setData({
+          hidePatientShow: false
+        })
+      },
+      closePatientTap: function () {
+        this.setData({
+          hidePatientShow: true
+        })
+      },
 })
