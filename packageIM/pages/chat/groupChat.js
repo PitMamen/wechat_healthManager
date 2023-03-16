@@ -21,6 +21,7 @@ Page({
         groupProfile: {},//群信息
         tradeId: '',//工单id
         isTradeReminded: false,//是否已经提醒过
+        textNumCount:0,//总条数
         textNumRecord: 0,//当前图文咨询计数
         videoNumRecord: 0,//当前视频咨询已使用时长
         tradeRemark: {},//当前使用权益的详情
@@ -104,6 +105,7 @@ Page({
         if (res.code == 0) {
             this.setData({
                 tradeRemark: res.data[0],
+                textNumCount:res.data[0].serviceFrequency ,
                 textNumRecord: res.data[0].usedServiceFrequency || 0
             })
             wx.setNavigationBarTitle({
@@ -419,6 +421,7 @@ Page({
         }
         WXAPI.qryRightsUseRecord({ id: this.data.tradeId }).then(res => {
             this.setData({
+                textNumCount:res.data[0].serviceFrequency ,
                 textNumRecord: res.data[0].usedServiceFrequency || 0
             })
             this.updateChatStatus()
@@ -740,8 +743,8 @@ Page({
         //非自定义消息
         if (message.type !== 'TIMCustomElem') {
 
-            if (this.data.tradeRemark && this.data.tradeRemark.serviceFrequency) {
-                var dNum = this.data.tradeRemark.serviceFrequency - this.data.textNumRecord
+            if (this.data.textNumCount) {
+                var dNum = this.data.textNumCount - this.data.textNumRecord
 
                 if (dNum < 1) {
                     wx.showToast({
@@ -893,11 +896,11 @@ Page({
     updateChatStatus() {
         var content = ''
 
-        if (this.data.tradeRemark) {
+        
             var textNumContent = ''
             
-            if (this.data.tradeRemark.serviceFrequency) {
-                var dTextNum = this.data.tradeRemark.serviceFrequency - this.data.textNumRecord
+            if (this.data.textNumCount) {
+                var dTextNum = this.data.textNumCount - this.data.textNumRecord
                 if (dTextNum < 0) {
                     dTextNum = 0
                 }
@@ -906,19 +909,6 @@ Page({
                 textNumContent = '剩余无限次医生回复机会'
             }
 
-
-
-            // var second = parseInt(this.data.videoNumRecord % 60)
-            // var min = parseInt(this.data.videoNumRecord / 60)
-            // if (second > 30) {
-            //     min = min + 1
-            // }
-            // var dTimeNum = parseInt(this.data.tradeRemark.timeLimit) - min
-
-            // if (dTimeNum < 0) {
-            //     dTimeNum = 0
-            // }
-
             if (this.data.inquiryType == 'videoNum') {
                 content = textNumContent + ' 剩余通话时长' + dTimeNum + '分钟'
             } else if (this.data.inquiryType == 'telNum') {
@@ -926,7 +916,7 @@ Page({
             } else if (this.data.inquiryType == 'textNum') {
                 content = textNumContent
             }
-        }
+        
 
         this.setData({
             bottomChatStatus: content
