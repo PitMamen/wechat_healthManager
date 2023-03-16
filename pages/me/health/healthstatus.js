@@ -74,7 +74,7 @@ Page({
         console.log("NNNN:",e)
         var index=e.currentTarget.dataset.index
         var idx=e.currentTarget.dataset.idx
-        this.data.tagListInfo[index].value[idx].check=!this.data.tagListInfo[index].value[idx].check
+        this.data.tagListInfo[index].value[idx].checked=!this.data.tagListInfo[index].value[idx].checked
         this.setData({
             tagListInfo:this.data.tagListInfo
         })
@@ -84,12 +84,13 @@ Page({
 
  
     async getUserTagsListInfoOut(e){
-        const res = await WXAPI.getUserTagsListInfo('')
+        const res = await WXAPI.getUserTagsListInfo(this.data.userId)
         if(res.code==0){
             this.setData({
                 tagListInfo:res.data
             })
         }
+        console.log("CCC:",this.data.tagListInfo)
     },
 
       //保存
@@ -97,7 +98,7 @@ Page({
          for (let index = 0; index < this.data.tagListInfo.length; index++) {
              var listData = this.data.tagListInfo[index].value
             for (let index1 = 0; index1 < listData.length; index1++) {
-                if(listData[index1].check){
+                if(listData[index1].checked){
                  this.data.checkedId += listData[index1].id+","
                 }
             }

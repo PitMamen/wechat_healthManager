@@ -2,7 +2,7 @@
 <view class="top-content" wx:for="{{tagListInfo}}" wx:key="key">
 <view style="color: #1A1A1A;font-size: 30rpx;font-weight: bold;margin-left: 29rpx;margin-top: 30rpx;">{{item.name}}</view>
 <view class="row-cont">
-<view bindtap="goCheck" data-index="{{index}}" data-idx="{{idx}}" class=" {{itemName.check?'tag-item-is-check':'tag-item-no-check'}}" wx:for="{{item.value}}"  wx:key="key1" wx:for-index="idx" wx:for-item="itemName">{{itemName.tagsName}} </view>
+<view bindtap="goCheck" data-index="{{index}}" data-idx="{{idx}}" class=" {{itemName.checked?'tag-item-is-check':'tag-item-no-check'}}" wx:for="{{item.value}}"  wx:key="key1" wx:for-index="idx" wx:for-item="itemName">{{itemName.tagsName}} </view>
 </view>
 </view>
 

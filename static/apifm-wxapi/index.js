@@ -1340,9 +1340,9 @@ module.exports =
                     },
 
                     //获取所有健康分类类型的标签
-                    getUserTagsListInfo: function getUserTagsListInfo(data) {
-                        var url = ACCOUNT_SERVICE + '/getUserTagsListInfo'
-                        return request2(url, 'post', data, true);
+                    getUserTagsListInfo: function getUserTagsListInfo(userId) {
+                        var url = ACCOUNT_SERVICE + '/getUserTagsListInfo/'+userId
+                        return request2(url, 'post', '', true);
                     },
 
                      //根据就诊人查询病历列表
