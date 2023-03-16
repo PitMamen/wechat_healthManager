@@ -20,7 +20,7 @@
 <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">年龄</view>
 <view wx:if="{{defaultPatient.userAge}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;">{{defaultPatient.userAge}}岁</view>
 </view>
-<view wx:if="{{!defaultPatient.userAge}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;color: #999999;">未设置</view>
+<view wx:if="{{!defaultPatient.userAge}}" style="margin-left: auto;margin-top: -40rpx;font-size: 28rpx;margin-right: 29rpx;color: #999999;">未设置</view>
 <view class="line"></view>
 
 
@@ -28,7 +28,7 @@
 <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">身高</view>
 <view wx:if="{{baseInforData.height}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;">{{baseInforData.height}}cm</view>
 </view>
-<view wx:if="{{!baseInforData.height}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;color: #999999;">未设置</view>
+<view wx:if="{{!baseInforData.height}}" style="margin-left: auto;margin-top: -40rpx;font-size: 28rpx;margin-right: 29rpx;color: #999999;">未设置</view>
 <view class="line"></view>
 
 
@@ -36,7 +36,7 @@
 <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">体重</view>
 <view  wx:if="{{baseInforData.weight}}"style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;">{{baseInforData.weight}}kg</view>
 </view>
-<view wx:if="{{!baseInforData.weight}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;color: #999999;">未设置</view>
+<view wx:if="{{!baseInforData.weight}}" style="margin-left: auto;margin-top: -40rpx;font-size: 28rpx;margin-right: 29rpx;color: #999999;">未设置</view>
 <view class="line"></view>
 
 
@@ -45,7 +45,7 @@
 <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">血型</view>
 <view wx:if="{{baseInforData.bloodType}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;">{{baseInforData.bloodType}}</view>
 </view>
-<view wx:if="{{!baseInforData.bloodType}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;color: #999999;">未设置</view>
+<view wx:if="{{!baseInforData.bloodType}}" style="margin-left: auto;margin-top: -40rpx;font-size: 28rpx;margin-right: 29rpx;color: #999999;">未设置</view>
 <view class="line"></view>
 
 
