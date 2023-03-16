@@ -90,10 +90,12 @@
     display: flex;
     flex-direction: row;
     width: 100%;
+    flex-wrap: wrap;
 }
 
 
 .small-content {
+    flex-wrap: wrap;
     height: 42rpx;
     margin-left: 33rpx;
     margin-top: 20rpx;

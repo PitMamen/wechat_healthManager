@@ -119,10 +119,17 @@ Page({
         }
         console.log("请求参数：",requestData)
         const res = await WXAPI.modifyUserExternalInfo(requestData)
-        if(res.code==0){   //返回上一页
-           wx.navigateBack({
-             delta: 1,
-           })
+        if (res.code == 0) {   //返回上一页
+            wx.showToast({
+                title: '保存成功',
+                icon: 'success',
+                duration: 1000
+            })
+            setTimeout(() => {
+                wx.navigateBack({
+                    delta: 1,
+                })
+            }, 1000)
         }
     },
 

@@ -6,8 +6,8 @@ Page({
      * 页面的初始数据
      */
     data: {
-        baseInfprData:null,
-        userId:"",
+        baseInfprData: null,
+        userId: "",
         weight: "",
         stature: "",
         selectBlood: "",
@@ -40,13 +40,13 @@ Page({
     onLoad: function (options) {
         var data = JSON.parse(options.data)
         this.setData({
-            userId:options.userId,
-            baseInfprData:data,
-            weight:data.weight,
-            stature:data.height,
+            userId: options.userId,
+            baseInfprData: data,
+            weight: data.weight,
+            stature: data.height,
         })
 
-        console.log("KKKD:",this.data.baseInfprData)
+        console.log("KKKD:", this.data.baseInfprData)
     },
 
     /**
@@ -100,31 +100,38 @@ Page({
 
 
     async modifyUserExternalInfoOut(e) {
-        console.log("BBBF:",this.data.stature)
+        console.log("BBBF:", this.data.stature)
         //发起网络请求
         var requestData = {
             "address": "",
             "birthday": this.data.selectData,
-            "bloodType":  this.data.selectBlood,
-            "havechild": this.data.selectBear==="已生育"?1:2,
+            "bloodType": this.data.selectBlood,
+            "havechild": this.data.selectBear === "已生育" ? 1 : 2,
             "height": this.data.stature,
             "weight": this.data.weight,
-            "ismarry": this.data.selectMarriage==="已婚"?1:2,
+            "ismarry": this.data.selectMarriage === "已婚" ? 1 : 2,
             "rh": "",
             "tags": "",
             "userId": this.data.userId,
         }
         // console.log("请求参数：",requestData)
         const res = await WXAPI.modifyUserExternalInfo(requestData)
-        if(res.code==0){   //返回上一页
-           wx.navigateBack({
-             delta: 1,
-           })
+        if (res.code == 0) {   //返回上一页
+            wx.showToast({
+                title: '保存成功',
+                icon: 'success',
+                duration: 1000
+            })
+            setTimeout(() => {
+                wx.navigateBack({
+                    delta: 1,
+                })
+            }, 1000)
         }
     },
 
     //保存
-    saveData:function(event){
+    saveData: function (event) {
         let that = this
         that.modifyUserExternalInfoOut()
     },
@@ -132,7 +139,7 @@ Page({
 
     //身高
     getstature: function (event) {
-        console.log("KKK:",event.detail.value)
+        console.log("KKK:", event.detail.value)
         this.setData({
             stature: event.detail.value,
         })
@@ -162,10 +169,12 @@ Page({
 
 
     onDatefirm: function (event) {
-        console.log("MMM:", Util.formatTime2(new Date(event.detail)))
+        // console.log("MMM:", Util.formatTime2(new Date(event.detail)))
+        this.data.baseInfprData.birthday = Util.formatTime2(new Date(event.detail))
         this.setData({
             selectData: Util.formatTime2(new Date(event.detail)),
             hidePatientShow: true,
+            baseInfprData: this.data.baseInfprData,
         })
     },
 
@@ -183,10 +192,12 @@ Page({
     },
 
     selectBloodComf: function (event) {
-        console.log("CCC:", event.detail.value)
+        // console.log("CCC:", event.detail.value)
+        this.data.baseInfprData.bloodType = event.detail.value
         this.setData({
             selectBlood: event.detail.value,
             hideBloodtypeShow: true,
+            baseInfprData: this.data.baseInfprData,
         })
     },
 
@@ -204,11 +215,13 @@ Page({
     },
 
     selectMarriageComf: function (event) {
-        console.log("VVVV:", event.detail.value)
-        this.setData({
-            selectMarriage: event.detail.value,
-            hideMarriageShow: true,
-        })
+        // console.log("VVVV:", event.detail.value)
+        this.data.baseInfprData.ismarry = event.detail.value,
+            this.setData({
+                selectMarriage: event.detail.value,
+                hideMarriageShow: true,
+                baseInfprData: this.data.baseInfprData
+            })
     },
 
 
@@ -231,11 +244,12 @@ Page({
     },
 
     selectBearComf: function (event) {
-        console.log("FFF:", event.detail.value)
-        this.setData({
-            selectBear: event.detail.value,
-            hideBearShow: true,
-        })
+        this.data.baseInfprData.havechild = event.detail.value,
+            this.setData({
+                selectBear: event.detail.value,
+                hideBearShow: true,
+                baseInfprData: this.data.baseInfprData
+            })
     },
 
 
