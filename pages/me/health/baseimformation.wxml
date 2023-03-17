@@ -32,15 +32,23 @@
 
     <view class="conten-view" style="margin-top: 20rpx;">
         <view style="margin-left:19rpx;">婚姻状况</view>
-        <view style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;"
-         bindtap="closeMarriageTap">{{baseInfprData.ismarry==2?'未婚':'已婚'||'请选择'}}
+        <view wx:if="{{baseInfprData.ismarry}}" style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;"
+         bindtap="closeMarriageTap">{{baseInfprData.ismarry==2?'未婚':'已婚'}}
+            <van-icon color="#999999" name="arrow" />
+        </view>
+
+        <view wx:if="{{!baseInfprData.ismarry}}" style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;" bindtap="closeMarriageTap">{{'请选择'}}
             <van-icon color="#999999" name="arrow" />
         </view>
     </view>
 
     <view class="conten-view" style="margin-top: 20rpx;">
         <view style="margin-left:19rpx;">生育状况</view>
-        <view style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;" bindtap="closeBearTap">{{baseInfprData.havechild==2?'未生育':'已生育'||'请选择'}}
+        <view wx:if="{{baseInfprData.havechild}}" style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;" bindtap="closeBearTap">{{baseInfprData.havechild==2?'未生育':'已生育'}}
+            <van-icon color="#999999" name="arrow" />
+        </view>
+
+        <view wx:if="{{!baseInfprData.havechild}}" style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;" bindtap="closeBearTap">{{'请选择'}}
             <van-icon color="#999999" name="arrow" />
         </view>
     </view>

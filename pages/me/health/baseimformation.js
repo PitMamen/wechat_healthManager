@@ -100,21 +100,20 @@ Page({
 
 
     async modifyUserExternalInfoOut(e) {
-        console.log("BBBF:", this.data.stature)
         //发起网络请求
         var requestData = {
             "address": "",
             "birthday": this.data.selectData,
             "bloodType": this.data.selectBlood,
-            "havechild": this.data.selectBear === "已生育" ? 1 : 2,
+            "havechild": this.data.selectBear ,
             "height": this.data.stature,
             "weight": this.data.weight,
-            "ismarry": this.data.selectMarriage === "已婚" ? 1 : 2,
+            "ismarry": this.data.selectMarriage ,
             "rh": "",
             "tags": "",
             "userId": this.data.userId,
         }
-        // console.log("请求参数：",requestData)
+        console.log("66666：",requestData)
         const res = await WXAPI.modifyUserExternalInfo(requestData)
         if (res.code == 0) {   //返回上一页
             wx.showToast({
@@ -192,7 +191,7 @@ Page({
     },
 
     selectBloodComf: function (event) {
-        // console.log("CCC:", event.detail.value)
+        console.log("CCC:", event.detail.value)
         this.data.baseInfprData.bloodType = event.detail.value
         this.setData({
             selectBlood: event.detail.value,
@@ -215,10 +214,12 @@ Page({
     },
 
     selectMarriageComf: function (event) {
-        // console.log("VVVV:", event.detail.value)
-        this.data.baseInfprData.ismarry = event.detail.value,
+        console.log("VVVV:", event.detail.value)
+        this.data.baseInfprData.ismarry = event.detail.value=="已婚"?1:2,
+        this.data.selectMarriage = event.detail.value=="已婚"?1:2,
+        // console.log("VVVV111:", this.data.selectMarriage)
             this.setData({
-                selectMarriage: event.detail.value,
+                selectMarriage:  this.data.selectMarriage,
                 hideMarriageShow: true,
                 baseInfprData: this.data.baseInfprData
             })
@@ -244,9 +245,11 @@ Page({
     },
 
     selectBearComf: function (event) {
-        this.data.baseInfprData.havechild = event.detail.value,
+        this.data.baseInfprData.havechild = event.detail.value=="已生育"?1:2,
+        this.data.selectBear = event.detail.value=="已生育"?1:2,
+        // console.log("EEE:", this.data.selectBear )
             this.setData({
-                selectBear: event.detail.value,
+                selectBear:  this.data.selectBear,
                 hideBearShow: true,
                 baseInfprData: this.data.baseInfprData
             })

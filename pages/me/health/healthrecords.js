@@ -1,5 +1,5 @@
 const WXAPI = require('../../../static/apifm-wxapi/index')
-
+const IMUtil = require('../../../utils/IMUtil')
 
 Page({
 
@@ -56,7 +56,7 @@ Page({
      */
     onShow() {
         console.log("更新界面")
-        this.getUserExternalInfoOut()
+        this.getUserExternalInfoOut(),
         this.getSavedUserTagsInfoOut()
     },
 
@@ -97,14 +97,21 @@ Page({
 
 
     async getUserExternalInfoOut(e) {
-        // console.log("BBBF:",this.data.defaultPatient)
+        console.log("BBBF:",this.data.defaultPatient)
         //发起网络请求
         var that = this;
-        const res = await WXAPI.getUserExternalInfo(this.data.defaultPatient.userId)
-
+        const res = await WXAPI.getUserExternalInfo(that.data.defaultPatient.userId)
         if (res.code == 0) {
+            var baseInfo = {
+                birthday: res.data.birthday || '',
+                height: res.data.height || '',
+                weight: res.data.weight || '',
+                bloodType: res.data.bloodType || '',
+                ismarry: res.data.ismarry || null,
+                havechild: res.data.havechild || null,
+            }
             that.setData({
-                baseInforData: res.data,
+                baseInforData: baseInfo,
             })
         } else {
             wx.showToast({
@@ -114,7 +121,7 @@ Page({
             })
         }
 
-        // console.log("PPP:",this.data.baseInforData)
+        console.log("PPP:",that.data.baseInforData)
     },
     
 
@@ -135,13 +142,14 @@ Page({
             })
         }
 
-        console.log("HHH:",this.data.tableListData)
+        // console.log("HHH:",this.data.tableListData)
     },
 
 
     //跳转基本信息界面
     goBaseImformation() {
        var data = JSON.stringify(this.data.baseInforData)
+       console.log("JJJ:",data)
         wx.navigateTo({
             url: './baseimformation?userId=' + this.data.defaultPatient.userId+'&data='+data,
         })
@@ -169,6 +177,9 @@ Page({
           //保存默认就诊人
           wx.setStorageSync('defaultPatient', this.data.defaultPatient)
           IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
+        
+          this.getUserExternalInfoOut()
+          this.getSavedUserTagsInfoOut()
           wx.showToast({
             title: '切换成功',
             icon: 'success',
@@ -181,9 +192,9 @@ Page({
     
       },
       onPatientPickerCancel() {
-        // this.setData({
-        //   hidePatientShow: true
-        // })
+        this.setData({
+          hidePatientShow: true
+        })
         wx.navigateTo({
           url: '/pages/me/patients/addPatient',
         })
