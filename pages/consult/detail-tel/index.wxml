@@ -1,11 +1,11 @@
 <view class="top-remind">
-    <image src="/image/dengdai.png" style="width: 38rpx;height: 38rpx;margin-left: 30rpx;"></image>
-    <view style="margin-left: 15rpx;">等待医生接诊</view>
-    <view style="margin-left: auto;margin-right: 30rpx;">申请时间：3/15 周一 9:00-12:00</view>
+    <image src="{{topIcon}}" style="width: 38rpx;height: 38rpx;margin-left: 30rpx;"></image>
+    <view style="margin-left: 15rpx;">{{topTitle}}</view>
+    <view style="margin-left: auto;margin-right: 30rpx;">{{topText}}</view>
 </view>
 <view class="pagewaper">
     <view class="card-top">
-        <image class="chat-head-style" src="{{detail.docInfo.avatarUrl}}" lazy-load="{{ true }}" mode="aspectFill" />
+        <image class="chat-head-style" src="{{detail.docInfo.avatarUrl||'/image/docheader.png'}}" lazy-load="{{ true }}" mode="aspectFill" />
         <view class="name-view">
             <view class="name-view-top">
                 <view style="font-size: 36rpx;color: #1A1A1A; margin-right: 12rpx;">{{detail.docInfo.userName}}</view>
@@ -14,28 +14,28 @@
             <view style="margin-top: 19rpx;"> {{detail.docInfo.hospitalName}} {{detail.docInfo.departmentName}} </view>
 
         </view>
-        <view style="margin-left: auto;color: #F40E0E;font-size: 26rpx;">15分钟</view>
+        <view style="margin-left: auto;color: #F40E0E;font-size: 26rpx;">{{detail.rightsUseRecordStatus.serviceTime}}分钟</view>
     </view>
     <view style="height: 0.5px; background: #CCCCCC;"></view>
     <view class="tel-card">
         <view>电话咨询</view>
-        <view>18634562178</view>
+        <view>{{detail.userPhone}}</view>
     </view>
     <view style="height: 0.5px; background: #CCCCCC;"></view>
-    <view class="tel-card">
+    <view wx:if="{{!detail.voiceTapeInfo || detail.voiceTapeInfo.length==0}}" class="tel-card">
         <view>电话录音</view>
         <view>--</view>
     </view>
-    <view class="tel-card2">
+    <view wx:else class="tel-card2">
         <view style="flex-shrink: 0;">电话录音</view>
         <view class="luyin-card">
-        
-        <view wx:for="{{radioList}}" class="luyin-view" style="{{index>1?' margin-top: 17rpx;':''}}" bindtap="play" data-item="{{item}}" data-index="{{index}}">
-            <van-icon name="{{item.isPlay?'pause-circle-o':'play-circle-o'}}" size="40rpx" />
-            <van-progress style="flex:1;margin-left: 20rpx;" percentage="{{ item.currentTime/item.duration *100}}" stroke-width="5" show-pivot="{{false}}" />
+
+            <view wx:for="{{radioList}}" class="luyin-view" style="{{index>1?' margin-top: 17rpx;':''}}" bindtap="play" data-item="{{item}}" data-index="{{index}}">
+                <van-icon name="{{item.isPlay?'pause-circle-o':'play-circle-o'}}" size="40rpx" />
+                <van-progress style="flex:1;margin-left: 20rpx;" percentage="{{ item.currentTime/item.duration *100}}" stroke-width="5" show-pivot="{{false}}" />
+            </view>
+
         </view>
-        
-    </view>
     </view>
 
 
@@ -59,15 +59,19 @@
     <view style="height: 150rpx;"></view>
 </view>
 <view class="safe-bottom-box">
- 
+
     <view wx:if="{{status==3}}" class="remind-text">医生已经接诊，请您在医生确认的时间内留意0731开头的号码，注意接听。</view>
     <view wx:if="{{status==4}}" class="remind-text">服务已经结束，请重新购买服务</view>
-   
-    <van-button wx:if="{{status==3}}" type="primary" color="#367BF5" block bind:click="enterRoom">图文咨询</van-button>
-    <van-button wx:if="{{status==4}}" type="primary" color="#367BF5" block bind:click="bugAgain">再次购买</van-button>
-    <van-button wx:if="{{status==4}}" type="primary" color="#367BF5" block bind:click="enterRoom">继续咨询</van-button>
-</view>
 
+    <van-button wx:if="{{status==3 && detail.rightsUseRecordStatus.serviceFrequency && detail.rightsUseRecordStatus.serviceFrequency >0}}" type="primary" color="#367BF5" block bind:click="enterRoom">图文咨询</van-button>
+    <van-button wx:if="{{status==4}}" type="primary" color="#367BF5" block bind:click="bugAgain">再次购买</van-button>
+    <view class="safe-bottom-box-flex">
+        <van-button wx:if="{{status==5}}" type="primary" color="#367BF5" custom-class="custom-class" bind:click="bugAgain">再次购买</van-button>
+        <van-button wx:if="{{status==5}}" type="primary" color="#367BF5" custom-class="custom-class" open-type="contact">联系客服</van-button>
+    </view>
+
+
+</view>
 <!-- 服务中已结束可以查看记录 -->
 <!-- <view wx:if="{{detail.rightsUseRecordStatus && (status==1  || status==4)}}" class="history-tag" bindtap="onHistroyBtnClick">
     <view>查看交</view>

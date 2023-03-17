@@ -226,7 +226,6 @@ margin-left: 20rpx;
     --picker-cancel-action-color: #367BF5 !important;
     --picker-confirm-action-color: #367BF5 !important;
 }
-
 .safe-bottom-box {
     position: fixed;
     width: 704rpx;
@@ -234,4 +233,26 @@ margin-left: 20rpx;
     left: 26rpx;
     z-index: 99;
     background: #ffffff;
+
+}
+.safe-bottom-box-flex{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.custom-class{
+    width: 300rpx !important;
+}
+.safe-bottom-box-flex2 {
+    position: fixed;
+    width: 704rpx;
+    bottom: 30rpx;
+    left: 26rpx;
+    z-index: 99;
+    background: #ffffff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }

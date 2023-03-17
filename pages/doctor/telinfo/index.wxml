@@ -36,7 +36,7 @@
             <input type="number" maxlength="11"  name="phone" value="{{phone}}" bindinput="getPhoneValue"  placeholder="请输入咨询电话"  placeholder-style='text-align: right' style="color: #1A1A1A;margin-left: auto;font-size: 28rpx;text-align: right;width: 300rpx;" />
             
        
-        <van-icon class="icon" color="#999999" name="arrow" />
+        
     </view>
     <view class="card-item" bind:tap="doctorAppointInfos">
         <view>意向预约时间</view>
