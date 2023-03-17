@@ -44,7 +44,7 @@
 
     <view class="conten-view" style="margin-top: 20rpx;">
         <view style="margin-left:19rpx;">生育状况</view>
-        <view wx:if="{{baseInfprData.havechild}}" style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;" bindtap="closeBearTap">{{baseInfprData.havechild==2?'未生育':'已生育'}}
+        <view wx:if="{{baseInfprData.havechild}}" style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;" bindtap="closeBearTap">{{baseInfprData.havechild}}
             <van-icon color="#999999" name="arrow" />
         </view>
 
@@ -86,5 +86,5 @@
 
 <!-- 生育状况弹窗 -->
 <van-popup show="{{ !hideBearShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closeBearTap">
-    <van-picker show-toolbar custom-class="picker-custom" title="婚姻状况" columns="{{ BearData }}" visible-item-count='2' bind:cancel="hideBearShow" bind:confirm="selectBearComf" />
+    <van-picker show-toolbar custom-class="picker-custom" title="生育状况" columns="{{ BearData }}" visible-item-count='2' bind:cancel="hideBearShow" bind:confirm="selectBearComf" />
 </van-popup>

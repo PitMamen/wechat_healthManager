@@ -13,9 +13,9 @@ Page({
         selectBlood: "",
         selectMarriage: "",
         selectBear: "",
-        boolddTypeData: ["A型", "B型", "AB型", "O型"],
+        boolddTypeData: ["A型", "B型", "AB型", "O型","不详"],
         marriageData: ["未婚", "已婚"],
-        BearData: ["已生育", "未生育"],
+        BearData: ["已生育", "未生育","备孕期","怀孕期"],
         hidePatientShow: true,
         hideBloodtypeShow: true,
         hideMarriageShow: true,
@@ -191,7 +191,6 @@ Page({
     },
 
     selectBloodComf: function (event) {
-        console.log("CCC:", event.detail.value)
         this.data.baseInfprData.bloodType = event.detail.value
         this.setData({
             selectBlood: event.detail.value,
@@ -226,12 +225,6 @@ Page({
     },
 
 
-
-
-
-
-
-
     closeBearTap: function () {
         this.setData({
             hideBearShow: false,
@@ -244,10 +237,21 @@ Page({
         })
     },
 
+
     selectBearComf: function (event) {
-        this.data.baseInfprData.havechild = event.detail.value=="已生育"?1:2,
-        this.data.selectBear = event.detail.value=="已生育"?1:2,
-        // console.log("EEE:", this.data.selectBear )
+        this.data.baseInfprData.havechild = event.detail.value
+       var databear = 0
+        if(event.detail.value=="已生育"){
+            databear=1
+        }else if(event.detail.value=="未生育"){
+            databear=2
+        }else if(event.detail.value=="备孕期"){
+            databear=3
+        }else if(event.detail.value=="怀孕期"){
+            databear=4
+        }
+        this.data.selectBear = databear,
+        console.log("EEE:", this.data.selectBear )
             this.setData({
                 selectBear:  this.data.selectBear,
                 hideBearShow: true,
