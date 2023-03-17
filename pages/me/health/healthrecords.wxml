@@ -62,7 +62,7 @@
 <view class="top-imfor" style="margin-bottom: 20rpx;">
 <view style="margin-left: 31rpx;margin-top: 40rpx;font-size: 30rpx;">生育状况</view>
 <view wx:if="{{!baseInforData.havechild}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;color: #999999;">未设置</view>
-<view wx:if="{{baseInforData.havechild}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;">{{baseInforData.havechild==1?"已生育":"未生育"}}</view>
+<view wx:if="{{baseInforData.havechild}}" style="margin-left: auto;margin-top: 40rpx;font-size: 28rpx;margin-right: 29rpx;">{{baseInforData.havechild}}</view>
 </view>
 </view> 
 
@@ -89,7 +89,7 @@
 
 <!-- 就诊人选择 -->
 <van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePatientTap">
-<van-picker show-toolbar custom-class="picker-custom" title="切换就诊人" columns="{{ nameColumns }}" visible-item-count='4' cancel-button-text="添加" bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
+<van-picker show-toolbar custom-class="picker-custom" title="切换就诊人" columns="{{ nameColumns }}" visible-item-count='4'  bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
 </van-popup>
 
 </view>

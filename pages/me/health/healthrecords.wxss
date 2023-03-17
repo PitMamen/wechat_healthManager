@@ -34,15 +34,13 @@
 .benren-view {
     margin-top: 36rpx;
     margin-left: 42rpx;
-    width: 80rpx;
     height: 42rpx;
     background: rgba(255, 255, 255, 0);
     border: 1px solid #FFFFFF;
     border-radius: 1rpx;
     font-size: 28rpx;
     color: #FFFFFF;
-    padding: 5rpx 0rpx 0rpx 10rpx;
-    padding-left: 18rpx;
+    padding: 5rpx 18rpx 0rpx 18rpx;
 }
 
 
