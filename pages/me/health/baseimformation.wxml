@@ -67,7 +67,7 @@
 
 
 <van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePatientTap">
-    <van-datetime-picker min-date="{{ minDate }}" bind:cancel="closePatientTap" bind:confirm="onDatefirm" type="date" value="{{ currentDate }}" bind:input="onInput" formatter="{{ formatter }}" />
+    <van-datetime-picker min-date="{{ minDate }}" max-date="{{maxDate}}" bind:cancel="closePatientTap" bind:confirm="onDatefirm" type="date" value="{{ currentDate }}" bind:input="onInput" formatter="{{ formatter }}" />
 </van-popup>
 
 

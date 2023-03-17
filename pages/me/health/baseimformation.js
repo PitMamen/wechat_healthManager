@@ -23,6 +23,7 @@ Page({
         currentDate: new Date().getTime(),
         selectData: "",
         minDate: new Date().getTime() - 100 * 365 * 24 * 60 * 60 * 1000,
+        maxDate: new Date().getTime(),
         formatter(type, value) {
             if (type === 'year') {
                 return `${value}年`;
