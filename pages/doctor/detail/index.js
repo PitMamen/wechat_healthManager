@@ -160,8 +160,26 @@ Page({
         const collectionIds = [this.data.collectionId].concat(this.data.list2.map(item => {
             return item.collectionId
         }))
-        wx.navigateTo({
-            url: `/pages/doctor/case/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
-        })
+                //判断是否是电话咨询
+                var isTelType=false
+                //可选规格
+                var itemOptionalPkg = this.data.list1.find((element) => {
+                    return element.collectionId == this.data.collectionId;
+                })
+                if(itemOptionalPkg.serviceItemTypes[0] === 102){
+                    isTelType=true
+                }
+
+
+                if (isTelType) {
+                    wx.navigateTo({
+                        url: `/pages/doctor/telinfo/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
+                    })
+                } else {
+                    wx.navigateTo({
+                        url: `/pages/doctor/case/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
+                    })
+                }
+        
     }
 })

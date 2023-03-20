@@ -87,7 +87,7 @@ Page({
     onCaseTap() {
       
         wx.navigateTo({
-            url: `/pages/doctor/case/index?docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=102`
+            url: `/pages/doctor/case/index?docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=102&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}`
         })
     },
     onSelectTap() {
@@ -107,11 +107,20 @@ Page({
     },
     onConfirm(event) {
         const index = event.detail.index
+      var selectUser=  this.data.columns[index]
+      if(this.data.selectUser.userId == selectUser.userId){
+        this.setData({
+            show: false
+        })
+      }else{
         this.setData({
             show: false,
             selectUser: this.data.columns[index],
-            phone: this.data.columns[index].phone
+            phone: this.data.columns[index].phone,
+            checkedCase:null
         })
+      }
+      
     },
 
     onTimeTap(){
@@ -141,6 +150,7 @@ Page({
                 showTime:true,
                
             })
+           
             if(this.data.appointList.length>0){
                 if(!this.data.activeAppoint){
                     this.setData({

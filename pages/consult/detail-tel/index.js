@@ -49,10 +49,10 @@ Page({
 
     },
     async getRightsInfo(id) {
-        id=504
+        
         const res = await WXAPI.getRightsInfo({ rightsId: id })
         if (res.code == 0) {
-        
+          
             this.setData({
                 detail: res.data,
                status:res.data.rightsUseRecordStatus.status
@@ -190,8 +190,11 @@ Page({
     },
     //再次购买
     bugAgain() {
+        // wx.navigateTo({
+        //     url: `/pages/doctor/info/index?id=${this.data.detail.docInfo.userId}&title=${this.data.detail.docInfo.userName}`
+        // })
         wx.navigateTo({
-            url: `/pages/doctor/info/index?id=${this.data.detail.docInfo.userId}&title=${this.data.detail.docInfo.userName}`
+            url: `/pages/doctor/detail/index?id=${this.data.detail.commodityId}&docId=${this.data.detail.docInfo.userId}&docName=${this.data.detail.docInfo.userName}`
         })
     },
     checkLoginStatus() {

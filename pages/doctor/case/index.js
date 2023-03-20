@@ -23,8 +23,28 @@ Page({
             commodityId: options.commodityId,
             collectionIds: options.collectionIds.split(','),
             consultType: options.consultType,
+            userId:options.userId
         })
         console.log("case-options",options)
+        this.setData({
+            loading: false,        
+            columns: wx.getStorageSync('userInfo').account.user
+        })
+
+        if(this.data.consultType=='102'|| this.data.consultType=='103'){
+           //电话 视频 会带过来就诊人
+         var selectUser=   this.data.columns.find((el)=>{
+                return el.userId==this.data.userId
+            })
+            this.setData({             
+                selectUser: selectUser ||    wx.getStorageSync('defaultPatient')              
+            })
+        }else{
+            this.setData({             
+                selectUser: wx.getStorageSync('defaultPatient')              
+            })
+        }
+        this.getMedicalCaseList()
     },
 
     /**
@@ -38,12 +58,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow() {
-        this.setData({
-            loading: false,
-            selectUser: wx.getStorageSync('defaultPatient'),
-            columns: wx.getStorageSync('userInfo').account.user
-        })
-        this.getMedicalCaseList()
+        
     },
 
     getMedicalCaseList(){
@@ -112,8 +127,8 @@ Page({
         })
     },
     onCancel() {
-        wx.navigateTo({
-            url: '/pages/me/patients/addPatient'
+        this.setData({
+            show: false
         })
     },
     onConfirm(event) {
