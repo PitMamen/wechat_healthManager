@@ -18,7 +18,7 @@
     </view>
     <view style="height: 0.5px; background: #CCCCCC;"></view>
     <view class="tel-card">
-        <view>电话咨询</view>
+        <view>咨询电话</view>
         <view>{{detail.userPhone}}</view>
     </view>
     <view style="height: 0.5px; background: #CCCCCC;"></view>
@@ -67,7 +67,7 @@
     
     <van-button wx:if="{{status==4}}" type="primary" color="#367BF5" block bind:click="bugAgain">再次购买</van-button>
     <view class="safe-bottom-box-flex">
-        <van-button wx:if="{{status==5}}" type="primary" color="#367BF5" custom-class="custom-class" bind:click="bugAgain">再次购买</van-button>
+        <van-button wx:if="{{status==5}}" type="primary" color="#367BF5" custom-class="custom-class" bind:click="applyAgain">再次申请</van-button>
         <van-button wx:if="{{status==5}}" type="primary" color="#367BF5" custom-class="custom-class" open-type="contact">联系客服</van-button>
     </view>
 
@@ -81,4 +81,23 @@
 
 <van-popup show="{{ !hidePoupShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;z-index: 999;" bind:close="onPoupPickerCancel">
     <van-picker show-toolbar custom-class="picker-custom" title="请选择" columns="{{ nameColumns }}" value-key="serviceItemName" visible-item-count='4' bind:cancel="onPoupPickerCancel" bind:confirm="onPoupPickerConfirm" />
+</van-popup>
+
+<van-popup show="{{ showTime }}" position="bottom" custom-style="min-height: 360rpx;max-height: 80%;" bind:close="closeTimePopup">
+    <view class="poptop">
+        <view bindtap="closeTimePopup">取消</view>
+        <view style="color: #1A1A1A;">选择意向预约时间</view>
+        <view bindtap="confirmTimePopup">确认</view>
+    </view>
+    <view class="popwrap">
+        <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="/image/icon_nodata.png" description="暂无病历" />
+        <view bindtap="chooseAppoint" data-item="{{item}}"  class="{{item.id == activeAppoint.id?'timeitem-active':'timeitem'}}" wx:for="{{appointList}}" wx:key="1">
+            <view>{{item.visitDate}}</view>
+            <view>{{item.weekDay}}</view>
+        </view>
+    </view>
+    <view wx:if="{{activeAppoint}}" class="popbottom">
+        <view>可预约时间段：<text style="color: #1A1A1A;">{{activeAppoint.visitStartTime}}-{{activeAppoint.visitEndTime}}</text> </view>
+        <view>接诊人数：<text style="color: #1A1A1A;font-size: 30rpx;">{{activeAppoint.leftVisitNum}}/</text><text style="color: #1A1A1A;">{{activeAppoint.maxVisitNum}}人</text></view>
+    </view>
 </van-popup>

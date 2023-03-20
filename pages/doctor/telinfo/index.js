@@ -30,7 +30,12 @@ Page({
             commodityId: options.commodityId,
             collectionIds: options.collectionIds.split(',')
         })
-       
+        this.setData({
+            loading: false,
+            selectUser: wx.getStorageSync('defaultPatient'),         
+            columns: wx.getStorageSync('userInfo').account.user,
+            phone: wx.getStorageSync('defaultPatient').phone
+        })
         this.getInfo()
     },
 
@@ -47,11 +52,9 @@ Page({
     onShow() {
         console.log(wx.getStorageSync('CheckedCase'))
         this.setData({
-            loading: false,
-            selectUser: wx.getStorageSync('defaultPatient'),
+           
             checkedCase: wx.getStorageSync('CheckedCase'),
-            columns: wx.getStorageSync('userInfo').account.user,
-            phone: wx.getStorageSync('defaultPatient').phone
+          
         })
         wx.removeStorage({
           key: 'CheckedCase',
@@ -101,8 +104,8 @@ Page({
         })
     },
     onCancel() {
-        wx.navigateTo({
-            url: '/pages/me/patients/addPatient'
+        this.setData({
+            show: false
         })
     },
     onConfirm(event) {
@@ -217,7 +220,8 @@ Page({
             commodityId: this.data.commodityId,
             doctorUserId: this.data.docId,
             userId: this.data.selectUser.userId,
-            doctorAppointId: this.data.selectAppoint.id
+            doctorAppointId: this.data.selectAppoint.id,
+            phone:this.data.phone
         })
         if (res2.code == 0) {
             wx.showToast({

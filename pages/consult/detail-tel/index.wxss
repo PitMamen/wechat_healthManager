@@ -102,7 +102,7 @@ margin-left: 20rpx;
     padding-bottom: 20rpx;
     padding-top: 20rpx;
 
-    width: 750rpx;
+    width: 700rpx;
     background: white;
 }
 
@@ -256,3 +256,65 @@ margin-left: 20rpx;
     align-items: center;
     justify-content: space-between;
 }
+
+.poptop{
+  
+    height: 68rpx;
+    background: #EBEBEB;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 30rpx;
+    padding-right: 30rpx;
+    font-size: 24rpx;
+    color: #367BF5;
+  }
+  .popwrap{
+  
+    height: 207rpx;
+  
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding-left: 24rpx;
+    padding-right: 24rpx;
+    font-size: 24rpx;
+    color: #367BF5;
+  }
+  .timeitem{
+    width: 88rpx;
+    height: 88rpx;
+    background: #FFFFFF;
+    border: 1rpx solid #3894FF;
+    color: #367BF5;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .timeitem-active{
+    width: 88rpx;
+    height: 88rpx;
+    background: #3894FF;
+    border: 1rpx solid #3894FF;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .popbottom{
+  
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 24rpx;
+    padding-right: 24rpx;
+    font-size: 24rpx;
+    color:#999999;
+  }

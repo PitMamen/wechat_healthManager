@@ -54,7 +54,7 @@
 </view>
 
 <van-popup show="{{ show }}" position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePopup">
-    <van-picker show-toolbar custom-class="picker-custom" title="切换就诊人" cancel-button-text="添加" columns="{{ columns }}" value-key="userName" visible-item-count="4" bind:cancel="onCancel" bind:confirm="onConfirm" />
+    <van-picker show-toolbar custom-class="picker-custom" title="切换就诊人"  columns="{{ columns }}" value-key="userName" visible-item-count="4" bind:cancel="onCancel" bind:confirm="onConfirm" />
 </van-popup>
 
 <van-popup show="{{ showTime }}" position="bottom" custom-style="min-height: 360rpx;max-height: 80%;" bind:close="closeTimePopup">
