@@ -56,10 +56,10 @@ Page({
 
         const res = await WXAPI.getRightsInfo({ rightsId: id })
         if (res.code == 0) {
-
+           
             this.setData({
                 detail: res.data,
-                status: res.data.rightsUseRecordStatus.status
+                status: res.data.rightsUseRecordStatus?res.data.rightsUseRecordStatus.status:1
             })
             if (res.data.voiceTapeInfo && res.data.voiceTapeInfo.length > 0) {
                 var voicelist = res.data.voiceTapeInfo.map(((item) => {
@@ -97,7 +97,7 @@ Page({
                 this.setData({
                     topIcon: '/image/yijuzhen.png',
                     topTitle: '已拒诊',
-                    topText: '处理时间' + this.data.detail.rightsUseRecordStatus.updatedTime || ''
+                    topText: '处理时间：' + this.data.detail.rightsUseRecordStatus.updatedTime || ''
                 })
             }
         }

@@ -1,4 +1,4 @@
-<view class="top-remind">
+<view wx:if="{{status !==1}}" class="top-remind">
     <image src="{{topIcon}}" style="width: 38rpx;height: 38rpx;margin-left: 30rpx;"></image>
     <view style="margin-left: 15rpx;">{{topTitle}}</view>
     <view style="margin-left: auto;margin-right: 30rpx;">{{topText}}</view>
@@ -67,8 +67,8 @@
     
     <van-button wx:if="{{status==4}}" type="primary" color="#367BF5" block bind:click="bugAgain">再次购买</van-button>
     <view class="safe-bottom-box-flex">
-        <van-button wx:if="{{status==5}}" type="primary" color="#367BF5" custom-class="custom-class" bind:click="applyAgain">再次申请</van-button>
-        <van-button wx:if="{{status==5}}" type="primary" color="#367BF5" custom-class="custom-class" open-type="contact">联系客服</van-button>
+        <van-button wx:if="{{status==5 || status==1}}" type="primary" color="#367BF5" custom-class="custom-class" bind:click="applyAgain">{{ status==1?'申请使用':'再次申请'}}</van-button>
+        <van-button wx:if="{{status==5 || status==1}}" type="primary" color="#367BF5" custom-class="custom-class" open-type="contact">联系客服</van-button>
     </view>
 
 
@@ -89,8 +89,9 @@
         <view style="color: #1A1A1A;">选择意向预约时间</view>
         <view bindtap="confirmTimePopup">确认</view>
     </view>
-    <view class="popwrap">
-        <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="/image/icon_nodata.png" description="暂无排班" />
+    <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="/image/icon_nodata.png" description="暂无排班" />
+    <view wx:else class="popwrap">
+        
         <view bindtap="chooseAppoint" data-item="{{item}}"  class="{{item.id == activeAppoint.id?'timeitem-active':'timeitem'}}" wx:for="{{appointList}}" wx:key="1">
             <view>{{item.visitDate}}</view>
             <view>{{item.weekDay}}</view>
