@@ -155,13 +155,14 @@ Page({
             })
             return
         }
-        if (!this.data.collectionId){
-            wx.showToast({
-                title: '请选择具体套餐',
-                icon: 'error'
-            })
-            return
-        }
+        // if (!this.data.collectionId){
+        //     wx.showToast({
+        //         title: '请选择具体套餐',
+        //         icon: 'error'
+        //     })
+        //     return
+        // }
+       
         if (!this.data.docId){
             wx.showToast({
                 title: '请选择医生',

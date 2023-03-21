@@ -64,7 +64,7 @@
         <view bindtap="confirmTimePopup">确认</view>
     </view>
     <view class="popwrap">
-        <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="/image/icon_nodata.png" description="暂无病历" />
+        <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="/image/icon_nodata.png" description="暂无排班" />
         <view bindtap="chooseAppoint" data-item="{{item}}"  class="{{item.id == activeAppoint.id?'timeitem-active':'timeitem'}}" wx:for="{{appointList}}" wx:key="1">
             <view>{{item.visitDate}}</view>
             <view>{{item.weekDay}}</view>
