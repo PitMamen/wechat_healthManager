@@ -78,13 +78,13 @@
 
 
 <!-- 婚姻状况弹窗 -->
-<van-popup show="{{ !hideMarriageShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closeMarriageTap">
-    <van-picker show-toolbar custom-class="picker-custom" title="婚姻状况" columns="{{ marriageData }}" visible-item-count='2' bind:cancel="hideMarriageShow" bind:confirm="selectMarriageComf" />
+<van-popup show="{{ !hideMarriageShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 30%;max-height: 80%;" bind:close="closeMarriageTap">
+    <van-picker show-toolbar custom-class="picker-custom" title="婚姻状况" columns="{{ marriageData }}" visible-item-count='4' bind:cancel="hideMarriageShow" bind:confirm="selectMarriageComf" />
 </van-popup>
 
 
 
 <!-- 生育状况弹窗 -->
-<van-popup show="{{ !hideBearShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closeBearTap">
-    <van-picker show-toolbar custom-class="picker-custom" title="生育状况" columns="{{ BearData }}" visible-item-count='2' bind:cancel="hideBearShow" bind:confirm="selectBearComf" />
+<van-popup show="{{ !hideBearShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 30%;max-height: 80%;" bind:close="closeBearTap">
+    <van-picker show-toolbar custom-class="picker-custom" title="生育状况" columns="{{ BearData }}" visible-item-count='4' bind:cancel="hideBearShow" bind:confirm="selectBearComf" />
 </van-popup>
