@@ -56,10 +56,10 @@ Page({
 
         const res = await WXAPI.getRightsInfo({ rightsId: id })
         if (res.code == 0) {
-           
+
             this.setData({
                 detail: res.data,
-                status: res.data.rightsUseRecordStatus?res.data.rightsUseRecordStatus.status:1
+                status: res.data.rightsUseRecordStatus ? res.data.rightsUseRecordStatus.status : 1
             })
             if (res.data.voiceTapeInfo && res.data.voiceTapeInfo.length > 0) {
                 var voicelist = res.data.voiceTapeInfo.map(((item) => {
@@ -71,10 +71,26 @@ Page({
                     }
                 }))
             }
+            // var voicelist = [{
+            //     src: 'https://webfs.ali.kugou.com/202303221054/d9c678d24f9d6a1982aad280047ae67c/KGTX/CLTX001/d76182a715c24815e3b1a322a89dac66.mp3',
+            //     isPlay: false,
+            //     currentTime: 0,
+            //     duration: 218
+            // }, {
+            //     src: 'https://webfs.tx.kugou.com/202303221512/c89f71573e2c5e1f8adb4a6dd5138fc1/v2/3e33a12308388b7ecbe5d2dd20d5ff4e/KGTX/CLTX001/3e33a12308388b7ecbe5d2dd20d5ff4e.mp3',
+            //     isPlay: false,
+            //     currentTime: 0,
+            //     duration: 166
+            // }, {
+            //     src: 'https://webfs.tx.kugou.com/202303221512/d8d285396e3bc09cda66e2affd7c74e6/v2/e2c910c96ce2bf6aeeb97eb7e77c8932/KGTX/CLTX001/e2c910c96ce2bf6aeeb97eb7e77c8932.mp3',
+            //     isPlay: false,
+            //     currentTime: 0,
+            //     duration: 195
+            // }]
             this.setData({
                 radioList: voicelist
-
             })
+
             if (this.data.status == 2) {
                 this.setData({
                     topIcon: '/image/dengdai.png',
@@ -90,8 +106,8 @@ Page({
             } else if (this.data.status == 4) {
                 this.setData({
                     topIcon: '/image/wancheng_2.png',
-                    topTitle: '通话已完成',
-                    topText: '确认时间：' + this.data.detail.rightsUseRecordStatus.confirmPeriod || ''
+                    topTitle: '已完成',
+                    topText: '结束时间：' + this.data.detail.rightsUseRecordStatus.updatedTime || ''
                 })
             } else if (this.data.status == 5) {
                 this.setData({
@@ -134,7 +150,9 @@ Page({
             this.innerAudioContext.src = item.src
             var duration = this.innerAudioContext.duration
             console.log("时长：" + duration)
+            this.innerAudioContext.startTime = this.data.radioList[index].currentTime// 开始时间
             this.innerAudioContext.play() // 播放
+           
 
             this.myInterval = setInterval(() => {
                 this.data.radioList[index].currentTime = this.data.radioList[index].currentTime + 1
@@ -160,6 +178,25 @@ Page({
             radioList: this.data.radioList
         })
     },
+ 
+    onSliderChange(e) {
+        console.log(e)
+        var index = e.currentTarget.dataset.index
+        this.data.radioList[index].currentTime = e.detail
+        this.setData({
+            radioList: this.data.radioList
+        })
+        if (this.innerAudioContext) {
+            if (this.innerAudioContext.src == this.data.radioList[index].src) {
+                this.innerAudioContext.seek(e.detail)
+            }
+
+        } else {
+            console.log("innerAudioContext是空")
+        }
+
+    },
+
     //再次申请
     applyAgain() {
         this.doctorAppointInfos()
@@ -210,17 +247,17 @@ Page({
 
         this.saveRightsUseRecord()
     },
-    closeTimePopup(){
+    closeTimePopup() {
         this.setData({
             showTime: false
         })
     },
     //申请
     async saveRightsUseRecord() {
-        let that=this
+        let that = this
         var postData = this.data.detail.rightsItemInfo[0]
         postData.appointTime = this.data.selectAppoint.fullVisitDate
-        postData.appointPeriod=this.data.selectAppoint.visitStartTime+'-'+this.data.selectAppoint.visitEndTime
+        postData.appointPeriod = this.data.selectAppoint.visitStartTime + '-' + this.data.selectAppoint.visitEndTime
         postData.userId = this.data.detail.userId
         postData.docId = postData.doctorUserId
         postData.rightsItemId = postData.id
@@ -354,10 +391,10 @@ Page({
      * 生命周期函数--监听页面隐藏
      */
     onHide() {
-        if(this.innerAudioContext){
+        if (this.innerAudioContext) {
             this.innerAudioContext.pause() // 暂停
         }
-     
+
         clearInterval(this.myInterval)
     },
 
@@ -365,20 +402,20 @@ Page({
      * 生命周期函数--监听页面卸载
      */
     onUnload() {
-        if(this.innerAudioContext){
+        if (this.innerAudioContext) {
             this.innerAudioContext.destroy()
-            this.innerAudioContext=null
+            this.innerAudioContext = null
         }
 
         clearInterval(this.myInterval)
-     
+
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh() {    
-       
+    onPullDownRefresh() {
+
     },
 
     /**
