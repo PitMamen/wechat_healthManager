@@ -63,13 +63,19 @@
 
             </view>
 
-            <view class="btn-blue">
+            <!-- 图文咨询 -->
+            <view wx:if="{{item.serviceItemTypes[0]==101}}" class="btn-blue">
                 <van-button wx:if="{{item.status.value !==3 }}" bindtap="goConsultDetail" data-item="{{item}}" plain color="#3894FF" round type="info" size="small">问诊详情</van-button>
                 <van-button wx:if="{{item.status.value==3}}" bindtap="enterRoom" data-item="{{item}}" style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">进入诊室</van-button>
                 <van-button wx:if="{{item.status.value==1}}" bindtap="goApplyRights" data-item="{{item}}" style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">使用权益</van-button>
                 <van-button wx:if="{{item.status.value==4}}" bindtap="bugAgain" data-item="{{item}}" style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">申请复诊</van-button>
             </view>
+            
+            <!-- 电话咨询 -->
+            <view wx:if="{{item.serviceItemTypes[0]==102}}" class="btn-blue">
+                <van-button bindtap="goConsultDetail" data-item="{{item}}" plain color="#3894FF" round type="info" size="small">问诊详情</van-button>
 
+            </view>
         </view>
 
     </view>

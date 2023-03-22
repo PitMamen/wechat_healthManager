@@ -3,7 +3,7 @@ const Config = require('../../../utils/config')
 
 Page({
     data: {
-        isOnSale:false,
+        isOnSale: false,
         navBarHeight: null,
         statusBarHeight: null,
         collectionId: null,
@@ -78,19 +78,19 @@ Page({
                 list2: res.data.compulsoryPkgs || [],
                 images: res.data.detailImgs || [],
                 swipers: res.data.bannerImgs || [],
-                isOnSale:res.data.saleStatus?res.data.saleStatus.value==2 : false,//1下架、2上架
+                isOnSale: res.data.saleStatus ? res.data.saleStatus.value == 2 : false,//1下架、2上架
             })
-              //第一个可选项默认勾选
-              if(this.data.list1.length>0){
+            //第一个可选项默认勾选
+            if (this.data.list1.length > 0) {
                 this.setData({
                     collectionId: this.data.list1[0].collectionId
                 })
             }
             this.setPrice()
-            if(!this.data.isOnSale){
+            if (!this.data.isOnSale) {
                 wx.showToast({
-                  title: '该商品已下架',
-                  icon:'none'
+                    title: '该商品已下架',
+                    icon: 'none'
                 })
             }
         })
@@ -99,11 +99,11 @@ Page({
         let price = this.data.list2.reduce((sum, item) => {
             return sum + item.totalAmount
         }, 0)
-        if (this.data.collectionId){
+        if (this.data.collectionId) {
             let select = this.data.list1.find(item => {
                 return this.data.collectionId == item.collectionId
             })
-            if (select){
+            if (select) {
                 price += select.totalAmount
             }
         }
@@ -115,7 +115,7 @@ Page({
     onBackTap() {
         wx.navigateBack({})
     },
-    onItemClick(event){
+    onItemClick(event) {
         const item = event.currentTarget.dataset.item
         this.setData({
             collectionId: item.collectionId
@@ -129,9 +129,9 @@ Page({
         })
         this.setPrice()
     },
-    onSelectTap() {},
+    onSelectTap() { },
     onBuyClick() {
-        if (!wx.getStorageSync('userInfo')){
+        if (!wx.getStorageSync('userInfo')) {
             wx.showModal({
                 title: '提示',
                 content: '此功能需要登录',
@@ -147,21 +147,39 @@ Page({
             })
             return
         }
-        if (!this.data.collectionId){
-            wx.showToast({
-                title: '请选择具体套餐',
-                icon: 'error'
-            })
-            return
-        }
+        // if (!this.data.collectionId) {
+        //     wx.showToast({
+        //         title: '请选择具体套餐',
+        //         icon: 'error'
+        //     })
+        //     return
+        // }
         this.setData({
             loading: true
         })
         const collectionIds = [this.data.collectionId].concat(this.data.list2.map(item => {
             return item.collectionId
         }))
-        wx.navigateTo({
-            url: `/pages/doctor/case/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
+        //判断是否是电话咨询
+        var isTelType = false
+        //可选规格
+        var itemOptionalPkg = this.data.list1.find((element) => {
+            return element.collectionId == this.data.collectionId;
         })
+        if ( itemOptionalPkg &&  itemOptionalPkg.serviceItemTypes && itemOptionalPkg.serviceItemTypes[0] === 102) {
+            isTelType = true
+        }
+
+
+        if (isTelType) {
+            wx.navigateTo({
+                url: `/pages/doctor/telinfo/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
+            })
+        } else {
+            wx.navigateTo({
+                url: `/pages/doctor/case/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
+            })
+        }
+
     }
 })

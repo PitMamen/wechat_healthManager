@@ -1370,6 +1370,13 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/medicalCase/save'
                         return request(url, 'post', data, true);
                     },
+                    
+                     //医生排班列表
+                     doctorAppointInfos: function doctorAppointInfos(data) {                       
+                        var url = MEDICAL_SERVICE + '/commodity/doctorAppointInfos'
+                        return request(url, 'get', data, true);
+                    },
+
                 };
 
                 /***/

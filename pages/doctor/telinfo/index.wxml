@@ -1,18 +1,18 @@
 <view class="docinfo">
 
-    <image src="/image/avatar.png" class="imgview"></image>
+    <image src="{{info.avatarUrl || '/image/avatar.png'}}" class="imgview" mode="aspectFill"></image>
     <view class="right-wrap">
         <view class="right">
-            <view>刘医生</view>
-            <view>主任医生</view>
+            <view>{{info.userName}}</view>
+            <view>{{info.professionalTitle}}</view>
         </view>
         <view class="right" style="margin-top: 12rpx;">
-            <view>中南大学湘雅二医院</view>
-            <view>精神科</view>
+            <view>{{info.hospitalName}}</view>
+            <view>{{info.departmentName}}</view>
         </view>
         <view class="right" style="margin-top: 12rpx;">
             <view>电话咨询</view>
-            <view>15分钟</view>
+            <view>{{checkedPkgRule.serviceValue+checkedPkgRule.unit}}</view>
         </view>
     </view>
 
@@ -20,52 +20,59 @@
 <view class="card">
     <view class="card-item" bind:tap="onSelectTap">
         <view>就诊人</view>
-        <view class="r">张三
+        <view class="r">{{selectUser.userName}}
             <van-icon class="icon" color="#999999" name="arrow" />
         </view>
     </view>
     <view class="card-item" bind:tap="onCaseTap">
         <view>病历资料</view>
-        <view class="r">病历1:2022-10-01
+        <view class="r">{{checkedCase.title||'请选择'}}
             <van-icon class="icon" color="#999999" name="arrow" />
         </view>
     </view>
     <view class="card-item">
         <view>咨询电话</view>
-        <view class="r" style="color: #1A1A1A;">18684770322
+        
+            <input type="number" maxlength="11"  name="phone" value="{{phone}}" bindinput="getPhoneValue"  placeholder="请输入咨询电话"  placeholder-style='text-align: right' style="color: #1A1A1A;margin-left: auto;font-size: 28rpx;text-align: right;width: 300rpx;" />
+            
+       
+        
+    </view>
+    <view class="card-item" bind:tap="doctorAppointInfos">
+        <view>意向预约时间</view>
+        <view wx:if="{{selectAppoint}}" class="r">{{selectAppoint.visitDate+' '+selectAppoint.weekDay+' '+selectAppoint.visitStartTime+'-'+selectAppoint.visitEndTime}}
             <van-icon class="icon" color="#999999" name="arrow" />
         </view>
-    </view>
-    <view class="card-item" bind:tap="onTimeTap">
-        <view>意向预约时间</view>
-        <view class="r">3/13 周一 9:00-12:00
+        <view wx:else class="r">请选择
             <van-icon class="icon" color="#999999" name="arrow" />
         </view>
     </view>
 </view>
 
 <view class="safe-bottom-box">
-    <van-button type="primary" color="#367BF5" block bind:click="nextBtn">下一步</van-button>
+    <van-button type="primary" color="#367BF5" block bind:click="nextAction">下一步</van-button>
 </view>
 
 <van-popup show="{{ show }}" position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePopup">
-    <van-picker show-toolbar custom-class="picker-custom" title="切换就诊人" cancel-button-text="添加" columns="{{ columns }}" value-key="userName" visible-item-count="4" bind:cancel="onCancel" bind:confirm="onConfirm" />
+    <van-picker show-toolbar custom-class="picker-custom" title="切换就诊人"  columns="{{ columns }}" value-key="userName" visible-item-count="4" bind:cancel="onCancel" bind:confirm="onConfirm" />
 </van-popup>
 
 <van-popup show="{{ showTime }}" position="bottom" custom-style="min-height: 360rpx;max-height: 80%;" bind:close="closeTimePopup">
     <view class="poptop">
-        <view>取消</view>
+        <view bindtap="closeTimePopup">取消</view>
         <view style="color: #1A1A1A;">选择意向预约时间</view>
-        <view>确认</view>
+        <view bindtap="confirmTimePopup">确认</view>
     </view>
-    <view class="popwrap">
-        <view class="timeitem" wx:for="{{timeList}}" wx:key="1">
-            <view>12/22</view>
-            <view>周二</view>
+    <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="/image/icon_nodata.png" description="暂无排班" />
+    <view wx:else class="popwrap">
+        
+        <view bindtap="chooseAppoint" data-item="{{item}}"  class="{{item.id == activeAppoint.id?'timeitem-active':'timeitem'}}" wx:for="{{appointList}}" wx:key="1">
+            <view>{{item.visitDate}}</view>
+            <view>{{item.weekDay}}</view>
         </view>
     </view>
-    <view class="popbottom">
-        <view>可预约时间段：<text style="color: #1A1A1A;">9:00-12:00</text> </view>
-        <view>接诊人数：<text style="color: #1A1A1A;font-size: 30rpx;">10/</text><text style="color: #1A1A1A;">15人</text></view>
+    <view wx:if="{{activeAppoint}}" class="popbottom">
+        <view>可预约时间段：<text style="color: #1A1A1A;">{{activeAppoint.visitStartTime}}-{{activeAppoint.visitEndTime}}</text> </view>
+        <view>接诊人数：<text style="color: #1A1A1A;font-size: 30rpx;">{{activeAppoint.leftVisitNum}}/</text><text style="color: #1A1A1A;">{{activeAppoint.maxVisitNum}}人</text></view>
     </view>
 </van-popup>

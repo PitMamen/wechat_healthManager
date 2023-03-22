@@ -7,15 +7,21 @@ Page({
      * 页面的初始数据
      */
     data: {
-        status: '',
+        status: '',//2待接诊 3问诊中 4已结束 5已中止
+        topIcon: '',
+        topTitle: '',
+        topText: '',
         isUsed: false,
         detail: {},
         nameColumns: [],
         numRights: 0,
         reqInfo: {},
         hidePoupShow: true,
-        radioList: [{ src: 'https://webfs.tx.kugou.com/202303131130/4f8a25615abd5f671638629b74881a0d/v2/be4e0922bfc2b64acae9f92407051159/KGTX/CLTX001/be4e0922bfc2b64acae9f92407051159.mp3', isPlay: false, currentTime: 0, duration: 267 },
-        { src: 'https://webfs.ali.kugou.com/202303131341/c3e4595908e533f7deee99363ae384b8/KGTX/CLTX001/3aba2b5d81614910f0e4b8924fcdf2b9.mp3', isPlay: false, currentTime: 0, duration: 272 }]
+        radioList: [],
+        appointList: [],
+        showTime: false,
+        activeAppoint: null,
+        selectAppoint: null
 
     },
     innerAudioContext: null,
@@ -26,8 +32,8 @@ Page({
     onLoad(options) {
         this.setData({
             rightsId: options.rightsId,
-            userId: options.userId,
-            status: options.status,
+
+
         })
         this.getRightsInfo(this.data.rightsId)
         this.getRightsReqData(this.data.rightsId)
@@ -47,33 +53,53 @@ Page({
 
     },
     async getRightsInfo(id) {
+
         const res = await WXAPI.getRightsInfo({ rightsId: id })
         if (res.code == 0) {
-            var num = 0
-            var nameColumns = []
-            res.data.rightsItemInfo.forEach(attr => {
-
-                //计算是否使用过权益 显示查看交流记录按钮
-                if (Number(attr.equityQuantity) - Number(attr.surplusQuantity) > 0) {
-                    this.setData({
-                        isUsed: true
-                    })
-                }
-                var d = Number(attr.surplusQuantity)
-                num = num + d
-
-                if (d > 0) {
-                    nameColumns.push(attr)
-                }
-            })
-
-
+           
             this.setData({
                 detail: res.data,
-                nameColumns: nameColumns,
-                numRights: num,
+                status: res.data.rightsUseRecordStatus?res.data.rightsUseRecordStatus.status:1
             })
+            if (res.data.voiceTapeInfo && res.data.voiceTapeInfo.length > 0) {
+                var voicelist = res.data.voiceTapeInfo.map(((item) => {
+                    return {
+                        src: item.callTape,
+                        isPlay: false,
+                        currentTime: 0,
+                        duration: item.duration
+                    }
+                }))
+            }
+            this.setData({
+                radioList: voicelist
 
+            })
+            if (this.data.status == 2) {
+                this.setData({
+                    topIcon: '/image/dengdai.png',
+                    topTitle: '等待医生接诊',
+                    topText: '申请时间：' + this.data.detail.rightsUseRecordStatus.appointPeriod || ''
+                })
+            } else if (this.data.status == 3) {
+                this.setData({
+                    topIcon: '/image/jiezhen.png',
+                    topTitle: '已接诊',
+                    topText: '确认时间：' + this.data.detail.rightsUseRecordStatus.confirmPeriod || ''
+                })
+            } else if (this.data.status == 4) {
+                this.setData({
+                    topIcon: '/image/wancheng_2.png',
+                    topTitle: '通话已完成',
+                    topText: '确认时间：' + this.data.detail.rightsUseRecordStatus.confirmPeriod || ''
+                })
+            } else if (this.data.status == 5) {
+                this.setData({
+                    topIcon: '/image/yijuzhen.png',
+                    topTitle: '已拒诊',
+                    topText: '处理时间：' + this.data.detail.rightsUseRecordStatus.updatedTime || ''
+                })
+            }
         }
 
     },
@@ -92,30 +118,7 @@ Page({
         }
 
     },
-    //申请
-    async saveRightsUseRecord(rightInfo) {
 
-        var postData = rightInfo
-        postData.appointTime = Util.formatTime(new Date())
-        postData.userId = this.data.userId
-        postData.docId = rightInfo.doctorUserId
-        postData.rightsItemId = rightInfo.id
-
-        const res = await WXAPI.saveRightsUseRecordNew(postData)
-        if (res.code == 0) {
-
-            wx.showToast({
-                title: '申请成功！',
-            })
-            setTimeout(() => {
-                wx.switchTab({
-                    url: '/pages/consult/index',
-                })
-            }, 1000)
-        }
-
-
-    },
 
     play(e) {
         var item = e.currentTarget.dataset.item
@@ -135,7 +138,7 @@ Page({
 
             this.myInterval = setInterval(() => {
                 this.data.radioList[index].currentTime = this.data.radioList[index].currentTime + 1
-                if(this.data.radioList[index].currentTime>this.data.radioList[index].duration){
+                if (this.data.radioList[index].currentTime > this.data.radioList[index].duration) {
                     clearInterval(this.myInterval)
                     this.data.radioList[index].isPlay = false
                     this.setData({
@@ -157,16 +160,124 @@ Page({
             radioList: this.data.radioList
         })
     },
+    //再次申请
+    applyAgain() {
+        this.doctorAppointInfos()
+    },
 
+    //排班
+    async doctorAppointInfos() {
+        const res = await WXAPI.doctorAppointInfos({
+            doctorUserId: this.data.detail.docInfo.userId
+        })
+        if (res.code == 0) {
+            this.setData({
+                appointList: res.data || [],
+                showTime: true,
+
+            })
+
+            if (this.data.appointList.length > 0) {
+                if (!this.data.activeAppoint) {
+                    this.setData({
+                        activeAppoint: this.data.appointList[0]
+                    })
+                }
+
+            }
+        }
+    },
+    //选择号源
+    chooseAppoint(e) {
+        var item = e.currentTarget.dataset.item
+        this.setData({
+            activeAppoint: item
+        })
+    },
+    //确定号源
+    confirmTimePopup() {
+        if (!this.data.activeAppoint) {
+            wx.showToast({
+                title: '请选择意向预约时间',
+                icon: 'none'
+            })
+            return
+        }
+        this.setData({
+            showTime: false,
+            selectAppoint: this.data.activeAppoint
+        })
+
+        this.saveRightsUseRecord()
+    },
+    closeTimePopup(){
+        this.setData({
+            showTime: false
+        })
+    },
+    //申请
+    async saveRightsUseRecord() {
+        let that=this
+        var postData = this.data.detail.rightsItemInfo[0]
+        postData.appointTime = this.data.selectAppoint.fullVisitDate
+        postData.appointPeriod=this.data.selectAppoint.visitStartTime+'-'+this.data.selectAppoint.visitEndTime
+        postData.userId = this.data.detail.userId
+        postData.docId = postData.doctorUserId
+        postData.rightsItemId = postData.id
+
+        const res = await WXAPI.saveRightsUseRecordNew(postData)
+        if (res.code == 0) {
+
+            wx.showToast({
+                title: '申请成功！',
+                duration: 2000
+            })
+            setTimeout(() => {
+                that.getRightsInfo(that.data.rightsId)
+                that.getRightsReqData(that.data.rightsId)
+            }, 2000)
+        }
+
+
+    },
     //进入诊室
     enterRoom() {
-        wx.navigateBack()
+        if (this.checkLoginStatus()) {
+            if (getApp().globalData.sdkReady) {
+                IMUtil.goGroupChat(this.data.detail.userId, 'navigateTo', this.data.detail.imGroupId, 'textNum', this.data.detail.rightsUseRecordStatus.id, 'START')
+            }
+        }
     },
     //再次购买
     bugAgain() {
+        // wx.navigateTo({
+        //     url: `/pages/doctor/info/index?id=${this.data.detail.docInfo.userId}&title=${this.data.detail.docInfo.userName}`
+        // })
         wx.navigateTo({
-            url: `/pages/health/detail/index?id=${this.data.detail.commodityId}`
+            url: `/pages/doctor/detail/index?id=${this.data.detail.commodityId}&docId=${this.data.detail.docInfo.userId}&docName=${this.data.detail.docInfo.userName}`
         })
+    },
+    checkLoginStatus() {
+
+        if (getApp().globalData.loginReady) {
+            return true
+        } else {
+            wx.showModal({
+                title: '提示',
+                content: '此功能需要登录',
+                confirmText: '去登录',
+                cancelText: '取消',
+                success(res) {
+                    if (res.confirm) {
+                        wx.navigateTo({
+                            url: '/pages/login/auth',
+                        })
+                    }
+                }
+            })
+            return false
+        }
+
     },
     //查询历史咨询
     onHistroyBtnClick() {
@@ -243,21 +354,31 @@ Page({
      * 生命周期函数--监听页面隐藏
      */
     onHide() {
-
+        if(this.innerAudioContext){
+            this.innerAudioContext.pause() // 暂停
+        }
+     
+        clearInterval(this.myInterval)
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
     onUnload() {
+        if(this.innerAudioContext){
+            this.innerAudioContext.destroy()
+            this.innerAudioContext=null
+        }
 
+        clearInterval(this.myInterval)
+     
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh() {
-
+    onPullDownRefresh() {    
+       
     },
 
     /**
