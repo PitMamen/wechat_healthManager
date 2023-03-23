@@ -200,9 +200,9 @@ Page({
     },
     testBtn() {
         
-        // wx.navigateTo({
-        //     url: '/pages/login/follow-checkin?ks=1030400'
-        // })
+        wx.navigateTo({
+            url: '/pages/doctor/telinfo/index'
+        })
     },
 
 

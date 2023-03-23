@@ -81,9 +81,9 @@
 }
 .wrap .middle .list .item .right .service .name {
     width: 200rpx;
-    white-space: nowrap;
+    /* white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; */
 }
 .wrap .middle .list .item .right .service .num {
     /* margin-left: 60rpx; */

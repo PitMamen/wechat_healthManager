@@ -82,6 +82,14 @@ Page({
                 swipers: res.data.bannerImgs || [],
                 isOnSale:res.data.saleStatus?res.data.saleStatus.value==2 : false,//1下架、2上架
             })
+
+            //第一个可选项默认勾选
+            if(this.data.list1.length>0){
+                this.setData({
+                    collectionId: this.data.list1[0].collectionId
+                })
+            }
+
             this.setPrice()
             if(!this.data.isOnSale){
                 wx.showToast({
@@ -147,13 +155,14 @@ Page({
             })
             return
         }
-        if (!this.data.collectionId){
-            wx.showToast({
-                title: '请选择具体套餐',
-                icon: 'error'
-            })
-            return
-        }
+        // if (!this.data.collectionId){
+        //     wx.showToast({
+        //         title: '请选择具体套餐',
+        //         icon: 'error'
+        //     })
+        //     return
+        // }
+       
         if (!this.data.docId){
             wx.showToast({
                 title: '请选择医生',
@@ -168,7 +177,7 @@ Page({
             return item.collectionId
         }))
         wx.navigateTo({
-            url: `/pages/doctor/fill/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
+            url: `/pages/doctor/case/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
         })
     }
 })

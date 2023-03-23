@@ -74,9 +74,9 @@ Page({
                     }
                 })
             })
-            if (this.data.list.length > 0){
+            if (this.data.list.length > 0) {
                 const pitem = this.data.list[0]
-                if (pitem.pkgRules.length > 0){
+                if (pitem.pkgRules.length > 0) {
                     const item = pitem.pkgRules[0]
                     this.setData({
                         activeItem: item,
@@ -122,7 +122,7 @@ Page({
         })
     },
     onBuyClick() {
-        if (!this.data.activeItem.collectionId){
+        if (!this.data.activeItem.collectionId) {
             wx.showToast({
                 title: '请选择具体套餐',
                 icon: 'error'
@@ -133,8 +133,22 @@ Page({
             loading: true
         })
         const collectionIds = (this.data.activepItem.compulsoryCollectionIds || []).concat([this.data.activeItem.collectionId])
-        wx.navigateTo({
-            url: `/pages/doctor/fill/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
+        console.log("collectionIds=" + collectionIds)
+        console.log("activepItem=", this.data.activepItem)
+        //判断是否是电话咨询
+        const isTelType = this.data.activepItem.pkgRules.some((element) => {
+            return (element.serviceItemTypes[0] === 102);
         })
+        if (isTelType) {
+            wx.navigateTo({
+                url: `/pages/doctor/telinfo/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
+            })
+        } else {
+            wx.navigateTo({
+                url: `/pages/doctor/case/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
+            })
+        }
+
+
     }
 })

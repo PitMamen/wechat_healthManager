@@ -175,8 +175,16 @@ avatarBinderror(e){
             url: './patients/index',
           })
       }
-
   },
+
+  goMyHealthRecords() {
+    if(this.checkLoginStatus()){
+      wx.navigateTo({
+          url: './health/healthrecords',
+        })
+    }
+
+},
 
 
   //预约床位

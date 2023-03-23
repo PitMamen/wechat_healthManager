@@ -68,10 +68,15 @@
         "pages/me/my-plan/plan-detail-v2",
         "pages/home/health-remind/detail",
         "pages/home/hospital-select/index",
-        "pages/consult/detail/index",
+        "pages/consult/detail-text/index",
         "pages/consult/rights/apply",
-        "pages/consult/webpage/index"
-       
+        "pages/consult/webpage/index",
+        "pages/doctor/case/index",
+        "pages/doctor/telinfo/index",
+        "pages/me/health/healthrecords",
+        "pages/me/health/baseimformation",
+        "pages/me/health/healthstatus",
+        "pages/consult/detail-tel/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",
@@ -163,7 +168,8 @@
         "van-checkbox-group": "@vant/weapp/checkbox-group/index",
         "van-loading": "@vant/weapp/loading/index",
         "van-circle": "@vant/weapp/circle/index",
-        "van-tree-select": "@vant/weapp/tree-select/index"
+        "van-tree-select": "@vant/weapp/tree-select/index",
+        "van-slider": "@vant/weapp/slider/index"
     },
     "sitemapLocation": "sitemap.json"
 }

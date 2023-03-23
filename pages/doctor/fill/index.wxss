@@ -6,7 +6,7 @@
     position: fixed;
     width: 552rpx;
     left: 50%;
-    bottom: 100rpx;
+    bottom: 30rpx;
     transform: translateX(-50%);
     z-index: 1;
     border-radius: 8rpx;

@@ -95,7 +95,7 @@ Page({
 
     goOrder(e) {
         var id = e.currentTarget.dataset.id
-        debugger
+        
         console.log(id)
 
         wx.navigateTo({

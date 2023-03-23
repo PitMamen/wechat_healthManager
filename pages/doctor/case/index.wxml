@@ -1,0 +1,42 @@
+<view class="topline"></view>
+<view class="wrap">
+    <view class="row">
+        <view class="title left">就诊人</view>
+        <view class="right" bind:tap="onSelectTap">
+            <text class="name">{{ selectUser.userName || '请选择就诊人' }}</text>
+            <van-icon wx:if="{{consultType!='102'&&consultType!='103'}}" class="icon" name="arrow" />
+        </view>
+    </view>
+    <view class="title left">该就诊人的既往病历，您可以选择使用</view>
+    <view class="selectbtn" bindtap="addCase" >
+        <van-icon name="plus" />
+        <view style="margin-left: 11rpx;">填写新病历</view>
+    </view>
+
+    <van-empty wx:if="{{ !caseList || caseList.length == 0 }}" image="/image/icon_nodata.png" description="暂无病历" />
+    <view class="card" wx:for="{{caseList}}" wx:key="1">
+
+        <view class="todo-card-top">
+            <image src="/image/bingli.png" style="width: 28rpx;height: 28rpx;"></image>
+            <view class="todo-title">{{item.title}}</view>
+            <image bindtap="deleteTap" data-item="{{item}}" src="/image/shanchu.png" style="margin-left: auto;width: 28rpx;height: 28rpx;padding-left: 20rpx;padding-right: 20rpx;"></image>
+            
+        </view>
+        <view class="todo-content">{{item.diseaseDesc}}</view>
+        <view style="height: 0.5px;background: #E6E6E6;"></view>
+      
+            <view class="btn-blue">
+               
+                <van-button custom-class="custom-class" data-item="{{item}}" bindtap="checkCase" color="#3894FF"  type="info" >查看/使用此病历</van-button>
+            </view>
+
+      
+
+    </view>
+</view>
+
+
+<van-popup round show="{{ show }}" position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePopup">
+    <van-picker show-toolbar custom-class="picker-custom" title="切换就诊人"  columns="{{ columns }}" value-key="userName" visible-item-count="4" bind:cancel="onCancel" bind:confirm="onConfirm" />
+</van-popup>
+

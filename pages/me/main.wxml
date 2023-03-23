@@ -1,5 +1,5 @@
 <view class="header-box"  style="background-size: cover;background-image: url('https://hmg.mclouds.org.cn/content-api/file/I20220331104628351RI6YMUTH3JWWJH-home_bg.jpg'); ">
-    <image class="avatar" src="{{userInfo.avatarUrl || '/image/avatar.png'}}" mode="aspectFill" binderror="avatarBinderror"></image>
+    <image bindtap="goMyHealthRecords" class="avatar" src="{{userInfo.avatarUrl || '/image/avatar.png'}}" mode="aspectFill" binderror="avatarBinderror"></image>
     <view wx:if="{{defaultPatient}}" class="r">
         <view class="top-des">当前就诊人</view>
         <view style="display: flex;flex-direction: row;margin-top: 10rpx;align-items: baseline;">
