@@ -1,4 +1,5 @@
 <view class="all-view">
+
 <view class="top-content" wx:for="{{tagListInfo}}" wx:key="key">
 <view style="color: #1A1A1A;font-size: 30rpx;font-weight: bold;margin-left: 29rpx;margin-top: 30rpx;">{{item.name}}</view>
 <view class="row-cont">
@@ -6,7 +7,10 @@
 </view>
 </view>
 
+<view style="height: 160rpx;">
 
+
+</view>
 
 <view class="bottom-buttom">
         <van-button type="primary" color="#047AFF" block  bindtap="saveData" >保存</van-button>

@@ -63,8 +63,9 @@
 .bottom-buttom {
     position: fixed;
     width: 704rpx;
-    bottom: 80rpx;
+    bottom: 30rpx;
     left: 26rpx;
     z-index: 99;
+
     background: #ffffff;
 }
