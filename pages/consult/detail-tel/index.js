@@ -71,22 +71,7 @@ Page({
                     }
                 }))
             }
-            // var voicelist = [{
-            //     src: 'https://webfs.ali.kugou.com/202303221054/d9c678d24f9d6a1982aad280047ae67c/KGTX/CLTX001/d76182a715c24815e3b1a322a89dac66.mp3',
-            //     isPlay: false,
-            //     currentTime: 0,
-            //     duration: 218
-            // }, {
-            //     src: 'https://webfs.tx.kugou.com/202303221512/c89f71573e2c5e1f8adb4a6dd5138fc1/v2/3e33a12308388b7ecbe5d2dd20d5ff4e/KGTX/CLTX001/3e33a12308388b7ecbe5d2dd20d5ff4e.mp3',
-            //     isPlay: false,
-            //     currentTime: 0,
-            //     duration: 166
-            // }, {
-            //     src: 'https://webfs.tx.kugou.com/202303221512/d8d285396e3bc09cda66e2affd7c74e6/v2/e2c910c96ce2bf6aeeb97eb7e77c8932/KGTX/CLTX001/e2c910c96ce2bf6aeeb97eb7e77c8932.mp3',
-            //     isPlay: false,
-            //     currentTime: 0,
-            //     duration: 195
-            // }]
+
             this.setData({
                 radioList: voicelist
             })
@@ -188,6 +173,7 @@ Page({
         })
         if (this.innerAudioContext) {
             if (this.innerAudioContext.src == this.data.radioList[index].src) {
+                // this.innerAudioContext.play()
                 this.innerAudioContext.seek(e.detail)
             }
 
