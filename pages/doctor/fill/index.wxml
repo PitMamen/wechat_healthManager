@@ -23,7 +23,7 @@
                     maxlength="200"
                     border="{{ false }}"
                     model:value="{{ inputTxt }}"
-                    input-class="{{ !show ? 'input-class' : 'input-class2' }}"
+                    input-class="{{ show ? 'input-class' : 'input-class2' }}"
                     placeholder-style="{{ show ? 'color: rgba(0, 0, 0, 0.7)' : '' }}"
                     placeholder="请补充简要的疾病及咨询目的，已便大夫能准确了解您的病情，帮您排忧解难，提高问诊效率。 该描述最少输入10个字！"
                 />
@@ -40,7 +40,7 @@
                     maxlength="200"
                     border="{{ false }}"
                     model:value="{{ appealDesc }}"
-                    input-class="{{ !show ? 'input-class' : 'input-class2' }}"
+                    input-class="{{ show ? 'input-class' : 'input-class2' }}"
                     placeholder-style="{{ show ? 'color: rgba(0, 0, 0, 0.7)' : '' }}"
                     placeholder="请输入您需要获得的医生帮助！"
                 />

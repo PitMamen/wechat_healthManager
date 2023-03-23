@@ -22,7 +22,7 @@
         <view>{{detail.userPhone}}</view>
     </view>
     <view style="height: 0.5px; background: #CCCCCC;"></view>
-    <view wx:if="{{!detail.voiceTapeInfo || detail.voiceTapeInfo.length==0}}" class="tel-card">
+    <view wx:if="{{!radioList || radioList.length==0}}" class="tel-card">
         <view>电话录音</view>
         <view>--</view>
     </view>
@@ -30,9 +30,10 @@
         <view style="flex-shrink: 0;">电话录音</view>
         <view class="luyin-card">
 
-            <view wx:for="{{radioList}}" class="luyin-view" style="{{index>1?' margin-top: 17rpx;':''}}" bindtap="play" data-item="{{item}}" data-index="{{index}}">
-                <van-icon name="{{item.isPlay?'pause-circle-o':'play-circle-o'}}" size="40rpx" />
-                <van-progress style="flex:1;margin-left: 20rpx;" percentage="{{ item.currentTime/item.duration *100}}" stroke-width="5" show-pivot="{{false}}" />
+            <view wx:for="{{radioList}}" wx:key="12" class="luyin-view" style="margin-top: 17rpx;" >
+                <van-icon bindtap="play" data-item="{{item}}" data-index="{{index}}" name="{{item.isPlay?'pause-circle-o':'play-circle-o'}}" size="45rpx" />
+                <van-slider style="flex:1;margin-left: 20rpx;" min="0" max="{{item.duration}}" value="{{ item.currentTime}}"  bar-height="4px"  bind:change="onSliderChange"  data-index="{{index}}"/>
+              
             </view>
 
         </view>
@@ -65,10 +66,14 @@
 
     <van-button wx:if="{{status==3 && detail.rightsUseRecordStatus.serviceFrequency && detail.rightsUseRecordStatus.serviceFrequency >0}}" type="primary" color="#367BF5" block bind:click="enterRoom">图文咨询</van-button>
     
-    <van-button wx:if="{{status==4}}" type="primary" color="#367BF5" block bind:click="bugAgain">再次购买</van-button>
-    <view class="safe-bottom-box-flex">
-        <van-button wx:if="{{status==5 || status==1}}" type="primary" color="#367BF5" custom-class="custom-class" bind:click="applyAgain">{{ status==1?'申请使用':'再次申请'}}</van-button>
-        <van-button wx:if="{{status==5 || status==1}}" type="primary" color="#367BF5" custom-class="custom-class" open-type="contact">联系客服</van-button>
+   
+    <view wx:if="{{status==4 }}" class="safe-bottom-box-flex">
+        <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="bugAgain">再次购买</van-button>
+        <van-button  type="primary" color="#367BF5" custom-class="custom-class" open-type="contact">联系客服</van-button>
+    </view>
+    <view wx:if="{{status==5 || status==1}}" class="safe-bottom-box-flex">
+        <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="applyAgain">{{ status==1?'申请使用':'再次申请'}}</van-button>
+        <van-button  type="primary" color="#367BF5" custom-class="custom-class" open-type="contact">联系客服</van-button>
     </view>
 
 

@@ -71,7 +71,7 @@
     flex-wrap: wrap;
 }
 .luyin-view{
-    width: 182rpx;
+    width: 300rpx;
 height: 52rpx;
 border: 1rpx solid #CCCCCC;
 border-radius: 2rpx;
@@ -83,7 +83,10 @@ padding-left: 16rpx;
 padding-right: 16rpx;
 margin-left: 20rpx;
 }
-
+.van-slider__button{
+    width: 17px !important;
+    height: 17px !important;
+}
 .chat-head-style {
     width: 102rpx;
     height: 102rpx;
