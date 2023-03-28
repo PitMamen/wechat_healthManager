@@ -33,13 +33,7 @@ Page({
         extraArr: [],
         knowledgeType: '',
         patientList: [],
-        topArr: [{
-            id: 'FWZX', name: '服务咨询', active: true
-        }, {
-            id: 'JZDH', name: '就诊导航', active: false
-        }, {
-            id: 'AIDOCTOR', name: '智能问诊', active: false
-        }]
+        topArr: []
     },
 
     /**
@@ -62,7 +56,7 @@ Page({
         this.setData({
             pageHeight: wx.getSystemInfoSync().windowHeight,
             type: 'C2C',
-            DocType: 'FWZX',
+            DocType: 'AIDOCTOR',
             defaultPatient: getApp().getDefaultPatient(),
             toUserID: '1',
             conversationID: 'C2C1',
@@ -119,7 +113,7 @@ Page({
             isAIEnd: true,
             chooseSymptom: [],
             ai_patientId: '',
-            showChatInput: true,
+            showChatInput: false,
             inputType: 'text',
             topArr: this.data.topArr
         })
