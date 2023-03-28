@@ -2,11 +2,55 @@
 <van-sticky>
     <view id="tabs" class="tabs">
         <van-tabs color="#0379FF" title-active-color="#0379FF" swipeable line-width="33px" bind:click="onTabsChange" custom-class="" active="{{ active }}">
-            <van-tab title="我的问诊" name="0" info="{{unreadConsult>0?unreadConsult:''}}" />
+            <van-tab title="服务套餐" name="2"  />
+            <van-tab title="单次咨询" name="0" info="{{unreadConsult>0?unreadConsult:''}}" />
             <van-tab title="待办事项" name="1" info="{{unreadTodo>0 ?unreadTodo:''}}" />
         </van-tabs>
     </view>
 </van-sticky>
+<block wx:if="{{active=='2'}}">
+
+<van-empty wx:if="{{ !packageList || packageList.length == 0 }}" image="/image/icon_nodata.png" description="暂无数据" />
+
+<view bindtap="bindItemTap" data-item="{{item}}" class="card" wx:for="{{packageList}}" wx:key="1">
+
+    <view class="fuwu-card-top">
+        <view class="chat-item-head-super-style">
+            <image class="fuwu-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{item.doctorAvatarUrl}}" />
+            
+        </view>
+        <view class="fuwu-name-view">
+            <view class="name-view-top">
+                <view>领衔医生：</view>
+                <view class="commodity-class" style="font-size: 32rpx;color: #1A1A1A; margin-right: 12rpx;">{{item.doctorUserName}}</view>
+                <view>{{item.professionalTitle}}</view>
+            </view>
+            <view style="margin-top: 10rpx;">
+                {{item.hospitalName}} {{item.subjectClassifyName}}
+            </view>
+
+            <view class="name-view-top" style="margin-top: 10rpx;">
+                <view>就诊人：{{item.userName}}</view>
+                
+                <view wx:if="{{item.status.value !==4}}" class="tag-blue" style="margin-bottom: 0;margin-left: 20rpx;">服务中</view>
+                <view wx:if="{{item.status.value==4}}" class="tag-gray" style="margin-bottom: 0;margin-left: 20rpx;">已结束</view>
+            </view>
+        </view>
+    </view>
+    <view style="height: 0.5px;background: #E6E6E6;"></view>
+    <view class="fuwu-card-bottom">
+      
+        <view  class="btn-blue">
+            <van-button wx:if="{{item.status.value ==4 }}" bindtap="goPackageDetailPage" data-item="{{item}}" plain color="#3894FF" round type="info" size="small">服务详情</van-button>
+           
+            <van-button wx:if="{{item.status.value !==4}}" bindtap="goPackageDetailPage" data-item="{{item}}"  color="#3894FF" round type="info" size="small">使用权益</van-button>
+           
+        </view>
+    </view>
+
+</view>
+
+</block>
 <block wx:if="{{active=='0'}}">
 
     <view style="height: 30rpx;"></view>
@@ -84,7 +128,7 @@
 
 <block wx:if="{{active=='1'}}">
 
-    <view style="height: 30rpx;"></view>
+  
     <van-empty wx:if="{{ !todoList || todoList.length == 0 }}" image="/image/icon_nodata.png" description="暂无数据" />
     <view class="card" wx:for="{{todoList}}" wx:key="1">
 

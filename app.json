@@ -76,7 +76,8 @@
         "pages/me/health/healthrecords",
         "pages/me/health/baseimformation",
         "pages/me/health/healthstatus",
-        "pages/consult/detail-tel/index"
+        "pages/consult/detail-tel/index",
+        "pages/consult/detail-package/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",
@@ -99,7 +100,7 @@
                 "selectedIconPath": "static/icons/tab_home_s.png"
             },
             {
-                "text": "咨询",
+                "text": "服务",
                 "pagePath": "pages/consult/index",
                 "iconPath": "static/icons/tab_jkgl_n.png",
                 "selectedIconPath": "static/icons/tab_jkgl_s.png"

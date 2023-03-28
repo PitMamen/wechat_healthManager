@@ -57,7 +57,32 @@ page {
 
     margin-top: 30rpx;
 }
+.fuwu-card-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20rpx;
+    margin-bottom: 20rpx;
+    margin-left: 20rpx;
+    flex-shrink: 0;
+}
+.fuwu-name-view {
+    display: flex;
+    flex-direction: column;
 
+    margin-left: 20rpx;
+    margin-right: 20rpx;
+    font-size: 26rpx;
+    color: #4D4D4D;
+
+}
+.fuwu-card-bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin: 20rpx 20rpx 10rpx 20rpx;
+}
 .card-top {
     display: flex;
     flex-direction: row;
@@ -123,7 +148,12 @@ page {
     top: -3rpx;
     right: -3rpx;
 }
-
+.fuwu-head-style {
+    width: 208rpx;
+    height: 150rpx;
+    border-radius: 4rpx;
+    background: #D4D5DE;
+}
 .chat-head-style {
     width: 102rpx;
     height: 102rpx;
@@ -212,7 +242,19 @@ page {
     margin-right: 10rpx;
     margin-bottom: 10rpx;
 }
-
+.tag-gray {
+    padding-left: 10rpx;
+    padding-right: 10rpx;
+    height: 42rpx;
+    border: 1rpx solid #999999;
+    border-radius: 2rpx;
+    font-size: 22rpx;
+    color: #999999;
+    text-align: center;
+    line-height: 42rpx;
+    margin-right: 10rpx;
+    margin-bottom: 10rpx;
+}
 .tag-yellow {
     padding-left: 10rpx;
     padding-right: 10rpx;

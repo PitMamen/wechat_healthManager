@@ -1,0 +1,50 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+
+<view class="ordercard">
+    <view class="card-top">
+        <image class="img" src="{{detail.frontImg}}" lazy-load="{{ true }}" mode="aspectFill" />
+        <view class="card-top-r">
+            <view class="card-title">{{detail.commodityName}}</view>
+            <view class="card-line"></view>
+            <view class="card-content">服务效期：<view style="color: #1A1A1A;"></view>
+            </view>
+            <view class="card-content" style="margin-top: 19rpx;">所属专科：<view style="color: #1A1A1A;">{{detail.subjectClassifyName}}</view>
+            </view>
+        </view>
+    </view>
+
+</view>
+
+
+<view class="ordercard">
+    <view class="ordercontarl">
+        <view class="card-title" style="margin-bottom: 30rpx;">健康服务</view>
+
+        <view class="his-view">
+            <view class="item-card-view" wx:for="{{rightsItemList}}" wx:key="2">
+                <view class="topview">
+                    <view class="left">
+                        <view class="title">{{item.serviceItemName}}</view>
+                        <view class="name">张杰</view>
+
+                    </view>
+                    <image class="img" src="{{detail.docInfo.avatarUrl}}" lazy-load="{{ true }}" mode="aspectFill"></image>
+                </view>
+                <view class="des" style="color: #FB9600 ;">12-31 12:50 联系您</view>
+            </view>
+        </view>
+        <van-empty wx:if="{{ !rightsItemList || rightsItemList.length == 0 }}" image="/image/icon_nodata.png" description="暂无服务项目" />
+    </view>
+
+</view>
+<view style="height: 100rpx;"></view>
+<view class="safe-bottom-box">
+    <image src="/image/taocantuijian.png" style="width: 46rpx;height: 46rpx;margin-left: 30rpx;" />
+    <view style="margin-left: 20rpx;">更多服务套餐</view>
+    <van-button style="margin-left: auto;margin-right: 30rpx;height: 48rpx;" bindtap="" color="#FB9600" round type="info" size="small">去看看</van-button>
+</view>
+
+
+<van-popup show="{{ !hidePoupShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;z-index: 999;" bind:close="onPoupPickerCancel">
+    <van-picker show-toolbar custom-class="picker-custom" title="请选择" columns="{{ nameColumns }}" value-key="serviceItemName" visible-item-count='4' bind:cancel="onPoupPickerCancel" bind:confirm="onPoupPickerConfirm" />
+</van-popup>
