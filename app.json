@@ -77,7 +77,9 @@
         "pages/me/health/baseimformation",
         "pages/me/health/healthstatus",
         "pages/consult/detail-tel/index",
-        "pages/consult/detail-package/index"
+        "pages/consult/detail-package/index",
+        "pages/consult/detail-package/tel-list",
+        "pages/consult/detail-package/casemanager"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

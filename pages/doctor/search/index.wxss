@@ -46,7 +46,7 @@
     border-radius: 8rpx;
 }
 .wrap .bottom .list .item .left {
-    padding-right: 30rpx;
+    margin-right: 30rpx;
 }
 .wrap .bottom .list .item .left image {
     width: 130rpx;
@@ -54,7 +54,7 @@
     border-radius: 8rpx;
 }
 .wrap .bottom .list .item .right {
-    flex: 1;
+   width: 520rpx;
 }
 .wrap .bottom .list .item .right .title {
     margin-bottom: 20rpx;

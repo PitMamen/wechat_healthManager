@@ -100,8 +100,9 @@ page {
 }
 .item-card-view .topview{
     display: flex;
+    width: 100%;
+    justify-content: space-between;
     flex-direction: row;
-    align-items: flex-start;
     margin-top: 18rpx;
 }
 .item-card-view .topview .img {
@@ -109,6 +110,7 @@ page {
     width: 102rpx;
     border-radius: 50%;
     margin-right: 20rpx;
+   background: #C9DFF5;
 }
 .item-card-view .topview .left {
     flex: 1;
@@ -131,6 +133,11 @@ display: -webkit-box;
     font-size: 24rpx;
     color: #4D4D4D;
     margin-top: 18rpx;
+}
+.item-card-view .topview .left .name2{
+    font-size: 24rpx;
+    color: #999999;
+    margin-top: 36rpx;
 }
 .item-card-view  .des{
     font-size: 24rpx;

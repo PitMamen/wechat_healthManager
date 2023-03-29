@@ -1,0 +1,80 @@
+
+<view class="pagewaper">
+<view style="margin:30rpx;">
+
+
+    <view class="card-top">
+        <image class="chat-head-style" src="{{detail.docInfo.avatarUrl||'/image/docheader.png'}}" lazy-load="{{ true }}" mode="aspectFill" />
+        <view class="name-view">
+            <view class="name-view-top">
+                <view style="font-size: 36rpx;color: #1A1A1A; margin-right: 12rpx;">{{detail.docInfo.userName}}</view>
+                <view>{{detail.docInfo.professionalTitle}}</view>
+            </view>
+            <view style="margin-top: 19rpx;"> {{detail.docInfo.hospitalName}} {{detail.docInfo.departmentName}} </view>
+
+        </view>
+        <view style="margin-left: auto;color: #999999;font-size: 26rpx;">已完成</view>
+    </view>
+    <view style="height: 0.5px; background: #CCCCCC;"></view>
+    <view class="tel-card">
+        <view>服务时间</view>
+        <view>{{detail.rightsUseRecordStatus.updatedTime || ''}}</view>
+    </view>
+    <view style="height: 0.5px; background: #CCCCCC;"></view>
+    <view class="tel-card">
+        <view>咨询电话</view>
+        <view>{{detail.userPhone}}</view>
+    </view>
+    <view style="height: 0.5px; background: #CCCCCC;"></view>
+    <view wx:if="{{!radioList || radioList.length==0}}" class="tel-card">
+        <view>电话录音</view>
+        <view>--</view>
+    </view>
+    <view wx:else class="tel-card2">
+        <view style="flex-shrink: 0;">电话录音</view>
+        <view class="luyin-card">
+
+            <view wx:for="{{radioList}}" wx:key="12" class="luyin-view" style="margin-top: 17rpx;" >
+                <van-icon bindtap="play" data-item="{{item}}" data-index="{{index}}" name="{{item.isPlay?'pause-circle-o':'play-circle-o'}}" size="45rpx" />
+                <van-slider style="flex:1;margin-left: 20rpx;" min="0" max="{{item.duration}}" value="{{ item.currentTime}}"  bar-height="4px"  bind:change="onSliderChange"  data-index="{{index}}"/>
+              
+            </view>
+
+        </view>
+    </view>
+</view>
+</view>
+<view class="safe-bottom-box">
+
+    <view  class="safe-bottom-box-flex">
+        <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="applyAgain">申请使用</van-button>
+        <van-button  type="primary" color="#367BF5" custom-class="custom-class" open-type="contact">咨询历史</van-button>
+    </view>
+
+
+</view>
+
+
+<van-popup show="{{ !hidePoupShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;z-index: 999;" bind:close="onPoupPickerCancel">
+    <van-picker show-toolbar custom-class="picker-custom" title="请选择" columns="{{ nameColumns }}" value-key="serviceItemName" visible-item-count='4' bind:cancel="onPoupPickerCancel" bind:confirm="onPoupPickerConfirm" />
+</van-popup>
+
+<van-popup show="{{ showTime }}" position="bottom" custom-style="min-height: 360rpx;max-height: 80%;" bind:close="closeTimePopup">
+    <view class="poptop">
+        <view bindtap="closeTimePopup">取消</view>
+        <view style="color: #1A1A1A;">选择意向预约时间</view>
+        <view bindtap="confirmTimePopup">确认</view>
+    </view>
+    <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="/image/icon_nodata.png" description="暂无排班" />
+    <view wx:else class="popwrap">
+        
+        <view bindtap="chooseAppoint" data-item="{{item}}"  class="{{item.id == activeAppoint.id?'timeitem-active':'timeitem'}}" wx:for="{{appointList}}" wx:key="1">
+            <view>{{item.visitDate}}</view>
+            <view>{{item.weekDay}}</view>
+        </view>
+    </view>
+    <view wx:if="{{activeAppoint}}" class="popbottom">
+        <view>可预约时间段：<text style="color: #1A1A1A;">{{activeAppoint.visitStartTime}}-{{activeAppoint.visitEndTime}}</text> </view>
+        <view>接诊人数：<text style="color: #1A1A1A;font-size: 30rpx;">{{activeAppoint.leftVisitNum}}/</text><text style="color: #1A1A1A;">{{activeAppoint.maxVisitNum}}人</text></view>
+    </view>
+</van-popup>

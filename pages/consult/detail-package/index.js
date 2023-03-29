@@ -1,6 +1,6 @@
 const WXAPI = require('../../../static/apifm-wxapi/index')
 const Util = require('../../../utils/util')
-const Config = require('../../../utils/config')
+const IMUtil = require('../../../utils/IMUtil')
 Page({
 
     /**
@@ -16,7 +16,7 @@ Page({
         hidePoupShow: true,
         nameColumns: [],
         rightsRecordList: [],
-        rightsItemList:[],//服务项目
+        rightsItemList: [],//服务项目
         steps: [],
         active: 0,
         CustUserId: '',//个案管理师
@@ -33,7 +33,7 @@ Page({
             userId: options.userId
         })
 
-
+        this.getRightsInfo(this.data.rightsId)
     },
 
     /**
@@ -46,108 +46,156 @@ Page({
    * 生命周期函数--监听页面显示
    */
     onShow: function () {
-        this.getRightsInfo(this.data.rightsId)
-        this.qryRightsUseLog(this.data.rightsId)
+
+
     },
     async getRightsInfo(id) {
-        const res = await WXAPI.getRightsInfo({rightsId:id})
+        const res = await WXAPI.getServiceRightsInfo({ rightsId: id })
+
+        var date = new Date(res.data.endTime)
+        res.data.endTime2 = Util.formatTime5(date) + '到期'
+
+        var caseArr = []
+        if (res.data.teamInfo.length > 0) {
+            caseArr = res.data.teamInfo.filter(
+                function (element, index, arr) {
+                    return element.userType == 'casemanager';
+                }
+            )
+        }
+        res.data.caseInfo = caseArr.length > 0 ? caseArr[0] : {}
+
+
+        var rightsItemList = []
+        res.data.rightsItemInfo.forEach(item => {
+            //1服务中 2待接诊 3问诊中 4已结束 5已中止
+            item.status = item.rightsUseRecords.length > 0 ? item.rightsUseRecords[0].status : 1
+            if (item.rightsUseRecords.length > 0) {
+                var inStatus = item.rightsUseRecords[0].status
+                if (inStatus == 2 || inStatus == 3) {
+                    item.status = inStatus
+                } else {
+                    if (item.surplusQuantity > 0) {
+                        item.status = 1
+                    } else {
+                        item.status = 4
+                    }
+                }
+            } else {
+                item.status = 1
+            }
+
+            if (item.projectType == 101 || item.projectType == 102 || item.projectType == 103) { //图文 电话 视频
+                item.iconUrl = res.data.docInfo.avatarUrl || '/image/docheader.png'
+                item.itemName = res.data.docInfo.userName
+                if (item.status == 1) {
+                    item.itemContent = '剩余' + item.surplusQuantity + item.unit
+                } else if (item.status == 2) {
+                    item.itemContent = '待医生接诊'
+                } else if (item.status == 3) {
+                    if (item.projectType == 101) {
+                        item.itemContent = 'xx-xx到期'
+                    } else if (item.projectType == 102) {
+                        item.itemContent = item.rightsUseRecords[0].confirmPeriod + '联系您'
+                    } else if (item.projectType == 103) {
+                        item.itemContent = item.rightsUseRecords[0].confirmPeriod + '联系您'
+                    }
+
+                } else if (item.status == 4) {
+                    item.itemContent = '已结束'
+                }
+
+            } else if (item.projectType == 106) {//个案师服务
+                item.itemName = res.data.caseInfo.userName
+                item.iconUrl = res.data.caseInfo.avatarUrl || '/image/icon_fw3.png'
+                item.itemContent = '已开通'
+            } else {// 104 普通商品 105 随访服务 其他
+                item.iconUrl = '/image/icon_ptsp.png'
+                item.itemName = '已开通'
+                item.isCommonProjectType = true
+            }
+            rightsItemList.push(item)
+        })
 
         this.setData({
             detail: res.data,
-            rightsItemList:res.data.rightsItemInfo || [],
+            rightsItemList: res.data.rightsItemInfo || [],
         })
 
 
     },
-    async qryRightsUseLog(id) {
-       
-        const res = await WXAPI.qryRightsUseLog({dealType:'USE_LOG',rightsId:id})
-        if (res.code == 0) {  
-            this.setData({
-                rightsRecordList: res.data,              
-            })
-        }
 
 
-    },
-    
     //申请
     async saveRightsUseRecord(rightInfo) {
-    
-            var postData = rightInfo
-            postData.appointTime= Util.formatTime(new Date())
-            postData.userId=this.data.userId
-            postData.docId=rightInfo.doctorUserId
-            postData.rightsItemId=rightInfo.id
-       
-  
+
+        var postData = rightInfo
+        postData.appointTime = Util.formatTime(new Date())
+        postData.userId = this.data.userId
+        postData.docId = rightInfo.doctorUserId
+        postData.rightsItemId = rightInfo.id
+
+
         const res = await WXAPI.saveRightsUseRecordNew(postData)
         if (res.code == 0) {
-      
+
             wx.showToast({
-              title: '申请成功！',
+                title: '申请成功！',
             })
             setTimeout(() => {
                 wx.switchTab({
-                  url: '/pages/consult/index',
+                    url: '/pages/consult/index',
                 })
             }, 1000)
         }
-    
+
 
     },
-//问卷
-goWenjuanPage(url) {
-    var encodeUrl = encodeURIComponent(url)
-    console.log(encodeUrl)
-    wx.navigateTo({
-        url: '../webpage/index?url=' + encodeUrl
-    })
-},
-    //去提醒
-    async sysRemind() {
-        if (this.data.item.requesting > 0) {//使用中  提醒
-            if (getApp().globalData.remindedRights.indexOf(this.data.item.id) > -1) {
-                wx.showToast({
-                    title: '已提醒，请勿重复操作',
-                    icon: "none",
-                })
+
+
+    onItemClick(e) {
+        var item = e.currentTarget.dataset.item
+        if (!this.checkLoginStatus()) {
+            return
+        }
+         //1服务中 2待接诊 3问诊中 4已结束 5已中止
+        if (item.projectType == 101) {//图文 
+            if(item.status == 1 || item.status == 4 || item.status == 5){
+                //进入历史咨询
+                wx.navigateTo({
+                    url:  `/packageIM/pages/chat/groupHistoryChat?groupID=${this.data.detail.imGroupId}&inquiryType=${'textNum'}&tradeId=${item.id}&tradeAction=${'END'}&userId=${this.data.detail.userId}`,
+                  })
+            }else  if(item.status == 3){
+                if (getApp().globalData.sdkReady) {
+                    IMUtil.goGroupChat(this.data.detail.userId, 'navigateTo', this.data.detail.imGroupId, 'textNum', item.id, 'START')
+                }
+            } 
+           
+
+        } else if (item.projectType == 102) {//电话
+            if(item.status == 2){
                 return
             }
-            var postData1 = {
-                "remindType": 'videoRemind',
-                "eventType": 2,
-                "tradeId": this.data.rightsRecordList[0].tradeId,
-                "userId": this.data.rightsRecordList[0].userId,
-
-            }
-            console.log(postData1)
-            const res1 = await WXAPI.sysRemind(postData1)
-            if (res1.code == 0) {
-                this.setData({
-                    isReminded: true
-                })
-                wx.showModal({
-                    title: '提醒成功！',
-                    content: '我们会尽快处理，请耐心等待。',
-                    confirmText: '返回主页',
-                    success(res) {
-                        if (res.confirm) {
-                            wx.switchTab({
-                                url: '/pages/home/main',
-                            })
-                        } else if (res.cancel) {
-                            console.log('用户点击取消')
-                        }
-                    }
-                })
-                getApp().globalData.remindedRights.push(this.data.item.id)
-            }
-
+            wx.navigateTo({
+                url: './tel-list?rightsId=' + this.data.detail.id + '&userId=' + this.data.detail.userId,
+            })
+        } else if (item.projectType == 103) {//视频
+            wx.showToast({
+                title: '等待服务',
+                icon: 'none'
+            })
+        } else if (item.projectType == 106) {//个案师服务
+            wx.navigateTo({
+                url: './casemanager'
+            })
+        } else {
+            wx.showToast({
+                title: '等待服务',
+                icon: 'none'
+            })
         }
+
     },
-
-
     goMain() {
         wx.switchTab({
             url: '/pages/home/main',
@@ -155,10 +203,32 @@ goWenjuanPage(url) {
     },
 
     apply() {
-            this.setData({
-                hidePoupShow: false
+        this.setData({
+            hidePoupShow: false
+        })
+
+    },
+    checkLoginStatus() {
+
+        if (getApp().globalData.loginReady) {
+            return true
+        } else {
+            wx.showModal({
+                title: '提示',
+                content: '此功能需要登录',
+                confirmText: '去登录',
+                cancelText: '取消',
+                success(res) {
+                    if (res.confirm) {
+                        wx.navigateTo({
+                            url: '/pages/login/auth',
+                        })
+                    }
+                }
             })
-    
+            return false
+        }
+
     },
     onPoupPickerConfirm(event) {
         console.log(event)
@@ -178,7 +248,12 @@ goWenjuanPage(url) {
             hidePoupShow: true
         })
     },
-
+    //套餐详情
+    goPackagePage() {
+        wx.navigateTo({
+            url: `/pages/health/detail/index?id=${this.data.detail.commodityId}`
+        })
+    },
 
     /**
      * 生命周期函数--监听页面隐藏
@@ -210,8 +285,8 @@ goWenjuanPage(url) {
 
     onShareAppMessage: function () {
         // 页面被用户转发
-      },
-      onShareTimeline: function () {
+    },
+    onShareTimeline: function () {
         // 页面被用户分享到朋友圈
-      },
+    },
 })

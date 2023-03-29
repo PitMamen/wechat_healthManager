@@ -1,0 +1,192 @@
+page {
+    background: #F5F5F5;
+}
+
+.card {
+    width: 702rpx;
+    margin-left: 24rpx;
+    background: #ffffff;
+    border: 1rpx solid #E6E6E6;
+    box-shadow: 0px 3rpx 6rpx 0px rgba(204, 204, 204, 0.35);
+    border-radius: 4rpx;
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 30rpx;
+}
+
+.fuwu-card-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 30rpx;
+    margin-bottom: 20rpx;
+    margin-left: 30rpx;
+    flex-shrink: 0;
+}
+
+.fuwu-name-view {
+    display: flex;
+    flex-direction: column;
+
+    margin-left: 30rpx;
+    margin-right: 27rpx;
+    font-size: 26rpx;
+    color: #4D4D4D;
+
+}
+
+.fuwu-card-bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 20rpx;
+    margin-bottom: 28rpx;
+}
+
+.card-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 30rpx;
+    margin-bottom: 30rpx;
+    margin-left: 30rpx;
+    flex-shrink: 0;
+}
+
+.name-view {
+    display: flex;
+    flex-direction: column;
+
+    margin-left: 30rpx;
+    margin-right: 20rpx;
+    font-size: 26rpx;
+    color: #4D4D4D;
+
+}
+
+.name-view-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.commodity-class {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.fuwu-head-style {
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 4rpx;
+    background: #D4D5DE;
+}
+
+.name-view-des {
+
+    font-size: 24rpx;
+    color: #1A1A1A;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.card-bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin: 30rpx 30rpx 20rpx 30rpx;
+}
+
+.btn-blue {
+    margin-left: auto;
+    font-size: 24rpx;
+    color: #F17510;
+}
+
+.card-info-view {
+    display: flex;
+    flex-direction: column;
+    margin: 30rpx;
+    font-size: 28rpx;
+    color: #1A1A1A;
+}
+
+.info-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+.pop-wrap {
+    padding: 30rpx;
+    background: #FFFFFF;
+}
+.pop-wrap .head {
+    margin-bottom: 40rpx;
+    text-align: center;
+}
+.pop-wrap .head .title {
+    position: relative;
+    display: inline-block;
+    padding: 10rpx 15rpx;
+    color: #1A1A1A;
+    line-height: 36rpx;
+}
+.pop-wrap .head .title .name {
+    position: relative;
+    z-index: 1;
+    font-size: 36rpx;
+    font-weight: 500;
+}
+.pop-wrap .head .title .job {
+    position: relative;
+    z-index: 1;
+    margin-left: 10rpx;
+    font-size: 24rpx;
+    font-weight: 400;
+}
+.pop-wrap .head .title .bg {
+    position: absolute;
+    height: 20rpx;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #D2E5FC;
+}
+.pop-wrap .part {
+    margin-bottom: 30rpx;
+}
+.pop-wrap .part .title {
+    margin-bottom: 30rpx;
+}
+.pop-wrap .part .title image {
+    width: 50rpx;
+    height: 50rpx;
+    margin-right: 10rpx;
+    vertical-align: middle;
+}
+.pop-wrap .part .title text {
+    font-size: 30rpx;
+    font-weight: 500;
+    color: #1A1A1A;
+    line-height: 50rpx;
+    vertical-align: middle;
+}
+.pop-wrap .part .desc {
+    font-size: 28rpx;
+    font-weight: 400;
+    color: #999999;
+    line-height: 45rpx;
+}

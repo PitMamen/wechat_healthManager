@@ -1262,6 +1262,12 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/rightsUse/getRightsInfo'
                         return request(url, 'get', data, true);
                     },
+                     //套餐权益详情
+                     getServiceRightsInfo: function getServiceRightsInfo(data) {
+
+                        var url = MEDICAL_SERVICE + '/rightsUse/getServiceRightsInfo'
+                        return request(url, 'get', data, true);
+                    },
                     //获取权益购买时提交的资料
                     getRightsReqData: function getRightsReqData(data) {
 
