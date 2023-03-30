@@ -33,7 +33,7 @@ Page({
             userId: options.userId
         })
 
-        this.getRightsInfo(this.data.rightsId)
+       
     },
 
     /**
@@ -46,7 +46,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
     onShow: function () {
-
+        this.getRightsInfo(this.data.rightsId)
 
     },
     async getRightsInfo(id) {
@@ -131,7 +131,7 @@ Page({
 
         var postData = rightInfo
         postData.appointTime = Util.formatTime(new Date())
-        postData.userId = this.data.userId
+        postData.userId = this.data.detail.userId
         postData.docId = rightInfo.doctorUserId
         postData.rightsItemId = rightInfo.id
 
@@ -142,11 +142,10 @@ Page({
             wx.showToast({
                 title: '申请成功！',
             })
+            let that=this
             setTimeout(() => {
-                wx.switchTab({
-                    url: '/pages/consult/index',
-                })
-            }, 1000)
+                that.getRightsInfo(that.data.rightsId)
+            }, 2000)
         }
 
 
@@ -155,25 +154,45 @@ Page({
 
     onItemClick(e) {
         var item = e.currentTarget.dataset.item
+        console.log(item)
+        let that=this
         if (!this.checkLoginStatus()) {
             return
         }
-         //1服务中 2待接诊 3问诊中 4已结束 5已中止
+        //1服务中 2待接诊 3问诊中 4已结束 5已中止
         if (item.projectType == 101) {//图文 
-            if(item.status == 1 || item.status == 4 || item.status == 5){
-                //进入历史咨询
-                wx.navigateTo({
-                    url:  `/packageIM/pages/chat/groupHistoryChat?groupID=${this.data.detail.imGroupId}&inquiryType=${'textNum'}&tradeId=${item.id}&tradeAction=${'END'}&userId=${this.data.detail.userId}`,
-                  })
-            }else  if(item.status == 3){
-                if (getApp().globalData.sdkReady) {
-                    IMUtil.goGroupChat(this.data.detail.userId, 'navigateTo', this.data.detail.imGroupId, 'textNum', item.id, 'START')
+            if (item.status == 2) {
+                return
+            }
+            if (item.status == 1) {
+                if (item.rightsUseRecords.length == 0) {
+                    //还未使用 先申请
+                    wx.showModal({
+                        title: '【图文咨询】剩余权益：'+item.surplusQuantity+'次',
+                        content: '请确认是否使用？',
+                        success(res) {
+                            if (res.confirm) {
+                                that.saveRightsUseRecord(item)
+                            }
+                        }
+                    })
+                } else {
+                    //已使用过 进入历史咨询
+                    this.goHistoryChat(item)
                 }
-            } 
-           
+            } else if (item.status == 4 || item.status == 5) {
+                //进入历史咨询
+                this.goHistoryChat(item)
+            } else if (item.status == 3) {
+                //进入在线咨询
+                if (getApp().globalData.sdkReady) {
+                    IMUtil.goGroupChat(this.data.detail.userId, 'navigateTo', this.data.detail.imGroupId, 'textNum', item.rightsUseRecords[0].id, 'START')
+                }
+            }
+
 
         } else if (item.projectType == 102) {//电话
-            if(item.status == 2){
+            if (item.status == 2) {
                 return
             }
             wx.navigateTo({
@@ -186,15 +205,20 @@ Page({
             })
         } else if (item.projectType == 106) {//个案师服务
             wx.navigateTo({
-                url: './casemanager'
+                url: './casemanager?rightsId=' + this.data.rightsId
             })
         } else {
-            wx.showToast({
-                title: '等待服务',
-                icon: 'none'
-            })
+           wx.navigateTo({
+             url: './common',
+           })
         }
 
+    },
+    //进入历史咨询
+    goHistoryChat(item){
+ wx.navigateTo({
+    url: `/packageIM/pages/chat/groupHistoryChat?groupID=${this.data.detail.imGroupId}&inquiryType=${'textNum'}&tradeId=${ item.rightsUseRecords[0].id}&textChatNum=${item.surplusQuantity}&userId=${this.data.detail.userId}&isTextNumDetail=true`,
+})
     },
     goMain() {
         wx.switchTab({
@@ -230,24 +254,8 @@ Page({
         }
 
     },
-    onPoupPickerConfirm(event) {
-        console.log(event)
-        var index = event.detail.index
+  
 
-        this.saveRightsUseRecord(this.data.nameColumns[index])
-
-
-        this.setData({
-            hidePoupShow: true
-        });
-
-    },
-
-    onPoupPickerCancel() {
-        this.setData({
-            hidePoupShow: true
-        })
-    },
     //套餐详情
     goPackagePage() {
         wx.navigateTo({

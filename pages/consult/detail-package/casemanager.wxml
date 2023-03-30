@@ -1,8 +1,8 @@
-<view bindtap="bindItemTap" data-item="{{item}}" class="card" wx:for="{{packageList}}" wx:key="1">
+<view  class="card" >
 
     <view class="fuwu-card-top">
         <view class="chat-item-head-super-style">
-            <image class="fuwu-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{item.doctorAvatarUrl}}" />
+            <image class="fuwu-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{info.avatarUrl}}" />
 
         </view>
         <view class="fuwu-name-view">
@@ -12,12 +12,12 @@
 
             </view>
             <view class="name-view-top" style="margin-top: 10rpx;">
-                <view style="font-size: 30rpx;color: #1A1A1A; margin-right: 12rpx;font-weight: bold;">黄子涵</view>
+                <view style="font-size: 30rpx;color: #1A1A1A; margin-right: 12rpx;font-weight: bold;">{{info.userName}}</view>
                 <view style="font-size: 28rpx;color: #999999; ">湖南网数科技有限公司</view>
             </view>
 
             <view class="name-view-top" style="margin-top: 15rpx;">
-                <view class="name-view-des">擅长：擅长糖尿病肾病健康管理，对饮食管理、康复训练有较深的研究擅长糖尿病肾病健康管理，对饮食管理、康复训练有较深的研究</view>
+                <view class="name-view-des">擅长：{{info.expertInDisease}}</view>
             </view>
         </view>
     </view>
@@ -36,9 +36,9 @@
     <view class="card-info-view">
         <view style="font-size: 30rpx;color: #1A1A1A;font-weight: bold;">权益信息</view>
         <view style="margin-top: 27rpx;margin-bottom: 39rpx;">尊敬的用户，本项目服务将由个案管理师为您提供在线服务，根据您的套餐，同时个案管理师还将为您提供以下服务项目：</view>
-        <view class="info-item">
-            <view>健康评估</view>
-            <view style="color: #409EFF;">X 1次</view>
+        <view class="info-item" wx:for="{{rightsItemList}}" wx:key="1">
+            <view>{{item.serviceItemName}}</view>
+            <view style="color: #409EFF;">X {{item.equityQuantity}}{{item.unit}}</view>
         </view>
     </view>
 

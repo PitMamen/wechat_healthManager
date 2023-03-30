@@ -1,0 +1,4 @@
+<view class="warp">
+    <text  decode>尊敬的患者：\n\n&emsp;&emsp;您好！本项服务将由专人线下提供，如果您有疑问 请与客服人员进行在线沟通，或拨打0731-858108</text>
+    <van-button style="margin-top: 80rpx;" type="primary" color="#367BF5"  block open-type="contact">联系客服</van-button>
+</view>

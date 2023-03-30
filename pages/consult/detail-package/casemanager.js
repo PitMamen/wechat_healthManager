@@ -5,6 +5,8 @@ Page({
      * 页面的初始数据
      */
     data: {
+        info:null,
+        rightsItemList:[],
         show: false
     },
 
@@ -12,7 +14,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        this.getPackageList()
+        this.getRightsInfo(options.rightsId)
     },
 
     /**
@@ -26,6 +28,32 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow() {
+
+    },
+    async getRightsInfo(id) {
+        const res = await WXAPI.getServiceRightsInfo({ rightsId: id })
+
+        var caseArr = []
+        if (res.data.teamInfo.length > 0) {
+            caseArr = res.data.teamInfo.filter(
+                function (element, index, arr) {
+                    return element.userType == 'casemanager';
+                }
+            )
+        }
+
+        this.setData({
+            info: caseArr.length > 0 ? caseArr[0] : {}
+        })
+
+         var rightsItemList= res.data.rightsItemInfo.filter(item => {
+
+            return item.projectType == 106
+        })
+
+        this.setData({
+            rightsItemList: rightsItemList
+        })
 
     },
     //获取套餐列表
