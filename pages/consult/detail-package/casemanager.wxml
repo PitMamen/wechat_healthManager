@@ -2,7 +2,7 @@
 
     <view class="fuwu-card-top">
         <view class="chat-item-head-super-style">
-            <image class="fuwu-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{info.avatarUrl}}" />
+            <image class="fuwu-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{info.avatarUrl || '/image/icon_fw3.png'}}" />
 
         </view>
         <view class="fuwu-name-view">
@@ -17,7 +17,7 @@
             </view>
 
             <view class="name-view-top" style="margin-top: 15rpx;">
-                <view class="name-view-des">擅长：{{info.expertInDisease}}</view>
+                <view class="name-view-des">擅长：{{info.expertInDisease || '暂无介绍'}}</view>
             </view>
         </view>
     </view>
@@ -45,9 +45,11 @@
 </view>
 
 <view class="card">
-    <view class="card-info-view">
+    
+    <view  class="card-info-view">
         <view style="font-size: 30rpx;color: #1A1A1A;font-weight: bold;">长按识别与个案管理师交流</view>
-        <image show-menu-by-longpress src="/image/aaaaaaaaaaaaaa.png" style="width: 350rpx;height: 350rpx;margin-left: auto;margin-right: auto;margin-top: 50rpx;margin-bottom: 50rpx;"></image>
+        <image wx:if="{{ qrCode}}" show-menu-by-longpress src="{{qrCode}}" style="width: 350rpx;height: 350rpx;margin-left: auto;margin-right: auto;margin-top: 50rpx;margin-bottom: 50rpx;"></image>
+        <van-empty wx:else image="/image/icon_nodata.png" description="暂无二维码" />
     </view>
 
 </view>

@@ -199,6 +199,7 @@ Page({
     },
 
     async getHistoryMessageList() {
+        console.log("triggered="+this.data.triggered)
         if (this.data.pageNo == 1) {
             wx.showLoading({
                 title: '加载中...',
@@ -233,6 +234,7 @@ Page({
 
         console.log("onRefresh")
         if (this._freshing) return
+        
         this._freshing = true
         if (this.data.isCompleted) {
             wx.showToast({

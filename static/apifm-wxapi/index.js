@@ -495,67 +495,56 @@ module.exports =
                     },
                     //微信登录
                     loginQuery: function loginQuery(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/wx/user/login'
                         return request2(url, 'post', data, true);
                     },
                     //获取验证码(未登录)
                     codeQuery: function codeQuery(data) {
-                        console.log(data)
                         var url = PUSH_SERVICE + '/sms/getVerificationCode'
                         return request(url, 'post', data, true);
                     },
                     //获取验证码(登录)
                     codeLoginedQuery: function codeLoginedQuery(data) {
-                        console.log(data)
                         var url = PUSH_SERVICE + '/sms/getVerificationCode'
                         return request(url, 'post', data, true);
                     },
                     //注册新用户
                     registerQuery: function registerQuery(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/accountInfo/createCustomAccount'
                         return request(url, 'post', data, true);
                     },
                     //账号密码登录
                     accountLoginQuery: function accountLoginQuery(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/login'
                         return request(url, 'post', data, true);
                     },
                     //重置密码
                     resetPsdQuery: function resetPsdQuery(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/accountInfo/getBackPassword'
                         return request(url, 'post', data, true);
                     },
                     //新增就诊人
                     addPatientQuery: function addPatientQuery(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/userInfo/healthAddPatientUserInfo'
                         return request2(url, 'post', data, true);
                     },
                     //修改就诊人
                     editPatientQuery: function editPatientQuery(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/userInfo/updatePatientUserInfo'
                         return request(url, 'post', data, true);
                     },
                     //删除就诊人
                     deletePatientQuery: function deletePatientQuery(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/userInfo/deletePatientUserInfo'
                         return request(url, 'post', data, true);
                     },
                     //就诊人列表
                     patientListQuery: function patientListQuery(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/userInfo/healthBatchQueryUserInfo'
                         return request(url, 'get', data, true);
                     },
                     //就诊人详情
                     patientDetailQuery: function patientDetailQuery(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/userInfo/queryUserInfo'
                         return request(url, 'get', data, true);
                     },
@@ -568,85 +557,71 @@ module.exports =
 
                     //小程序端-医疗学科树形列表
                     treeMedicalSubjects: function treeMedicalSubjects(data) {
-                        console.log(data)
                         var url = UAM_SERVICE + '/tdMedicalSubject/treeMedicalSubjects'
                         return request(url, 'get', data, true);
                     },
                     //新版-创建健康商城订单
                     createStewardOrder: function createStewardOrder(data) {
-                        console.log(data)
                         var url = ORDER_SERVICE + '/order/tbOrder/createStewardOrder'
                         return request(url, 'post', data, true);
                     },
                     //新版-支付下单操作
                     registerPayOrder: function registerPayOrder(data) {
-                        console.log(data)
                         var url = ORDER_SERVICE + '/order/tbOrder/registerPayOrder'
                         return request(url, 'post', data, true);
                     },
                     //新版-健康商城支付商品信息
                     paymentCommodity: function paymentCommodity(data) {
-                        console.log(data)
                         var url = ORDER_SERVICE + '/order/tbOrder/paymentCommodity'
                         return request(url, 'get', data, true);
                     },
                     //小程序端-名医咨询医生列表
                     accurateDoctors: function accurateDoctors(data) {
-                        console.log(data)
                         var url = MEDICAL_SERVICE + '/commodity/accurateDoctors'
                         return request(url, 'post', data, true);
                     },
                     //小程序端-商品分类列表
                     classifies: function classifies(data) {
-                        console.log(data)
                         var url = MEDICAL_SERVICE + '/commodity/classifies'
                         return request(url, 'get', data, true);
                     },
                     //小程序端-按分类商品列表
                     classifyCommodities: function classifyCommodities(data) {
-                        console.log(data)
                         var url = MEDICAL_SERVICE + '/commodity/classifyCommodities'
                         return request(url, 'get', data, true);
                     },
                     //小程序端-套餐可选医务人员列表
                     commodityOptionalDoctors: function commodityOptionalDoctors(data) {
-                        console.log(data)
                         var url = MEDICAL_SERVICE + '/commodity/commodityOptionalDoctors'
                         return request(url, 'post', data, true);
                     },
                     //小程序端-商品详情
                     goodsDetail: function goodsDetail(data) {
-                        console.log(data)
                         var url = MEDICAL_SERVICE + '/commodity/detail'
                         return request(url, 'get', data, true);
                     },
                     //小程序端-名医咨询医生详情(医生详情 + 商品列表)
                     doctorCommodities: function doctorCommodities(data) {
-                        console.log(data)
                         var url = MEDICAL_SERVICE + '/commodity/doctorCommodities'
                         return request(url, 'get', data, true);
                     },
                     //小程序端-订单列表
                     getMyOrders: function getMyOrders(data) {
-                        console.log(data)
                         var url = MEDICAL_SERVICE + '/userorder/list'
                         return request(url, 'POST', data, true);
                     },
                     //小程序端-订单详情
                     getOrderDetail: function getOrderDetail(data) {
-                        console.log(data)
                         var url = MEDICAL_SERVICE + '/userorder/detail'
                         return request(url, 'get', data, true);
                     },
                     //小程序端-取消（未付款）订单
                     cancelOrder: function cancelOrder(data) {
-                        console.log(data)
                         var url = MEDICAL_SERVICE + '/userorder/cancel'
                         return request(url, 'POST', data, true);
                     },
                     //职称类型[正主任医生,副主任医生,...]
                     professionalTitles: function professionalTitles(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/accountDict/professionalTitles'
                         return request(url, 'get', data, true);
                     },
@@ -659,19 +634,16 @@ module.exports =
                     },
                     //健康档案更新用户信息
                     updateHealthUserInfoQuery: function updateHealthUserInfoQuery(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/userInfo/updatePatientExternalInfo'
                         return request(url, 'post', data, true);
                     },
                     //健康档案就医记录
                     cureHistoryListQuery: function cureHistoryListQuery(data) {
-                        console.log(data)
                         var url = HEALTH_SERVICE + '/health/patient/getHospitalRecordList'
                         return request(url, 'get', data, true);
                     },
                     //健康档案健康记录
                     healthHistoryListQuery: function healthHistoryListQuery(data) {
-                        console.log(data)
                         var url = HEALTH_SERVICE + '/health/patient/getHealthRecordList'
                         return request(url, 'get', data, true);
                     },
@@ -725,7 +697,6 @@ module.exports =
                     },
                     //文章列表
                     articleListQuery: function articleListQuery(data) {
-                        console.log(data)
                         var url = HEALTH_SERVICE + '/health/patient/allArticlesPage'
                         return request2(url, 'get', data, true);
                     },
@@ -896,20 +867,17 @@ module.exports =
                     },
                     //创建预约记录
                     creatOrderQuery: function creatOrderQuery(data) {
-                        console.log(data)
                         var url = ORDER_SERVICE + '/order/tbOrder/createAppointmentOrder'
                         return request(url, 'post', data, true);
                     },
 
                     //查询是否存在就诊卡
                     searhCardQuery: function searhCardQuery(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/userInfo/queryHospitalCardIfExsit'
                         return request(url, 'post', data, true);
                     },
                     //创建就诊卡
                     createCardQuery: function createCardQuery(data) {
-                        console.log(data)
                         var url = ACCOUNT_SERVICE + '/userInfo/createHospitalCard'
                         return request(url, 'post', data, true);
                     },
@@ -957,19 +925,16 @@ module.exports =
                     },
                     //更新就诊状态
                     changeSubscribeStatuedQuery: function changeSubscribeStatuedQuery(data) {
-                        console.log(data)
                         var url = HEALTH_SERVICE + '/medical/doctor/updateAttendanceStatus'
                         return request(url, 'post', data, true);
                     },
                     //根据ID查询医生信息
                     doctorInfoQuery: function doctorInfoQuery(data) {
-                        console.log(data)
                         var url = INFO_SERVICE + '/doctorFilter/queryDoctorByUserIds'
                         return request(url, 'post', data, true);
                     },
                     //查询医生信息或者个案管理师
                     queryDoctorAndCaseManagerByUserIds: function queryDoctorAndCaseManagerByUserIds(data) {
-                        console.log(data)
                         var url = INFO_SERVICE + '/doctorFilter/queryDoctorAndCaseManagerByUserIds'
                         return request(url, 'post', data, true);
                     },
@@ -1262,8 +1227,8 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/rightsUse/getRightsInfo'
                         return request(url, 'get', data, true);
                     },
-                     //套餐权益详情
-                     getServiceRightsInfo: function getServiceRightsInfo(data) {
+                    //套餐权益详情
+                    getServiceRightsInfo: function getServiceRightsInfo(data) {
 
                         var url = MEDICAL_SERVICE + '/rightsUse/getServiceRightsInfo'
                         return request(url, 'get', data, true);
@@ -1347,42 +1312,46 @@ module.exports =
 
                     //获取所有健康分类类型的标签
                     getUserTagsListInfo: function getUserTagsListInfo(userId) {
-                        var url = ACCOUNT_SERVICE + '/getUserTagsListInfo/'+userId
+                        var url = ACCOUNT_SERVICE + '/getUserTagsListInfo/' + userId
                         return request2(url, 'post', '', true);
                     },
 
-                     //根据就诊人查询病历列表
-                     medicalCaseList: function medicalCaseList(data) {                       
+                    //根据就诊人查询病历列表
+                    medicalCaseList: function medicalCaseList(data) {
                         var url = MEDICAL_SERVICE + '/medicalCase/list'
                         return request(url, 'post', data, true);
                     },
-                     //根据就诊人查询病历列表
-                     medicalCaseList: function medicalCaseList(data) {                       
+                    //根据就诊人查询病历列表
+                    medicalCaseList: function medicalCaseList(data) {
                         var url = MEDICAL_SERVICE + '/medicalCase/list'
                         return request(url, 'get', data, true);
                     },
-                      //根据就诊人查询病历详情
-                      medicalCaseGet: function medicalCaseGet(data) {                       
+                    //根据就诊人查询病历详情
+                    medicalCaseGet: function medicalCaseGet(data) {
                         var url = MEDICAL_SERVICE + '/medicalCase/get'
                         return request(url, 'get', data, true);
                     },
                     //删除病历
-                    medicalCaseDelete: function medicalCaseDelete(data) {                       
+                    medicalCaseDelete: function medicalCaseDelete(data) {
                         var url = MEDICAL_SERVICE + '/medicalCase/delete'
                         return request(url, 'get', data, true);
                     },
-                     //保存病历
-                     medicalCaseSave: function medicalCaseSave(data) {                       
+                    //保存病历
+                    medicalCaseSave: function medicalCaseSave(data) {
                         var url = MEDICAL_SERVICE + '/medicalCase/save'
                         return request(url, 'post', data, true);
                     },
-                    
-                     //医生排班列表
-                     doctorAppointInfos: function doctorAppointInfos(data) {                       
+
+                    //医生排班列表
+                    doctorAppointInfos: function doctorAppointInfos(data) {
                         var url = MEDICAL_SERVICE + '/commodity/doctorAppointInfos'
                         return request(url, 'get', data, true);
                     },
-
+                    //获取用户企业微信二维码
+                    getCompanyUserInfo: function getCompanyUserInfo(userId) {
+                        var url = MEDICAL_SERVICE + '/tdCompanywxUser/getCompanyUserInfo/' + userId
+                        return request(url, 'post', '', true);
+                    },
                 };
 
                 /***/

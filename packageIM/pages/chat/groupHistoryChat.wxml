@@ -2,11 +2,10 @@
 <import src="../../modules/chat-page/chat-item.wxml"/>
 <import src="../../modules/chat-page/group-page-status.wxml"/>
 
-<template  wx:if="{{isTextNumDetail}}"  is="chat-page-status" data="{{textNum:textChatNum,textContent:tradeRemark.docName+' - '+tradeRemark.userName}}"/>
+<template  wx:if="{{isTextNumDetail}}"  is="chat-page-status" data="{{textNum:textChatNum,textContent:tradeRemark.docName?tradeRemark.docName+' - '+tradeRemark.userName:''}}"/>
 
 <scroll-view wx:if="{{chatItems.length>0}}"
-        style="height:{{pageHeight-25}}px;width: 100%;display: flex;flex-direction: column;"
-        style="{{isTextNumDetail?'margin-top: 70rpx;':''}}"
+        style="height:{{pageHeight-25}}px;margin-top:{{isTextNumDetail?70:0}}rpx;width: 100%;display: flex;flex-direction: column;"
         scroll-y="true"
         enable-flex="true"
         scroll-top="{{scrollTopVal}}"

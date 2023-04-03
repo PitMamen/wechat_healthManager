@@ -51,9 +51,16 @@ Page({
     },
     async getRightsInfo(id) {
         const res = await WXAPI.getServiceRightsInfo({ rightsId: id })
-
-        var date = new Date(res.data.endTime)
-        res.data.endTime2 = Util.formatTime5(date) + '到期'
+        if(res.code !=0){
+            return
+        }
+        if(res.data.endTime){
+            var date = new Date(res.data.endTime)
+            res.data.endTime2 = Util.formatTime5(date) + '到期'
+        }else{
+            res.data.endTime2 =  '永久'
+        }
+        
 
         var caseArr = []
         if (res.data.teamInfo.length > 0) {
@@ -94,15 +101,23 @@ Page({
                     item.itemContent = '待医生接诊'
                 } else if (item.status == 3) {
                     if (item.projectType == 101) {
-                        item.itemContent = 'xx-xx到期'
-                    } else if (item.projectType == 102) {
-                        item.itemContent = item.rightsUseRecords[0].confirmPeriod + '联系您'
-                    } else if (item.projectType == 103) {
-                        item.itemContent = item.rightsUseRecords[0].confirmPeriod + '联系您'
+                        var  dateExpireTime=item.rightsUseRecords[0].dateExpireTime
+                        if(dateExpireTime){
+                            item.itemContent = Util.formatTime6(new Date(dateExpireTime) ) +'到期'
+                        }else{
+                            item.itemContent = res.data.endTime2
+                        }
+                    } else{
+                       var  confirmPeriod=item.rightsUseRecords[0].confirmPeriod.replace('/','-')
+                       
+                        if(confirmPeriod){
+                            item.itemContent = confirmPeriod.substring(0,5)+confirmPeriod.substring(8)+'联系您'
+                        }
                     }
 
                 } else if (item.status == 4) {
                     item.itemContent = '已结束'
+                    
                 }
 
             } else if (item.projectType == 106) {//个案师服务
@@ -195,9 +210,25 @@ Page({
             if (item.status == 2) {
                 return
             }
-            wx.navigateTo({
-                url: './tel-list?rightsId=' + this.data.detail.id + '&userId=' + this.data.detail.userId,
-            })
+            if (item.status == 1 && item.rightsUseRecords.length == 0) {
+              
+                    //还未使用 先申请
+                    wx.showModal({
+                        title: '【电话咨询】剩余权益：'+item.surplusQuantity+'次',
+                        content: '请确认是否使用？',
+                        success(res) {
+                            if (res.confirm) {
+                                that.saveRightsUseRecord(item)
+                            }
+                        }
+                    })
+              
+            }else{
+                wx.navigateTo({
+                    url: './tel-list?rightsId=' + this.data.detail.id + '&userId=' + this.data.detail.userId,
+                })
+            }
+          
         } else if (item.projectType == 103) {//视频
             wx.showToast({
                 title: '等待服务',

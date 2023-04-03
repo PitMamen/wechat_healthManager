@@ -7,6 +7,7 @@ Page({
     data: {
         info:null,
         rightsItemList:[],
+        qrCode:'',
         show: false
     },
 
@@ -54,23 +55,23 @@ Page({
         this.setData({
             rightsItemList: rightsItemList
         })
+        if(this.data.info.userId){
+            this.getCompanyUserInfo(this.data.info.userId)
+        }
+        
 
     },
-    //获取套餐列表
-    async getPackageList() {
-        const res = await WXAPI.getConsultList({ broadClassify: 2 })
-        if (res.code == 0 && res.data && res.data.length > 0) {
+    //获取二维码
+    async getCompanyUserInfo(userId) {
+        const res = await WXAPI.getCompanyUserInfo(userId)
+        if (res.code == 0 && res.data && res.data.qrCode) {
 
             this.setData({
-                packageList: res.data,
+                qrCode: res.data.qrCode,
             })
 
 
-        } else {
-            this.setData({
-                packageList: []
-            })
-        }
+        } 
 
     },
 

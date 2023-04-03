@@ -79,10 +79,10 @@
 
 </view>
 <!-- 服务中已结束可以查看记录 -->
-<!-- <view wx:if="{{detail.rightsUseRecordStatus && (status==1  || status==4)}}" class="history-tag" bindtap="onHistroyBtnClick">
+<view wx:if="{{detail.rightsUseRecordStatus  && detail.rightsUseRecordStatus.serviceFrequency >0 &&  status==4}}" class="history-tag" bindtap="onHistroyBtnClick">
     <view>查看交</view>
     <view>流记录</view>
-</view> -->
+</view>
 
 <van-popup show="{{ !hidePoupShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;z-index: 999;" bind:close="onPoupPickerCancel">
     <van-picker show-toolbar custom-class="picker-custom" title="请选择" columns="{{ nameColumns }}" value-key="serviceItemName" visible-item-count='4' bind:cancel="onPoupPickerCancel" bind:confirm="onPoupPickerConfirm" />

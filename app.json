@@ -40,7 +40,6 @@
         "pages/home/webpage/index",
         "pages/home/news/news-list",
         "pages/home/news/news-detail",
-        "pages/me/setting/index",
         "pages/me/content/index",
         "pages/home/shop-cart/index",
         "pages/me/address/add",
