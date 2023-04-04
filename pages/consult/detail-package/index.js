@@ -33,7 +33,7 @@ Page({
             userId: options.userId
         })
 
-       
+
     },
 
     /**
@@ -51,16 +51,19 @@ Page({
     },
     async getRightsInfo(id) {
         const res = await WXAPI.getServiceRightsInfo({ rightsId: id })
-        if(res.code !=0){
+        if (res.code != 0) {
             return
         }
-        if(res.data.endTime){
+
+        res.data.status.value = 4
+
+        if (res.data.endTime) {
             var date = new Date(res.data.endTime)
             res.data.endTime2 = Util.formatTime5(date) + '到期'
-        }else{
-            res.data.endTime2 =  '永久'
+        } else {
+            res.data.endTime2 = '永久'
         }
-        
+
 
         var caseArr = []
         if (res.data.teamInfo.length > 0) {
@@ -96,38 +99,56 @@ Page({
                 item.iconUrl = res.data.docInfo.avatarUrl || '/image/docheader.png'
                 item.itemName = res.data.docInfo.userName
                 if (item.status == 1) {
-                    item.itemContent = '剩余' + item.surplusQuantity + item.unit
+                    if (res.data.status.value == 4) {
+                        //套餐已结束
+                        item.itemContent = '已结束'
+                    } else {
+                        item.itemContent = '剩余' + item.surplusQuantity + item.unit
+                    }
+
                 } else if (item.status == 2) {
                     item.itemContent = '待医生接诊'
                 } else if (item.status == 3) {
                     if (item.projectType == 101) {
-                        var  dateExpireTime=item.rightsUseRecords[0].dateExpireTime
-                        if(dateExpireTime){
-                            item.itemContent = Util.formatTime6(new Date(dateExpireTime) ) +'到期'
-                        }else{
+                        var dateExpireTime = item.rightsUseRecords[0].dateExpireTime
+                        if (dateExpireTime) {
+                            item.itemContent = Util.formatTime6(new Date(dateExpireTime)) + '到期'
+                        } else {
                             item.itemContent = res.data.endTime2
                         }
-                    } else{
-                       var  confirmPeriod=item.rightsUseRecords[0].confirmPeriod.replace('/','-')
-                       
-                        if(confirmPeriod){
-                            item.itemContent = confirmPeriod.substring(0,5)+confirmPeriod.substring(8)+'联系您'
+                    } else {
+                        var confirmPeriod = item.rightsUseRecords[0].confirmPeriod.replace('/', '-')
+
+                        if (confirmPeriod) {
+                            item.itemContent = confirmPeriod.substring(0, 5) + confirmPeriod.substring(8) + '联系您'
                         }
                     }
 
                 } else if (item.status == 4) {
                     item.itemContent = '已结束'
-                    
+
                 }
 
             } else if (item.projectType == 106) {//个案师服务
                 item.itemName = res.data.caseInfo.userName
                 item.iconUrl = res.data.caseInfo.avatarUrl || '/image/icon_fw3.png'
-                item.itemContent = '已开通'
+
+                if (res.data.status.value == 4) {
+                    //套餐已结束
+                    item.itemContent = '已结束'
+                } else {
+                    item.itemContent = '已开通'
+                }
             } else {// 104 普通商品 105 随访服务 其他
                 item.iconUrl = '/image/icon_ptsp.png'
-                item.itemName = '已开通'
                 item.isCommonProjectType = true
+
+                if (res.data.status.value == 4) {
+                    //套餐已结束
+                    item.itemContent = '已结束'
+                } else {
+                    item.itemContent = '已开通'
+                }
             }
             rightsItemList.push(item)
         })
@@ -144,6 +165,8 @@ Page({
     //申请
     async saveRightsUseRecord(rightInfo) {
 
+
+
         var postData = rightInfo
         postData.appointTime = Util.formatTime(new Date())
         postData.userId = this.data.detail.userId
@@ -157,7 +180,7 @@ Page({
             wx.showToast({
                 title: '申请成功！',
             })
-            let that=this
+            let that = this
             setTimeout(() => {
                 that.getRightsInfo(that.data.rightsId)
             }, 2000)
@@ -170,7 +193,7 @@ Page({
     onItemClick(e) {
         var item = e.currentTarget.dataset.item
         console.log(item)
-        let that=this
+        let that = this
         if (!this.checkLoginStatus()) {
             return
         }
@@ -181,9 +204,13 @@ Page({
             }
             if (item.status == 1) {
                 if (item.rightsUseRecords.length == 0) {
+                    if (this.data.detail.status.value == 4) {
+                        //套餐已结束
+                        return
+                    }
                     //还未使用 先申请
                     wx.showModal({
-                        title: '【图文咨询】剩余权益：'+item.surplusQuantity+'次',
+                        title: '【图文咨询】剩余权益：' + item.surplusQuantity + '次',
                         content: '请确认是否使用？',
                         success(res) {
                             if (res.confirm) {
@@ -211,24 +238,27 @@ Page({
                 return
             }
             if (item.status == 1 && item.rightsUseRecords.length == 0) {
-              
-                    //还未使用 先申请
-                    wx.showModal({
-                        title: '【电话咨询】剩余权益：'+item.surplusQuantity+'次',
-                        content: '请确认是否使用？',
-                        success(res) {
-                            if (res.confirm) {
-                                that.saveRightsUseRecord(item)
-                            }
+                if (this.data.detail.status.value == 4) {
+                    //套餐已结束
+                    return
+                }
+                //还未使用 先申请
+                wx.showModal({
+                    title: '【电话咨询】剩余权益：' + item.surplusQuantity + '次',
+                    content: '请确认是否使用？',
+                    success(res) {
+                        if (res.confirm) {
+                            that.saveRightsUseRecord(item)
                         }
-                    })
-              
-            }else{
+                    }
+                })
+
+            } else {
                 wx.navigateTo({
                     url: './tel-list?rightsId=' + this.data.detail.id + '&userId=' + this.data.detail.userId,
                 })
             }
-          
+
         } else if (item.projectType == 103) {//视频
             wx.showToast({
                 title: '等待服务',
@@ -239,17 +269,22 @@ Page({
                 url: './casemanager?rightsId=' + this.data.rightsId
             })
         } else {
-           wx.navigateTo({
-             url: './common',
-           })
+            wx.navigateTo({
+                url: './common',
+            })
         }
 
     },
     //进入历史咨询
-    goHistoryChat(item){
- wx.navigateTo({
-    url: `/packageIM/pages/chat/groupHistoryChat?groupID=${this.data.detail.imGroupId}&inquiryType=${'textNum'}&tradeId=${ item.rightsUseRecords[0].id}&textChatNum=${item.surplusQuantity}&userId=${this.data.detail.userId}&isTextNumDetail=true`,
-})
+    goHistoryChat(item) {
+        var textChatNum=item.surplusQuantity
+        if (this.data.detail.status.value == 4) {
+            //套餐已结束
+            textChatNum=0
+        }
+        wx.navigateTo({
+            url: `/packageIM/pages/chat/groupHistoryChat?groupID=${this.data.detail.imGroupId}&inquiryType=${'textNum'}&tradeId=${item.rightsUseRecords[0].id}&textChatNum=${textChatNum}&userId=${this.data.detail.userId}&isTextNumDetail=true`,
+        })
     },
     goMain() {
         wx.switchTab({
@@ -285,7 +320,7 @@ Page({
         }
 
     },
-  
+
 
     //套餐详情
     goPackagePage() {

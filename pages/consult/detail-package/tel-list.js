@@ -54,7 +54,7 @@ Page({
     },
     async getRightsInfo(id) {
 
-        const res = await WXAPI.getRightsInfo({ rightsId: id })
+        const res = await WXAPI.getServiceRightsInfo({ rightsId: id })
         if (res.code == 0) {
 
             this.setData({

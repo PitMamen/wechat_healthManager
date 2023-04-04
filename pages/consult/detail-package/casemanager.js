@@ -55,15 +55,15 @@ Page({
         this.setData({
             rightsItemList: rightsItemList
         })
-        if(this.data.info.userId){
-            this.getCompanyUserInfo(this.data.info.userId)
+        if(this.data.info.companywxUserId){
+            this.getCompanyUserInfo(this.data.info.companywxUserId)
         }
         
 
     },
     //获取二维码
-    async getCompanyUserInfo(userId) {
-        const res = await WXAPI.getCompanyUserInfo(userId)
+    async getCompanyUserInfo(companywxUserId) {
+        const res = await WXAPI.getCompanyUserInfo(companywxUserId)
         if (res.code == 0 && res.data && res.data.qrCode) {
 
             this.setData({

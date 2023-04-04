@@ -18,7 +18,9 @@
 
 <view class="ordercard">
     <view class="ordercontarl">
-        <view class="card-title" style="margin-bottom: 30rpx;">健康服务</view>
+        <view class="card-title" style="margin-bottom: 30rpx;">健康服务
+        <text wx:if="{{detail.status.value==4}}" style="color: #FB9600;">-已结束</text>
+        </view>
 
         <view class="his-view" >
             <view class="item-card-view" wx:for="{{rightsItemList}}" wx:key="2" bindtap="onItemClick" data-item="{{item}}">

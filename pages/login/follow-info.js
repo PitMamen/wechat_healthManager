@@ -58,7 +58,7 @@ Page({
         if (patientInfoList && patientInfoList.length > 0) {
             patientInfoList.forEach(item => {
                 if( this.data.info.hospitalCode == item.hospitalCode){
-                    if (item.identificationNo == this.data.info.IDCard+'' ) {
+                    if (item.identificationNo == this.data.info.idCard+'' ) {
                         user = item
                     }
                 }
@@ -79,7 +79,7 @@ Page({
 
         var that = this;
       
-        var idInfo = Util.getBirthdayAndSex(that.data.info.IDCard+'')
+        var idInfo = Util.getBirthdayAndSex(that.data.info.idCard+'')
         var user = wx.getStorageSync('userInfo').account
      
         const postData = {
@@ -87,7 +87,7 @@ Page({
             hospitalCode:that.data.info.hospitalCode,  
             accountId: user.accountId,
             userName: that.data.info.patName,
-            identificationNo: that.data.info.IDCard+'',
+            identificationNo: that.data.info.idCard+'',
             identificationType: '01',//默认身份证
             phone:user.phone,//使用微信手机号
             code: '1',

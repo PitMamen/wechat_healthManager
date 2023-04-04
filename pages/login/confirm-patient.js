@@ -175,7 +175,7 @@ Page({
 
         WXAPI.qryPatientInfo(postdata)
             .then(function (res) {
-                if (res.code == 0 && res.data && res.data.IDCard) {
+                if (res.code == 0 && res.data && res.data.idCard) {
                     res.data.urgentTel = that.data.emergencyPhone
                     res.data.urgentName = that.data.emergencyName
                     res.data.relationship = that.data.relationship
