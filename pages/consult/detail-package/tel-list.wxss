@@ -51,7 +51,6 @@ page {
     flex-direction: row;
     align-items: center;
     margin-bottom: 30rpx;
-  
 
 }
 
@@ -252,7 +251,7 @@ margin-left: 20rpx;
     justify-content: space-between;
 }
 .custom-class{
-    width: 300rpx !important;
+    width: 330rpx !important;
 }
 .safe-bottom-box-flex2 {
     position: fixed;

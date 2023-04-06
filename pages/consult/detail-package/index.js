@@ -55,7 +55,7 @@ Page({
             return
         }
 
-        res.data.status.value = 4
+        // res.data.status.value = 4
 
         if (res.data.endTime) {
             var date = new Date(res.data.endTime)
@@ -248,14 +248,16 @@ Page({
                     content: '请确认是否使用？',
                     success(res) {
                         if (res.confirm) {
-                            that.saveRightsUseRecord(item)
+                            wx.navigateTo({
+                                url: `/pages/consult/detail-package/telinfo/index?id=${that.data.detail.id}&rightsId=${item.id}`
+                            })
                         }
                     }
                 })
 
             } else {
                 wx.navigateTo({
-                    url: './tel-list?rightsId=' + this.data.detail.id + '&userId=' + this.data.detail.userId,
+                    url: './tel-list?id=' + this.data.detail.id + '&rightsId=' + item.id,
                 })
             }
 

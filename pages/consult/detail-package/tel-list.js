@@ -7,12 +7,16 @@ Page({
      * 页面的初始数据
      */
     data: {
-        status: '',//2待接诊 3问诊中 4已结束 5已中止
+        id:'',
+        rightsId:'',
+        applyStatus:false,
+        status: '',
         topIcon: '',
         topTitle: '',
         topText: '',
         isUsed: false,
         detail: {},
+        rightsItem:{},
         nameColumns: [],
         numRights: 0,
         reqInfo: {},
@@ -32,10 +36,11 @@ Page({
     onLoad(options) {
         this.setData({
             rightsId: options.rightsId,
+            id: options.id,
 
 
         })
-        this.getRightsInfo(this.data.rightsId)
+        this.getRightsInfo(this.data.id)
        
     },
 
@@ -59,48 +64,79 @@ Page({
 
             this.setData({
                 detail: res.data,
-                status: res.data.rightsUseRecordStatus ? res.data.rightsUseRecordStatus.status : 1
             })
-            if (res.data.voiceTapeInfo && res.data.voiceTapeInfo.length > 0) {
-                var voicelist = res.data.voiceTapeInfo.map(((item) => {
-                    return {
-                        src: item.callTape,
-                        isPlay: false,
-                        currentTime: 0,
-                        duration: item.duration
-                    }
-                }))
+            
+        var  rightsItem=   res.data.rightsItemInfo.find(item=>{
+                return item.id==this.data.rightsId
+            })
+            if (res.data.status.value == 4) {
+                //套餐已结束
+                rightsItem.surplusQuantity=0
+            } 
+            var applyStatus=false
+            if(rightsItem.rightsUseRecords.length>0){
+                //2待接诊 3问诊中 4已结束 5已中止
+                if(rightsItem.rightsUseRecords[0].status == 4 || rightsItem.rightsUseRecords[0].status == 5){
+                   if(rightsItem.surplusQuantity>0){
+                    applyStatus=true
+                   }
+                }
+            }else{
+                applyStatus=true
             }
 
             this.setData({
-                radioList: voicelist
+                applyStatus:applyStatus,
+                status:rightsItem.rightsUseRecords.length>0 ? rightsItem.rightsUseRecords[0].status  : 1
             })
-
             if (this.data.status == 2) {
                 this.setData({
                     topIcon: '/image/dengdai.png',
                     topTitle: '等待医生接诊',
-                    topText: '申请时间：' + this.data.detail.rightsUseRecordStatus.appointPeriod || ''
+                    topText: '申请时间：' + rightsItem.rightsUseRecords[0].appointPeriod || ''
                 })
             } else if (this.data.status == 3) {
                 this.setData({
                     topIcon: '/image/jiezhen.png',
                     topTitle: '已接诊',
-                    topText: '确认时间：' + this.data.detail.rightsUseRecordStatus.confirmPeriod || ''
+                    topText: '确认时间：' +  rightsItem.rightsUseRecords[0].confirmPeriod || ''
                 })
             } else if (this.data.status == 4) {
                 this.setData({
                     topIcon: '/image/wancheng_2.png',
                     topTitle: '已完成',
-                    topText: '结束时间：' + this.data.detail.rightsUseRecordStatus.updatedTime || ''
+                    topText: '结束时间：' + rightsItem.rightsUseRecords[0].updatedTime || ''
                 })
             } else if (this.data.status == 5) {
                 this.setData({
                     topIcon: '/image/yijuzhen.png',
                     topTitle: '已拒诊',
-                    topText: '处理时间：' + this.data.detail.rightsUseRecordStatus.updatedTime || ''
+                    topText: '处理时间：' +  rightsItem.rightsUseRecords[0].updatedTime || ''
                 })
             }
+            console.log(rightsItem)
+            rightsItem.rightsUseRecords.forEach(record=>{
+                var voicelist=[]
+                if (record.voiceTapeInfo && record.voiceTapeInfo.length > 0) {
+                     voicelist = record.voiceTapeInfo.map(((item) => {
+                        return {
+                            src: item.callTape,
+                            isPlay: false,
+                            currentTime: 0,
+                            duration: item.duration
+                        }
+                    }))
+                    
+                }
+                record.radioList=voicelist
+            })
+          
+
+            this.setData({
+                rightsItem: rightsItem
+            })
+
+ 
         }
 
     },
@@ -135,44 +171,48 @@ Page({
             this.innerAudioContext.src = item.src
             var duration = this.innerAudioContext.duration
             console.log("时长：" + duration)
-            this.innerAudioContext.startTime = this.data.radioList[index].currentTime// 开始时间
+            this.innerAudioContext.startTime = item.currentTime// 开始时间
             this.innerAudioContext.play() // 播放
            
 
             this.myInterval = setInterval(() => {
-                this.data.radioList[index].currentTime = this.data.radioList[index].currentTime + 1
-                if (this.data.radioList[index].currentTime > this.data.radioList[index].duration) {
+                item.currentTime =item.currentTime + 1
+                if (item.currentTime > item.duration) {
                     clearInterval(this.myInterval)
-                    this.data.radioList[index].isPlay = false
+                    item.isPlay = false
                     this.setData({
-                        radioList: this.data.radioList
+                        rightsItem: this.data.rightsItem
                     })
                 }
 
                 this.setData({
-                    radioList: this.data.radioList
+                    rightsItem: this.data.rightsItem
                 })
             }, 1000)
 
         }
-        this.data.radioList.forEach(el => {
-            el.isPlay = false
+        this.data.rightsItem.rightsUseRecords.forEach(item=>{
+            item.radioList.forEach(el => {
+                el.isPlay = false
+            })
         })
-        this.data.radioList[index].isPlay = !item.isPlay
+       
+        item.isPlay = !item.isPlay
         this.setData({
-            radioList: this.data.radioList
+            rightsItem: this.data.rightsItem
         })
     },
  
     onSliderChange(e) {
         console.log(e)
         var index = e.currentTarget.dataset.index
-        this.data.radioList[index].currentTime = e.detail
+        var item = e.currentTarget.dataset.item
+        item.currentTime = e.detail
         this.setData({
-            radioList: this.data.radioList
+            rightsItem: this.data.rightsItem
         })
         if (this.innerAudioContext) {
-            if (this.innerAudioContext.src == this.data.radioList[index].src) {
+            if (this.innerAudioContext.src == item.src) {
                 // this.innerAudioContext.play()
                 this.innerAudioContext.seek(e.detail)
             }
@@ -185,7 +225,9 @@ Page({
 
     //再次申请
     applyAgain() {
-        this.doctorAppointInfos()
+        wx.redirectTo({
+            url: `/pages/consult/detail-package/telinfo/index?id=${this.data.id}&rightsId=${this.data.rightsId}`
+        })
     },
 
     //排班
@@ -241,7 +283,7 @@ Page({
     //申请
     async saveRightsUseRecord() {
         let that = this
-        var postData = this.data.detail.rightsItemInfo[0]
+        var postData = this.data.rightsItem
         postData.appointTime = this.data.selectAppoint.fullVisitDate
         postData.appointPeriod = this.data.selectAppoint.visitStartTime + '-' + this.data.selectAppoint.visitEndTime
         postData.userId = this.data.detail.userId
@@ -256,8 +298,7 @@ Page({
                 duration: 2000
             })
             setTimeout(() => {
-                that.getRightsInfo(that.data.rightsId)
-                that.getRightsReqData(that.data.rightsId)
+                wx.navigateBack()
             }, 2000)
         }
 
@@ -267,10 +308,20 @@ Page({
     enterRoom() {
         if (this.checkLoginStatus()) {
             if (getApp().globalData.sdkReady) {
-                IMUtil.goGroupChat(this.data.detail.userId, 'navigateTo', this.data.detail.imGroupId, 'textNum', this.data.detail.rightsUseRecordStatus.id, 'START')
+                IMUtil.goGroupChat(this.data.detail.userId, 'navigateTo', this.data.detail.imGroupId, 'textNum', this.data.rightsItem.rightsUseRecords[0].id, 'START')
             }
         }
     },
+        //查询历史咨询
+        onHistroyBtnClick() {
+            if (this.checkLoginStatus()) {
+                wx.navigateTo({
+                    url: `/packageIM/pages/chat/groupHistoryChat?groupID=${this.data.detail.imGroupId}&inquiryType=${'textNum'}&tradeId=${this.data.rightsItem.rightsUseRecords[0].id}&tradeAction=${'END'}&userId=${this.data.detail.userId}`,
+                })
+            }
+    
+    
+        },
     //再次购买
     bugAgain() {
         // wx.navigateTo({
@@ -302,22 +353,7 @@ Page({
         }
 
     },
-    //查询历史咨询
-    onHistroyBtnClick() {
-        if (this.checkLoginStatus()) {
-            // if (getApp().globalData.sdkReady) {
-            //     if(this.data.detail.imGroupId && this.data.detail.rightsUseRecordStatus && this.data.detail.rightsUseRecordStatus.id){
-            //         IMUtil.goGroupChat(this.data.detail.userId,  'navigateTo', this.data.detail.imGroupId, 'textNum',this.data.detail.rightsUseRecordStatus.id, 'END') 
-            //     }
-            // }
 
-            wx.navigateTo({
-                url: `/packageIM/pages/chat/groupHistoryChat?groupID=${this.data.detail.imGroupId}&inquiryType=${'textNum'}&tradeId=${this.data.detail.rightsUseRecordStatus.id}&tradeAction=${'END'}&userId=${this.data.detail.userId}`,
-            })
-        }
-
-
-    },
     //图片预览
     onImageTap: function (e) {
         var url = e.currentTarget.dataset.url

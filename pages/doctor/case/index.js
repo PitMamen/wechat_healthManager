@@ -62,6 +62,9 @@ Page({
     },
 
     getMedicalCaseList(){
+        if(!this.data.selectUser.userId){
+            return
+        }
         WXAPI.medicalCaseList({
             userId : this.data.selectUser.userId
         }).then((res) => {
