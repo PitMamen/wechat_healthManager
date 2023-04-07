@@ -42,10 +42,10 @@
 
 </view>
 <view style="height: 100rpx;"></view>
-<view class="safe-bottom-box" bindtap="goPackagePage">
+<view class="safe-bottom-box" >
     <image src="/image/taocantuijian.png" style="width: 46rpx;height: 46rpx;margin-left: 30rpx;" />
     <view style="margin-left: 20rpx;">更多服务套餐</view>
-    <van-button style="margin-left: auto;margin-right: 30rpx;height: 48rpx;" bindtap="" color="#FB9600" round type="info" size="small">去看看</van-button>
+    <van-button style="margin-left: auto;margin-right: 30rpx;height: 48rpx;" bindtap="goPackagePage" color="#FB9600" round type="info" size="small">去看看</van-button>
 </view>
 
 

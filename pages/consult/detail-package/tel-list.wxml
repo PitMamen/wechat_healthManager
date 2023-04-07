@@ -40,8 +40,8 @@
             <view class="luyin-card">
 
                 <view wx:for="{{item.radioList}}" wx:key="12" class="luyin-view" style="margin-top: 17rpx;" wx:for-index="idx" wx:for-item="itemName">
-                    <van-icon bindtap="play" data-item="{{itemName}}" data-index="{{idx}}" name="{{itemName.isPlay?'pause-circle-o':'play-circle-o'}}" size="45rpx" />
-                    <van-slider style="flex:1;margin-left: 20rpx;" min="0" max="{{itemName.duration}}" value="{{ itemName.currentTime}}" bar-height="4px" bind:change="onSliderChange" data-item="{{itemName}}" data-index="{{idx}}" />
+                    <van-icon bindtap="play" data-idx="{{idx}}" data-index="{{index}}" data-item="{{itemName}}" name="{{itemName.isPlay?'pause-circle-o':'play-circle-o'}}" size="45rpx" />
+                    <van-slider style="flex:1;margin-left: 20rpx;" min="0" max="{{itemName.duration}}" value="{{ itemName.currentTime}}" bar-height="4px" bind:change="onSliderChange" data-idx="{{idx}}" data-index="{{index}}" data-item="{{itemName}}"   />
 
                 </view>
 
@@ -49,6 +49,7 @@
         </view>
     </view>
 </view>
+<view style="height: 100rpx;"></view>
 <view class="safe-bottom-box">
     <view wx:if="{{applyStatus}}" class="safe-bottom-box-flex">
         <van-button type="primary" color="#367BF5" custom-class="custom-class" bind:click="applyAgain">申请使用【剩余{{rightsItem.surplusQuantity}}次】</van-button>

@@ -29,12 +29,20 @@ Page({
 
             this.getConversationList()
         })
+     
     },
 
     /**
  * 生命周期函数--监听页面显示
  */
     onShow: function () {
+        console.log('consultPageActive='+getApp().globalData.consultPageActive)
+   if(getApp().globalData.consultPageActive>0){
+    this.setData({
+        active:getApp().globalData.consultPageActive+''
+    })
+    getApp().globalData.consultPageActive=-1
+   }
 
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient')

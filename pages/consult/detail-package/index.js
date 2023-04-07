@@ -66,7 +66,7 @@ Page({
 
 
         var caseArr = []
-        if (res.data.teamInfo.length > 0) {
+        if (res.data.teamInfo && res.data.teamInfo.length > 0) {
             caseArr = res.data.teamInfo.filter(
                 function (element, index, arr) {
                     return element.userType == 'casemanager';
@@ -145,9 +145,9 @@ Page({
 
                 if (res.data.status.value == 4) {
                     //套餐已结束
-                    item.itemContent = '已结束'
+                    item.itemName = '已结束'
                 } else {
-                    item.itemContent = '已开通'
+                    item.itemName = '已开通'
                 }
             }
             rightsItemList.push(item)
@@ -270,7 +270,11 @@ Page({
             wx.navigateTo({
                 url: './casemanager?rightsId=' + this.data.rightsId
             })
-        } else {
+        } else if (item.projectType == 105) {//随访服务
+            wx.navigateTo({
+                url: '/pages/me/my-plan/index'
+            })
+        }else {
             wx.navigateTo({
                 url: './common',
             })
@@ -327,7 +331,7 @@ Page({
     //套餐详情
     goPackagePage() {
         wx.navigateTo({
-            url: `/pages/health/detail/index?id=${this.data.detail.commodityId}`
+            url: '/pages/health/service/index'
         })
     },
 

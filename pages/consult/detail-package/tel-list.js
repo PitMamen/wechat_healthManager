@@ -115,7 +115,7 @@ Page({
                 })
             }
             console.log(rightsItem)
-            rightsItem.rightsUseRecords.forEach(record=>{
+            rightsItem.rightsUseRecords.forEach((record,index)=>{
                 var voicelist=[]
                 if (record.voiceTapeInfo && record.voiceTapeInfo.length > 0) {
                      voicelist = record.voiceTapeInfo.map(((item) => {
@@ -128,6 +128,34 @@ Page({
                     }))
                     
                 }
+                // if(index == 0){
+                //     voicelist.push({
+                //         src: 'https://webfs.ali.kugou.com/202304071435/fd991c75110942b968b8f2a9e005ab24/KGTX/CLTX001/12e8f5a8eb4bb521a83cc723c5d373fb.mp3',
+                //                 isPlay: false,
+                //                 currentTime: 0,
+                //                 duration: 202
+                //     })
+                //     voicelist.push({
+                //         src: 'https://webfs.ali.kugou.com/202304071437/c241e0f0ad1ecccb429496a9f0057d22/KGTX/CLTX001/d2cf20dcb16cfa27eb38895243d22639.mp3',
+                //                 isPlay: false,
+                //                 currentTime: 0,
+                //                 duration: 288
+                //     })
+                // }else{
+                //     voicelist.push({
+                //         src: 'https://webfs.ali.kugou.com/202304071438/8e700e13bba381d39ffec52580e95072/KGTX/CLTX001/0e872913445c032d9385da2d5fab4ce5.mp3',
+                //                 isPlay: false,
+                //                 currentTime: 0,
+                //                 duration: 197
+                //     })
+                //     voicelist.push({
+                //         src: 'https://webfs.ali.kugou.com/202304071435/6303b64ce5df2fdad7b8ce294a5b2432/KGTX/CLTX001/ea13e9f873b3b61b07085ecb71c786a0.mp3',
+                //                 isPlay: false,
+                //                 currentTime: 0,
+                //                 duration: 197
+                //     })
+                // }
+
                 record.radioList=voicelist
             })
           
@@ -158,8 +186,10 @@ Page({
 
 
     play(e) {
-        var item = e.currentTarget.dataset.item
+       
         var index = e.currentTarget.dataset.index
+        var idx = e.currentTarget.dataset.idx
+        var item =this.data.rightsItem.rightsUseRecords[index].radioList[idx]
         if (!this.innerAudioContext) {
             this.innerAudioContext = wx.createInnerAudioContext()
         }
@@ -176,10 +206,12 @@ Page({
            
 
             this.myInterval = setInterval(() => {
-                item.currentTime =item.currentTime + 1
+
+                 item.currentTime =item.currentTime + 1
                 if (item.currentTime > item.duration) {
                     clearInterval(this.myInterval)
                     item.isPlay = false
+                    
                     this.setData({
                         rightsItem: this.data.rightsItem
                     })
@@ -191,13 +223,19 @@ Page({
             }, 1000)
 
         }
-        this.data.rightsItem.rightsUseRecords.forEach(item=>{
-            item.radioList.forEach(el => {
-                el.isPlay = false
+        console.log(this.data.rightsItem.rightsUseRecords[index].radioList[idx])
+        this.data.rightsItem.rightsUseRecords.forEach((it,index1)=>{
+            it.radioList.forEach((el,index2) => {
+                if(index1==index && index2==idx){
+                    el.isPlay = !el.isPlay
+                }else{
+                    el.isPlay = false
+                }
+               
             })
         })
        
-        item.isPlay = !item.isPlay
+        console.log(this.data.rightsItem.rightsUseRecords[index].radioList[idx])
         this.setData({
             rightsItem: this.data.rightsItem
         })
@@ -206,7 +244,8 @@ Page({
     onSliderChange(e) {
         console.log(e)
         var index = e.currentTarget.dataset.index
-        var item = e.currentTarget.dataset.item
+        var idx = e.currentTarget.dataset.idx
+        var item =this.data.rightsItem.rightsUseRecords[index].radioList[idx]
         item.currentTime = e.detail
         this.setData({
             rightsItem: this.data.rightsItem

@@ -103,9 +103,12 @@ Page({
         })
     },
     goConsult(e) {
-        wx.switchTab({
-            url: '/pages/consult/index',
-        })
+        var item = e.currentTarget.dataset.goods
+           //把参数保存至全局变量
+           getApp().globalData.consultPageActive = item.broadClassify
+           wx.switchTab({
+               url: '/pages/consult/index',
+           })
     },
 
     toPay(e) {

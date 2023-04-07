@@ -87,6 +87,8 @@ Page({
     },
 
     goConsult(e) {
+         //把参数保存至全局变量
+        getApp().globalData.consultPageActive = this.data.order.broadClassify
         wx.switchTab({
             url: '/pages/consult/index',
         })

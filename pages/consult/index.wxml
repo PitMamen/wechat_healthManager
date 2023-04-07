@@ -3,8 +3,8 @@
     <view id="tabs" class="tabs">
         <van-tabs color="#0379FF" title-active-color="#0379FF" swipeable line-width="33px" bind:click="onTabsChange" custom-class="" active="{{ active }}">
             <van-tab title="服务套餐" name="2"  />
-            <van-tab title="单次咨询" name="0" info="{{unreadConsult>0?unreadConsult:''}}" />
-            <van-tab title="待办事项" name="1" info="{{unreadTodo>0 ?unreadTodo:''}}" />
+            <van-tab title="单次咨询" name="1" info="{{unreadConsult>0?unreadConsult:''}}" />
+            <van-tab title="待办事项" name="0" info="{{unreadTodo>0 ?unreadTodo:''}}" />
         </van-tabs>
     </view>
 </van-sticky>
@@ -16,7 +16,7 @@
 
     <view class="fuwu-card-top">
         <view class="chat-item-head-super-style">
-            <image class="fuwu-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{item.doctorAvatarUrl}}" />
+            <image class="fuwu-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{item.frontImg}}" />
             
         </view>
         <view class="fuwu-name-view">
@@ -51,7 +51,7 @@
 </view>
 
 </block>
-<block wx:if="{{active=='0'}}">
+<block wx:if="{{active=='1'}}">
 
     <view style="height: 30rpx;"></view>
     <view class="ai-card" bindtap="goIMPage">
@@ -126,7 +126,7 @@
 
 </block>
 
-<block wx:if="{{active=='1'}}">
+<block wx:if="{{active=='0'}}">
 
   
     <van-empty wx:if="{{ !todoList || todoList.length == 0 }}" image="/image/icon_nodata.png" description="暂无数据" />

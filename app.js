@@ -332,6 +332,7 @@ App({
         remindedRights: [],//提醒过的权益
         rightTypeList: [],//权益类型列表
         currentHospital: {},//当前切换的医疗机构
+        consultPageActive:-1,//跳转到服务页面传的tab值
     },
     bedApplyInfo: null,//床位预约申请
     technologyAppointInfo: null,//医技预约申请
