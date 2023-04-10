@@ -12,7 +12,9 @@ page {
     align-items: center;
    
 }
-
+.van-button--normal {
+    padding: 0 0px !important;
+}
 .pagewaper {
     width: 702rpx;
     margin-left: 24rpx;
