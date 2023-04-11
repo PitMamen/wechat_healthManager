@@ -10,6 +10,8 @@ Page({
     onMessageReadByPeer: '',
     _freshing: false,
     data: {
+        textChatNum: 0,//剩余咨询申请次数
+        isTextNumDetail: false,//是不是套餐服务 点击进来 的图文详情
         showChatInput: false,
         hideTimeShow: true,
         config: {},
@@ -42,8 +44,8 @@ Page({
         bottomChatStatus: '',
         showTextPop: false,//文本消息点击放大
         showText: '',//文本消息点击放大
-        pageNo:1,
-        pageSize:20
+        pageNo: 1,
+        pageSize: 20
     },
 
     /**
@@ -54,11 +56,11 @@ Page({
         console.log(options)
 
         var config = {
-            sdkAppID:'',
+            sdkAppID: '',
             userID: options.userId,
             userSig: '',
             type: 1,
-            tim: '', 
+            tim: '',
         }
 
         this.setData({
@@ -69,7 +71,8 @@ Page({
             inquiryType: options.inquiryType,//问诊类型  图文textNum  视频videoNum 电话telNum
             tradeId: options.tradeId,//工单ID   
             tradeAction: 'END',
-
+            isTextNumDetail: options.isTextNumDetail,
+            textChatNum: options.textChatNum,//剩余咨询申请次数 
         })
         this.qryRightsUseRecord()
         this.getHistoryMessageList()
@@ -98,14 +101,21 @@ Page({
                 tradeRemark: res.data[0],
                 textNumRecord: res.data[0].usedServiceFrequency || 0
             })
-            wx.setNavigationBarTitle({
-                title: res.data[0].docName + '团队'
-            });
-  
+            if (this.data.isTextNumDetail) {
+                wx.setNavigationBarTitle({
+                    title: '问诊详情'
+                });
+            } else {
+                wx.setNavigationBarTitle({
+                    title: res.data[0].docName + '团队'
+                });
+            }
+
+
         }
 
     },
-    
+
     goHome() {
         wx.switchTab({
             url: '/pages/consult/index',
@@ -174,8 +184,8 @@ Page({
     onReady() {
 
         this.chatInput = this.selectComponent('#chatInput');
-       
-     
+
+
     },
 
     onUnload() {
@@ -189,40 +199,42 @@ Page({
     },
 
     async getHistoryMessageList() {
-        if(this.data.pageNo == 1){
+        console.log("triggered="+this.data.triggered)
+        if (this.data.pageNo == 1) {
             wx.showLoading({
-              title: '加载中...',
+                title: '加载中...',
             })
         }
-        let that=this
+        let that = this
         const postData = {
             pageNo: this.data.pageNo,
-            pageSize:this.data.pageSize,
+            pageSize: this.data.pageSize,
             groupId: this.data.groupID
         }
         const res = await WXAPI.qryHistoryByPage(postData)
         wx.hideLoading()
-        if (res.code === 0 ) {
+        if (res.code === 0) {
             const messageList = res.data.rows; // 消息列表。
-            that.setMultItemAndScrollPage(messageList, false, this.data.pageNo===1,this.data.pageNo>1)
-            that.setData({            
-                isCompleted: res.data.pageNo>=res.data.totalPage,
-                pageNo: res.data.pageNo+1
+            that.setMultItemAndScrollPage(messageList, false, this.data.pageNo === 1, this.data.pageNo > 1)
+            that.setData({
+                isCompleted: res.data.pageNo >= res.data.totalPage,
+                pageNo: res.data.pageNo + 1
             })
             that.setData({
                 triggered: false,
             })
             that._freshing = false
         }
-    
+
     },
 
 
     // 下拉查看更多消息
     onRefresh: function (e) {
-     
+
         console.log("onRefresh")
         if (this._freshing) return
+        
         this._freshing = true
         if (this.data.isCompleted) {
             wx.showToast({
@@ -276,7 +288,7 @@ Page({
         wx.navigateTo({
             url: '/pages/consult/webpage/index?url=' + encodeUrl + '&type=1'
         })
-       
+
     },
     //点击文章卡
     onCustomArticleMessageClick(e) {
@@ -423,6 +435,44 @@ Page({
 
     },
 
+    //申请咨询
+    applyRight() {
+        let that = this
+        wx.showModal({
+            title: '【图文咨询】剩余权益：' + this.data.textChatNum + '次',
+            content: '请确认是否使用？',
+            success(res) {
+                if (res.confirm) {
+                    that.saveRightsUseRecord()
+                }
+            }
+        })
+    },
+
+    //申请咨询
+    saveRightsUseRecord() {
+
+        var postData = this.data.tradeRemark
+        postData.appointTime = Util.formatTime(new Date())
+      
+
+
+        WXAPI.saveRightsUseRecordNew(postData).then(res => {
+            if (res.code == 0) {
+
+                wx.showToast({
+                    title: '申请成功！',
+                })
+
+                setTimeout(() => {
+                    wx.navigateBack()
+                }, 2000)
+            }
+        })
+
+
+
+    },
 
 
     //发生文本消息
@@ -648,8 +698,8 @@ Page({
         }
         let that = this
         newItems.forEach(function (item, index) {
-          
-            item.flow=item.from==that.data.config.userID?'out':'in'
+
+            item.flow = item.from == that.data.config.userID ? 'out' : 'in'
             //计算是否显示时间
             if (isLoadmore) {
                 item.isShowTime = true
@@ -712,14 +762,14 @@ Page({
 
         if (this.data.tradeRemark) {
             var textNumContent = ''
-            
+
             if (this.data.tradeRemark.serviceFrequency) {
                 var dTextNum = this.data.tradeRemark.serviceFrequency - this.data.textNumRecord
                 if (dTextNum < 0) {
                     dTextNum = 0
                 }
                 textNumContent = '剩余' + dTextNum + '次医生回复机会'
-            }else {
+            } else {
                 textNumContent = '剩余无限次医生回复机会'
             }
 

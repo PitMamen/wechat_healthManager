@@ -1,4 +1,4 @@
-// pages/me/setting/index.js
+// pages/consult/detail-package/common.js
 Page({
 
     /**

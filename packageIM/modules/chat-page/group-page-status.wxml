@@ -1,0 +1,12 @@
+<template name="chat-page-status">
+    <view class="chat-page-status-p">
+   
+    
+        <view class="chat-page-status-style" style="height: 70rpx;">
+            <van-button disabled="{{textNum<1}}"    color="#3894FF"  type="info" size="small" bind:click="applyRight">{{textNum<1?'服务已结束':'申请权益【剩余'+textNum+'次】'}}</van-button>
+            <view>{{textContent}}</view>    
+        </view>
+
+   
+    </view>
+</template>

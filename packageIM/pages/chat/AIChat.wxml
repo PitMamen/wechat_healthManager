@@ -5,7 +5,7 @@
 <template  is="chat-page-status" data="{{chatStatue,chatStatusContent}}"/>
 
 <scroll-view
-        style="height:{{pageHeight-136}}px;width: 100%;display: flex;flex-direction: column;margin-top: 54rpx;"
+        style="height:{{pageHeight-25}}px;width: 100%;display: flex;flex-direction: column;margin-top: 54rpx;"
         scroll-y="true"
         scroll-top="{{scrollTopVal}}"
         bindtap="resetInputStatus">

@@ -103,7 +103,7 @@
                     再次购买
                 </view>
                 <!-- 进行中 -->
-                <view class="btn active" style="width: 80%;" wx:if="{{(item.status.value==2&& item.goodsType!=2)? true : false}}" bindtap="goConsult">
+                <view class="btn active" data-goods="{{item}}" style="width: 80%;" wx:if="{{(item.status.value==2&& item.goodsType!=2)? true : false}}" bindtap="goConsult">
                     立即咨询
                 </view>
 

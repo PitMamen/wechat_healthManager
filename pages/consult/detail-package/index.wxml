@@ -1,0 +1,51 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+
+<view class="ordercard">
+    <view class="card-top">
+        <image class="img" src="{{detail.frontImg}}" lazy-load="{{ true }}" mode="aspectFill" />
+        <view class="card-top-r">
+            <view class="card-title">{{detail.commodityName}}</view>
+            <view class="card-line"></view>
+            <view class="card-content">服务效期：<view style="color: #1A1A1A;">{{detail.endTime2}}</view>
+            </view>
+            <view class="card-content" style="margin-top: 19rpx;">所属专科：<view style="color: #1A1A1A;">{{detail.subjectClassifyName}}</view>
+            </view>
+        </view>
+    </view>
+
+</view>
+
+
+<view class="ordercard">
+    <view class="ordercontarl">
+        <view class="card-title" style="margin-bottom: 30rpx;">健康服务
+        <text wx:if="{{detail.status.value==4}}" style="color: #FB9600;">-已结束</text>
+        </view>
+
+        <view class="his-view" >
+            <view class="item-card-view" wx:for="{{rightsItemList}}" wx:key="2" bindtap="onItemClick" data-item="{{item}}">
+                <view class="topview">
+                    <view class="left">
+                        <view class="title">{{item.serviceItemName}}</view>
+                        
+                        <view wx:if="{{item.isCommonProjectType}}"  class="name2">{{item.itemName}}</view>
+                        <view wx:else  class="name">{{item.itemName}}</view>
+
+                    </view>
+                    <image class="img" src="{{item.iconUrl}}" lazy-load="{{ true }}" mode="aspectFill"></image>
+                </view>
+                <view  class="des" style="{{item.status==2||item.status==3?'color: #FB9600 ;':'color: #999999 ;'}}">{{item.itemContent}}</view>
+            </view>
+        </view>
+        <van-empty wx:if="{{ !rightsItemList || rightsItemList.length == 0 }}" image="/image/icon_nodata.png" description="暂无服务项目" />
+    </view>
+
+</view>
+<view style="height: 100rpx;"></view>
+<view class="safe-bottom-box" >
+    <image src="/image/taocantuijian.png" style="width: 46rpx;height: 46rpx;margin-left: 30rpx;" />
+    <view style="margin-left: 20rpx;">更多服务套餐</view>
+    <van-button style="margin-left: auto;margin-right: 30rpx;height: 48rpx;" bindtap="goPackagePage" color="#FB9600" round type="info" size="small">去看看</van-button>
+</view>
+
+

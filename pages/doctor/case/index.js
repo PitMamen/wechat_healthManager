@@ -62,6 +62,9 @@ Page({
     },
 
     getMedicalCaseList(){
+        if(!this.data.selectUser.userId){
+            return
+        }
         WXAPI.medicalCaseList({
             userId : this.data.selectUser.userId
         }).then((res) => {
@@ -75,6 +78,9 @@ Page({
 
      //新增
      addCase(e){
+        if(!this.data.columns || this.data.columns.length==0){
+           return
+        }
         wx.navigateTo({
             url: `/pages/doctor/fill/index?userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}`
         })
@@ -117,9 +123,16 @@ Page({
         if(this.data.consultType=='102'|| this.data.consultType=='103'){
             return
         }
-        this.setData({
-            show: true
-        })
+        if(!this.data.columns || this.data.columns.length==0){
+            wx.navigateTo({
+                url: '/pages/me/patients/addPatient',
+            })
+        }else {
+            this.setData({
+                show: true
+            })
+        }
+
     },
     closePopup() {
         this.setData({

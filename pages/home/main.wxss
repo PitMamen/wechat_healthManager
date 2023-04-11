@@ -8,7 +8,43 @@ page {
     background-color: #DDEFF3;
 
 }
-
+.movable-area{
+    pointer-events:none;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .movable-view{ 
+  	pointer-events:auto;
+    height: 100rpx;
+    width: 100rpx;
+    left: 85%;
+    top:90%;
+    border-radius: 50%;
+    background: #4179FB;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 26rpx;
+    justify-content: center;
+  }
+  .tab-btn{
+    color: white;
+    background: #4179FB;
+    border-radius: 50%;
+    height: 100rpx;
+  width: 100rpx;
+  padding: 10px !important;
+  font-size: 26rpx !important;
+  line-height: 30rpx !important;
+}
 .navigation-custom-view {
     background: #DDEFF3;
     width: 100%;

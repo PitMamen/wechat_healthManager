@@ -9,10 +9,11 @@ Page({
      * 1服务中2待接诊3问诊中4已结束
      */
     data: {
+        packageList:[],
         appointList: [],
         conversationIDList: [],
         todoList: [],
-        active: '0',
+        active: '2',
         unreadConsult: 0,
         unreadTodo:0,
     },
@@ -28,16 +29,25 @@ Page({
 
             this.getConversationList()
         })
+     
     },
 
     /**
  * 生命周期函数--监听页面显示
  */
     onShow: function () {
+        console.log('consultPageActive='+getApp().globalData.consultPageActive)
+   if(getApp().globalData.consultPageActive>0){
+    this.setData({
+        active:getApp().globalData.consultPageActive+''
+    })
+    getApp().globalData.consultPageActive=-1
+   }
 
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient')
         })
+        this.getPackageList()
         this.getConsultList()
         this.getInquiriesAgencyList()
     },
@@ -76,9 +86,26 @@ Page({
         }
 
     },
+    //获取套餐列表
+    async getPackageList() {
+        const res = await WXAPI.getConsultList({broadClassify:2})
+        if (res.code == 0 && res.data && res.data.length > 0) {
+
+            this.setData({
+                packageList: res.data,
+            })
+
+
+        } else {
+            this.setData({
+                packageList: []
+            })
+        }
+
+    },
     //获取问诊列表
     async getConsultList() {
-        const res = await WXAPI.getConsultList()
+        const res = await WXAPI.getConsultList({broadClassify:1})
         if (res.code == 0 && res.data && res.data.length > 0) {
             var conversationIDList = []
             res.data.forEach(item => {
@@ -147,7 +174,16 @@ Page({
         }
 
     },
+    //套餐详情
+    goPackageDetailPage(e){
+        var info = e.currentTarget.dataset.item
+        if (this.checkLoginStatus()) {
+            wx.navigateTo({
+                url: './detail-package/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
+            })
 
+        }
+    },
     //问诊详情
     goConsultDetail(e) {
         var info = e.currentTarget.dataset.item

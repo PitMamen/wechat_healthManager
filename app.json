@@ -40,7 +40,6 @@
         "pages/home/webpage/index",
         "pages/home/news/news-list",
         "pages/home/news/news-detail",
-        "pages/me/setting/index",
         "pages/me/content/index",
         "pages/home/shop-cart/index",
         "pages/me/address/add",
@@ -76,7 +75,12 @@
         "pages/me/health/healthrecords",
         "pages/me/health/baseimformation",
         "pages/me/health/healthstatus",
-        "pages/consult/detail-tel/index"
+        "pages/consult/detail-tel/index",
+        "pages/consult/detail-package/index",
+        "pages/consult/detail-package/tel-list",
+        "pages/consult/detail-package/casemanager",
+        "pages/consult/detail-package/common",
+        "pages/consult/detail-package/telinfo/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",
@@ -99,7 +103,7 @@
                 "selectedIconPath": "static/icons/tab_home_s.png"
             },
             {
-                "text": "咨询",
+                "text": "服务",
                 "pagePath": "pages/consult/index",
                 "iconPath": "static/icons/tab_jkgl_n.png",
                 "selectedIconPath": "static/icons/tab_jkgl_s.png"

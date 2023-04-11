@@ -1,0 +1,88 @@
+<view  class="card" >
+
+    <view class="fuwu-card-top">
+        <view class="chat-item-head-super-style">
+            <image class="fuwu-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{info.avatarUrl || '/image/icon_fw3.png'}}" />
+
+        </view>
+        <view class="fuwu-name-view">
+            <view class="name-view-top">
+
+                <view style="font-size: 28rpx;color: #409EFF;">个案管理师</view>
+
+            </view>
+            <view class="name-view-top" style="margin-top: 10rpx;">
+                <view style="font-size: 30rpx;color: #1A1A1A; margin-right: 12rpx;font-weight: bold;">{{info.userName}}</view>
+                <view style="font-size: 28rpx;color: #999999; ">湖南网数科技有限公司</view>
+            </view>
+
+            <view class="name-view-top" style="margin-top: 15rpx;">
+                <view class="name-view-des">擅长：{{info.expertInDisease || '暂无介绍'}}</view>
+            </view>
+        </view>
+    </view>
+
+    <view class="fuwu-card-bottom" bindtap="showPopup">
+
+        <view class="btn-blue">
+            查看更多
+            <van-icon color="#F17510" name="arrow" />
+        </view>
+    </view>
+
+</view>
+
+<view class="card">
+    <view class="card-info-view">
+        <view style="font-size: 30rpx;color: #1A1A1A;font-weight: bold;">权益信息</view>
+        <view style="margin-top: 27rpx;margin-bottom: 39rpx;">尊敬的用户，本项目服务将由个案管理师为您提供在线服务，根据您的套餐，同时个案管理师还将为您提供以下服务项目：</view>
+        <view class="info-item" wx:for="{{rightsItemList}}" wx:key="1">
+            <view>{{item.serviceItemName}}</view>
+            <view style="color: #409EFF;">X {{item.equityQuantity}}{{item.unit}}</view>
+        </view>
+    </view>
+
+</view>
+
+<view class="card">
+    
+    <view  class="card-info-view">
+        <view style="font-size: 30rpx;color: #1A1A1A;font-weight: bold;">长按识别与个案管理师交流</view>
+        <image wx:if="{{ qrCode}}" show-menu-by-longpress src="{{qrCode}}" style="width: 350rpx;height: 350rpx;margin-left: auto;margin-right: auto;margin-top: 50rpx;margin-bottom: 50rpx;"></image>
+        <van-empty wx:else image="/image/icon_nodata.png" description="暂无二维码" />
+    </view>
+
+</view>
+
+<van-popup
+    round
+    closeable
+    show="{{ show }}"
+    position="bottom"
+    custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;"
+    bind:close="closePopup"
+>
+    <view class="pop-wrap">
+        <view class="head">
+            <view class="title">
+                <text class="name">{{ info.userName }}</text>
+                <text class="job">{{ info.professionalTitle }}</text>
+                <view class="bg"></view>
+            </view>
+        </view>
+        <view class="part">
+            <view class="title">
+                <image src="/image/myjk/part.png" mode="aspectFill" />
+                <text>专业擅长</text>
+            </view>
+            <view class="desc">{{ info.expertInDisease || '暂无' }}</view>
+        </view>
+        <view class="part">
+            <view class="title">
+                <image src="/image/myjk/part.png" mode="aspectFill" />
+                <text>个人简介</text>
+            </view>
+            <view class="desc">{{ info.doctorBrief || '暂无' }}</view>
+        </view>
+    </view>
+</van-popup>

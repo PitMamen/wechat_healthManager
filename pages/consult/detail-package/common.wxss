@@ -1,0 +1,13 @@
+page {
+    background: #F5F5F5;
+
+font-size: 28rpx;
+
+color: #1A1A1A;
+
+}
+.warp{
+    padding: 24rpx;
+    display: flex;
+    flex-direction: column;
+}

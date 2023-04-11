@@ -1,5 +1,10 @@
 <wxs src="../../modules/format.wxs" module="computed"></wxs>
-
+<movable-area class="movable-area">
+    <movable-view class="movable-view" direction="all" >
+       
+        <button open-type="contact" size="mini" class="tab-btn "> <van-icon name="service-o" size="40rpx" color="white" />客服</button>
+    </movable-view>
+</movable-area>
     <view class="navigation-custom-view" style="height:{{navHeight + 0}}px;">
         <view class="navigation-custom-content" style="padding-top :{{navTop +8 }}px ;" bindtap="goHospitalSelectPage">
             <image src="/image/jigou.png" style="width: 36rpx; height: 36rpx;" mode="aspectFit"></image>

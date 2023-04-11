@@ -23,7 +23,7 @@
                 <view style="font-size: 32rpx;color: #1A1A1A;font-weight: bold;">{{order.commodityName}}</view>
                 <view wx:for="{{order.rightItems}}" wx:key="indexType" wx:for-index="indexType" wx:for-item="itemType" style="margin-top: 10rpx;">
                     <view class="desItem">
-                        <view style="flex:1">{{itemType.rightsItemName}}</view>
+                        <view style="flex:1">{{itemType.rightsItemName}}{{itemType.ruleInfos?'/'+itemType.ruleInfos : ''}}</view>
                         <view style="margin-left: 20rpx;">{{itemType.equityQuantity}}次</view>
                         <view style="margin-left: 20rpx;margin-right: 30rpx;">￥{{itemType.saleAmount}}</view>
                     </view>
