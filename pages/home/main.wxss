@@ -5,7 +5,7 @@
     color: transparent;
   }
 page {
-    background-color: #DDEFF3;
+    background-color: #F5F5F5;
 
 }
 .movable-area{
@@ -46,7 +46,7 @@ page {
   line-height: 30rpx !important;
 }
 .navigation-custom-view {
-    background: #DDEFF3;
+    background: white;
     width: 100%;
     padding-left: 15px;
     position: relative;
@@ -58,7 +58,7 @@ page {
     align-items: center;
 
     width: 100%;
-    background: #DDEFF3;
+   
 }
 .toprightimg{
     position: absolute;

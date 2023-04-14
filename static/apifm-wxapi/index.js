@@ -1352,6 +1352,11 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/tdCompanywxUser/getCompanyUserInfo/' + userId
                         return request(url, 'post', '', true);
                     },
+                    //我的  订单数量红点点
+                    getRightsCount: function getRightsCount() {
+                        var url = MEDICAL_SERVICE + '/userorder/getRightsCount' 
+                        return request(url, 'get', '', true);
+                    },
                 };
 
                 /***/

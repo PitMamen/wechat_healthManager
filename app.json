@@ -81,7 +81,8 @@
         "pages/consult/detail-package/casemanager",
         "pages/consult/detail-package/common",
         "pages/consult/detail-package/telinfo/index",
-        "pages/schedule/index"
+        "pages/schedule/index",
+        "pages/me/more/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",
@@ -116,7 +117,7 @@
                 "selectedIconPath": "static/icons/richeng2.png"
             },
             {
-                "text": "个人中心",
+                "text": "我的",
                 "pagePath": "pages/me/main",
                 "iconPath": "static/icons/wode1.png",
                 "selectedIconPath": "static/icons/wode2.png"

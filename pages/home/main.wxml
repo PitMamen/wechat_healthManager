@@ -5,7 +5,7 @@
         <button open-type="contact" size="mini" class="tab-btn "> <van-icon name="service-o" size="40rpx" color="white" />客服</button>
     </movable-view>
 </movable-area>
-    <view class="navigation-custom-view" style="height:{{navHeight + 0}}px;">
+    <view class="navigation-custom-view" style="height:{{navHeight + 10}}px;">
         <view class="navigation-custom-content" style="padding-top :{{navTop +8 }}px ;" bindtap="goHospitalSelectPage">
             <image src="/image/jigou.png" style="width: 36rpx; height: 36rpx;" mode="aspectFit"></image>
             <view style="color: #1A1A1A;font-size: 14px;margin-left: 5px;font-weight: bold;">
@@ -16,7 +16,7 @@
     </view>
 
 <scroll-view scroll-y="true">
-    <view style="height: {{windowHeight-navHeight-10}}px;">
+    <view style="height: {{windowHeight-navHeight-20}}px;">
 
         <view class="mid-view" wx:if="{{topMenuList.length>0}}">
             <block wx:if="{{topMenuList.length==1}}">

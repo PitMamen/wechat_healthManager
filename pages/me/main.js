@@ -52,16 +52,7 @@ Page({
       nameColumns: names
     })
 
-    // if (this.data.defaultPatient) {
-    //   this.getNoticeNumber('MN', this.data.defaultPatient.userId)
-    //   this.getNoticeNumber('MR', this.data.defaultPatient.userId)
-    //   this.getNoticeNumber('HT', this.data.defaultPatient.userId)
-    //   if (getApp().globalData.sdkReady) {
-    //     this.getConversationList()
-    //   }
-    //   // this.onIMReceived()
-    // }
-
+    this.getRightsCount()
   },
   checkLoginStatus() {
     if (getApp().globalData.loginReady) {
@@ -134,14 +125,16 @@ avatarBinderror(e){
 
   },
   goMyConsultPage(){
-    if(this.checkLoginStatus()){
-        if(getApp().getDefaultPatient()){
-        wx.navigateTo({
-            url: './consult/index',
-          })
-        }
-    }
+    wx.switchTab({
+      url: '/pages/consult/index',
+    })
   },
+  goMorePage(){
+wx.navigateTo({
+  url: './more/index',
+})
+  },
+
   goOrderListPage(e) {
     if(this.checkLoginStatus()){
         if(getApp().getDefaultPatient()){
@@ -263,28 +256,32 @@ wx.navigateTo({
       hidePatientShow: true
     })
   },
-  //获取我的消息/用药提醒/健康任务数量
-  async getNoticeNumber(noticeType, userId) {
-    const res = await WXAPI.getNoticeNumber(noticeType, userId)
-    if (res.code == 0) {
-      if (noticeType === 'MN') {//我的消息
-        this.setData({
-          unMyMessageNum: res.data
-        })
-      } else if (noticeType === 'MR') {//用药提醒
-        this.setData({
-          unMedcionRemindNum: res.data
-        })
-      } else if (noticeType === 'HT') {//健康任务
-        this.setData({
-          unfinishedTaskNum: res.data
-        })
-      }
-
-
-    }
+  //获取订单数量
+   getRightsCount() {
+     WXAPI.getRightsCount().then(res=>{
+        if (res.code == 0) {
+            
+      
+      
+          }
+     })
+  
 
   },
+  //AI咨询
+  goAIPage() {
+    if (this.checkLoginStatus()) {
+        if (getApp().getDefaultPatient()) {
+            if (getApp().globalData.sdkReady) {
+                wx.navigateTo({
+                    url: '/packageIM/pages/chat/AIChat',
+                })
+               
+            }
+        }
+    }
+
+},
   addPatientTap: function () {
       console.log('addPatientTap')
     if(this.checkLoginStatus()){
