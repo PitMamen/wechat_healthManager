@@ -141,22 +141,7 @@ Page({
             })
             return;
         }
-        if (that.data.emergencyName.length <= 0) {
-            wx.showToast({
-                title: '请输入紧急联系人姓名',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
-        }
-        if (that.data.emergencyPhone.length <= 0) {
-            wx.showToast({
-                title: '请输入紧急联系人电话',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
-        }
+        
 
 
         this.qryPatientInfo()
@@ -254,30 +239,9 @@ Page({
             })
             return;
         }
-        if (that.data.emergencyName.length <= 0) {
-            wx.showToast({
-                title: '请输入紧急联系人姓名',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
-        }
-        if (that.data.emergencyPhone.length <= 0) {
-            wx.showToast({
-                title: '请输入紧急联系人电话',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
-        }
-        if (that.data.emergencyPhone.length != 11) {
-            wx.showToast({
-                title: '请输入正确的紧急联系人电话',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
-        }
+        
+       
+
 
         this.confirm()
     },
@@ -406,9 +370,18 @@ Page({
             getApp().globalData.currentHospital = currentHospital
 
 
-            this.setData({
-                showPositiveDialog: true
-            })
+            
+            wx.showToast({
+                title: '登记成功',
+                icon: 'success',
+                duration: 1500
+                })
+
+            setTimeout(()=>{
+                wx.reLaunch({
+                    url: '/pages/home/main?type=1',
+                })
+            },1500)
         }
     },
     onDialogConfirm() {

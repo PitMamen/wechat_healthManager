@@ -39,13 +39,13 @@
 
     <view class="title-detail">紧急联系人</view>
     <view class="name-back">
-        <view class="real-name" >{{info.urgentName}}</view>
+        <view class="real-name" >{{info.urgentName || '-'}}</view>
     </view>
     <view class="bottom-line"></view>
 
     <view class="title-detail">紧急联系人电话</view>
     <view class="name-back">
-        <view class="real-name" >{{info.urgentTel}}</view>
+        <view class="real-name" >{{info.urgentTel || '-'}}</view>
     </view>
     <view class="bottom-line"></view>
 
