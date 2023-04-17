@@ -201,7 +201,7 @@ Page({
     testBtn() {
         
         wx.navigateTo({
-            url: '/pages/doctor/telinfo/index'
+            url: '/pages/login/confirm-patient'
         })
     },
 

@@ -179,9 +179,12 @@ avatarBinderror(e){
 
   goMyHealthRecords() {
     if(this.checkLoginStatus()){
-      wx.navigateTo({
-          url: './health/healthrecords',
-        })
+        if(this.data.defaultPatient){
+            wx.navigateTo({
+                url: './health/healthrecords',
+              })
+        }
+
     }
 
 },

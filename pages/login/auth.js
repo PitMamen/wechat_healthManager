@@ -249,7 +249,7 @@ Page({
             openId: this.data.openid,
             unionId: this.data.unionid,
             userName: phone,
-            avatarUrl: this.data.userInfo.avatarUrl,
+            avatarUrl: '',
             nickName: phone,
 
         };
