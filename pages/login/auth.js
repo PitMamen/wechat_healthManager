@@ -63,7 +63,7 @@ Page({
      * 生命周期函数--监听页面卸载
      */
     onUnload: function () {
-
+        getApp().globalData.reLaunchLoginPage=false
     },
 
     /**
@@ -279,7 +279,7 @@ Page({
         wx.setStorageSync('userInfo', userInfo)
         //IM apppid
         getApp().globalData.sdkAppID = userInfo.account.imAppId
-
+        getApp().globalData.loginReady=true
 
 
         if (userInfo.account.user && userInfo.account.user.length > 0) {
@@ -293,7 +293,7 @@ Page({
             wx.setStorageSync('defaultPatient', defaultPatient)
             IMUtil.LoginOrGoIMChat(defaultPatient.userId, defaultPatient.userSig)
         }
-        getApp().globalData.loginReady=true
+       
         //登录成功后跳转
         this.routToPage()
     },

@@ -1,6 +1,6 @@
 //上线前修改成release  每一个版本会对应不同的接口地址和常量
 //develop:开发测试版  trial:演示版   release:正式版
-export const ProgramEnvVersion = 'release'
+export const ProgramEnvVersion = 'develop'
 
 /**
  * 获取常量
@@ -47,8 +47,7 @@ export function checkNoLoginPage(routPage) {
       'pages/doctor/detail/index',
       'pages/home/news/news-list',
       'pages/home/news/news-detail',
-      'pages/home/hospital-select/index',
-      'pages/login/confirm-patient'
+      'pages/home/hospital-select/index'
   ]
   var b=false
   pages.forEach(item=>{
