@@ -1355,7 +1355,7 @@ module.exports =
                     //我的  订单数量红点点
                     getRightsCount: function getRightsCount() {
                         var url = MEDICAL_SERVICE + '/userorder/getRightsCount' 
-                        return request(url, 'get', '', true);
+                        return request2(url, 'get', '', true);
                     },
                 };
 

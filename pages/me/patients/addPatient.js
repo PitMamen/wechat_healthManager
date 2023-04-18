@@ -313,7 +313,7 @@ Page({
     goConsentPage(e) {
         var type = e.currentTarget.dataset.type
         wx.navigateTo({
-            url: '/pages/home/consent/index?type=' + type,
+            url: '/pages/home/consent/index?type=' + type+'&showbtn=true',
         })
     },
 

@@ -1,19 +1,21 @@
 <wxs src="../../modules/format.wxs" module="computed"></wxs>
 <movable-area class="movable-area">
-    <movable-view class="movable-view" direction="all" >
-       
-        <button open-type="contact" size="mini" class="tab-btn "> <van-icon name="service-o" size="40rpx" color="white" />客服</button>
+    <movable-view class="movable-view" direction="all">
+
+        <button open-type="contact" size="mini" class="tab-btn ">
+            <van-icon name="service-o" size="40rpx" color="white" />客服
+        </button>
     </movable-view>
 </movable-area>
-    <view class="navigation-custom-view" style="height:{{navHeight + 10}}px;">
-        <view class="navigation-custom-content" style="padding-top :{{navTop +8 }}px ;" bindtap="goHospitalSelectPage">
-            <image src="/image/jigou.png" style="width: 36rpx; height: 36rpx;" mode="aspectFit"></image>
-            <view style="color: #1A1A1A;font-size: 14px;margin-left: 5px;font-weight: bold;">
-                {{currentHospital.hospitalName || '请选择医疗机构'}}</view>
-            <van-icon name="arrow" color="#1A1A1A" size="14px" style="margin-top: 2px;margin-left: 3px;" />
-        </view>
-        <image src="/image/home_topright_icon.png" class="toprightimg" mode="aspectFit"></image>
+<view class="navigation-custom-view" style="height:{{navHeight + 0}}px;">
+    <view class="navigation-custom-content" style="padding-top :{{navTop +8 }}px ;" bindtap="goHospitalSelectPage">
+        <image src="/image/jigou.png" style="width: 30rpx; height: 30rpx;" mode="aspectFit"></image>
+        <view style="color: #1A1A1A;font-size: 14px;margin-left: 5px;font-weight: bold;">
+            {{currentHospital.hospitalName || '请选择医疗机构'}}</view>
+        <van-icon name="arrow" color="#1A1A1A" size="14px" style="margin-top: 2px;margin-left: 3px;" />
     </view>
+    <image src="/image/home_topright_icon.png" class="toprightimg" mode="aspectFit"></image>
+</view>
 
 <scroll-view scroll-y="true">
     <view style="height: {{windowHeight-navHeight-20}}px;">
@@ -49,30 +51,178 @@
             </view>
         </view>
 
-
-        <view class="todo-card" style="min-height: {{windowHeight-navHeight-280}}px;">
-            <view class="todo-title-view" bindtap="">
-                <text class="todo-title">我的待办</text>
-                <van-icon info="{{taskList.length>0?taskList.length:''}}" />
-            </view>
-
-            <view wx:for="{{taskList}}" wx:key="4">
-
-                <view class="todo-back">
-                    <van-icon name="/image/{{computed.taskType2(item.planType,item.execFlag).icon}}" dot="{{item.planType !== 'DailyRecord'}}" mode="scaleToFill" size="82rpx" class="todo-image" />
-                    <view class="todo-content">
-                        <view class="todo-name">{{computed.taskType2(item.planType,item.execFlag).title}}</view>
-                        <text class="todo-des">{{item.planDescribe||''}}</text>
-                    </view>
-                    <view class="todo-btnview">
-                        <view class="todo-button" bindtap="onTaskItemClickV2" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
-                        <text class="todo-des">{{computed.dateSub(item.executeTime)}}</text>
-                    </view>
+        <!-- 健康任务 -->
+        <view class="card-wrap" wx:if="{{  taskList.length > 0 }}">
+            <view class="todo-title-view">
+                <text class="todo-title">健康任务</text>
+                <van-icon info="{{allTaskNum>0?allTaskNum:''}}" />
+                <view class="todo-title-right" bindtap="goSchedulePage">
+                    <view>更多</view>
+                    <van-icon name="arrow" />
                 </view>
 
-                <view wx:if="{{index+1 !== taskList.length}}" class="split" />
             </view>
-            <van-empty class="empty" wx:if="{{ !taskList || taskList.length == 0 }}" image="/image/icon_nodata.png" description="暂无待办" />
+            <view class="todo-card">
+
+
+                <view wx:for="{{taskList}}" wx:key="4">
+
+                    <view class="todo-back">
+                        <van-icon name="/image/{{computed.taskType2(item.planType,item.execFlag).icon}}" dot="{{item.planType !== 'DailyRecord'}}" mode="scaleToFill" size="82rpx" class="todo-image" />
+                        <view class="todo-content">
+                            <view class="todo-name">{{computed.taskType2(item.planType,item.execFlag).title}}</view>
+                            <text class="todo-des">{{item.planDescribe||''}}</text>
+                        </view>
+                        <view class="todo-btnview">
+                            <view class="todo-button" bindtap="onTaskItemClickV2" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
+                            <text class="todo-des">{{computed.dateSub(item.executeTime)}}</text>
+                        </view>
+                    </view>
+
+                    <view wx:if="{{index+1 !== taskList.length}}" class="split" />
+                </view>
+
+            </view>
+        </view>
+
+        <!-- 专科服务 -->
+        <view class="card-wrap" wx:if="{{  serviceList.length > 0 }}">
+            <view class="todo-title-view">
+                <text class="todo-title">专科服务</text>
+                <view class="todo-title-des">已服务<text style="color: #F8A608;">12333</text>人，您的私人健康服务师。</view>
+
+            </view>
+            <view class="service-card">
+                <view wx:for="{{serviceList}}" wx:key="5">
+
+                    <view class="service-back">
+
+                        <view class="service-content">
+                            <view class="service-name">糖尿病管理</view>
+                            <text class="service-des">糖尿病管理糖尿病管理糖尿病管理糖尿病管理</text>
+                        </view>
+                        <van-icon name="/image/home_icon_xx.png" mode="scaleToFill" size="58rpx" class="service-image" />
+                        <view wx:if="{{index % 2==0}}" class="split-v" />
+                    </view>
+
+
+                    <block wx:if="{{serviceList.length % 2==0}}">
+                        <view wx:if="{{index !== serviceList.length-1 && index !== serviceList.length-2}}" class="split" />
+                    </block>
+                    <block wx:if="{{serviceList.length % 2 !==0}}">
+                        <view wx:if="{{index !== serviceList.length-1}}" class="split" />
+                    </block>
+
+                </view>
+
+            </view>
+        </view>
+        <!-- 精选商品 -->
+        <view class="card-wrap" wx:if="{{  goodsList.length > 0 }}">
+            <view class="todo-title-view">
+                <text class="todo-title">精选商品</text>
+                <view class="todo-title-right" bindtap="goStoreListPage">
+                    <view>更多</view>
+                    <van-icon name="arrow" />
+                </view>
+
+            </view>
+            <view class="goods-card">
+                <view class="hotServiceList_box">
+                    <scroll-view scroll-x="true">
+                        <view class="hotService_content">
+                            <view class="goods-card-item" wx:for="{{goodsList}}" wx:key="6" bindtap="topMenuClick" data-menu="{{item}}">
+                                <image class="img" src="http://develop.mclouds.org.cn:8009/content-api/file/I202302231124545621DRTTK2UIJDG7D-骨科--套餐图 (3).jpg" mode="aspectFill"></image>
+                                <view class="title">商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称</view>
+                                <view class="price">￥235.00</view>
+                            </view>
+
+                        </view>
+
+                    </scroll-view>
+
+                </view>
+            </view>
+        </view>
+         <!-- 宣教文章 名医推荐 -->
+         <view class="card-wrap" wx:if="{{articleList.length>0 || doctorList.length>0  }}">
+            <view class="todo-title-view">
+                <view class="todo-title-tab" bindtap="swichTab" data-index="0" wx:if="{{articleList.length>0  }}">
+                    <text  class="{{activeIndex=='0'?'tab-title-active':'tab-title'}}">宣教文章</text>
+                    <view   class="{{activeIndex=='0'?'tab-line-active':'tab-line'}}"></view>
+                </view>
+                <view class="todo-title-tab" bindtap="swichTab" data-index="1" wx:if="{{doctorList.length>0  }}">
+                    <text  class="{{activeIndex=='1'?'tab-title-active':'tab-title'}}">名医推荐</text>
+                    <view   class="{{activeIndex=='1'?'tab-line-active':'tab-line'}}"></view>
+                </view>
+               
+                <view class="todo-title-right" bindtap="goTabMorePage">
+                    <view>更多</view>
+                    <van-icon name="arrow" />
+                </view>
+
+            </view>
+            <block wx:if="{{activeIndex=='0'}}">
+            <view class="article-item" bindtap="onArticleTap" wx:for="{{ articleList }}" wx:key="userId" data-item="{{ item }}">
+                
+                <view class="right">
+                    <view class="title">
+                        <text class="name">{{item.title}}</text>
+                       
+                    </view>
+                   
+                    <view class="desc">{{ item.brief || '' }}</view>
+                    <view class="evaluate">
+                        <text>{{item.clickNum || 0}}阅读 </text>
+                        <view wx:if="{{item.articleType}}" class="tag">#{{item.articleType}}</view>
+
+                    </view>
+                </view>
+                <view class="left">
+                    <image src="{{ item.avatarUrl || '/image/myjk/doctor.png' }}" lazy-load="{{ true }}" mode="aspectFill" />
+                </view>
+            </view>
+        </block>
+           <block wx:if="{{activeIndex=='1'}}">
+            <view class="doctor-item" bindtap="onDoctorTap" wx:for="{{ doctorList }}" wx:key="userId" data-item="{{ item }}">
+                <view class="left">
+                    <image src="{{ item.avatarUrl || '/image/myjk/doctor.png' }}" lazy-load="{{ true }}" mode="aspectFill" />
+                </view>
+                <view class="right">
+                    <view class="title">
+                        <text class="name">{{ item.userName }}</text>
+                        <text class="job">{{ item.professionalTitle || '' }}</text>
+                        <text class="depart">{{ item.departmentName }}</text>
+                    </view>
+                    <view class="tags">
+                        <text class="tag">{{ item.hospitalLevelName }}</text>
+                        <text class="hospital">{{ item.hospitalName }}</text>
+                        
+                    </view>
+                    <view class="evaluate">
+                        <text>好评率： </text>
+                        <text style="color: #1576FF;">100% </text>
+                        <text style="margin-left: 10rpx;">接诊人数： </text>
+                        <text style="color: #1576FF;">100 </text>
+                        <text style="margin-left: 10rpx;">关注人数： </text>
+                        <text style="color: #1576FF;">100</text>
+
+                    </view>
+                    <view class="desc">擅长：{{ item.expertInDisease || '暂无' }}</view>
+                    <view class="zixun">
+                        <image class="img" src="/image/tupian.png"></image>
+                        <text>图文 </text>
+                        <text style="color: #FF0000; ">￥50 </text>
+                        <text style="color: #999999; margin-left: 6rpx;"> 起</text>
+                        <image class="img" src="/image/dianhua.png" style="margin-left: 60rpx;"></image>
+                        <text>电话 </text>
+                        <text style="color: #FF0000; ">￥50</text>
+                        <text style="color: #999999; "> 起</text>
+                    </view>
+                </view>
+            </view>
+        </block>
+
         </view>
     </view>
 </scroll-view>

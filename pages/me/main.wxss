@@ -39,7 +39,7 @@
     font-size: 30rpx;
   }
   .top-des {
-    font-size: 24rpx;
+    font-size: 26rpx;
     color: #4D4D4D;
     display: flex;
     flex-direction: row;
@@ -89,7 +89,7 @@ page{
 }
 .top-card-text{
 
-font-size: 24rpx;
+font-size: 26rpx;
 margin-top: 13rpx;
 color: #4D4D4D;
 }
@@ -164,9 +164,9 @@ background: #278CFF;
   background: #ffffff;
   border-radius: 8rpx;
     color: #1A1A1A;
-  padding: 18px 0 !important;
+  padding: 19px 0 !important;
   font-size: 28rpx !important;
-  line-height: 31rpx !important;
+  line-height: 32rpx !important;
   border-width: 0rpx !important;
 }
 .todo-content-item-hover{
