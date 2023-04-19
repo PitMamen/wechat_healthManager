@@ -12,7 +12,7 @@ export function getConstantData() {
       
         JingshenQuestionnaire: '', //精神科问卷问卷 
      
-        envVersion: 'trial', //跳转互联网医院小程序的版本 trial：体验版  develop：开发板
+        envVersion: 'trial', //跳转互联网医院小程序、有赞商城小程序的版本 trial：体验版  develop：开发板
     }
     if (ProgramEnvVersion === 'develop') { //开发版 测试版
       

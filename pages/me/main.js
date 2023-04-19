@@ -1,6 +1,6 @@
 const WXAPI = require('../../static/apifm-wxapi/index')
 const IMUtil = require('../../utils/IMUtil')
-
+const Config = require('../../utils/config')
 Page({
     data: {
 
@@ -155,7 +155,14 @@ Page({
 
         }
     },
-
+ //跳转到商城小程序订单页
+ goStoreOrderListPage(){
+    wx.navigateToMiniProgram({
+        appId: 'wx369e143bb6dadc2b',
+        envVersion: Config.getConstantData().envVersion,
+        path: 'packages/trade/order/list/index',
+    })
+  },
     goMyHealthRecords() {
         if (this.checkLoginStatus()) {
             wx.navigateTo({

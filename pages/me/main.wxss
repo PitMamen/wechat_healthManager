@@ -164,9 +164,9 @@ background: #278CFF;
   background: #ffffff;
   border-radius: 8rpx;
     color: #1A1A1A;
-  padding: 19px 0 !important;
+  padding: 35rpx 0 !important;
   font-size: 28rpx !important;
-  line-height: 32rpx !important;
+  line-height: 30rpx !important;
   border-width: 0rpx !important;
 }
 .todo-content-item-hover{

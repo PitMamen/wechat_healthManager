@@ -408,7 +408,7 @@ Page({
   goStoreListPage(){
     wx.navigateToMiniProgram({
         appId: 'wx369e143bb6dadc2b',
-        envVersion:'trial',
+        envVersion: Config.getConstantData().envVersion,
     })
   },
     //预约医技

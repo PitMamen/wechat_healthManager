@@ -131,7 +131,7 @@
                 <view class="hotServiceList_box">
                     <scroll-view scroll-x="true">
                         <view class="hotService_content">
-                            <view class="goods-card-item" wx:for="{{goodsList}}" wx:key="6" bindtap="topMenuClick" data-menu="{{item}}">
+                            <view class="goods-card-item" wx:for="{{goodsList}}" wx:key="6" bindtap="goStoreDetailPage" data-menu="{{item}}">
                                 <image class="img" src="http://develop.mclouds.org.cn:8009/content-api/file/I202302231124545621DRTTK2UIJDG7D-骨科--套餐图 (3).jpg" mode="aspectFill"></image>
                                 <view class="title">商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称</view>
                                 <view class="price">￥235.00</view>

@@ -50,7 +50,7 @@
             <van-icon name="/image/meicon/me_zkfw.png" size="25"  info="{{myOrderCount.service || ''}}"/>
             <view class="todo-content-text">专科服务</view>
         </view>
-        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goOrderListPage" data-type="3">
+        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goStoreOrderListPage" data-type="3">
             <van-icon name="/image/meicon/me_sc.png" size="25" info="{{myOrderCount.goods || ''}}"/>
             <view class="todo-content-text">商城订单</view>
         </view>
