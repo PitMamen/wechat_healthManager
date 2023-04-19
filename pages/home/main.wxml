@@ -201,23 +201,28 @@
                     </view>
                     <view class="evaluate">
                         <text>好评率： </text>
-                        <text style="color: #1576FF;">100% </text>
+                        <text style="color: #1576FF;">{{item.goodRate}}</text>
                         <text style="margin-left: 10rpx;">接诊人数： </text>
-                        <text style="color: #1576FF;">100 </text>
-                        <text style="margin-left: 10rpx;">关注人数： </text>
-                        <text style="color: #1576FF;">100</text>
+                        <text style="color: #1576FF;">{{item.visitNum}} </text>
+                        <!-- <text style="margin-left: 10rpx;">关注人数： </text>
+                        <text style="color: #1576FF;">{{item.favouriteNum}}</text> -->
 
                     </view>
                     <view class="desc">擅长：{{ item.expertInDisease || '暂无' }}</view>
                     <view class="zixun">
+                    <block wx:if="{{item.textMinPrice}}" >
                         <image class="img" src="/image/tupian.png"></image>
                         <text>图文 </text>
-                        <text style="color: #FF0000; ">￥50 </text>
-                        <text style="color: #999999; margin-left: 6rpx;"> 起</text>
-                        <image class="img" src="/image/dianhua.png" style="margin-left: 60rpx;"></image>
+                        <text style="color: #FF0000; ">￥{{item.textMinPrice}} </text>
+                        <text style="color: #999999; margin-left: 6rpx;" style="margin-right: 60rpx;"> 起</text>
+                    </block>
+                    <block wx:if="{{item.telMinPrice}}">
+                        <image class="img" src="/image/dianhua.png" ></image>
                         <text>电话 </text>
-                        <text style="color: #FF0000; ">￥50</text>
+                        <text style="color: #FF0000; ">￥{{item.telMinPrice}}</text>
                         <text style="color: #999999; "> 起</text>
+                    </block>
+                      
                     </view>
                 </view>
             </view>

@@ -82,7 +82,8 @@
         "pages/consult/detail-package/common",
         "pages/consult/detail-package/telinfo/index",
         "pages/schedule/index",
-        "pages/me/more/index"
+        "pages/me/more/index",
+        "pages/home/evaluate/consult-evaluate"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

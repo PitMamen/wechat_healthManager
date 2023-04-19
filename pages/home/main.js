@@ -386,10 +386,12 @@ Page({
         WXAPI.accurateDoctors({
             queryText: '',
             subjectClassifyId: '',
-            professionalTitle: ''
+            professionalTitle: '',
+            pageNo: 1,
+            pageSize: 40,
         }).then((res) => {
             this.setData({
-                doctorList: res.data || []
+                doctorList: res.data.rows || []
             })
         })
     },
