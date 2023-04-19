@@ -83,7 +83,8 @@
         "pages/consult/detail-package/telinfo/index",
         "pages/schedule/index",
         "pages/me/more/index",
-        "pages/home/evaluate/consult-evaluate"
+        "pages/home/rate/doctor",
+        "pages/home/rate/package"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

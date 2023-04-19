@@ -155,6 +155,12 @@ Page({
 
         }
     },
+    testBtn(){
+wx.navigateTo({
+//   url: '/pages/home/rate/doctor?rightsId='+708,
+  url: '/pages/home/rate/package?rightsId='+699,
+})
+    },
  //跳转到商城小程序订单页
  goStoreOrderListPage(){
     wx.navigateToMiniProgram({
