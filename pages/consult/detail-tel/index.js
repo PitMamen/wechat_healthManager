@@ -271,6 +271,12 @@ Page({
             }
         }
     },
+    //去评价
+    goRate(){
+        wx.navigateTo({
+              url: '/pages/home/rate/doctor?rightsId='+this.data.rightsId,
+        })
+    },
     //再次购买
     bugAgain() {
         // wx.navigateTo({

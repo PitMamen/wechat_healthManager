@@ -68,8 +68,8 @@
     
    
     <view wx:if="{{status==4 }}" class="safe-bottom-box-flex">
-        <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="bugAgain">再次购买</van-button>
-        <van-button  type="primary" color="#367BF5" custom-class="custom-class" open-type="contact">联系客服</van-button>
+        <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="goRate">去评价</van-button>
+        <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="bugAgain">再次购买</van-button>     
     </view>
     <view wx:if="{{status==5 || status==1}}" class="safe-bottom-box-flex">
         <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="applyAgain">{{ status==1?'申请使用':'再次申请'}}</van-button>

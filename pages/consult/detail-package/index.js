@@ -20,7 +20,9 @@ Page({
         steps: [],
         active: 0,
         CustUserId: '',//个案管理师
-        CustUserName: ''//个案管理师
+        CustUserName: '',//个案管理师
+        showRatePop:true,
+        showMyRateView:true
     },
 
     /**
@@ -326,8 +328,21 @@ Page({
         }
 
     },
-
-
+    //去评价
+    goRatePage(){
+        wx.navigateTo({
+            url: '/pages/home/rate/package?rightsId=' + this.data.rightsId,
+        })
+        this.setData({
+            showRatePop:false
+        })
+    },
+    //我的评价
+    goMyRatePage(){
+        wx.navigateTo({
+            url: '/pages/home/rate/package?rightsId=' + this.data.rightsId,
+        })
+    },
     //套餐详情
     goPackagePage() {
         wx.navigateTo({
@@ -335,6 +350,11 @@ Page({
         })
     },
 
+    closePopTap(){
+        this.setData({
+            showRatePop:false
+        })
+    },
     /**
      * 生命周期函数--监听页面隐藏
      */
