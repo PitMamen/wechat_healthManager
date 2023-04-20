@@ -62,7 +62,7 @@ Page({
     },
     onSchemeTap() {
         wx.navigateTo({
-            url: '/pages/home/consent/index?title=健康管家服务授权协议&type=1'
+            url: '/pages/home/consent/index?title=健康管家服务授权协议&type=1&showbtn=true'
         })
     },
     onBuyClick() {

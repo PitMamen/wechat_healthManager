@@ -24,8 +24,8 @@
     </view>
     <view class="card-item">
         <view>咨询电话</view>
-        <view class="r">{{detail.userPhone}} </view>
-            <!-- <input type="number" maxlength="11"  name="phone" value="{{phone}}" bindinput="getPhoneValue"  placeholder="请输入咨询电话"  placeholder-style='text-align: right' style="color: #1A1A1A;margin-left: auto;font-size: 28rpx;text-align: right;width: 300rpx;" /> -->
+      
+            <input type="number" maxlength="11"  name="phone" value="{{phone}}" bindinput="getPhoneValue"  placeholder="请输入咨询电话"  placeholder-style='text-align: right' style="color: #1A1A1A;margin-left: auto;font-size: 28rpx;text-align: right;width: 300rpx;" />
             
        
         

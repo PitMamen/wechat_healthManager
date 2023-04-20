@@ -124,9 +124,15 @@ App({
             } else {
                 //排除不需要登录的页面
                 if (!Config.checkNoLoginPage(routPage)) {
-                    wx.reLaunch({
-                        url: '/pages/login/auth',
-                    })
+                    if(!this.globalData.reLaunchLoginPage){
+                        // console.log("app.js： 跳转到登录页")
+                        this.globalData.reLaunchLoginPage=true
+                        wx.reLaunch({
+                            url: '/pages/login/auth',
+                        })
+                    }
+
+
                 } else {
                     wx.removeStorageSync('routPage-w')
                 }
@@ -325,6 +331,7 @@ App({
         sdkReady: false,
 
         loginReady: false,//登录状态
+        reLaunchLoginPage: false,//已调整到登录页
 
         unreadServerMessageCount: 0,//个案和客服未读消息数
        

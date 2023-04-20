@@ -193,6 +193,7 @@ Page({
         postData.docId = postData.doctorUserId
         postData.rightsItemId = postData.id
         postData.appointId = this.data.selectAppoint.id
+        postData.userPhone = this.data.phone
 
         const res = await WXAPI.saveRightsUseRecordNew(postData)
         if (res.code == 0) {

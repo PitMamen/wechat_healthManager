@@ -1,19 +1,67 @@
-<view class="header-box"  style="background-size: cover;background-image: url('https://hmg.mclouds.org.cn/content-api/file/I20220331104628351RI6YMUTH3JWWJH-home_bg.jpg'); ">
-    <image bindtap="goMyHealthRecords" class="avatar" src="{{userInfo.avatarUrl || '/image/avatar.png'}}" mode="aspectFill" binderror="avatarBinderror"></image>
+<view class="header-box">
+    <image  class="avatar" src="{{userInfo.avatarUrl || '/image/avatar.png'}}" mode="aspectFill" binderror="avatarBinderror"></image>
     <view wx:if="{{defaultPatient}}" class="r">
-        <view class="top-des">当前就诊人</view>
-        <view style="display: flex;flex-direction: row;margin-top: 10rpx;align-items: baseline;">
+        <view style="display: flex;flex-direction: row;align-items: baseline;">
             <view class="top-name">{{defaultPatient.userName}}</view>
-            <view class="top-name-r">{{defaultPatient.userSex}}</view>
-            <view class="top-name-r">{{defaultPatient.userAge}}岁</view>
-        </view>      
+            <view class="top-name-r" bindtap="bindPatientTap">切换就诊人</view>
+        </view>
+        <view class="top-des">
+            <view style="margin-right: 20rpx;">{{defaultPatient.userSex}}</view>
+            <view>{{defaultPatient.userAge}}岁</view>
+        </view>
+
     </view>
-    <view wx:if="{{defaultPatient}}" class="top-button" bindtap="bindPatientTap">
+    <!-- <view wx:if="{{defaultPatient}}" class="top-button" bindtap="bindPatientTap">
         <van-icon name="exchange" size="30rpx" color="#1a1a1a"/>
         <view style="margin-left: 14rpx;color: #1a1a1a;">切换</view>
-    </view>
+    </view> -->
     <view wx:if="{{!defaultPatient}}" class="top-r" bindtap="addPatientTap">
-        <view style="font-size: 30rpx;   color: #4071A1; margin-left: 20rpx;">添加就诊人</view>
+        <view style="font-size: 30rpx;   color: #1A1A1A; margin-left: 20rpx;">添加就诊人</view>
+    </view>
+    <image src="/image/home_topright_icon.png" class="toprightimg" mode="aspectFit"></image>
+</view>
+
+<view class="top-card-wrap">
+    <view class="top-card" hover-class="top-card-hover" bindtap='goMyPatientPage'>
+        <image class="top-todo-icon" src="/image/meicon/me_gljzr.png" />
+        <view class="top-card-text">管理就诊人</view>
+    </view>
+    <view class="top-card" hover-class="top-card-hover" bindtap="goMyHealthRecords">
+        <image class="top-todo-icon" src="/image/meicon/me_jkgl.png" />
+        <view class="top-card-text">健康档案</view>
+    </view>
+    <view class="top-card" hover-class="top-card-hover" bindtap="goMyConsultPage">
+        <image class="top-todo-icon" src="/image/meicon/me_fwb.png" />
+        <view class="top-card-text">我的服务包</view>
+    </view>
+</view>
+
+<view class="todo-card">
+    <view class="todo-title-view">
+    <view class="title-line"></view>
+    <text class="todo-title">我的订单</text>
+    </view>
+    <view class="todo-content-view">
+        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goOrderListPage" data-type="1">
+            <van-icon name="/image/meicon/me_ddzx.png" size="25" info="{{myOrderCount.consult || ''}}" />
+            <view class="todo-content-text">咨询订单</view>
+        </view>
+        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goOrderListPage" data-type="2">
+            <van-icon name="/image/meicon/me_zkfw.png" size="25"  info="{{myOrderCount.service || ''}}"/>
+            <view class="todo-content-text">专科服务</view>
+        </view>
+        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goStoreOrderListPage" data-type="3">
+            <van-icon name="/image/meicon/me_sc.png" size="25" info="{{myOrderCount.goods || ''}}"/>
+            <view class="todo-content-text">商城订单</view>
+        </view>
+        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="testBtn">
+            <van-icon name="/image/meicon/me_cfdd.png" size="25"  />
+            <view class="todo-content-text">处方订单</view>
+        </view>
+        <view class="todo-content-item" hover-class="todo-content-item-hover">
+            <van-icon name="/image/meicon/me_fzdd.png" size="25"  />
+            <view class="todo-content-text">复诊订单</view>
+        </view>
     </view>
 
 </view>
@@ -21,41 +69,34 @@
 
 
 <view class="todo-card">
+    <view class="todo-title-view">
+    <view class="title-line"></view>
+    <text class="todo-title">常用工具</text>
+    </view>
+    <view class="todo-content-view">
+        <view class="todo-content-item" hover-class="todo-content-item-hover">
+            <van-icon name="/image/meicon/me_gzys.png" size="25" />
+            <view class="todo-content-text" >关注的医生</view>
+        </view>
+       
+        <button open-type="contact" size="mini" plain class="todo-content-item2" hover-class="todo-content-item-hover" >
+            <van-icon name="/image/meicon/me_kfzx.png" size="25"  />
+            <view class="todo-content-text">在线客服</view>
+        </button>
+        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goAIPage">
+            <van-icon name="/image/meicon/me_ai.png" size="25"  />
+            <view class="todo-content-text">AI咨询</view>
+        </view>
+        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goMorePage">
+            <van-icon name="/image/meicon/me_gd.png" size="25"  />
+            <view class="todo-content-text">更多</view>
+        </view>
+       
+    </view>
 
-    <view class="todo-title-view" bindtap='goMyPatientPage'>
-        <image class="todo-icon" src="/image/me_icon_wdjzr.png" />
-        <text class="todo-title">我的就诊人</text>
-        <view class="todo-title-right">
-            <van-icon color="#999999" name="arrow" />
-        </view>
-    </view>
-    <van-divider />
-    <view class="todo-title-view" bindtap='goPlanPage'>
-        <image class="todo-icon" src="/image/me_icon_wdjh.png" />
-        <text class="todo-title">我的计划</text>
-        <view class="todo-title-right">
-            <van-icon color="#999999" name="arrow" />
-        </view>
-    </view>
-    <van-divider />
-    <view class="todo-title-view" bindtap='goOrderListPage' data-type="0">
-        <image class="todo-icon" src="/image/me_icon_wddd.png" />
-        <text class="todo-title">我的订单</text>
-        <view class="todo-title-right">
-            <van-icon color="#999999" name="arrow" />
-        </view>
-    </view>
-    <van-divider />
-    <view class="todo-title-view" bindtap='goTechnologyListPage' data-type="0">
-        <image class="todo-icon" src="/image/me_icon_yyyj.png" />
-        <text class="todo-title">预约医技</text>
-        <view class="todo-title-right">
-            <van-icon color="#999999" name="arrow" />
-        </view>
-    </view>
-    <van-divider />
-  
 </view>
+
+
 
 
 <!-- 就诊人选择 -->

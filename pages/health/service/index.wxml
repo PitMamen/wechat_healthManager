@@ -1,6 +1,6 @@
 <view class="wrap">
     <view class="top">
-        <image src="/image/myjk/hospital.png" mode="aspectFill" />
+        <image src="/image/jigou.png" mode="aspectFill" />
         <text class="name">{{ currentHospital.hospitalName || '' }}</text>
     </view>
     <view class="bottom">

@@ -229,7 +229,7 @@ Page({
     },
     goConsentPage() {
         wx.navigateTo({
-            url: '../consent/index?type=1',
+            url: '../consent/index?type=1&showbtn=true',
         })
     },
     getDistrictId: function (obj, aaa) {

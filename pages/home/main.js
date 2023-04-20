@@ -26,11 +26,18 @@ Page({
         defaultPatient: null,
         patientList: [],
         unreadMymessageCount: 0,//我的消息数
-        taskList: [],
+        taskList: [],//健康任务列表
+        allTaskNum:[],//所有任务数
+        serviceList:[1,1,1,1,1],//专科服务列表
+        goodsList:[1,1,1,1,1,1,1,1],//商品列表
+        articleList:[],//文章列表
+        doctorList:[],//医生列表
+        activeIndex:'0',//0是文章列表 1是医生列表
         lastConversation: null,
         healthRecordPercentage: '',//健康档案完成度
         rightsList: [],
-        myRightsCount: 0//我的权益数
+        myRightsCount: 0,//我的权益数
+       
     },
 
 
@@ -151,6 +158,8 @@ Page({
         if (this.data.defaultPatient && this.data.defaultPatient.userId) {
          
             this.qryMyFollowTask()
+            this.getDoctorLists()
+            this.getArticleLists()
             IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
             IMUtil.getConversationList()
         } else {
@@ -201,7 +210,7 @@ Page({
     testBtn() {
         
         wx.navigateTo({
-            url: '/pages/doctor/telinfo/index'
+            url: '/pages/login/confirm-patient'
         })
     },
 
@@ -270,7 +279,44 @@ Page({
             this.goWenjuanPage(menu.jumpUrl)
         }
     },
+    //文章和名医切换
+    swichTab(e){
+        console.log(e)
+        this.setData({
+            activeIndex:e.currentTarget.dataset.index
+        })
+    },
+    //文章和名医 更多
+    goTabMorePage(e){
+        switch(this.data.activeIndex){
+            case '0':
+                wx.navigateTo({
+                    url: `/pages/home/news/news-list`
+                  })
+                break;
+                case '1':
+                    wx.navigateTo({
+                        url: `/pages/doctor/search/index`
+                      })
+                    break;
+        }
+    },
+    //点击文章
+    onArticleTap(event){
+        var item = event.currentTarget.dataset.item
 
+        wx.navigateTo({
+          url: `/pages/home/news/news-detail?id=${item.articleId}`
+        })
+    },
+    //点击医生
+    onDoctorTap(event){
+        var item = event.currentTarget.dataset.item
+
+        wx.navigateTo({
+            url: `/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
+        })
+    },
     //我的消息
     goMyMessagePage() {
         if (this.checkLoginStatus()) {
@@ -291,37 +337,82 @@ Page({
             url: './hospital-select/index',
         })
     },
-
+    goSchedulePage(){
+        wx.switchTab({
+          url: '/pages/schedule/index',
+        })
+    },
 
     async qryMyFollowTask() {
         const res = await WXAPI.qryMyFollowTask({ userId: this.data.defaultPatient.userId })
         var allTaskList = []
-        res.data.forEach(item => {
-
-            if (item.taskType.value == 1) {
-                //问卷
-                item.planType = "Quest"
-                item.planDescribe = item.jumpTitle
-                allTaskList.push(item)
-            } else if (item.taskType.value == 2) {
-                //文章
-                item.planType = "Knowledge"
-                item.planDescribe = item.jumpTitle
-                allTaskList.push(item)
-            } else if (item.taskType.value == 3) {
-                //消息提醒
-                item.planType = "Remind"
-                item.planDescribe = item.templateTitle
-                allTaskList.push(item)
-            }
-        })
+        var allTaskNum=0
+        if(res.code == 0  && res.data && res.data.length>0){
+          
+            allTaskNum= res.data.length
+            
+            res.data.forEach((item,index) => {
+                if(index<3){//只显示3条
+                    if (item.taskType.value == 1) {
+                        //问卷
+                        item.planType = "Quest"
+                        item.planDescribe = item.jumpTitle
+                        allTaskList.push(item)
+                    } else if (item.taskType.value == 2) {
+                        //文章
+                        item.planType = "Knowledge"
+                        item.planDescribe = item.jumpTitle
+                        allTaskList.push(item)
+                    } else if (item.taskType.value == 3) {
+                        //消息提醒
+                        item.planType = "Remind"
+                        item.planDescribe = item.templateTitle
+                        allTaskList.push(item)
+                    }
+                }
+               
+            })
+        }
+     
 
         this.setData({
+            allTaskNum:allTaskNum,
             taskList: allTaskList
         })
 
     },
+    //获取医生列表
+    getDoctorLists() {
+        WXAPI.accurateDoctors({
+            queryText: '',
+            subjectClassifyId: '',
+            professionalTitle: '',
+            pageNo: 1,
+            pageSize: 40,
+        }).then((res) => {
+            this.setData({
+                doctorList: res.data.rows || []
+            })
+        })
+    },
+      //获取文章列表
+   getArticleLists() {
 
+    WXAPI.getArticleByClickNum({  pageSize: 40, pageNo: 1 }).then((res) => {
+        this.setData({
+            articleList:  res.data.rows || []
+        })
+    })
+
+  
+  },
+  //跳转到商城小程序首页
+  goStoreListPage(){
+    wx.navigateToMiniProgram({
+        appId: 'wx369e143bb6dadc2b',
+        envVersion: Config.getConstantData().envVersion,
+    })
+  },
     //预约医技
     goTechnologyAppointPage() {
         if (this.checkLoginStatus()) {
