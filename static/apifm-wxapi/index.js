@@ -1175,7 +1175,7 @@ module.exports =
                     },
                     //查询患者资料
                     qryPatientInfo: function qryPatientInfo(data) {
-                        return request2(HEALTH_SERVICE + '/revisit/qryPatientInfo', 'post', data, true);
+                        return request(HEALTH_SERVICE + '/revisit/qryPatientInfo', 'post', data, true);
                     },
                     //微信扫描注册后添加随访名单
                     addFollowMedicalRecords: function addFollowMedicalRecords(data) {

@@ -22,7 +22,7 @@ Page({
         emergencyPhone: '',
         emergencyName: '',
         relationship: '本人',
-        debounced:false,//防抖动
+        debounced: false,//防抖动
     },
 
     /**
@@ -47,6 +47,102 @@ Page({
         }
         this.gethospitalInfo(this.data.hospitalCode)
         this.getDepartmentDetail(this.data.deptCode)
+    },
+  /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady() {
+
+    },
+
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow() {
+        if(!getApp().globalData.loginReady){
+            this.WXloginForLogin()
+        }
+        
+    },
+    //登录时获取code
+    WXloginForLogin() {
+        wx.showLoading({
+            title: '加载中',
+        })
+
+        let that = this
+        wx.login({
+            success(res) {
+                console.log("WXlogin", res)
+                if (res.code) {
+                    that.loginQuery(res.code);
+                } else {
+                    wx.showToast({
+                        title: '获取微信code失败',
+                        icon: "none",
+                        duration: 2000
+                    })
+                    wx.hideLoading()
+                }
+            }
+        })
+    },
+
+
+
+    //登录
+    async loginQuery(e) {
+
+
+
+        const res = await WXAPI.loginQuery({
+            code: e,
+            appId: wx.getAccountInfoSync().miniProgram.appId
+        })
+        wx.hideLoading()
+        if (res.code == 0) {
+            that.loginSuccess( res.data)
+          
+        } else if (res.code == 10003) { //用户不存在
+            if(!getApp().globalData.reLaunchLoginPage){
+                // console.log("confirm-patient.js： 跳转到登录页")
+                getApp().globalData.reLaunchLoginPage=true
+                wx.navigateTo({
+                    url: '/pages/login/auth?type=RELOGIN',
+                })
+            }
+            
+        } else {
+            wx.showToast({
+                title: '登录失败,请重试',
+                icon: "none",
+                duration: 2000
+            })
+
+        }
+    },
+    loginSuccess(userInfo) {
+
+        //保存用户信息
+        wx.setStorageSync('userInfo', userInfo)
+        //IM apppid
+        getApp().globalData.sdkAppID = userInfo.account.imAppId
+        getApp().globalData.loginReady=true
+
+
+        if (userInfo.account.user && userInfo.account.user.length > 0) {
+            var defaultPatient = userInfo.account.user[0]
+            userInfo.account.user.forEach(item => {
+                if (item.isDefault) {
+                    defaultPatient = item
+                }
+            })
+            //保存默认就诊人
+            wx.setStorageSync('defaultPatient', defaultPatient)
+            IMUtil.LoginOrGoIMChat(defaultPatient.userId, defaultPatient.userSig)
+        }
+       
+
     },
     //住院号
     getRegNoValue(e) {
@@ -88,31 +184,31 @@ Page({
     //查询是否His接口
     async gethospitalInfo(hospitalCode) {
         const res = await WXAPI.gethospitalInfo({ hospitalCode: hospitalCode })
-        if(res.code == 0){
+        if (res.code == 0) {
             if (res.data.hisStatus) {
                 this.setData({
                     hasHIS: res.data.hisStatus.value || 2
                 })
-            }else {
+            } else {
                 this.setData({
-                    hasHIS:  2
+                    hasHIS: 2
                 })
             }
         }
-       
+
     },
-  //查询科室接口
-  async getDepartmentDetail(deptCode) {
-      if(deptCode == 0 || deptCode == '0'){
-          return
-      }
-    const res = await WXAPI.getDepartmentDetail(deptCode)
-    if (res.code == 0) {
-        this.setData({
-            deptName: res.data.departmentName
-        })
-    }
-},
+    //查询科室接口
+    async getDepartmentDetail(deptCode) {
+        if (deptCode == 0 || deptCode == '0') {
+            return
+        }
+        const res = await WXAPI.getDepartmentDetail(deptCode)
+        if (res.code == 0) {
+            this.setData({
+                deptName: res.data.departmentName
+            })
+        }
+    },
     //有HIS接口的提交
     hasHisNextAction: function () {
 
@@ -141,22 +237,7 @@ Page({
             })
             return;
         }
-        if (that.data.emergencyName.length <= 0) {
-            wx.showToast({
-                title: '请输入紧急联系人姓名',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
-        }
-        if (that.data.emergencyPhone.length <= 0) {
-            wx.showToast({
-                title: '请输入紧急联系人电话',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
-        }
+
 
 
         this.qryPatientInfo()
@@ -181,7 +262,7 @@ Page({
                     res.data.relationship = that.data.relationship
                     res.data.tenantId = that.data.tenantId
                     res.data.hospitalCode = that.data.hospitalCode
-                    
+
 
                     getApp().followInfo = res.data
                     wx.navigateTo({
@@ -254,30 +335,9 @@ Page({
             })
             return;
         }
-        if (that.data.emergencyName.length <= 0) {
-            wx.showToast({
-                title: '请输入紧急联系人姓名',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
-        }
-        if (that.data.emergencyPhone.length <= 0) {
-            wx.showToast({
-                title: '请输入紧急联系人电话',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
-        }
-        if (that.data.emergencyPhone.length != 11) {
-            wx.showToast({
-                title: '请输入正确的紧急联系人电话',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
-        }
+
+
+
 
         this.confirm()
     },
@@ -397,7 +457,7 @@ Page({
         const res = await WXAPI.switchHospital({ hospitalCode: this.data.hospitalCode })
         if (res.code == 0) {
             var currentHospital = {
-                tenantId:this.data.tenantId,
+                tenantId: this.data.tenantId,
                 hospitalCode: this.data.hospitalCode,
                 hospitalName: '',
                 hospitalLevelName: ''
@@ -406,9 +466,18 @@ Page({
             getApp().globalData.currentHospital = currentHospital
 
 
-            this.setData({
-                showPositiveDialog: true
+
+            wx.showToast({
+                title: '登记成功',
+                icon: 'success',
+                duration: 1500
             })
+
+            setTimeout(() => {
+                wx.reLaunch({
+                    url: '/pages/home/main?type=1',
+                })
+            }, 1500)
         }
     },
     onDialogConfirm() {
@@ -416,19 +485,7 @@ Page({
             url: '/pages/home/main?type=1',
         })
     },
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow() {
-
-    },
+  
     checkLoginStatus() {
 
         if (getApp().globalData.loginReady) {

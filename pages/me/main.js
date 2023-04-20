@@ -119,14 +119,21 @@ Page({
     },
 
     goOrderListPage(e) {
+        var type = e.currentTarget.dataset.type
+        wx.navigateTo({
+            url: './order/order-list-new?broadClassify=' + type,
+        })
+    },
 
-        if (this.checkLoginStatus()) {
-            if (getApp().getDefaultPatient()) {
-                var type = e.currentTarget.dataset.type
+
+    goMyHealthRecords() {
+        if(this.checkLoginStatus()){
+            if(this.data.defaultPatient){
                 wx.navigateTo({
-                    url: './order/order-list-new?broadClassify=' + type,
-                })
+                    url: './health/healthrecords',
+                  })
             }
+    
         }
 
     },
@@ -155,20 +162,20 @@ Page({
 
         }
     },
-    testBtn(){
-wx.navigateTo({
-//   url: '/pages/home/rate/doctor?rightsId='+708,
-  url: '/pages/home/rate/package?rightsId='+699,
-})
+    testBtn() {
+        wx.navigateTo({
+            //   url: '/pages/home/rate/doctor?rightsId='+708,
+            url: '/pages/home/rate/package?rightsId=' + 699,
+        })
     },
- //跳转到商城小程序订单页
- goStoreOrderListPage(){
-    wx.navigateToMiniProgram({
-        appId: 'wx369e143bb6dadc2b',
-        envVersion: Config.getConstantData().envVersion,
-        path: 'packages/trade/order/list/index',
-    })
-  },
+    //跳转到商城小程序订单页
+    goStoreOrderListPage() {
+        wx.navigateToMiniProgram({
+            appId: 'wx369e143bb6dadc2b',
+            envVersion: Config.getConstantData().envVersion,
+            path: 'packages/trade/order/list/index',
+        })
+    },
     goMyHealthRecords() {
         if (this.checkLoginStatus()) {
             wx.navigateTo({

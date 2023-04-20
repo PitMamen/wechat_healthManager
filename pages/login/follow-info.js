@@ -97,7 +97,7 @@ Page({
             cardNo: '',//就诊卡号
             userSex: idInfo.sex == 0 ? '女' : '男',
             ipNo: that.data.info.regNumber,//住院号
-            contactTel: that.data.info.urgentTel,//紧急联系电话
+            contactTel: that.data.info.urgentTel || '',//紧急联系电话
         }
         WXAPI.addPatientQuery(postData).then(res => {
             if (res.code == 0) {
@@ -161,9 +161,17 @@ Page({
 
             getApp().globalData.currentHospital = currentHospital
 
-            this.setData({
-                showPositiveDialog: true
-            })
+            wx.showToast({
+                title: '登记成功',
+                icon: 'success',
+                duration: 1500
+                })
+
+            setTimeout(()=>{
+                wx.reLaunch({
+                    url: '/pages/home/main?type=1',
+                })
+            },1500)
         }
     },
     onDialogConfirm() {

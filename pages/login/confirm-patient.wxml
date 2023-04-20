@@ -15,7 +15,7 @@
     <view class="bottom-line"></view>
 
     <view class="title-detail">
-        <view style="color: #EE0C0C;">*</view>紧急联系人姓名
+        紧急联系人姓名
     </view>
     <view class="name-back">
         <input maxlength="20" bindinput="getNameValue" class="real-name" placeholder="请输入紧急联系人姓名" />
@@ -23,7 +23,7 @@
     <view class="bottom-line"></view>
 
     <view class="title-detail">
-        <view style="color: #EE0C0C;">*</view>紧急联系人电话
+        紧急联系人电话
     </view>
     <view class="name-back">
         <input type="number" maxlength="11" bindinput="getPhoneValue" class="real-name" placeholder="请输入紧急联系人电话" />
@@ -66,7 +66,7 @@
     </view>
     <view class="bottom-line"></view>
     <view class="title-detail">
-        <view style="color: #EE0C0C;">*</view>紧急联系人姓名
+        紧急联系人姓名
     </view>
     <view class="name-back">
         <input maxlength="20" bindinput="getNameValue"  placeholder="请输入紧急联系人姓名" />
@@ -74,7 +74,7 @@
     <view class="bottom-line"></view>
 
     <view class="title-detail">
-        <view style="color: #EE0C0C;">*</view>紧急联系人电话
+        紧急联系人电话
     </view>
     <view class="name-back">
         <input type="number" maxlength="11" bindinput="getPhoneValue"  placeholder="请输入紧急联系人电话" />
