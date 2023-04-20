@@ -1,9 +1,9 @@
-<view class="header-box">
+<view class="header-box" style="padding-top:{{navHeight}}px ;">
     <image  class="avatar" src="{{userInfo.avatarUrl || '/image/avatar.png'}}" mode="aspectFill" binderror="avatarBinderror"></image>
     <view wx:if="{{defaultPatient}}" class="r">
-        <view style="display: flex;flex-direction: row;align-items: baseline;">
+        <view style="display: flex;flex-direction: row;align-items: center;">
             <view class="top-name">{{defaultPatient.userName}}</view>
-            <view class="top-name-r" bindtap="bindPatientTap">切换就诊人</view>
+            <view class="top-name-r" >当前就诊人</view>
         </view>
         <view class="top-des">
             <view style="margin-right: 20rpx;">{{defaultPatient.userSex}}</view>
@@ -11,10 +11,10 @@
         </view>
 
     </view>
-    <!-- <view wx:if="{{defaultPatient}}" class="top-button" bindtap="bindPatientTap">
-        <van-icon name="exchange" size="30rpx" color="#1a1a1a"/>
-        <view style="margin-left: 14rpx;color: #1a1a1a;">切换</view>
-    </view> -->
+    <view wx:if="{{defaultPatient}}" class="top-button" bindtap="bindPatientTap">
+        <van-icon name="/image/meicon/qiehuan.png" size="26rpx" color="#ffffff"/>
+        <view style="margin-left: 14rpx;">切换</view>
+    </view>
     <view wx:if="{{!defaultPatient}}" class="top-r" bindtap="addPatientTap">
         <view style="font-size: 30rpx;   color: #1A1A1A; margin-left: 20rpx;">添加就诊人</view>
     </view>

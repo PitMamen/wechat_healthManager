@@ -10,6 +10,10 @@ Page({
         myOrderCount: {}
     },
     onLoad() {
+        this.setData({
+            navHeight: getApp().globalData.navHeight,
+
+        })
     },
     /**
   * 生命周期函数--监听页面显示
@@ -171,7 +175,7 @@ Page({
     //跳转到商城小程序订单页
     goStoreOrderListPage() {
         wx.navigateToMiniProgram({
-            appId: 'wx369e143bb6dadc2b',
+            appId: Config.getConstantData().YouzanAPPID,
             envVersion: Config.getConstantData().envVersion,
             path: 'packages/trade/order/list/index',
         })

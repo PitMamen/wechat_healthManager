@@ -89,19 +89,20 @@
         <view class="card-wrap" wx:if="{{  serviceList.length > 0 }}">
             <view class="todo-title-view">
                 <text class="todo-title">专科服务</text>
-                <view class="todo-title-des">已服务<text style="color: #F8A608;">12333</text>人，您的私人健康服务师。</view>
+                <view class="todo-title-des">已服务<text style="color: #F8A608;">{{serviceUserNum}}</text>人，您的私人健康服务师。</view>
 
             </view>
             <view class="service-card">
-                <view wx:for="{{serviceList}}" wx:key="5">
+                <view wx:for="{{serviceList}}" wx:key="5" bindtap="onServiceItemClick" data-item="{{item}}">
 
                     <view class="service-back">
 
                         <view class="service-content">
-                            <view class="service-name">糖尿病管理</view>
-                            <text class="service-des">糖尿病管理糖尿病管理糖尿病管理糖尿病管理</text>
+                            <view class="service-name">{{item.classifyName}}</view>
+                            <text class="service-des">{{item.remark || ''}}</text>
                         </view>
-                        <van-icon name="/image/home_icon_xx.png" mode="scaleToFill" size="58rpx" class="service-image" />
+                        
+                        <image src="{{item.classifyIcon}}" class="service-image"></image>
                         <view wx:if="{{index % 2==0}}" class="split-v" />
                     </view>
 
@@ -128,20 +129,20 @@
 
             </view>
             <view class="goods-card">
-                <view class="hotServiceList_box">
+                
                     <scroll-view scroll-x="true">
                         <view class="hotService_content">
-                            <view class="goods-card-item" wx:for="{{goodsList}}" wx:key="6" bindtap="goStoreDetailPage" data-menu="{{item}}">
-                                <image class="img" src="http://develop.mclouds.org.cn:8009/content-api/file/I202302231124545621DRTTK2UIJDG7D-骨科--套餐图 (3).jpg" mode="aspectFill"></image>
-                                <view class="title">商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称</view>
-                                <view class="price">￥235.00</view>
+                            <view class="goods-card-item" wx:for="{{goodsList}}" wx:key="6" bindtap="goStoreDetailPage" data-item="{{item}}">
+                                <image class="img" src="{{item.image}}" mode="aspectFill"></image>
+                                <view class="title">{{item.title}}{{item.title}}{{item.title}}{{item.title}}{{item.title}}</view>
+                                <view class="price">￥{{item.price}}</view>
                             </view>
 
                         </view>
 
                     </scroll-view>
 
-                </view>
+                
             </view>
         </view>
          <!-- 宣教文章 名医推荐 -->

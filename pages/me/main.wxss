@@ -1,16 +1,17 @@
 .header-box {
-  padding-left: 32rpx;
-  height: 170rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  padding-bottom: 30rpx;
   display: flex;
   align-items: center;
   color: white;
   position: relative;
   background-color: #ffffff;
-  padding-top: 70rpx;
+ 
 }
 .header-box .avatar {
-  width: 88rpx;
-  height: 88rpx;
+  width: 128rpx;
+  height: 128rpx;
   border-radius: 50%;
 }
 
@@ -32,11 +33,11 @@
     display: flex;
     flex-direction: row;
     margin-left: auto;
-    margin-right: 20rpx;
-    background-color: white;
+    background-color: #278CFF;
     padding: 15rpx 30rpx;
+    color: white;
     border-radius: 40rpx;
-    font-size: 30rpx;
+    font-size: 24rpx;
   }
   .top-des {
     font-size: 26rpx;

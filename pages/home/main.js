@@ -27,17 +27,18 @@ Page({
         patientList: [],
         unreadMymessageCount: 0,//我的消息数
         taskList: [],//健康任务列表
-        allTaskNum:[],//所有任务数
-        serviceList:[1,1,1,1,1],//专科服务列表
-        goodsList:[1,1,1,1,1,1,1,1],//商品列表
-        articleList:[],//文章列表
-        doctorList:[],//医生列表
-        activeIndex:'0',//0是文章列表 1是医生列表
+        allTaskNum: [],//所有任务数
+        serviceUserNum: 0,//专科服务人数
+        serviceList: [],//专科服务列表
+        goodsList: [],//商品列表
+        articleList: [],//文章列表
+        doctorList: [],//医生列表
+        activeIndex: '0',//0是文章列表 1是医生列表
         lastConversation: null,
         healthRecordPercentage: '',//健康档案完成度
         rightsList: [],
         myRightsCount: 0,//我的权益数
-       
+
     },
 
 
@@ -85,7 +86,7 @@ Page({
             //扫码用户进入首页 重新获取登录信息 
             this.getMaLoginInfo()
         }
-        if(getApp().globalData.loginReady && !this.data.currentHospital.hospitalCode){
+        if (getApp().globalData.loginReady && !this.data.currentHospital.hospitalCode) {
             //如果已经登陆成功 而首页后面才生成
             this.getMaLoginInfo()
         }
@@ -150,16 +151,20 @@ Page({
     },
     //获取到登录信息之后
     afterMaLogin() {
+        this.getServiceCommodityClassInfo()
+        this.getYouzanGoodsList()
+        this.getDoctorLists()
+        this.getArticleLists()
+        
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient'),
             patientList: wx.getStorageSync('userInfo').account.user,
             userInfo: wx.getStorageSync('userInfo').account
         })
         if (this.data.defaultPatient && this.data.defaultPatient.userId) {
-         
+
             this.qryMyFollowTask()
-            this.getDoctorLists()
-            this.getArticleLists()
+
             IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
             IMUtil.getConversationList()
         } else {
@@ -208,7 +213,7 @@ Page({
         console.log(this.data.slideLeft)
     },
     testBtn() {
-        
+
         wx.navigateTo({
             url: '/pages/login/confirm-patient'
         })
@@ -240,7 +245,7 @@ Page({
                         midMenuList: midMenuList
                     })
                     this.getRatio()
-                   
+
                 }
             })
     },
@@ -280,37 +285,44 @@ Page({
         }
     },
     //文章和名医切换
-    swichTab(e){
+    swichTab(e) {
         console.log(e)
         this.setData({
-            activeIndex:e.currentTarget.dataset.index
+            activeIndex: e.currentTarget.dataset.index
         })
     },
     //文章和名医 更多
-    goTabMorePage(e){
-        switch(this.data.activeIndex){
+    goTabMorePage(e) {
+        switch (this.data.activeIndex) {
             case '0':
                 wx.navigateTo({
                     url: `/pages/home/news/news-list`
-                  })
+                })
                 break;
-                case '1':
-                    wx.navigateTo({
-                        url: `/pages/doctor/search/index`
-                      })
-                    break;
+            case '1':
+                wx.navigateTo({
+                    url: `/pages/doctor/search/index`
+                })
+                break;
         }
     },
+    //专科服务点击
+    onServiceItemClick(event) {
+        var item = event.currentTarget.dataset.item
+        wx.navigateTo({
+            url: '/pages/health/service/index?id=' + item.id,
+        })
+    },
     //点击文章
-    onArticleTap(event){
+    onArticleTap(event) {
         var item = event.currentTarget.dataset.item
 
         wx.navigateTo({
-          url: `/pages/home/news/news-detail?id=${item.articleId}`
+            url: `/pages/home/news/news-detail?id=${item.articleId}`
         })
     },
     //点击医生
-    onDoctorTap(event){
+    onDoctorTap(event) {
         var item = event.currentTarget.dataset.item
 
         wx.navigateTo({
@@ -337,22 +349,22 @@ Page({
             url: './hospital-select/index',
         })
     },
-    goSchedulePage(){
+    goSchedulePage() {
         wx.switchTab({
-          url: '/pages/schedule/index',
+            url: '/pages/schedule/index',
         })
     },
 
     async qryMyFollowTask() {
         const res = await WXAPI.qryMyFollowTask({ userId: this.data.defaultPatient.userId })
         var allTaskList = []
-        var allTaskNum=0
-        if(res.code == 0  && res.data && res.data.length>0){
-          
-            allTaskNum= res.data.length
-            
-            res.data.forEach((item,index) => {
-                if(index<3){//只显示3条
+        var allTaskNum = 0
+        if (res.code == 0 && res.data && res.data.length > 0) {
+
+            allTaskNum = res.data.length
+
+            res.data.forEach((item, index) => {
+                if (index < 3) {//只显示3条
                     if (item.taskType.value == 1) {
                         //问卷
                         item.planType = "Quest"
@@ -370,20 +382,43 @@ Page({
                         allTaskList.push(item)
                     }
                 }
-               
+
             })
         }
-     
+
 
         this.setData({
-            allTaskNum:allTaskNum,
+            allTaskNum: allTaskNum,
             taskList: allTaskList
         })
 
     },
+    //获取专科服务
+    getServiceCommodityClassInfo() {
+
+        WXAPI.getServiceCommodityClassInfo().then((res) => {
+            this.setData({
+                serviceUserNum: res.data.useCount || 0,
+                serviceList: res.data.classList || []
+            })
+        })
+    },
+    //获取推荐商品
+    getYouzanGoodsList() {
+
+        WXAPI.getYouzanGoodsList({
+            pageNo: 1,
+            pageSize: 10,
+        }).then((res) => {
+            this.setData({
+                goodsList: res.data || []
+            })
+        })
+    },
     //获取医生列表
     getDoctorLists() {
-        WXAPI.accurateDoctors({
+
+        WXAPI.getAccurateDoctors({
             queryText: '',
             subjectClassifyId: '',
             professionalTitle: '',
@@ -395,24 +430,31 @@ Page({
             })
         })
     },
-      //获取文章列表
-   getArticleLists() {
+    //获取文章列表
+    getArticleLists() {
 
-    WXAPI.getArticleByClickNum({  pageSize: 40, pageNo: 1 }).then((res) => {
-        this.setData({
-            articleList:  res.data.rows || []
+        WXAPI.getArticleByClickNum({ pageSize: 40, pageNo: 1 }).then((res) => {
+            this.setData({
+                articleList: res.data.rows || []
+            })
         })
-    })
-
-  
-  },
-  //跳转到商城小程序首页
-  goStoreListPage(){
-    wx.navigateToMiniProgram({
-        appId: 'wx369e143bb6dadc2b',
-        envVersion: Config.getConstantData().envVersion,
-    })
-  },
+    },
+    //跳转到商城小程序首页
+    goStoreListPage() {
+        wx.navigateToMiniProgram({
+            appId: Config.getConstantData().YouzanAPPID,
+            envVersion: Config.getConstantData().envVersion,
+        })
+    },
+    //调整到商城商品详情
+    goStoreDetailPage(e) {
+        var item = e.currentTarget.dataset.item
+        wx.navigateToMiniProgram({
+            appId: Config.getConstantData().YouzanAPPID,
+            envVersion: Config.getConstantData().envVersion,
+            path: item.page_url + '?alias=' + item.alias,
+        })
+    },
     //预约医技
     goTechnologyAppointPage() {
         if (this.checkLoginStatus()) {
@@ -499,7 +541,7 @@ Page({
         }
 
     },
-   
+
 
     onPatientPickerConfirm(event) {
         console.log(event)
