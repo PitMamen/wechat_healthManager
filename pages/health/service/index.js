@@ -6,12 +6,16 @@ Page({
         mainActiveIndex: 0,
         currentHospital: {},
         children: [],
-        items: []
+        items: [],
+        mainActiveId:0,
     },
     onLoad: function (options) {
         // 页面创建时执行
         wx.showShareMenu({
             withShareTicket: true
+        })
+        this.setData({
+            mainActiveId:options.id
         })
         this.getList()
     },
@@ -61,8 +65,22 @@ Page({
             })
             this.setData({
                 items,
-                children: items[this.data.mainActiveIndex].classify || []
             })
+            if(this.data.mainActiveId){
+                items.forEach((item,index)=>{
+                    if(item.id+'' == this.data.mainActiveId){
+                        this.setData({
+                            mainActiveIndex:index,
+                            children: item.classify || [] 
+                        })
+                    }
+                })
+            }else{
+                this.setData({
+                    children: items[this.data.mainActiveIndex].classify || []
+                })
+            }
+           
         })
     },
     onClickNav(event) {

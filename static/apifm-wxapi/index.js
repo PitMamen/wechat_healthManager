@@ -577,8 +577,17 @@ module.exports =
                     },
                     //小程序端-名医咨询医生列表
                     accurateDoctors: function accurateDoctors(data) {
+                        data.hospitalCode= getApp().globalData.currentHospital.hospitalCode || ''
+                        data.tenantId= getApp().globalData.currentHospital.tenantId || ''
                         var url = MEDICAL_SERVICE + '/commodity/accurateDoctors'
                         return request(url, 'post', data, true);
+                    },
+                     //小程序端-名医咨询医生列表-首页
+                     getAccurateDoctors: function getAccurateDoctors(data) {
+                        data.hospitalCode= getApp().globalData.currentHospital.hospitalCode || ''
+                        data.tenantId= getApp().globalData.currentHospital.tenantId || ''
+                        var url = MEDICAL_SERVICE + '/commodity/accurateDoctors'
+                        return request2(url, 'post', data, true);
                     },
                     //小程序端-商品分类列表
                     classifies: function classifies(data) {
@@ -1355,6 +1364,16 @@ module.exports =
                     //我的  订单数量红点点
                     getRightsCount: function getRightsCount() {
                         var url = MEDICAL_SERVICE + '/userorder/getRightsCount' 
+                        return request2(url, 'get', '', true);
+                    },
+                     //推荐商品
+                     getYouzanGoodsList: function getYouzanGoodsList(data) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getYouzanGoodsList' 
+                        return request2(url, 'get', data, true);
+                    },
+                     //首页专科服务
+                     getServiceCommodityClassInfo: function getServiceCommodityClassInfo() {
+                        var url = MEDICAL_SERVICE + '/rightsUse/getServiceCommodityClassInfo' 
                         return request2(url, 'get', '', true);
                     },
                 };

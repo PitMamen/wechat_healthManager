@@ -63,8 +63,22 @@ Page({
 
     },
    
- 
-
+    onChange1(event) {
+        this.setData({
+          value1: event.detail,
+        });
+      },
+      onChange2(event) {
+        this.setData({
+          value2: event.detail,
+        });
+      },
+      onChange3(event) {
+        this.setData({
+          value3: event.detail,
+        });
+      },
+      
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作

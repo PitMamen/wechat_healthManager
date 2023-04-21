@@ -176,3 +176,12 @@ color: #999999;
     z-index: 99;
     background: #ffffff;
   }
+  .safe-bottom-box-flex{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.custom-class{
+    width: 300rpx !important;
+}
