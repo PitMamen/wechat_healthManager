@@ -29,15 +29,15 @@
     <van-divider contentPosition="center" fontSize="15" textColor="#1a1a1a">您的评价</van-divider>
     <view class="rateview">
         <view class="ratetitle">总体评价</view>
-        <van-rate class="rateitem" value="{{ value1 }}" color="#F1A918" bind:change="onChange1" />
+        <van-rate readonly="{{isDetail}}" class="rateitem" value="{{ value1 }}" color="#F1A918" bind:change="onChange1" />
     </view>
     <view class="rateview">
         <view class="ratetitle">医生评价</view>
-        <van-rate class="rateitem" value="{{ value2 }}" color="#F1A918" bind:change="onChange2" />
+        <van-rate readonly="{{isDetail}}" class="rateitem" value="{{ value2 }}" color="#F1A918" bind:change="onChange2" />
     </view>
     <view class="rateview">
         <view class="ratetitle" >个案管理师评价</view>
-        <van-rate class="rateitem" value="{{ value3 }}" color="#F1A918" bind:change="onChange3" />
+        <van-rate readonly="{{isDetail}}" class="rateitem" value="{{ value3 }}" color="#F1A918" bind:change="onChange3" />
     </view>
  
     
@@ -46,7 +46,7 @@
                     show-word-limit
                     type="textarea"
                     size="large"
-                    disabled="{{show}}"
+                    disabled="{{isDetail}}"
                     maxlength="200"
                     border="{{ false }}"
                     model:value="{{ inputTxt }}"
@@ -55,6 +55,8 @@
                 />
 
 <view style="margin-top: 60rpx;margin-left: 32rpx;margin-right: 28rpx;">
-    <van-button type="primary" color="#367BF5" block bind:click="bugAgain">提交</van-button>
+    
+    <van-button wx:if="{{isDetail}}" type="primary" color="#367BF5" block bind:click="goBack">返回</van-button>
+    <van-button wx:else type="primary" color="#367BF5" block bind:click="confirm">提交</van-button>
 </view>
 <view style="height: 40rpx;"></view>

@@ -12,7 +12,7 @@ Page({
         value2:5,
         value3:5,
         value4:5,
-        show:false,
+        isDetail:false,
         inputTxt:'医生回复超快，解答详细，医术高明。'
     },
   
@@ -22,11 +22,16 @@ Page({
     onLoad(options) {
         this.setData({
             rightsId: options.rightsId,
-
+            id:options.id
 
         })
         this.getRightsInfo(this.data.rightsId)
-       
+        if(options.id){
+            this.setData({
+                isDetail:true
+            })
+            this.getAppraiseById(options.id)
+        }
     },
 
     /**
@@ -54,7 +59,19 @@ Page({
         }
 
     },
-   
+       //获取评价详情
+       async getAppraiseById(id) {
+
+        const res = await WXAPI.getAppraiseById(id)
+        this.setData({
+            value1: res.data.doctorAllAppraise || 0,
+            value2: res.data.serviceMass || 0,
+            value3: res.data.serviceManner || 0,
+            value3: res.data.systemUse || 0,
+            inputTxt: res.data.patientOpinion || ''
+        })
+
+    },
     onChange1(event) {
         this.setData({
           value1: event.detail,
@@ -75,7 +92,32 @@ Page({
           value4: event.detail,
         });
       },
-
+      async   confirm(){
+     
+        var postData= {
+            "orderId": this.data.detail.orderId,//订单id
+            "doctorAllAppraise": this.data.value1,//医生总评
+            "serviceMass": this.data.value2,//服务质量
+            "serviceManner": this.data.value3,//服务态度          
+            "systemUse": this.data.value4,//系统使用        
+            "patientOpinion": this.data.inputTxt,//患者评价          
+           }
+           console.log(postData)
+           const res = await WXAPI.doctorAppraise(postData)
+           if (res.code == 0) {
+             wx.showToast({
+                 title: '提交成功',
+                 icon: 'success',
+                 duration: 1500
+                 })
+               setTimeout(()=>{
+                   wx.navigateBack()
+               },1500)
+           }
+       },
+       goBack() {
+        wx.navigateBack()
+    },
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */

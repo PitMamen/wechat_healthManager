@@ -2,6 +2,7 @@ const WXAPI = require('../../static/apifm-wxapi/index')
 const Util = require('../../utils/util')
 const IMUtil = require('../../utils/IMUtil')
 const Config = require('../../utils/config')
+const MoneyUtils = require('../../utils/MoneyUtils')
 const UserManager = require('../../utils/UserManager')
 import bus from '../../utils/EventBus.js'
 const APP = getApp()
@@ -410,6 +411,9 @@ Page({
             pageNo: 1,
             pageSize: 10,
         }).then((res) => {
+           res.data.forEach(item=>{
+                 item.price2=MoneyUtils.accDiv(item.price,100) 
+            })
             this.setData({
                 goodsList: res.data || []
             })

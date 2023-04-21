@@ -135,7 +135,7 @@
                             <view class="goods-card-item" wx:for="{{goodsList}}" wx:key="6" bindtap="goStoreDetailPage" data-item="{{item}}">
                                 <image class="img" src="{{item.image}}" mode="aspectFill"></image>
                                 <view class="title">{{item.title}}{{item.title}}{{item.title}}{{item.title}}{{item.title}}</view>
-                                <view class="price">￥{{item.price}}</view>
+                                <view class="price">￥{{item.price2}}</view>
                             </view>
 
                         </view>
