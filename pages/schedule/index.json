@@ -1,3 +1,4 @@
 {
-    "usingComponents": {}
+  "navigationBarTitleText": "全病程日程",
+  "navigationBarBackgroundColor": "#FFFFFF"
 }

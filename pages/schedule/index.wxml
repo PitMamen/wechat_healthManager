@@ -1,2 +1,123 @@
-<!--pages/schedule/index.wxml-->
-<text>pages/schedule/index.wxml</text>
+<view class="wrap">
+    <view class="calander">
+        <view class="switch">
+            <van-icon class="icon" name="arrow-left" color="#4D4D4D" size="30rpx" />
+            <view class="day">2023年 04月</view>
+            <van-icon class="icon" name="arrow" color="#4D4D4D" size="30rpx" />
+        </view>
+        <view class="weeks">
+            <view class="item weekend">日</view>
+            <view class="item">一</view>
+            <view class="item">二</view>
+            <view class="item">三</view>
+            <view class="item">四</view>
+            <view class="item">五</view>
+            <view class="item weekend">六</view>
+        </view>
+        <view class="dates">
+            <view class="row">
+                <view class="item"></view>
+                <view class="item">1</view>
+                <view class="item">2</view>
+                <view class="item before active">3</view>
+                <view class="item">4</view>
+                <view class="item">5</view>
+                <view class="item">6</view>
+            </view>
+            <view class="row">
+                <view class="item">7</view>
+                <view class="item">8</view>
+                <view class="item today">今</view>
+                <view class="item after">10</view>
+                <view class="item">11</view>
+                <view class="item">12</view>
+                <view class="item">13</view>
+            </view>
+            <view class="row">
+                <view class="item">14</view>
+                <view class="item">15</view>
+                <view class="item">16</view>
+                <view class="item">17</view>
+                <view class="item">18</view>
+                <view class="item">19</view>
+                <view class="item">20</view>
+            </view>
+            <view class="row">
+                <view class="item">21</view>
+                <view class="item">22</view>
+                <view class="item">23</view>
+                <view class="item">24</view>
+                <view class="item">25</view>
+                <view class="item">26</view>
+                <view class="item">27</view>
+            </view>
+            <view class="row">
+                <view class="item">28</view>
+                <view class="item">29</view>
+                <view class="item">30</view>
+                <view class="item">31</view>
+                <view class="item"></view>
+                <view class="item"></view>
+                <view class="item"></view>
+            </view>
+        </view>
+    </view>
+    <view class="content">
+        <view class="list">
+            <view class="item">
+                <view class="title">内分泌内科出院随访</view>
+                <view class="sub-list">
+                    <view class="sub-item">
+                        <view class="top">
+                            <text>08:00</text>
+                            <text class="name">健康宣教</text>
+                            <view class="status success">执行成功</view>
+                        </view>
+                        <view class="bottom">
+                            <view class="desc">一分钟自测糖尿病风险</view>
+                            <van-icon class="icon" name="arrow" color="#999999" size="30rpx" />
+                        </view>
+                    </view>
+                    <view class="sub-item">
+                        <view class="top">
+                            <text>08:00</text>
+                            <text class="name">健康宣教</text>
+                            <view class="status fail">执行失败</view>
+                        </view>
+                        <view class="bottom">
+                            <view class="desc">一分钟自测糖尿病风险</view>
+                            <van-icon class="icon" name="arrow" color="#999999" size="30rpx" />
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="item">
+                <view class="title">内分泌内科出院随访</view>
+                <view class="sub-list">
+                    <view class="sub-item">
+                        <view class="top">
+                            <text>08:00</text>
+                            <text class="name">健康宣教</text>
+                            <view class="status success">执行成功</view>
+                        </view>
+                        <view class="bottom">
+                            <view class="desc">一分钟自测糖尿病风险</view>
+                            <van-icon class="icon" name="arrow" color="#999999" size="30rpx" />
+                        </view>
+                    </view>
+                    <view class="sub-item">
+                        <view class="top">
+                            <text>08:00</text>
+                            <text class="name">健康宣教</text>
+                            <view class="status">未执行</view>
+                        </view>
+                        <view class="bottom">
+                            <view class="desc">一分钟自测糖尿病风险</view>
+                            <van-icon class="icon" name="arrow" color="#999999" size="30rpx" />
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
