@@ -1,1 +1,171 @@
-/* pages/schedule/index.wxss */
+.wrap {
+    min-height: 100vh;
+    background: #F5F5F5;
+}
+.wrap .calander {
+    background: #FFFFFF;
+    border-top: 1rpx solid #E6E6E6;
+}
+.wrap .calander .switch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90rpx;
+    padding: 0 200rpx;
+}
+.wrap .calander .switch .icon {
+    padding: 10rpx;
+}
+.wrap .calander .switch .day {
+    font-size: 30rpx;
+    font-weight: 500;
+    color: #278CFF;
+    line-height: 90rpx;
+}
+.wrap .calander .weeks {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    background: #F2F2F2;
+}
+.wrap .calander .weeks .item {
+    width: 68rpx;
+    height: 68rpx;
+    font-size: 24rpx;
+    font-weight: 400;
+    color: #4D4D4D;
+    line-height: 68rpx;
+    text-align: center;
+}
+.wrap .calander .weeks .item.weekend {
+    color: #999999;
+}
+.wrap .calander .dates {
+    padding-top: 25rpx;
+    padding-bottom: 10rpx;
+}
+.wrap .calander .dates .row {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 13rpx 0;
+}
+.wrap .calander .dates .row .item {
+    position: relative;
+    width: 68rpx;
+    height: 68rpx;
+    font-size: 30rpx;
+    font-weight: 400;
+    color: #4D4D4D;
+    line-height: 68rpx;
+    text-align: center;
+    border-radius: 50%;
+}
+.wrap .calander .dates .row .item::after {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 12rpx;
+    height: 12rpx;
+    left: 50%;
+    bottom: -15rpx;
+    transform: translateX(-50%);
+    border-radius: 50%;
+}
+.wrap .calander .dates .row .item.before::after {
+    background: #FB9600;
+}
+.wrap .calander .dates .row .item.after::after {
+    background: #CCCCCC;
+}
+.wrap .calander .dates .row .item.today {
+    color: #278CFF;
+}
+.wrap .calander .dates .row .item.active {
+    font-size: 36rpx;
+    font-weight: 500;
+    color: #FFFFFF !important;
+    background: #278CFF;
+}
+.wrap .content {
+    padding: 20rpx 24rpx;
+}
+.wrap .content .list {
+    padding: 30rpx 20rpx 0 20rpx;
+    background: #FFFFFF;
+    border-radius: 4rpx;
+}
+.wrap .content .list .item {
+    margin-bottom: 10rpx;
+}
+.wrap .content .list .item .title {
+    height: 40rpx;
+    padding-left: 20rpx;
+    font-size: 32rpx;
+    font-weight: 500;
+    color: #1A1A1A;
+    line-height: 40rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-left: 6rpx solid #478AF7;
+}
+.wrap .content .list .item .sub-list {
+    padding: 20rpx 0;
+}
+.wrap .content .list .item .sub-list .sub-item {
+    margin-bottom: 20rpx;
+    background: #F9F9F9;
+}
+.wrap .content .list .item .sub-list .sub-item:last-child {
+    margin-bottom: 0;
+}
+.wrap .content .list .item .sub-list .sub-item .top {
+    position: relative;
+    padding: 0 20rpx 0 30rpx;
+    height: 80rpx;
+    font-size: 30rpx;
+    font-weight: 400;
+    color: #1A1A1A;
+    line-height: 80rpx;
+    border-bottom: 1rpx solid #CCCCCC;
+}
+.wrap .content .list .item .sub-list .sub-item .top .name {
+    margin-left: 20rpx;
+    color: #3875F7;
+}
+.wrap .content .list .item .sub-list .sub-item .top .status {
+    position: absolute;
+    top: 0;
+    right: 20rpx;
+    color: #999999;
+}
+.wrap .content .list .item .sub-list .sub-item .top .status.success {
+    color: #4fc08d;
+}
+.wrap .content .list .item .sub-list .sub-item .top .status.fail {
+    color: #FB2929;
+}
+.wrap .content .list .item .sub-list .sub-item .bottom {
+    position: relative;
+    padding: 0 20rpx 0 30rpx;
+    height: 80rpx;
+    font-size: 30rpx;
+    font-weight: 400;
+    color: #999999;
+    line-height: 80rpx;
+}
+.wrap .content .list .item .sub-list .sub-item .bottom .desc {
+    padding-right: 50rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.wrap .content .list .item .sub-list .sub-item .bottom .icon {
+    position: absolute;
+    top: 50%;
+    right: 20rpx;
+    transform: translateY(-50%);
+}

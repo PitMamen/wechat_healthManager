@@ -1,66 +1,52 @@
-// pages/schedule/index.js
+const WXAPI = require('../../static/apifm-wxapi/index')
+
 Page({
-
-    /**
-     * 页面的初始数据
-     */
     data: {
-
+        options: {},
+        loading: false
+    },
+    onLoad: function (options) {
+        // 页面创建时执行
+    },
+    onShow: function () {
+        // 页面出现在前台时执行
+    },
+    onReady: function () {
+        // 页面首次渲染完毕时执行
+    },
+    onHide: function () {
+        // 页面从前台变为后台时执行
+    },
+    onUnload: function () {
+        // 页面销毁时执行
+    },
+    onPullDownRefresh: function () {
+        // 触发下拉刷新时执行
+    },
+    onReachBottom: function () {
+        // 页面触底时执行
+    },
+    onShareAppMessage: function () {
+        // 页面被用户分享时执行
+    },
+    onPageScroll: function () {
+        // 页面滚动时执行
+    },
+    onResize: function () {
+        // 页面尺寸变化时执行
+    },
+    onTabItemTap(item) {
+        // tab 点击时执行
     },
 
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad(options) {
-
+    getInfo() {
+        WXAPI.paymentCommodity({}).then(res => {
+            this.setData({})
+        })
     },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload() {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh() {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom() {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage() {
-
+    onSchemeTap() {
+        wx.navigateTo({
+            url: '/'
+        })
     }
 })
