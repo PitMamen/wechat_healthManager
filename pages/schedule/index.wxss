@@ -92,6 +92,10 @@
 .wrap .content {
     padding: 20rpx 24rpx;
 }
+.wrap .content .van-empty {
+    padding-top: 100rpx;
+    background: #FFFFFF;
+}
 .wrap .content .list {
     padding: 30rpx 20rpx 0 20rpx;
     background: #FFFFFF;

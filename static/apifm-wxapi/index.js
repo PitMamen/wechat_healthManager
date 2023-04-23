@@ -1186,6 +1186,11 @@ module.exports =
                     qryPatientInfo: function qryPatientInfo(data) {
                         return request(HEALTH_SERVICE + '/revisit/qryPatientInfo', 'post', data, true);
                     },
+                    //查询用户待办随访任务
+                    qryMyFollowAll: function qryMyFollowAll(data) {
+                        var url = FOLLOW_SERVICE + '/health/qryMyFollowAll'
+                        return request(url, 'post', data, true);
+                    },
                     //微信扫描注册后添加随访名单
                     addFollowMedicalRecords: function addFollowMedicalRecords(data) {
                         return request(FOLLOW_SERVICE + '/followMetaConfigure/addPatientMedicalRecords', 'post', data, true);
