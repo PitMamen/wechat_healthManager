@@ -614,6 +614,11 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/commodity/doctorCommodities'
                         return request(url, 'get', data, true);
                     },
+                    //小程序端-名医咨询医生详情(医生详情 + 商品列表)
+                    getDocComments: function getDocComments(data) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getList'
+                        return request(url, 'POST', data, true);
+                    },
                     //小程序端-订单列表
                     getMyOrders: function getMyOrders(data) {
                         var url = MEDICAL_SERVICE + '/userorder/list'

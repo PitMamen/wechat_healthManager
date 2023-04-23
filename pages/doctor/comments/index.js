@@ -13,6 +13,10 @@ Page({
         activeItem: {},
         activepItem: {},
         comments: [],
+        pageNo: 1,
+        pageSize: 5,
+        total: 0,
+
         list: []
     },
     onLoad: function (options) {
@@ -26,6 +30,7 @@ Page({
             navBarHeight: getApp().globalData.navBarHeight,
             statusBarHeight: getApp().globalData.statusBarHeight
         })
+        this.setData()
         this.getInfo()
         this.getComments()
     },
@@ -46,9 +51,20 @@ Page({
     },
     onPullDownRefresh: function () {
         // 触发下拉刷新时执行
+        this.setData({
+            pageNo: 1
+        })
+        this.getComments()
     },
     onReachBottom: function () {
         // 页面触底时执行
+        if (this.data.comments.length == this.data.total) {
+            return
+        }
+        this.setData({
+            pageNo: this.data.pageNo + 1
+        })
+        this.getComments()
     },
     onShareAppMessage: function () {
         // 页面被用户分享时执行
@@ -61,17 +77,6 @@ Page({
     },
     onTabItemTap(item) {
         // tab 点击时执行
-    },
-
-    checkAll(event) {
-        // const item = event.currentTarget.dataset.item
-        const item = {
-            userId: 888,
-            userName: 'ddd'
-        }
-        wx.navigateTo({
-            url: `/pages/doctor/comments/index?id=${this.data.id}&title=${this.data.title}`
-        })
     },
 
     getInfo() {
@@ -99,19 +104,37 @@ Page({
             }
         })
     },
+    goBack() {
+        wx.navigateBack({
+            delta: 1
+        });
+    },
     getComments() {
         WXAPI.getDocComments({
             doctorUserId: this.data.id,
-            pageNo: 1,
-            pageSize: 5
+            pageNo: this.data.pageNo,
+            pageSize: this.data.pageSize
         }).then((res) => {
+            if (this.data.pageNo == 0) {
+                this.setData({
+                    total: res.data.totalRows
+                })
+            }
+
             res.data.rows.forEach(element => {
                 element.createTime = element.createTime.substring(0, 10)
             });
-            this.setData({
-                comments: res.data.rows
-            })
-            
+
+            if (this.data.pageNo == 0) {
+                this.setData({
+                    comments: res.data.rows
+                })
+            } else {
+                this.setData({
+                    comments: this.data.comments.concat(res.data.rows)
+                })
+            }
+
         })
     },
     getClassName(code) {

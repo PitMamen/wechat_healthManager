@@ -29,6 +29,11 @@
                         <text class="hospital">{{ item.hospitalName }}</text>
                         <text class="depart">{{ item.departmentName }}</text>
                     </view>
+                    <view class="comment-sum">
+                        <view class="sum-item">好评率：<text style="color: #007BF5;">{{ item.goodRate }}</text></view>
+                        <view class="sum-item">接诊人数：<text style="color: #007BF5;">{{ item.visitNum }}</text></view>
+                        <!-- <view class="sum-item" >关注人数：<text style="color: #007BF5;">{{ item.favouriteNum }}</text></view> -->
+                    </view>
                     <view class="desc">擅长：{{ item.expertInDisease || '暂无' }}</view>
                 </view>
             </view>
@@ -36,30 +41,8 @@
     </view>
 </view>
 
-<van-tree-select
-    wx:if="{{ show1 }}"
-    height="100vh"
-    items="{{ items }}"
-    main-active-index="{{ mainActiveIndex }}"
-    active-id="{{ activeId }}"
-    bind:click-nav="onKeShiClickNav"
-    bind:click-item="onKeShiClickItem"
-    style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;z-index: 1;"
-/>
+<van-tree-select wx:if="{{ show1 }}" height="100vh" items="{{ items }}" main-active-index="{{ mainActiveIndex }}" active-id="{{ activeId }}" bind:click-nav="onKeShiClickNav" bind:click-item="onKeShiClickItem" style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;z-index: 1;" />
 
-<van-popup
-    round
-    show="{{ show2 }}"
-    position="bottom"
-    custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;"
-    bind:close="closePopup"
->
-    <van-picker
-        show-toolbar
-        title=""
-        columns="{{ columns }}"
-        visible-item-count="4"
-        bind:cancel="onZhiJiCancel"
-        bind:confirm="onZhiJiConfirm"
-    />
+<van-popup round show="{{ show2 }}" position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePopup">
+    <van-picker show-toolbar title="" columns="{{ columns }}" visible-item-count="4" bind:cancel="onZhiJiCancel" bind:confirm="onZhiJiConfirm" />
 </van-popup>

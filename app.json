@@ -27,6 +27,7 @@
         "pages/home/to-pay-order/index",
         "pages/doctor/search/index",
         "pages/doctor/info/index",
+        "pages/doctor/comments/index",
         "pages/doctor/detail/index",
         "pages/doctor/fill/index",
         "pages/doctor/buy/index",
