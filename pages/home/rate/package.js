@@ -12,7 +12,7 @@ Page({
         value2: 5,
         value3: 5,
         value4: 5,
-        isDetail: false,
+        isDetail: true,
         inputTxt: '医生回复超快，解答详细，医术高明。'
     },
 
@@ -20,16 +20,16 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
+        console.log("rate-package:",options)
         this.setData({
-            rightsId: options.rightsId,
-            id: options.id
-
+            rightsId: options.rightsId,//权益ID
+            todoid:options.todoid,//待办事项ID 
+            id: options.id,//评价ID
+            isDetail:options.id?true:false
         })
+    
         this.getRightsInfo(this.data.rightsId)
-        if (options.id) {
-            this.setData({
-                isDetail: true
-            })
+        if(this.data.isDetail){
             this.getAppraiseById(options.id)
         }
     },
@@ -107,6 +107,10 @@ Page({
         console.log(postData)
         const res = await WXAPI.doctorAppraise(postData)
         if (res.code == 0) {
+            if(this.data.todoid){
+                //由待办事项跳转而来的 设置待办已读
+                this.setInquiriesAgencyRead(this.data.todoid)
+            }
             wx.showToast({
                 title: '提交成功',
                 icon: 'success',
@@ -116,6 +120,12 @@ Page({
                 wx.navigateBack()
             }, 1500)
         }
+    },
+     //设置待办已读
+     setInquiriesAgencyRead(id) {
+
+        WXAPI.setInquiriesAgencyRead(id)
+
     },
     goBack() {
         wx.navigateBack()

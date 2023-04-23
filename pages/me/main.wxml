@@ -1,5 +1,8 @@
 <view class="header-box" style="padding-top:{{navHeight}}px ;">
-    <image  class="avatar" src="{{userInfo.avatarUrl || '/image/avatar.png'}}" mode="aspectFill" binderror="avatarBinderror"></image>
+    <button class="avatar-wrapper" plain  bind:chooseavatar="onChooseAvatar">
+        <image  class="avatar" src="{{userInfo.avatarUrl || '/image/avatar.png'}}" mode="aspectFill" binderror="avatarBinderror"></image>
+    </button> 
+   
     <view wx:if="{{defaultPatient}}" class="r">
         <view style="display: flex;flex-direction: row;align-items: center;">
             <view class="top-name">{{defaultPatient.userName}}</view>

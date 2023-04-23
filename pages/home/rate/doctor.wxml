@@ -15,7 +15,7 @@
     <view style="height: 0.5px; background: #E6E6E6;margin-bottom: 20rpx;"></view>
     <view class="tel-card">
         <view>套餐名称</view>
-        <view>{{detail.commodityName}}</view>
+        <view class="tel-right">{{detail.commodityName}}</view>
     </view>
     <view class="tel-card">
         <view>咨询类型</view>
@@ -65,8 +65,7 @@
                     placeholder="请填写评论"
                 />
 
-<view style="margin-top: 60rpx;margin-left: 32rpx;margin-right: 28rpx;">
-    <van-button wx:if="{{isDetail}}" type="primary" color="#367BF5" block bind:click="goBack" >返回</van-button>
-    <van-button wx:else type="primary" color="#367BF5" block bind:click="confirm">提交</van-button>
+<view wx:if="{{!isDetail}}" style="margin-top: 60rpx;margin-left: 32rpx;margin-right: 28rpx;">
+    <van-button  type="primary" color="#367BF5" block bind:click="confirm">提交</van-button>
 </view>
 <view style="height: 40rpx;"></view>

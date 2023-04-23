@@ -182,10 +182,15 @@
 
     //待办不同状态
     function formartTodoStatus(type) {
-        if (type == 1) {
+       // 1问卷 2文章 4咨询待评价 5服务套餐待评价
+        if (type == 1) { 
             return '去填写'
         } else if (type == 2) {
             return '去阅读'
+        } else if (type == 4) {
+            return '去评价'
+        } else if (type == 5) {
+            return '去评价'
         } else {
             return '去交流'
         }

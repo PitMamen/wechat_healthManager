@@ -218,7 +218,7 @@ Page({
             this.setInquiriesAgencyRead(item)
         }
     },
-    //待办事项 详情
+    //待办事项 详情 1问卷 2文章 4咨询待评价 5服务套餐待评价
     bindTodoItemDetailTap(e) {
         var item = e.currentTarget.dataset.item
         if (item.originalType.value == 1) {
@@ -229,7 +229,17 @@ Page({
             this.goWebPage(2, item.jumpUrl)
             //设置已读
             this.setInquiriesAgencyRead(item)
-        } else {
+        }  else if (item.originalType.value == 4) {
+            //单次咨询评价
+            wx.navigateTo({
+                url:  `/pages/home/rate/doctor?rightsId=${item.rightsId}&todoid=${item.id}`
+            })     
+        } else if (item.originalType.value == 5) {
+           //单次咨询评价
+           wx.navigateTo({
+            url:  `/pages/home/rate/package?rightsId=${item.rightsId}&todoid=${item.id}`
+        })     
+        }else {
             if (this.checkLoginStatus()) {
                 if (getApp().globalData.sdkReady) {
                     if (item.imGroupId) {

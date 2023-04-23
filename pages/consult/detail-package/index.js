@@ -168,7 +168,7 @@ Page({
   //查看是否评价
    getAppraiseByOrderId(orderId) {
     WXAPI.getAppraiseByOrderId(orderId).then(res=>{
-        if (res.code == 0 && res.data.id) {
+        if (res.code == 0 && res.data && res.data.id) {
             this.setData({
                 rateId:res.data.id,
                 showMyRateView:true
