@@ -1,6 +1,6 @@
 <view class="page">
     <text class="text">{{content}}</text>
 </view>
-<view style="padding: 30rpx;margin-top: 30rpx;margin-bottom: 50rpx;" wx:if="{{showbtn}}">
+<view style="padding: 30rpx;margin-top: 30rpx;margin-bottom: 50rpx;" wx:if="{{showbtn && content}}">
     <van-button round type="info" bindtap="confirm" block>我已阅读并同意</van-button>
 </view>

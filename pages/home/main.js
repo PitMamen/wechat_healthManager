@@ -2,6 +2,7 @@ const WXAPI = require('../../static/apifm-wxapi/index')
 const Util = require('../../utils/util')
 const IMUtil = require('../../utils/IMUtil')
 const Config = require('../../utils/config')
+const MoneyUtils = require('../../utils/MoneyUtils')
 const UserManager = require('../../utils/UserManager')
 import bus from '../../utils/EventBus.js'
 const APP = getApp()
@@ -38,7 +39,13 @@ Page({
         healthRecordPercentage: '',//健康档案完成度
         rightsList: [],
         myRightsCount: 0,//我的权益数
-
+        isMoreLoading: false,
+        isArticleNoMore:false,
+        articlePageSize:20,
+        articlePageNo: 1,
+        isDoctorNoMore:false,
+        doctorPageSize:20,
+        doctorPageNo: 1,
     },
 
 
@@ -155,7 +162,7 @@ Page({
         this.getYouzanGoodsList()
         this.getDoctorLists()
         this.getArticleLists()
-        
+
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient'),
             patientList: wx.getStorageSync('userInfo').account.user,
@@ -410,6 +417,9 @@ Page({
             pageNo: 1,
             pageSize: 10,
         }).then((res) => {
+            res.data.forEach(item => {
+                item.price2 = MoneyUtils.accDiv(item.price, 100)
+            })
             this.setData({
                 goodsList: res.data || []
             })
@@ -422,23 +432,69 @@ Page({
             queryText: '',
             subjectClassifyId: '',
             professionalTitle: '',
-            pageNo: 1,
-            pageSize: 40,
+            pageNo: this.data.doctorPageNo,
+            pageSize: this.data.doctorPageSize,
         }).then((res) => {
+            var resList=res.data.rows || []
+            var list = this.data.doctorList
+            list = list.concat(resList)
             this.setData({
-                doctorList: res.data.rows || []
+                doctorList: list,
+                isMoreLoading: false,
+                isDoctorNoMore:resList.length< this.data.doctorPageSize
             })
+           
         })
     },
     //获取文章列表
     getArticleLists() {
 
-        WXAPI.getArticleByClickNum({ pageSize: 40, pageNo: 1 }).then((res) => {
+        WXAPI.getArticleByClickNum({ pageSize: this.data.articlePageSize, pageNo: this.data.articlePageNo }).then((res) => {
+            var resList=res.data.rows || []
+            var list = this.data.articleList
+            list = list.concat(resList)
             this.setData({
-                articleList: res.data.rows || []
+                articleList: list,
+                isMoreLoading: false,
+                isArticleNoMore:resList.length< this.data.articlePageSize
             })
+
         })
     },
+
+    //滚动到底部触发
+    bindscrolltolower(e) {
+        console.log("触发加载更多")
+        if (this.data.isMoreLoading) {
+            return
+        }
+
+        if (this.data.activeIndex == '0') {
+            console.log('articleList.length='+this.data.articleList.length+'======='+'isArticleNoMore='+this.data.isArticleNoMore)
+            if (this.data.articleList.length > 49 || this.data.isArticleNoMore) {
+                return
+            }
+            this.setData({
+                isMoreLoading: true,
+                articlePageNo: this.data.articlePageNo + 1
+            })
+            this.getArticleLists()
+        }else if (this.data.activeIndex == '1') {
+            console.log('doctorList.length='+this.data.doctorList.length+'======='+'isDoctorNoMore='+this.data.isDoctorNoMore)
+            if (this.data.doctorList.length > 49 || this.data.isDoctorNoMore) {
+                return
+            }
+            this.setData({
+                isMoreLoading: true,
+                doctorPageNo: this.data.doctorPageNo + 1
+            })
+            this.getDoctorLists()
+        }
+
+
+
+    },
+
     //跳转到商城小程序首页
     goStoreListPage() {
         wx.navigateToMiniProgram({

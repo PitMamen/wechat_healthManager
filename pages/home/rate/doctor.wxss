@@ -46,6 +46,14 @@
     color: #4D4D4D;
 
 }
+.tel-right{
+    max-width: 500rpx;
+    overflow: hidden; 
+text-overflow: ellipsis; 
+display: -webkit-box;
+-webkit-line-clamp: 1; 
+-webkit-box-orient: vertical;
+}
 .rateview{
     display: flex;
     flex-direction: row;

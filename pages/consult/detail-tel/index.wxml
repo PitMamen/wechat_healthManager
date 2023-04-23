@@ -68,7 +68,7 @@
     
    
     <view wx:if="{{status==4 }}" class="safe-bottom-box-flex">
-        <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="goRate">去评价</van-button>
+        <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="goRate">{{rateBtnText}}</van-button>
         <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="bugAgain">再次购买</van-button>     
     </view>
     <view wx:if="{{status==5 || status==1}}" class="safe-bottom-box-flex">

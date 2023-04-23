@@ -122,7 +122,14 @@
     background: #F2F2F2;
     border-radius: 4rpx;
 }
-
+.tel-right{
+    max-width: 500rpx;
+    overflow: hidden; 
+text-overflow: ellipsis; 
+display: -webkit-box;
+-webkit-line-clamp: 1; 
+-webkit-box-orient: vertical;
+}
  .input-class {
      padding: 20rpx !important;
     background-color: #F2F2F2 !important;

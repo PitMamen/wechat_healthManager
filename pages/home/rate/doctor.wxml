@@ -15,15 +15,15 @@
     <view style="height: 0.5px; background: #E6E6E6;margin-bottom: 20rpx;"></view>
     <view class="tel-card">
         <view>套餐名称</view>
-        <view>{{detail.commodityName}}</view>
+        <view class="tel-right">{{detail.commodityName}}</view>
     </view>
     <view class="tel-card">
         <view>咨询类型</view>
         <view>{{detail.commodityClassName}}</view>
     </view>
-    <view class="tel-card">
+    <view wx:if="{{detail.rightsUseRecordStatus.serviceTime}}" class="tel-card">
         <view>咨询时长</view>
-        <view wx:if="{{detail.rightsUseRecordStatus.serviceTime}}">{{detail.rightsUseRecordStatus.serviceTime}}分钟</view>
+        <view >{{detail.rightsUseRecordStatus.serviceTime}}分钟</view>
     </view>
     <view class="tel-card">
         <view>完成时间</view>
@@ -37,19 +37,19 @@
     <van-divider contentPosition="center" fontSize="15" textColor="#1a1a1a">您的评价</van-divider>
     <view class="rateview">
         <view style="margin-right: 40rpx;">医生总评</view>
-        <van-rate class="rateitem" value="{{ value1 }}" color="#F1A918" bind:change="onChange1" />
+        <van-rate readonly="{{isDetail}}" class="rateitem" value="{{ value1 }}" color="#F1A918" bind:change="onChange1" />
     </view>
     <view class="rateview">
         <view style="margin-right: 40rpx;">服务质量</view>
-        <van-rate class="rateitem" value="{{ value2 }}" color="#F1A918" bind:change="onChange2" />
+        <van-rate readonly="{{isDetail}}" class="rateitem" value="{{ value2 }}" color="#F1A918" bind:change="onChange2" />
     </view>
     <view class="rateview">
         <view style="margin-right: 40rpx;">服务态度</view>
-        <van-rate class="rateitem" value="{{ value3 }}" color="#F1A918" bind:change="onChange3" />
+        <van-rate readonly="{{isDetail}}" class="rateitem" value="{{ value3 }}" color="#F1A918" bind:change="onChange3" />
     </view>
     <view class="rateview">
         <view style="margin-right: 40rpx;">系统使用</view>
-        <van-rate class="rateitem" value="{{ value4 }}" color="#F1A918" bind:change="onChange4" />
+        <van-rate readonly="{{isDetail}}" class="rateitem" value="{{ value4 }}" color="#F1A918" bind:change="onChange4" />
     </view>
     
 </view>
@@ -57,7 +57,7 @@
                     show-word-limit
                     type="textarea"
                     size="large"
-                    disabled="{{show}}"
+                    disabled="{{isDetail}}"
                     maxlength="200"
                     border="{{ false }}"
                     model:value="{{ inputTxt }}"
@@ -65,7 +65,7 @@
                     placeholder="请填写评论"
                 />
 
-<view style="margin-top: 60rpx;margin-left: 32rpx;margin-right: 28rpx;">
-    <van-button type="primary" color="#367BF5" block bind:click="bugAgain">提交</van-button>
+<view wx:if="{{!isDetail}}" style="margin-top: 60rpx;margin-left: 32rpx;margin-right: 28rpx;">
+    <van-button  type="primary" color="#367BF5" block bind:click="confirm">提交</van-button>
 </view>
 <view style="height: 40rpx;"></view>

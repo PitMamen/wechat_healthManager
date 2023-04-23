@@ -14,6 +14,9 @@ Page({
         numRights: 0,
         reqInfo: {},
         hidePoupShow: true,
+        isRated:false,
+        rateId:0,
+        rateBtnText:''
     },
 
     /**
@@ -27,6 +30,7 @@ Page({
         })
         this.getRightsInfo(this.data.rightsId)
         this.getRightsReqData(this.data.rightsId)
+       
     },
 
     /**
@@ -40,7 +44,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow() {
-
+        if (this.data.status == 4 && this.data.detail.orderId) {
+            this. getAppraiseByOrderId(this.data.detail.orderId)
+        }
     },
     async getRightsInfo(id) {
         const res = await WXAPI.getRightsInfo({ rightsId: id })
@@ -69,7 +75,9 @@ Page({
                 nameColumns: nameColumns,
                 numRights: num,
             })
-
+            if (this.data.status == 4) {
+                this. getAppraiseByOrderId(this.data.detail.orderId)
+            }
         }
 
     },
@@ -88,6 +96,23 @@ Page({
         }
 
     },
+      //查看是否评价
+  getAppraiseByOrderId(orderId) {
+    WXAPI.getAppraiseByOrderId(orderId).then(res=>{
+        if (res.code == 0 && res.data && res.data.id) {
+            this.setData({
+                rateId:res.data.id,
+                isRated:true,
+                rateBtnText:'我的评价'
+            })
+        }else{
+            this.setData({
+                isRated:false,
+                rateBtnText:'去评价'
+            })
+        }
+    })
+},
     //申请
     async saveRightsUseRecord(rightInfo) {
 
@@ -116,11 +141,18 @@ Page({
     enterRoom() {
         wx.navigateBack()
     },
-     //去评价
-     goRate(){
-        wx.navigateTo({
-              url: '/pages/home/rate/doctor?rightsId='+this.data.rightsId,
-        })
+       //去评价
+       goRate(){
+        if(this.data.isRated){
+            wx.navigateTo({
+                url:  `/pages/home/rate/doctor?rightsId=${this.data.rightsId}&id=${this.data.rateId}`
+            })
+        }else {
+            wx.navigateTo({
+                url:  `/pages/home/rate/doctor?rightsId=${this.data.rightsId}`
+            })
+        }
+       
     },
     //再次购买
     bugAgain() {

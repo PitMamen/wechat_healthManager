@@ -166,6 +166,15 @@ Page({
 
         }
     },
+    //选择头像
+    onChooseAvatar(e) {
+        console.log(e)
+        const { avatarUrl } = e.detail 
+        this.data.userInfo.avatarUrl=avatarUrl
+        this.setData({
+            userInfo:this.data.userInfo
+        })
+      },
     testBtn() {
         wx.navigateTo({
             //   url: '/pages/home/rate/doctor?rightsId='+708,

@@ -614,6 +614,11 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/commodity/doctorCommodities'
                         return request(url, 'get', data, true);
                     },
+                    //小程序端-名医咨询医生详情(医生详情 + 商品列表)
+                    getDocComments: function getDocComments(data) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getList'
+                        return request(url, 'POST', data, true);
+                    },
                     //小程序端-订单列表
                     getMyOrders: function getMyOrders(data) {
                         var url = MEDICAL_SERVICE + '/userorder/list'
@@ -1380,6 +1385,26 @@ module.exports =
                      getServiceCommodityClassInfo: function getServiceCommodityClassInfo() {
                         var url = MEDICAL_SERVICE + '/rightsUse/getServiceCommodityClassInfo' 
                         return request2(url, 'get', '', true);
+                    },
+                    //添加评价
+                    doctorAppraise: function doctorAppraise(data) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/doctorAppraise'
+                        return request(url, 'post', data, true);
+                    },
+                       //查看订单有没有评价
+                       getAppraiseByOrderIdExists: function getAppraiseByOrderIdExists(orderId) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseByOrderIdExists/'+orderId
+                        return request(url, 'post', '', true);
+                    },
+                    //查看订单评价
+                    getAppraiseByOrderId: function getAppraiseByOrderId(orderId) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseByOrderId/'+orderId
+                        return request2(url, 'post', '', true);
+                    },
+                     //查看评价详情
+                     getAppraiseById: function getAppraiseById(id) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseById/'+id
+                        return request(url, 'post', '', true);
                     },
                 };
 
