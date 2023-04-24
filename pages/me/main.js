@@ -168,11 +168,37 @@ Page({
     },
     //选择头像
     onChooseAvatar(e) {
+        if (!this.checkLoginStatus()) {
+            return
+        }
         console.log(e)
         const { avatarUrl } = e.detail 
-        this.data.userInfo.avatarUrl=avatarUrl
-        this.setData({
-            userInfo:this.data.userInfo
+        WXAPI.uploadImgFile(avatarUrl, "DEFAULT").then((fileInfo) => {          
+            if(fileInfo.previewUrl){
+
+                WXAPI.updateCustomAccount({avatarUrl:fileInfo.previewUrl}).then(res=>{
+                    if(res.code == 0){
+                        this.data.userInfo.avatarUrl=fileInfo.previewUrl
+                        this.setData({
+                            userInfo:this.data.userInfo
+                        })
+                    }else {
+                        wx.showToast({
+                            title: '头像上传失败',
+                            icon:'none'
+                          }) 
+                    }
+                   
+                })
+
+              
+            }else {
+                wx.showToast({
+                  title: '头像上传失败',
+                  icon:'none'
+                })
+            }
+            
         })
       },
     testBtn() {

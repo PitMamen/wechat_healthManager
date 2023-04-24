@@ -1406,6 +1406,11 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseById/'+id
                         return request(url, 'post', '', true);
                     },
+                    //修改头像
+                    updateCustomAccount: function updateCustomAccount(data) {
+                        var url = ACCOUNT_SERVICE + '/accountInfo/updateCustomAccount'
+                        return request(url, 'post', data, true);
+                    },
                 };
 
                 /***/

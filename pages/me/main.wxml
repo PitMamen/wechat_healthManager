@@ -1,5 +1,5 @@
 <view class="header-box" style="padding-top:{{navHeight}}px ;">
-    <button class="avatar-wrapper" plain  bind:chooseavatar="onChooseAvatar">
+    <button class="avatar-wrapper" plain open-type="chooseAvatar"  bind:chooseavatar="onChooseAvatar">
         <image  class="avatar" src="{{userInfo.avatarUrl || '/image/avatar.png'}}" mode="aspectFill" binderror="avatarBinderror"></image>
     </button> 
    

@@ -231,6 +231,6 @@
 
         </view>
         <!-- <van-loading wx:if="{{isMoreLoading}}" style="margin-left: 300rpx;" size="20px" type="spinner" >加载中...</van-loading> -->
-        <view style="height: 40rpx;"></view>
+        <view style="height: 60rpx;"></view>
     </view>
 </scroll-view>
