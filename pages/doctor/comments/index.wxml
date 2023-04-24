@@ -43,7 +43,8 @@
         </view>
     </view>
 
-    <view class="view-comments">
+    <van-empty class="empty" image="/image/icon_nodata.png" description="暂无记录" wx:if="{{ comments.length === 0 }}" />
+    <view class="view-comments" wx:else>
 
         <view class="com-item" wx:for="{{ comments }}" wx:key="id" data-item="{{ item }}">
             <view class="com-item-top">
