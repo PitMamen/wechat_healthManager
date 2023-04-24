@@ -112,6 +112,7 @@ Page({
     getComments() {
         WXAPI.getDocComments({
             status: 2,
+            serviceType: 1,
             doctorUserId: this.data.id,
             pageNo: this.data.pageNo,
             pageSize: this.data.pageSize
@@ -124,6 +125,13 @@ Page({
 
             res.data.rows.forEach(element => {
                 element.createTime = element.createTime.substring(0, 10)
+                if (element.userName.length == 2) {
+                    element.userName = element.userName.substring(0, 1) + '*'
+                } else if (element.userName.length == 3) {
+                    element.userName = element.userName.substring(0, 1) + '**'
+                } else if (element.userName.length == 4) {
+                    element.userName = element.userName.substring(0, 1) + '***'
+                }
             });
 
             if (this.data.pageNo == 0) {
