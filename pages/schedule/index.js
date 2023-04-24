@@ -143,6 +143,7 @@ Page({
     getQuerys(monthDiff) {
         const relate = this.getRelate(monthDiff)
         return {
+            userId: wx.getStorageSync('defaultPatient').userId,
             beginDate: relate.startOf('month').format('YYYY-MM-DD'),
             endDate: relate.endOf('month').format('YYYY-MM-DD')
         }
