@@ -97,6 +97,7 @@ Page({
     },
     getComments() {
         WXAPI.getDocComments({
+            status: 2,
             doctorUserId: this.data.id,
             pageNo: 1,
             pageSize: 5

@@ -111,6 +111,7 @@ Page({
 
     getComments() {
         WXAPI.getDocComments({
+            status: 2,
             commodityId: this.data.id,
             pageNo: 1,
             pageSize: 5
