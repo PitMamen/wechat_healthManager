@@ -15,6 +15,7 @@ Page({
         list1: [],
         list2: [],
         images: [],
+        comments: [],
         swipers: [],
         isOnSale:false,//是否上架
     },
@@ -32,6 +33,7 @@ Page({
             navBarHeight: getApp().globalData.navBarHeight,
             statusBarHeight: getApp().globalData.statusBarHeight
         })
+        this.getComments()
     },
     onShow: function () {
         // 页面出现在前台时执行
@@ -99,6 +101,30 @@ Page({
             }
         })
     },
+
+    checkAll(event) {
+
+        wx.navigateTo({
+            url: `/pages/health/comments/index?id=${this.data.id}`
+        })
+    },
+
+    getComments() {
+        WXAPI.getDocComments({
+            commodityId: this.data.id,
+            pageNo: 1,
+            pageSize: 5
+        }).then((res) => {
+            res.data.rows.forEach(element => {
+                element.createTime = element.createTime.substring(0, 10)
+            });
+            this.setData({
+                comments: res.data.rows
+            })
+            
+        })
+    },
+
     setPrice() {
         let price = this.data.list2.reduce((sum, item) => {
             return sum + item.totalAmount

@@ -111,6 +111,60 @@
     margin-bottom: 10rpx;
     border-radius: 8rpx;
 }
+
+.wrap .view-comments {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    top: -383rpx;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+
+    padding: 30rpx 20rpx;
+    background-color: white;
+    border-radius: 8rpx;
+}
+
+.wrap .view-comments .com-top {
+    display: flex;
+    flex-direction: row;
+}
+
+.wrap .view-comments .com-item {
+    display: flex;
+    border-bottom: 1rpx solid #E6E6E6;
+    padding: 30rpx 0;
+    flex-direction: column;
+}
+
+.wrap .view-comments .com-item .com-item-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.wrap .view-comments .com-item .com-item-middle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20rpx;
+}
+
+.wrap .view-comments .com-item .com-item-bottom {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    
+    font-size: 24rpx;
+    color: #4D4D4D;
+    /* display: flex;
+    flex-direction: row;
+    align-items: center; */
+    margin-top: 20rpx;
+
+}
+
 .wrap .fix {
     position: fixed;
     width: 100%;
