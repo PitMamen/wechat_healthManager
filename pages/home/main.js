@@ -436,10 +436,10 @@ Page({
             pageSize: this.data.doctorPageSize,
         }).then((res) => {
             var resList=res.data.rows || []
-            var list = this.data.doctorList
-            list = list.concat(resList)
+            // var list = this.data.doctorList
+            // list = list.concat(resList)
             this.setData({
-                doctorList: list,
+                doctorList: resList,
                 isMoreLoading: false,
                 isDoctorNoMore:resList.length< this.data.doctorPageSize
             })
@@ -451,10 +451,10 @@ Page({
 
         WXAPI.getArticleByClickNum({ pageSize: this.data.articlePageSize, pageNo: this.data.articlePageNo }).then((res) => {
             var resList=res.data.rows || []
-            var list = this.data.articleList
-            list = list.concat(resList)
+            // var list = this.data.articleList
+            // list = list.concat(resList)
             this.setData({
-                articleList: list,
+                articleList: resList,
                 isMoreLoading: false,
                 isArticleNoMore:resList.length< this.data.articlePageSize
             })
