@@ -12,6 +12,7 @@ Page({
     },
     onLoad: function (options) {
         // 页面创建时执行
+        this.initDatas()
         this.setData({
             format: this.getFormat(this.data.monthDiff),
             rowDates: this.getRowDates(this.getDates(this.data.monthDiff))
@@ -19,7 +20,6 @@ Page({
     },
     onShow: function () {
         // 页面出现在前台时执行
-        this.initDatas()
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
