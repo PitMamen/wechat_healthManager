@@ -73,8 +73,7 @@ page {
     width: 702rpx;
     margin-left: 24rpx;
    
-    margin-bottom: 20rpx;
-    margin-top: 20rpx;
+    margin-bottom: 30rpx;
 
 }
 
@@ -91,6 +90,7 @@ page {
     border-radius: 8rpx;
     background-color: white;
     box-sizing: border-box;
+    margin-bottom: 40rpx;
 }
 .hotServiceList_box {
     position: relative;
