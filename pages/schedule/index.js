@@ -185,6 +185,10 @@ Page({
             wx.navigateTo({
                 url: '/pages/home/news/news-detail?id=' +item.jumpId+ '&recordId=' +item.id
             })
+        }else if (item.taskType.value === 3){
+            wx.navigateTo({
+                url: '/pages/home/health-remind/detail?userId=' +wx.getStorageSync('defaultPatient').userId+ '&taskId=' +item.id
+            })
         }
     }
 })
