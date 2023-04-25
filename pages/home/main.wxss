@@ -286,7 +286,7 @@ page {
 }
 .service-back {
     display: flex;
-    width: 352rpx;
+    width: 350.5rpx;
     height: 144rpx;
     flex-direction: row;
     align-items: center; 
