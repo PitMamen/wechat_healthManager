@@ -12,7 +12,6 @@ Page({
     },
     onLoad: function (options) {
         // 页面创建时执行
-        this.initDatas()
         this.setData({
             format: this.getFormat(this.data.monthDiff),
             rowDates: this.getRowDates(this.getDates(this.data.monthDiff))
@@ -20,6 +19,7 @@ Page({
     },
     onShow: function () {
         // 页面出现在前台时执行
+        this.initDatas(this.data.monthDiff, true)
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
@@ -49,7 +49,7 @@ Page({
         // tab 点击时执行
     },
 
-    initDatas(monthDiff = 0) {
+    initDatas(monthDiff = 0, fromShow) {
         const querys = this.getQuerys(monthDiff)
         WXAPI.qryMyFollowAll(querys).then(res => {
             const dataMap = res.data || {}
@@ -67,9 +67,17 @@ Page({
                     item.list = list
                 }
             })
-            let current = dates.find(item => {
-                return item.current
-            })
+            let current = null
+            if (fromShow && this.data.current.date){
+                current = dates.find(item => {
+                    return item.date === this.data.current.date
+                })
+            }
+            if (!current){
+                current = dates.find(item => {
+                    return item.current
+                })
+            }
             if (!current){
                 current = dates.find(item => {
                     return item.date === 1
