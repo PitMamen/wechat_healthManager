@@ -85,7 +85,7 @@
             </view>
             <view class="com-item-middle">
                 <view style="flex:1">
-                    <van-rate readonly class="rateitem" value="{{item.doctorAppraise}}" color="#F1A918" bind:change="onChange1" />
+                    <van-rate readonly class="rateitem" value="{{item.doctorAllAppraise}}" color="#F1A918" bind:change="onChange1" />
                 </view>
 
                 <view style="color:#999999;font-size:30rpx">{{item.createTime}}</view>
