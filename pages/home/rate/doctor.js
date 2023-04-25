@@ -65,7 +65,7 @@ Page({
                 value1: res.data.doctorAllAppraise || 0,
                 value2: res.data.serviceMass || 0,
                 value3: res.data.serviceManner || 0,
-                value3: res.data.systemUse || 0,
+                value4: res.data.systemUse || 0,
                 inputTxt: res.data.patientOpinion || ''
             })
         })

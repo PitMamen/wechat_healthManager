@@ -57,7 +57,7 @@
             <van-icon name="/image/meicon/me_sc.png" size="25" info="{{myOrderCount.goods || ''}}"/>
             <view class="todo-content-text">商城订单</view>
         </view>
-        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="testBtn">
+        <view class="todo-content-item" hover-class="todo-content-item-hover" >
             <van-icon name="/image/meicon/me_cfdd.png" size="25"  />
             <view class="todo-content-text">处方订单</view>
         </view>
