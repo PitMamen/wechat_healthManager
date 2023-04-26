@@ -13,7 +13,7 @@ Page({
         value3: 5,
         value4: 5,
         isDetail: true,
-        inputTxt: '医生回复超快，解答详细，医术高明。'
+        inputTxt: ''
     },
 
     /**
@@ -102,7 +102,7 @@ Page({
             "allAppraise": this.data.value1,//总体评价                    
             "doctorAppraise": this.data.value2,//医生评价          
             "managerAppraise": this.data.value3,//个案管理师评价
-            "patientOpinion": this.data.inputTxt,//患者评价          
+            "patientOpinion": this.data.inputTxt || '医生回复超快，解答详细，医术高明。',//患者评价          
         }
         console.log(postData)
         const res = await WXAPI.doctorAppraise(postData)

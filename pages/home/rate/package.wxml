@@ -51,7 +51,7 @@
                     border="{{ false }}"
                     model:value="{{ inputTxt }}"
                     input-class="input-class"                   
-                    placeholder="请填写评论"
+                    placeholder="医生回复超快，解答详细，医术高明。"
                 />
 
 <view wx:if="{{!isDetail}}"  style="margin-top: 60rpx;margin-left: 32rpx;margin-right: 28rpx;">
