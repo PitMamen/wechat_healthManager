@@ -156,8 +156,9 @@ Page({
     },
     //再次购买
     bugAgain() {
+        
         wx.navigateTo({
-            url: `/pages/health/detail/index?id=${this.data.detail.commodityId}`
+            url: `/pages/doctor/detail/index?id=${this.data.detail.commodityId}&docId=${this.data.detail.docInfo.userId}&docName=${this.data.detail.docInfo.userName}`
         })
     },
     //查询历史咨询
