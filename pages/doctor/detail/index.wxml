@@ -64,7 +64,7 @@
         </view>
     </view>
 
-    <view class="view-comments">
+    <!-- <view class="view-comments">
         <view class="com-top">
             <view style="flex: 1;color: #1A1A1A;font-size: 32rpx;font-weight: bold;">患者评价</view>
             <view bind:tap="checkAll" style="display: flex;flex-direction: row;align-items: center;">
@@ -87,7 +87,7 @@
             </view>
             <view class="com-item-bottom">{{item.patientOpinion}}</view>
         </view>
-    </view>
+    </view> -->
 
     <view class="fix" wx:if="{{ (list1.length + list2.length) > 0 }}">
         <view class="row">
