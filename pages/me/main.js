@@ -112,6 +112,8 @@ Page({
 
     },
     goMyConsultPage() {
+        //把参数保存至全局变量
+        getApp().globalData.consultPageActive = '2'
         wx.switchTab({
             url: '/pages/consult/index',
         })

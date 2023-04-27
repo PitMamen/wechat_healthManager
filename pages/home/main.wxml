@@ -180,7 +180,7 @@
                     </view>
                 </view>
                 <view class="left">
-                    <image src="{{ item.avatarUrl || '/image/myjk/doctor.png' }}" lazy-load="{{ true }}" mode="aspectFill" />
+                    <image src="{{ item.previewUrl || '/image/myjk/taocan.png' }}" lazy-load="{{ true }}" mode="aspectFill" />
                 </view>
             </view>
         </block>
