@@ -57,14 +57,14 @@
             <van-icon name="/image/meicon/me_sc.png" size="25" info="{{myOrderCount.goods || ''}}"/>
             <view class="todo-content-text">商城订单</view>
         </view>
-        <view class="todo-content-item" hover-class="todo-content-item-hover" >
+        <!-- <view class="todo-content-item" hover-class="todo-content-item-hover" >
             <van-icon name="/image/meicon/me_cfdd.png" size="25"  />
             <view class="todo-content-text">处方订单</view>
         </view>
         <view class="todo-content-item" hover-class="todo-content-item-hover">
             <van-icon name="/image/meicon/me_fzdd.png" size="25"  />
             <view class="todo-content-text">复诊订单</view>
-        </view>
+        </view> -->
     </view>
 
 </view>
@@ -77,11 +77,10 @@
     <text class="todo-title">常用工具</text>
     </view>
     <view class="todo-content-view">
-        <view class="todo-content-item" hover-class="todo-content-item-hover">
+        <!-- <view class="todo-content-item" hover-class="todo-content-item-hover">
             <van-icon name="/image/meicon/me_gzys.png" size="25" />
             <view class="todo-content-text" >关注的医生</view>
-        </view>
-       
+        </view> -->
         <button open-type="contact" size="mini" plain class="todo-content-item2" hover-class="todo-content-item-hover" >
             <van-icon name="/image/meicon/me_kfzx.png" size="25"  />
             <view class="todo-content-text">在线客服</view>
@@ -90,6 +89,7 @@
             <van-icon name="/image/meicon/me_ai.png" size="25"  />
             <view class="todo-content-text">AI咨询</view>
         </view>
+       
         <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goMorePage">
             <van-icon name="/image/meicon/me_gd.png" size="25"  />
             <view class="todo-content-text">更多</view>
