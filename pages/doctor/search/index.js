@@ -56,12 +56,14 @@ Page({
 
     getLists() {
         WXAPI.accurateDoctors({
+            pageNo: 1,
+            pageSize: 9999,
             queryText: this.data.keyWords.trim(),
             subjectClassifyId: this.data.activeId || '',
             professionalTitle: this.data.professionalTitle
         }).then((res) => {
             this.setData({
-                list: res.data || []
+                list: res.data.rows || []
             })
         })
     },

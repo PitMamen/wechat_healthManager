@@ -65,7 +65,11 @@
     <view wx:if="{{status==4}}" class="remind-text">服务已经结束，请重新购买服务</view>
     <van-button wx:if="{{status==1}}" type="primary" color="#367BF5" block bind:click="apply">申请权益</van-button>
     <van-button wx:if="{{status==3}}" type="primary" color="#367BF5" block bind:click="enterRoom">进入诊室</van-button>
-    <van-button wx:if="{{status==4}}" type="primary" color="#367BF5" block bind:click="bugAgain">再次购买</van-button>
+ 
+    <view wx:if="{{status==4 }}" class="safe-bottom-box-flex">
+        <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="goRate">{{rateBtnText}}</van-button>
+        <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="bugAgain">再次购买</van-button>      
+    </view>
 </view>
 
 <!-- 服务中已结束可以查看记录 -->

@@ -11,6 +11,7 @@ Page({
         status: '0',
         nuts: [{}, {}],
         time: 15 * 60 * 1000,
+        broadClassify:1,//1咨询服务类2服务套餐3健康商品
         // 0全部;1待支付、2进行中、3已完成、4已取消
         tabs: [{
                 title: '全部',
@@ -41,9 +42,25 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        
         this.setData({
+            broadClassify:options.broadClassify,
             userId: wx.getStorageSync('userInfo').account.accountId
         })
+        if(options.broadClassify == '1'){
+            wx.setNavigationBarTitle({
+                title: '咨询订单',
+              })
+        }else  if(options.broadClassify == '2'){
+            wx.setNavigationBarTitle({
+                title: '专科服务',
+              })
+        }else  if(options.broadClassify == '3'){
+            wx.setNavigationBarTitle({
+                title: '商城订单',
+              })
+        }
+        
 
     },
     onTabsChange(e) {
@@ -79,6 +96,7 @@ Page({
      */
     async getMyOrders() {
         const res = await WXAPI.getMyOrders({
+            broadClassify:this.data.broadClassify,
             status: this.data.status
         })
         this.setData({
@@ -182,9 +200,17 @@ Page({
     buyAgain(e) {
         var item = e.currentTarget.dataset.goods
         console.log(e)
-        wx.navigateTo({
-            url: `/pages/health/detail/index?id=${item.commodityId}`
-        })
+        //1咨询服务类2服务套餐3健康商品
+        if(item.broadClassify == 1){
+            wx.navigateTo({
+                url: `/pages/doctor/detail/index?id=${item.commodityId}&docId=${item.doctorUserId}&docName=${item.doctorUserName}`
+            })
+        }else  if(item.broadClassify == 2){
+            wx.navigateTo({
+                url: `/pages/health/detail/index?id=${item.commodityId}`
+            })
+        }
+      
     },
     /**
      * 生命周期函数--监听页面卸载

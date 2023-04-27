@@ -577,8 +577,17 @@ module.exports =
                     },
                     //小程序端-名医咨询医生列表
                     accurateDoctors: function accurateDoctors(data) {
+                        data.hospitalCode= getApp().globalData.currentHospital.hospitalCode || ''
+                        data.tenantId= getApp().globalData.currentHospital.tenantId || ''
                         var url = MEDICAL_SERVICE + '/commodity/accurateDoctors'
                         return request(url, 'post', data, true);
+                    },
+                     //小程序端-名医咨询医生列表-首页
+                     getAccurateDoctors: function getAccurateDoctors(data) {
+                        data.hospitalCode= getApp().globalData.currentHospital.hospitalCode || ''
+                        data.tenantId= getApp().globalData.currentHospital.tenantId || ''
+                        var url = MEDICAL_SERVICE + '/commodity/accurateDoctors'
+                        return request2(url, 'post', data, true);
                     },
                     //小程序端-商品分类列表
                     classifies: function classifies(data) {
@@ -604,6 +613,11 @@ module.exports =
                     doctorCommodities: function doctorCommodities(data) {
                         var url = MEDICAL_SERVICE + '/commodity/doctorCommodities'
                         return request(url, 'get', data, true);
+                    },
+                    //小程序端-名医咨询医生详情(医生详情 + 商品列表)
+                    getDocComments: function getDocComments(data) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getList'
+                        return request(url, 'POST', data, true);
                     },
                     //小程序端-订单列表
                     getMyOrders: function getMyOrders(data) {
@@ -1177,6 +1191,11 @@ module.exports =
                     qryPatientInfo: function qryPatientInfo(data) {
                         return request(HEALTH_SERVICE + '/revisit/qryPatientInfo', 'post', data, true);
                     },
+                    //查询用户待办随访任务
+                    qryMyFollowAll: function qryMyFollowAll(data) {
+                        var url = FOLLOW_SERVICE + '/health/qryMyFollowAll'
+                        return request(url, 'post', data, true);
+                    },
                     //微信扫描注册后添加随访名单
                     addFollowMedicalRecords: function addFollowMedicalRecords(data) {
                         return request(FOLLOW_SERVICE + '/followMetaConfigure/addPatientMedicalRecords', 'post', data, true);
@@ -1351,6 +1370,46 @@ module.exports =
                     getCompanyUserInfo: function getCompanyUserInfo(userId) {
                         var url = MEDICAL_SERVICE + '/tdCompanywxUser/getCompanyUserInfo/' + userId
                         return request(url, 'post', '', true);
+                    },
+                    //我的  订单数量红点点
+                    getRightsCount: function getRightsCount() {
+                        var url = MEDICAL_SERVICE + '/userorder/getRightsCount' 
+                        return request2(url, 'get', '', true);
+                    },
+                     //推荐商品
+                     getYouzanGoodsList: function getYouzanGoodsList(data) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getYouzanGoodsList' 
+                        return request2(url, 'get', data, true);
+                    },
+                     //首页专科服务
+                     getServiceCommodityClassInfo: function getServiceCommodityClassInfo() {
+                        var url = MEDICAL_SERVICE + '/rightsUse/getServiceCommodityClassInfo' 
+                        return request2(url, 'get', '', true);
+                    },
+                    //添加评价
+                    doctorAppraise: function doctorAppraise(data) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/doctorAppraise'
+                        return request(url, 'post', data, true);
+                    },
+                       //查看订单有没有评价
+                       getAppraiseByOrderIdExists: function getAppraiseByOrderIdExists(orderId) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseByOrderIdExists/'+orderId
+                        return request(url, 'post', '', true);
+                    },
+                    //查看订单评价
+                    getAppraiseByOrderId: function getAppraiseByOrderId(orderId) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseByOrderId/'+orderId
+                        return request2(url, 'post', '', true);
+                    },
+                     //查看评价详情
+                     getAppraiseById: function getAppraiseById(id) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseById/'+id
+                        return request(url, 'post', '', true);
+                    },
+                    //修改头像
+                    updateCustomAccount: function updateCustomAccount(data) {
+                        var url = ACCOUNT_SERVICE + '/accountInfo/updateCustomAccount'
+                        return request(url, 'post', data, true);
                     },
                 };
 

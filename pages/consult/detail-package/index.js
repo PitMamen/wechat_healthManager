@@ -20,7 +20,9 @@ Page({
         steps: [],
         active: 0,
         CustUserId: '',//个案管理师
-        CustUserName: ''//个案管理师
+        CustUserName: '',//个案管理师
+        showRatePop:false,
+        showMyRateView:false
     },
 
     /**
@@ -158,9 +160,26 @@ Page({
             rightsItemList: res.data.rightsItemInfo || [],
         })
 
-
+        if (res.data.status.value == 4) {
+            this. getAppraiseByOrderId(res.data.orderId)
+        }
+       
     },
-
+  //查看是否评价
+   getAppraiseByOrderId(orderId) {
+    WXAPI.getAppraiseByOrderId(orderId).then(res=>{
+        if (res.code == 0 && res.data && res.data.id) {
+            this.setData({
+                rateId:res.data.id,
+                showMyRateView:true
+            })
+        }else{
+            this.setData({
+                showRatePop:true
+            })
+        }
+    })
+},
 
     //申请
     async saveRightsUseRecord(rightInfo) {
@@ -326,8 +345,21 @@ Page({
         }
 
     },
-
-
+    //去评价
+    goRatePage(){
+        wx.navigateTo({
+            url: '/pages/home/rate/package?rightsId=' + this.data.rightsId,
+        })
+        this.setData({
+            showRatePop:false
+        })
+    },
+    //我的评价
+    goMyRatePage(){
+        wx.navigateTo({
+            url:  `/pages/home/rate/package?rightsId=${this.data.rightsId}&id=${this.data.rateId}`
+        })
+    },
     //套餐详情
     goPackagePage() {
         wx.navigateTo({
@@ -335,6 +367,11 @@ Page({
         })
     },
 
+    closePopTap(){
+        this.setData({
+            showRatePop:false
+        })
+    },
     /**
      * 生命周期函数--监听页面隐藏
      */

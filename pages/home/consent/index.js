@@ -7,6 +7,7 @@ Page({
   data: {
     title:'',
     content:'',
+    showbtn:false,//是否隐藏按钮
   },
 
   /**
@@ -15,7 +16,8 @@ Page({
   onLoad: function (options) {
     this.setData({
       title:options.title,
-      type:options.type
+      type:options.type,
+      showbtn:options.showbtn
     })
 
 
@@ -29,6 +31,9 @@ Page({
   }else  if (this.data.type == '3') {
     //隐私政策
     this.getAgreementContent('P002')
+  }else  if (this.data.type == '5') {
+    //关于我们
+    this.getAgreementContent('P005')
   }
 
   },

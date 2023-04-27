@@ -12,6 +12,7 @@ Page({
         info: {},
         activeItem: {},
         activepItem: {},
+        comments: [],
         list: []
     },
     onLoad: function (options) {
@@ -26,6 +27,7 @@ Page({
             statusBarHeight: getApp().globalData.statusBarHeight
         })
         this.getInfo()
+        this.getComments()
     },
     onShow: function () {
         // 页面出现在前台时执行
@@ -61,6 +63,13 @@ Page({
         // tab 点击时执行
     },
 
+    checkAll(event) {
+
+        wx.navigateTo({
+            url: `/pages/doctor/comments/index?id=${this.data.id}&title=${this.data.title}`
+        })
+    },
+
     getInfo() {
         WXAPI.doctorCommodities({
             doctorUserId: this.data.id
@@ -86,12 +95,36 @@ Page({
             }
         })
     },
+    getComments() {
+        WXAPI.getDocComments({
+            status: 2,
+            serviceType: 1,
+            doctorUserId: this.data.id,
+            pageNo: 1,
+            pageSize: 5
+        }).then((res) => {
+            res.data.rows.forEach(element => {
+                element.createTime = element.createTime.substring(0, 10)
+                if (element.userName.length == 2) {
+                    element.userName = element.userName.substring(0, 1) + '*'
+                } else if (element.userName.length == 3) {
+                    element.userName = element.userName.substring(0, 1) + '**'
+                } else if (element.userName.length == 4) {
+                    element.userName = element.userName.substring(0, 1) + '***'
+                }
+            });
+            this.setData({
+                comments: res.data.rows
+            })
+            
+        })
+    },
     getClassName(code) {
         const name = {
             '101': 'image',
             '102': 'phone',
             '103': 'video'
-        }[code + '']
+        } [code + '']
         return name || 'other'
     },
     onBackTap() {

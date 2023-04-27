@@ -38,6 +38,7 @@ Page({
             loading: false
         })
         this.getInfo()
+        this.getComments()
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
@@ -95,6 +96,39 @@ Page({
             }
         })
     },
+
+    checkAll(event) {
+
+        wx.navigateTo({
+            url: `/pages/health/comments/index?id=${this.data.id}`
+        })
+    },
+
+    getComments() {
+        WXAPI.getDocComments({
+            status: 2,
+            serviceType: 2,
+            commodityId: this.data.id,
+            pageNo: 1,
+            pageSize: 5
+        }).then((res) => {
+            res.data.rows.forEach(element => {
+                element.createTime = element.createTime.substring(0, 10)
+                if (element.userName.length == 2) {
+                    element.userName = element.userName.substring(0, 1) + '*'
+                } else if (element.userName.length == 3) {
+                    element.userName = element.userName.substring(0, 1) + '**'
+                } else if (element.userName.length == 4) {
+                    element.userName = element.userName.substring(0, 1) + '***'
+                }
+            });
+            this.setData({
+                comments: res.data.rows
+            })
+            
+        })
+    },
+
     setPrice() {
         let price = this.data.list2.reduce((sum, item) => {
             return sum + item.totalAmount

@@ -21,8 +21,10 @@ Page({
         appointList: [],
         showTime: false,
         activeAppoint: null,
-        selectAppoint: null
-
+        selectAppoint: null,
+        isRated:false,
+        rateId:0,
+        rateBtnText:''
     },
     innerAudioContext: null,
     myInterval: null,
@@ -50,7 +52,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow() {
-
+        if (this.data.status == 4 && this.data.detail.orderId) {
+            this. getAppraiseByOrderId(this.data.detail.orderId)
+        }
     },
     async getRightsInfo(id) {
 
@@ -94,6 +98,7 @@ Page({
                     topTitle: '已完成',
                     topText: '结束时间：' + this.data.detail.rightsUseRecordStatus.updatedTime || ''
                 })
+                this. getAppraiseByOrderId(this.data.detail.orderId)
             } else if (this.data.status == 5) {
                 this.setData({
                     topIcon: '/image/yijuzhen.png',
@@ -101,6 +106,8 @@ Page({
                     topText: '处理时间：' + this.data.detail.rightsUseRecordStatus.updatedTime || ''
                 })
             }
+
+           
         }
 
     },
@@ -119,7 +126,23 @@ Page({
         }
 
     },
-
+  //查看是否评价
+  getAppraiseByOrderId(orderId) {
+    WXAPI.getAppraiseByOrderId(orderId).then(res=>{
+        if (res.code == 0 && res.data && res.data.id) {
+            this.setData({
+                rateId:res.data.id,
+                isRated:true,
+                rateBtnText:'我的评价'
+            })
+        }else{
+            this.setData({
+                isRated:false,
+                rateBtnText:'去评价'
+            })
+        }
+    })
+},
 
     play(e) {
         var item = e.currentTarget.dataset.item
@@ -271,14 +294,25 @@ Page({
             }
         }
     },
+    //去评价
+    goRate(){
+        if(this.data.isRated){
+            wx.navigateTo({
+                url:  `/pages/home/rate/doctor?rightsId=${this.data.rightsId}&id=${this.data.rateId}`
+            })
+        }else {
+            wx.navigateTo({
+                url:  `/pages/home/rate/doctor?rightsId=${this.data.rightsId}`
+            })
+        }
+       
+    },
     //再次购买
     bugAgain() {
-        // wx.navigateTo({
-        //     url: `/pages/doctor/info/index?id=${this.data.detail.docInfo.userId}&title=${this.data.detail.docInfo.userName}`
-        // })
         wx.navigateTo({
             url: `/pages/doctor/detail/index?id=${this.data.detail.commodityId}&docId=${this.data.detail.docInfo.userId}&docName=${this.data.detail.docInfo.userName}`
         })
+      
     },
     checkLoginStatus() {
 

@@ -27,12 +27,14 @@
         "pages/home/to-pay-order/index",
         "pages/doctor/search/index",
         "pages/doctor/info/index",
+        "pages/doctor/comments/index",
         "pages/doctor/detail/index",
         "pages/doctor/fill/index",
         "pages/doctor/buy/index",
         "pages/health/service/index",
         "pages/health/doctors/index",
         "pages/health/detail/index",
+        "pages/health/comments/index",
         "pages/me/main",
         "pages/me/patients/index",
         "pages/me/patients/editUser",
@@ -44,11 +46,8 @@
         "pages/home/shop-cart/index",
         "pages/me/address/add",
         "pages/me/address/select",
-        "pages/me/order/order-list",
-        "pages/me/order/order-detail",
         "pages/me/order/order-list-new",
         "pages/me/order/order-detail-new",
-        "pages/me/order/order-change",
         "pages/me/info/index",
         "pages/home/consent/index",
         "pages/me/patients/addPatient",
@@ -80,7 +79,11 @@
         "pages/consult/detail-package/tel-list",
         "pages/consult/detail-package/casemanager",
         "pages/consult/detail-package/common",
-        "pages/consult/detail-package/telinfo/index"
+        "pages/consult/detail-package/telinfo/index",
+        "pages/schedule/index",
+        "pages/me/more/index",
+        "pages/home/rate/doctor",
+        "pages/home/rate/package"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",
@@ -99,20 +102,26 @@
             {
                 "text": "首页",
                 "pagePath": "pages/home/main",
-                "iconPath": "static/icons/tab_home_n.png",
-                "selectedIconPath": "static/icons/tab_home_s.png"
+                "iconPath": "static/icons/shouye1.png",
+                "selectedIconPath": "static/icons/shouye2.png"
             },
             {
                 "text": "服务",
                 "pagePath": "pages/consult/index",
-                "iconPath": "static/icons/tab_jkgl_n.png",
-                "selectedIconPath": "static/icons/tab_jkgl_s.png"
+                "iconPath": "static/icons/fuwu1.png",
+                "selectedIconPath": "static/icons/fuwu2.png"
             },
             {
-                "text": "个人中心",
+                "text": "日程",
+                "pagePath": "pages/schedule/index",
+                "iconPath": "static/icons/richeng1.png",
+                "selectedIconPath": "static/icons/richeng2.png"
+            },
+            {
+                "text": "我的",
                 "pagePath": "pages/me/main",
-                "iconPath": "static/icons/tab_me_n.png",
-                "selectedIconPath": "static/icons/tab_me_s.png"
+                "iconPath": "static/icons/wode1.png",
+                "selectedIconPath": "static/icons/wode2.png"
             }
         ],
         "position": "bottom"

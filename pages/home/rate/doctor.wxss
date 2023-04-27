@@ -1,0 +1,83 @@
+.pagewaper {
+    background: white;
+    padding: 30rpx;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin-bottom: 30rpx;
+
+}
+
+.name-view {
+    display: flex;
+    flex-direction: column;
+
+    margin-left: 30rpx;
+    font-size: 26rpx;
+    color: #4D4D4D;
+
+}
+
+.name-view-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+.chat-head-style {
+    width: 102rpx;
+    height: 102rpx;
+    border-radius: 50%;
+}
+
+.tel-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 30rpx;
+    height: 60rpx;
+    color: #4D4D4D;
+
+}
+.tel-right{
+    max-width: 500rpx;
+    overflow: hidden; 
+text-overflow: ellipsis; 
+display: -webkit-box;
+-webkit-line-clamp: 1; 
+-webkit-box-orient: vertical;
+}
+.rateview{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 30rpx;
+    color: #4D4D4D;
+    margin-bottom: 10rpx;
+}
+.rateitem{
+    margin-bottom:6rpx ;
+}
+.textarea {
+    background: #F2F2F2;
+    border-radius: 4rpx;
+}
+
+ .input-class {
+     padding: 20rpx !important;
+    background-color: #F2F2F2 !important;
+    height: 200rpx !important;
+    font-size: 30rpx !important;
+    font-weight: 400 !important;
+    color: #4a4a4a !important;
+    line-height: 37rpx !important;
+    border-radius: 4rpx !important;
+}
+ 

@@ -63,6 +63,32 @@
             </block>
         </view>
     </view>
+
+    <!-- <view class="view-comments">
+        <view class="com-top">
+            <view style="flex: 1;color: #1A1A1A;font-size: 32rpx;font-weight: bold;">患者评价</view>
+            <view bind:tap="checkAll" style="display: flex;flex-direction: row;align-items: center;">
+                <view style="color: #007BF5;font-size: 28rpx;">查看全部</view>
+                <image src="/image/icon_go.png" style="width: 22rpx;height: 22rpx;margin-left: 10rpx;" mode="aspectFill" />
+            </view>
+
+        </view>
+        <view class="com-item" wx:for="{{ comments }}" wx:key="id" data-item="{{ item }}">
+            <view class="com-item-top">
+                <image src="/image/icon_patient.png" style="width: 88rpx;height: 88rpx;" mode="aspectFill" />
+                <view style="margin-left: 20rpx;">{{item.userName}}</view>
+            </view>
+            <view class="com-item-middle">
+                <view style="flex:1">
+                    <van-rate readonly class="rateitem" value="{{item.doctorAllAppraise}}" color="#F1A918" bind:change="onChange1" />
+                </view>
+
+                <view style="color:#999999;font-size:30rpx">{{item.createTime}}</view>
+            </view>
+            <view class="com-item-bottom">{{item.patientOpinion}}</view>
+        </view>
+    </view> -->
+
     <view class="fix" wx:if="{{ (list1.length + list2.length) > 0 }}">
         <view class="row">
             <text class="intro">选择医生</text>

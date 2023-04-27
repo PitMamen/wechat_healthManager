@@ -1,0 +1,57 @@
+<view class="wrap">
+    <view class="calander">
+        <view class="switch">
+            <van-icon class="icon" name="arrow-left" color="#CCCCCC" size="30rpx" bind:tap="onPrevTap" wx:if="{{ monthDiff <= -6 }}" />
+            <van-icon class="icon" name="arrow-left" color="#4D4D4D" size="30rpx" bind:tap="onPrevTap" wx:else />
+            <view class="day">{{ format }}</view>
+            <van-icon class="icon" name="arrow" color="#CCCCCC" size="30rpx" bind:tap="onNextTap" wx:if="{{ monthDiff >= 6 }}" />
+            <van-icon class="icon" name="arrow" color="#4D4D4D" size="30rpx" bind:tap="onNextTap" wx:else />
+        </view>
+        <view class="weeks">
+            <view class="item weekend">日</view>
+            <view class="item">一</view>
+            <view class="item">二</view>
+            <view class="item">三</view>
+            <view class="item">四</view>
+            <view class="item">五</view>
+            <view class="item weekend">六</view>
+        </view>
+        <view class="dates">
+            <view class="row" wx:for="{{ rowDates }}" wx:key="index">
+                <block wx:for="{{ item }}" wx:key="subIndex" wx:for-item="subItem" wx:for-index="subIndex">
+                    <view wx:if="{{ subItem.empty }}" class="item"></view>
+                    <view
+                        wx:else
+                        data-item="{{ subItem }}"
+                        bind:tap="onDateTap"
+                        class="{{ 'item' + ((subItem.after && subItem.list.length>0)?' after':'') + ((subItem.before && subItem.list.length>0)?' before':'') + (subItem.current?' today':'') + (subItem.date===current.date?' active':'') }}"
+                    >{{ subItem.current ? '今' : subItem.date }}</view>
+                </block>
+            </view>
+        </view>
+    </view>
+    <view class="content">
+        <van-empty class="empty" image="/image/icon_nodata.png" description="暂无记录" wx:if="{{ !list || list.length===0 }}" />
+        <view class="list" wx:else>
+            <view class="item" wx:for="{{ list }}" wx:key="index">
+                <view class="title">{{ item.name }}</view>
+                <view class="sub-list">
+                    <view class="sub-item" wx:for="{{ item.subList }}" wx:key="id" wx:for-item="subItem" wx:for-index="subIndex">
+                        <view class="top">
+                            <text>{{ subItem.time }}</text>
+                            <text class="name">{{ subItem.taskType.description }}</text>
+                            <view class="{{'status' + (subItem.taskBizStatus.value===2?' success':'') + (subItem.taskBizStatus.value===3?' fail':'') }}">{{ subItem.taskBizStatus.description }}</view>
+                        </view>
+                        <view class="bottom" data-item="{{ subItem }}" bind:tap="onFollowTap" wx:if="{{ current.before || current.current }}">
+                            <view class="desc">{{ subItem.templateTitle }}</view>
+                            <van-icon class="icon" name="arrow" color="#999999" size="30rpx" />
+                        </view>
+                        <view class="bottom" data-item="{{ subItem }}" wx:else>
+                            <view class="desc">{{ subItem.templateTitle }}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

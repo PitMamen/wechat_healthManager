@@ -1,0 +1,65 @@
+<view class="wrap">
+    <view class="background">
+        <view class="header">
+            <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
+            <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #FFFFFF;text-align: center;">
+                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 0; padding: 0 50rpx 0 24rpx;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
+                <text style="{{'line-height: '+ navBarHeight +'px;'}}">{{ title }}</text>
+            </view>
+        </view>
+    </view>
+    <view class="top">
+        <view class="card">
+            <view class="doctor">
+                <view class="left">
+                    <image src="{{ info.avatarUrl || '/image/myjk/doctor.png' }}" mode="aspectFill" />
+                </view>
+                <view class="right">
+                    <view class="name">{{ info.userName }}</view>
+                    <view class="info">
+                        <text class="job">{{ info.professionalTitle }}</text>
+                        <!-- <text class="depart">{{ info.departmentName }}</text> -->
+                    </view>
+                    <view class="server">{{ info.departmentName }}</view>
+                    <!-- <view class="share">分享</view>
+                    <view class="store">收藏</view> -->
+                    <view class="view-back" bind:tap="goBack">
+                        <view style="color: #007BF5;font-size: 28rpx;">了解医生</view>
+                        <image src="/image/icon_go.png" style="width: 22rpx;height: 22rpx;margin-left: 10rpx;" mode="aspectFill" />
+                    </view>
+                </view>
+            </view>
+
+            <view style="width: 93%;padding: 0 24rpx;">
+                <view style="height: 1rpx;background-color: #E6E6E6;"></view>
+            </view>
+
+
+            <view class="comment-sum">
+                <view class="sum-item">好评率：<text style="color: #007BF5;">{{ info.appraiseRate }}</text></view>
+                <view class="sum-item">接诊人数：<text style="color: #007BF5;">{{ info.visitNum }}</text></view>
+                <!-- <view class="sum-item" >关注人数：<text style="color: #007BF5;">{{ item.favouriteNum }}</text></view> -->
+            </view>
+        </view>
+    </view>
+
+    <van-empty class="empty" image="/image/icon_nodata.png" description="暂无记录" wx:if="{{ comments.length === 0 }}" />
+    <view class="view-comments" wx:else>
+
+        <view class="com-item" wx:for="{{ comments }}" wx:key="id" data-item="{{ item }}">
+            <view class="com-item-top">
+                <image src="/image/icon_patient.png" style="width: 88rpx;height: 88rpx;" mode="aspectFill" />
+                <view style="margin-left: 20rpx;">{{item.userName}}</view>
+            </view>
+            <view class="com-item-middle">
+                <view style="flex:1">
+                    <van-rate readonly class="rateitem" value="{{item.doctorAllAppraise}}" color="#F1A918" bind:change="onChange1" />
+                </view>
+
+                <view style="color:#999999;font-size:30rpx">{{item.createTime}}</view>
+            </view>
+            <view class="com-item-bottom">{{item.patientOpinion}}</view>
+        </view>
+    </view>
+
+</view>

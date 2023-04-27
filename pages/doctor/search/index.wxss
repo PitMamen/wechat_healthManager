@@ -117,6 +117,22 @@
     vertical-align: middle;
     border-left: 2rpx solid #D6D6D8;
 }
+.wrap .bottom .list .item .right .comment-sum {
+    /* margin-bottom: 20rpx; */
+    font-size: 24rpx;
+    color: #1A1A1A;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.wrap .bottom .list .item .right .comment-sum .sum-item {
+    width: 33%;
+    margin-bottom: 20rpx;
+    color: #1A1A1A;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 .wrap .bottom .list .item .right .desc {
     width: 100%;
     display: -webkit-box;
