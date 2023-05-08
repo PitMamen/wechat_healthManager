@@ -10,7 +10,7 @@
         <view style="color: #EE0C0C;">*</view>住院号
     </view>
     <view class="name-back">
-        <input  maxlength="30" bindinput="getRegNoValue" class="real-name" placeholder="请输入住院号" />
+        <input maxlength="30" bindinput="getRegNoValue" class="real-name" placeholder="请输入住院号" />
     </view>
     <view class="bottom-line"></view>
 
@@ -30,7 +30,7 @@
     </view>
     <view class="bottom-line"></view>
 
- 
+
 
     <view class="safe-bottom-box">
         <van-button block bind:click="hasHisNextAction" type="info">登记</van-button>
@@ -41,14 +41,14 @@
         <view style="color: #EE0C0C;">*</view>就诊科室
     </view>
     <view class="name-back">
-        <input maxlength="20" value="{{deptName || '-'}}"  disabled/>
+        <input maxlength="20" value="{{deptName || '-'}}" disabled />
     </view>
     <view class="bottom-line"></view>
     <view class="title-detail">
         <view style="color: #EE0C0C;">*</view>姓名
     </view>
     <view class="name-back">
-        <input maxlength="20" bindinput="getRealNameValue"  placeholder="请输入姓名" />
+        <input maxlength="20" bindinput="getRealNameValue" placeholder="请输入姓名" />
     </view>
     <view class="bottom-line"></view>
     <view class="title-detail">
@@ -62,14 +62,26 @@
         <view style="color: #EE0C0C;">*</view>住院号
     </view>
     <view class="name-back">
-        <input  maxlength="30" bindinput="getzyhNoValue" placeholder="请输入住院号" />
+        <input maxlength="30" bindinput="getzyhNoValue" placeholder="请输入住院号" />
     </view>
+
+    <view class="bottom-line"></view>
+    <view class="title-detail">
+        <view style="color: #EE0C0C;">*</view>出院诊断
+    </view>
+
+    <view class="row-b">
+        <view bindtap="getDiagnosis" class="small-content" data-index="{{index}}" wx:for="{{diagnosisData}}">{{item}}</view>
+        <view wx:if="{{diagnosisData&&diagnosisData.length==0}}" bindtap="getDiagnosis" style="color: #999999;padding-top: 8px;">请选择出院诊断</view>
+    </view>
+
+
     <view class="bottom-line"></view>
     <view class="title-detail">
         紧急联系人姓名
     </view>
     <view class="name-back">
-        <input maxlength="20" bindinput="getNameValue"  placeholder="请输入紧急联系人姓名" />
+        <input maxlength="20" bindinput="getNameValue" placeholder="请输入紧急联系人姓名" />
     </view>
     <view class="bottom-line"></view>
 
@@ -77,17 +89,17 @@
         紧急联系人电话
     </view>
     <view class="name-back">
-        <input type="number" maxlength="11" bindinput="getPhoneValue"  placeholder="请输入紧急联系人电话" />
+        <input type="number" maxlength="11" bindinput="getPhoneValue" placeholder="请输入紧急联系人电话" />
     </view>
     <view class="bottom-line"></view>
 
-
+    <view style="height: 150rpx;"></view>
     <view class="safe-bottom-box">
         <van-button block bind:click="noHisNextAction" type="info">登记</van-button>
     </view>
 </view>
 
-<van-dialog use-slot show="{{ showNegativeDialog }}" bind:confirm="" confirm-button-color="#3579ED" >
+<van-dialog use-slot show="{{ showNegativeDialog }}" bind:confirm="" confirm-button-color="#3579ED">
     <view style="   padding: 40rpx;display: flex;flex-direction: column; align-items: center;justify-content: center;">
         <image style="width: 180rpx;height: 138rpx;" src="/image/icon_fail.png" />
         <view style="font-size: 30rpx;margin-bottom: 27rpx;margin-top: 19rpx; color: #4D4D4D;">登记失败</view>
@@ -95,7 +107,7 @@
     </view>
 </van-dialog>
 
-<van-dialog use-slot show="{{ showPositiveDialog }}" bind:confirm="onDialogConfirm" confirm-button-color="#3579ED" >
+<van-dialog use-slot show="{{ showPositiveDialog }}" bind:confirm="onDialogConfirm" confirm-button-color="#3579ED">
     <view style="   padding: 40rpx;display: flex;flex-direction: column; align-items: center;justify-content: center;">
         <image style="width: 180rpx;height: 138rpx;" src="/image/icon_success.png" />
         <view style="font-size: 30rpx;margin-bottom: 27rpx;margin-top: 19rpx; color: #4D4D4D;">登记成功</view>

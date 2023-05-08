@@ -71,7 +71,6 @@ Page({
     },
 
     goCheck:function(e){
-        console.log("NNNN:",e)
         var index=e.currentTarget.dataset.index
         var idx=e.currentTarget.dataset.idx
         this.data.tagListInfo[index].value[idx].checked=!this.data.tagListInfo[index].value[idx].checked

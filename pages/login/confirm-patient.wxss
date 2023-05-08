@@ -160,8 +160,35 @@
   }
   .safe-bottom-box {
     position: fixed;
-    bottom: 80rpx;
+    bottom: 0;
+    padding-bottom: 30rpx;
+    background: #ffffff;
     left: 26rpx;
     width: 698rpx;
     z-index: 99;
   }
+
+  .row-b{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+
+.small-content {
+    flex-wrap: wrap;
+    height: 42rpx;
+    margin-left: 10rpx;
+    margin-top: 20rpx;
+    background: #EFF6FF;
+    border: 1px solid #3894FF;
+    border-radius: 2rpx;
+    color: #367BF5;
+    font-size: 22rpx;
+    padding-left: 30rpx;
+    padding-top: 14rpx;
+    padding-right: 30rpx;
+    /* padding: 0rpx 0rpx 10rpx 10rpx; */
+}

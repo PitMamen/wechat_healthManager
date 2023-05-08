@@ -83,7 +83,8 @@
         "pages/schedule/index",
         "pages/me/more/index",
         "pages/home/rate/doctor",
-        "pages/home/rate/package"
+        "pages/home/rate/package",
+        "pages/login/diagnosis"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

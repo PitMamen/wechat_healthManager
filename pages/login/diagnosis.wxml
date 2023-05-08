@@ -1,0 +1,10 @@
+    <van-empty wx:if="{{ !diagnosisData || diagnosisData.length == 0 }}" image="/image/icon_nodata.png" description="暂无数据" />
+<view class="all-view">
+<view class="row-cont" >
+<view wx:for="{{diagnosisData}}" wx:key="id" data-index="{{index}}" bindtap="goCheck"  class="{{item.checked?'tag-item-is-check':'tag-item-no-check'}}" >{{item.typeName}} </view>
+</view>
+
+<view class="bottom-buttom" wx:if="{{diagnosisData&&diagnosisData.length>0}}">
+        <van-button type="primary" color="#047AFF" block  bindtap="saveData" >确认</van-button>
+    </view>
+</view>

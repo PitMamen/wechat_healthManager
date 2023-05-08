@@ -8,6 +8,9 @@ Page({
      * 页面的初始数据
      */
     data: {
+        selectDiaIds: '',
+        selectName:'',
+        diagnosisData:[],
         hasHIS: 0,//HIS接口状态;1开启,2关闭
         showNegativeDialog: false,
         showPositiveDialog: false,
@@ -48,9 +51,9 @@ Page({
         this.gethospitalInfo(this.data.hospitalCode)
         this.getDepartmentDetail(this.data.deptCode)
     },
-  /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
+    /**
+       * 生命周期函数--监听页面初次渲染完成
+       */
     onReady() {
 
     },
@@ -59,10 +62,28 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow() {
-        if(!getApp().globalData.loginReady){
+        if (!getApp().globalData.loginReady) {
             this.WXloginForLogin()
         }
-        
+
+        //接收出院诊断病种 界面选中的 病种数据   只在 没有his接口的状态下 接收
+        if(this.data.hasHIS==2){
+            let pages = getCurrentPages()
+            let currentPage = pages[pages.length - 1]
+            this.setData({
+                selectDiaIds: currentPage.data.selectDiaIds,
+                selectName:currentPage.data.selectName
+            })
+            if(this.data.selectName&&this.data.selectName.length>0){
+                var names = this.data.selectName.split(",")
+                this.setData({
+                    diagnosisData:names
+                })
+                // console.log("HHHH:",this.data.diagnosisData.length)
+            }
+          
+        }
+
     },
     //登录时获取code
     WXloginForLogin() {
@@ -101,17 +122,17 @@ Page({
         })
         wx.hideLoading()
         if (res.code == 0) {
-            that.loginSuccess( res.data)
-          
+            that.loginSuccess(res.data)
+
         } else if (res.code == 10003) { //用户不存在
-            if(!getApp().globalData.reLaunchLoginPage){
+            if (!getApp().globalData.reLaunchLoginPage) {
                 // console.log("confirm-patient.js： 跳转到登录页")
-                getApp().globalData.reLaunchLoginPage=true
+                getApp().globalData.reLaunchLoginPage = true
                 wx.navigateTo({
                     url: '/pages/login/auth?type=RELOGIN',
                 })
             }
-            
+
         } else {
             wx.showToast({
                 title: '登录失败,请重试',
@@ -127,7 +148,7 @@ Page({
         wx.setStorageSync('userInfo', userInfo)
         //IM apppid
         getApp().globalData.sdkAppID = userInfo.account.imAppId
-        getApp().globalData.loginReady=true
+        getApp().globalData.loginReady = true
 
 
         if (userInfo.account.user && userInfo.account.user.length > 0) {
@@ -141,7 +162,7 @@ Page({
             wx.setStorageSync('defaultPatient', defaultPatient)
             IMUtil.LoginOrGoIMChat(defaultPatient.userId, defaultPatient.userSig)
         }
-       
+
 
     },
     //住院号
@@ -178,6 +199,13 @@ Page({
     getzyhNoValue(e) {
         this.setData({
             zyhNo: e.detail.value
+        })
+    },
+
+    //跳转获取出院诊断界面
+    getDiagnosis() {
+        wx.navigateTo({
+            url: './diagnosis?departmentId=' + this.data.deptCode,
         })
     },
 
@@ -337,6 +365,17 @@ Page({
         }
 
 
+        if (that.data.selectDiaIds.length <= 0) {
+            wx.showToast({
+                title: '请选择出院诊断',
+                icon: 'none',
+                duration: 1500
+            })
+            return;
+        }
+
+
+
 
 
         this.confirm()
@@ -440,7 +479,9 @@ Page({
             birthday: idInfo.birthDay,
             userId: userId,
             deptCode: this.data.deptCode,
-            deptName: this.data.deptName
+            deptName: this.data.deptName,
+            outDiagNosis: this.data.selectName,
+            outDiagCode: this.data.selectDiaIds,
         }
 
 
@@ -485,7 +526,7 @@ Page({
             url: '/pages/home/main?type=1',
         })
     },
-  
+
     checkLoginStatus() {
 
         if (getApp().globalData.loginReady) {
