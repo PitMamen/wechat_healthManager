@@ -9,8 +9,8 @@ Page({
      */
     data: {
         selectDiaIds: '',
-        selectName:'',
-        diagnosisData:[],
+        selectName: '',
+        diagnosisData: [],
         hasHIS: 0,//HIS接口状态;1开启,2关闭
         showNegativeDialog: false,
         showPositiveDialog: false,
@@ -67,21 +67,21 @@ Page({
         }
 
         //接收出院诊断病种 界面选中的 病种数据   只在 没有his接口的状态下 接收
-        if(this.data.hasHIS==2){
+        if (this.data.hasHIS == 2) {
             let pages = getCurrentPages()
             let currentPage = pages[pages.length - 1]
             this.setData({
                 selectDiaIds: currentPage.data.selectDiaIds,
-                selectName:currentPage.data.selectName
+                selectName: currentPage.data.selectName
             })
-            if(this.data.selectName&&this.data.selectName.length>0){
+            if (this.data.selectName && this.data.selectName.length > 0) {
                 var names = this.data.selectName.split(",")
                 this.setData({
-                    diagnosisData:names
+                    diagnosisData: names
                 })
                 // console.log("HHHH:",this.data.diagnosisData.length)
             }
-          
+
         }
 
     },
@@ -365,18 +365,16 @@ Page({
         }
 
 
-        if (that.data.selectDiaIds.length <= 0) {
-            wx.showToast({
-                title: '请选择出院诊断',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
+        if (that.data.deptCode != 0) {
+            if (that.data.selectDiaIds.length <= 0) {
+                wx.showToast({
+                    title: '请选择出院诊断',
+                    icon: 'none',
+                    duration: 1500
+                })
+                return;
+            }
         }
-
-
-
-
 
         this.confirm()
     },
@@ -480,8 +478,8 @@ Page({
             userId: userId,
             deptCode: this.data.deptCode,
             deptName: this.data.deptName,
-            outDiagNosis: this.data.selectName,
-            outDiagCode: this.data.selectDiaIds,
+            outDiagNosis: this.data.deptCode != 0 ? this.data.selectName : '',
+            outDiagCode: this.data.deptCode != 0 ? this.data.selectDiaIds : '',
         }
 
 
