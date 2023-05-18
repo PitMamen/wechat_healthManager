@@ -7,7 +7,8 @@
 
     <view class="title-detail">身份证号</view>
     <view class="name-back">
-        <view class="real-name" >{{info.idCard}}</view>
+        <!-- <view class="real-name" >{{info.idCard}}</view> -->
+        <input type="idcard" maxlength="18" bindinput="getIDCardNoValue" value="{{identificationNo}}" placeholder="请输入身份证号码" />
     </view>
     <view class="bottom-line"></view>
 

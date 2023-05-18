@@ -114,7 +114,7 @@ Page({
     //登录
     async loginQuery(e) {
 
-
+        let that=this
 
         const res = await WXAPI.loginQuery({
             code: e,
