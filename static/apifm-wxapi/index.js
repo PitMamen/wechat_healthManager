@@ -1411,6 +1411,14 @@ module.exports =
                         var url = ACCOUNT_SERVICE + '/accountInfo/updateCustomAccount'
                         return request(url, 'post', data, true);
                     },
+                     
+                    //根据科室ID查询病种   
+                    getDiseaseTypeForDepartmentId: function getDiseaseTypeForDepartmentId(id) {
+                        var url = INFO_SERVICE + '/tdDiseaseType/getDiseaseTypeForDepartmentId/'+id
+                        return request(url, 'post', '', true);
+                    },
+
+
                 };
 
                 /***/

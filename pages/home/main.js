@@ -222,7 +222,7 @@ Page({
     testBtn() {
 
         wx.navigateTo({
-            url: '/pages/login/confirm-patient'
+            url: '/pages/login/confirm-patient?ks=2350058&tenantId=100000&hospitalCode=444885559'
         })
     },
 
