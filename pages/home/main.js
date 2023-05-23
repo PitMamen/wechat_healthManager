@@ -332,8 +332,11 @@ Page({
     onDoctorTap(event) {
         var item = event.currentTarget.dataset.item
 
+        // wx.navigateTo({
+        //     url: `/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
+        // })
         wx.navigateTo({
-            url: `/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
+            url: `/pages/doctor/guide/index?id=${item.userId}&title=${item.userName}`
         })
     },
     //我的消息

@@ -23,10 +23,8 @@ Page({
         })
         this.setData({
             id: options.id,
-            title: options.title,
-            navBarHeight: getApp().globalData.navBarHeight,
-            statusBarHeight: getApp().globalData.statusBarHeight
         })
+        
         this.getInfo()
         this.getComments()
     },
@@ -84,6 +82,9 @@ Page({
                     }
                 })
             })
+            wx.setNavigationBarTitle({
+                title: res.data.userName,
+              })
             if (this.data.list.length > 0) {
                 const pitem = this.data.list[0]
                 if (pitem.pkgRules.length > 0) {

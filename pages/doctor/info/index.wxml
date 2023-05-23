@@ -16,12 +16,16 @@
             <view class="right">
                 <view class="name">{{ info.userName }}</view>
                 <view class="info">
-                    <text class="job">{{ info.professionalTitle }}</text>
-                    <!-- <text class="depart">{{ info.departmentName }}</text> -->
+                    <text class="job" >{{ info.professionalTitle }}</text>
+                    <text class="depart">{{ info.departmentName }}</text>
                 </view>
-                <view class="server">{{ info.departmentName }}</view>
+                <!-- <view class="server">{{ info.departmentName }}</view> -->
+                <view class="tags">
+                    <text class="tag" >{{ info.hospitalLevelName }}</text>
+                    <text class="hospital">{{ info.hospitalName }}</text>
+                </view>
                 <view class="share">分享</view>
-                <view class="store">收藏</view>
+                <view class=" {{isCollect?'store-active':'store'}}" bindtap="goCollect">{{isCollect?'已关注':'关注'}}</view>
             </view>
         </view>
     </view>
@@ -40,7 +44,7 @@
             <view class="comment-sum">
                 <view class="sum-item">好评率：<text style="color: #007BF5;">{{ info.appraiseRate }}</text></view>
                 <view class="sum-item">接诊人数：<text style="color: #007BF5;">{{ info.visitNum }}</text></view>
-                <!-- <view class="sum-item" >关注人数：<text style="color: #007BF5;">{{ item.favouriteNum }}</text></view> -->
+                <view class="sum-item">关注人数：<text style="color: #007BF5;">{{ item.favouriteNum }}</text></view>
             </view>
         </view>
     </view>

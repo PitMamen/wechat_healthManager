@@ -84,7 +84,9 @@
         "pages/me/more/index",
         "pages/home/rate/doctor",
         "pages/home/rate/package",
-        "pages/login/diagnosis"
+        "pages/login/diagnosis",
+        "pages/me/my-doctor/index",
+        "pages/doctor/guide/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

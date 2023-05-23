@@ -317,6 +317,13 @@ Page({
 
 
     },
+    goMyDoctorPage(){
+        if (this.checkLoginStatus()) {
+            wx.navigateTo({
+                url: '/pages/me/my-doctor/index',
+            })
+        }
+    },
     //AI咨询
     goAIPage() {
         if (this.checkLoginStatus()) {

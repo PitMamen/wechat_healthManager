@@ -582,6 +582,17 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/commodity/accurateDoctors'
                         return request(url, 'post', data, true);
                     },
+                      //小程序端-关注的医生
+                      accurateDoctorsForFavourite: function accurateDoctorsForFavourite(data) {
+                        data.hospitalCode= getApp().globalData.currentHospital.hospitalCode || ''
+                        data.tenantId= getApp().globalData.currentHospital.tenantId || ''
+                        var url = MEDICAL_SERVICE + '/commodity/accurateDoctorsForFavourite'
+                        return request(url, 'post', data, true);
+                    },
+                     // account/favourite/operation患者端-操作（添加/取消)我的收藏
+                     doCollect: function doCollect(data) {
+                        return request(INFO_SERVICE + '/favourite/operation', 'post', data, true);
+                    },
                      //小程序端-名医咨询医生列表-首页
                      getAccurateDoctors: function getAccurateDoctors(data) {
                         data.hospitalCode= getApp().globalData.currentHospital.hospitalCode || ''
