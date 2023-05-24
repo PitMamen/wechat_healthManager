@@ -215,6 +215,7 @@ Page({
                   })
             }else{
                 const res2 = await WXAPI.createStewardOrder({
+                    channel:'wechat',
                     medicalCaseId: res.data.id,
                     collectionIds: this.data.collectionIds || [],
                     commodityId: this.data.commodityId,
@@ -228,7 +229,7 @@ Page({
                         icon: 'success'
                     })
                     wx.navigateTo({
-                        url: `/pages/doctor/buy/index?id=${res2.data.orderId}&userName=${this.data.selectUser.userName}`
+                        url: `/pages/doctor/buy/index?id=${res2.data.orderId}&userName=${this.data.selectUser.userName}&orderType=${res2.data.orderType}`
                     })
                 }
             }

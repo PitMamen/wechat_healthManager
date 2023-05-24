@@ -7,13 +7,15 @@ Page({
         checked: false,
         id: null,
         userName: '',
-        info: {}
+        info: {},
+        orderType:'',
     },
     onLoad: function (options) {
         // 页面创建时执行
         this.setData({
             id: options.id,
-            userName: options.userName
+            userName: options.userName,
+            orderType:options.orderType
         })
         this.getInfo()
     },
@@ -91,6 +93,7 @@ Page({
             return
         }
         WXAPI.registerPayOrder({
+            orderType:this.data.orderType,
             orderId: this.data.id,
             payMethod: 'weixin_miniapp'
         }).then((res) => {
