@@ -36,7 +36,7 @@
             <view class="comment-sum">
                 <view class="sum-item">好评率：<text style="color: #007BF5;">{{ info.appraiseRate }}</text></view>
                 <view class="sum-item">接诊人数：<text style="color: #007BF5;">{{ info.visitNum }}</text></view>
-                <view class="sum-item">关注人数：<text style="color: #007BF5;">{{ item.favouriteNum }}</text></view>
+                <view class="sum-item">关注人数：<text style="color: #007BF5;">{{ info.favouriteNum }}</text></view>
             </view>
         </view>
     </view>
@@ -45,8 +45,8 @@
         <van-empty class="empty" description="暂无数据" image="/image/icon_nodata.png" wx:if="{{ list.length === 0 }}" />
         <view class="list" wx:else>
             <view class="item" wx:for="{{ list }}" wx:key="commodityId">
-                <text class="name">图文咨询</text>
-                    <view class="detail" >1次</view>
+                <text class="name">{{item.projectName}}</text>
+                    <view class="detail" >{{item.quantity}}{{item.unit}}</view>
              
             </view>
         </view>

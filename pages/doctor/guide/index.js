@@ -5,7 +5,10 @@ Page({
     data: {
         navBarHeight: null,
         statusBarHeight: null,
-        id: null,
+        id: null,//医生ID
+        cmdId: null,//套餐ID
+        tenantId: null,//租户ID
+        hospitalCode: null,//机构ID
         title: '',
         show: false,
         loading: false,
@@ -21,18 +24,113 @@ Page({
         wx.showShareMenu({
             withShareTicket: true
         })
-        this.setData({
-            id: options.id,
-        })
         
+        if (options.scene) {
+            //cmdId=套餐&docId=医生&tenantId=租户&hospitalCode=机构
+            const scene = decodeURIComponent(options.scene)
+            console.log(scene)
+            console.log(scene.split('&'))
+            this.setData({
+                cmdId: scene.split('&')[0],
+                id: scene.split('&')[1],
+                tenantId: scene.split('&')[2],
+                hospitalCode: scene.split('&')[2],
+            })
+        } else {
+            this.setData({
+                cmdId: options.cmdId,
+                id: options.docId,
+                tenantId: options.tenantId,
+                hospitalCode: options.hospitalCode,
+            })
+        }
         this.getInfo()
-        this.getComments()
+        this.favouriteExistsForDoctorId()
     },
     onShow: function () {
-        // 页面出现在前台时执行
-        this.setData({
-            loading: false
+        if (!getApp().globalData.loginReady) {
+            this.WXloginForLogin()
+        }
+    },
+    //登录时获取code
+    WXloginForLogin() {
+        wx.showLoading({
+            title: '加载中',
         })
+
+        let that = this
+        wx.login({
+            success(res) {
+                console.log("WXlogin", res)
+                if (res.code) {
+                    that.loginQuery(res.code);
+                } else {
+                    wx.showToast({
+                        title: '获取微信code失败',
+                        icon: "none",
+                        duration: 2000
+                    })
+                    wx.hideLoading()
+                }
+            }
+        })
+    },
+
+
+
+    //登录
+    async loginQuery(e) {
+
+        let that=this
+
+        const res = await WXAPI.loginQuery({
+            code: e,
+            appId: wx.getAccountInfoSync().miniProgram.appId
+        })
+        wx.hideLoading()
+        if (res.code == 0) {
+            that.loginSuccess(res.data)
+
+        } else if (res.code == 10003) { //用户不存在
+            if (!getApp().globalData.reLaunchLoginPage) {
+               
+                getApp().globalData.reLaunchLoginPage = true
+                wx.navigateTo({
+                    url: '/pages/login/auth?type=RELOGIN',
+                })
+            }
+
+        } else {
+            wx.showToast({
+                title: '登录失败,请重试',
+                icon: "none",
+                duration: 2000
+            })
+
+        }
+    },
+    loginSuccess(userInfo) {
+
+        //保存用户信息
+        wx.setStorageSync('userInfo', userInfo)
+        //IM apppid
+        getApp().globalData.sdkAppID = userInfo.account.imAppId
+        getApp().globalData.loginReady = true
+
+
+        if (userInfo.account.user && userInfo.account.user.length > 0) {
+            var defaultPatient = userInfo.account.user[0]
+            userInfo.account.user.forEach(item => {
+                if (item.isDefault) {
+                    defaultPatient = item
+                }
+            })
+            //保存默认就诊人
+            wx.setStorageSync('defaultPatient', defaultPatient)
+            IMUtil.LoginOrGoIMChat(defaultPatient.userId, defaultPatient.userSig)
+        }
+
+
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
@@ -70,67 +168,37 @@ Page({
     },
 
     getInfo() {
-        WXAPI.doctorCommodities({
-            doctorUserId: this.data.id
+        WXAPI.giftCommodity({
+            commodityId: this.data.cmdId
         }).then((res) => {
             this.setData({
                 info: res.data || {},
-                list: ((res.data || {}).commodities || []).map(item => {
-                    return {
-                        ...item,
-                        className: this.getClassName(item.classifyCode)
-                    }
-                })
+                list: (res.data || {}).pkgConfigure || []
             })
             wx.setNavigationBarTitle({
                 title: res.data.userName,
               })
-            if (this.data.list.length > 0) {
-                const pitem = this.data.list[0]
-                if (pitem.pkgRules.length > 0) {
-                    const item = pitem.pkgRules[0]
-                    this.setData({
-                        activeItem: item,
-                        activepItem: pitem
-                    })
-                }
-            }
+          
         })
     },
-    getComments() {
-        WXAPI.getDocComments({
-            status: 2,
-            serviceType: 1,
-            doctorUserId: this.data.id,
-            pageNo: 1,
-            pageSize: 5
-        }).then((res) => {
-            res.data.rows.forEach(element => {
-                element.createTime = element.createTime.substring(0, 10)
-                if (element.userName.length == 2) {
-                    element.userName = element.userName.substring(0, 1) + '*'
-                } else if (element.userName.length == 3) {
-                    element.userName = element.userName.substring(0, 1) + '**'
-                } else if (element.userName.length == 4) {
-                    element.userName = element.userName.substring(0, 1) + '***'
-                }
-            });
+    //是否已关注
+    favouriteExistsForDoctorId() {
+        WXAPI.favouriteExistsForDoctorId(this.data.id).then((res) => {
             this.setData({
-                comments: res.data.rows
+                isCollect: res.data || false
             })
-            
+           
+            if(!this.data.isCollect){
+                //没有关注自动关注
+                this.goCollect()
+            }
+
         })
     },
-    getClassName(code) {
-        const name = {
-            '101': 'image',
-            '102': 'phone',
-            '103': 'video'
-        } [code + '']
-        return name || 'other'
-    },
+  
+   
 
-    async goCollect() {
+     goCollect() {
         var userInfoSync = wx.getStorageSync('userInfo')
      
         var requestData = {
@@ -140,18 +208,21 @@ Page({
             userId: userInfoSync.accountId,
         }
         console.log("doctor_id:", requestData)
-        const res = await WXAPI.doCollect(requestData)
-        if (res.code == 0) {
-            wx.showToast({
-                title: this.data.isCollect ?'已取消关注':'已关注',
-                icon: 'success',
-                duration: 2000
-            })
-            this.setData({
-                isCollect: !this.data.isCollect
-            })
-          
-        }
+         WXAPI.doCollect(requestData).then((res) => {
+            if (res.code == 0) {
+                wx.showToast({
+                    title: this.data.isCollect ?'已取消关注':'已关注',
+                    icon: 'success',
+                    duration: 2000
+                })
+                this.setData({
+                    isCollect: !this.data.isCollect
+                })
+              
+            }
+
+        })
+        
     },
 
     onBackTap() {
@@ -167,45 +238,27 @@ Page({
             show: false
         })
     },
-    onDetailTap(event) {
-        const item = event.currentTarget.dataset.item
-        wx.navigateTo({
-            url: `/pages/doctor/detail/index?id=${item.commodityId}&docId=${this.data.id}&docName=${this.data.title}`
-        })
-    },
-    onGoodTap(event) {
-        const item = event.currentTarget.dataset.item
-        const pitem = event.currentTarget.dataset.pitem
-        this.setData({
-            activeItem: item,
-            activepItem: pitem
-        })
-    },
+
+
     onBuyClick() {
-        if (!this.data.activeItem.collectionId) {
-            wx.showToast({
-                title: '请选择具体套餐',
-                icon: 'error'
-            })
-            return
-        }
-        this.setData({
-            loading: true
+        getApp().globalData.currentHospital.hospitalCode =this.data.hospitalCode
+        getApp().globalData.currentHospital.tenantId =this.data.tenantId
+        
+        const collectionIds = this.data.list.map(item=>{
+            return item.collectionId
         })
-        const collectionIds = (this.data.activepItem.compulsoryCollectionIds || []).concat([this.data.activeItem.collectionId])
-        console.log("collectionIds=" + collectionIds)
-        console.log("activepItem=", this.data.activepItem)
+        console.log(collectionIds)
         //判断是否是电话咨询
-        const isTelType = this.data.activepItem.pkgRules.some((element) => {
-            return (element.serviceItemTypes[0] === 102);
+        const isTelType = this.data.list.some((element) => {
+            return (element.projectType === 102);
         })
         if (isTelType) {
             wx.navigateTo({
-                url: `/pages/doctor/telinfo/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
+                url: `/pages/doctor/telinfo/index?docId=${this.data.id}&commodityId=${this.data.info.commodityId}&collectionIds=${collectionIds.join(',')}`
             })
         } else {
             wx.navigateTo({
-                url: `/pages/doctor/case/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
+                url: `/pages/doctor/case/index?docId=${this.data.id}&commodityId=${this.data.info.commodityId}&collectionIds=${collectionIds.join(',')}`
             })
         }
 

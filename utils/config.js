@@ -39,8 +39,6 @@ export function checkNoLoginPage(routPage) {
   var pages=[
       'pages/home/main',
       'pages/me/main',
-      'pages/home/package-detail/packagedetail',
-      'pages/home/package-list/packagelist',
       'pages/health/service/index',
       'pages/health/detail/index',
       'pages/doctor/search/index',
@@ -48,7 +46,9 @@ export function checkNoLoginPage(routPage) {
       'pages/doctor/detail/index',
       'pages/home/news/news-list',
       'pages/home/news/news-detail',
-      'pages/home/hospital-select/index'
+      'pages/home/hospital-select/index',
+      'pages/doctor/guide/index',
+      'pages/login/confirm-patient'
   ]
   var b=false
   pages.forEach(item=>{

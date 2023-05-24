@@ -2,7 +2,7 @@
 
 
 <view class="top-title">{{topText}}</view>
-<view class="title-detail">姓名</view>
+<view class="title-detail"><text style="color: #EE0C0C;">*</text>姓名</view>
 <view class="name-back">
   <input type="text" name="userName" bindinput="getUserNameValue" class="real-name" focus placeholder="请输入患者真实姓名" />
 </view>
@@ -16,7 +16,7 @@
 
 </view> -->
 
-<view class="title-detail">身份证号码</view>
+<view class="title-detail"><text style="color: #EE0C0C;">*</text>身份证号码</view>
 <view class="name-back">
   <input type="idcard" name="identificationNo" bindinput="getIDCardNoValue" class="real-name" placeholder="请输入患者身份证号码" />
 </view>
@@ -30,7 +30,7 @@
 <view class="bottom-line"></view>
 
 <picker bindchange="bindPickerChange" value='{{index}}'  range="{{relationArray}}" range-key="name">
-  <view class="title-detail">与本人关系</view>
+  <view class="title-detail"><text style="color: #EE0C0C;">*</text>与本人关系</view>
   <view class="name-back">
       <!-- <text   class="real-name">{{relationship}}</text>
         <van-icon name='next'></van-icon> -->

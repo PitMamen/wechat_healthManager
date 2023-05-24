@@ -336,7 +336,7 @@ Page({
         //     url: `/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
         // })
         wx.navigateTo({
-            url: `/pages/doctor/guide/index?id=${item.userId}&title=${item.userName}`
+            url: `/pages/doctor/guide/index?cmdId=203&docId=631`
         })
     },
     //我的消息

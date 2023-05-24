@@ -281,7 +281,7 @@ page{
 .wrap .bottom {
     position: relative;
    
-    padding: 0 30rpx;
+    padding: 0 30rpx 20rpx 30rpx;
 }
 
 .wrap .bottom .title {

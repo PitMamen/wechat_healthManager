@@ -23,6 +23,7 @@ Page({
     },
     onShow: function () {
         // 页面出现在前台时执行
+        this.getLists()
     },
     onReady: function () {
         // 页面首次渲染完毕时执行

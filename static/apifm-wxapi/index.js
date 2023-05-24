@@ -589,6 +589,17 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/commodity/accurateDoctorsForFavourite'
                         return request(url, 'post', data, true);
                     },
+                    //导流包详情
+                    giftCommodity: function giftCommodity(data) {
+                        var url = MEDICAL_SERVICE + '/commodity/giftCommodity'
+                        return request(url, 'get', data, true);
+                    },
+                      //是否已关注
+                      favouriteExistsForDoctorId: function favouriteExistsForDoctorId(id) {
+                       
+                        var url = MEDICAL_SERVICE + '/commodity/favouriteExistsForDoctorId/'+id
+                        return request(url, 'get', '', true);
+                    },
                      // account/favourite/operation患者端-操作（添加/取消)我的收藏
                      doCollect: function doCollect(data) {
                         return request(INFO_SERVICE + '/favourite/operation', 'post', data, true);

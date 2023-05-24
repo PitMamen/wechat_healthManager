@@ -29,6 +29,7 @@ Page({
         })
         this.getInfo()
         this.getComments()
+        this.favouriteExistsForDoctorId()
     },
     onShow: function () {
         // 页面出现在前台时执行
@@ -152,7 +153,15 @@ Page({
           
         }
     },
-
+  //是否已关注
+  favouriteExistsForDoctorId() {
+    WXAPI.favouriteExistsForDoctorId(this.data.id).then((res) => {
+        this.setData({
+            isCollect: res.data || false
+        })
+       
+    })
+},
     onBackTap() {
         wx.navigateBack({})
     },
