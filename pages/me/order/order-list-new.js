@@ -131,9 +131,11 @@ Page({
 
     toPay(e) {
         var orderId = e.currentTarget.dataset.id
-        console.log('toPay List', orderId)
+        var orderType = e.currentTarget.dataset.ordertype
+        console.log('toPay List', orderType)
         let that = this
         WXAPI.registerPayOrder({
+            orderType:orderType,
             orderId: orderId,
             payMethod: 'weixin_miniapp'
         }).then((res) => {

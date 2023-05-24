@@ -6,25 +6,25 @@ Page({
      */
     data: {
         show: false,
-        showTime:false,
+        showTime: false,
         selectUser: {},
-        info:{},//医生信息和套餐信息
-        checkedCommdity:{},//选择的套餐信息
-        checkedPkgRule:{},//选择的规格信息
-        appointList:[],
+        info: {},//医生信息和套餐信息
+        checkedCommdity: {},//选择的套餐信息
+        checkedPkgRule: {},//选择的规格信息
+        appointList: [],
         docId: null,//医生ID
         commodityId: null,//套餐ID
         collectionIds: [],//所选规格ID
-        checkedCase:{},//所选病历
-        activeAppoint:null,//所选号源
-        selectAppoint:null,//最终确认号源
+        checkedCase: {},//所选病历
+        activeAppoint: null,//所选号源
+        selectAppoint: null,//最终确认号源
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        console.log("telinfo-options",options)
+        console.log("telinfo-options", options)
         this.setData({
             docId: options.docId,
             commodityId: options.commodityId,
@@ -32,7 +32,7 @@ Page({
         })
         this.setData({
             loading: false,
-            selectUser: wx.getStorageSync('defaultPatient'),         
+            selectUser: wx.getStorageSync('defaultPatient'),
             columns: wx.getStorageSync('userInfo').account.user,
             phone: wx.getStorageSync('defaultPatient').phone
         })
@@ -52,12 +52,12 @@ Page({
     onShow() {
         console.log(wx.getStorageSync('CheckedCase'))
         this.setData({
-           
+
             checkedCase: wx.getStorageSync('CheckedCase'),
-          
+
         })
         wx.removeStorage({
-          key: 'CheckedCase',
+            key: 'CheckedCase',
         })
     },
     getInfo() {
@@ -66,29 +66,29 @@ Page({
         }).then((res) => {
             this.setData({
                 info: res.data || {},
-                
+
             })
-            this.data.info.commodities.forEach(item=>{
-                if(item.commodityId == this.data.commodityId){
-                    item.pkgRules.forEach(el=>{
+            this.data.info.commodities.forEach(item => {
+                if (item.commodityId == this.data.commodityId) {
+                    item.pkgRules.forEach(el => {
                         console.log(this.data.collectionIds)
                         console.log(el.collectionId)
-                         var  idx= this.data.collectionIds.indexOf(el.collectionId+'')
-                         console.log(idx)
-                            if(idx>-1){
-                                this.setData({
-                                    checkedCommdity:item,
-                                    checkedPkgRule:el
-                                })
-                            }
-                        
+                        var idx = this.data.collectionIds.indexOf(el.collectionId + '')
+                        console.log(idx)
+                        if (idx > -1) {
+                            this.setData({
+                                checkedCommdity: item,
+                                checkedPkgRule: el
+                            })
+                        }
+
                     })
                 }
             })
         })
     },
     onCaseTap() {
-      
+
         wx.navigateTo({
             url: `/pages/doctor/case/index?docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=102&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}`
         })
@@ -110,28 +110,28 @@ Page({
     },
     onConfirm(event) {
         const index = event.detail.index
-      var selectUser=  this.data.columns[index]
-      if(this.data.selectUser.userId == selectUser.userId){
-        this.setData({
-            show: false
-        })
-      }else{
-        this.setData({
-            show: false,
-            selectUser: this.data.columns[index],
-            phone: this.data.columns[index].phone,
-            checkedCase:null
-        })
-      }
-      
+        var selectUser = this.data.columns[index]
+        if (this.data.selectUser.userId == selectUser.userId) {
+            this.setData({
+                show: false
+            })
+        } else {
+            this.setData({
+                show: false,
+                selectUser: this.data.columns[index],
+                phone: this.data.columns[index].phone,
+                checkedCase: null
+            })
+        }
+
     },
 
-    onTimeTap(){
+    onTimeTap() {
         this.setData({
             showTime: true
         })
     },
-    closeTimePopup(){
+    closeTimePopup() {
         this.setData({
             showTime: false
         })
@@ -144,20 +144,20 @@ Page({
 
     //排班
     async doctorAppointInfos() {
-        const res = await  WXAPI.doctorAppointInfos({
+        const res = await WXAPI.doctorAppointInfos({
             doctorUserId: this.data.docId
         })
-        if(res.code == 0){
+        if (res.code == 0) {
             this.setData({
-                appointList:res.data||[],
-                showTime:true,
-               
+                appointList: res.data || [],
+                showTime: true,
+
             })
-           
-            if(this.data.appointList.length>0){
-                if(!this.data.activeAppoint){
+
+            if (this.data.appointList.length > 0) {
+                if (!this.data.activeAppoint) {
                     this.setData({
-                        activeAppoint:this.data.appointList[0]
+                        activeAppoint: this.data.appointList[0]
                     })
                 }
 
@@ -165,15 +165,15 @@ Page({
         }
     },
     //选择号源
-    chooseAppoint(e){
-        var item= e.currentTarget.dataset.item
+    chooseAppoint(e) {
+        var item = e.currentTarget.dataset.item
         this.setData({
-            activeAppoint:item
+            activeAppoint: item
         })
     },
     //确定号源
-    confirmTimePopup(){
-        if(!this.data.activeAppoint){
+    confirmTimePopup() {
+        if (!this.data.activeAppoint) {
             wx.showToast({
                 title: '请选择意向预约时间',
                 icon: 'none'
@@ -181,11 +181,11 @@ Page({
             return
         }
         this.setData({
-            showTime:false,
-            selectAppoint:this.data.activeAppoint
+            showTime: false,
+            selectAppoint: this.data.activeAppoint
         })
     },
-    async nextAction(){
+    async nextAction() {
         if (!this.data.selectUser.userId) {
             wx.showToast({
                 title: '请选择就诊人',
@@ -215,13 +215,14 @@ Page({
             return
         }
         const res2 = await WXAPI.createStewardOrder({
+            channel: 'wechat',
             medicalCaseId: this.data.checkedCase.id,
             collectionIds: this.data.collectionIds || [],
             commodityId: this.data.commodityId,
             doctorUserId: this.data.docId,
             userId: this.data.selectUser.userId,
             doctorAppointId: this.data.selectAppoint.id,
-            phone:this.data.phone
+            phone: this.data.phone
         })
         if (res2.code == 0) {
             wx.showToast({
@@ -229,7 +230,7 @@ Page({
                 icon: 'success'
             })
             wx.navigateTo({
-                url: `/pages/doctor/buy/index?id=${res2.data.orderId}&userName=${this.data.selectUser.userName}`
+                url: `/pages/doctor/buy/index?id=${res2.data.orderId}&userName=${this.data.selectUser.userName}&orderType=${res2.data.orderType}`
             })
         }
     },
