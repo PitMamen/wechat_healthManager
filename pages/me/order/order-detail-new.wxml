@@ -131,7 +131,7 @@
             <!-- 待支付 -->
             <view class="btn" hidden="{{order.status.value==1? false : true}}" bindtap="cancelOrderTap" data-id="{{order.orderId}}">取消订单
             </view>
-            <view class="btn active" hidden="{{order.status.value==1? false : true}}" bindtap="toPay" data-id="{{order.orderId}}" data-money="{{order.amountReal}}" data-score="{{order.score}}">去支付</view>
+            <view class="btn active" hidden="{{order.status.value==1? false : true}}" bindtap="toPay" data-id="{{order.orderId}}" data-ordertype="{{order.orderType.value}}" data-money="{{order.amountReal}}" data-score="{{order.score}}">去支付</view>
 
             <!-- 已完成 和 已取消 -->
             <view class="btn active" style="width: 80%;" hidden="{{(order.status.value==3||order.status.value==4)? false : true}}" bindtap="buyAgain" data-goods="{{order}}">
