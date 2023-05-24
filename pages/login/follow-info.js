@@ -4,6 +4,7 @@ const Util = require('../../utils/util')
 Page({
     data: {
         showPositiveDialog: false,
+        identificationNo:'',
         info: {},
         debounced:false,//防抖动
     },
@@ -13,7 +14,8 @@ Page({
      */
     onLoad(options) {
         this.setData({
-            info: getApp().followInfo
+            info: getApp().followInfo,
+            identificationNo:getApp().followInfo.idCard
         })
         console.log(this.data.info)
     },
@@ -40,6 +42,16 @@ Page({
     },
     //提交
     nextAction: function () {
+
+        if (this.data.identificationNo.length <= 0) {
+            wx.showToast({
+                title: '请输入身份证号',
+                icon: 'none',
+                duration: 1500
+            })
+            return;
+        }
+
         if (this.data.debounced) {
             return
         }
@@ -58,7 +70,7 @@ Page({
         if (patientInfoList && patientInfoList.length > 0) {
             patientInfoList.forEach(item => {
                 if( this.data.info.hospitalCode == item.hospitalCode){
-                    if (item.identificationNo == this.data.info.idCard+'' ) {
+                    if (item.identificationNo == this.data.identificationNo+'' ) {
                         user = item
                     }
                 }
@@ -79,7 +91,7 @@ Page({
 
         var that = this;
       
-        var idInfo = Util.getBirthdayAndSex(that.data.info.idCard+'')
+        var idInfo = Util.getBirthdayAndSex(that.data.identificationNo+'')
         var user = wx.getStorageSync('userInfo').account
      
         const postData = {
@@ -87,7 +99,7 @@ Page({
             hospitalCode:that.data.info.hospitalCode,  
             accountId: user.accountId,
             userName: that.data.info.patName,
-            identificationNo: that.data.info.idCard+'',
+            identificationNo: that.data.identificationNo,
             identificationType: '01',//默认身份证
             phone:user.phone,//使用微信手机号
             code: '1',
@@ -138,6 +150,7 @@ Page({
       
         var postData=this.data.info
         postData.userId=userId
+        postData.idCard=this.data.identificationNo
         var user = wx.getStorageSync('userInfo').account
         postData.mobile=user.phone
 
