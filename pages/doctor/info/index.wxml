@@ -99,7 +99,10 @@
         </view>
     </view>
 
-    <van-button class="fix" type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick" wx:if="{{ list.length > 0 }}">去购买</van-button>
+    <view class="fix">
+        <van-button  type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick" wx:if="{{ list.length > 0 }}">去购买</van-button>
+    </view>
+
 </view>
 
 <van-popup round closeable show="{{ show }}" position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePopup">
