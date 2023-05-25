@@ -5,8 +5,8 @@
 
 .wrap .background {
     width: 100%;
-    height: 558rpx;
-    background: linear-gradient(180deg, #377EF5, #F1F3FD);
+    height: 400rpx;
+    /* background: linear-gradient(180deg, #377EF5, #F1F3FD); */
 }
 
 .wrap .card {
@@ -28,7 +28,7 @@
 
 .wrap .top {
     position: relative;
-    top: -383rpx;
+    top: 0rpx;
 }
 
 .wrap .top .doctor {
@@ -175,7 +175,7 @@
 }
 .wrap .middle {
     position: relative;
-    top: -383rpx;
+    top: 0rpx;
 }
 
 .wrap .middle .intro {
@@ -254,7 +254,7 @@
 
 .wrap .bottom {
     position: relative;
-    top: -383rpx;
+    top: 0rpx;
     padding: 30rpx 20rpx;
 }
 

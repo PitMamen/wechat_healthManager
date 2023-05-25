@@ -219,12 +219,7 @@ Page({
         })
         console.log(this.data.slideLeft)
     },
-    testBtn() {
-
-        wx.navigateTo({
-            url: '/pages/login/confirm-patient?ks=2350058&tenantId=100000&hospitalCode=444885559'
-        })
-    },
+  
 
 
     //获取菜单列表
@@ -332,12 +327,10 @@ Page({
     onDoctorTap(event) {
         var item = event.currentTarget.dataset.item
 
-        // wx.navigateTo({
-        //     url: `/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
-        // })
         wx.navigateTo({
-            url: `/pages/doctor/guide/index?cmdId=203&docId=631`
+            url: `/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
         })
+      
     },
     //我的消息
     goMyMessagePage() {
@@ -420,7 +413,7 @@ Page({
             pageNo: 1,
             pageSize: 10,
         }).then((res) => {
-            res.data.forEach(item => {
+            (res.data || []).forEach(item => {
                 item.price2 = MoneyUtils.accDiv(item.price, 100)
             })
             this.setData({
@@ -664,11 +657,7 @@ Page({
             url: 'selection/selection?type=1',
         })
     },
-    goPackageListPage() {
-        wx.navigateTo({
-            url: 'package-list/packagelist',
-        })
-    },
+   
     goHealthRecords() {
         wx.navigateTo({
             url: './health-records/index',

@@ -1,5 +1,5 @@
 <view class="wrap">
-    <view class="background">
+    <!-- <view class="background">
         <view class="header">
             <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
             <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #FFFFFF;text-align: center;">
@@ -7,7 +7,8 @@
                 <text style="{{'line-height: '+ navBarHeight +'px;'}}">{{ title }}</text>
             </view>
         </view>
-    </view>
+    </view> -->
+    <view style="height: 20rpx;"></view>
     <view class="top">
         <view class="doctor card">
             <view class="left">

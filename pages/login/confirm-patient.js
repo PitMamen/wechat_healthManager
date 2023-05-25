@@ -1,7 +1,8 @@
 const WXAPI = require('../../static/apifm-wxapi/index')
 const UserManager = require('../../utils/UserManager')
 const Util = require('../../utils/util')
-import bus from '../../utils/EventBus.js'
+const IMUtil = require('../../utils/IMUtil')
+
 Page({
 
     /**

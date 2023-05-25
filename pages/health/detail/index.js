@@ -25,14 +25,28 @@ Page({
         wx.showShareMenu({
             withShareTicket: true
         })
-        this.setData({
-            id: options.id,
-            docId: options.docId,
-            docName: options.docName,
-            collectionId: options.collectionId,
-            navBarHeight: getApp().globalData.navBarHeight,
-            statusBarHeight: getApp().globalData.statusBarHeight
-        })
+
+        if (options.scene) {
+            //cmdId=套餐&docId=医生&tenantId=租户&hospitalCode=机构
+            const scene = decodeURIComponent(options.scene)
+            console.log(scene)
+            console.log(scene.split('&'))
+            this.setData({
+                id: scene.split('&')[0],
+                docId: scene.split('&')[1]
+            })
+        } else {
+            this.setData({
+                id: options.id,
+                docId: options.docId,
+                docName: options.docName,
+                collectionId: options.collectionId,
+                navBarHeight: getApp().globalData.navBarHeight,
+                statusBarHeight: getApp().globalData.statusBarHeight
+            })
+        }
+
+    
         this.getComments()
     },
     onShow: function () {

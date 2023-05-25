@@ -85,6 +85,9 @@ Page({
                     }
                 })
             })
+            wx.setNavigationBarTitle({
+              title: this.data.info.userName || '',
+            })
             if (this.data.list.length > 0) {
                 const pitem = this.data.list[0]
                 if (pitem.pkgRules.length > 0) {

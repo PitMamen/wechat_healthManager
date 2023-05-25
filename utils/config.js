@@ -47,8 +47,8 @@ export function checkNoLoginPage(routPage) {
       'pages/home/news/news-list',
       'pages/home/news/news-detail',
       'pages/home/hospital-select/index',
-      'pages/doctor/guide/index',
-      'pages/login/confirm-patient'
+      'pages/login/confirm-patient',
+      'pages/home/package-detail/packagedetail'
   ]
   var b=false
   pages.forEach(item=>{

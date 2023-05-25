@@ -79,53 +79,55 @@ Page({
             loading: true
         })
         let that = this
-        if (this.data.info.payMoney === 0) {
+     
+        WXAPI.registerPayOrder({
+            orderType:this.data.orderType,
+            orderId: this.data.id,
+            payMethod: 'weixin_miniapp'
+        }).then((res) => {
+            //payedFlag 订单支付标记;0请求微信支付/1订单已支付"
+            if(res.payedFlag == 1){
+                that.paySuccess()
+            }else {
+                wx.requestPayment({
+                    timeStamp: res.data.timeStamp,
+                    nonceStr: res.data.nonceStr,
+                    package: res.data.packageStr,
+                    signType: 'MD5',
+                    paySign: res.data.paySign,
+                    success() {
+                        that.paySuccess()
+                    },
+                    fail(err) {
+                        console.info(err)
+                        wx.redirectTo({
+                            url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
+                        })
+                        that.setData({
+                            loading: false
+                        })
+                    }
+                })
+            }
+
+            
+        })
+    },
+
+    //支付成功
+    paySuccess(){
+   
             wx.showToast({
                 title: '支付成功',
                 icon: 'success',
                 duration: 2000
             })
             setTimeout(() => {
-                wx.switchTab({
-                    url: '/pages/home/main'
+                wx.redirectTo({
+                    url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
                 })
             }, 2000)
-            return
-        }
-        WXAPI.registerPayOrder({
-            orderType:this.data.orderType,
-            orderId: this.data.id,
-            payMethod: 'weixin_miniapp'
-        }).then((res) => {
-            wx.requestPayment({
-                timeStamp: res.data.timeStamp,
-                nonceStr: res.data.nonceStr,
-                package: res.data.packageStr,
-                signType: 'MD5',
-                paySign: res.data.paySign,
-                success() {
-                    wx.showToast({
-                        title: '支付成功',
-                        icon: 'success',
-                        duration: 2000
-                    })
-                    setTimeout(() => {
-                        wx.redirectTo({
-                            // url: `/pages/health/detail/index?id=${that.data.id}`
-                            url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
-                        })
-                    }, 2000)
-                },
-                fail(err) {
-                    console.info(err)
-                    wx.redirectTo({
-                        url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
-                    })
-                    this.setData({
-                        loading: false
-                    })
-                }
-            })
-        })
+        
+        
     }
 })

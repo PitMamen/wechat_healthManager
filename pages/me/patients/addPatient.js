@@ -273,16 +273,11 @@ Page({
                     //使用后删除
                     wx.removeStorageSync('routPage-w');
                 } else {
-                    if (that.data.isFirst) {
-                        wx.switchTab({
-                            url: '../../home/main'
-                        })
-
-                    } else {
+                    
                         wx.navigateBack({
                             delta: 1,
                         })
-                    }
+                    
                 }
 
 
