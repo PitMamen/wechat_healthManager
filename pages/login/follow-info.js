@@ -62,7 +62,7 @@ Page({
             this.setData({
                 debounced: false
             })
-        }, 2000)
+        }, 10000)
 
         var patientInfoList = UserManager.getPatientInfoList()
         console.log(patientInfoList)

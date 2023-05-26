@@ -251,7 +251,7 @@ Page({
             this.setData({
                 debounced: false
             })
-        }, 2000)
+        }, 10000)
 
         if (!this.checkLoginStatus()) {
             return
@@ -324,7 +324,7 @@ Page({
             this.setData({
                 debounced: false
             })
-        }, 2000)
+        }, 10000)
 
         if (!this.checkLoginStatus()) {
             return

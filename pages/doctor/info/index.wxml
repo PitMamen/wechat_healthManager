@@ -98,7 +98,7 @@
             <view class="com-item-bottom">{{item.patientOpinion}}</view>
         </view>
     </view>
-
+ <view style="height: 120rpx;"></view>
     <view class="fix">
         <van-button  type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick" wx:if="{{ list.length > 0 }}">去购买</van-button>
     </view>

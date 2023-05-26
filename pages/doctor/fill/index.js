@@ -156,6 +156,7 @@ Page({
     },
     onSchemeTap() { },
     async onNextClick() {
+        let that=this
         this.setData({
             inputTxt: this.data.inputTxt.trim()
         })
@@ -223,6 +224,7 @@ Page({
                     userId: this.data.selectUser.userId,
                     doctorAppointId: this.data.doctorAppointId
                 })
+               
                 if (res2.code == 0) {
                     wx.showToast({
                         title: '保存成功',
@@ -231,7 +233,26 @@ Page({
                     wx.navigateTo({
                         url: `/pages/doctor/buy/index?id=${res2.data.orderId}&userName=${this.data.selectUser.userName}&orderType=${res2.data.orderType}`
                     })
+                }else if(res2.code == 99302){
+                    //超过限购次数
+                    wx.showModal({
+                        title: '提示',
+                        content: '您购买此服务已超过次数限制，您可以关注医生的其他服务',
+                        confirmText:'医生服务',
+                        confirmColor:'#409EFF',
+                        success(res) {
+                            if (res.confirm) {
+                                wx.navigateTo({
+                                    url: `/pages/doctor/info/index?id=${that.data.docId}`
+                                })
+                            }
+                        }
+                    })
+
                 }
+                this.setData({
+                    loading: false
+                })
             }
 
 
