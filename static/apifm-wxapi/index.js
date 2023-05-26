@@ -563,7 +563,7 @@ module.exports =
                     //新版-创建健康商城订单
                     createStewardOrder: function createStewardOrder(data) {
                         var url = ORDER_SERVICE + '/order/tbOrder/createStewardOrder'
-                        return request(url, 'post', data, true);
+                        return request2(url, 'post', data, true);
                     },
                     //新版-支付下单操作
                     registerPayOrder: function registerPayOrder(data) {
@@ -1380,7 +1380,7 @@ module.exports =
                     //保存病历
                     medicalCaseSave: function medicalCaseSave(data) {
                         var url = MEDICAL_SERVICE + '/medicalCase/save'
-                        return request(url, 'post', data, true);
+                        return request2(url, 'post', data, true);
                     },
 
                     //医生排班列表

@@ -188,6 +188,7 @@ Page({
         this.setData({
             loading: true
         })
+        
         var postData = {
             appealDesc: this.data.appealDesc.trim(),
             diseaseDesc: this.data.inputTxt,
@@ -200,6 +201,9 @@ Page({
             //病历ID
             postData.id = this.data.caseId
         }
+        wx.showLoading({
+          title: '加载中',
+        })
         //保存或者修改病历
         const res = await WXAPI.medicalCaseSave(postData)
         if (res.code == 0) {
@@ -250,6 +254,7 @@ Page({
                     })
 
                 }
+                wx.hideLoading()
                 this.setData({
                     loading: false
                 })
@@ -257,6 +262,11 @@ Page({
 
 
 
+        }else {
+            wx.hideLoading()
+            this.setData({
+                loading: false
+            })
         }
 
     }
