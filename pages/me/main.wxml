@@ -94,10 +94,10 @@
             <van-icon name="/image/meicon/me_gd.png" size="25"  />
             <view class="todo-content-text">更多</view>
         </view>
-        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="testBtn">
+        <!-- <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="testBtn">
             <van-icon name="/image/meicon/me_gd.png" size="25"  />
             <view class="todo-content-text">测试按钮</view>
-        </view>
+        </view> -->
     </view>
 
 </view>
