@@ -165,7 +165,7 @@ Page({
     },
     onSelectTap() { },
     onBuyClick() {
-        if (!wx.getStorageSync('userInfo')) {
+        if (!getApp().globalData.loginReady){
             wx.showModal({
                 title: '提示',
                 content: '此功能需要登录',
