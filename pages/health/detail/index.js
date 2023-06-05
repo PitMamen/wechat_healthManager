@@ -34,13 +34,14 @@ Page({
             statusBarHeight: getApp().globalData.statusBarHeight
         })
         this.getComments()
-    },
-    onShow: function () {
-        // 页面出现在前台时执行
         this.setData({
             loading: false
         })
         this.getInfo()
+    },
+    onShow: function () {
+        // 页面出现在前台时执行
+
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
