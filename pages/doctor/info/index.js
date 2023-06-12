@@ -104,7 +104,7 @@ Page({
         WXAPI.getDocComments({
             status: 2,
             serviceType: 1,
-            doctorUserId: this.data.id,
+            doctorId: this.data.id,
             pageNo: 1,
             pageSize: 5
         }).then((res) => {
