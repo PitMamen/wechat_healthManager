@@ -1,6 +1,6 @@
 <view class="wrap">
     <view class="background">
-        <view class="header">
+        <!-- <view class="header">
             <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
             <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #FFFFFF;text-align: center;">
                 <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 0; padding: 0 50rpx 0 24rpx ;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
@@ -8,8 +8,9 @@
                     <text style="{{'line-height: '+ navBarHeight +'px;'}}">套餐详情</text>
                 </view>
             </view>
-        </view>
+        </view> -->
     </view>
+    <view style="height: 20rpx;"></view>
     <view class="top">
         <view class="swipe card" wx:if="{{ swipers.length > 0 }}">
             <swiper autoplay>

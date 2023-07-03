@@ -10,6 +10,7 @@ Page({
         show: false,
         loading: false,
         info: {},
+        isCollect :false, //0收藏/1取消
         activeItem: {},
         activepItem: {},
         comments: [],
@@ -28,6 +29,7 @@ Page({
         })
         this.getInfo()
         this.getComments()
+        this.favouriteExistsForDoctorId()
     },
     onShow: function () {
         // 页面出现在前台时执行
@@ -83,6 +85,9 @@ Page({
                     }
                 })
             })
+            wx.setNavigationBarTitle({
+              title: this.data.info.userName || '',
+            })
             if (this.data.list.length > 0) {
                 const pitem = this.data.list[0]
                 if (pitem.pkgRules.length > 0) {
@@ -99,7 +104,7 @@ Page({
         WXAPI.getDocComments({
             status: 2,
             serviceType: 1,
-            doctorUserId: this.data.id,
+            doctorId: this.data.id,
             pageNo: 1,
             pageSize: 5
         }).then((res) => {
@@ -127,6 +132,39 @@ Page({
         } [code + '']
         return name || 'other'
     },
+
+    async goCollect() {
+        var userInfoSync = wx.getStorageSync('userInfo')
+     
+        var requestData = {
+            favouriteType: 1,
+            operationType: this.data.isCollect ? 1 : 0, //0收藏/1取消
+            targetId:  this.data.id,
+            userId: userInfoSync.accountId,
+        }
+        console.log("doctor_id:", requestData)
+        const res = await WXAPI.doCollect(requestData)
+        if (res.code == 0) {
+            wx.showToast({
+                title: this.data.isCollect ?'已取消关注':'已关注',
+                icon: 'success',
+                duration: 2000
+            })
+            this.setData({
+                isCollect: !this.data.isCollect
+            })
+          
+        }
+    },
+  //是否已关注
+  favouriteExistsForDoctorId() {
+    WXAPI.favouriteExistsForDoctorId(this.data.id).then((res) => {
+        this.setData({
+            isCollect: res.data || false
+        })
+       
+    })
+},
     onBackTap() {
         wx.navigateBack({})
     },
@@ -155,6 +193,24 @@ Page({
         })
     },
     onBuyClick() {
+
+        if (!getApp().globalData.loginReady){
+            wx.showModal({
+                title: '提示',
+                content: '此功能需要登录',
+                confirmText: '去登录',
+                cancelText: '取消',
+                success(res) {
+                    if (res.confirm) {
+                        wx.navigateTo({
+                            url: '/pages/login/auth?type=RELOGIN'
+                        })
+                    }
+                }
+            })
+            return
+        }
+
         if (!this.data.activeItem.collectionId) {
             wx.showToast({
                 title: '请选择具体套餐',

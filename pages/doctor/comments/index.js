@@ -114,7 +114,7 @@ Page({
             status: 2,
             serviceType: 1,
             // commodityId: this.data.id,
-            doctorUserId: this.data.id,
+            doctorId: this.data.id,
             pageNo: this.data.pageNo,
             pageSize: this.data.pageSize
         }).then((res) => {

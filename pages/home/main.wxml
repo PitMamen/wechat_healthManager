@@ -201,12 +201,11 @@
                         
                     </view>
                     <view class="evaluate">
-                        <text>好评率： </text>
-                        <text style="color: #1576FF;">{{item.goodRate}}</text>
-                        <text style="margin-left: 10rpx;">接诊人数： </text>
-                        <text style="color: #1576FF;">{{item.visitNum}} </text>
-                        <!-- <text style="margin-left: 10rpx;">关注人数： </text>
-                        <text style="color: #1576FF;">{{item.favouriteNum}}</text> -->
+                        <view>好评率：<text style="color: #1576FF;">{{item.goodRate}}</text></view>
+                        <view>接诊人数：<text style="color: #1576FF;">{{item.visitNum}}</text></view>
+                        <view>关注人数：<text style="color: #1576FF;">{{item.favouriteNum}}</text></view>
+                        
+
 
                     </view>
                     <view class="desc">擅长：{{ item.expertInDisease || '暂无' }}</view>

@@ -317,6 +317,13 @@ Page({
 
 
     },
+    goMyDoctorPage(){
+        if (this.checkLoginStatus()) {
+            wx.navigateTo({
+                url: '/pages/me/my-doctor/index',
+            })
+        }
+    },
     //AI咨询
     goAIPage() {
         if (this.checkLoginStatus()) {
@@ -340,7 +347,15 @@ Page({
         }
 
     },
+    testBtn() {
 
+        // wx.navigateTo({
+        //     url: '/pages/login/confirm-patient?ks=2350058&tenantId=100000&hospitalCode=444885559'
+        // })
+        wx.navigateTo({
+            url: `/pages/home/package-detail/packagedetail?cmdId=203&docId=631&tenantId=100000&hospitalCode=444885559`
+        })
+    },
     onShareAppMessage: function () {
         // 页面被用户转发
     },

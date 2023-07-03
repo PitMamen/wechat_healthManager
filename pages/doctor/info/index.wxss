@@ -5,8 +5,8 @@
 
 .wrap .background {
     width: 100%;
-    height: 558rpx;
-    background: linear-gradient(180deg, #377EF5, #F1F3FD);
+    height: 400rpx;
+    /* background: linear-gradient(180deg, #377EF5, #F1F3FD); */
 }
 
 .wrap .card {
@@ -28,7 +28,7 @@
 
 .wrap .top {
     position: relative;
-    top: -383rpx;
+    top: 0rpx;
 }
 
 .wrap .top .doctor {
@@ -122,10 +122,60 @@
     border: 1rpx solid #0379FF;
     border-radius: 4rpx;
 }
-
+.wrap .top .doctor .right .store-active{
+   
+    color: #ffffff;
+    position: absolute;
+    width: 98rpx;
+    height: 52rpx;
+    top: 28rpx;
+    right: 20rpx;
+    box-sizing: border-box;
+    font-size: 24rpx;
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 50rpx;
+    text-align: center;
+    background-color: #0379FF;
+    border-radius: 4rpx;
+}
+.wrap .top .doctor .right .tags {
+    margin-bottom: 20rpx;
+    font-family: PingFang SC;
+    font-weight: 400;
+    color: #1A1A1A;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.wrap .top .doctor .right .tags .tag {
+    margin-right: 10rpx;
+    width: 108rpx;
+    box-sizing: border-box;
+    font-size: 24rpx;
+    color: #ffffff;
+    background-color:  #FFB300;
+    border-radius: 4rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.wrap .top .doctor .right .tags .hospital {
+    display: inline-block;
+    max-width: 245rpx;
+    margin-right: 20rpx;
+    padding: 5rpx 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 28rpx;
+    line-height: 28rpx;
+    vertical-align: middle;
+}
 .wrap .middle {
     position: relative;
-    top: -383rpx;
+    top: 0rpx;
 }
 
 .wrap .middle .intro {
@@ -204,7 +254,7 @@
 
 .wrap .bottom {
     position: relative;
-    top: -383rpx;
+    top: 0rpx;
     padding: 30rpx 20rpx;
 }
 
@@ -316,7 +366,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    top: -383rpx;
+    top: 0;
     margin-left: 24rpx;
     margin-right: 24rpx;
 

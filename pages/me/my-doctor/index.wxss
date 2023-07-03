@@ -93,6 +93,7 @@
     align-items: center;
     justify-content: center;
 }
+
 .wrap .bottom .list .item .right .tags .hospital {
     display: inline-block;
     max-width: 245rpx;

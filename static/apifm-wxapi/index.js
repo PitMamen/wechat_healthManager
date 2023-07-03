@@ -563,7 +563,7 @@ module.exports =
                     //新版-创建健康商城订单
                     createStewardOrder: function createStewardOrder(data) {
                         var url = ORDER_SERVICE + '/order/tbOrder/createStewardOrder'
-                        return request(url, 'post', data, true);
+                        return request2(url, 'post', data, true);
                     },
                     //新版-支付下单操作
                     registerPayOrder: function registerPayOrder(data) {
@@ -581,6 +581,28 @@ module.exports =
                         data.tenantId= getApp().globalData.currentHospital.tenantId || ''
                         var url = MEDICAL_SERVICE + '/commodity/accurateDoctors'
                         return request(url, 'post', data, true);
+                    },
+                      //小程序端-关注的医生
+                      accurateDoctorsForFavourite: function accurateDoctorsForFavourite(data) {
+                        data.hospitalCode= getApp().globalData.currentHospital.hospitalCode || ''
+                        data.tenantId= getApp().globalData.currentHospital.tenantId || ''
+                        var url = MEDICAL_SERVICE + '/commodity/accurateDoctorsForFavourite'
+                        return request(url, 'post', data, true);
+                    },
+                    //导流包详情
+                    giftCommodity: function giftCommodity(data) {
+                        var url = MEDICAL_SERVICE + '/commodity/giftCommodity'
+                        return request(url, 'get', data, true);
+                    },
+                      //是否已关注
+                      favouriteExistsForDoctorId: function favouriteExistsForDoctorId(id) {
+                       
+                        var url = MEDICAL_SERVICE + '/commodity/favouriteExistsForDoctorId/'+id
+                        return request(url, 'get', '', true);
+                    },
+                     // account/favourite/operation患者端-操作（添加/取消)我的收藏
+                     doCollect: function doCollect(data) {
+                        return request(INFO_SERVICE + '/favourite/operation', 'post', data, true);
                     },
                      //小程序端-名医咨询医生列表-首页
                      getAccurateDoctors: function getAccurateDoctors(data) {
@@ -614,7 +636,7 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/commodity/doctorCommodities'
                         return request(url, 'get', data, true);
                     },
-                    //小程序端-名医咨询医生详情(医生详情 + 商品列表)
+                    //医生评价
                     getDocComments: function getDocComments(data) {
                         var url = MEDICAL_SERVICE + '/tfUserAppraise/getList'
                         return request(url, 'POST', data, true);
@@ -1358,7 +1380,7 @@ module.exports =
                     //保存病历
                     medicalCaseSave: function medicalCaseSave(data) {
                         var url = MEDICAL_SERVICE + '/medicalCase/save'
-                        return request(url, 'post', data, true);
+                        return request2(url, 'post', data, true);
                     },
 
                     //医生排班列表

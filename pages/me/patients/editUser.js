@@ -111,13 +111,7 @@ Page({
                 switchStatue: res.data.user.isDefault,
                 isDefault: res.data.user.isDefault
             })
-            if (this.data.isDefault) {
-                wx.showModal({
-                    title: '提示',
-                    content: '默认就诊人不能修改默认状态和删除，您可切换默认就诊人后进行这些操作',
-                    showCancel: false,
-                })
-            }
+         
 
 
         } else {
@@ -175,14 +169,14 @@ Page({
         var code = that.data.code
         var phone = that.data.phone
         var oldPhone = that.data.oldPhone
-        if (!that.data.cardNo || that.data.cardNo.length <= 0) {
-            wx.showToast({
-                title: '请输入就诊卡号',
-                icon: 'none',
-                duration: 1500
-            })
-            return;
-        }
+        // if (!that.data.cardNo || that.data.cardNo.length <= 0) {
+        //     wx.showToast({
+        //         title: '请输入就诊卡号',
+        //         icon: 'none',
+        //         duration: 1500
+        //     })
+        //     return;
+        // }
         if (phone.length != 11) {
             wx.showToast({
                 title: '手机号有误！',

@@ -185,7 +185,9 @@ Page({
         const item = event.currentTarget.dataset.item
         if (item.taskType.value === 1){
             let url = item.jumpValue+ '?userId=' +item.userId+ '&recordId=' +item.id+ '&modifyTaskBizStatus=yes'
-            url = url.replace("/r/", "/s/")
+            if(item.taskBizStatus.value === 1){
+                url = url.replace("/r/", "/s/")
+            }         
             wx.navigateTo({
                 url: '/pages/home/webpage/index?url=' +encodeURIComponent(url)
             })
