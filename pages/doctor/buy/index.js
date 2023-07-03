@@ -116,7 +116,7 @@ Page({
 
     //支付成功
     paySuccess(){
-   
+        let that = this
             wx.showToast({
                 title: '支付成功',
                 icon: 'success',
