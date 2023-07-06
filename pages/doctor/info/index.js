@@ -232,6 +232,9 @@ Page({
             wx.navigateTo({
                 url: `/pages/doctor/telinfo/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
             })
+            // wx.navigateTo({
+            //     url: `/pages/doctor/choose-time/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
+            // })
         } else {
             wx.navigateTo({
                 url: `/pages/doctor/case/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`

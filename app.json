@@ -86,7 +86,10 @@
         "pages/home/rate/package",
         "pages/login/diagnosis",
         "pages/me/my-doctor/index",
-        "pages/doctor/guide/index"
+        "pages/doctor/guide/index",
+        "pages/doctor/choose-time/index",
+        "pages/doctor/choose-patient/index",
+        "pages/doctor/choose-case/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

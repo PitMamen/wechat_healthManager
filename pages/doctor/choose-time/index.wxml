@@ -1,0 +1,60 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+<view class="toptabview">
+    <view class="toptabcontent">
+        <view style="color: #5A9CF8;font-weight: bold;">预约信息</view>
+        <van-icon class="icon" color="#5A9CF8" name="arrow" />
+        <view>就诊人</view>
+        <van-icon class="icon" color="#5A9CF8" name="arrow" />
+        <view>病情描述</view>
+    </view>
+
+</view>
+<view class="vtitle">
+    <view>选择咨询时间段</view>
+    <view class="r" bindtap="doctorAppointInfos">
+        <text style="margin-right: 12rpx;">{{computed.dateSub(selectAppoint.fullVisitDate)}}</text>
+        <text style="margin-right: 6rpx;"> {{selectAppoint.weekDay}}</text>
+
+        <van-icon class="icon" color="#5A9CF8" name="arrow" />
+    </view>
+</view>
+
+<van-empty wx:if="{{ !selectAppoint ||!selectAppoint.timeRanges || selectAppoint.timeRanges.length == 0 }}" description="今日暂无排班" image="/image/icon_nodata.png" />
+<van-radio-group wx:else value="{{ radioIndex }}" bind:change="onRadioChange">
+    <view class="card" wx:for="{{selectAppoint.timeRanges}}" wx:key="1" bindtap="onChooseRadioItem" data-index="{{index}}">
+        <view class="card-item">
+            <view>{{item.startTime}}-{{item.endTime}}</view>
+            <van-radio name="{{index}}"></van-radio>
+        </view>
+    </view>
+
+    <view style="height: 110rpx;"></view>
+</van-radio-group>
+
+<view class="safe-bottom-box">
+    <van-button type="primary" color="#367BF5" block bind:click="nextAction">下一步</van-button>
+</view>
+
+<van-popup show="{{ show }}" position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePopup">
+    <van-picker show-toolbar custom-class="picker-custom" title="切换就诊人" columns="{{ columns }}" value-key="userName" visible-item-count="4" bind:cancel="onCancel" bind:confirm="onConfirm" />
+</van-popup>
+
+<van-popup show="{{ showTime }}" position="bottom" custom-style="min-height: 360rpx;max-height: 80%;" bind:close="closeTimePopup">
+    <view class="poptop">
+        <view bindtap="closeTimePopup">取消</view>
+        <view style="color: #1A1A1A;">选择意向预约时间</view>
+        <view bindtap="confirmTimePopup">确认</view>
+    </view>
+    <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="/image/icon_nodata.png" description="暂无排班" />
+    <view wx:else class="popwrap">
+
+        <view bindtap="chooseAppoint" data-item="{{item}}" class="{{item.id == activeAppoint.id?'timeitem-active':'timeitem'}}" wx:for="{{appointList}}" wx:key="1">
+            <view>{{item.visitDate}}</view>
+            <view>{{item.weekDay}}</view>
+        </view>
+    </view>
+    <view wx:if="{{activeAppoint}}" class="popbottom">
+        <view>可预约时间段：<text style="color: #1A1A1A;">{{activeAppoint.visitStartTime}}-{{activeAppoint.visitEndTime}}</text> </view>
+        <view>接诊人数：<text style="color: #1A1A1A;font-size: 30rpx;">{{activeAppoint.leftVisitNum}}/</text><text style="color: #1A1A1A;">{{activeAppoint.maxVisitNum}}人</text></view>
+    </view>
+</van-popup>

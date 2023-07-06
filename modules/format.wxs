@@ -318,7 +318,12 @@ function phoneReplace(phone) {
 }
 //截取时间 2022-05-12 10:40:38 -> 2022-05-12
 function dateSub(time) {
-    return time.substring(0, 10)
+    if(time){
+        return time.substring(0, 10)
+    }else {
+        return ''
+    }
+   
 
 }
 //截取时间10:30:00-11:00:00->10:30-11:00
