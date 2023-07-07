@@ -151,7 +151,6 @@ Page({
             this.setData({
                 greaterthanSix:isBigSix>6
             })
-            console.log("fff1:",isBigSix,this.data.greaterthanSix)
          
 
 
@@ -254,7 +253,9 @@ Page({
         var code = that.data.code
         var phone = that.data.phone
         var relationship = that.data.relationship
-        const res = await WXAPI.editPatientQuery({ userId: that.data.userId, accountId: wx.getStorageSync('userInfo').account.accountId, phone: phone, code: code, relationship: relationship, isDefault: isDefault, cardNo: that.data.cardNo })
+        var guardianName=that.data.guardianName
+        var guardianIdcard=that.data.guardianIdcard
+        const res = await WXAPI.editPatientQuery({ userId: that.data.userId, accountId: wx.getStorageSync('userInfo').account.accountId, phone: phone, code: code, relationship: relationship, isDefault: isDefault, cardNo: that.data.cardNo,guardianName:that.data.greaterthanSix?that.data.guardianName:'',guardianIdcard:that.data.greaterthanSix?that.data.guardianIdcard:'' })
         console.log(res)
         if (res.code == 0) {
             console.log(res.data)

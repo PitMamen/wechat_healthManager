@@ -180,7 +180,7 @@ Page({
         this.setData({
             guardianIdcard: e.detail.value
         })
-        console.log("ddd:",this.data.guardianIdcard)
+        // console.log("ddd:",this.data.guardianIdcard)
     },
     
     // 监护人姓名
@@ -188,7 +188,7 @@ Page({
         this.setData({
             guardianName: e.detail.value
         })
-        console.log("2222:",this.data.guardianName)
+        // console.log("2222:",this.data.guardianName)
     },
 
 
@@ -225,7 +225,7 @@ Page({
         let that = this
         var userName = that.data.userName
         var identificationNo = that.data.identificationNo
-        if(!greaterthanSix){
+        if(!that.data.greaterthanSix){
             var guardianIdcard = that.data.guardianIdcard
             var guardianName = that.data.guardianName
         }
@@ -249,7 +249,7 @@ Page({
             return;
         }
 
-      if(!greaterthanSix){
+      if(!that.data.greaterthanSix){
         if (guardianIdcard.length <= 0) {
             wx.showToast({
                 title: '请输入监护人身份证号',
@@ -332,7 +332,9 @@ Page({
             relationship: that.data.relationship,
             isDefault: that.data.isDefault,
             cardNo: that.data.cardNo,
-            userSex: idInfo.sex == 0 ? '女' : '男'
+            userSex: idInfo.sex == 0 ? '女' : '男',
+            guardianIdcard:that.data.greaterthanSix?that.data.guardianIdcard:'',
+            guardianName:that.data.greaterthanSix?that.data.guardianName:'',
         }
         //统一添加微信用户手机号
         postData.phone = wx.getStorageSync('userInfo').account.phone
