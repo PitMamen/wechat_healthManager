@@ -18,11 +18,23 @@
 
 <view class="title-detail"><text style="color: #EE0C0C;">*</text>身份证号码</view>
 <view class="name-back">
-  <input type="idcard" name="identificationNo" bindinput="getIDCardNoValue" class="real-name" placeholder="请输入患者身份证号码" />
+  <input  bindblur="changeidcard" type="idcard" name="identificationNo" bindinput="getIDCardNoValue" class="real-name" placeholder="请输入患者身份证号码" />
 </view>
 <view class="bottom-line"></view>
 
+<!-- 监护人身份证号码 -->
+  <view wx:if="{{!greaterthanSix}}" class="title-detail"><text style="color: #EE0C0C;">*</text>监护人身份证号码</view>
+<view wx:if="{{!greaterthanSix}}" class="name-back">
+  <input type="idcard" name="guardianIdcard" bindinput="getguardianCardNo" class="real-name" placeholder="请输入监护人身份证号码" />
+</view> 
+<view wx:if="{{!greaterthanSix}}" class="bottom-line"></view>
+<!-- 监护人姓名 -->
+<view wx:if="{{!greaterthanSix}}" class="title-detail"><text style="color: #EE0C0C;">*</text>监护人姓名</view>
+<view wx:if="{{!greaterthanSix}}" class="name-back">
+  <input type="text" name="guardianName" bindinput="getguardianName" class="real-name" focus placeholder="请输入监护人姓名" />
+</view> 
 
+<view class="bottom-line"></view>
 <view class="title-detail">就诊卡号</view>
 <view class="name-back">
   <input type="number" name="cardNo" bindinput="getCardNoValue" class="real-name" placeholder="请输入患者就诊卡号" />

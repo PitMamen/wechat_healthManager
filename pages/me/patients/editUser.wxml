@@ -11,6 +11,18 @@
   <view class="item-content">{{identificationType}}  {{identificationType == '身份证'?DateTime.sub(identificationNo,0,6) + '*********' + DateTime.sub(identificationNo,identificationNo.length-3,identificationNo.length):identificationNo}}</view>
 </view>
 
+<!-- 监护人身份证号码 -->
+<view  wx:if="{{!greaterthanSix}}" class="name-type">
+  <view class="item-title">监护人身份证号码</view>
+  <view class="item-content">{{identificationType}}  {{identificationType == '身份证'?DateTime.sub(guardianIdcard,0,6) + '*********' + DateTime.sub(guardianIdcard,guardianIdcard.length-3,guardianIdcard.length):guardianIdcard}}</view>
+</view>
+<!--  wx:if="{{!greaterthanSix}}" -->
+<!-- 监护人姓名 -->
+<view  wx:if="{{!greaterthanSix}}" class="name-type">
+  <view class="item-title">监护人姓名</view>
+  <view class="item-content">{{guardianName}}</view>
+</view>
+
 
 <view class="name-type">
   <view class="item-title">就诊卡号</view>
