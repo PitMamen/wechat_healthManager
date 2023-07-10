@@ -10,6 +10,7 @@ Page({
         selectUser: {},
         info: {},//医生信息和套餐信息
         appointList: [],
+        doctorAppointId:null,//号源
         docId: null,//医生ID
         commodityId: null,//套餐ID
         collectionIds: [],//所选规格ID
@@ -25,6 +26,7 @@ Page({
     onLoad(options) {
         console.log("telinfo-options", options)
         this.setData({
+            doctorAppointId:options.doctorAppointId,
             docId: options.docId,
             commodityId: options.commodityId,
             collectionIds: options.collectionIds.split(',')
@@ -107,29 +109,7 @@ Page({
         })
     },
 
-    //排班
-    async doctorAppointInfos() {
-        const res = await WXAPI.doctorAppointInfos({
-            doctorUserId: this.data.docId
-        })
-        if (res.code == 0) {
-            this.setData({
-                appointList: res.data || [],
-                showTime: true,
-                radioIndex:null,
-            })
-           
-            if (this.data.appointList.length > 0) {
-                if (!this.data.activeAppoint) {
-                    this.setData({
-                        activeAppoint: this.data.appointList[0],
-                        selectAppoint: this.data.appointList[0]
-                    })
-                }
-
-            }
-        }
-    },
+ 
     
 
   
@@ -142,7 +122,7 @@ Page({
             return
         }
         wx.navigateTo({
-            url: `/pages/doctor/choose-case/index?docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=102&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}`
+            url: `/pages/doctor/choose-case/index?doctorAppointId=${this.data.doctorAppointId}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=103&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}`
         })
         return
         const res2 = await WXAPI.createStewardOrder({

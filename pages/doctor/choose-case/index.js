@@ -8,6 +8,7 @@ Page({
         show: false,
         selectUser: {},
         caseList: [],
+        doctorAppointId:null,//号源
         docId: null,//医生ID
         commodityId: null,//套餐ID
         collectionIds: [],//所选规格ID
@@ -19,6 +20,7 @@ Page({
      */
     onLoad(options) {
         this.setData({
+            doctorAppointId:options.doctorAppointId,
             docId: options.docId,
             commodityId: options.commodityId,
             collectionIds: options.collectionIds.split(','),
@@ -58,18 +60,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow() {
-        if (this.data.consultType != '102' || this.data.consultType != '103') {
-            //非电话 视频 
-            this.setData({
-                columns: wx.getStorageSync('userInfo').account.user || []
-            })
-            if (this.data.columns.length == 1) {
-                this.setData({
-                    selectUser: this.data.columns[0]
-                })
-            }
-        } 
-        
+       
         this.getMedicalCaseList()
     },
 
@@ -98,14 +89,14 @@ Page({
             return
         }
         wx.navigateTo({
-            url: `/pages/doctor/fill/index?userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}`
+            url: `/pages/doctor/fill/index?doctorAppointId=${this.data.doctorAppointId}&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}`
         })
     },
     //查看
     checkCase(e) {
         var item = e.currentTarget.dataset.item
         wx.navigateTo({
-            url: `/pages/doctor/fill/index?caseId=${item.id}&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}`
+            url: `/pages/doctor/fill/index?doctorAppointId=${this.data.doctorAppointId}&caseId=${item.id}&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}`
         })
     },
 

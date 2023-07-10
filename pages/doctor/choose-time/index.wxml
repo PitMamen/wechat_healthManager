@@ -11,9 +11,9 @@
 </view>
 <view class="vtitle">
     <view>选择咨询时间段</view>
-    <view class="r" bindtap="doctorAppointInfos">
+    <view class="r" bindtap="docArrangeInfos">
         <text style="margin-right: 12rpx;">{{computed.dateSub(selectAppoint.fullVisitDate)}}</text>
-        <text style="margin-right: 6rpx;"> {{selectAppoint.weekDay}}</text>
+        <text style="margin-right: 6rpx;"> {{selectAppoint.weekDay || '请选择'}}</text>
 
         <van-icon class="icon" color="#5A9CF8" name="arrow" />
     </view>

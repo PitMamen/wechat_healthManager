@@ -21,10 +21,6 @@
         "pages/login/auth",
         "pages/login/confirm-patient",
         "pages/login/index",
-        "pages/home/selection/selection",
-        "pages/home/package-detail/packagedetail",
-        "pages/home/package-list/packagelist",
-        "pages/home/to-pay-order/index",
         "pages/doctor/search/index",
         "pages/doctor/info/index",
         "pages/doctor/comments/index",
@@ -43,7 +39,6 @@
         "pages/home/news/news-list",
         "pages/home/news/news-detail",
         "pages/me/content/index",
-        "pages/home/shop-cart/index",
         "pages/me/address/add",
         "pages/me/address/select",
         "pages/me/order/order-list-new",
@@ -92,7 +87,8 @@
         "pages/doctor/choose-case/index",
         "pages/me/prescription/index",
         "pages/me/prescription/detail",
-        "pages/me/prescription/drugtaking_page"
+        "pages/me/prescription/drugtaking_page",
+        "pages/consult/detail-video/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

@@ -165,7 +165,7 @@ Page({
         this.setData({
             hideDiagnosisPicker: false
         })
-        this.searchDiagnosisList(event.detail.value)
+        // this.searchDiagnosisList("感冒")
     },
 
     // 显示日历弹框
@@ -356,8 +356,33 @@ Page({
             return
         }
 
+        if (this.data.offLinechecked) {
+           if (!this.data.hosName) {
+            wx.showToast({
+                title: '请选择就诊机构',
+                icon: 'none'
+            })
+            return
+           }
+
+           if (!this.data.diagnosisName) {
+            wx.showToast({
+                title: '请选择诊断结果',
+                icon: 'none'
+            })
+            return
+           }
 
 
+           if (!this.data.diagnosisDate) {
+            wx.showToast({
+                title: '请选择诊断日期',
+                icon: 'none'
+            })
+            return
+           }
+           
+        }
 
         this.setData({
             loading: true

@@ -224,17 +224,16 @@ Page({
         const collectionIds = (this.data.activepItem.compulsoryCollectionIds || []).concat([this.data.activeItem.collectionId])
         console.log("collectionIds=" + collectionIds)
         console.log("activepItem=", this.data.activepItem)
-        //判断是否是电话咨询
-        const isTelType = this.data.activepItem.pkgRules.some((element) => {
-            return (element.serviceItemTypes[0] === 102);
-        })
-        if (isTelType) {
+  
+        const serviceItemType=this.data.activepItem.pkgRules[0].serviceItemTypes[0]
+        if (serviceItemType === 102 ) { //电话咨询
             wx.navigateTo({
                 url: `/pages/doctor/telinfo/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
             })
-            // wx.navigateTo({
-            //     url: `/pages/doctor/choose-time/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
-            // })
+        }else if (serviceItemType === 103 ) { //视频咨询
+            wx.navigateTo({
+                url: `/pages/doctor/choose-time/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
+            })
         } else {
             wx.navigateTo({
                 url: `/pages/doctor/case/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`

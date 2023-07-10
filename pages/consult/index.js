@@ -192,6 +192,10 @@ Page({
                 wx.navigateTo({
                     url: './detail-tel/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
                 })
+            }else if(info.serviceItemTypes[0]==103){
+                wx.navigateTo({
+                    url: './detail-video/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
+                })
             }else{
                 wx.navigateTo({
                     url: './detail-text/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
@@ -278,9 +282,25 @@ Page({
     //再次购买
     bugAgain(e) {
         var info = e.currentTarget.dataset.item
-        wx.navigateTo({
-            url: `/pages/health/detail/index?id=${info.commodityId}`
-        })
+        if (this.checkLoginStatus()) {
+            if(info.serviceItemTypes[0]==101){
+                wx.navigateTo({
+                    url: `/pages/health/detail/index?id=${info.commodityId}`
+                })
+            }else if(info.serviceItemTypes[0]==102){
+                wx.navigateTo({
+                    url: `/pages/doctor/detail/index?id=${info.commodityId}&docId=${info.doctorUserId}&docName=${info.doctorUserName}`
+                })
+            }else if(info.serviceItemTypes[0]==103){
+                wx.navigateTo({
+                    url: `/pages/doctor/detail/index?id=${info.commodityId}&docId=${info.doctorUserId}&docName=${info.doctorUserName}`
+                })
+            }
+
+
+        }
+     
+
     },
     //使用权益
     goApplyRights(e) {
