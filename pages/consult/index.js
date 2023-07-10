@@ -285,15 +285,15 @@ Page({
         if (this.checkLoginStatus()) {
             if(info.serviceItemTypes[0]==101){
                 wx.navigateTo({
-                    url: `/pages/health/detail/index?id=${info.commodityId}`
+                    url: `/packageDoc/pages/health/detail/index?id=${info.commodityId}`
                 })
             }else if(info.serviceItemTypes[0]==102){
                 wx.navigateTo({
-                    url: `/pages/doctor/detail/index?id=${info.commodityId}&docId=${info.doctorUserId}&docName=${info.doctorUserName}`
+                    url: `/packageDoc/pages/doctor/detail/index?id=${info.commodityId}&docId=${info.doctorUserId}&docName=${info.doctorUserName}`
                 })
             }else if(info.serviceItemTypes[0]==103){
                 wx.navigateTo({
-                    url: `/pages/doctor/detail/index?id=${info.commodityId}&docId=${info.doctorUserId}&docName=${info.doctorUserName}`
+                    url: `/packageDoc/pages/doctor/detail/index?id=${info.commodityId}&docId=${info.doctorUserId}&docName=${info.doctorUserName}`
                 })
             }
 

@@ -15,7 +15,7 @@ Page({
         showChatInput: false,
         hideTimeShow: true,
         config: {},
-        toAvatar: '../../../image/docheader.png',//聊天对象头像
+        toAvatar: 'https://hmg.mclouds.org.cn/content-api/file/I20230710172158340QUIFGH4VFPA6IH-docheader.png',//聊天对象头像
         myAvatar: '../../../image/avatar.png',//自己头像
         conversationID: '',//聊天会话ID
         groupID: '',//群ID

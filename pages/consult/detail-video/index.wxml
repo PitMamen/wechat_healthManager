@@ -5,7 +5,7 @@
 </view>
 <view class="pagewaper">
     <view class="card-top">
-        <image class="chat-head-style" src="{{detail.docInfo.avatarUrl||'/image/docheader.png'}}" lazy-load="{{ true }}" mode="aspectFill" />
+        <image class="chat-head-style" src="{{detail.docInfo.avatarUrl||'https://hmg.mclouds.org.cn/content-api/file/I20230710172158340QUIFGH4VFPA6IH-docheader.png'}}" lazy-load="{{ true }}" mode="aspectFill" />
         <view class="name-view">
             <view class="name-view-top">
                 <view style="font-size: 36rpx;color: #1A1A1A; margin-right: 12rpx;">{{detail.docInfo.userName}}</view>
@@ -80,7 +80,7 @@
         <view style="color: #1A1A1A;">选择意向预约时间</view>
         <view bindtap="confirmTimePopup">确认</view>
     </view>
-    <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="/image/icon_nodata.png" description="暂无排班" />
+    <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无排班" />
     <view wx:else class="popwrap">
         
         <view bindtap="chooseAppoint" data-item="{{item}}"  class="{{item.id == activeAppoint.id?'timeitem-active':'timeitem'}}" wx:for="{{appointList}}" wx:key="1">

@@ -31,7 +31,7 @@
         </view>
     </view>
     <view class="content">
-        <van-empty class="empty" image="/image/icon_nodata.png" description="暂无记录" wx:if="{{ !list || list.length===0 }}" />
+        <van-empty class="empty" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无记录" wx:if="{{ !list || list.length===0 }}" />
         <view class="list" wx:else>
             <view class="item" wx:for="{{ list }}" wx:key="index">
                 <view class="title">{{ item.name }}</view>

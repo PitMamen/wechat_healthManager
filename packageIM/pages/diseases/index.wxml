@@ -16,7 +16,7 @@
         </van-tabs>
     </view>
 </van-sticky>
-<van-empty wx:if="{{ !tabs || tabs.length == 0 }}" image="/image/icon_nodata.png" description="未找到疾病知识" ></van-empty>
+<van-empty wx:if="{{ !tabs || tabs.length == 0 }}" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="未找到疾病知识" ></van-empty>
 <view wx:else class="htmlcontent">
     <mp-html  content="{{tabs[active].content}}" />
 </view>

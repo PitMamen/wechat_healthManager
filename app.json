@@ -14,6 +14,27 @@
                 "pages/chat/groupChat",
                 "pages/chat/groupHistoryChat"
             ]
+        },
+        {
+            "root": "packageDoc",
+            "pages": [
+                "pages/doctor/search/index",
+                "pages/doctor/info/index",
+                "pages/doctor/comments/index",
+                "pages/doctor/detail/index",
+                "pages/doctor/fill/index",
+                "pages/doctor/buy/index",
+                "pages/doctor/case/index",
+                "pages/doctor/telinfo/index",
+                "pages/doctor/guide/index",
+                "pages/doctor/choose-time/index",
+                "pages/doctor/choose-patient/index",
+                "pages/doctor/choose-case/index",
+                "pages/health/service/index",
+                "pages/health/doctors/index",
+                "pages/health/detail/index",
+                "pages/health/comments/index"
+            ]
         }
     ],
     "pages": [
@@ -21,16 +42,7 @@
         "pages/login/auth",
         "pages/login/confirm-patient",
         "pages/login/index",
-        "pages/doctor/search/index",
-        "pages/doctor/info/index",
-        "pages/doctor/comments/index",
-        "pages/doctor/detail/index",
-        "pages/doctor/fill/index",
-        "pages/doctor/buy/index",
-        "pages/health/service/index",
-        "pages/health/doctors/index",
-        "pages/health/detail/index",
-        "pages/health/comments/index",
+
         "pages/me/main",
         "pages/me/patients/index",
         "pages/me/patients/editUser",
@@ -46,7 +58,6 @@
         "pages/me/info/index",
         "pages/home/consent/index",
         "pages/me/patients/addPatient",
-        "pages/home/health-records/index",
         "pages/me/my-plan/index",
         "pages/me/my-plan/plan-detail",
         "pages/me/my-plan/task-detail",
@@ -64,8 +75,6 @@
         "pages/consult/detail-text/index",
         "pages/consult/rights/apply",
         "pages/consult/webpage/index",
-        "pages/doctor/case/index",
-        "pages/doctor/telinfo/index",
         "pages/me/health/healthrecords",
         "pages/me/health/baseimformation",
         "pages/me/health/healthstatus",

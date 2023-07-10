@@ -1,4 +1,4 @@
-// pages/me/index.js
+// pages/doctor/guide/index.js
 Page({
 
     /**

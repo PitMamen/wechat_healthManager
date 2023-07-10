@@ -205,11 +205,11 @@ Page({
         //1咨询服务类2服务套餐3健康商品
         if(item.broadClassify == 1){
             wx.navigateTo({
-                url: `/pages/doctor/detail/index?id=${item.commodityId}&docId=${item.doctorUserId}&docName=${item.doctorUserName}`
+                url: `/packageDoc/pages/doctor/detail/index?id=${item.commodityId}&docId=${item.doctorUserId}&docName=${item.doctorUserName}`
             })
         }else  if(item.broadClassify == 2){
             wx.navigateTo({
-                url: `/pages/health/detail/index?id=${item.commodityId}`
+                url: `/packageDoc/pages/health/detail/index?id=${item.commodityId}`
             })
         }
       

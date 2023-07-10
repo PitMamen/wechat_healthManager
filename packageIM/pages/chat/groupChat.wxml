@@ -1,4 +1,4 @@
-<TUICalling id="TUICalling-component" config="{{config}}"></TUICalling>
+
 <import src="../../modules/chat-page/chat-item.wxml"/>
 <import src="../../modules/chat-page/chat-page-status.wxml"/>
 
