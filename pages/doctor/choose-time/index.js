@@ -36,7 +36,7 @@ Page({
             phone: wx.getStorageSync('defaultPatient').phone
         })
         // this.getInfo()
-        this.doctorAppointInfos()
+        this.docArrangeInfos()
     },
 
     /**
@@ -119,8 +119,8 @@ Page({
     },
 
     //排班
-    async doctorAppointInfos() {
-        const res = await WXAPI.doctorAppointInfos({
+    async docArrangeInfos() {
+        const res = await WXAPI.docArrangeInfos({
             doctorUserId: this.data.docId
         })
         if (res.code == 0) {

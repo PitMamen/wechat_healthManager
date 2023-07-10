@@ -48,7 +48,7 @@
 
         <view class="com-item" wx:for="{{ comments }}" wx:key="id" data-item="{{ item }}">
             <view class="com-item-top">
-                <image src="/image/icon_patient.png" style="width: 88rpx;height: 88rpx;" mode="aspectFill" />
+                <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 88rpx;height: 88rpx;" mode="aspectFill" />
                 <view style="margin-left: 20rpx;">{{item.userName}}</view>
             </view>
             <view class="com-item-middle">

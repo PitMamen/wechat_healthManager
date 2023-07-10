@@ -652,11 +652,6 @@ Page({
     },
 
 
-    toSelection() {
-        wx.navigateTo({
-            url: 'selection/selection?type=1',
-        })
-    },
    
     goHealthRecords() {
         wx.navigateTo({
