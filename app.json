@@ -89,7 +89,10 @@
         "pages/doctor/guide/index",
         "pages/doctor/choose-time/index",
         "pages/doctor/choose-patient/index",
-        "pages/doctor/choose-case/index"
+        "pages/doctor/choose-case/index",
+        "pages/me/prescription/index",
+        "pages/me/prescription/detail",
+        "pages/me/prescription/drugtaking_page"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

@@ -131,6 +131,17 @@ Page({
         })
     },
 
+    // 跳转至处方列表界面
+    goChufangListPage(){
+        if (this.checkLoginStatus()) {
+            if (getApp().getDefaultPatient()) {
+                wx.navigateTo({
+                    url: './prescription/index',
+                })
+            }
+        }
+    },
+
 
     goMyHealthRecords() {
         if(this.checkLoginStatus()){

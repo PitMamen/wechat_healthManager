@@ -1452,6 +1452,22 @@ module.exports =
                         return request(url, 'get', data, true);
                     },
 
+                      //小程序端-处方详情
+                      preDetail: function preDetail(data) {
+                        var url = MEDICAL_SERVICE + '/medOrders/preDetail'
+                        return request(url, 'get', data, true);
+                    },
+                     //小程序端-处方列表
+                     preList: function preList(data) {
+                        var url = MEDICAL_SERVICE + '/medOrders/preList'
+                        return request2(url, 'POST', data, true);
+                    },
+                    //小程序端-创建处方订单
+                    createPrescriptionOrder: function createPrescriptionOrder(data) {
+                        var url = ORDER_SERVICE + '/order/tbOrder/createPrescriptionOrder'
+                        return request(url, 'POST', data, true);
+                    },
+
                 };
 
                 /***/

@@ -191,6 +191,10 @@
             return '去评价'
         } else if (type == 5) {
             return '去评价'
+        }else if (type == 8) {
+            return '查看处方'
+        }else if (type == 9) {
+            return '去支付'
         } else {
             return '去交流'
         }

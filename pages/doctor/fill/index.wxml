@@ -44,7 +44,7 @@
             <view wx:if="{{offLinechecked}}" style="display: flex;flex-direction: row;">
                 <view style="margin-top: 40rpx;">诊断日期</view>
                 <input value="{{diagnosisDate}}" class="ba" disabled="true" style="margin-top: 30rpx;margin-left: 20rpx;padding-left:10rpx;" bindtap="showcalendar"></input>
-                <van-calendar show="{{showData}}" bind:confirm="dateConfirm" color='#3894FF' bind:close="close"  />
+                <van-calendar min-date="{{ minDate }}" show="{{showData}}" bind:confirm="dateConfirm" color='#3894FF' bind:close="close"  />
             </view>
 
 
@@ -90,7 +90,7 @@
 <van-popup show="{{ !hideDiagnosisPicker }}" round position="bottom" custom-style="padding-top:10rpx;height: 60%;" bind:close="cloaseDiagnosistab">
     <!-- <van-sticky> -->
         <view style="text-align: center;font-size: 40rpx;font-weight: bold">诊断</view>
-        <van-search class="search" placeholder="请输入诊断名称进行查询" model:value="{{ keyWords }}" bind:change="diagnosisChange" />
+        <van-search class="search" placeholder="请输入诊断名称进行查询" model:value="{{ keyWordsdiagnosis }}" bind:change="diagnosisChange" />
     <!-- </van-sticky> -->
 
     <view wx:for="{{DiagnosisList}}">

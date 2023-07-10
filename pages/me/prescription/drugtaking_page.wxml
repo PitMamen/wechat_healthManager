@@ -1,0 +1,51 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+<view class="topview">
+
+    <view class="titleviw">姓名：<text>{{dataInfo.medicalInfo.name}}</text></view>
+
+    <view class="titleviw">性别：<text>{{dataInfo.medicalInfo.sex}}</text></view>
+
+    <view class="titleviw">年龄：<text>{{dataInfo.medicalInfo.age}}岁</text></view>
+</view>
+
+<view class="topview">
+
+    <view class="titleviw">医生：<text>{{dataInfo.medicalInfo.doctorName}}</text></view>
+    <view class="titleviw1">科室：<text>{{dataInfo.medicalInfo.deptName || '-'}}</text></view>
+
+</view>
+
+<text style="margin-left: 36rpx; margin-top: 40rpx;color:#1A1A1A;">就诊时间：{{dataInfo.medicalInfo.createDate}}</text>
+
+<view class="titleviw" style="margin-left: 35rpx; margin-top: 100rpx;">取药方式</view>
+
+
+
+<view class="content">
+    <view class="drugtaking_style" style="justify-items: center; background-color: {{takeyouself?'#1880E8':'#E6E6E6'}};color: {{takeyouself?'#FFFFFF':'#1A1A1A'}};" bindtap="takeyouself">药房自取 
+
+    </view>
+    <view class="drugtaking_style1" style="align-items: center;background-color: {{express_Issued?'#1880E8':'#E6E6E6'}};color: {{express_Issued?'#FFFFFF':'#1A1A1A'}};" bindtap="express_Issued">代发快递
+    </view>
+</view>
+
+
+<view class="v1" hidden="{{takeyouself?false:true}}">
+    <text style="font-size: 40rpx; margin-left: 35rpx; margin-top: 20rpx;font-weight: bold;">取药点</text>
+    <text style="font-size: 25rpx; margin-left: 35rpx; margin-top: 20rpx;">{{dataInfo.takeMedicineLocDesc?dataInfo.takeMedicineLocDesc:''}}</text>
+    <text style="margin-left: 35rpx; margin-top: 20rpx;color: #F10C0C;font-size: 24rpx;">注:</text>
+    <text style="font-size: 25rpx; margin-left: 35rpx; margin-right: 35rpx; margin-top: 20rpx;color: #666666;">请选择药房自取的病友患者,携带诊疗卡或者电子处方凭证,前往取药,周一至周六正常上班时间均可,节假日以门诊开放时间为准</text>
+</view>
+
+<!-- 快递代发 -->
+<view class="v1" style="margin-top: 20rpx; margin-left: 30rpx;" hidden="{{express_Issued?false:true}}">
+    <van-cell style="font-size: 6rpx; margin-left: -20rpx;"  title="收货地址" is-link bind:click="getMyReceiving_address" />
+    <text wx:if="{{curAddressData}}" class="name-tel" decode>姓名：{{curAddressData.userName}} &emsp; &emsp;电话：{{curAddressData.telNumber}}</text>
+    <view wx:if="{{ReceivingAddressDetail}}" class="name-tel">地址：{{ReceivingAddressDetail}}</view>
+</view>
+
+<button style="margin: 50rpx;background-color: #007BF5; color: white;" hidden="{{payStata==0||payStata==1?false:true}}" bindtap="goPay">去缴费 </button>
+
+<button style="margin: 50rpx;background-color: #B3B3B3; color: #5F5F6B;"
+ hidden="{{payStata==5|| payStata==8|| payStata==2?false:true}}">{{dataInfo.medicalOrder.statusName}}
+ </button>
