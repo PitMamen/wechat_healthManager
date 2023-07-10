@@ -37,7 +37,7 @@
                 <view class="des" style="{{item.status==2||item.status==3?'color: #FB9600 ;':'color: #999999 ;'}}">{{item.itemContent}}</view>
             </view>
         </view>
-        <van-empty wx:if="{{ !rightsItemList || rightsItemList.length == 0 }}" image="/image/icon_nodata.png" description="暂无服务项目" />
+        <van-empty wx:if="{{ !rightsItemList || rightsItemList.length == 0 }}" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无服务项目" />
     </view>
 
 </view>

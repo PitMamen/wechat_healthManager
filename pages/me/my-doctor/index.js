@@ -76,7 +76,7 @@ Page({
     onDoctorTap(event) {
         const item = event.currentTarget.dataset.item
         wx.navigateTo({
-            url: `/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
+            url: `/packageDoc/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
         })
     },
    

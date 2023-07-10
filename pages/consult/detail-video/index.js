@@ -310,7 +310,7 @@ Page({
     //再次购买
     bugAgain() {
         wx.navigateTo({
-            url: `/pages/doctor/detail/index?id=${this.data.detail.commodityId}&docId=${this.data.detail.docInfo.userId}&docName=${this.data.detail.docInfo.userName}`
+            url: `/packageDoc/pages/doctor/detail/index?id=${this.data.detail.commodityId}&docId=${this.data.detail.docInfo.userId}&docName=${this.data.detail.docInfo.userName}`
         })
       
     },

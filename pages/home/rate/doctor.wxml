@@ -1,7 +1,7 @@
 <view style="height: 0.5px; background: #E6E6E6;"></view>
 <view class="pagewaper">
     <view class="card-top">
-        <image class="chat-head-style" src="{{detail.docInfo.avatarUrl||'/image/docheader.png'}}" lazy-load="{{ true }}" mode="aspectFill" />
+        <image class="chat-head-style" src="{{detail.docInfo.avatarUrl||'https://hmg.mclouds.org.cn/content-api/file/I20230710172158340QUIFGH4VFPA6IH-docheader.png'}}" lazy-load="{{ true }}" mode="aspectFill" />
         <view class="name-view">
             <view class="name-view-top">
                 <view style="font-size: 36rpx;color: #1A1A1A; margin-right: 12rpx;">{{detail.docInfo.userName}}</view>

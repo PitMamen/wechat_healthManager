@@ -1,0 +1,31 @@
+<view class="wrap">
+    <view class="background">
+        <view class="header">
+            <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
+            <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #FFFFFF;text-align: center;">
+                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 0; padding: 0 50rpx 0 24rpx;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
+                <text style="{{'line-height: '+ navBarHeight +'px;'}}">患者评价</text>
+            </view>
+        </view>
+    </view>
+
+    <van-empty class="empty" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无记录" wx:if="{{ comments.length === 0 }}" />
+    <view class="view-comments" wx:else>
+
+        <view class="com-item" wx:for="{{ comments }}" wx:key="id" data-item="{{ item }}">
+            <view class="com-item-top">
+                <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 88rpx;height: 88rpx;" mode="aspectFill" />
+                <view style="margin-left: 20rpx;">{{item.userName}}</view>
+            </view>
+            <view class="com-item-middle">
+                <view style="flex:1">
+                    <van-rate readonly class="rateitem" value="{{item.doctorAppraise}}" color="#F1A918" bind:change="onChange1" />
+                </view>
+
+                <view style="color:#999999;font-size:30rpx">{{item.createTime}}</view>
+            </view>
+            <view class="com-item-bottom">{{item.patientOpinion}}</view>
+        </view>
+    </view>
+
+</view>

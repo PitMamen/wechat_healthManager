@@ -1,7 +1,7 @@
 <wxs src="../../../modules/format.wxs" module="computed"></wxs>
 
 
-<van-empty wx:if="{{ !planList || planList.length == 0 }}" description="暂无数据" image="/image/icon_nodata.png"/>
+<van-empty wx:if="{{ !planList || planList.length == 0 }}" description="暂无数据" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png"/>
 <view  wx:for="{{planList}}" wx:key="id3" class="card" bindtap="goDetailPage" data-id="{{item.id}}">
 
   <view class="card-black" >

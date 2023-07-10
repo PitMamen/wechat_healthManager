@@ -70,11 +70,7 @@ Page({
         })
 
     },
-    goHealthRecords() {
-        wx.navigateTo({
-            url: '../home/health-records/index',
-        })
-    },
+   
 
     goRecordPage() {
         wx.navigateTo({

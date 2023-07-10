@@ -10,7 +10,7 @@
     <!-- 登录失败 -->
     <block wx:else>
         <view class="top-logo">
-            <image src="/image/logo.png" class="icon-image"></image>
+            <image src="https://hmg.mclouds.org.cn/content-api/file/I20230710172229984XPRALGA50ABNPL-logo.png" class="icon-image"></image>
             <text class="top-label">健康管家在线</text>
         </view>
         <button wx:if="{{canIUseGetUserProfile}}" class="loginTap" bindtap="WXloginForLogin"> 重新登录 </button>
@@ -20,7 +20,7 @@
 <block wx:if="{{!registered}}">
 
     <view class="top-logo">
-        <image src="/image/logo.png" class="icon-image"></image>
+        <image src="https://hmg.mclouds.org.cn/content-api/file/I20230710172229984XPRALGA50ABNPL-logo.png" class="icon-image"></image>
         <text class="top-label">健康管家在线</text>
     </view>
     <button class="loginTap" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">绑定手机号</button>
@@ -30,7 +30,7 @@
 <!-- <block wx:if="{{!hasUserInfo}}">
     <block wx:if="{{!isAuthed}}">
       <view class="top-logo">
-        <image src="/image/logo.png" class="icon-image"></image>
+        <image src="https://hmg.mclouds.org.cn/content-api/file/I20230710172229984XPRALGA50ABNPL-logo.png" class="icon-image"></image>
         <text class="top-label">健康管家在线</text>
       </view>
       <button wx:if="{{canIUseGetUserProfile}}" class="loginTap" bindtap="getUserProfile"> 一键授权登录 </button>

@@ -49,7 +49,7 @@
     <view  class="card-info-view">
         <view style="font-size: 30rpx;color: #1A1A1A;font-weight: bold;">长按识别与个案管理师交流</view>
         <image wx:if="{{ qrCode}}" show-menu-by-longpress src="{{qrCode}}" style="width: 350rpx;height: 350rpx;margin-left: auto;margin-right: auto;margin-top: 50rpx;margin-bottom: 50rpx;"></image>
-        <van-empty wx:else image="/image/icon_nodata.png" description="暂无二维码" />
+        <van-empty wx:else image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无二维码" />
     </view>
 
 </view>

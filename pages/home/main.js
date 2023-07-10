@@ -9,6 +9,7 @@ const APP = getApp()
 
 Page({
     data: {
+        config: {sdkAppID: Config.getConstantData().IMAPPID,},
         currentHospital: {},
         topMenuList: [],
         midMenuList: [],
@@ -40,11 +41,11 @@ Page({
         rightsList: [],
         myRightsCount: 0,//我的权益数
         isMoreLoading: false,
-        isArticleNoMore:false,
-        articlePageSize:20,
+        isArticleNoMore: false,
+        articlePageSize: 20,
         articlePageNo: 1,
-        isDoctorNoMore:false,
-        doctorPageSize:20,
+        isDoctorNoMore: false,
+        doctorPageSize: 20,
         doctorPageNo: 1,
     },
 
@@ -67,7 +68,16 @@ Page({
         bus.on('loginSuccess', (msg) => {
             // 支持多参数
             console.log("监听登录成功", msg)
+
             this.getMaLoginInfo()
+        })
+          //监听IM登录成功
+          bus.on('IMLoginSuccess', (msg) => {
+            // 支持多参数
+            console.log("监听IM登录成功", msg)
+
+            this.setCallingConfig()
+           
         })
         //监听机构切换
         bus.on('switchHospital', (msg) => {
@@ -114,6 +124,37 @@ Page({
             return
         }
         this.afterMaLogin()
+    },
+    onReady() {
+
+
+        // 将初始化后到TUICalling实例注册到this.TUICalling中，this.TUICalling 可使用TUICalling所以方法功能。
+        this.TUICalling = this.selectComponent('#TUICalling-component');
+       
+
+    },
+    //设置TUICalling 参数
+    setCallingConfig(){
+        var config = {
+            sdkAppID: getApp().globalData.sdkAppID,
+            userID: getApp().globalData.IMuserID,
+            userSig: getApp().globalData.IMuserSig,
+            type: 1,
+            tim: getApp().tim, // 参数适用于业务中已存在 TIM 实例，为保证 TIM 实例唯一性
+        }
+        this.setData({
+            config:config
+        })
+         //初始化TUICalling
+         this.TUICalling.init()
+    },
+    onUnload() {
+       
+        this.TUICalling.destroyed()
+
+    },
+    testBtn(){
+        this.TUICalling.call({ userID: '1841', type: 2 })
     },
     //获取登录信息
     getMaLoginInfo() {
@@ -174,6 +215,7 @@ Page({
 
             IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
             IMUtil.getConversationList()
+
         } else {
             this.setData({
                 taskList: []
@@ -219,7 +261,7 @@ Page({
         })
         console.log(this.data.slideLeft)
     },
-  
+
 
 
     //获取菜单列表
@@ -303,7 +345,7 @@ Page({
                 break;
             case '1':
                 wx.navigateTo({
-                    url: `/pages/doctor/search/index`
+                    url: `/packageDoc/pages/doctor/search/index`
                 })
                 break;
         }
@@ -312,7 +354,7 @@ Page({
     onServiceItemClick(event) {
         var item = event.currentTarget.dataset.item
         wx.navigateTo({
-            url: '/pages/health/service/index?id=' + item.id,
+            url: '/packageDoc/pages/health/service/index?id=' + item.id,
         })
     },
     //点击文章
@@ -328,9 +370,9 @@ Page({
         var item = event.currentTarget.dataset.item
 
         wx.navigateTo({
-            url: `/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
+            url: `/packageDoc/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
         })
-      
+
     },
     //我的消息
     goMyMessagePage() {
@@ -431,28 +473,28 @@ Page({
             pageNo: this.data.doctorPageNo,
             pageSize: this.data.doctorPageSize,
         }).then((res) => {
-            var resList=res.data.rows || []
+            var resList = res.data.rows || []
             // var list = this.data.doctorList
             // list = list.concat(resList)
             this.setData({
                 doctorList: resList,
                 isMoreLoading: false,
-                isDoctorNoMore:resList.length< this.data.doctorPageSize
+                isDoctorNoMore: resList.length < this.data.doctorPageSize
             })
-           
+
         })
     },
     //获取文章列表
     getArticleLists() {
 
         WXAPI.getArticleByClickNum({ pageSize: this.data.articlePageSize, pageNo: this.data.articlePageNo }).then((res) => {
-            var resList=res.data.rows || []
+            var resList = res.data.rows || []
             // var list = this.data.articleList
             // list = list.concat(resList)
             this.setData({
                 articleList: resList,
                 isMoreLoading: false,
-                isArticleNoMore:resList.length< this.data.articlePageSize
+                isArticleNoMore: resList.length < this.data.articlePageSize
             })
 
         })
@@ -466,7 +508,7 @@ Page({
         }
 
         if (this.data.activeIndex == '0') {
-            console.log('articleList.length='+this.data.articleList.length+'======='+'isArticleNoMore='+this.data.isArticleNoMore)
+            console.log('articleList.length=' + this.data.articleList.length + '=======' + 'isArticleNoMore=' + this.data.isArticleNoMore)
             if (this.data.articleList.length > 49 || this.data.isArticleNoMore) {
                 return
             }
@@ -475,8 +517,8 @@ Page({
                 articlePageNo: this.data.articlePageNo + 1
             })
             this.getArticleLists()
-        }else if (this.data.activeIndex == '1') {
-            console.log('doctorList.length='+this.data.doctorList.length+'======='+'isDoctorNoMore='+this.data.isDoctorNoMore)
+        } else if (this.data.activeIndex == '1') {
+            console.log('doctorList.length=' + this.data.doctorList.length + '=======' + 'isDoctorNoMore=' + this.data.isDoctorNoMore)
             if (this.data.doctorList.length > 49 || this.data.isDoctorNoMore) {
                 return
             }
@@ -652,12 +694,8 @@ Page({
     },
 
 
-   
-    goHealthRecords() {
-        wx.navigateTo({
-            url: './health-records/index',
-        })
-    },
+
+  
 
 
     goNewsDetail(event) {

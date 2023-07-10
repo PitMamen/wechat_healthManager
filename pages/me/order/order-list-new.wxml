@@ -9,7 +9,7 @@
     </view>
 </van-sticky>
 
-<van-empty wx:if="{{ !orderList || orderList.length == 0 }}" description="暂无数据" image="/image/icon_nodata.png"/>
+<van-empty wx:if="{{ !orderList || orderList.length == 0 }}" description="暂无数据" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png"/>
 <view class="order-list" hidden="{{orderList ? false : true}}">
     <view class="a-order" wx:for="{{orderList}}" wx:key="index" wx:for-index="index" wx:for-item="item">
 

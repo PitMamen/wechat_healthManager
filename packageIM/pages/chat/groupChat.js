@@ -13,7 +13,7 @@ Page({
         showChatInput: true,
         hideTimeShow: true,
         config: {},
-        toAvatar: '../../../image/docheader.png',//聊天对象头像
+        toAvatar: 'https://hmg.mclouds.org.cn/content-api/file/I20230710172158340QUIFGH4VFPA6IH-docheader.png',//聊天对象头像
         myAvatar: '../../../image/avatar.png',//自己头像
         conversationID: '',//聊天会话ID
         groupID: '',//群ID
@@ -232,7 +232,7 @@ Page({
     onReady() {
 
         this.chatInput = this.selectComponent('#chatInput');
-        this.TUICallingInit()
+        // this.TUICallingInit()
         this.videoContext = wx.createVideoContext('myVideo')
     },
 
@@ -244,6 +244,7 @@ Page({
         this.TUICalling = this.selectComponent('#TUICalling-component');
         //初始化TUICalling
         this.TUICalling.init()
+        
     },
     onUnload() {
         console.log("chat page: onUnload")
@@ -252,7 +253,7 @@ Page({
             visualEffect: 'none',
         })
         this.voiceManager.stopAllVoicePlay(true);
-        this.TUICalling.destroyed()
+        // this.TUICalling.destroyed()
         getApp().tim.off(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived);
         getApp().tim.off(TIM.EVENT.MESSAGE_READ_BY_PEER, this.onMessageReadByPeer);
         getApp().tim.off(TIM.EVENT.NET_STATE_CHANGE, this.onNetStateChange);

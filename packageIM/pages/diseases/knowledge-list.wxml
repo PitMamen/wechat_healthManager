@@ -5,7 +5,7 @@
     </view>
 </van-sticky>
 
-<van-empty wx:if="{{ !list || list.length == 0 }}" image="/image/icon_nodata.png" description="未找到答案，您可转人工咨询">
+<van-empty wx:if="{{ !list || list.length == 0 }}" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="未找到答案，您可转人工咨询">
     <van-button round type="danger" color="#4179FB" size="small" bindtap="goIMpage">人工咨询</van-button>
 </van-empty>
 

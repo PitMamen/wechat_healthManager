@@ -28,7 +28,7 @@
             </view>
             <view class="his-content" style="color: {{index==0?'#1A1A1A':'#999999'}};">{{item.dealDesc}}</view>
         </view>
-        <van-empty wx:if="{{ !rightsRecordList || rightsRecordList.length == 0 }}" image="/image/icon_nodata.png" description="暂无使用记录" />
+        <van-empty wx:if="{{ !rightsRecordList || rightsRecordList.length == 0 }}" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无使用记录" />
     </view>
        
     </view>

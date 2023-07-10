@@ -1,8 +1,6 @@
 {
   "usingComponents": {
-    "chat-input": "../../components/chat-input/chat-input",
-   
-    "TUICalling": "../../components/TUICalling/TUICalling"
+    "chat-input": "../../components/chat-input/chat-input"
   },
   "navigationBarTitleText": ""
 
