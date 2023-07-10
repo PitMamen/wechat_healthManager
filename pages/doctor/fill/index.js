@@ -1,10 +1,20 @@
 const WXAPI = require('../../../static/apifm-wxapi/index')
 const Config = require('../../../utils/config')
+const Util = require('../../../utils/util')
 
 Page({
     data: {
+        icdCode: '',
+        hosCode: '',
+        clickName: '',
+        hosName: '',
+        diagnosisName: '',
+        diagnosis: '',
+        hideHospitalPicker: true,
+        hideDiagnosisPicker: true,
         show: false,
         checked: true,
+        offLinechecked: false,//是否线下就诊过
         loading: false,
         inputTxt: '',
         appealDesc: '',
@@ -13,13 +23,17 @@ Page({
         selectUser: {},
         collectionIds: [],
         fileList: [],
+        hospitalList: [],
+        DiagnosisList: [],
         columns: [],
         caseId: null,//病历ID 没有则代表新增
         doctorAppointId: null,//电话咨询排版ID
         consultType: '',//'101': 图文咨询,'102': 电话咨询,'103': 视频咨询
+        showData:false,
+        diagnosisDate:'',
     },
     onLoad: function (options) {
-        console.log("fill-options",options)
+        console.log("fill-options", options)
         // 页面创建时执行
         var selectUser = {
             userId: options.userId,
@@ -48,7 +62,166 @@ Page({
             // selectUser: wx.getStorageSync('defaultPatient'),
             // columns: wx.getStorageSync('userInfo').account.user
         })
+
+        this.getList('')
+        this.searchDiagnosisList("感冒")
     },
+
+
+    // 获取线下就诊机构
+    async getList(keyword) {
+        const res = await WXAPI.hospitalList({
+            keyword: keyword,
+        })
+        if (res.code == 0) {
+            this.setData({
+                hospitalList: res.data.slice(0, 100),
+
+            })
+        }
+    },
+
+
+    // 获取线下就诊诊断
+    async searchDiagnosisList(keyword) {
+        const res = await WXAPI.searchDiagnosis({
+            keyWord: keyword,
+        })
+        if (res.code == 0) {
+            this.setData({
+                DiagnosisList: res.data.slice(0, 9),
+
+            })
+        }
+    },
+
+
+
+
+    //    点击机构item
+    itemClickhos(e) {
+        var itemData = e.currentTarget.dataset.item
+        this.setData({
+            clickName: itemData.hosCode+"|"+itemData.hosName,
+            hosName: itemData.hosName,
+            hosCode: itemData.hosCode,
+            hideHospitalPicker: true,
+        })
+        console.log("vvv:", this.data.clickName)
+    },
+
+    // 点击诊断item
+    itemClick(e) {
+        var diagnosisData = e.currentTarget.dataset.item
+        this.setData({
+            diagnosisName: diagnosisData.name,
+            diagnosis: diagnosisData.icdCode+"|"+diagnosisData.name,
+            icdCode: diagnosisData.icdCode,
+            hideDiagnosisPicker: true,
+        })
+        console.log("vvv11:", this.data.diagnosisName)
+    },
+
+    //  诊断弹框
+    changeDiagnosistab: function () {
+        this.setData({
+            hideDiagnosisPicker: false
+        })
+    },
+    cloaseDiagnosistab: function () {
+        this.setData({
+            hideDiagnosisPicker: true
+        })
+    },
+
+
+    // 机构搜索
+    onInputChange(event) {
+        console.log("vbb:",event.detail)
+        this.getList(event.detail)
+    },
+
+    // 诊断搜索
+    diagnosisChange(event) {
+        console.log("vbb11:",event.detail)
+        this.searchDiagnosisList(event.detail)
+    },
+    
+    // 诊断输入
+    inputdiagnosis(event){
+        this.setData({
+            hideDiagnosisPicker: false
+        })
+        this.searchDiagnosisList(event.detail.value)
+    },
+
+    // 显示日历弹框
+    showcalendar(){
+        this.setData({
+            showData:true
+        })
+    },
+
+    dateConfirm(event){
+        var date=Util.formatTime2(new Date( event.detail))
+        this.setData({
+            diagnosisDate:date,
+            showData:false
+        })
+        // console.log("ff:",date)
+    },
+
+    close(event){
+        this.setData({
+            showData:false
+        })
+    },
+
+    // dateConfirm:function(event){
+    //     console.log("ff:",formatDate(value.target.timeStamp))
+    // },
+
+
+
+
+    //机构弹框
+    changeHospital: function () {
+        this.setData({
+            hideHospitalPicker: false
+        })
+    },
+    closeHospitalTap: function () {
+        this.setData({
+            hideHospitalPicker: true
+        })
+    },
+
+    //选择科室成功
+    onHospitalPickerConfirm(event) {
+        console.log(event)
+        var index = event.detail.index
+        this.setData({
+            //     departmentName:this.data.deptArray[index].departmentName,
+            //   departmentId:this.data.deptArray[index].departmentId,
+            //   hideHospitalPicker: true,
+
+            //   screenName:this.data.screenData[0],
+
+        });
+
+        // this.qryAppointDoctor()
+    },
+
+    onHospitaltPickerCancel() {
+        this.setData({
+            hideHospitalPicker: true
+        })
+    },
+
+
+
+
+
     //查看病历
     async getMedicalCase(id) {
         const res = await WXAPI.medicalCaseGet({
@@ -58,6 +231,14 @@ Page({
             this.setData({
                 inputTxt: res.data.diseaseDesc,
                 appealDesc: res.data.appealDesc,
+                hosCode: res.data.hosCode,
+                clickName: res.data.hosCode+"|"+res.data.hosName,
+                hosName: res.data.hosName,
+                icdCode: res.data.icd10Code,
+                diagnosisName: res.data.icd10Diagnosis,
+                diagnosis: res.data.icd10Code+"|"+res.data.icd10Diagnosis,
+                offLinechecked:res.data.diagnosisFlag==1,
+                diagnosisDate:res.data.diagnosisDate,
 
             })
             var images = res.data.images || []
@@ -154,9 +335,14 @@ Page({
             checked: event.detail
         })
     },
+    checkoffLineChange(event) {
+        this.setData({
+            offLinechecked: event.detail
+        })
+    },
     onSchemeTap() { },
     async onNextClick() {
-        let that=this
+        let that = this
         this.setData({
             inputTxt: this.data.inputTxt.trim()
         })
@@ -182,17 +368,24 @@ Page({
             return
         }
 
-        
+
 
 
         this.setData({
             loading: true
         })
-        
+
         var postData = {
             appealDesc: this.data.appealDesc.trim(),
             diseaseDesc: this.data.inputTxt,
             userId: this.data.selectUser.userId,
+            diagnosisFlag: this.data.offLinechecked ? 1 : 0,
+            hosCode: this.data.offLinechecked?this.data.hosCode:'',
+            hosName: this.data.offLinechecked?this.data.hosName:'',
+            icd10Code: this.data.offLinechecked?this.data.icdCode:'',
+            icd10Diagnosis: this.data.offLinechecked?this.data.diagnosisName:'',
+            diagnosisDate: this.data.offLinechecked?this.data.diagnosisDate:'',
+
             images: this.data.fileList.map(item => {
                 return item.url
             })
@@ -202,25 +395,25 @@ Page({
             postData.id = this.data.caseId
         }
         wx.showLoading({
-          title: '加载中',
+            title: '加载中',
         })
         //保存或者修改病历
         const res = await WXAPI.medicalCaseSave(postData)
         if (res.code == 0) {
 
-            if(this.data.consultType+'' == '102'){
+            if (this.data.consultType + '' == '102') {
                 //电话咨询 返回确认信息页面
-                var checkedCase={
-                    id:res.data.id,
-                    title:res.data.title
+                var checkedCase = {
+                    id: res.data.id,
+                    title: res.data.title
                 }
-                wx.setStorageSync('CheckedCase',checkedCase )
+                wx.setStorageSync('CheckedCase', checkedCase)
                 wx.navigateBack({
                     delta: 2
-                  })
-            }else{
+                })
+            } else {
                 const res2 = await WXAPI.createStewardOrder({
-                    channel:'wechat',
+                    channel: 'wechat',
                     medicalCaseId: res.data.id,
                     collectionIds: this.data.collectionIds || [],
                     commodityId: this.data.commodityId,
@@ -228,7 +421,7 @@ Page({
                     userId: this.data.selectUser.userId,
                     doctorAppointId: this.data.doctorAppointId
                 })
-               
+
                 if (res2.code == 0) {
                     wx.showToast({
                         title: '保存成功',
@@ -237,13 +430,13 @@ Page({
                     wx.navigateTo({
                         url: `/pages/doctor/buy/index?id=${res2.data.orderId}&userName=${this.data.selectUser.userName}&orderType=${res2.data.orderType}`
                     })
-                }else if(res2.code == 99302){
+                } else if (res2.code == 99302) {
                     //超过限购次数
                     wx.showModal({
                         title: '提示',
                         content: '您购买此服务已超过次数限制，您可以关注医生的其他服务',
-                        confirmText:'医生服务',
-                        confirmColor:'#409EFF',
+                        confirmText: '医生服务',
+                        confirmColor: '#409EFF',
                         success(res) {
                             if (res.confirm) {
                                 wx.navigateTo({
@@ -262,7 +455,7 @@ Page({
 
 
 
-        }else {
+        } else {
             wx.hideLoading()
             this.setData({
                 loading: false

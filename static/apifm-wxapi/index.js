@@ -1445,6 +1445,17 @@ module.exports =
                         return request(url, 'post', '', true);
                     },
 
+                      //获取线下就诊机构列表   
+                      hospitalList: function hospitalList(data) {
+                        var url = INFO_SERVICE + '/supervision/hospital/list'
+                        return request(url, 'post', data, true);
+                    },
+
+                    // 获取诊断列表
+                    searchDiagnosis: function searchDiagnosis(data) {
+                        var url = INFO_SERVICE + '/medicine/searchDiagnosis'
+                        return request(url, 'get', data, true);
+                    },
 
                 };
 
