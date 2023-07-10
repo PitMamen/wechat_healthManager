@@ -1383,10 +1383,15 @@ module.exports =
                         return request2(url, 'post', data, true);
                     },
 
-                    //医生排班列表
+                    //医生排班列表 电话
                     doctorAppointInfos: function doctorAppointInfos(data) {
                         var url = MEDICAL_SERVICE + '/commodity/doctorAppointInfos'
                         return request(url, 'get', data, true);
+                    },
+                     //医生排班列表 视频
+                     docArrangeInfos: function docArrangeInfos(data) {
+                        var url = MEDICAL_SERVICE + '/commodity/docArrangeInfos'
+                        return request(url, 'post', data, true);
                     },
                     //获取用户企业微信二维码
                     getCompanyUserInfo: function getCompanyUserInfo(userId) {

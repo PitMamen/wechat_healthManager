@@ -189,8 +189,11 @@ Page({
         var info = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
             if(info.serviceItemTypes[0]==102){
+                // wx.navigateTo({
+                //     url: './detail-tel/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
+                // })
                 wx.navigateTo({
-                    url: './detail-tel/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
+                    url: './detail-video/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
                 })
             }else{
                 wx.navigateTo({

@@ -89,7 +89,8 @@
         "pages/doctor/guide/index",
         "pages/doctor/choose-time/index",
         "pages/doctor/choose-patient/index",
-        "pages/doctor/choose-case/index"
+        "pages/doctor/choose-case/index",
+        "pages/consult/detail-video/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",
