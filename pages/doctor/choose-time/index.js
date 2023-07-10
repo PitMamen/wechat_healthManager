@@ -121,7 +121,8 @@ Page({
     //排班
     async docArrangeInfos() {
         const res = await WXAPI.docArrangeInfos({
-            doctorUserId: this.data.docId
+            doctorUserId: this.data.docId,
+            type:2
         })
         if (res.code == 0) {
             this.setData({
@@ -196,7 +197,7 @@ Page({
         }
     
         wx.navigateTo({
-            url: `/pages/doctor/choose-patient/index?docId=${this.data.docId}&commodityId=${this.data.docId}&collectionIds=${this.data.collectionIds.join(',')}`
+            url: `/pages/doctor/choose-patient/index?doctorAppointId=${this.data.selectAppoint.id}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}`
         })
         return
         const res2 = await WXAPI.createStewardOrder({

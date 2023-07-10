@@ -200,20 +200,22 @@ Page({
         var itemOptionalPkg = this.data.list1.find((element) => {
             return element.collectionId == this.data.collectionId;
         })
-        if ( itemOptionalPkg &&  itemOptionalPkg.serviceItemTypes && itemOptionalPkg.serviceItemTypes[0] === 102) {
-            isTelType = true
-        }
 
-
-        if (isTelType) {
+        const serviceItemType=itemOptionalPkg.serviceItemTypes[0]
+        if (serviceItemType === 102 ) { //电话咨询
             wx.navigateTo({
                 url: `/pages/doctor/telinfo/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
+            })
+        }else if (serviceItemType === 103 ) { //视频咨询
+            wx.navigateTo({
+                url: `/pages/doctor/choose-time/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
             })
         } else {
             wx.navigateTo({
                 url: `/pages/doctor/case/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
             })
         }
+
 
     }
 })
