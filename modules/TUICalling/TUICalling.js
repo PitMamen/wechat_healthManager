@@ -446,7 +446,6 @@ Component({
     // 初始化TRTCCalling
     async init() {
       try {
-        console.log('config',this.data.config)
         const res = await wx.$TRTCCalling.login({
           userID: this.data.config.userID,
           userSig: this.data.config.userSig,

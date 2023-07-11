@@ -71,14 +71,14 @@ Page({
 
             this.getMaLoginInfo()
         })
-          //监听IM登录成功
-          bus.on('IMLoginSuccess', (msg) => {
-            // 支持多参数
-            console.log("监听IM登录成功", msg)
+        //   //监听IM登录成功
+        //   bus.on('IMLoginSuccess', (msg) => {
+        //     // 支持多参数
+        //     console.log("监听IM登录成功", msg)
 
-            this.setCallingConfig()
+        //     this.setCallingConfig()
            
-        })
+        // })
         //监听机构切换
         bus.on('switchHospital', (msg) => {
             // 支持多参数
@@ -109,7 +109,7 @@ Page({
         }
     },
     onShow: function (e) {
-
+        console.log('main-onShow')
         var userInfoSync = wx.getStorageSync('userInfo')
 
         if (!userInfoSync || userInfoSync === undefined) {
@@ -124,6 +124,9 @@ Page({
             return
         }
         this.afterMaLogin()
+    },
+    onHide(){
+        console.log('main-onHide')
     },
     onReady() {
 
@@ -147,6 +150,7 @@ Page({
         })
          //初始化TUICalling
          this.TUICalling.init()
+      
     },
     onUnload() {
        
@@ -155,6 +159,7 @@ Page({
     },
     testBtn(){
         this.TUICalling.call({ userID: '1841', type: 2 })
+        // this.TUICalling.groupCall({ userIDList: ['1841'], type: 2, groupID: 'M_1676144051912237057' })
     },
     //获取登录信息
     getMaLoginInfo() {

@@ -27,7 +27,7 @@
             </block>
             <block wx:else>
                 <image src="{{topMenuList[0].icon}}" class="mid-view-item" style="margin-right: 30rpx" bindtap="topMenuClick" data-menu="{{topMenuList[0]}}"></image>
-                <image src="{{topMenuList[1].icon}}" class="mid-view-item" bindtap="testBtn" data-menu="{{topMenuList[1]}}"></image>
+                <image src="{{topMenuList[1].icon}}" class="mid-view-item" bindtap="topMenuClick" data-menu="{{topMenuList[1]}}"></image>
             </block>
         </view>
 

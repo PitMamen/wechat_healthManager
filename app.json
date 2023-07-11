@@ -12,7 +12,8 @@
                 "pages/diseases/knowledge-list",
                 "pages/chat/historyChat",
                 "pages/chat/groupChat",
-                "pages/chat/groupHistoryChat"
+                "pages/chat/groupHistoryChat",
+                "pages/chat/TUICall"
             ]
         },
         {
@@ -42,7 +43,6 @@
         "pages/login/auth",
         "pages/login/confirm-patient",
         "pages/login/index",
-
         "pages/me/main",
         "pages/me/patients/index",
         "pages/me/patients/editUser",

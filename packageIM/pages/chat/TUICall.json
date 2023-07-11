@@ -1,0 +1,9 @@
+
+{
+    "usingComponents": {
+      "TUI-Calling": "/modules/TUICalling/component/calling/calling",
+      "TUI-Connected": "/modules/TUICalling/component/connected/connected"
+    },
+    "navigationStyle": "custom",
+    "disableScroll": true
+  }
