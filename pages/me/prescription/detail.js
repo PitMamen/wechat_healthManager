@@ -76,8 +76,8 @@ Page({
         }
 
     },
+
     toPay(orderId,ordertype,money) {
-      
         let that=this
         WXPAY.pay( orderId,ordertype,money)
             .then(function () {
