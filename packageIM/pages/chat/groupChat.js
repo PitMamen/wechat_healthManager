@@ -966,20 +966,23 @@ Page({
 
                 } else {//解析其他消息 比如视频语音通话
                     item.payload.description = "[自定义消息]"
-                    if (signalingData.businessID === 1) {
-                        var data = JSON.parse(signalingData.data)
-                        if (1 === data.call_type) {
+                   
+                }
+               
+            }else {
+                item.payload.description = "[自定义消息]"
+                if (signalingData.businessID === 1) {
+                    var data = JSON.parse(signalingData.data)
+                    if (1 === data.call_type) {
 
-                            item.payload.description = "[语音通话]"
-                        } else if (2 === data.call_type) {
+                        item.payload.description = "[语音通话]"
+                    } else if (2 === data.call_type) {
 
-                            item.payload.description = "[视频通话]"
-                        }
+                        item.payload.description = "[视频通话]"
                     }
                 }
-                item.payload.data = signalingData
             }
-
+            item.payload.data = signalingData
 
 
         } catch (error) {

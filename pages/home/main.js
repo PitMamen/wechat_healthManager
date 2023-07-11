@@ -71,14 +71,6 @@ Page({
 
             this.getMaLoginInfo()
         })
-        //   //监听IM登录成功
-        //   bus.on('IMLoginSuccess', (msg) => {
-        //     // 支持多参数
-        //     console.log("监听IM登录成功", msg)
-
-        //     this.setCallingConfig()
-           
-        // })
         //监听机构切换
         bus.on('switchHospital', (msg) => {
             // 支持多参数
@@ -125,41 +117,12 @@ Page({
         }
         this.afterMaLogin()
     },
-    onHide(){
-        console.log('main-onHide')
-    },
-    onReady() {
+   
 
-
-        // 将初始化后到TUICalling实例注册到this.TUICalling中，this.TUICalling 可使用TUICalling所以方法功能。
-        this.TUICalling = this.selectComponent('#TUICalling-component');
-       
-
-    },
-    //设置TUICalling 参数
-    setCallingConfig(){
-        var config = {
-            sdkAppID: getApp().globalData.sdkAppID,
-            userID: getApp().globalData.IMuserID,
-            userSig: getApp().globalData.IMuserSig,
-            type: 1,
-            tim: getApp().tim, // 参数适用于业务中已存在 TIM 实例，为保证 TIM 实例唯一性
-        }
-        this.setData({
-            config:config
-        })
-         //初始化TUICalling
-         this.TUICalling.init()
-      
-    },
-    onUnload() {
-       
-        this.TUICalling.destroyed()
-
-    },
     testBtn(){
-        this.TUICalling.call({ userID: '1841', type: 2 })
-        // this.TUICalling.groupCall({ userIDList: ['1841'], type: 2, groupID: 'M_1676144051912237057' })
+        this.TUICalling.call({ userID: '1626', type: 2 })
+        // this.TUICalling.groupCall({ userIDList: ['1626'], type: 2, groupID: 'BV_test07111620' })
+        
     },
     //获取登录信息
     getMaLoginInfo() {

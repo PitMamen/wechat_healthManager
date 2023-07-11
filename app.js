@@ -79,11 +79,12 @@ App({
    
      //初始化TUICalling
      try {
-        
+        console.log('app call config',config)
         const res = await wx.$TRTCCalling.login({
           userID: config.userID,
           userSig: config.userSig,
         })
+        console.log('app call login',res)
         // 被邀请通话
         wx.$TRTCCalling.on(wx.$TRTCCalling.EVENT.INVITED, (e)=>{
             console.log('APPINVITED',e)
@@ -92,7 +93,7 @@ App({
           })
       }, this)
       
-        return res
+        
       } catch (error) {
         throw new Error('TRTCCalling login failure', error)
       }

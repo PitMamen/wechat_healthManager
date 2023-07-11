@@ -172,14 +172,15 @@ var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) 
         getApp().globalData.IMuserID = userID
         getApp().globalData.IMuserSig = userSig
 
-        //IM登录发送事件
-        bus.emit('IMLoginSuccess', true)
+
 
         let onSdkReady = function () {
             wx.hideLoading()
             console.log("onSdkReady")
 
             getApp().globalData.sdkReady = true
+                    //IM登录发送事件
+        bus.emit('IMLoginSuccess', true)
 
             if (routUrl) {
                 if (routeType === 'navigateTo') {
