@@ -1,0 +1,116 @@
+<view wx:if="{{checkStatus==1}}" class="filter"></view>
+
+<view wx:if="{{status !=-1}}" class="top" style="{{(status == 0 || status == 1)?'background: #EA3324;':'background: #4179FB;'}}">
+    <view>{{detail.medicalOrder.statusName}}</view>
+    <view wx:if="{{status == 0 || status == 1}}" class="count">
+        <van-count-down class="time" time="{{ detail.medicalOrder.timeoutSeconds * 1000 }}" format=" HH时mm分ss秒" />
+        <view style="font-size: 14px; line-height: 20px;">后过期</view>
+    </view>
+
+</view>
+<view class="info">
+    <view class="title">
+        <view style="margin:auto;">{{detail.medicalInfo.preHead}}</view>
+        <van-tag plain type="primary" size="large">{{detail.medicalInfo.preType}}</van-tag>
+    </view>
+    <view class="midtitle">{{detail.medicalInfo.preTitle}}</view>
+    <view class="name">
+        <view>姓名：{{detail.medicalInfo.name}}</view>
+        <view>性别：{{detail.medicalInfo.sex}}</view>
+        <view>年龄：{{detail.medicalInfo.age}}岁</view>
+    </view>
+    <view class="name">
+        <view>科室：{{detail.medicalInfo.deptName}}</view>
+        <view>日期：{{detail.medicalInfo.createDate}}</view>
+
+    </view>
+</view>
+<view class="diver"></view>
+<view class="zdview">
+    <view class="title">
+        诊断
+    </view>
+    <view class="diver-line"></view>
+    <view class="content"> {{detail.diagnosis || ''}}</view>
+</view>
+
+<view class="diver"></view>
+<view class="medview">
+    <view class="title">
+        Rp
+    </view>
+    <view wx:for="{{detail.medOrderItems}}" wx:key="1">
+        <view class="diver-line"></view>
+        <view class="med-name">
+            <view>{{index+1}}.{{item.drugName}}</view>
+            <view>x{{item.itemNum}}{{item.itemDrugUnit}}</view>
+        </view>
+        <view class="med-gg">规格：{{item.drugSpec}} </view>
+        <view class="med-yf">用法用量：{{item.frequency}}；{{item.useNum}}{{item.useUnit}}/1次；{{item.useMethod}}</view>
+    </view>
+
+</view>
+
+<view class="diver"></view>
+<view class="zdview">
+    <view class="title">
+        备注
+    </view>
+    <view class="diver-line"></view>
+    <view class="content"> {{detail.medicalInfo.remark}}</view>
+</view>
+
+<view class="diver"></view>
+<view class="zdview">
+    <view class="title">
+        签字盖章
+    </view>
+    <view class="diver-line"></view>
+    <view class="content"> 开方医生：
+        <image wx:if="{{detail.caAuthFlag && detail.doctorCerFile}}" class="img" mode="heightFix" src="{{detail.doctorCerFile}}"></image>
+        <view wx:else>{{detail.medicalInfo.doctorName}}</view>
+    </view>
+    <view class="content"> 执行科室：{{detail.medicalInfo.exeDeptName}}</view>
+    <view class="content"> 审核药师：{{detail.medicalInfo.checkUserName || ''}}</view>
+</view>
+
+
+
+<view class="diver"></view>
+<view class="zdview">
+    <view class="remind" style="margin-top: 0;"> 特别提示：</view>
+    <view class="remind"> 1、本次处方仅限于中南大学湘雅二医院互联网医院使用，自行下载配药不具有处方效力。</view>
+    <view class="remind"> 2、按照卫生部、国家中医药管理局卫医政发【2011】11号文件规定：为保证患者用药安全，药品一经发出，不得退换。</view>
+</view>
+<view class="diver"></view>
+<view class="zdview">
+    <view class="title">
+        配送信息
+    </view>
+    <view class="diver-line"></view>
+    <view class="content"> 发货方式：{{detail.medicalInfo.deliverType?detail.medicalInfo.deliverType.description:'' }}</view>
+    <view wx:if="{{detail.medicalInfo.deliverType&&detail.medicalInfo.deliverType.value==2}}" class="content"> 收货地址：{{detail.medicalInfo.deliverAddress}}</view>
+    <view wx:if="{{detail.medicalInfo.deliverType&&detail.medicalInfo.deliverType.value==2}}" class="content"> 收货人：{{detail.medicalInfo.deliverName || ''}}</view>
+    <view wx:if="{{detail.medicalInfo.deliverType&&detail.medicalInfo.deliverType.value==2}}" class="content"> 电话：{{detail.medicalInfo.deliverMobile || ''}}</view>
+    <view wx:if="{{detail.medicalInfo.deliverType&&detail.medicalInfo.deliverType.value==2}}" class="content"> 物流公司：{{detail.medicalInfo.expressName || ''}}</view>
+    <view wx:if="{{detail.medicalInfo.deliverType&&detail.medicalInfo.deliverType.value==2}}" class="content"> 物流单号：{{detail.medicalInfo.expressNo || ''}}</view>
+    <view wx:if="{{detail.medicalInfo.deliverType&&detail.medicalInfo.deliverType.value==2}}" class="content"> 发货日期：{{detail.medicalInfo.expressDate || ''}}</view>
+</view>
+
+
+
+
+
+<view style="height: 200rpx;"></view>
+
+<view class="fix" wx:if="{{status == 0 || status == 1}}">
+
+    <view class="row">
+        <view class="price">
+            <text>支付总额：</text>
+            <text class="num">¥{{ detail.medicalOrder.orderTotal }}</text>
+        </view>
+        <van-button class="abs" color="#E95454" round loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick">立即支付</van-button>
+    </view>
+
+</view>

@@ -90,6 +90,13 @@
         "pages/home/rate/package",
         "pages/login/diagnosis",
         "pages/me/my-doctor/index",
+        "pages/doctor/guide/index",
+        "pages/doctor/choose-time/index",
+        "pages/doctor/choose-patient/index",
+        "pages/doctor/choose-case/index",
+        "pages/me/prescription/index",
+        "pages/me/prescription/detail",
+        "pages/me/prescription/drugtaking_page",
         "pages/consult/detail-video/index"
     ],
     "window": {

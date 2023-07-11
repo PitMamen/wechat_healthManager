@@ -4,6 +4,9 @@ const Util = require('../../../../utils/util')
 
 Page({
     data: {
+        keyWords:'',
+        keyWordsdiagnosis:'',
+        minDate:'',
         icdCode: '',
         hosCode: '',
         clickName: '',
@@ -33,6 +36,8 @@ Page({
         diagnosisDate:'',
     },
     onLoad: function (options) {
+        var currentDate = new Date().getTime()
+        var minDate = currentDate - 1825 * 24 * 60 * 60 * 1000;
         console.log("fill-options", options)
         // 页面创建时执行
         var selectUser = {
@@ -40,6 +45,7 @@ Page({
             userName: options.userName
         }
         this.setData({
+            minDate:minDate,
             consultType: options.consultType,
             docId: options.docId,
             commodityId: options.commodityId,
@@ -63,7 +69,7 @@ Page({
             // columns: wx.getStorageSync('userInfo').account.user
         })
 
-        this.getList('')
+        this.getList('医院') //传空值 会直接搜索出3w条机构数据 会卡死
         this.searchDiagnosisList("感冒")
     },
 
@@ -75,7 +81,7 @@ Page({
         })
         if (res.code == 0) {
             this.setData({
-                hospitalList: res.data.slice(0, 100),
+                hospitalList: res.data.length>=100?res.data.slice(0, 98):res.data,
 
             })
         }
@@ -102,6 +108,7 @@ Page({
     itemClickhos(e) {
         var itemData = e.currentTarget.dataset.item
         this.setData({
+            keyWords:'',
             clickName: itemData.hosCode+"|"+itemData.hosName,
             hosName: itemData.hosName,
             hosCode: itemData.hosCode,
@@ -114,6 +121,7 @@ Page({
     itemClick(e) {
         var diagnosisData = e.currentTarget.dataset.item
         this.setData({
+            keyWordsdiagnosis:'',
             diagnosisName: diagnosisData.name,
             diagnosis: diagnosisData.icdCode+"|"+diagnosisData.name,
             icdCode: diagnosisData.icdCode,
@@ -130,6 +138,7 @@ Page({
     },
     cloaseDiagnosistab: function () {
         this.setData({
+            keyWordsdiagnosis:'',
             hideDiagnosisPicker: true
         })
     },
@@ -137,13 +146,17 @@ Page({
 
     // 机构搜索
     onInputChange(event) {
-        console.log("vbb:",event.detail)
+        this.setData({
+            keyWords:event.detail
+        })
         this.getList(event.detail)
     },
 
     // 诊断搜索
     diagnosisChange(event) {
-        console.log("vbb11:",event.detail)
+        this.setData({
+            keyWordsdiagnosis:event.detail
+        })
         this.searchDiagnosisList(event.detail)
     },
     
@@ -152,7 +165,7 @@ Page({
         this.setData({
             hideDiagnosisPicker: false
         })
-        this.searchDiagnosisList(event.detail.value)
+        // this.searchDiagnosisList("感冒")
     },
 
     // 显示日历弹框
@@ -192,35 +205,10 @@ Page({
     },
     closeHospitalTap: function () {
         this.setData({
+            keyWords:'',
             hideHospitalPicker: true
         })
     },
-
-    //选择科室成功
-    onHospitalPickerConfirm(event) {
-        console.log(event)
-        var index = event.detail.index
-        this.setData({
-            //     departmentName:this.data.deptArray[index].departmentName,
-            //   departmentId:this.data.deptArray[index].departmentId,
-            //   hideHospitalPicker: true,
-
-            //   screenName:this.data.screenData[0],
-
-        });
-
-        // this.qryAppointDoctor()
-    },
-
-    onHospitaltPickerCancel() {
-        this.setData({
-            hideHospitalPicker: true
-        })
-    },
-
-
-
-
 
     //查看病历
     async getMedicalCase(id) {
@@ -368,8 +356,33 @@ Page({
             return
         }
 
+        if (this.data.offLinechecked) {
+           if (!this.data.hosName) {
+            wx.showToast({
+                title: '请选择就诊机构',
+                icon: 'none'
+            })
+            return
+           }
+
+           if (!this.data.diagnosisName) {
+            wx.showToast({
+                title: '请选择诊断结果',
+                icon: 'none'
+            })
+            return
+           }
 
 
+           if (!this.data.diagnosisDate) {
+            wx.showToast({
+                title: '请选择诊断日期',
+                icon: 'none'
+            })
+            return
+           }
+           
+        }
 
         this.setData({
             loading: true

@@ -187,6 +187,7 @@ Page({
     //问诊详情
     goConsultDetail(e) {
         var info = e.currentTarget.dataset.item
+        console.log("fff:",info)
         if (this.checkLoginStatus()) {
             if(info.serviceItemTypes[0]==102){
                 wx.navigateTo({
@@ -243,7 +244,13 @@ Page({
            wx.navigateTo({
             url:  `/pages/home/rate/package?rightsId=${item.rightsId}&todoid=${item.id}`
         })     
-        }else {
+        }else if (item.originalType.value == 9||item.originalType.value == 8) {
+            //药师审核   开具处方
+            wx.navigateTo({
+             url:  `/pages/me/prescription/detail?preNo=${item.tradeId}`
+         })     
+         }
+         else {
             if (this.checkLoginStatus()) {
                 if (getApp().globalData.sdkReady) {
                     if (item.imGroupId) {
