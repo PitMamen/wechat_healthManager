@@ -1,3 +1,5 @@
+
+<page-meta page-style="overflow: {{showHidden ? 'hidden' : 'visible'}}" />
 <view class="wrap">
     <view class="top">
         <image src="/image/myjk/msg.png" mode="aspectFill" />
@@ -44,7 +46,7 @@
             <view wx:if="{{offLinechecked}}" style="display: flex;flex-direction: row;">
                 <view style="margin-top: 40rpx;">诊断日期</view>
                 <input value="{{diagnosisDate}}" class="ba" disabled="true" style="margin-top: 30rpx;margin-left: 20rpx;padding-left:10rpx;" bindtap="showcalendar"></input>
-                <van-calendar min-date="{{ minDate }}" show="{{showData}}" bind:confirm="dateConfirm" color='#3894FF' bind:close="close"    />
+                <van-calendar style="height: 300rpx;" min-date="{{ minDate }}" show="{{showData}}" bind:confirm="dateConfirm" color='#3894FF' bind:close="close"    />
             </view>
 
 
@@ -61,6 +63,10 @@
     </view>
     <van-button class="fix" type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onNextClick">{{caseId?'使用该病历':'确认并使用'}}</van-button>
 </view>
+<!-- <van-popup show="{{ show }}" catch:touchstart /> -->
+
+
+
 
 
 

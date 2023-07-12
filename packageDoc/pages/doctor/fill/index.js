@@ -4,6 +4,7 @@ const Util = require('../../../../utils/util')
 
 Page({
     data: {
+        showHidden:false,
         keyWords:'',
         keyWordsdiagnosis:'',
         minDate:'',
@@ -171,7 +172,8 @@ Page({
     // 显示日历弹框
     showcalendar(){
         this.setData({
-            showData:true
+            showData:true,
+            showHidden:!this.data.showHidden
         })
     },
 
