@@ -1,12 +1,51 @@
 /* pages/home/electronic-prescription/drugtaking_page.wxss */
 
-.topview {
-    width: 702rpx;
-    margin-left: 15rpx;
-    margin-top: 15rpx;
+page{
+    background-color: #F5F5F5;
+   
+}
+
+
+.diver-line{
+    height: 1rpx;
+    background-color: #F5F5F5;
+}
+
+.zdview{
+    background: white;
+    padding: 30rpx;
+    margin-left: 24rpx;
+    margin-top: 30rpx;
+    margin-right: 24rpx;
+    margin-bottom: 29rpx;
+    font-size: 30rpx;
+    color: #1A1A1A;
+    font-weight: normal;
+    border-radius: 4px
+}
+.zdview .title {
+    margin-bottom: 30rpx;
+    margin-left: 24rpx;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+}
+.zdview .content{
+    margin-top: 30rpx;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+
+.topview {
+background: white;
+    padding: 30rpx 0;
+    font-size: 30rpx;
+    color: #1A1A1A;
+    font-weight: normal;
 }
 
 .topview1 {
@@ -46,9 +85,10 @@
     flex-direction: row;
     margin-left: 24rpx;
     margin-top: 8rpx;
-    align-items: center;
+    /* align-items: center; */
     margin-bottom: 26rpx;
-    color: #1A1A1A;
+    flex-wrap: wrap;
+    color: #999999;
 }
 
 .titleviw1 {

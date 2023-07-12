@@ -71,7 +71,10 @@
         <view wx:else>{{detail.medicalInfo.doctorName}}</view>
     </view>
     <view class="content"> 执行科室：{{detail.medicalInfo.exeDeptName}}</view>
-    <view class="content"> 审核药师：{{detail.medicalInfo.checkUserName || ''}}</view>
+    <view class="content"> 审核药师：
+        <image wx:if="{{detail.caAuthFlag && detail.checkerCerFile}}" class="img" mode="heightFix" src="{{detail.checkerCerFile}}"></image>
+        <view wx:else>{{detail.medicalInfo.checkUserName||''}}</view>
+    </view>
 </view>
 
 
