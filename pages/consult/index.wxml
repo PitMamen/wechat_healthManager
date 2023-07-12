@@ -194,7 +194,7 @@
             return '去阅读'
         } else if (type == 4) {
             return '去评价'
-        } else if (type == 5) {
+        } else if (type == 5||type==6) {
             return '去评价'
         }else if (type == 8) {
             return '查看处方'

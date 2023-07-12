@@ -84,6 +84,7 @@ Page({
                 unreadTodo:0
             })
         }
+        console.log("fff:",todoList)
 
     },
     //获取套餐列表
@@ -234,8 +235,9 @@ Page({
             this.goWebPage(2, item.jumpUrl)
             //设置已读
             this.setInquiriesAgencyRead(item)
-        }  else if (item.originalType.value == 4) {
+        }  else if (item.originalType.value == 4||  item.originalType.value == 6) {
             //单次咨询评价
+            this.setInquiriesAgencyRead(item) //设置已读消息
             wx.navigateTo({
                 url:  `/pages/home/rate/doctor?rightsId=${item.rightsId}&todoid=${item.id}`
             })     
@@ -246,6 +248,7 @@ Page({
         })     
         }else if (item.originalType.value == 9||item.originalType.value == 8) {
             //药师审核   开具处方
+            this.setInquiriesAgencyRead(item)  //设置为已读
             wx.navigateTo({
              url:  `/pages/me/prescription/detail?preNo=${item.tradeId}`
          })     

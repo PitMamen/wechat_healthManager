@@ -143,14 +143,14 @@ debounced: false,
     async goPay() {
 
 
-        if (!this.data.takeyouself && !this.data.express_Issued) {
-            wx.showModal({
-                showCancel: false,
-                title: '提示',
-                content: '请选择取药方式',
-            })
-            return
-        }
+        // if (!this.data.takeyouself && !this.data.express_Issued) {
+        //     wx.showModal({
+        //         showCancel: false,
+        //         title: '提示',
+        //         content: '请选择取药方式',
+        //     })
+        //     return
+        // }
        
 
         if (this.data.express_Issued && !this.data.ReceivingAddressDetail&&!this.data.dataInfo.address) {
