@@ -577,15 +577,15 @@ module.exports =
                     },
                     //小程序端-名医咨询医生列表
                     accurateDoctors: function accurateDoctors(data) {
-                        data.hospitalCode= getApp().globalData.currentHospital.hospitalCode || ''
-                        data.tenantId= getApp().globalData.currentHospital.tenantId || ''
+                        data.hospitalCode = getApp().globalData.currentHospital.hospitalCode || ''
+                        data.tenantId = getApp().globalData.currentHospital.tenantId || ''
                         var url = MEDICAL_SERVICE + '/commodity/accurateDoctors'
                         return request(url, 'post', data, true);
                     },
-                      //小程序端-关注的医生
-                      accurateDoctorsForFavourite: function accurateDoctorsForFavourite(data) {
-                        data.hospitalCode= getApp().globalData.currentHospital.hospitalCode || ''
-                        data.tenantId= getApp().globalData.currentHospital.tenantId || ''
+                    //小程序端-关注的医生
+                    accurateDoctorsForFavourite: function accurateDoctorsForFavourite(data) {
+                        data.hospitalCode = getApp().globalData.currentHospital.hospitalCode || ''
+                        data.tenantId = getApp().globalData.currentHospital.tenantId || ''
                         var url = MEDICAL_SERVICE + '/commodity/accurateDoctorsForFavourite'
                         return request(url, 'post', data, true);
                     },
@@ -594,20 +594,20 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/commodity/giftCommodity'
                         return request(url, 'get', data, true);
                     },
-                      //是否已关注
-                      favouriteExistsForDoctorId: function favouriteExistsForDoctorId(id) {
-                       
-                        var url = MEDICAL_SERVICE + '/commodity/favouriteExistsForDoctorId/'+id
+                    //是否已关注
+                    favouriteExistsForDoctorId: function favouriteExistsForDoctorId(id) {
+
+                        var url = MEDICAL_SERVICE + '/commodity/favouriteExistsForDoctorId/' + id
                         return request(url, 'get', '', true);
                     },
-                     // account/favourite/operation患者端-操作（添加/取消)我的收藏
-                     doCollect: function doCollect(data) {
+                    // account/favourite/operation患者端-操作（添加/取消)我的收藏
+                    doCollect: function doCollect(data) {
                         return request(INFO_SERVICE + '/favourite/operation', 'post', data, true);
                     },
-                     //小程序端-名医咨询医生列表-首页
-                     getAccurateDoctors: function getAccurateDoctors(data) {
-                        data.hospitalCode= getApp().globalData.currentHospital.hospitalCode || ''
-                        data.tenantId= getApp().globalData.currentHospital.tenantId || ''
+                    //小程序端-名医咨询医生列表-首页
+                    getAccurateDoctors: function getAccurateDoctors(data) {
+                        data.hospitalCode = getApp().globalData.currentHospital.hospitalCode || ''
+                        data.tenantId = getApp().globalData.currentHospital.tenantId || ''
                         var url = MEDICAL_SERVICE + '/commodity/accurateDoctors'
                         return request2(url, 'post', data, true);
                     },
@@ -1134,7 +1134,11 @@ module.exports =
                     recordTradeVideoNum: function recordTradeVideoNum(data) {
                         return request2(HEALTH_SERVICE + '/patient/recordTradeVideoNum', 'post', data, true);
                     },
-
+                    //视频聊天计时 新版
+                    saveVideoNum: function saveVideoNum(data) {
+                        return request2(MEDICAL_SERVICE + '/rightsUse/endVedio', 'get', data, true);
+                    },
+               
                     //获取可预约/改约列表
                     getBookExamList: function getBookExamList(data) {
                         return request(HEALTH_SERVICE + '/appoint/getBookExamList', 'post', data, true);
@@ -1388,8 +1392,8 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/commodity/doctorAppointInfos'
                         return request(url, 'get', data, true);
                     },
-                     //医生排班列表 视频
-                     docArrangeInfos: function docArrangeInfos(data) {
+                    //医生排班列表 视频
+                    docArrangeInfos: function docArrangeInfos(data) {
                         var url = MEDICAL_SERVICE + '/commodity/docArrangeInfos'
                         return request(url, 'post', data, true);
                     },
@@ -1400,17 +1404,17 @@ module.exports =
                     },
                     //我的  订单数量红点点
                     getRightsCount: function getRightsCount() {
-                        var url = MEDICAL_SERVICE + '/userorder/getRightsCount' 
+                        var url = MEDICAL_SERVICE + '/userorder/getRightsCount'
                         return request2(url, 'get', '', true);
                     },
-                     //推荐商品
-                     getYouzanGoodsList: function getYouzanGoodsList(data) {
-                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getYouzanGoodsList' 
+                    //推荐商品
+                    getYouzanGoodsList: function getYouzanGoodsList(data) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getYouzanGoodsList'
                         return request2(url, 'get', data, true);
                     },
-                     //首页专科服务
-                     getServiceCommodityClassInfo: function getServiceCommodityClassInfo() {
-                        var url = MEDICAL_SERVICE + '/rightsUse/getServiceCommodityClassInfo' 
+                    //首页专科服务
+                    getServiceCommodityClassInfo: function getServiceCommodityClassInfo() {
+                        var url = MEDICAL_SERVICE + '/rightsUse/getServiceCommodityClassInfo'
                         return request2(url, 'get', '', true);
                     },
                     //添加评价
@@ -1418,19 +1422,19 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/tfUserAppraise/doctorAppraise'
                         return request(url, 'post', data, true);
                     },
-                       //查看订单有没有评价
-                       getAppraiseByOrderIdExists: function getAppraiseByOrderIdExists(orderId) {
-                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseByOrderIdExists/'+orderId
+                    //查看订单有没有评价
+                    getAppraiseByOrderIdExists: function getAppraiseByOrderIdExists(orderId) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseByOrderIdExists/' + orderId
                         return request(url, 'post', '', true);
                     },
                     //查看订单评价
                     getAppraiseByOrderId: function getAppraiseByOrderId(orderId) {
-                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseByOrderId/'+orderId
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseByOrderId/' + orderId
                         return request2(url, 'post', '', true);
                     },
-                     //查看评价详情
-                     getAppraiseById: function getAppraiseById(id) {
-                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseById/'+id
+                    //查看评价详情
+                    getAppraiseById: function getAppraiseById(id) {
+                        var url = MEDICAL_SERVICE + '/tfUserAppraise/getAppraiseById/' + id
                         return request(url, 'post', '', true);
                     },
                     //修改头像
@@ -1438,15 +1442,15 @@ module.exports =
                         var url = ACCOUNT_SERVICE + '/accountInfo/updateCustomAccount'
                         return request(url, 'post', data, true);
                     },
-                     
+
                     //根据科室ID查询病种   
                     getDiseaseTypeForDepartmentId: function getDiseaseTypeForDepartmentId(id) {
-                        var url = INFO_SERVICE + '/tdDiseaseType/getDiseaseTypeForDepartmentId/'+id
+                        var url = INFO_SERVICE + '/tdDiseaseType/getDiseaseTypeForDepartmentId/' + id
                         return request(url, 'post', '', true);
                     },
 
-                      //获取线下就诊机构列表   
-                      hospitalList: function hospitalList(data) {
+                    //获取线下就诊机构列表   
+                    hospitalList: function hospitalList(data) {
                         var url = INFO_SERVICE + '/supervision/hospital/list'
                         return request(url, 'post', data, true);
                     },
@@ -1457,13 +1461,13 @@ module.exports =
                         return request(url, 'get', data, true);
                     },
 
-                      //小程序端-处方详情
-                      preDetail: function preDetail(data) {
+                    //小程序端-处方详情
+                    preDetail: function preDetail(data) {
                         var url = MEDICAL_SERVICE + '/medOrders/preDetail'
                         return request(url, 'get', data, true);
                     },
-                     //小程序端-处方列表
-                     preList: function preList(data) {
+                    //小程序端-处方列表
+                    preList: function preList(data) {
                         var url = MEDICAL_SERVICE + '/medOrders/preList'
                         return request2(url, 'POST', data, true);
                     },

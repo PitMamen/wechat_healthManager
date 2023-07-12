@@ -69,7 +69,7 @@
 
         <!-- 其他消息 -->
         <block wx:else>
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;max-width: 60%;">
+            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;width: 75%;">
                 {{content.description||'[自定义消息]'}}</view>
         </block>
 

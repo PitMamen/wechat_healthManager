@@ -12,7 +12,8 @@
                 "pages/diseases/knowledge-list",
                 "pages/chat/historyChat",
                 "pages/chat/groupChat",
-                "pages/chat/groupHistoryChat"
+                "pages/chat/groupHistoryChat",
+                "pages/chat/TUICall"
             ]
         },
         {
@@ -42,7 +43,6 @@
         "pages/login/auth",
         "pages/login/confirm-patient",
         "pages/login/index",
-
         "pages/me/main",
         "pages/me/patients/index",
         "pages/me/patients/editUser",
@@ -90,10 +90,6 @@
         "pages/home/rate/package",
         "pages/login/diagnosis",
         "pages/me/my-doctor/index",
-        "pages/doctor/guide/index",
-        "pages/doctor/choose-time/index",
-        "pages/doctor/choose-patient/index",
-        "pages/doctor/choose-case/index",
         "pages/me/prescription/index",
         "pages/me/prescription/detail",
         "pages/me/prescription/drugtaking_page",

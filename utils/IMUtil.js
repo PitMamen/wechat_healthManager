@@ -179,7 +179,7 @@ var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) 
             console.log("onSdkReady")
 
             getApp().globalData.sdkReady = true
-                    //IM登录发送通知
+                    //IM登录发送事件
         bus.emit('IMLoginSuccess', true)
 
             if (routUrl) {

@@ -8,7 +8,7 @@ import TIM from 'tim-wx-sdk';
 import TSignalingClient from './TSignalingClient'
 import TRTCCallingDelegate from './TRTCCallingDelegate'
 import TRTCCallingInfo from './TRTCCallingInfo'
-
+const WXAPI = require('../../../static/apifm-wxapi/index')
 // TODO 组件挂载和模版方式分离，目前使用的方式，只能把TRTCCalling挂载在index页面上
 
 const TAG_NAME = 'TRTCCalling'
@@ -59,6 +59,7 @@ class TRTCCalling {
       localUser: null, // 本地用户资料
       remoteUsers: [], // 远程用户资料
       timer: null, // 聊天时长定时器
+      MYGROUPID:'',//扩展字段传过来的群ID
       chatTimeNum: 0, // 聊天时长
       chatTime: '00:00:00', // 聊天时长格式化
       screen: 'pusher', // 视屏通话中，显示大屏幕的流（只限1v1聊天
@@ -124,6 +125,10 @@ class TRTCCalling {
     console.log(TAG_NAME, 'onNewInvitationReceived', `callStatus：${this.data.callStatus === CALL_STATUS.CALLING || this.data.callStatus === CALL_STATUS.CONNECTED}, inviteID:${event.data.inviteID} inviter:${event.data.inviter} inviteeList:${event.data.inviteeList} data:${event.data.data}`)
     const { data: { inviter, inviteeList, data, inviteID, groupID } } = event
     const inviteData = JSON.parse(data)
+    console.log('XX',event.data.data)
+    this.data.MYGROUPID= JSON.parse(event.data.data).extInfo
+    console.log('XX',this.data.MYGROUPID)
+    this.qryRightsUseRecord()
 
     // 此处判断inviteeList.length 大于2，用于在非群组下多人通话判断
     // userIDs 为同步 native 在使用无 groupID 群聊时的判断依据
@@ -927,9 +932,16 @@ class TRTCCalling {
         if (this.data.timer) {
           return
         }
+        if(this.data.chatTimeNum < 1){
+            return
+        }
         this.data.timer = setInterval(() => {
+            
           this.data.chatTime = formateTime(this.data.chatTimeNum)
-          this.data.chatTimeNum += 1
+          this.data.chatTimeNum -= 1
+          if(this.data.chatTimeNum < 1){
+            this.data.chatTimeNum=0
+        }
           this.data.pusher.chatTime = this.data.chatTime
           this.data.pusher.chatTimeNum = this.data.chatTimeNum
           this.TRTCCallingDelegate.onUserUpdate({ pusher: this.data.pusher, playerList: this.data.playerList })
@@ -951,8 +963,27 @@ class TRTCCalling {
     this.data.config.type = 0
     // 清空状态
     this.initData()
+  
+  
   }
+    //查询剩余时间
+    qryRightsUseRecord() {
 
+        WXAPI.qryRightsUseRecord({ orderId:this.data.MYGROUPID.replace("M_","")}).then((res) => {
+            
+            if(res.code == 0 && res.data && res.data.length>0 && res.data[0].leftServiceTime){
+                this.data.chatTimeNum=res.data[0].leftServiceTime             
+            }
+        })
+    }
+        //保存剩余时间
+        saveVideoNum() {
+
+            WXAPI.saveVideoNum({ imGroupId:this.data.MYGROUPID,usedTime:this.data.chatTimeNum}).then((res) => {
+                
+               
+            })
+        }
   /**
    *
    * @param userID 远端用户id
