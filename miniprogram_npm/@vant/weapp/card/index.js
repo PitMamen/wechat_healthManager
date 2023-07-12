@@ -28,7 +28,7 @@ component_1.VantComponent({
     originPrice: String,
     thumbMode: {
       type: String,
-      value: 'scaleToFill',
+      value: 'aspectFit',
     },
     currency: {
       type: String,

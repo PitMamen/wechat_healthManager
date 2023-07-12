@@ -87,16 +87,7 @@ Page({
             url: './info/index',
         })
     },
-    goPlanPage(e) {
-        if (this.checkLoginStatus()) {
-            if (getApp().getDefaultPatient()) {
-                wx.navigateTo({
-                    url: './my-plan/index',
-                })
-            }
-        }
-
-    },
+ 
     goMyEvalPage() {
         if (this.checkLoginStatus()) {
             if (getApp().getDefaultPatient()) {

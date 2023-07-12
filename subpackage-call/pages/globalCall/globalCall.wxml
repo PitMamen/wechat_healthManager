@@ -1,0 +1,6 @@
+<view class="">
+    <TUICallKit
+    class="TUICallKit"
+    id="TUICallKit-component"
+  ></TUICallKit>
+</view>

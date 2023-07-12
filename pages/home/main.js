@@ -9,7 +9,6 @@ const APP = getApp()
 
 Page({
     data: {
-        config: {sdkAppID: Config.getConstantData().IMAPPID,},
         currentHospital: {},
         topMenuList: [],
         midMenuList: [],

@@ -1,6 +1,4 @@
-{"usingComponents": {
-    "TUICalling": "/modules/TUICalling/TUICalling"
-  },
+{
   "navigationBarTitleText": "健康管家在线",
   "navigationBarBackgroundColor": "#DDEFF3",
   "navigationStyle":"custom",
