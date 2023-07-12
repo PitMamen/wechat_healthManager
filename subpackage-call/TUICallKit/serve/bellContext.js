@@ -8,12 +8,15 @@ export class BellContext {
     });
   }
   setBellSrc(filePath) {
-    const fs = wx.getFileSystemManager();
-    try {
-      fs.readFileSync(filePath, 'utf8', 0);
-    } catch (e) {
-      console.warn(`${PREFIX}-setCallingBell: 媒体铃声路径错误`, filePath);
-    }
+    // const fs = wx.getFileSystemManager();
+    // console.log('fs',fs)
+    // try {
+    //   fs.readFileSync(filePath, 'utf8', 0);
+    // } catch (e) {
+    //     console.error(e)
+    //   console.warn(`${PREFIX}-setCallingBell: 媒体铃声路径错误`, filePath);
+      
+    // }
     this.context.src = filePath;
   }
   play() {

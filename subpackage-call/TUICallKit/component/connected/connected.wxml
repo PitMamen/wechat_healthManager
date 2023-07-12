@@ -45,74 +45,72 @@
                 bindaudiovolumenotify="playerAudioVolumeNotify" />
         </view>
     </view>
-    <view class="handle-btns">
-        <view class="other-view {{callType === 1 ? 'black' : 'white'}}">
-            <text>{{pusher.chatTime}}</text>
-        </view>
-        <view class="btn-operate-item call-switch" catch:tap="switchAudioCall">
-            <view class="call-operate">
-                <image src="../../static/trans.png" />
-            </view>
-            <text>切到语音通话</text>
-        </view>
-        <view class="btn-list">
-            <view class="button-container">
-                <view class="btn-normal" bindtap="pusherAudioHandler">
-                    <image class="btn-image"
+    <cover-view class="handle-btns">
+        <cover-view class="other-view {{callType === 1 ? 'black' : 'white'}}">
+            <cover-view>{{pusher.chatTime}}</cover-view>
+        </cover-view>
+        <cover-view class="btn-operate-item call-switch" catch:tap="switchAudioCall">
+            <cover-view class="call-operate">
+                <cover-image src="../../static/trans.png" />
+            </cover-view>
+            <cover-view style="color: white;margin-top: 20rpx; margin-bottom: 20rpx;">切到语音通话</cover-view>
+        </cover-view>
+        <cover-view class="btn-list">
+            <cover-view class="button-container">
+                <cover-view class="btn-normal" bindtap="pusherAudioHandler">
+                    <cover-image class="btn-image"
                         src="{{pusher.enableMic? '../../static/audio-true.png': '../../static/audio-false.png'}} ">
-                    </image>
-                </view>
-                <view class="{{callType === 2 ? 'white' : ''}}">麦克风</view>
-            </view>
-            <view class="button-container" wx:if="{{callType === 1}}">
-                <view class="btn-hangup" bindtap="hangup">
-                    <image class="btn-image" src="../../static/hangup.png"></image>
-                </view>
+                    </cover-image>
+                </cover-view>
+                <cover-view class="{{callType === 2 ? 'white' : ''}}">麦克风</cover-view>
+            </cover-view>
+            <cover-view class="button-container" wx:if="{{callType === 1}}">
+                <cover-view class="btn-hangup" bindtap="hangup">
+                    <cover-image class="btn-image" src="../../static/hangup.png"></cover-image>
+                </cover-view>
 
-                <view class="{{callType === 2 ? 'white' : ''}}">挂断</view>
-            </view>
-            <view class="button-container">
-                <view class="btn-normal" bindtap="toggleSoundMode">
-                    <image class="btn-image"
+                <cover-view class="{{callType === 2 ? 'white' : ''}}">挂断</cover-view>
+            </cover-view>
+            <cover-view class="button-container">
+                <cover-view class="btn-normal" bindtap="toggleSoundMode">
+                    <cover-image class="btn-image"
                         src="{{soundMode === 'ear' ? '../../static/speaker-false.png': '../../static/speaker-true.png'}} ">
-                    </image>
-                </view>
-                <text class="{{callType === 2 ? 'white' : ''}}">扬声器</text>
-            </view>
+                    </cover-image>
+                </cover-view>
+                <cover-view class="{{callType === 2 ? 'white' : ''}}">扬声器</cover-view>
+            </cover-view>
 
-            <view class="button-container" wx:if="{{callType === 2}}">
-                <view class="btn-normal" bindtap="pusherVideoHandler">
-                    <image class="btn-image"
+            <cover-view class="button-container" wx:if="{{callType === 2}}">
+                <cover-view class="btn-normal" bindtap="pusherVideoHandler">
+                    <cover-image class="btn-image"
                         src="{{pusher.enableCamera ? '../../static/camera-true.png': '../../static/camera-false.png'}} ">
-                    </image>
-                </view>
-                <text class="white">摄像头</text>
-            </view>
-        </view>
-        <view class="btn-list" wx:if="{{callType===2}}">
-            <!-- <view class="btn-list-item">
-                <view wx:if="{{playerList.length === 1}}" class="btn-normal" bindtap="switchAudioCall">
-                    <image class="btn-image btn-image-small" src="{{ '../../static/trans.png'}} "></image>
-                </view>
-            </view> -->
-            <view class="btn-list-item other-view">
-                <view class="btn-container">
-                    <view class="btn-hangup" bindtap="hangup">
-                        <image class="btn-image" src="../../static/hangup.png"></image>
-                    </view>
-                    <view wx:if="{{pusher.enableCamera}}" class="invite-calling-header-left">
-                        <image src="../../static/switch_camera.png" data-device="{{pusher.frontCamera}}"
-                            catch:tap="toggleSwitchCamera" />
-                    </view>
-                </view>
-                <text class="white">挂断</text>
-            </view>
-            <!-- <view class="btn-list-item btn-footer">
-                <view wx:if="{{pusher.enableCamera}}" class="{{playerList.length > 1 ? 'multi-camera' : 'camera'}}">
-                    <image class="camera-image" src="../../static/swtich-camera.png"
-                        data-device="{{pusher.frontCamera}}" catch:tap="toggleSwitchCamera" />
-                </view>
-            </view> -->
-        </view>
-    </view>
+                    </cover-image>
+                </cover-view>
+                <cover-view class="white">摄像头</cover-view>
+            </cover-view>
+        </cover-view>
+        <cover-view class="btn-list" wx:if="{{callType===2}}">
+          
+            <cover-view  class="button-container" >
+                <cover-view class="btn-normal" bindtap="pusherVideoHandler">
+                   
+                </cover-view>
+            </cover-view>
+            <cover-view class="button-container" >
+                <cover-view class="btn-hangup" bindtap="hangup">
+                    <cover-image class="btn-image" src="../../static/hangup.png"></cover-image>
+                </cover-view>
+
+                <cover-view class="white">挂断</cover-view>
+            </cover-view>
+            <cover-view class="button-container" >
+                <cover-view class="btn-normal" bindtap="toggleSwitchCamera" data-device="{{pusher.frontCamera}}">
+                    <cover-image class="btn-image" style="width: 40px;height: 40px;"
+                        src="../../static/switch_camera.png">
+                    </cover-image>
+                </cover-view>
+               
+            </cover-view>
+        </cover-view>
+    </cover-view>
 </view>

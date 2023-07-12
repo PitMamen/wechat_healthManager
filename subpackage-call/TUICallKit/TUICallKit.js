@@ -9,8 +9,8 @@ import { THROTTLE_TIME } from './utils/constants';
 
 export const PREFIX = 'TUICallKit';
 const version = '1.4.0';
-let INVITER_BELL_FILEPATH = 'TUICallKit/TUICallKit/static/phone_dialing.mp3';
-let INVITEE_BELL_FILEPATH = 'TUICallKit/TUICallKit/static/phone_ringing.mp3';
+let INVITER_BELL_FILEPATH = '/subpackage-call/TUICallKit/static/phone_dialing.mp3';
+let INVITEE_BELL_FILEPATH = '/subpackage-call/TUICallKit/static/phone_dialing.mp3';
 // 记录组件是否初始化完成
 let tuiCallInitReady = false;
 // 是否需要隐藏 tabBar 页面

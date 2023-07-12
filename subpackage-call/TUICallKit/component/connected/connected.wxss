@@ -29,7 +29,7 @@
     position: absolute;
     bottom: 44px;
     width: 100vw;
-    z-index: 3;
+    z-index: 99999;
     display: flex;
     flex-direction: column;
 }
@@ -212,8 +212,11 @@
 }
 
 .invite-calling-header-left {
-    position: absolute;
-    right: -88px;
+    position: fixed;
+    right: 50px;
+    width: 40px;
+    height: 40px;
+    z-index: 99999;
 }
 
 .invite-calling-header-left image {
