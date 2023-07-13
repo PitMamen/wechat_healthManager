@@ -1,4 +1,3 @@
-
 <page-meta page-style="overflow: {{showHidden ? 'hidden' : 'visible'}}" />
 <view class="wrap">
     <view class="top">
@@ -32,10 +31,10 @@
                 <van-uploader deletable accept="image" max-count="9" multiple="true" image-fit="aspectFill" file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="delete" />
             </view>
 
-            <van-checkbox value="{{ offLinechecked }}"  bind:change="checkoffLineChange"> 是否线下就诊过</van-checkbox>
+            <van-checkbox value="{{ offLinechecked }}" bind:change="checkoffLineChange"> 是否线下就诊过</van-checkbox>
             <view wx:if="{{offLinechecked}}" style="display: flex;flex-direction: row;">
                 <view style="margin-top: 40rpx;">就诊机构</view>
-                <input value="{{clickName}}" class="ba" disabled="true" style="margin-top: 30rpx;margin-left: 20rpx;font-size: 30rpx;padding-left:10rpx;" bindtap="changeHospital"></input>
+                <input value="{{clickName=='undefined'?'':className}}" class="ba" disabled="true" style="margin-top: 30rpx;margin-left: 20rpx;font-size: 30rpx;padding-left:10rpx;" bindtap="changeHospital"></input>
             </view>
 
             <view wx:if="{{offLinechecked}}" style="display: flex;flex-direction: row;">
@@ -45,8 +44,8 @@
 
             <view wx:if="{{offLinechecked}}" style="display: flex;flex-direction: row;">
                 <view style="margin-top: 40rpx;">诊断日期</view>
-                <input value="{{diagnosisDate}}" class="ba" disabled="true" style="margin-top: 30rpx;margin-left: 20rpx;padding-left:10rpx;" bindtap="showcalendar"></input>
-                <van-calendar style="height: 300rpx;" min-date="{{ minDate }}" show="{{showData}}" bind:confirm="dateConfirm" color='#3894FF' bind:close="close"    />
+                <input value="{{diagnosisDate || ''}}" class="ba" disabled="true" style="margin-top: 30rpx;margin-left: 20rpx;padding-left:10rpx;" bindtap="showcalendar"></input>
+                <van-calendar style="height: 300rpx;" min-date="{{ minDate }}" show="{{showData}}" bind:confirm="dateConfirm" color='#3894FF' bind:close="close" />
             </view>
 
 
@@ -73,8 +72,8 @@
 <!-- 选择机构 -->
 <van-popup show="{{ !hideHospitalPicker }}" round position="bottom" custom-style="padding-top:10rpx;height: 60%;" bind:close="closeHospitalTap">
     <!-- <van-sticky> -->
-        <view style="text-align: center;font-size: 40rpx;font-weight: bold">机构</view>
-        <van-search class="search" placeholder="请输入机构名称进行查询" model:value="{{ keyWords }}" bind:change="onInputChange" />
+    <view style="text-align: center;font-size: 40rpx;font-weight: bold">机构</view>
+    <van-search class="search" placeholder="请输入机构名称进行查询" model:value="{{ keyWords }}" bind:change="onInputChange" />
     <!-- </van-sticky> -->
 
 
@@ -95,8 +94,8 @@
 
 <van-popup show="{{ !hideDiagnosisPicker }}" round position="bottom" custom-style="padding-top:10rpx;height: 60%;" bind:close="cloaseDiagnosistab">
     <!-- <van-sticky> -->
-        <view style="text-align: center;font-size: 40rpx;font-weight: bold">诊断</view>
-        <van-search class="search" placeholder="请输入诊断名称进行查询" model:value="{{ keyWordsdiagnosis }}" bind:change="diagnosisChange" />
+    <view style="text-align: center;font-size: 40rpx;font-weight: bold">诊断</view>
+    <van-search class="search" placeholder="请输入诊断名称进行查询" model:value="{{ keyWordsdiagnosis }}" bind:change="diagnosisChange" />
     <!-- </van-sticky> -->
 
     <view wx:for="{{DiagnosisList}}">
