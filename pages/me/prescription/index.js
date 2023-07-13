@@ -76,7 +76,8 @@ Page({
      */
     async getPreList() {
         const res = await WXAPI.preList({
-            status: this.data.status
+            status: this.data.status,
+            preType:'consultOrderPrescription'
         })
         this.setData({
             orderList: res.data
