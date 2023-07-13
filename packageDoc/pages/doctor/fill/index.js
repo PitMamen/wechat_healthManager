@@ -166,7 +166,6 @@ Page({
         this.setData({
             hideDiagnosisPicker: false
         })
-        // this.searchDiagnosisList("感冒")
     },
 
     // 显示日历弹框
@@ -231,6 +230,18 @@ Page({
                 diagnosisDate:res.data.diagnosisDate,
 
             })
+
+            if (this.data.clickName=='undefined|undefined') {
+                this.setData({
+                    clickName:'',
+                })
+            }
+
+            if (this.data.diagnosis=='undefined|undefined') {
+                this.setData({
+                    diagnosis:'',
+                })
+            }
             var images = res.data.images || []
             var fileList = images.map((el, index) => {
                 return {
