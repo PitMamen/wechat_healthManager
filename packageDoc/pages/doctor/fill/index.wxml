@@ -34,7 +34,7 @@
             <van-checkbox value="{{ offLinechecked }}" bind:change="checkoffLineChange"> 是否线下就诊过</van-checkbox>
             <view wx:if="{{offLinechecked}}" style="display: flex;flex-direction: row;">
                 <view style="margin-top: 40rpx;">就诊机构</view>
-                <input value="{{clickName=='undefined'?'':className}}" class="ba" disabled="true" style="margin-top: 30rpx;margin-left: 20rpx;font-size: 30rpx;padding-left:10rpx;" bindtap="changeHospital"></input>
+                <input value="{{clickName}}" class="ba" disabled="true" style="margin-top: 30rpx;margin-left: 20rpx;font-size: 30rpx;padding-left:10rpx;" bindtap="changeHospital"></input>
             </view>
 
             <view wx:if="{{offLinechecked}}" style="display: flex;flex-direction: row;">
