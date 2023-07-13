@@ -47,7 +47,7 @@
     </view>
     <cover-view class="handle-btns">
         <cover-view class="other-view {{callType === 1 ? 'black' : 'white'}}">
-            <cover-view>{{pusher.chatTime}}</cover-view>
+            <cover-view>{{pusher.chatTime2}}</cover-view>
         </cover-view>
         <cover-view class="btn-operate-item call-switch" catch:tap="switchAudioCall">
             <cover-view class="call-operate">

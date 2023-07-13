@@ -70,13 +70,23 @@ App({
         bus.on('IMLoginSuccess', (msg) => {
             // 支持多参数
             console.log("监听IM登录成功", msg)
-
-             wx.CallManager.init({
+            if(wx.CallManager){
+                wx.CallManager.destroyed()
+            }
+            
+              //实例化腾讯TRTC callManager
+        require.async('./subpackage-call/TUICallKit/serve/callManager.js').then(res => {
+            wx.CallManager = new res.CallManager();
+            wx.CallManager.init({
                 sdkAppID: getApp().globalData.sdkAppID,            
                 userID: getApp().globalData.IMuserID,                
                 userSig: getApp().globalData.IMuserSig,              
                 globalCallPagePath: 'subpackage-call/pages/globalCall/globalCall', 
               });
+          }).catch(({mod, errMsg}) => {
+            console.error(`path: ${mod}, ${errMsg}`)
+      })
+             
            
         })
     },
@@ -181,8 +191,8 @@ App({
                 }
             })
             //保存默认就诊人
-            wx.setStorageSync('defaultPatient', defaultPatient)
-            IMUtil.LoginOrGoIMChat(defaultPatient.userId, defaultPatient.userSig)
+            // wx.setStorageSync('defaultPatient', defaultPatient)
+            // IMUtil.LoginOrGoIMChat(defaultPatient.userId, defaultPatient.userSig)
 
         }
         this.globalData.loginReady = true
@@ -193,12 +203,6 @@ App({
         console.log("登录成功，重新加载页面" + routPage)
 
 
-        // if (routPage.indexOf('pages/home/main') !== 0) {
-        //     wx.reLaunch({
-        //         url: '/' + routPage
-        //     });
-        //     wx.removeStorageSync('routPage-w')
-        // }
         //排除不需要登录的页面
         if (!Config.checkNoLoginPage(routPage)) {
             wx.reLaunch({
