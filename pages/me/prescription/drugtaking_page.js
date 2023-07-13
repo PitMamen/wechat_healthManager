@@ -13,8 +13,8 @@ Page({
         dataInfo: null,
         dataillist: [],
         ReceivingAddressDetail: "",
-        takeyouself: false,  //自取
-        express_Issued: false, //快递代发
+        // takeyouself: false,  //自取
+        express_Issued: true, //快递代发
         payStata: '',  //支付状态/  /状态代码;0未下单/1待付款/8待发货/2已完成/5已取消
         orderId:'',//下单时生成的
         tradeId:'',//工单号
@@ -100,42 +100,42 @@ Page({
 
 
     //自取
-    takeyouself() {
-        if (this.data.isShowing_self) {
-            wx.showModal({
-                showCancel: false,
-                title: '提示',
-                confirmText:'我已知晓',
-                content: '请选择药房自取的病友患者,携带诊疗卡或者电子处方凭证,前往取药,周一至周六正常上班时间均可,节假日以门诊开放时间为准',
-            })
-        }
-        this.setData({
-            takeyouself: true,
-            express_Issued: false,
-            isShowing_self:false
-        })
+    // takeyouself() {
+    //     if (this.data.isShowing_self) {
+    //         wx.showModal({
+    //             showCancel: false,
+    //             title: '提示',
+    //             confirmText:'我已知晓',
+    //             content: '请选择药房自取的病友患者,携带诊疗卡或者电子处方凭证,前往取药,周一至周六正常上班时间均可,节假日以门诊开放时间为准',
+    //         })
+    //     }
+    //     this.setData({
+    //         takeyouself: true,
+    //         express_Issued: false,
+    //         isShowing_self:false
+    //     })
        
        
-    },
+    // },
 
     //快递代发
-    express_Issued() {
-        if (this.data.isShowing_ex) {
-            wx.showModal({
-                showCancel: false,
-                title: '提示',
-                confirmText:'我已知晓',
-                content: '代发快递取药方式为平台下单快递,付款方式为快递到付,到付金额:湖南省内12元,省外23元(此价格为预估价格,具体价格以快递公司给出的价格为准)',
-            })
-        }
-        this.setData({
-            express_Issued: true,
-            takeyouself: false,
-            isShowing_ex:false
-        })
+    // express_Issued() {
+    //     if (this.data.isShowing_ex) {
+    //         wx.showModal({
+    //             showCancel: false,
+    //             title: '提示',
+    //             confirmText:'我已知晓',
+    //             content: '代发快递取药方式为平台下单快递,付款方式为快递到付,到付金额:湖南省内12元,省外23元(此价格为预估价格,具体价格以快递公司给出的价格为准)',
+    //         })
+    //     }
+    //     this.setData({
+    //         express_Issued: true,
+    //         takeyouself: false,
+    //         isShowing_ex:false
+    //     })
        
        
-    },
+    // },
 
 //防抖动
 debounced: false,
@@ -195,7 +195,7 @@ debounced: false,
         const postData = {
             addressInfo:{
                 "address": this.data.express_Issued?this.data.ReceivingAddressDetail:'',
-                "deliverType": this.data.express_Issued?2:1,
+                "deliverType": 2,
                 "mobile": this.data.express_Issued?this.data.curAddressData.telNumber:'',
                 "name":this.data.express_Issued?this.data.curAddressData.userName:'',
             },
