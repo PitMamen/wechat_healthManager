@@ -277,6 +277,8 @@ Page({
 
         //保存用户信息
         wx.setStorageSync('userInfo', userInfo)
+          //保存此账户所有就诊人
+        wx.setStorageSync('allPatientList', userInfo.account.user)
         //IM apppid
         getApp().globalData.sdkAppID = userInfo.account.imAppId
         getApp().globalData.loginReady=true

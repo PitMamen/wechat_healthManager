@@ -125,11 +125,14 @@ export class CallManager {
 
   // 卸载 callManger
   async destroyed() {
-    this.removeEngineInvite();
-    this.reset();
-    await wx.$TUICallEngine.destroyed();
-    wx.$globalCallSign = false;
-    wx.$TUICallEngine = null;
+      if(wx.$TUICallEngine){
+        this.removeEngineInvite();
+        this.reset();
+        await wx.$TUICallEngine.destroyed();
+        wx.$globalCallSign = false;
+        wx.$TUICallEngine = null;
+      }
+
   }
   reset() {
     this.sdkAppID = 0;
