@@ -3,12 +3,12 @@ const WXAPI = require('./static/apifm-wxapi/index')
 const IMUtil = require('./utils/IMUtil')
 const Config = require('./utils/config')
 import bus from './utils/EventBus.js'
-import TRTCCalling from './modules/TUICalling/TRTCCalling/TRTCCalling.js'
+
 App({
     onLaunch(ret) {
 
         this.updateApp()
-
+        
         wx.setInnerAudioOption({
             obeyMuteSwitch: false,
             success: function (res) {
@@ -19,6 +19,12 @@ App({
             }
         });
 
+        //实例化腾讯TRTC callManager
+        require.async('./subpackage-call/TUICallKit/serve/callManager.js').then(res => {
+            wx.CallManager = new res.CallManager();
+          }).catch(({mod, errMsg}) => {
+            console.error(`path: ${mod}, ${errMsg}`)
+      })
 
         // ---------------检测navbar高度
         let menuButtonObject = wx.getMenuButtonBoundingClientRect();
@@ -57,48 +63,25 @@ App({
             this.WXloginForLogin()
 
         }
+
+
+
         //监听IM登录成功
         bus.on('IMLoginSuccess', (msg) => {
             // 支持多参数
             console.log("监听IM登录成功", msg)
 
-            this.setCallingConfig()
+             wx.CallManager.init({
+                sdkAppID: getApp().globalData.sdkAppID,            
+                userID: getApp().globalData.IMuserID,                
+                userSig: getApp().globalData.IMuserSig,              
+                globalCallPagePath: 'subpackage-call/pages/globalCall/globalCall', 
+              });
            
         })
     },
 
-  //设置TUICalling 参数
-  async setCallingConfig(){
-    var config = {
-        sdkAppID: getApp().globalData.sdkAppID,
-        userID: getApp().globalData.IMuserID,
-        userSig: getApp().globalData.IMuserSig,
-        type: 1,
-        tim: getApp().tim, // 参数适用于业务中已存在 TIM 实例，为保证 TIM 实例唯一性
-    }
-   
-     //初始化TUICalling
-     try {
-        console.log('app call config',config)
-        const res = await wx.$TRTCCalling.login({
-          userID: config.userID,
-          userSig: config.userSig,
-        })
-        console.log('app call login',res)
-        // 被邀请通话
-        wx.$TRTCCalling.on(wx.$TRTCCalling.EVENT.INVITED, (e)=>{
-            console.log('APPINVITED',e)
-          wx.navigateTo({
-            url: '/packageIM/pages/chat/TUICall?event='+JSON.stringify(e),
-          })
-      }, this)
-      
-        
-      } catch (error) {
-        throw new Error('TRTCCalling login failure', error)
-      }
-  
-},
+ 
 
     //声明周期函数--监听页面显示
     onShow: function (ret) {
@@ -384,7 +367,7 @@ App({
     rightsDetail: null,//权益详情
     extraData: null,//使用权益跳转互联网医院小程序的参数（风湿科提交成功）
     followInfo:null,//随访登记详情
-    TRTCCalling:null,
+   
 })
 
 

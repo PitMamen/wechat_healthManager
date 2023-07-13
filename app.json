@@ -12,8 +12,8 @@
                 "pages/diseases/knowledge-list",
                 "pages/chat/historyChat",
                 "pages/chat/groupChat",
-                "pages/chat/groupHistoryChat",
-                "pages/chat/TUICall"
+                "pages/chat/groupHistoryChat"
+               
             ]
         },
         {
@@ -36,7 +36,15 @@
                 "pages/health/detail/index",
                 "pages/health/comments/index"
             ]
-        }
+        },
+        {
+            "root": "subpackage-call",
+            "name": "subpackage-call",
+            "pages": [
+              "pages/globalCall/globalCall"
+            ],
+            "independent": false
+          }
     ],
     "pages": [
         "pages/home/main",
@@ -94,6 +102,7 @@
         "pages/me/prescription/detail",
         "pages/me/prescription/drugtaking_page",
         "pages/consult/detail-video/index"
+       
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

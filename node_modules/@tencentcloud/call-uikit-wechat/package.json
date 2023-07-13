@@ -1,0 +1,21 @@
+{
+  "name": "@tencentcloud/call-uikit-wechat",
+  "version": "1.4.2",
+  "description": "TUICallKit miniProgram",
+  "main": "index.js",
+  "keywords": [
+    "通话",
+    "Call",
+    "视频通话",
+    "音频通话",
+    "音视频"
+  ],
+  "repository": {
+    "type": "git"
+  },
+  "author": "Tencent Cloud Client R&D Center",
+  "license": "ISC",
+  "dependencies": {
+    "tuicall-engine-wx": "^1.4.8"
+  }
+}

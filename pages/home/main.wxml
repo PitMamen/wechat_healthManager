@@ -1,4 +1,3 @@
-<TUICalling id="TUICalling-component" config="{{config}}"></TUICalling>
 <wxs src="../../modules/format.wxs" module="computed"></wxs>
 <movable-area class="movable-area">
     <movable-view class="movable-view" direction="all">
