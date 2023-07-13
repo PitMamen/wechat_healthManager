@@ -461,6 +461,16 @@ Page({
                         }
                     })
 
+                }else {
+                    
+                    wx.showModal({
+                        title: '提示',
+                        content: res2.message,
+                        success(res) {
+                            if (res.confirm) {
+                            }
+                        }
+                    })
                 }
                 wx.hideLoading()
                 this.setData({
