@@ -668,8 +668,8 @@ module.exports =
                         var url = ACCOUNT_SERVICE + '/userInfo/getBaseInfo?userId=' + userId
                         return request(url, 'get', null);
                     },
-              
-               
+
+
                     //查询问答列表 
                     qrySysKnowledge: function qrySysKnowledge(data) {
                         return request(HEALTH_SERVICE + '/sys/qrySysKnowledge', 'post', data, true);
@@ -682,8 +682,8 @@ module.exports =
                     getSysKnowledgeById: function getSysKnowledgeById(id) {
                         return request2(HEALTH_SERVICE + '/sys/getSysKnowledgeById?id=' + id, 'get', {});
                     },
-                 
-                  
+
+
                     //文章列表
                     articleListQuery: function articleListQuery(data) {
                         var url = HEALTH_SERVICE + '/health/patient/allArticlesPage'
@@ -707,7 +707,7 @@ module.exports =
                         var url = HEALTH_SERVICE + '/patient/getArticleByClickNum'
                         return request2(url, 'get', data, true);
                     },
-                 
+
                     //健康任务详情
                     queryHealthPlanContent: function queryHealthPlanContent(contentId, planType, userId) {
                         return request(HEALTH_SERVICE + '/health/patient/queryHealthPlanContent?contentId=' + contentId + '&planType=' + planType + '&userId=' + userId, 'get', {});
@@ -730,12 +730,12 @@ module.exports =
                     queryHealthPlanTaskList: function queryHealthPlanTaskList(planId) {
                         return request(HEALTH_SERVICE + '/patient/queryHealthPlanTaskList?planId=' + planId, 'get', {});
                     },
-                  
+
                     //患者更新未完成的健康任务
                     updateUnfinishedTaskStatus: function updateUnfinishedTaskStatus(contentId) {
                         return request(HEALTH_SERVICE + '/health/patient/updateUnfinishedTaskStatus?contentId=' + contentId, 'put', {});
                     },
-                
+
                     //支付回调
                     manualNotify: function manualNotify(orderId) {
                         return request(ORDER_SERVICE + '/order/tbOrder/manualNotify', 'post', { orderId: orderId }, false);
@@ -749,7 +749,7 @@ module.exports =
                     getOrderList: function getOrderList(status, userId, functionType) {
                         return request(ORDER_SERVICE + '/order/tbOrder/getOrderList?pageNo=1&pageSize=10000&status=' + status + '&userId=' + userId + '&functionType=' + functionType, 'get', null);
                     },
-                   
+
                     //权益使用记录
                     queryRightsUserRecord: function queryRightsUserRecord(userId, id, tradeId = '') {
                         return request(HEALTH_SERVICE + '/patient/queryRightsUserRecord?userId=' + userId + '&rightsId=' + id + '&pageNo=' + 1 + '&pageSize=10000' + '&tradeId=' + tradeId, 'get', null);
@@ -758,7 +758,7 @@ module.exports =
                     queryRightsUsingRecord: function queryRightsUsingRecord(userId) {
                         return request2(HEALTH_SERVICE + '/patient/queryRightsUsingRecord?userId=' + userId, 'get', null);
                     },
-                
+
                     //文件上传
                     uploadOtherFile: function uploadOtherFile(filePath) {
                         return uploadRequest(CONTENT_SERVICE + '/fileUpload/uploadOtherFile', filePath, null)
@@ -767,7 +767,7 @@ module.exports =
                     uploadImgFile: function uploadImgFile(filePath, previewType) {
                         return uploadRequest(CONTENT_SERVICE + '/fileUpload/uploadImgFile', filePath, previewType)
                     },
-            
+
                     //根据就诊人ID，商品ID查询服务ID
                     queryPlanId: function queryPlanId(goodsId, userId) {
                         return request(HEALTH_SERVICE + '/health/patient/queryPlanId?goodsId=' + goodsId + '&userId=' + userId, 'get', {});
@@ -776,7 +776,7 @@ module.exports =
                     getUserEevaluate: function getUserEevaluate(id) {
                         return request(HEALTH_SERVICE + '/health/doctor/getUserEevaluate?id=' + id, 'get', {});
                     },
-                
+
                     //根据ID查询医生信息
                     doctorInfoQuery: function doctorInfoQuery(data) {
                         var url = INFO_SERVICE + '/doctorFilter/queryDoctorByUserIds'
@@ -792,17 +792,17 @@ module.exports =
                     getDepartmentDetail: function getDepartmentDetail(departmentId) {
                         return request(INFO_SERVICE + '/departments/getDepartmentDetail?departmentId=' + departmentId, 'get', {});
                     },
-                 
+
                     //新增权益使用记录
                     saveRightsUseRecord: function saveRightsUseRecord(data) {
                         return request(HEALTH_SERVICE + '/patient/saveRightsUseRecord', 'post', data, true);
                     },
-                    
+
                     //预约协议
                     getAgreementContent: function getAgreementContent(categoryId) {
                         return request(HEALTH_SERVICE + '/appoint/getAgreementContent?categoryId=' + categoryId, 'get', {}, false);
                     },
-                    
+
                     //预约工单查询
                     qryTradeAppointList: function qryTradeAppointList(data) {
                         return request(HEALTH_SERVICE + '/appoint/qryTradeAppointList', 'post', data, true);
@@ -810,7 +810,7 @@ module.exports =
                     //取消预约
                     cancelTradeAppoint: function cancelTradeAppoint(data) {
                         return request(HEALTH_SERVICE + '/appoint/cancelTradeAppoint', 'post', data, true);
-                    },       
+                    },
                     //AI智能问诊
                     getIntelligenceQuestion: function getIntelligenceQuestion(data) {
                         return request2(HEALTH_SERVICE + '/consulation/getIntelligenceQuestion', 'post', data, true);
@@ -852,12 +852,12 @@ module.exports =
                     getDictList: function getDictList(data) {
                         return request(HEALTH_SERVICE + '/health/manage/getDictList', 'post', data, true);
                     },
-                
+
                     //保存审核记录
                     saveRightsUserLog: function saveRightsUserLog(data) {
                         return request(HEALTH_SERVICE + '/patient/saveRightsUserLog', 'post', data, true);
                     },
-             
+
                     //医生设置预约时间
                     updateRightsRequestTime: function updateRightsRequestTime(data) {
                         return request(HEALTH_SERVICE + '/patient/updateRightsRequestTime', 'post', data, true);
@@ -874,12 +874,12 @@ module.exports =
                     saveVideoNum: function saveVideoNum(data) {
                         return request2(MEDICAL_SERVICE + '/rightsUse/endVedio', 'get', data, true);
                     },
-               
+
                     //获取可预约/改约列表
                     getBookExamList: function getBookExamList(data) {
                         return request(HEALTH_SERVICE + '/appoint/getBookExamList', 'post', data, true);
                     },
-                 
+
                     //获取在线客服
                     getServicerAccount: function getServicerAccount() {
                         return request2(ACCOUNT_SERVICE + '/accountInfo/getServicerAccount', 'get', {});
@@ -890,7 +890,7 @@ module.exports =
                     apply: function apply(data) {
                         return request(HEALTH_SERVICE + '/health/apply/apply', 'post', data, true);
                     },
-                
+
                     //我的咨询
                     qryMyConsulation: function qryMyConsulation(data) {
                         return request(HEALTH_SERVICE + '/appoint/qryMyConsulation', 'post', data, true);
@@ -1162,7 +1162,11 @@ module.exports =
                         var url = ORDER_SERVICE + '/order/tbOrder/createPrescriptionOrder'
                         return request(url, 'POST', data, true);
                     },
-
+                    //登记IM房间号
+                    registerRoom: function registerRoom(data) {
+                        var url = MEDICAL_SERVICE + '/rightsUse/registerRoom'
+                        return request2(url, 'POST', data, true);
+                    },
                 };
 
                 /***/

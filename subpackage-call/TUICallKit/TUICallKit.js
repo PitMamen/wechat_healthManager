@@ -2,6 +2,8 @@ import TUICallEngine, { EVENT, MEDIA_TYPE, AUDIO_PLAYBACK_DEVICE, STATUS } from 
 import { BellContext } from './serve/bellContext';
 import { throttle, isTabBarPage, tabBarConfig } from './utils/commom';
 import { THROTTLE_TIME } from './utils/constants';
+import formateTime from './utils/formate-time'
+const WXAPI = require('../../static/apifm-wxapi/index')
 // 组件旨在跨终端维护一个通话状态管理机，以事件发布机制驱动上层进行管理，并通过API调用进行状态变更。
 // 组件设计思路将UI和状态管理分离。您可以通过修改`component`文件夹下的文件，适配您的业务场景，
 // 在UI展示上，您可以通过属性的方式，将上层的用户头像，名称等数据传入组件内部，`static`下的icon和默认头像图片，
@@ -48,6 +50,10 @@ Component({
     ownUserId: '',
     callingBell: null,
     bellFilePath: '',          // 被叫方铃声地址
+    timer:null,//计时器
+    chatTimeNum: 10, // 聊天时长
+    chatTime: '00:00:00', // 聊天时长格式化
+    MyGroupID:'',//扩展字段传递的群ID
   },
   methods: {
     initialUI() {
@@ -60,6 +66,7 @@ Component({
     },
     // 新的邀请回调事件
     async handleNewInvitationReceived(event) {
+        console.log("新的邀请：",event)
       this.initialUI();
       this.checkRunPlatform();
       this.data.config.type = event.data.inviteData.callType;
@@ -82,7 +89,9 @@ Component({
         config: this.data.config,
         callStatus: STATUS.CALLING,
         isSponsor: false,
+        MyGroupID:event.data.userData
       });
+      this.qryRightsUseRecord()
     },
     // 用户接听
     handleUserAccept(event) {
@@ -304,6 +313,7 @@ Component({
       const newList = [...usersList, ...userID];
       return newList;
     },
+
     // 增加 tsignaling 事件监听
     _addTSignalingEvent() {
       wx.$TUICallEngine.on(EVENT.ERROR, this.handleError, this);
@@ -512,6 +522,7 @@ Component({
      */
     accept: throttle(async function () {
       wx.$TUICallEngine.accept().then((res) => {
+          console.log("接听电话：",res)
         if (res) {
           this.data.callingBell && this.data.callingBell.stop();
           this.setData({
@@ -531,6 +542,9 @@ Component({
               allUsers: newList,
             });
           }
+          this._setCallStatus()
+          //调接口记录房间号
+          this.registerRoom(res.pusher.roomID)
         }
       })
         .catch((error) => {
@@ -557,6 +571,58 @@ Component({
         message,
       });
     },
+
+          // 设置通话状态，若在通话中开启计时器
+  _setCallStatus() {
+    
+    
+    switch (this.data.callStatus) {
+      case STATUS.CONNECTED:
+        console.log('开启计时器')
+        if (this.data.timer) {
+          return
+        }
+        this.data.timer = setInterval(() => {
+          this.data.chatTime = formateTime(this.data.chatTimeNum)
+          this.data.chatTimeNum -= 1
+          if(this.data.chatTimeNum < 1){
+            this.data.chatTimeNum=0
+          }
+          this.data.pusher.chatTime2 = this.data.chatTime
+          this.data.pusher.chatTimeNum2 = this.data.chatTimeNum
+        //   wx.$TUICallEngine.onUserUpdate({ pusher: this.data.pusher, playerList: this.data.playerList })
+        //   wx.$TUICallEngine.onUserUpdate({ pusher: this.data.pusher })
+        }, 1000)
+        break
+      case STATUS.IDLE:
+        console.log('关闭计时器')
+        clearInterval(this.data.timer)
+        this.data.timer = null
+        this.data.chatTime = '00:00:00'
+        this.data.chatTimeNum = 0
+        break
+    }
+  },
+      //注册房间号
+      registerRoom(roomId) {
+
+        WXAPI.registerRoom({ orderId: this.data.MyGroupID.replace('M_',''), roomId: roomId}).then((res) => {
+            if(res.code == 0){
+                console.log('registerRoom','向服务器注册房间号成功')
+            }
+
+        })
+    },
+          //查询剩余时间
+          qryRightsUseRecord() {
+
+            WXAPI.qryRightsUseRecord({ orderId: this.data.MyGroupID.replace('M_','')}).then((res) => {
+                if(res.code == 0){
+                   
+                }
+    
+            })
+        },
     // xml层，是否开启扬声器
     setSoundMode(type) {
       this.setData({
