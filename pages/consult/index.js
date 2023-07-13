@@ -84,7 +84,7 @@ Page({
                 unreadTodo:0
             })
         }
-        console.log("fff:",todoList)
+       
 
     },
     //获取套餐列表

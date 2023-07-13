@@ -64,7 +64,8 @@ Page({
             })
         }, 10000)
 
-        var patientInfoList = UserManager.getPatientInfoList()
+
+        var patientInfoList = wx.getStorageSync('allPatientList')
         console.log(patientInfoList)
         var user = null
         if (patientInfoList && patientInfoList.length > 0) {

@@ -14,6 +14,7 @@ Page({
         diagnosisData: [],
         hasHIS: 0,//HIS接口状态;1开启,2关闭
         showNegativeDialog: false,
+        negativeDialogMessage:'',//查询错误后错误信息
         showPositiveDialog: false,
         deptCode: '',//科室代码
         tenantId: '',//租户代码
@@ -275,6 +276,9 @@ Page({
       * 获取患者信息
       */
     qryPatientInfo(idno) {
+        this.setData({
+            negativeDialogMessage:''
+        })
         let that = this
         var postdata = {
             "cardType": "",
@@ -299,7 +303,8 @@ Page({
                     })
                 } else {
                     that.setData({
-                        showNegativeDialog: true
+                        negativeDialogMessage:res.message,
+                        showNegativeDialog: true                      
                     })
                 }
 
@@ -382,8 +387,8 @@ Page({
 
     //没有His接口提交
     confirm() {
-
-        var patientInfoList = UserManager.getPatientInfoList()
+        var patientInfoList = wx.getStorageSync('allPatientList')
+      
         console.log(patientInfoList)
         var user = null
         if (patientInfoList && patientInfoList.length > 0) {
