@@ -113,6 +113,7 @@
 
 .wrap .bottom .row .upload {
     margin-top: 20rpx;
+    margin-bottom: 20rpx;
 }
 
 .wrap .bottom .row .agree {
