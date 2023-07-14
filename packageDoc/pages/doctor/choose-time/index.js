@@ -16,7 +16,7 @@ Page({
         checkedCase: {},//所选病历
         activeAppoint: null,//所选号源
         selectAppoint: null,//最终确认号源
-        radioIndex:null,//所选时间段index
+        radioIndex:-1,//所选时间段index
     },
 
     /**
@@ -128,7 +128,7 @@ Page({
             this.setData({
                 appointList: res.data || [],
                 showTime: true,
-                radioIndex:null,
+                radioIndex:-1,
             })
            
             if (this.data.appointList.length > 0) {
@@ -188,7 +188,7 @@ Page({
             })
             return
         }
-        if (!this.data.radioIndex) {
+        if (this.data.radioIndex < 0 ) {
             wx.showToast({
                 title: '请选择咨询时间段',
                 icon: 'none'
@@ -199,26 +199,7 @@ Page({
         wx.navigateTo({
             url: `/packageDoc/pages/doctor/choose-patient/index?doctorAppointId=${this.data.selectAppoint.id}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}`
         })
-        return
-        const res2 = await WXAPI.createStewardOrder({
-            channel: 'wechat',
-            medicalCaseId: this.data.checkedCase.id,
-            collectionIds: this.data.collectionIds || [],
-            commodityId: this.data.commodityId,
-            doctorUserId: this.data.docId,
-            userId: this.data.selectUser.userId,
-            doctorAppointId: this.data.selectAppoint.id,
-            phone: this.data.phone
-        })
-        if (res2.code == 0) {
-            wx.showToast({
-                title: '保存成功',
-                icon: 'success'
-            })
-            wx.navigateTo({
-                url: `/packageDoc/pages/doctor/choose-patient/index?id=${res2.data.orderId}&userName=${this.data.selectUser.userName}&orderType=${res2.data.orderType}`
-            })
-        }
+     
     },
     /**
      * 生命周期函数--监听页面隐藏

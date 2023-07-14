@@ -124,26 +124,7 @@ Page({
         wx.navigateTo({
             url: `/packageDoc/pages/doctor/choose-case/index?doctorAppointId=${this.data.doctorAppointId}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=103&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}`
         })
-        return
-        const res2 = await WXAPI.createStewardOrder({
-            channel: 'wechat',
-            medicalCaseId: this.data.checkedCase.id,
-            collectionIds: this.data.collectionIds || [],
-            commodityId: this.data.commodityId,
-            doctorUserId: this.data.docId,
-            userId: this.data.selectUser.userId,
-            doctorAppointId: this.data.selectAppoint.id,
-            phone: this.data.phone
-        })
-        if (res2.code == 0) {
-            wx.showToast({
-                title: '保存成功',
-                icon: 'success'
-            })
-            wx.navigateTo({
-                url: `/packageDoc/pages/doctor/buy/index?id=${res2.data.orderId}&userName=${this.data.selectUser.userName}&orderType=${res2.data.orderType}`
-            })
-        }
+        
     },
     /**
      * 生命周期函数--监听页面隐藏
