@@ -125,23 +125,49 @@ Page({
             type:2
         })
         if (res.code == 0) {
-            this.setData({
-                appointList: res.data || [],
-                showTime: true,
-                radioIndex:-1,
-            })
+            var appointList= res.data || []
+         
            
-            if (this.data.appointList.length > 0) {
+            if (appointList.length > 0) {
                 if (!this.data.activeAppoint) {
                     this.setData({
-                        activeAppoint: this.data.appointList[0],
-                        selectAppoint: this.data.appointList[0]
+                        activeAppoint: appointList[0],
+                        selectAppoint: appointList[0]
                     })
                 }
 
+                if(appointList[0].weekDay == '今天'){
+                    var mytimeRanges=[]
+                    appointList[0].timeRanges.forEach(item=>{
+                        if(this.CompareDate(item.endTime)){
+                            mytimeRanges.push(item)
+                        }
+                    })
+                    appointList[0].timeRanges=mytimeRanges
+                }
+
             }
+            this.setData({
+                appointList: appointList,
+                showTime: true,
+                radioIndex:-1,
+            })
         }
     },
+        //比较号源和当前时间的大小 如：8:00-8:30
+        CompareDate: function (source1) {
+            var t1 = source1.split("-")[0]
+            var date = new Date();
+    
+            var a = t1.split(":");
+    
+            date.setHours(a[0])
+            date.setMinutes(a[1])
+            date.setMilliseconds(0)
+            console.log(date)
+            return date >= new Date();
+    
+        },
     //选择号源
     chooseAppoint(e) {
         var item = e.currentTarget.dataset.item
