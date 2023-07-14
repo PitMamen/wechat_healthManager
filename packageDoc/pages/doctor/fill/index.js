@@ -4,6 +4,7 @@ const Util = require('../../../../utils/util')
 
 Page({
     data: {
+        disabled:false,
         showHidden:false,
         keyWords:'',
         keyWordsdiagnosis:'',
@@ -114,6 +115,7 @@ Page({
             hosName: itemData.hosName,
             hosCode: itemData.hosCode,
             hideHospitalPicker: true,
+            disabled:false
         })
         console.log("vvv:", this.data.clickName)
     },
@@ -127,6 +129,7 @@ Page({
             diagnosis: diagnosisData.icdCode+"|"+diagnosisData.name,
             icdCode: diagnosisData.icdCode,
             hideDiagnosisPicker: true,
+            disabled:false
         })
         console.log("vvv11:", this.data.diagnosisName)
     },
@@ -134,13 +137,15 @@ Page({
     //  诊断弹框
     changeDiagnosistab: function () {
         this.setData({
-            hideDiagnosisPicker: false
+            hideDiagnosisPicker: false,
+            disabled:true
         })
     },
     cloaseDiagnosistab: function () {
         this.setData({
             keyWordsdiagnosis:'',
-            hideDiagnosisPicker: true
+            hideDiagnosisPicker: true,
+            disabled:false
         })
     },
 
@@ -164,7 +169,8 @@ Page({
     // 诊断输入
     inputdiagnosis(event){
         this.setData({
-            hideDiagnosisPicker: false
+            hideDiagnosisPicker: false,
+            disabled:true
         })
     },
 
@@ -200,14 +206,19 @@ Page({
 
     //机构弹框
     changeHospital: function () {
+        console.log("GGGG","11111111111111")
         this.setData({
-            hideHospitalPicker: false
+            hideHospitalPicker: false,
+            disabled:true
         })
     },
+    //关闭机构弹框
     closeHospitalTap: function () {
+        console.log("GGGG","22222222222")
         this.setData({
             keyWords:'',
-            hideHospitalPicker: true
+            hideHospitalPicker: true,
+            disabled:false
         })
     },
 
