@@ -611,7 +611,12 @@ Page({
 
 
     },
-
+   //点击处方卡
+   onCustomChuFangMessageClick(e){
+    wx.navigateTo({
+        url: '/pages/me/prescription/detail?preNo=' +  e.currentTarget.dataset.preno ,
+    })
+},
 
 
     //发生文本消息
@@ -952,6 +957,8 @@ Page({
                     item.payload.customType = "CustomArticleMessage"
                 } else if (type == 'CustomIllnessMessage') {//问诊卡
                     item.payload.customType = "CustomIllnessMessage"
+                } else if (type == 'CustomChuFangMessage') {//处方卡
+                    item.payload.customType = "CustomChuFangMessage"
                 } else if (type == 'CustomAppointmentTimeMessage') {//预约时间
                     item.payload.customType = "CustomAppointmentTimeMessage"
 

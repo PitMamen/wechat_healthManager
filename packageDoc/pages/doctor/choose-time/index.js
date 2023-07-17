@@ -16,7 +16,7 @@ Page({
         checkedCase: {},//所选病历
         activeAppoint: null,//所选号源
         selectAppoint: null,//最终确认号源
-        radioIndex:null,//所选时间段index
+        radioIndex:-1,//所选时间段index
     },
 
     /**
@@ -125,23 +125,49 @@ Page({
             type:2
         })
         if (res.code == 0) {
-            this.setData({
-                appointList: res.data || [],
-                showTime: true,
-                radioIndex:null,
-            })
+            var appointList= res.data || []
+         
            
-            if (this.data.appointList.length > 0) {
+            if (appointList.length > 0) {
                 if (!this.data.activeAppoint) {
                     this.setData({
-                        activeAppoint: this.data.appointList[0],
-                        selectAppoint: this.data.appointList[0]
+                        activeAppoint: appointList[0],
+                        selectAppoint: appointList[0]
                     })
                 }
 
+                if(appointList[0].weekDay == '今天'){
+                    var mytimeRanges=[]
+                    appointList[0].timeRanges.forEach(item=>{
+                        if(this.CompareDate(item.endTime)){
+                            mytimeRanges.push(item)
+                        }
+                    })
+                    appointList[0].timeRanges=mytimeRanges
+                }
+
             }
+            this.setData({
+                appointList: appointList,
+                showTime: true,
+                radioIndex:-1,
+            })
         }
     },
+        //比较号源和当前时间的大小 如：8:00-8:30
+        CompareDate: function (source1) {
+            var t1 = source1.split("-")[0]
+            var date = new Date();
+    
+            var a = t1.split(":");
+    
+            date.setHours(a[0])
+            date.setMinutes(a[1])
+            date.setMilliseconds(0)
+            console.log(date)
+            return date >= new Date();
+    
+        },
     //选择号源
     chooseAppoint(e) {
         var item = e.currentTarget.dataset.item
@@ -188,7 +214,7 @@ Page({
             })
             return
         }
-        if (!this.data.radioIndex) {
+        if (this.data.radioIndex < 0 ) {
             wx.showToast({
                 title: '请选择咨询时间段',
                 icon: 'none'
@@ -199,26 +225,7 @@ Page({
         wx.navigateTo({
             url: `/packageDoc/pages/doctor/choose-patient/index?doctorAppointId=${this.data.selectAppoint.id}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}`
         })
-        return
-        const res2 = await WXAPI.createStewardOrder({
-            channel: 'wechat',
-            medicalCaseId: this.data.checkedCase.id,
-            collectionIds: this.data.collectionIds || [],
-            commodityId: this.data.commodityId,
-            doctorUserId: this.data.docId,
-            userId: this.data.selectUser.userId,
-            doctorAppointId: this.data.selectAppoint.id,
-            phone: this.data.phone
-        })
-        if (res2.code == 0) {
-            wx.showToast({
-                title: '保存成功',
-                icon: 'success'
-            })
-            wx.navigateTo({
-                url: `/packageDoc/pages/doctor/choose-patient/index?id=${res2.data.orderId}&userName=${this.data.selectUser.userName}&orderType=${res2.data.orderType}`
-            })
-        }
+     
     },
     /**
      * 生命周期函数--监听页面隐藏
