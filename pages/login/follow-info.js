@@ -15,7 +15,7 @@ Page({
     onLoad(options) {
         this.setData({
             info: getApp().followInfo,
-            identificationNo:getApp().followInfo.idCard
+            identificationNo:getApp().followInfo.idCard || ''
         })
         console.log(this.data.info)
     },

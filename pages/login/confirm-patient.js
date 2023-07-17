@@ -289,7 +289,7 @@ Page({
 
         WXAPI.qryPatientInfo(postdata)
             .then(function (res) {
-                if (res.code == 0 && res.data && res.data.idCard) {
+                if (res.code == 0 && res.data ) {
                     res.data.urgentTel = that.data.emergencyPhone
                     res.data.urgentName = that.data.emergencyName
                     res.data.relationship = that.data.relationship
