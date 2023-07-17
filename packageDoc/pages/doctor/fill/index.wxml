@@ -24,10 +24,10 @@
                 <van-field show-word-limit type="textarea" size="large" disabled="{{disabled}}" maxlength="1024" border="{{ false }}" model:value="{{ appealDesc }}" input-class="{{ show ? 'input-class' : 'input-class2' }}" placeholder-style="{{ show ? 'color: rgba(0, 0, 0, 0.7)' : '' }}" placeholder="请输入您需要获得的医生帮助！" />
             </view>
         </view>
-        <view class="row" style="margin-bottom: 380rpx;">
+        <view class="row" >
             <view class="title">上传检查报告或患处图片（最多9张)</view>
             <view class="subtitle">照片仅自己和医生可见</view>
-            <view class="upload">
+            <view class="upload" style="margin-bottom: 40rpx;">
                 <van-uploader deletable accept="image" max-count="9" multiple="true" image-fit="aspectFill" file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="delete" />
             </view>
 
