@@ -1,4 +1,4 @@
-// pages/me/my-plan/index.js
+
 const WXAPI = require('../../../static/apifm-wxapi/index')
 Page({
 

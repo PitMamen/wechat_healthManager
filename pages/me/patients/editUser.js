@@ -1,5 +1,6 @@
 // pages/me/editUser.js
 const WXAPI = require('../../../static/apifm-wxapi/index')
+const Util = require('../../../utils/util')
 const UserManager = require('../../../utils/UserManager')
 Page({
 
@@ -7,6 +8,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        greaterthanSix:true,  //就诊人是否 大于6岁
         isDefault: '',
         userId: '',
         userName: '',
@@ -24,7 +26,9 @@ Page({
         btn: false,
         disabled: false,
         switchStatue: false,
-        patientsNum: 0
+        patientsNum: 0,
+        guardianName:'', //监护人姓名
+        guardianIdcard:'', //监护人身份照号码
     },
 
     /**
@@ -60,6 +64,33 @@ Page({
             code: e.detail.value
         })
     },
+
+    getAge(birthday) {
+        // 新建日期对象
+        let date = new Date()
+        // 今天日期，数组，同 birthday
+        let today = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+        // 分别计算年月日差值
+        let age = today.map((value, index) => {
+            return value - birthday[index]
+        })
+        // 当天数为负数时，月减 1，天数加上月总天数
+        if (age[2] < 0) {
+            // 简单获取上个月总天数的方法，不会错
+            let lastMonth = new Date(today[0], today[1], 0)
+            age[1]--
+            age[2] += lastMonth.getDate()
+        }
+        // 当月数为负数时，年减 1，月数加上 12
+        if (age[1] < 0) {
+            age[0]--
+            age[1] += 12
+        }
+        return age
+    },
+
+
+
     async codeLoginedQuery(e) {
         //发起网络请求
         var that = this;
@@ -109,7 +140,16 @@ Page({
                 identificationNo: res.data.user.identificationNo,
                 identificationType: identificationType,
                 switchStatue: res.data.user.isDefault,
-                isDefault: res.data.user.isDefault
+                isDefault: res.data.user.isDefault,
+                guardianName:res.data.user.guardianName,
+                guardianIdcard:res.data.user.guardianIdcard
+
+            })
+
+            var idInfo = Util.getBirthdayAndSex(this.data.identificationNo)
+            var isBigSix = this.getAge(idInfo.birthDayformate.split('-'))[0]
+            this.setData({
+                greaterthanSix:isBigSix>6
             })
          
 
@@ -213,7 +253,9 @@ Page({
         var code = that.data.code
         var phone = that.data.phone
         var relationship = that.data.relationship
-        const res = await WXAPI.editPatientQuery({ userId: that.data.userId, accountId: wx.getStorageSync('userInfo').account.accountId, phone: phone, code: code, relationship: relationship, isDefault: isDefault, cardNo: that.data.cardNo })
+        var guardianName=that.data.guardianName
+        var guardianIdcard=that.data.guardianIdcard
+        const res = await WXAPI.editPatientQuery({ userId: that.data.userId, accountId: wx.getStorageSync('userInfo').account.accountId, phone: phone, code: code, relationship: relationship, isDefault: isDefault, cardNo: that.data.cardNo,guardianName:that.data.greaterthanSix?that.data.guardianName:'',guardianIdcard:that.data.greaterthanSix?that.data.guardianIdcard:'' })
         console.log(res)
         if (res.code == 0) {
             console.log(res.data)

@@ -24,10 +24,10 @@ Page({
 
    if (this.data.type == '1') {
      //购买授权协议
-    this.getAgreementContent('P003')
+    this.getAgreementContent('CP_10001')
    }else  if (this.data.type == '2') {
     //用户协议
-    this.getAgreementContent('P001')
+    this.getAgreementContent('CP_10002')
   }else  if (this.data.type == '3') {
     //隐私政策
     this.getAgreementContent('P002')

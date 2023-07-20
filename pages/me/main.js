@@ -70,11 +70,7 @@ Page({
         })
 
     },
-    goHealthRecords() {
-        wx.navigateTo({
-            url: '../home/health-records/index',
-        })
-    },
+   
 
     goRecordPage() {
         wx.navigateTo({
@@ -91,16 +87,7 @@ Page({
             url: './info/index',
         })
     },
-    goPlanPage(e) {
-        if (this.checkLoginStatus()) {
-            if (getApp().getDefaultPatient()) {
-                wx.navigateTo({
-                    url: './my-plan/index',
-                })
-            }
-        }
-
-    },
+ 
     goMyEvalPage() {
         if (this.checkLoginStatus()) {
             if (getApp().getDefaultPatient()) {
@@ -129,6 +116,17 @@ Page({
         wx.navigateTo({
             url: './order/order-list-new?broadClassify=' + type,
         })
+    },
+
+    // 跳转至处方列表界面
+    goChufangListPage(){
+        if (this.checkLoginStatus()) {
+            if (getApp().getDefaultPatient()) {
+                wx.navigateTo({
+                    url: './prescription/index',
+                })
+            }
+        }
     },
 
 

@@ -8,6 +8,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        greaterthanSix:true,
         radio: '男',
         checked: false,
         relationArray: [
@@ -42,6 +43,8 @@ Page({
         userName: '',
         cardNo: '',
         identificationNo: '',
+        guardianIdcard:'',
+        guardianName:'',
         identificationType: '01',
         isDefault: true,
         phone: '',
@@ -132,6 +135,64 @@ Page({
             identificationNo: e.detail.value
         })
     },
+
+    //监听 就诊人填写的身份证号码年龄
+    changeidcard(e){
+        var idInfo = Util.getBirthdayAndSex(e.detail.value)
+        var isBigSix = this.getAge(idInfo.birthDayformate.split('-'))[0]
+        this.setData({
+            greaterthanSix:isBigSix>6
+        })
+        console.log("fff:",isBigSix,this.data.greaterthanSix)
+    },
+
+
+     getAge(birthday) {
+        // 新建日期对象
+        let date = new Date()
+        // 今天日期，数组，同 birthday
+        let today = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+        // 分别计算年月日差值
+        let age = today.map((value, index) => {
+            return value - birthday[index]
+        })
+        // 当天数为负数时，月减 1，天数加上月总天数
+        if (age[2] < 0) {
+            // 简单获取上个月总天数的方法，不会错
+            let lastMonth = new Date(today[0], today[1], 0)
+            age[1]--
+            age[2] += lastMonth.getDate()
+        }
+        // 当月数为负数时，年减 1，月数加上 12
+        if (age[1] < 0) {
+            age[0]--
+            age[1] += 12
+        }
+        return age
+    },
+
+
+
+
+
+    // 监护人身份证号码
+    getguardianCardNo(e){
+        this.setData({
+            guardianIdcard: e.detail.value
+        })
+        // console.log("ddd:",this.data.guardianIdcard)
+    },
+    
+    // 监护人姓名
+    getguardianName(e){
+        this.setData({
+            guardianName: e.detail.value
+        })
+        // console.log("2222:",this.data.guardianName)
+    },
+
+
+
     getCardNoValue(e) {
         this.setData({
             cardNo: e.detail.value
@@ -164,6 +225,10 @@ Page({
         let that = this
         var userName = that.data.userName
         var identificationNo = that.data.identificationNo
+        if(!that.data.greaterthanSix){
+            var guardianIdcard = that.data.guardianIdcard
+            var guardianName = that.data.guardianName
+        }
         var relationship = that.data.relationship
 
         if (userName.length <= 0) {
@@ -183,6 +248,31 @@ Page({
             })
             return;
         }
+
+      if(!that.data.greaterthanSix){
+        if (guardianIdcard.length <= 0) {
+            wx.showToast({
+                title: '请输入监护人身份证号',
+                icon: 'none',
+                duration: 1500
+            })
+            return;
+        }
+
+        if (guardianName=='') {
+            wx.showToast({
+                title: '请输入监护人姓名',
+                icon: 'none',
+                duration: 1500
+            })
+            return;
+        }
+      }
+       
+
+
+
+
         // if (that.data.cardNo.length <= 0) {
         //     wx.showToast({
         //         title: '请输入就诊卡号',
@@ -242,7 +332,9 @@ Page({
             relationship: that.data.relationship,
             isDefault: that.data.isDefault,
             cardNo: that.data.cardNo,
-            userSex: idInfo.sex == 0 ? '女' : '男'
+            userSex: idInfo.sex == 0 ? '女' : '男',
+            guardianIdcard:that.data.greaterthanSix?that.data.guardianIdcard:'',
+            guardianName:that.data.greaterthanSix?that.data.guardianName:'',
         }
         //统一添加微信用户手机号
         postData.phone = wx.getStorageSync('userInfo').account.phone

@@ -10,7 +10,7 @@
 </van-sticky>
 <block wx:if="{{active=='2'}}">
 
-<van-empty wx:if="{{ !packageList || packageList.length == 0 }}" image="/image/icon_nodata.png" description="暂无数据" />
+<van-empty wx:if="{{ !packageList || packageList.length == 0 }}" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无数据" />
 
 <view bindtap="bindItemTap" data-item="{{item}}" class="card" wx:for="{{packageList}}" wx:key="1">
 
@@ -68,7 +68,7 @@
         </view>
         <van-button class="ai-btn" color="#3894FF" round type="info" size="small">进入诊室</van-button>
     </view>
-    <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="/image/icon_nodata.png" description="暂无数据" />
+    <van-empty wx:if="{{ !appointList || appointList.length == 0 }}" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无数据" />
 
     <view bindtap="bindItemTap" data-item="{{item}}" class="card" wx:for="{{appointList}}" wx:key="1">
 
@@ -118,7 +118,12 @@
             <!-- 电话咨询 -->
             <view wx:if="{{item.serviceItemTypes[0]==102}}" class="btn-blue">
                 <van-button bindtap="goConsultDetail" data-item="{{item}}" plain color="#3894FF" round type="info" size="small">问诊详情</van-button>
-
+                <van-button wx:if="{{item.status.value==4}}" bindtap="bugAgain" data-item="{{item}}" style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">申请复诊</van-button>
+            </view>
+            <!-- 视频咨询 -->
+            <view wx:if="{{item.serviceItemTypes[0]==103}}" class="btn-blue">
+                <van-button bindtap="goConsultDetail" data-item="{{item}}" plain color="#3894FF" round type="info" size="small">问诊详情</van-button>
+                <van-button wx:if="{{item.status.value==4}}" bindtap="bugAgain" data-item="{{item}}" style="margin-left: 20rpx;" color="#3894FF" round type="info" size="small">申请复诊</van-button>
             </view>
         </view>
 
@@ -129,7 +134,7 @@
 <block wx:if="{{active=='0'}}">
 
   
-    <van-empty wx:if="{{ !todoList || todoList.length == 0 }}" image="/image/icon_nodata.png" description="暂无数据" />
+    <van-empty wx:if="{{ !todoList || todoList.length == 0 }}" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无数据" />
     <view class="card" wx:for="{{todoList}}" wx:key="1">
 
         <view class="todo-card-top">
@@ -189,8 +194,12 @@
             return '去阅读'
         } else if (type == 4) {
             return '去评价'
-        } else if (type == 5) {
+        } else if (type == 5||type==6) {
             return '去评价'
+        }else if (type == 8) {
+            return '查看处方'
+        }else if (type == 9) {
+            return '去支付'
         } else {
             return '去交流'
         }

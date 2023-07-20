@@ -98,7 +98,7 @@ Page({
             }
 
             if (item.projectType == 101 || item.projectType == 102 || item.projectType == 103) { //图文 电话 视频
-                item.iconUrl = res.data.docInfo.avatarUrl || '/image/docheader.png'
+                item.iconUrl = res.data.docInfo.avatarUrl || 'https://hmg.mclouds.org.cn/content-api/file/I20230710172158340QUIFGH4VFPA6IH-docheader.png'
                 item.itemName = res.data.docInfo.userName
                 if (item.status == 1) {
                     if (res.data.status.value == 4) {
@@ -363,7 +363,7 @@ Page({
     //套餐详情
     goPackagePage() {
         wx.navigateTo({
-            url: '/pages/health/service/index'
+            url: '/packageDoc/pages/health/service/index'
         })
     },
 

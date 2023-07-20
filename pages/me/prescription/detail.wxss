@@ -1,0 +1,172 @@
+page{
+    background-color: #F5F5F5;
+   
+}
+.filter {
+    position: absolute;
+    width: 750rpx;
+    height: 200%;
+    overflow: hidden;
+    z-index: 999;
+    background-color: transparent;
+    backdrop-filter: blur(3px);
+}
+
+.van-count-down{
+    color: #FFFFFF !important;
+}
+.top{
+   
+height: 80rpx;
+background: #EA3324;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-between;
+font-size: 30rpx;
+color: white;
+padding-left: 24rpx;
+padding-right: 24rpx;
+}
+.count{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+.info{
+   
+    background: white;
+    padding: 40rpx 24rpx;
+    font-size: 30rpx;
+    color: #1A1A1A;
+    font-weight: normal;
+}
+.info .title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+     height: 55rpx;
+     font-weight: normal;
+}
+.info .midtitle{
+    display: flex;
+    margin-top: 40rpx ;
+    display: flex;
+    justify-content: center;
+}
+.info .name{
+    display: flex;
+    margin-top: 40rpx ;
+    display: flex;
+    justify-content: space-between;
+}
+.diver{
+    height: 20rpx;
+}
+.diver-line{
+    height: 1rpx;
+    background-color: #F5F5F5;
+}
+.zdview{
+    background: white;
+    padding: 30rpx 0;
+    font-size: 30rpx;
+    color: #1A1A1A;
+    font-weight: normal;
+}
+.zdview .title {
+    margin-bottom: 30rpx;
+    margin-left: 24rpx;
+}
+.zdview .content{
+    margin-top: 30rpx;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.zdview .img{
+    height: 50rpx;
+}
+.zdview .remind{
+    margin-top: 30rpx;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+    color: #999999;
+    font-size: 26rpx;
+}
+.medview{
+    background: white;
+    padding-top: 30rpx ;
+    padding-bottom: 30rpx;
+    font-size: 30rpx;
+    color: #1A1A1A;
+    font-weight: normal;
+}
+.medview .title {
+    margin-bottom: 30rpx;
+    margin-left: 24rpx;
+}
+.medview .med-name{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 30rpx;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+}
+.medview .med-gg{
+    margin-top: 30rpx;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+    color: #999999;
+    font-size: 26rpx;
+}
+.medview .med-yf{
+    margin-top: 30rpx;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+    margin-bottom: 30rpx;
+    color: #4D4D4D;
+    font-size: 26rpx;
+}
+
+ .fix {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    padding: 50rpx 0rpx 50rpx 24rpx;
+    box-sizing: border-box;
+    z-index: 1;
+    background: #FFFFFF;
+    box-shadow: 0rpx -4rpx 8rpx 0rpx rgba(204,204,204,0.35);
+   
+}
+ .fix .row {
+   
+    font-size: 28rpx;
+    font-weight: 400;
+    color: #999999;
+   
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+ 
+ .fix .row .price .num {
+    font-size: 36rpx;
+    font-weight: 500;
+    color: #D31212;
+   
+}
+ .fix .abs {
+    width: 228rpx;
+    height: 68rpx;
+   
+}
+ .fix .abs button {
+    height: 68rpx !important;
+}

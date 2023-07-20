@@ -26,7 +26,34 @@
                 </view>
             </view>
         </block>
+      <!-- 处方笺 -->
+      <block wx:elif="{{type==='CustomChuFangMessage'}}">
+                <view bindtap="onCustomChuFangMessageClick" data-preno="{{content.data.preNo}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                    <view style=" height: 80rpx;font-size: 30rpx;color: #F02727;display: flex;flex-direction: row;align-items: center;">
+                        <view style="margin-left: 20rpx;">处方笺</view>
+                    </view>
+                    <view style="font-size:  28rpx ;margin: 0 20rpx 0 20rpx;display: flex;flex-direction: row;align-items: center;">
+                        <view style="color: #999999;">诊断：{{content.data.cfInfo.medicalOrdersCase.diagnosis || '无'}}</view>
+                    </view>
+                    <view style="font-size:  30rpx ;margin: 30rpx 20rpx 0 20rpx;display: flex;flex-direction: row;align-items: flex-start;">
+                        <view style="color: #F02727;">Rp</view>
+                        <view style="display: flex;flex-direction: column;align-items: flex-start;margin-left: 20rpx;">
+                            <block wx:for="{{content.data.cfInfo.medicalOrdersDetails}}" wx:key="medOrderItems">
+                                <view style="color: #1A1A1A;margin-bottom: 17rpx;">{{item.drugName}}<text style="color: #999999;">({{item.drugSpec}})</text></view>
+                                <view style="font-size: 26rpx;color: #999999;margin-bottom: 30rpx;">{{item.useFrequencyName}}；{{item.useNum}}{{item.useUnit}}/1次；{{item.drugUsemethodName}}</view>
+                            </block>
 
+
+
+                        </view>
+
+                    </view>
+                    <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
+                    <view style="height: 108rpx;margin-right:20rpx ; display: flex;flex-direction: row-reverse;align-items: center;font-size: 30rpx;color: #999999;">
+                        <view>查看处方详情</view>
+                    </view>
+                </view>
+            </block>
         <!-- 文章卡 -->
         <block wx:elif="{{type==='CustomArticleMessage'}}">
             <view bindtap="onCustomArticleMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
@@ -69,7 +96,7 @@
 
         <!-- 其他消息 -->
         <block wx:else>
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;max-width: 60%;">
+            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;width: 75%;">
                 {{content.description||'[自定义消息]'}}</view>
         </block>
 

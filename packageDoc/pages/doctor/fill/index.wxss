@@ -1,0 +1,143 @@
+.wrap {
+    min-height: 100vh;
+    background: #FFFFFF;
+}
+
+.wrap .fix {
+    position: fixed;
+    width: 552rpx;
+    left: 50%;
+    bottom: 30rpx;
+    transform: translateX(-50%);
+    z-index: 1;
+    border-radius: 8rpx;
+}
+
+.wrap .top {
+    padding: 22rpx 24rpx;
+    background: #FDF5E8;
+}
+
+.wrap .top image {
+    margin-right: 20rpx;
+    width: 32rpx;
+    height: 37rpx;
+    vertical-align: middle;
+}
+
+.wrap .top text {
+    font-size: 24rpx;
+    font-weight: 400;
+    color: #BF832B;
+    line-height: 37rpx;
+    vertical-align: middle;
+}
+
+.wrap .bottom {
+    margin-top: 60rpx;
+    margin-bottom: 188rpx;
+    padding: 0 22rpx;
+    overflow-y: auto;
+}
+
+.wrap .bottom .row {
+    margin-bottom: 60rpx;
+    overflow: hidden;
+}
+
+
+.ba {
+    width: 70%;
+    height: 30px;
+    /* background: #F0F7FF; */
+    border: 1px solid #3894FF;
+    border-radius: 4px;
+}
+
+
+
+.wrap .bottom .row .title {
+    font-size: 32rpx;
+    font-weight: 500;
+    color: #1A1A1A;
+    line-height: 32rpx;
+}
+
+.wrap .bottom .row .left {
+    float: left;
+}
+
+.wrap .bottom .row .right {
+    float: right;
+    font-size: 30rpx;
+    font-weight: 400;
+    color: #999999;
+    line-height: 32rpx;
+}
+
+.wrap .bottom .row .right .icon {
+    margin-left: 20rpx;
+    color: #1A1A1A;
+}
+
+.wrap .bottom .row .textarea {
+    margin-top: 20rpx;
+    background: #F4F5F7;
+    border: 1rpx solid #E6E6E6;
+    border-radius: 8rpx;
+}
+
+.wrap .bottom .row .textarea .input-class {
+    height: 200rpx;
+    font-size: 30rpx !important;
+    font-weight: 400 !important;
+    color: #999999 !important;
+    line-height: 37rpx !important;
+}
+
+.wrap .bottom .row .textarea .input-class2 {
+    height: 200rpx;
+    font-size: 30rpx !important;
+    font-weight: 400 !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+    line-height: 37rpx !important;
+}
+
+.wrap .bottom .row .subtitle {
+    margin-top: 20rpx;
+    font-size: 28rpx;
+    font-weight: 400;
+    color: #999999;
+    line-height: 28rpx;
+}
+
+.wrap .bottom .row .upload {
+    margin-top: 20rpx;
+    margin-bottom: 20rpx;
+}
+
+.wrap .bottom .row .agree {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20rpx;
+}
+
+.wrap .bottom .row .agree .content {
+    position: relative;
+    top: -6rpx;
+    flex: 1;
+    margin-left: 10rpx;
+}
+
+.wrap .bottom .row .agree .content text {
+    font-size: 28rpx;
+    font-weight: 400;
+    color: #999999;
+    line-height: 37rpx;
+}
+
+.wrap .bottom .row .agree .content .link {
+    padding: 0 10rpx;
+    color: #007BF5;
+}

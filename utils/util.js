@@ -81,6 +81,9 @@ function getBirthdayAndSex(idCard) {
   var order = (idCard.length == 18) ? idCard.slice(-2,-1):idCard.slice(-1);
   info.birthDay = (idCard.length === 18) ? ([birth.slice(0, 4),birth.slice(4, 6), birth.slice(-2)]).join('') : 
   (['19' + birth.slice(0, 2), birth.slice(2, 4),birth.slice(-2)]).join('');
+
+  info.birthDayformate = (idCard.length === 18) ? ([birth.slice(0, 4)+'-',birth.slice(4, 6)+'-', birth.slice(-2)]).join('') : 
+  (['19' + birth.slice(0, 2)+'-', birth.slice(2, 4)+'-',birth.slice(-2)]).join('');
   // 余数为0代表女性，不为0代表男性        
   info.sex = (order % 2 === 0 ? 0 : 1);
   return info;        

@@ -13,7 +13,7 @@ Page({
         showChatInput: true,
         hideTimeShow: true,
         config: {},
-        toAvatar: '../../../image/docheader.png',//聊天对象头像
+        toAvatar: 'https://hmg.mclouds.org.cn/content-api/file/I20230710172158340QUIFGH4VFPA6IH-docheader.png',//聊天对象头像
         myAvatar: '../../../image/avatar.png',//自己头像
         conversationID: '',//聊天会话ID
         groupID: '',//群ID
@@ -232,7 +232,7 @@ Page({
     onReady() {
 
         this.chatInput = this.selectComponent('#chatInput');
-        this.TUICallingInit()
+        // this.TUICallingInit()
         this.videoContext = wx.createVideoContext('myVideo')
     },
 
@@ -244,6 +244,7 @@ Page({
         this.TUICalling = this.selectComponent('#TUICalling-component');
         //初始化TUICalling
         this.TUICalling.init()
+        
     },
     onUnload() {
         console.log("chat page: onUnload")
@@ -252,7 +253,7 @@ Page({
             visualEffect: 'none',
         })
         this.voiceManager.stopAllVoicePlay(true);
-        this.TUICalling.destroyed()
+        // this.TUICalling.destroyed()
         getApp().tim.off(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived);
         getApp().tim.off(TIM.EVENT.MESSAGE_READ_BY_PEER, this.onMessageReadByPeer);
         getApp().tim.off(TIM.EVENT.NET_STATE_CHANGE, this.onNetStateChange);
@@ -610,7 +611,12 @@ Page({
 
 
     },
-
+   //点击处方卡
+   onCustomChuFangMessageClick(e){
+    wx.navigateTo({
+        url: '/pages/me/prescription/detail?preNo=' +  e.currentTarget.dataset.preno ,
+    })
+},
 
 
     //发生文本消息
@@ -951,6 +957,8 @@ Page({
                     item.payload.customType = "CustomArticleMessage"
                 } else if (type == 'CustomIllnessMessage') {//问诊卡
                     item.payload.customType = "CustomIllnessMessage"
+                } else if (type == 'CustomChuFangMessage') {//处方卡
+                    item.payload.customType = "CustomChuFangMessage"
                 } else if (type == 'CustomAppointmentTimeMessage') {//预约时间
                     item.payload.customType = "CustomAppointmentTimeMessage"
 
@@ -965,20 +973,23 @@ Page({
 
                 } else {//解析其他消息 比如视频语音通话
                     item.payload.description = "[自定义消息]"
-                    if (signalingData.businessID === 1) {
-                        var data = JSON.parse(signalingData.data)
-                        if (1 === data.call_type) {
+                   
+                }
+               
+            }else {
+                item.payload.description = "[自定义消息]"
+                if (signalingData.businessID === 1) {
+                    var data = JSON.parse(signalingData.data)
+                    if (1 === data.call_type) {
 
-                            item.payload.description = "[语音通话]"
-                        } else if (2 === data.call_type) {
+                        item.payload.description = "[语音通话]"
+                    } else if (2 === data.call_type) {
 
-                            item.payload.description = "[视频通话]"
-                        }
+                        item.payload.description = "[视频通话]"
                     }
                 }
-                item.payload.data = signalingData
             }
-
+            item.payload.data = signalingData
 
 
         } catch (error) {

@@ -84,6 +84,7 @@ Page({
                 unreadTodo:0
             })
         }
+       
 
     },
     //获取套餐列表
@@ -187,10 +188,15 @@ Page({
     //问诊详情
     goConsultDetail(e) {
         var info = e.currentTarget.dataset.item
+        console.log("fff:",info)
         if (this.checkLoginStatus()) {
             if(info.serviceItemTypes[0]==102){
                 wx.navigateTo({
                     url: './detail-tel/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
+                })
+            }else if(info.serviceItemTypes[0]==103){
+                wx.navigateTo({
+                    url: './detail-video/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
                 })
             }else{
                 wx.navigateTo({
@@ -229,8 +235,9 @@ Page({
             this.goWebPage(2, item.jumpUrl)
             //设置已读
             this.setInquiriesAgencyRead(item)
-        }  else if (item.originalType.value == 4) {
+        }  else if (item.originalType.value == 4||  item.originalType.value == 6) {
             //单次咨询评价
+            this.setInquiriesAgencyRead(item) //设置已读消息
             wx.navigateTo({
                 url:  `/pages/home/rate/doctor?rightsId=${item.rightsId}&todoid=${item.id}`
             })     
@@ -239,7 +246,14 @@ Page({
            wx.navigateTo({
             url:  `/pages/home/rate/package?rightsId=${item.rightsId}&todoid=${item.id}`
         })     
-        }else {
+        }else if (item.originalType.value == 9||item.originalType.value == 8) {
+            //药师审核   开具处方
+            this.setInquiriesAgencyRead(item)  //设置为已读
+            wx.navigateTo({
+             url:  `/pages/me/prescription/detail?preNo=${item.tradeId}`
+         })     
+         }
+         else {
             if (this.checkLoginStatus()) {
                 if (getApp().globalData.sdkReady) {
                     if (item.imGroupId) {
@@ -278,9 +292,25 @@ Page({
     //再次购买
     bugAgain(e) {
         var info = e.currentTarget.dataset.item
-        wx.navigateTo({
-            url: `/pages/health/detail/index?id=${info.commodityId}`
-        })
+        if (this.checkLoginStatus()) {
+            if(info.serviceItemTypes[0]==101){
+                wx.navigateTo({
+                    url: `/packageDoc/pages/health/detail/index?id=${info.commodityId}`
+                })
+            }else if(info.serviceItemTypes[0]==102){
+                wx.navigateTo({
+                    url: `/packageDoc/pages/doctor/detail/index?id=${info.commodityId}&docId=${info.doctorUserId}&docName=${info.doctorUserName}`
+                })
+            }else if(info.serviceItemTypes[0]==103){
+                wx.navigateTo({
+                    url: `/packageDoc/pages/doctor/detail/index?id=${info.commodityId}&docId=${info.doctorUserId}&docName=${info.doctorUserName}`
+                })
+            }
+
+
+        }
+     
+
     },
     //使用权益
     goApplyRights(e) {

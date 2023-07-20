@@ -40,11 +40,11 @@ Page({
         rightsList: [],
         myRightsCount: 0,//我的权益数
         isMoreLoading: false,
-        isArticleNoMore:false,
-        articlePageSize:20,
+        isArticleNoMore: false,
+        articlePageSize: 20,
         articlePageNo: 1,
-        isDoctorNoMore:false,
-        doctorPageSize:20,
+        isDoctorNoMore: false,
+        doctorPageSize: 20,
         doctorPageNo: 1,
     },
 
@@ -67,6 +67,7 @@ Page({
         bus.on('loginSuccess', (msg) => {
             // 支持多参数
             console.log("监听登录成功", msg)
+
             this.getMaLoginInfo()
         })
         //监听机构切换
@@ -99,7 +100,7 @@ Page({
         }
     },
     onShow: function (e) {
-
+        console.log('main-onShow')
         var userInfoSync = wx.getStorageSync('userInfo')
 
         if (!userInfoSync || userInfoSync === undefined) {
@@ -114,6 +115,13 @@ Page({
             return
         }
         this.afterMaLogin()
+    },
+   
+
+    testBtn(){
+        this.TUICalling.call({ userID: '1626', type: 2 })
+        // this.TUICalling.groupCall({ userIDList: ['1626'], type: 2, groupID: 'BV_test07111620' })
+        
     },
     //获取登录信息
     getMaLoginInfo() {
@@ -174,6 +182,7 @@ Page({
 
             IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
             IMUtil.getConversationList()
+
         } else {
             this.setData({
                 taskList: []
@@ -219,7 +228,7 @@ Page({
         })
         console.log(this.data.slideLeft)
     },
-  
+
 
 
     //获取菜单列表
@@ -303,7 +312,7 @@ Page({
                 break;
             case '1':
                 wx.navigateTo({
-                    url: `/pages/doctor/search/index`
+                    url: `/packageDoc/pages/doctor/search/index`
                 })
                 break;
         }
@@ -312,7 +321,7 @@ Page({
     onServiceItemClick(event) {
         var item = event.currentTarget.dataset.item
         wx.navigateTo({
-            url: '/pages/health/service/index?id=' + item.id,
+            url: '/packageDoc/pages/health/service/index?id=' + item.id,
         })
     },
     //点击文章
@@ -328,9 +337,9 @@ Page({
         var item = event.currentTarget.dataset.item
 
         wx.navigateTo({
-            url: `/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
+            url: `/packageDoc/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
         })
-      
+
     },
     //我的消息
     goMyMessagePage() {
@@ -431,28 +440,28 @@ Page({
             pageNo: this.data.doctorPageNo,
             pageSize: this.data.doctorPageSize,
         }).then((res) => {
-            var resList=res.data.rows || []
+            var resList = res.data.rows || []
             // var list = this.data.doctorList
             // list = list.concat(resList)
             this.setData({
                 doctorList: resList,
                 isMoreLoading: false,
-                isDoctorNoMore:resList.length< this.data.doctorPageSize
+                isDoctorNoMore: resList.length < this.data.doctorPageSize
             })
-           
+
         })
     },
     //获取文章列表
     getArticleLists() {
 
         WXAPI.getArticleByClickNum({ pageSize: this.data.articlePageSize, pageNo: this.data.articlePageNo }).then((res) => {
-            var resList=res.data.rows || []
+            var resList = res.data.rows || []
             // var list = this.data.articleList
             // list = list.concat(resList)
             this.setData({
                 articleList: resList,
                 isMoreLoading: false,
-                isArticleNoMore:resList.length< this.data.articlePageSize
+                isArticleNoMore: resList.length < this.data.articlePageSize
             })
 
         })
@@ -466,7 +475,7 @@ Page({
         }
 
         if (this.data.activeIndex == '0') {
-            console.log('articleList.length='+this.data.articleList.length+'======='+'isArticleNoMore='+this.data.isArticleNoMore)
+            console.log('articleList.length=' + this.data.articleList.length + '=======' + 'isArticleNoMore=' + this.data.isArticleNoMore)
             if (this.data.articleList.length > 49 || this.data.isArticleNoMore) {
                 return
             }
@@ -475,8 +484,8 @@ Page({
                 articlePageNo: this.data.articlePageNo + 1
             })
             this.getArticleLists()
-        }else if (this.data.activeIndex == '1') {
-            console.log('doctorList.length='+this.data.doctorList.length+'======='+'isDoctorNoMore='+this.data.isDoctorNoMore)
+        } else if (this.data.activeIndex == '1') {
+            console.log('doctorList.length=' + this.data.doctorList.length + '=======' + 'isDoctorNoMore=' + this.data.isDoctorNoMore)
             if (this.data.doctorList.length > 49 || this.data.isDoctorNoMore) {
                 return
             }
@@ -652,17 +661,8 @@ Page({
     },
 
 
-    toSelection() {
-        wx.navigateTo({
-            url: 'selection/selection?type=1',
-        })
-    },
-   
-    goHealthRecords() {
-        wx.navigateTo({
-            url: './health-records/index',
-        })
-    },
+
+  
 
 
     goNewsDetail(event) {

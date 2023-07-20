@@ -15,7 +15,7 @@ Page({
     onLoad(options) {
         this.setData({
             info: getApp().followInfo,
-            identificationNo:getApp().followInfo.idCard
+            identificationNo:getApp().followInfo.idCard || ''
         })
         console.log(this.data.info)
     },
@@ -64,7 +64,8 @@ Page({
             })
         }, 10000)
 
-        var patientInfoList = UserManager.getPatientInfoList()
+
+        var patientInfoList = wx.getStorageSync('allPatientList')
         console.log(patientInfoList)
         var user = null
         if (patientInfoList && patientInfoList.length > 0) {
