@@ -54,4 +54,7 @@
             </view>
         </view>
     </view>
+    <view class="btns">
+        <view class="btn" bind:tap="onStopTap">终止全部方案</view>
+    </view>
 </view>

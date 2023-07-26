@@ -890,7 +890,6 @@ module.exports =
                     apply: function apply(data) {
                         return request(HEALTH_SERVICE + '/health/apply/apply', 'post', data, true);
                     },
-
                     //我的咨询
                     qryMyConsulation: function qryMyConsulation(data) {
                         return request(HEALTH_SERVICE + '/appoint/qryMyConsulation', 'post', data, true);
@@ -906,6 +905,11 @@ module.exports =
                     //查询用户待办随访任务
                     qryMyFollowAll: function qryMyFollowAll(data) {
                         var url = FOLLOW_SERVICE + '/health/qryMyFollowAll'
+                        return request(url, 'post', data, true);
+                    },
+                    //终止当前用户方案
+                    stopFollowUserPlan: function stopFollowUserPlan(data) {
+                        var url = FOLLOW_SERVICE + '/follow/userplan/stopFollowUserPlan'
                         return request(url, 'post', data, true);
                     },
                     //微信扫描注册后添加随访名单
