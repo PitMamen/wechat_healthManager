@@ -1,9 +1,10 @@
 {
     "usingComponents": {
       "chat-input": "../../components/chat-input/chat-input"
+     
+     
     },
-    "navigationBarTitleText": "AI问诊"
-   
-  
+    "navigationBarTitleText": "",
+    "enablePullDownRefresh": true
   }
   

@@ -1171,6 +1171,16 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/rightsUse/registerRoom'
                         return request2(url, 'POST', data, true);
                     },
+                      //小程序端-智能问诊
+                      medChat: function medChat(data) {
+                        var url = MEDICAL_SERVICE + '/consult/medChat'
+                        return request2(url, 'get', data, true);
+                    },
+                    //小程序端-获取机器人ID
+                    getAiAccount: function getAiAccount(data) {
+                        var url = MEDICAL_SERVICE + '/consult/getAiAccount'
+                        return request(url, 'get', data, true);
+                    },
                 };
 
                 /***/

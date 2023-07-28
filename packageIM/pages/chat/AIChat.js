@@ -1,125 +1,342 @@
 // pages/list/list.js
 import TIM from 'tim-wx-sdk';
+import voiceManager from "./msg-type/voice-manager";
 const WXAPI = require('../../../static/apifm-wxapi/index')
-const IMUtil = require('../../../utils/IMUtil')
+const Util = require('../../../utils/util')
+
 Page({
+
     onMessageReceived: '',
+    onMessageReadByPeer: '',
+    _freshing: false,
     data: {
         showChatInput: true,
-        inputType: 'none',//输入框类型
-
-        isAIEnd: false,
-        chooseSymptom: [],//选择的病症
-        type: '',
+        hideTimeShow: true,
         config: {},
-        toUserID: '',//聊天对象ID 或者群ID
-        conversationID: '',//聊天会话ID
-
-        DocType: '',//Doctor医生  CaseManager个案管理师
-        userProfile: {},//聊天对象信息
-        groupProfile: {},//群信息
-
-        ai_patientId: '',//AI问诊选择的就诊人ID
-        ai_question: '',//AI问诊需要输入的问题暂存
+        toAvatar: 'https://hmg.mclouds.org.cn/content-api/file/I20230710172158340QUIFGH4VFPA6IH-docheader.png',//聊天对象头像
+        myAvatar: '../../../image/avatar.png',//自己头像
         textMessage: '',
         chatItems: [],//消息列表
         nextReqMessageID: '',//用于续拉，分页续拉时需传入该字段。
         isCompleted: '',//表示是否已经拉完所有消息。
+        triggered: false,//设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发
         latestPlayVoicePath: '',
         scrollTopVal: '',
         pageHeight: '',
         currentPlayItem: {},
         chatStatue: '',
         extraArr: [],
-        knowledgeType: '',
-        patientList: [],
-        topArr: []
+        topArr: [],
+        bottomChatStatus: '',
+        showTextPop: false,//文本消息点击放大
+        showText: '',//文本消息点击放大
+        hidePatientShow:true,
+        defaultPatient:{},
+        patientList:[],
+        radioIndex:-1,
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        console.log(options)
+    
         var config = {
             sdkAppID: getApp().globalData.sdkAppID,
             userID: getApp().globalData.IMuserID,
             userSig: getApp().globalData.IMuserSig,
+            type: 1,
+            tim: getApp().tim, // 参数适用于业务中已存在 TIM 实例，为保证 TIM 实例唯一性
         }
+
         this.setData({
-            config: config
+            config: config,
+            pageHeight: wx.getSystemInfoSync().windowHeight,
+          
         })
+        this.setData({
+            defaultPatient: wx.getStorageSync('defaultPatient'),
+            patientList: wx.getStorageSync('userInfo').account.user,
+           
+        })
+        this.getAiAccount()
+       
+        this.voiceManager = new voiceManager(this)
+        this.onIMReceived()
 
        
-        //统一用微信账号的头像
-        var myAvatarUrl = wx.getStorageSync('userInfo').account.avatarUrl
-        this.setData({
-            pageHeight: wx.getSystemInfoSync().windowHeight,
-            type: 'C2C',
-            DocType: 'AIDOCTOR',
-            defaultPatient: getApp().getDefaultPatient(),
-            toUserID: '1',
-            conversationID: 'C2C1',
-            myAvatarUrl: myAvatarUrl,
-
-        })
-
-        console.log("pageHeight=" + this.data.pageHeight)
-
-        this.swithcToUserType()
-        this.getServicerAccount()
-
-
 
     },
     onShow: function (e) {
-        this.setData({
-            patientList: getApp().getPatientInfoList()
-        })
+        console.log("chat page: onShow")
     },
 
+   
+    
+  
 
+    //监听
+    onIMReceived() {
+        let that = this
+        //监听新消息
+        let onMessageReceived = function (event) {
+            // event.data - 存储 Message 对象的数组 - [Message]
+            console.log("event", event)
+            const newItems = []
+            event.data.forEach(item => {
+                if (item.conversationID == that.data.conversationID) {
 
+                    newItems.push(item)
+                }
+            });
+            if (newItems.length > 0) {
+                that.setMultItemAndScrollPage(newItems, true, true, false)
+                that.qryTextNumRecord()
+                // 将某会话下所有未读消息已读上报
+                getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
+            }
 
+        };
+        getApp().tim.on(TIM.EVENT.MESSAGE_RECEIVED, onMessageReceived);
+        this.onMessageReceived = onMessageReceived
+
+        //消息已读
+        let onMessageReadByPeer = function (event) {
+
+        };
+        getApp().tim.on(TIM.EVENT.MESSAGE_READ_BY_PEER, onMessageReadByPeer);
+        this.onMessageReadByPeer = onMessageReadByPeer
+
+        //网络状态变法
+        let onNetStateChange = function (event) {
+            console.log(event)
+            // v2.5.0 起支持
+            // event.data.state 当前网络状态，枚举值及说明如下：
+            // TIM.TYPES.NET_STATE_CONNECTED - 已接入网络
+            // TIM.TYPES.NET_STATE_CONNECTING - 连接中。很可能遇到网络抖动，SDK 在重试。接入侧可根据此状态提示“当前网络不稳定”或“连接中”
+            // TIM.TYPES.NET_STATE_DISCONNECTED - 未接入网络。接入侧可根据此状态提示“当前网络不可用”。SDK 仍会继续重试，若用户网络恢复，SDK 会自动同步消息
+            if (event.data.state == TIM.TYPES.NET_STATE_CONNECTING) {
+
+                wx.showToast({
+                    icon: "none",
+                    title: '当前网络不稳定...',
+                })
+            } else if (event.data.state == TIM.TYPES.NET_STATE_DISCONNECTED) {
+
+                wx.showToast({
+                    icon: "none",
+                    title: '当前网络不可用',
+                })
+            }
+
+        };
+        getApp().tim.on(TIM.EVENT.NET_STATE_CHANGE, onNetStateChange);
+        this.onNetStateChange = onNetStateChange
+    },
 
     onReady() {
+
         this.chatInput = this.selectComponent('#chatInput');
+      
+        this.videoContext = wx.createVideoContext('myVideo')
     },
 
+ 
+    onUnload() {
+        console.log("chat page: onUnload")
+        //放开截屏录屏
+        wx.setVisualEffectOnCapture({
+            visualEffect: 'none',
+        })
+        this.voiceManager.stopAllVoicePlay(true);
+      
+        getApp().tim.off(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived);
+        getApp().tim.off(TIM.EVENT.MESSAGE_READ_BY_PEER, this.onMessageReadByPeer);
+        getApp().tim.off(TIM.EVENT.NET_STATE_CHANGE, this.onNetStateChange);
 
-
-    //获取个案管理师
-    async getServicerAccount() {
-
-
-        const res = await WXAPI.getServicerAccount()
+    },
+   
+   //获取机器人ID
+   async getAiAccount() {
+       
+    const res = await  WXAPI.getAiAccount()
+    if(res.code == 0){
         this.setData({
-            CaseManagerID: res.data.userId
+            toUserID: res.data,
+            conversationID:'C2C'+res.data
         })
-    },
+      
+        this.getMessageList()
+    }
 
-    //结束问诊
-    endAIchat() {
-        wx.showToast({
-            title: '结束问诊',
-        })
-        this.onGetCustomTypeMarkType_local('智慧自诊结束')
-        this.data.topArr.forEach(item => {
+},
+   //智能问答接口
+   async qryMedChat(question) {
+       
+    await WXAPI.medChat({ userId: this.data.config.userID,question:question })
 
-            item.active = false
-
-        })
+},
+bindPatientTap: function () {
+    this.setData({
+        hidePatientShow: false
+    })
+},
+closePatientTap: function () {
+    this.setData({
+        hidePatientShow: true
+    })
+},
+  //选择就诊人
+  onChooseRadioItem(e){
+    var index = e.currentTarget.dataset.index
+    this.setData({
+        radioIndex: index,
+      });
+     
+},
+//选择就诊人监听
+onRadioChange(e){
+    console.log(e)
+    this.setData({
+        radioIndex: e.detail,
+      });
+     
+},
+onPatientConfirm(){
+    
+    if(this.data.radioIndex != -1){
         this.setData({
-            isAIEnd: true,
-            chooseSymptom: [],
-            ai_patientId: '',
-            showChatInput: false,
-            inputType: 'text',
-            topArr: this.data.topArr
-        })
+            defaultPatient: this.data.patientList[this.data.radioIndex],
+          });
+    }
+    this.setData({
+        hidePatientShow: true
+    })
+},
+onPatientAdd() {
 
-        this.updateChatStatus('', 'AIDOCTOR_END');
+    wx.navigateTo({
+        url: '/pages/me/patients/addPatient',
+    })
+},
+
+    //第一次获取消息列表
+    getMessageList() {
+        // 打开某个会话时，第一次拉取消息列表
+        let that = this;
+        var postdata = {
+            conversationID: this.data.conversationID,
+            count: 15//需要拉取的消息数量，默认值和最大值为15。
+        }
+
+        let promise = getApp().tim.getMessageList(postdata);
+        promise.then(function (imResponse) {
+            console.log(imResponse.data.messageList)
+            const messageList = imResponse.data.messageList; // 消息列表。
+            const nextReqMessageID = imResponse.data.nextReqMessageID; // 用于续拉，分页续拉时需传入该字段。
+            const isCompleted = imResponse.data.isCompleted; // 表示是否已经拉完所有消息。
+
+
+            that.setMultItemAndScrollPage(messageList, false, that.data.chatItems.length === 0, false)
+
+
+            that.setData({
+                nextReqMessageID: nextReqMessageID,
+                isCompleted: isCompleted
+            })
+            that.setData({
+                triggered: false,
+            })
+            that._freshing = false
+            // 将某会话下所有未读消息已读上报
+            getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
+
+
+        }).catch(function (imError) {
+            console.error(imError)
+            that.setData({
+                triggered: false,
+            })
+            that._freshing = false
+            wx.showToast({
+                title: '获取聊天列表失败',
+                icon: "none",
+                duration: 2000
+            })
+        });;
     },
+    // 下拉获取更多消息记录
+    getMoreMessageList() {
+
+        let that = this;
+        var postdata = {
+            conversationID: this.data.conversationID,
+            nextReqMessageID: this.data.nextReqMessageID,
+            count: 15//需要拉取的消息数量，默认值和最大值为15。
+        }
+
+        let promise = getApp().tim.getMessageList(postdata);
+        promise.then(function (imResponse) {
+            console.log(imResponse.data.messageList)
+            const messageList = imResponse.data.messageList; // 消息列表。
+            const nextReqMessageID = imResponse.data.nextReqMessageID; // 用于续拉，分页续拉时需传入该字段。
+            const isCompleted = imResponse.data.isCompleted; // 表示是否已经拉完所有消息。
+
+
+            that.setMultItemAndScrollPage(messageList, false, that.data.chatItems.length === 0, true)
+
+
+            that.setData({
+                nextReqMessageID: nextReqMessageID,
+                isCompleted: isCompleted
+            })
+            that.setData({
+                triggered: false,
+            })
+            that._freshing = false
+            // 将某会话下所有未读消息已读上报
+            getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
+
+
+        }).catch(function (imError) {
+            console.error(imError)
+            that.setData({
+                triggered: false,
+            })
+            that._freshing = false
+            wx.showToast({
+                title: '获取聊天列表失败',
+                icon: "none",
+                duration: 2000
+            })
+        });;
+    },
+    // 下拉查看更多消息
+    onRefresh: function (e) {
+        console.log("onRefresh")
+        if (this._freshing) return
+        this._freshing = true
+        if (this.data.isCompleted) {
+
+            wx.showToast({
+                icon: 'none',
+                title: "没有更多消息了",
+                duration: 2000
+            })
+
+
+            this.setData({
+                triggered: false,
+            })
+            this._freshing = false
+            return
+        }
+        this.getMoreMessageList()
+
+    },
+
+
+ 
 
     //图预览
     imageClickEvent(e) {
@@ -128,715 +345,131 @@ Page({
             urls: [e.currentTarget.dataset.url] // 需要预览的图片http链接列表
         })
     },
-    //切换咨询类型
-    swithcToUserType() {
-
-        if (this.data.DocType == 'JZDH') {//就诊导航
-
-            wx.setNavigationBarTitle({
-                title: '就诊导航'
-            });
-            this.updateChatStatus('', 'JZDH');
-            this.qrySysKnowledge('JZDH')
-        } else if (this.data.DocType == 'FWZX') {//服务咨询
-            wx.setNavigationBarTitle({
-                title: '服务咨询'
-            });
-            this.updateChatStatus('', 'FWZX');
-            this.qrySysKnowledge('FWZX')
-        } else if (this.data.DocType == 'AIDOCTOR') {//智能问诊
-            this.setData({
-                chatItems: [],
-                isAIEnd: false,
-                chooseSymptom: [],
-                ai_patientId: ''
-            })
-
-            wx.setNavigationBarTitle({
-                title: '智能问诊'
-            });
-            this.updateChatStatus('', 'AIDOCTOR');
-
-
-            this.getHotSymptom()
-
-        } else if (this.data.DocType == 'CaseManager') {//人工
-            if (this.data.CaseManagerID) {
-
-                IMUtil.goIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig, 'redirectTo', this.data.CaseManagerID, 'CaseManager', '', '', '')
-            } else {
-                this.getServicerAccount()
-                wx.showToast({
-                    icon: 'none',
-                    title: '转人工失败，请重试',
-                })
-            }
-        }
-    },
     //点击输入框上方按钮
     heathItemClickEvent(e) {
         console.log(e)
-        const id = e.detail.item.id;
-
-        if (this.data.DocType === id && (this.data.DocType === 'FWZX' || this.data.DocType === 'JZDH')) {
-            return
-        }
-
-        if (this.data.DocType === id && this.data.DocType === 'AIDOCTOR' && !this.data.isAIEnd) {
-            return
-        }
-
-        this.setData({
-            DocType: id
-        })
-        this.data.topArr.forEach(item => {
-
-            item.active = item.id === id
-
-        })
-        this.setData({
-            topArr: this.data.topArr,
-
-        })
-        this.swithcToUserType()
-
+        let id = e.detail.item.id;
     },
-    //点击查看所有问题
-    goKnowledgePage(e) {
-        wx.navigateTo({
-            url: '../diseases/knowledge-list?knowledgeType=' + this.data.DocType,
-        })
-    },
-
-
-
-
-    //点击选择就诊人
-    CustomPatiemtClickEvent(e) {
-        if (this.data.isAIEnd) {
-            return
-        }
-        if (this.data.ai_patientId) {
-            return
-        }
-        var patient = e.currentTarget.dataset.content
-        this.onGetMessageEvent_local('out', patient.userName)
-        this.setData({
-            ai_patientId: patient.userId
-        })
-        this.setData({
-            chatItems: this.data.chatItems
-        })
-
-
-        var answer = [{
-            "optionValue": this.data.chooseSymptom,
-            "optionKind": "symptoms"
-        }]
-        this.qryAI(answer)
-    },
-    //点击增加就诊人
-    CustomPatiemtAddClickEvent(e) {
-        this.setData({
-            fromAddPatient: true
-        })
-        wx.navigateTo({
-            url: '/pages/me/patients/addPatient',
-        })
-    },
-    //点击热门病症
-    CustomSymptomClickEvent(e) {
-        if (this.data.isAIEnd) {
-            return
-        }
-        if (this.data.chooseSymptom.length > 0) {
-            return
-        }
-        var symptom = e.currentTarget.dataset.content
-        this.setData({
-            chooseSymptom: [symptom]
-        })
-        this.onGetMessageEvent_local('out', symptom)
-        const questionData = {
-            patientList: getApp().getPatientInfoList(),
-            "question": {
-                "optionType": "ChoosePatient"
-            },
-            "isEnd": false
-        }
-
-        this.onGetCustomAIDoctorTypeMessageEvent(questionData)
-    },
-    //获取热门病症
-    getHotSymptom() {
-        WXAPI.getHotSymptom({}).then(res => {
-            if (res.code === 0) {
-                const questionData2 = {
-                    symptomList: res.data,
-                    text: '您好，请描述清楚你要咨询的健康问题（疾病名/症状/用药情况/患病时长等）',
-                    "question": {
-                        "optionType": "ChooseSymptom"
-                    },
-                    "isEnd": false
-                }
-
-                this.onGetCustomAIDoctorTypeMessageEvent(questionData2)
-            }
-        }).catch(e => {
-            wx.showToast({
-                icon: 'none',
-                title: '请求失败，请检查网络',
-            })
-        })
-
-
-
-
-
-    },
-    //输入病症 调用分词接口
-    submitHotSymptom(text) {
-        var post = {
-            text: text,
-            flag: 2
-        }
-        WXAPI.submitHotSymptom(post).then(res => {
-            if (res.code === 0) {
-                if (res.data.length === 0) {
-                    this.onGetMessageEvent_local('in', '请更换下病情描述试试？')
-                } else {
-                    var sym = []
-                    res.data.forEach(item => {
-                        sym.push(item.entity)
-                    })
-                    this.setData({
-                        chooseSymptom: sym
-                    })
-                    const questionData = {
-                        patientList: getApp().getPatientInfoList(),
-                        "question": {
-                            "optionType": "ChoosePatient"
-                        },
-                        "isEnd": false
-                    }
-
-                    this.onGetCustomAIDoctorTypeMessageEvent(questionData)
-                }
-            }
-        }).catch(e => {
-            wx.showToast({
-                icon: 'none',
-                title: '请求失败，请检查网络',
-            })
-        })
-
-
-
-
-
-    },
-    //获取AI智能问诊问题
-    qryAI(answer) {
-        if (this.data.isAIEnd) {
-            return
-        }
-        var postData = {
-            "answer": answer,
-            "userId": this.data.ai_patientId
-        }
-        console.log(postData)
-        WXAPI.getIntelligenceQuestion(postData).then(res => {
-            if (res.code !== 0) {
-                this.onGetMessageEvent_local('in', '根据您的描述，未找到相似结果，本次智能问诊结束。')
-                this.endAIchat()
-                return
-            }
-            if (res.data.question.optionType === 'INT' || res.data.question.optionType === 'TEXT') {
-                this.setData({
-                    ai_question: res.data.question
-                })
-            }
-
-            if (res.data.isEnd) {
-                if (res.data.diseaseKnowledge) {
-                    //疾病知识
-                    this.onGetCustomTypeDiseaseKnowledgeEvent_local(res.data.diseaseKnowledge, res.data.department)
-                }
-
-                this.onGetMessageEvent_local('in', '根据您的描述，与如下疾病表现较为相似，本信息仅供参考，建议您还是听具体医生的建议。')
-            }
-
-            this.onGetCustomAIDoctorTypeMessageEvent(res.data)
-            if (res.data.isEnd) {
-                this.endAIchat()
-            }
-        }).catch(e => {
-            wx.showToast({
-                icon: 'none',
-                title: '请求失败，请检查网络',
-            })
-        })
-
-    },
-
-    //AI问答选择答案
-    bindSelectQestionTap(e) {
-
-        if (this.data.isAIEnd) {
-            return
-        }
-
-        var question = e.currentTarget.dataset.question
-        var option = e.currentTarget.dataset.option
-        var optionvalue = e.currentTarget.dataset.optionvalue
-        var length = e.currentTarget.dataset.length
-        // console.log("question", question)
-        // console.log("option", option)
-        // console.log("optionvalue", optionvalue)
-        // console.log("length", length)
-
-
-
-
-
-        var lastItem = this.data.chatItems[this.data.chatItems.length - 1]
-        var answer = lastItem.payload.data.answer
-        if (!answer) {
-            answer = []
-        }
-
-        if (question.optionType == 'MULTIQUESTION_SINGLE') {//多问题单答案
-            option.optionValue = [optionvalue]
-            question.options = [option]
-            answer = [question]
-        } else if (question.optionType == 'MULTIQUESTION_MULTI') {//多问题多答案
-            option.optionValue = [optionvalue]
-            question.options = [option]
-            if (answer.length === 0) {
-                answer = [question]
-            } else {
-                var hasOption = false
-                answer[0].options.forEach((item, index) => {
-                    if (item.title === option.title) {
-                        if (option.optionType == 'SINGLEQUESTION_SINGLE') {
-                            //如果子问题是单答案 直接替换
-                            item.optionValue = option.optionValue
-                        } else if (option.optionType == 'SINGLEQUESTION_MULTI') {
-                            //如果子问题是多答案 添加
-                            if (optionvalue === '以上都不是') {
-                                item.optionValue = option.optionValue
-                            } else {
-                                var cIndex= item.optionValue.indexOf(optionvalue)
-                                if ( cIndex< 0) {
-                                    if (item.optionValue.indexOf('以上都不是') > -1) {
-                                        item.optionValue = []
-                                    }
-                                    item.optionValue.push(optionvalue)
-                                }else{
-                                    item.optionValue.splice(cIndex,1)
-                                }
-                            }
-
-                        }
-
-                        hasOption = true
-                    }
-                })
-                if (!hasOption) {
-                    answer[0].options.push(option)
-                }
-            }
-
-        } else if (question.optionType == 'SINGLEQUESTION_SINGLE') {//单问题单答案
-
-            question.optionValue = [optionvalue]
-            answer = [question]
-
-        } else if (question.optionType == 'SINGLEQUESTION_MULTI') {//单问题多答案
-            question.optionValue = [optionvalue]
-            if (answer.length === 0 || optionvalue === '以上都不是') {
-                answer = [question]
-            } else {
-               var cIndex= answer[0].optionValue.indexOf(optionvalue)
-                if ( cIndex< 0) {
-                    if (answer[0].optionValue.indexOf('以上都不是') > -1) {
-                        answer[0].optionValue = []
-                    }
-                    answer[0].optionValue.push(optionvalue)
-
-                }else {
-                    answer[0].optionValue.splice(cIndex,1)
-                }
-            }
-
-
-
-        }
-
-
-        
-
-        //如果只有一个问题 并且该问题是单选则直接下一步 不用点击确定
-        if (length === 1 && option.optionType == 'SINGLEQUESTION_SINGLE') {
-              //去掉选项 只留标题-------
-              var lastItem = this.data.chatItems[this.data.chatItems.length - 1]
-              console.log("lastItem", lastItem)
-              if (lastItem.payload.data.question.options) {
-                  lastItem.payload.data.question.options = []
-              }
-              if (lastItem.payload.data.question.optionValue) {
-                  lastItem.payload.data.question.optionValue = []
-              }
-              this.setData({
-                  chatItems: this.data.chatItems
-              })
-              //去掉选项 只留标题-------
-            this.onGetMessageEvent_local('out', optionvalue)
-            this.qryAI(answer)
-
-        }else {
-            lastItem.payload.data.answer = answer
-            
-            this.setData({
-                chatItems: this.data.chatItems
-            })
-        }
-    },
-    //AI问答点击确定
-    AIConfirm(e) {
-        if (this.data.isAIEnd) {
-            return
-        }
-        var answer = e.currentTarget.dataset.answer
-        var index = e.currentTarget.dataset.index
-
-        if (index === this.data.chatItems.length - 1) {
-            // console.log(index,answer)
-            var answerText = ''
-            answer[0].options.forEach(item => {
-                var value = ''
-                if (item.optionValue.length === 1) {
-                    value = item.optionValue[0]
-                } else {
-                    item.optionValue.forEach(valueItem => {
-                        var inText = value ? '、' : ''
-
-                        value = value + inText + valueItem
-                    })
-                }
-
-                answerText = answerText + item.optionName + '：' + value + '\n'
-            })
-
-            //去掉选项 只留标题-------
-            var lastItem = this.data.chatItems[this.data.chatItems.length - 1]
-            console.log("lastItem", lastItem)
-            if (lastItem.payload.data.question.options) {
-                lastItem.payload.data.question.options = []
-            }
-            if (lastItem.payload.data.question.optionValue) {
-                lastItem.payload.data.question.optionValue = []
-            }
-            lastItem.payload.data.isAnswered=true
-            this.setData({
-                chatItems: this.data.chatItems
-            })
-            //去掉选项 只留标题-------
-
-
-            this.onGetMessageEvent_local('out', answerText)
-            this.qryAI(answer)
-
-
-        }
-
-
-    },
-    goDiseasePage(e) {
+    //点击问卷卡
+    onCustomWenJuanMessageClick(e) {
         console.log(e)
+        let item = e.currentTarget.dataset.item;
+        var url =''
+        if(item.done){
+             url = item.url
+        }else{
+             url = item.url + `?source=medical-steward&agencyId=${item.todoId}&userId=${this.data.config.userID}`
+        }
+        var encodeUrl = encodeURIComponent(url)
         wx.navigateTo({
-            url: '../diseases/index?userId=' + e.currentTarget.dataset.userid,
+            url: '/pages/consult/webpage/index?url=' + encodeUrl + '&type=1'
+        })
+       
+    },
+    //点击文章卡
+    onCustomArticleMessageClick(e) {
+        console.log(e)
+        let item = e.currentTarget.dataset.item;
+        // var encodeUrl = encodeURIComponent(item.url)
+        // wx.navigateTo({
+        //     url: '/pages/consult/webpage/index?url=' + encodeUrl + '&type=2'
+        // })
+        wx.navigateTo({
+            url: '/pages/home/news/news-detail?id=' + item.id,
+        })
+        this.setInquiriesAgencyRead(item.todoId)
+    },
+    //点击问诊卡
+    onCustomIllnessMessageClick(e) {
+
+        let item = e.currentTarget.dataset.item;
+        wx.navigateTo({
+            url: '/pages/consult/detail-text/index?rightsId=' + this.data.tradeRemark.rightsId + '&userId=' + this.data.config.userID + '&status=3',
+        })
+
+    },
+    //设置卡片已读
+    setInquiriesAgencyRead(todoId) {
+        if (todoId) {
+            WXAPI.setInquiriesAgencyRead(todoId)
+        }
+    },
+
+    onVideoPlayClick(e) {
+        console.log(e)
+        var videoObj = e.currentTarget.dataset.item
+        this.setData({
+            videoObj: videoObj,
+            showVideo: true,
+        })
+        this.videoContext.requestFullScreen()
+    },
+    onShowVideoBoxClick() {
+        this.videoContext.stop()
+        this.setData({
+            showVideo: false,
         })
     },
-    //点击咨询问题
-    CustomQuestionMessageClickEvent(e) {
-        var knowledgeItem = e.currentTarget.dataset.content
-        this.onGetMessageEvent_local('out', knowledgeItem.title)
-        if (knowledgeItem.remark === '1') {
-            //富文本类型
-            wx.navigateTo({
-                url: '../diseases/content?id=' + knowledgeItem.id,
-            })
-        } else {
-            // this.getSysKnowledgeById(content.id)
-            this.onGetMessageEvent_local('in', knowledgeItem.content)
-        }
+    bindfullscreenchange(event) {
 
-
-
+        this.setData({
+            showVideo: event.detail.fullScreen,
+        })
     },
 
-    //查询热门问题列表
-    async qrySysKnowledge(knowledgeType) {
-        var postData = {
-            "knowledgeType": knowledgeType,
-            "keyWord": "",
-            "pageNo": 1,
-            "pageSize": 5
-        }
-        console.log(postData)
-        const res = await WXAPI.qrySysKnowledge(postData)
-        const des = "让小医来猜一猜，您有什么想要了解的？请输入关键字问小医。您也可以点击下方热门问题获取答案："
-        this.onGetCustomTypeMessageEvent_local(knowledgeType, res.data.rows, des, true)
+    //点击文本消息 放大
+    chatTextItemClickEvent(e) {
+        this.setData({
+            showTextPop: true,
+            showText: e.currentTarget.dataset.text
+        })
+    },
+    //关闭放大窗口
+    onShowTextClose() {
+        this.setData({
+            showTextPop: false,
+            showText: ''
+        })
     },
 
-    //按关键字查询问题答案列表
-    async qrySysKnowledgeAnswer(knowledgeType, keyWord) {
-        var postData = {
-            "knowledgeType": knowledgeType,
-            "keyWord": keyWord,
-        }
 
-        const res = await WXAPI.qrySysKnowledgeAnswer(postData)
-        if (res.data && res.data.length > 0) {
-            //显示问题标题
-            const des = "您问的是否是以下问题，点击对应问题获取答案："
-            this.onGetCustomTypeMessageEvent_local(knowledgeType, res.data, des, false)
-            // if (res.data.length === 1) {
-            //     //直接显示答案
-            //    var knowledgeItem= res.data[0]
-            //     if(knowledgeItem.remark === '1'){
-            //         //富文本类型
-            //         wx.navigateTo({
-            //             url: '../diseases/content?id='+knowledgeItem.id,
-            //           })
-            //     }else{
 
-            //         this.onGetMessageEvent_local('in',  knowledgeItem.title + '\n' + knowledgeItem.content)
-            //     }
-            // } 
-
-        } else {
-            this.onGetMessageEvent_local('in', '抱歉，暂时没有找到答案。您也可以点击右下角人工来进行人工咨询。')
-        }
-
-    },
-    //查询问题答案详情
-    async getSysKnowledgeById(id) {
-        const res = await WXAPI.getSysKnowledgeById(id)
-        if (res.data && res.data.content) {
-            this.onGetMessageEvent_local('in', res.data.content)
-        } else {
-            this.onGetMessageEvent_local('in', '抱歉，暂时没有找到答案。您也可以点击右下角人工来进行人工咨询。')
-        }
-
-    },
-
-    //模拟收到文本消息和发送文字消息
-    onGetMessageEvent_local(flow, content) {
-
-        // 发送文本消息，Web 端与小程序端相同
-        // 1. 创建消息实例，接口返回的实例可以上屏
-        console.log(content)
-        let message = getApp().tim.createTextMessage({
-            to: String(this.data.defaultPatient.userId),
-            conversationType: this.data.type == 'C2C' ? TIM.TYPES.CONV_C2C : TIM.TYPES.CONV_GROUP,
-            payload: {
-                text: content
-            },
-        });
-        message.flow = flow
-        message.avatar = flow === 'in' ? '/image/ai_icon.png' : '',
-            console.log(message)
-        var index = this.setOneItemAndScrollPage(message)
-        this.updateChatItemStatus(index, "success")
-    },
-
-    /**
-     * 模拟收到咨询问题列表
-     * @param {*} customType 类型
-     * @param {*} qlist 问题列表
-     * @param {*} description 描述
-     * @param {*} isHotList 是否是热门问题推荐列表
-     */
-    async onGetCustomTypeMessageEvent_local(customType, qlist, description, isHotList) {
-
-        let message = getApp().tim.createCustomMessage({
-            to: String(this.data.defaultPatient.userId),
-            type: "TIMCustomElem",
-            avatar: '/image/ai_icon.png',
-            conversationType: TIM.TYPES.CONV_C2C,
-            payload: {
-                data: ''
-
-            },
-        });
-        message.flow = 'in'
-        message.avatar = '/image/ai_icon.png',
-            message.payload = {
-                customType: customType,
-                isHotList: isHotList,
-                data: {
-                    qlist: qlist,
-                    description: description,
-                    type: customType
-                }
-            }
-        console.log(message)
-        var index = this.setOneItemAndScrollPage(message)
-        this.updateChatItemStatus(index, "success")
+    //播放或暂停音频
+    chatVoiceItemClickEvent(e) {
+        this.voiceManager._page.chatVoiceItemClickEvent(e)
     },
     /**
- * 模拟收到疾病知识
- * @param {*} diseaseKnowledge 疾病
- * @param {*} departmentArr 推荐科室 数组
- */
-    async onGetCustomTypeDiseaseKnowledgeEvent_local(diseaseKnowledge, departmentArr) {
-        var department = ''
-        if (departmentArr && departmentArr.length > 0) {
-            departmentArr.forEach(item => {
-                department = department + ' ' + item
-            })
-        } else {
-            department = '暂无推荐'
-        }
-
-        let message = getApp().tim.createCustomMessage({
-            to: String(this.data.defaultPatient.userId),
-            type: "TIMCustomElem",
-            avatar: '/image/ai_icon.png',
-            conversationType: TIM.TYPES.CONV_C2C,
-            payload: {
-                data: ''
-
-            },
+  * 点击extra按钮时触发
+  * @param e
+  */
+    onExtraClickEvent(e) {
+        console.log("onExtraClickEvent", e);
+        this.setData({
+            scrollTopVal: this.data.chatItems.length * 999,
         });
-        message.flow = 'in'
-        message.avatar = '/image/ai_icon.png',
-            message.payload = {
-                customType: 'DISEASE_KNOWLEDGE',
-                data: {
-                    diseaseKnowledge: diseaseKnowledge,
-                    department: department,
-                    userId: this.data.ai_patientId,
-                    description: '',
-                    type: 'DISEASE_KNOWLEDGE'
-                }
-            }
-        console.log(message)
-        var index = this.setOneItemAndScrollPage(message)
-        this.updateChatItemStatus(index, "success")
     },
     /**
-    * 模拟收到智能问诊消息
-    */
-    async onGetCustomAIDoctorTypeMessageEvent(questionData) {
-
-        let message = getApp().tim.createCustomMessage({
-            to: String(this.data.defaultPatient.userId),
-            type: "TIMCustomElem",
-            conversationType: TIM.TYPES.CONV_C2C,
-            payload: {
-                data: ''
-
-            },
-        });
-        message.flow = 'in'
-        message.avatar = '/image/ai_icon.png',
-            message.payload = {
-                customType: 'AIDOCTOR',
-                data: questionData
-            }
-
-        var index = this.setOneItemAndScrollPage(message)
-        this.updateChatItemStatus(index, "success")
-        switch (questionData.question.optionType) {
-            case 'ChoosePatient'://选择就诊人
-                this.setData({
-                    showChatInput: false,
-                    inputType: 'text'
-                })
-                break;
-            case 'MULTIQUESTION_SINGLE'://多问题单选项(所有问题只选一个)
-                this.setData({
-                    showChatInput: false,
-                    inputType: 'text'
-                })
-                break;
-            case 'MULTIQUESTION_MULTI'://多问题多选项（每个问题只选一个）
-                this.setData({
-                    showChatInput: false,
-                    inputType: 'text'
-                })
-                break;
-            case 'SINGLEQUESTION_SINGLE'://单问题单选项
-                this.setData({
-                    showChatInput: false,
-                    inputType: 'text'
-                })
-                break;
-            case 'SINGLEQUESTION_MULTI'://单问题多选项
-                this.setData({
-                    showChatInput: false,
-                    inputType: 'text'
-                })
-                break;
-            case 'INT'://数字
-                console.log(this.data.topArr)
-                this.setData({
-                    showChatInput: true,
-                    inputType: 'number'
-                })
-                break;
-            case 'TEXT'://文本
-                this.setData({
-                    showChatInput: true,
-                    inputType: 'text'
-                })
-                break;
-            default:
-                this.setData({
-                    showChatInput: true,
-                    inputType: 'none'
-                })
-        }
-    },
-    /**
- * 模拟收到标记
- */
-    async onGetCustomTypeMarkType_local(content) {
-
-        let message = getApp().tim.createCustomMessage({
-            to: String(this.data.defaultPatient.userId),
-            type: "TIMCustomElem",
-            avatar: '/image/ai_icon.png',
-            conversationType: TIM.TYPES.CONV_C2C,
-            payload: {
-                data: ''
-
-            },
-        });
-        message.flow = 'in'
-        message.avatar = '/image/ai_icon.png',
-            message.payload = {
-                customType: "TIMCustomMarkTYPE",
-                data: {
-                    content: content,
-                    description: '',
-                    type: "TIMCustomMarkTYPE"
-                }
-            }
-        console.log(message)
-        var index = this.setOneItemAndScrollPage(message)
-        this.updateChatItemStatus(index, "success")
-    },
-    /**
-     * 点击extra按钮时触发
+     * 点击extra中的item时触发
      * @param e
      */
-    onExtraClickEvent(e) {
-        console.log(e);
+    onExtraItemClickEvent(e) {
+
+
+        let chooseIndex = parseInt(e.detail.index);
+        if (chooseIndex === 0) {//发送图片
+            this.sendImageMessage()
+        }
+
+
     },
+   //点击处方卡
+   onCustomChuFangMessageClick(e){
+    wx.navigateTo({
+        url: '/pages/me/prescription/detail?preNo=' +  e.currentTarget.dataset.preno ,
+    })
+},
+
+
     //发生文本消息
     onSendMessageEvent(e) {
         let content = e.detail.value;
@@ -845,14 +478,90 @@ Page({
 
         let message = getApp().tim.createTextMessage({
             to: this.data.toUserID,
-            conversationType: this.data.type == 'C2C' ? TIM.TYPES.CONV_C2C : TIM.TYPES.CONV_GROUP,
+            conversationType: TIM.TYPES.CONV_C2C,
             payload: {
                 text: content
             },
+            cloudCustomData: this.data.conversationID
         });
         this.sendMsg(message)
+    },
+    //发送图片消息
+    sendImageMessage() {
+        let that = this
+
+        wx.chooseMedia({
+            mediaType: ['image'], // 图片
+            sourceType: ['album', 'camera'], // 从相册选择
+            count: 1, // 只选一张，目前 SDK 不支持一次发送多张图片
+            success: function (res) {
+                console.log(res)
+                res.tempFilePaths = [res.tempFiles[0].tempFilePath]
+
+
+                // 2. 创建消息实例，接口返回的实例可以上屏
+                let message = getApp().tim.createImageMessage({
+                    to: that.data.toUserID,
+                    conversationType: TIM.TYPES.CONV_C2C,
+                    payload: { file: res },
+                    onProgress: function (event) { console.log('file uploading:', event) }
+                });
+                that.sendMsg(message)
+            }
+        })
+    },
+    //发送视频消息
+    sendVideoMessage() {
+        let that = this
+
+        wx.chooseMedia({
+            mediaType: ['video'], // 视频
+            sourceType: ['album', 'camera'], // 来源相册或者拍摄
+            maxDuration: 60, // 设置最长时间60s
+            camera: 'back', // 后置摄像头
+            success(res) {
+                // 2. 创建消息实例，接口返回的实例可以上屏
+                let message = getApp().tim.createVideoMessage({
+                    to: that.data.toUserID,
+                    conversationType: TIM.TYPES.CONV_C2C,
+                    payload: {
+                        file: res
+                    },
+                    // 消息自定义数据（云端保存，会发送到对端，程序卸载重装后还能拉取到，v2.10.2起支持）
+                    // cloudCustomData: 'your cloud custom data'
+                    // v2.12.2起，支持小程序端视频上传进度回调
+                    onProgress: function (event) { console.log('file uploading:', event) }
+                })
+                that.sendMsg(message)
+            }
+        })
+    },
+    //发送语音
+    onVoiceRecordEvent(e) {
+        var recordStatus = e.detail.recordStatus
+        console.log("onVoiceRecordEvent recordStatus=", recordStatus)
+        if (recordStatus == 2) {
+            console.log(e)
+            console.log("可以发送了")
+
+            // 4. 创建音频消息
+            const message = getApp().tim.createAudioMessage({
+                to: this.data.toUserID,
+                conversationType: TIM.TYPES.CONV_C2C,
+                payload: {
+                    file: e.detail
+                },
+            });
+            console.log("createAudioMessage:", message)
+
+            this.sendMsg(message)
+
+        } else {
+            console.log("不能发送")
+        }
 
     },
+
 
     // 展示消息时间
     messageTimeForShow(messageTime) {
@@ -873,56 +582,38 @@ Page({
     },
 
 
-
-    resetInputStatus() {
-        this.chatInput.closeExtraView();
-    },
-
-    onUnload() {
-
-    },
-
-
     /**
      * 发送消息
      */
     async sendMsg(message) {
+        console.log(message)
         let that = this
-        console.log("sendMessage", message)
-
-        if (this.data.DocType === 'AIDOCTOR' && this.data.isAIEnd) {//智能问诊
-            wx.showToast({
-                icon: 'none',
-                title: 'AI问诊已结束',
-            })
-            return
-        }
-
+       
         var index = this.setOneItemAndScrollPage(message)
-        this.updateChatItemStatus(index, "success")
-        //就诊导航 服务咨询 模拟上屏 用接口查询答案
-        if (this.data.DocType === 'JZDH' || this.data.DocType === 'FWZX') {
-
-            if (message.type === 'TIMTextElem') {
-                this.qrySysKnowledgeAnswer(this.data.DocType, message.payload.text)
-            } else {
-                this.onGetMessageEvent_local('in', '抱歉，暂时没有找到答案。您也可以点击右下角人工来进行人工咨询。')
+        // 2. 发送消息
+        let promise = getApp().tim.sendMessage(message);
+        promise.then(function (imResponse) {
+            // 发送成功
+            console.log(imResponse);
+           
+            
+            
+            if(message.type == 'TIMTextElem'){
+                that. qryMedChat(message.payload.text)
+                that.updateChatItemStatus(index, "success")
             }
+           
 
-            return
-        } else if (this.data.DocType === 'AIDOCTOR') {//智能问诊
-
-            //有症状了则走问题回答 没有则去查询症状分词
-            if (this.data.chooseSymptom.length > 0) {
-                var answer = this.data.ai_question
-                answer.optionValue = message.payload.text
-                this.qryAI([answer])
-            } else {
-                this.submitHotSymptom(message.payload.text)
-            }
-
-        }
-
+        }).catch(function (imError) {
+            // 发送失败
+            console.warn('sendMessage error:', imError);
+            that.updateChatItemStatus(index, "fail")
+            wx.showToast({
+                title: imError.message,
+                icon: 'error',
+                duration: 2000
+            })
+        });
     },
     /**
      * 重发消息
@@ -941,6 +632,8 @@ Page({
             // 重发成功
             console.log(imResponse);
             that.updateChatItemStatus(index, "success")
+
+
         }).catch(function (imError) {
             // 重发失败
             console.warn('resendMessage error:', imError);
@@ -964,12 +657,26 @@ Page({
 
     },
 
-    //添加多个消息在尾部 刷新列表并滚动到底部
-    setMultItemAndScrollPage(newItems, isIMReceived = false) {
+    /**
+     * 添加多个消息在尾部或者顶部 刷新列表
+     * @param {*} newItems 
+     * @param {*} isIMReceived 是否监听来的消息
+     * @param {*} isScrollToBootom 是否滑动到底部
+     * @param {*} isLoadmore true添加到头部 false添加到尾部
+     */
+    setMultItemAndScrollPage(newItems, isIMReceived = false, isScrollToBootom = true, isLoadmore) {
+        if (newItems.length === 0) {
+            return
+        }
         let that = this
         newItems.forEach(function (item, index) {
             //计算是否显示时间
-            that.messageTimeForShow(item)
+            if (isLoadmore) {
+                item.isShowTime = true
+            } else {
+                that.messageTimeForShow(item)
+            }
+
             if (item.type == "TIMCustomElem") {
 
                 item = that.getInfoFromCallMessage(item, isIMReceived)
@@ -979,7 +686,13 @@ Page({
         })
 
         if (this.data.chatItems.length > 0) {
-            const mergeChatList = this.data.chatItems.concat(newItems)
+            var mergeChatList = []
+            if (isLoadmore) {
+                mergeChatList = newItems.concat(this.data.chatItems)
+            } else {
+                mergeChatList = this.data.chatItems.concat(newItems)
+            }
+
             this.setData({
                 chatItems: mergeChatList,
             });
@@ -991,14 +704,17 @@ Page({
         }
 
         this.setData({
-            scrollTopVal: this.data.chatItems.length * 999,
+            scrollTopVal: isScrollToBootom ? this.data.chatItems.length * 999 : 0,
         });
     },
     //添加单个个消息在尾部 刷新列表并滚动到底部
     setOneItemAndScrollPage(newItem) {
         //计算是否显示时间
         this.messageTimeForShow(newItem)
+        if (newItem.type == "TIMCustomElem") {
 
+            newItem = this.getInfoFromCallMessage(newItem)
+        }
         var length = this.data.chatItems.push(newItem)
 
         this.setData({
@@ -1010,56 +726,77 @@ Page({
 
         return length - 1;
     },
-    //聊天状态
-    updateChatStatus(content, state) {
-        this.setData({
-            chatStatue: state,
-            chatStatusContent: content
-        })
+  
+    resetInputStatus() {
+        // this.chatInput.closeExtraView();
     },
-
+    videoErrorCallback(e) {
+        console.log('视频错误信息:')
+        console.log(e)
+    },
+    bindwaiting(e) {
+        console.log('视频出现缓冲时触发:')
+        console.log(e)
+    },
+    bindloadedmetadata(e) {
+        console.log('视频元数据加载完成时触发:')
+        console.log(e)
+    },
     getInfoFromCallMessage(item, isIMReceived = false) {
         try {
-            console.log(item.payload.data)
+
             var signalingData = JSON.parse(item.payload.data)
-
-
+            console.log(signalingData)
             var type = signalingData.type
             if (type) {//自己业务的自定义消息
-                if (type == 'CustomAnalyseMessage') {//评估消息
-                    item.payload.customType = "CustomAnalyseMessage"
-
-                } else if (type == 'CustomHealthManageMessage') {//购买服务
-                    item.payload.customType = "CustomHealthManageMessage"
-
-                } else if (type == 'CustomHealthMessage') {//健康消息
-                    item.payload.customType = "CustomHealthMessage"
-
-                } else if (type == 'CustomUploadMessage') {//上传资料
-                    item.payload.customType = "CustomUploadMessage"
-
-                } else if (type == 'CustomVideoCallMessage') {//视频看诊
-                    item.payload.customType = "CustomVideoCallMessage"
-                    item.payload.isIMReceived = isIMReceived
-
-                } else if (type == 'CustomCaseHistoryMessage') {//就诊病历
-                    item.payload.customType = "CustomCaseHistoryMessage"
-
-                } else if (type == 'CustomWenJuanMessage') {//问卷调查
+                if (type == 'CustomWenJuanMessage') {//问卷卡
                     item.payload.customType = "CustomWenJuanMessage"
-                } else if (type == 'CustomArticleMessage') {//疾病知识
+                } else if (type == 'CustomArticleMessage') {//文章卡
                     item.payload.customType = "CustomArticleMessage"
-                }
-                item.payload.data = signalingData
-            } else {//解析其他消息 比如视频语音通话
-                item.payload.description = "[自定义消息]"
-            }
+                } else if (type == 'CustomIllnessMessage') {//问诊卡
+                    item.payload.customType = "CustomIllnessMessage"
+                } else if (type == 'CustomChuFangMessage') {//处方卡
+                    item.payload.customType = "CustomChuFangMessage"
+                } else if (type == 'CustomAppointmentTimeMessage') {//预约时间
+                    item.payload.customType = "CustomAppointmentTimeMessage"
 
+                    var timeArr = signalingData.time ? signalingData.time.split(",") : null
+                    var timeArr2 = [];
+                    timeArr.forEach(it => {
+                        if (it) {
+                            timeArr2.push(it)
+                        }
+                    })
+                    signalingData.timeArr = timeArr2
+
+                } else {//解析其他消息 比如视频语音通话
+                    item.payload.description = "[自定义消息]"
+                   
+                }
+               
+            }else {
+                item.payload.description = "[自定义消息]"
+                if (signalingData.businessID === 1) {
+                    var data = JSON.parse(signalingData.data)
+                    if (1 === data.call_type) {
+
+                        item.payload.description = "[语音通话]"
+                    } else if (2 === data.call_type) {
+
+                        item.payload.description = "[视频通话]"
+                    }
+                }
+            }
+            item.payload.data = signalingData
 
 
         } catch (error) {
-            console.error(error)
-            item.payload.description = "[自定义消息]"
+            console.log(error)
+            if (item.payload.data == 'group_create') {
+                item.payload.description = "医生创建房间"
+
+            }
+
         }
         return item
 
