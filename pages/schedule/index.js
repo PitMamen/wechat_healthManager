@@ -200,5 +200,27 @@ Page({
                 url: '/pages/home/health-remind/detail?userId=' +wx.getStorageSync('defaultPatient').userId+ '&taskId=' +item.id
             })
         }
+    },
+    onStopTap() {
+        const _this = this
+        wx.showModal({
+            title: '温馨提示',
+            content: '是否确定终止全部方案？',
+            success: function (res) {
+                if (res.confirm) {
+                    WXAPI.stopFollowUserPlan({
+                        userId: wx.getStorageSync('defaultPatient').userId
+                    }).then(res => {
+                        wx.showToast({
+                            title: '终止成功',
+                            icon: 'success'
+                        })
+                        setTimeout(() => {
+                            _this.initDatas(_this.data.monthDiff, true)
+                        }, 2000)
+                    })
+                }
+            }
+        })
     }
 })
