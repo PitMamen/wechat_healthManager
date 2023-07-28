@@ -1,0 +1,46 @@
+page {
+    background: #F5F5F5;
+}
+
+.top{
+    margin-right: 33rpx;
+    margin-top: 30rpx;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.topname{
+   
+font-size: 28rpx;
+color: #409EFF;
+line-height: 39rpx;
+}
+
+.card {
+    width: 750rpx;
+   
+    background: #ffffff;
+   
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 30rpx;
+}
+
+.card-info-view {
+    display: flex;
+    flex-direction: column;
+    margin: 30rpx 30rpx 10rpx 30rpx;
+    font-size: 28rpx;
+    color: #1A1A1A;
+}
+
+.info-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 30rpx;
+}
+.info-item-title{
+    color: #999999;
+}

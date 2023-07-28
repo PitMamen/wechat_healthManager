@@ -1,0 +1,33 @@
+<view class="top">
+    
+    <view class="topname">使用说明书</view>
+    <van-icon color="#409EFF" size="34rpx" name="description" />
+</view>
+<view class="card">
+    <view class="card-info-view">
+        <view style="font-size: 30rpx;color: #1A1A1A;font-weight: bold;">视功能训练30次</view>
+        <view style="margin-top: 27rpx;margin-bottom: 39rpx;height: 0.5px;background: #CCCCCC;"></view>
+      
+        <view class="info-item" >
+            <view class="info-item-title">服务厂商</view>
+            <view >湖南盛世医疗科技有限公司</view>
+        </view>
+        <view class="info-item" >
+            <view class="info-item-title">服务效期</view>
+            <view >2023年12月15日结束</view>
+        </view>
+        <view class="info-item" >
+            <view class="info-item-title">激活码</view>
+            <view >13788190098</view>
+        </view>
+        <view class="info-item" >
+            <view class="info-item-title">登录账户</view>
+            <view >13788190098</view>
+        </view>
+        <view class="info-item" >
+            <view class="info-item-title">登录密码</view>
+            <view >13788190098</view>
+        </view>
+    </view>
+
+</view>

@@ -101,8 +101,8 @@
         "pages/me/prescription/index",
         "pages/me/prescription/detail",
         "pages/me/prescription/drugtaking_page",
-        "pages/consult/detail-video/index"
-       
+        "pages/consult/detail-video/index",
+        "pages/consult/detail-package/digitaldetail"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",

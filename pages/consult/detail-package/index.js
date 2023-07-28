@@ -289,6 +289,10 @@ Page({
             wx.navigateTo({
                 url: './casemanager?rightsId=' + this.data.rightsId
             })
+        }else if (item.projectType == 107) {//数字疗法
+            wx.navigateTo({
+                url: './digitaldetail?rightsId=' + this.data.rightsId
+            })
         } else if (item.projectType == 105) {//随访服务
             wx.navigateTo({
                 url: '/pages/me/my-plan/index'
