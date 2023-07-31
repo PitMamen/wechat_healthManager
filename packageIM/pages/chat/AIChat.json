@@ -1,6 +1,6 @@
 {
     "usingComponents": {
-      "chat-input": "../../components/chat-input/chat-input"
+      "chat-input-ai": "../../components/chat-input/chat-input-ai"
     },
     "navigationBarTitleText": "AI问诊"
    

@@ -2,7 +2,7 @@
 import TIM from 'tim-wx-sdk';
 import voiceManager from "./msg-type/voice-manager";
 const WXAPI = require('../../../static/apifm-wxapi/index')
-const Util = require('../../../utils/util')
+import bus from '../../../utils/EventBus.js'
 
 Page({
 
@@ -41,18 +41,9 @@ Page({
      */
     onLoad(options) {
     
-        var config = {
-            sdkAppID: getApp().globalData.sdkAppID,
-            userID: getApp().globalData.IMuserID,
-            userSig: getApp().globalData.IMuserSig,
-            type: 1,
-            tim: getApp().tim, // 参数适用于业务中已存在 TIM 实例，为保证 TIM 实例唯一性
-        }
-
+      this.setConfig()
         this.setData({
-            config: config,
             pageHeight: wx.getSystemInfoSync().windowHeight,
-          
         })
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient'),
@@ -67,6 +58,21 @@ Page({
        
 
     },
+
+    setConfig(){
+        var config = {
+            sdkAppID: getApp().globalData.sdkAppID,
+            userID: getApp().globalData.IMuserID,
+            userSig: getApp().globalData.IMuserSig,
+            type: 1,
+            tim: getApp().tim, // 参数适用于业务中已存在 TIM 实例，为保证 TIM 实例唯一性
+        }
+
+        this.setData({
+            config: config,
+        })
+    },
+
     onShow: function (e) {
         console.log("chat page: onShow")
     },
@@ -176,6 +182,93 @@ Page({
     await WXAPI.medChat({ userId: this.data.config.userID,question:question })
 
 },
+
+    //切换就诊人聊天
+ switchIM(userId) {
+    
+    var userList=getApp().getPatientInfoList()
+    var userSig=''
+    userList.forEach(patient=>{
+        if(patient.userId == userId){
+           
+            userSig=patient.userSig
+            //保存默认就诊人
+            wx.setStorageSync('defaultPatient', patient)
+        }
+    })
+
+    var that = this;
+    var userID = String(userId)
+
+
+    if (userID == getApp().globalData.IMuserID) {
+
+     return
+
+    } 
+        //不是当前登录账号  切换
+        console.log(userID + "不是当前账号：" + getApp().globalData.IMuserID)
+        wx.showLoading({
+          title: '正在切换',
+        })
+        //没有登录账户则直接登录
+        if (!getApp().globalData.IMuserID) {
+            that.IMLoginToChat(userID, userSig)
+            return
+        }
+        //有登录账户则先登出再登录
+        let promise = getApp().tim.logout();
+        promise.then(function (imResponse) {
+            console.log(imResponse.data); // 登出成功
+            
+            that.IMLoginToChat(userID, userSig)
+        }).catch(function (imError) {
+            wx.hideLoading()
+            console.warn('login error:', imError); // 登出失败的相关信息
+
+        });
+    
+},
+
+ IMLoginToChat(userId, userSig) {
+    var userID = String(userId)
+    let that=this
+    let promise = getApp().tim.login({
+        userID: userID,
+        userSig: userSig
+    });
+    promise.then(function (imResponse) {
+        console.log("IM登录成功", imResponse); // 登录成功
+
+      
+        getApp().globalData.IMuserID = userID
+        getApp().globalData.IMuserSig = userSig
+                    //IM登录发送事件
+        bus.emit('IMLoginSuccess', true)
+
+
+        let onSdkReady = function () {
+            wx.hideLoading()
+            console.log("onSdkReady")
+
+            getApp().globalData.sdkReady = true
+           
+            that.setConfig()
+            that.data.chatItems=[]
+            that.getMessageList()
+            wx.hideLoading()
+            getApp().tim.off(TIM.EVENT.SDK_READY, onSdkReady);
+        };
+        getApp().tim.on(TIM.EVENT.SDK_READY, onSdkReady);
+
+
+
+    }).catch(function (imError) {
+        wx.hideLoading()
+        console.warn('login error:', imError); // 登录失败的相关信息
+      
+    });
+},
 bindPatientTap: function () {
     this.setData({
         hidePatientShow: false
@@ -208,6 +301,7 @@ onPatientConfirm(){
         this.setData({
             defaultPatient: this.data.patientList[this.data.radioIndex],
           });
+          this.switchIM(this.data.defaultPatient.userId)
     }
     this.setData({
         hidePatientShow: true

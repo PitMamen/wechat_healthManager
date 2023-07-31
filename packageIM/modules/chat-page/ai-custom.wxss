@@ -1,3 +1,9 @@
+.content-view {
+    display: flex;
+    flex-direction: column;
+    flex-shrink:0;
+    
+}
 .cell-title{
     font-size:  33rpx !important;
     font-weight: bold;
@@ -12,24 +18,21 @@
   .top{
     font-size:  30rpx !important;
     font-weight: bold;
-
   }
-  .cell-title {
-    color: #1A1A1A !important;
-    font-size: 30rpx !important;
-  
-  }
-  .kanjia-vcard {
-    background-color: white !important;
-    font-size: 18rpx;
-    margin-bottom: 20rpx;
-  }
-  .patient-card{
-    width: 163rpx;
-    height: 68rpx;
+  .card{
+    width: 500rpx;
     background: #FFFFFF;
-    border-radius: 34rpx;
-    text-align: center;
-    line-height: 68rpx;
-    color: #2F8DF1;
+    box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);
+    border-radius: 8rpx;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-top{
+    height: 62rpx;
+    background: #EFF6FF;
+    font-size: 28rpx;
+    color: #4D4D4D;
+    display: flex;
+     flex-direction: row;
+     align-items: center;
   }

@@ -12,8 +12,8 @@
                 "pages/diseases/knowledge-list",
                 "pages/chat/historyChat",
                 "pages/chat/groupChat",
-                "pages/chat/groupHistoryChat"
-               
+                "pages/chat/groupHistoryChat",
+                "components/chat-input/chat-input-ai"
             ]
         },
         {
@@ -41,10 +41,10 @@
             "root": "subpackage-call",
             "name": "subpackage-call",
             "pages": [
-              "pages/globalCall/globalCall"
+                "pages/globalCall/globalCall"
             ],
             "independent": false
-          }
+        }
     ],
     "pages": [
         "pages/home/main",
