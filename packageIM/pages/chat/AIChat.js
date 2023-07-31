@@ -182,7 +182,74 @@ Page({
     await WXAPI.medChat({ userId: this.data.config.userID,question:question })
 
 },
+ //查询热门问题列表
+ async qrySysKnowledge() {
+    this.onGetMessageEvent_local('in', 'hi～我是雅医AI助手，可以为您提供人工智能医疗服务哦')
+    const list=[{title:'感冒的治疗方法'},{title:'最近睡眠不好'},{title:'呕吐是怎么回事'}]
+    const des = "您可以详细描述您的问题，我将为您给出智能化的医疗解答"
+    this.onGetCustomTypeMessageEvent_local('RMWT', list, des, true)
+},
+//点击咨询问题
+CustomQuestionMessageClickEvent(e) {
+    var knowledgeItem = e.currentTarget.dataset.content
+   
+    var message={detail:{value:knowledgeItem.title}}
+    this.onSendMessageEvent(message) 
+       
+},
+    //模拟收到文本消息和发送文字消息
+    onGetMessageEvent_local(flow, content) {
 
+        // 发送文本消息，Web 端与小程序端相同
+        // 1. 创建消息实例，接口返回的实例可以上屏
+        console.log(content)
+        let message = getApp().tim.createTextMessage({
+            to: String(this.data.defaultPatient.userId),
+            conversationType:TIM.TYPES.CONV_C2C ,
+            payload: {
+                text: content
+            },
+        });
+        message.flow = flow
+        message.avatar = flow === 'in' ? '/image/ai_icon.png' : '',
+            console.log(message)
+        var index = this.setOneItemAndScrollPage(message)
+        this.updateChatItemStatus(index, "success")
+    },
+ /**
+     * 模拟收到咨询问题列表
+     * @param {*} customType 类型
+     * @param {*} qlist 问题列表
+     * @param {*} description 描述
+     * @param {*} isHotList 是否是热门问题推荐列表
+     */
+    async onGetCustomTypeMessageEvent_local(customType, qlist, description, isHotList) {
+
+        let message = getApp().tim.createCustomMessage({
+            to: String(this.data.defaultPatient.userId),
+            type: "TIMCustomElem",
+            avatar: '/image/ai_icon.png',
+            conversationType: TIM.TYPES.CONV_C2C,
+            payload: {
+                data: ''
+
+            },
+        });
+        message.flow = 'in'
+        message.avatar = '/image/ai_icon.png',
+            message.payload = {
+                customType: customType,
+                isHotList: isHotList,
+                data: {
+                    qlist: qlist,
+                    description: description,
+                    type: customType
+                }
+            }
+        console.log(message)
+        var index = this.setOneItemAndScrollPage(message)
+        this.updateChatItemStatus(index, "success")
+    },
     //切换就诊人聊天
  switchIM(userId) {
     
@@ -345,6 +412,7 @@ onPatientAdd() {
             // 将某会话下所有未读消息已读上报
             getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
 
+            that.qrySysKnowledge('JZDH')
 
         }).catch(function (imError) {
             console.error(imError)
@@ -680,6 +748,13 @@ onPatientAdd() {
      * 发送消息
      */
     async sendMsg(message) {
+        if(!this.data.defaultPatient || !this.data.defaultPatient.userId ){
+            wx.showToast({
+              title: '请添加就诊人',
+            })
+            return
+        }  
+
         console.log(message)
         let that = this
        
@@ -851,6 +926,8 @@ onPatientAdd() {
                     item.payload.customType = "CustomIllnessMessage"
                 } else if (type == 'CustomChuFangMessage') {//处方卡
                     item.payload.customType = "CustomChuFangMessage"
+                } else if (type == 'ZMWT') {//热门问题
+                    item.payload.customType = "ZMWT"
                 } else if (type == 'CustomAppointmentTimeMessage') {//预约时间
                     item.payload.customType = "CustomAppointmentTimeMessage"
 

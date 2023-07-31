@@ -1,10 +1,20 @@
 <template name="chat-custom">
     <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{index===length-1?150:20}}rpx;margin-top: 20rpx;">
-       
+        <image wx:if="{{type==='RMWT'}}"  class="{{isMy?'my-chat-list-arrow-style':'other-chat-list-arrow-style'}}"
+            src="./../../image/chat/popu_{{isMy?'blue':'white'}}.png" />
         <view class="content-view">
-           
+              <!-- 服务咨询 就诊导航-->
+        <block wx:if="{{type==='RMWT'}}">
+            <view class="{{false?'isMyWordStyle1':'isOtherWordStyle1'}}" style="display: flex; flex-direction: column;">
+                <view>{{content.data.description}}</view>
+                <view bindtap="CustomQuestionMessageClickEvent" data-content="{{item}}" style="margin-top: 20rpx;color: #3894FF;" wx:for="{{content.data.qlist}}" wx:key="fwzxkey">
+                    {{item.title}}
+                </view>
+                
+            </view>
+        </block>
         <!-- 问诊卡 -->
-        <block wx:if="{{type==='CustomIllnessMessage'}}">
+        <block wx:elif="{{type==='CustomIllnessMessage'}}">
             <view bindtap="onCustomIllnessMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
                 <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
                     <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="../../image/chat/icon_wzk.png">
