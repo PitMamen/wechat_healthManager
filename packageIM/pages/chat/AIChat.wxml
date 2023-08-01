@@ -28,7 +28,7 @@
 <!-- 就诊人选择 -->
 <van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding:40rpx 30rpx;min-height: 20%;max-height: 80%;" bind:close="closePatientTap">
     <view class="poptop">
-        <view class="popadd" bindlongtap="onPatientAdd">添加</view>
+        <view class="popadd" bindtap="onPatientAdd">添加</view>
         <view class="poptitle">请选择就诊人</view>
         <van-icon color="#4D4D4D" name="cross" bindtap="closePatientTap" />
     </view>

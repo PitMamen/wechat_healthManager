@@ -142,7 +142,7 @@ Page({
                     item.itemContent = '已开通'
                 }
             } else {// 104 普通商品 105 随访服务 其他
-                item.iconUrl = '/image/icon_ptsp.png'
+                item.iconUrl = item.serviceItemImg ||'/image/icon_ptsp.png'
                 item.isCommonProjectType = true
 
                 if (res.data.status.value == 4) {

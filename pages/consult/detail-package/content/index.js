@@ -12,26 +12,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
-    this.setData({
-      contentId:options.contentId
-    })
-this.getSysKnowledgeById(options.contentId) 
+    this.getSzlfUseDetail(options.rightsId)
 
 
   },
-   //查询问题答案详情
-   async getSysKnowledgeById(id) {
-    const res = await WXAPI.getSysKnowledgeById(id)
-    if (res.data && res.data.content) {
-      
-        wx.setNavigationBarTitle({
-          title:  res.data.title,
-        })
-        this.setData({
-          content: res.data.content
-        })
-    } 
+  async getSzlfUseDetail(id) {
+    const res = await WXAPI.getSzlfUseDetail({ rightsId: id })
+
+    this.setData({
+        content:(res.data || {}).projectDesc
+    })
 
 },
   /**

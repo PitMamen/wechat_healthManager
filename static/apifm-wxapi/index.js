@@ -1181,6 +1181,11 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/consult/getAiAccount'
                         return request(url, 'get', data, true);
                     },
+                     //数字疗法详情
+                     getSzlfUseDetail: function getSzlfUseDetail(data) {
+                        var url = MEDICAL_SERVICE + '/datatreat/useDetail'
+                        return request(url, 'get', data, true);
+                    },
                 };
 
                 /***/

@@ -1,20 +1,54 @@
-// pages/consult/detail-package/digitaldetail.js
+const WXAPI = require('../../../static/apifm-wxapi/index')
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-
+        rightsId:0,
+        info:{}
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
+        this.setData({
+            rightsId:options.rightsId
+        })
+        this.getSzlfUseDetail(options.rightsId)
+    },
+    async getSzlfUseDetail(id) {
+        const res = await WXAPI.getSzlfUseDetail({ rightsId: id })
+
+        this.setData({
+            info:res.data || {}
+        })
 
     },
-
+    gosmspage(){
+        wx.navigateTo({
+            url: './content/index?rightsId=' + this.data.rightsId
+        })
+    },
+    goAPP(){
+        //系统类型1APP2小程序3网站
+        if(this.data.info.systemType == 1){
+            var encodeUrl = encodeURIComponent(this.data.info.systemAddress)
+            wx.navigateTo({
+                url: '../webpage/index?url=' + encodeUrl
+            })
+        }else if(this.data.info.systemType == 2){
+            wx.navigateToMiniProgram({
+                appId: this.data.info.systemAddress,
+            })
+        }else if(this.data.info.systemType == 3){
+            var encodeUrl = encodeURIComponent(this.data.info.systemAddress)
+            wx.navigateTo({
+                url: '../webpage/index?url=' + encodeUrl
+            })
+        }
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
