@@ -11,6 +11,8 @@ Page({
         info: {},//医生信息和套餐信息
         appointList: [],
         doctorAppointId:null,//号源
+        appointStartTime:null,//时间段
+        appointEndTime:null,//时间段
         consultType: '',//'101': 图文咨询,'102': 电话咨询,'103': 视频咨询
         phone:'',//咨询电话
         docId: null,//医生ID
@@ -29,6 +31,8 @@ Page({
         console.log("choosepatient-options", options)
         this.setData({
             doctorAppointId:options.doctorAppointId,
+            appointStartTime:options.appointStartTime,
+            appointEndTime:options.appointEndTime,
             docId: options.docId,
             consultType: options.consultType,
             commodityId: options.commodityId,
@@ -123,7 +127,7 @@ Page({
             return
         }
         wx.navigateTo({
-            url: `/packageDoc/pages/doctor/choose-case/index?consultType=${this.data.consultType}&phone=${this.data.phone}&doctorAppointId=${this.data.doctorAppointId}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}`
+            url: `/packageDoc/pages/doctor/choose-case/index?consultType=${this.data.consultType}&phone=${this.data.phone}&doctorAppointId=${this.data.doctorAppointId}&appointStartTime=${this.data.appointStartTime}&appointEndTime=${this.data.appointEndTime}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}`
         })
         
     },

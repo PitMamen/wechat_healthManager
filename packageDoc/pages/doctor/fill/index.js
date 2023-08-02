@@ -33,6 +33,8 @@ Page({
         columns: [],
         caseId: null,//病历ID 没有则代表新增
         doctorAppointId: null,//电话咨询排版ID
+        appointStartTime:null,//时间段
+        appointEndTime:null,//时间段
         consultType: '',//'101': 图文咨询,'102': 电话咨询,'103': 视频咨询
         phone:'',//咨询电话
         showData:false,
@@ -56,7 +58,9 @@ Page({
             selectUser: selectUser,
             caseId: options.caseId,
             phone: options.phone,
-            doctorAppointId: options.doctorAppointId
+            doctorAppointId: options.doctorAppointId,
+            appointStartTime:options.appointStartTime,
+            appointEndTime:options.appointEndTime,
         })
         wx.setNavigationBarTitle({
             title: options.caseId ? '查看病历' : '添加病历',
@@ -460,7 +464,13 @@ Page({
                 doctorUserId: this.data.docId,
                 userId: this.data.selectUser.userId,
                 doctorAppointId: this.data.doctorAppointId,
-              
+               
+            }
+          
+            if(this.data.appointStartTime && this.data.appointEndTime){
+                postdata2.visitBeginTime=this.data.appointStartTime
+                postdata2.visitEndTime=this.data.appointEndTime
+                
             }
             if (this.data.consultType + '' == '102') {
                 postdata2.phone=this.data.phone

@@ -241,9 +241,10 @@ Page({
             })
             return
         }
-    
+        var  appointStartTime=this.data.selectAppoint.timeRanges[this.data.radioIndex].startTime
+        var  appointEndTime=this.data.selectAppoint.timeRanges[this.data.radioIndex].endTime
         wx.navigateTo({
-            url: `/packageDoc/pages/doctor/choose-patient/index?consultType=${this.data.consultType}&doctorAppointId=${this.data.selectAppoint.id}&phone=${this.data.phone}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}`
+            url: `/packageDoc/pages/doctor/choose-patient/index?consultType=${this.data.consultType}&doctorAppointId=${this.data.selectAppoint.id}&appointStartTime=${appointStartTime}&appointEndTime=${appointEndTime}&phone=${this.data.phone}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}`
         })
      
     },

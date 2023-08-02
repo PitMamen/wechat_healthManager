@@ -8,6 +8,8 @@ Page({
         show: false,
         caseList: [],
         doctorAppointId:null,//号源
+        appointStartTime:null,//时间段
+        appointEndTime:null,//时间段
         consultType: '',//'101': 图文咨询,'102': 电话咨询,'103': 视频咨询
         docId: null,//医生ID
         commodityId: null,//套餐ID
@@ -21,6 +23,8 @@ Page({
     onLoad(options) {
         this.setData({
             doctorAppointId:options.doctorAppointId,
+            appointStartTime:options.appointStartTime,
+            appointEndTime:options.appointEndTime,
             docId: options.docId,
             commodityId: options.commodityId,
             collectionIds: options.collectionIds.split(','),
@@ -71,14 +75,14 @@ Page({
     addCase(e) {
         
         wx.navigateTo({
-            url: `/packageDoc/pages/doctor/fill/index?doctorAppointId=${this.data.doctorAppointId}&userId=${this.data.userId}&userName=${this.data.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}&phone=${this.data.phone}`
+            url: `/packageDoc/pages/doctor/fill/index?doctorAppointId=${this.data.doctorAppointId}&appointStartTime=${this.data.appointStartTime}&appointEndTime=${this.data.appointEndTime}&userId=${this.data.userId}&userName=${this.data.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}&phone=${this.data.phone}`
         })
     },
     //查看
     checkCase(e) {
         var item = e.currentTarget.dataset.item
         wx.navigateTo({
-            url: `/packageDoc/pages/doctor/fill/index?doctorAppointId=${this.data.doctorAppointId}&caseId=${item.id}&userId=${this.data.userId}&userName=${this.data.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}&phone=${this.data.phone}`
+            url: `/packageDoc/pages/doctor/fill/index?doctorAppointId=${this.data.doctorAppointId}&appointStartTime=${this.data.appointStartTime}&appointEndTime=${this.data.appointEndTime}&caseId=${item.id}&userId=${this.data.userId}&userName=${this.data.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}&phone=${this.data.phone}`
         })
     },
 
