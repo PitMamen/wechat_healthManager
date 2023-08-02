@@ -141,6 +141,13 @@ Page({
                 } else {
                     item.itemContent = '已开通'
                 }
+            } else if(item.projectType == 107) {//数字疗法
+                item.iconUrl = item.serviceItemImg ||'/image/icon_ptsp.png'
+                item.isCommonProjectType = true
+
+                    
+                    item.itemName = res.data.orderStatus.description
+                
             } else {// 104 普通商品 105 随访服务 其他
                 item.iconUrl = item.serviceItemImg ||'/image/icon_ptsp.png'
                 item.isCommonProjectType = true
