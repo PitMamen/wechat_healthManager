@@ -100,7 +100,7 @@ input {
     min-height: 30rpx;
     height: 30rpx;
     font-size: 30rpx;
-    width: 560rpx;
+    width: 530rpx;
     background-color: #ffffff;
     display: flex;
     overflow: inherit;
@@ -123,15 +123,16 @@ input {
 }
 
 .chat-input-send-button-style {
-    width: 90rpx;
-    padding: 20rpx 0;
-    margin: 25rpx 13rpx;
+    width: 120rpx;
+    padding: 16rpx 0rpx;
+    margin: 25rpx 16rpx;
     font-size: 26rpx;
     text-align: center;
     border-radius: 8rpx;
     background: #3894FF;
     color: white;
     opacity:1;
+    
 }
 
 .extra-btn-add {

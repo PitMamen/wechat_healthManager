@@ -10,10 +10,12 @@ Page({
         selectUser: {},
         info: {},//医生信息和套餐信息
         appointList: [],
+        consultType: '',//'101': 图文咨询,'102': 电话咨询,'103': 视频咨询
         docId: null,//医生ID
         commodityId: null,//套餐ID
         collectionIds: [],//所选规格ID
         checkedCase: {},//所选病历
+        phone:'',//咨询电话
         activeAppoint: null,//所选号源
         selectAppoint: null,//最终确认号源
         radioIndex:-1,//所选时间段index
@@ -27,6 +29,7 @@ Page({
         this.setData({
             docId: options.docId,
             commodityId: options.commodityId,
+            consultType: options.consultType,
             collectionIds: options.collectionIds.split(',')
         })
         this.setData({
@@ -35,10 +38,18 @@ Page({
             columns: wx.getStorageSync('userInfo').account.user,
             phone: wx.getStorageSync('defaultPatient').phone
         })
-        // this.getInfo()
+       
+        wx.setNavigationBarTitle({
+          title: this.data.consultType == '102'?'电话咨询':'视频咨询',
+        })
+
         this.docArrangeInfos()
     },
-
+    getPhoneValue(e) {
+        this.setData({
+            phone: e.detail.value
+        })
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
@@ -122,7 +133,7 @@ Page({
     async docArrangeInfos() {
         const res = await WXAPI.docArrangeInfos({
             doctorUserId: this.data.docId,
-            type:2
+            type:this.data.consultType == '102'?1:2
         })
         if (res.code == 0) {
             var appointList= res.data || []
@@ -205,7 +216,16 @@ Page({
     },
     async nextAction() {
        
-       
+        if(this.data.consultType == '102'){
+            if (!this.data.phone) {
+                wx.showToast({
+                    title: '请填写接听电话',
+                    icon: 'none'
+                })
+                return
+            }
+        }
+
     
         if (!this.data.selectAppoint) {
             wx.showToast({
@@ -223,7 +243,7 @@ Page({
         }
     
         wx.navigateTo({
-            url: `/packageDoc/pages/doctor/choose-patient/index?doctorAppointId=${this.data.selectAppoint.id}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}`
+            url: `/packageDoc/pages/doctor/choose-patient/index?consultType=${this.data.consultType}&doctorAppointId=${this.data.selectAppoint.id}&phone=${this.data.phone}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}`
         })
      
     },

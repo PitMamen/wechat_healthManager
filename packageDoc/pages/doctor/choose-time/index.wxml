@@ -9,6 +9,21 @@
     </view>
 
 </view>
+<view wx:if="{{consultType=='102'}}" class="vtitle">
+    <view>接听电话</view>
+
+</view>
+<view wx:if="{{consultType=='102'}}" class="card">
+    <view class="telinfo">
+        <view >此号码用于接受医生来电，请确保您填写的电话没有欠费，停机或空号。</view>
+        <view class="textarea">
+            <input type="number" maxlength="11" name="phone" value="{{phone}}" bindinput="getPhoneValue" placeholder="请输入咨询电话" style="color: #4D4D4D;font-size: 28rpx;width: 600rpx;" />
+        </view>
+  
+    </view>
+
+</view>
+
 <view class="vtitle">
     <view>选择咨询时间段</view>
     <view class="r" bindtap="docArrangeInfos">

@@ -9,9 +9,7 @@
             </textarea>
            
 
-            <view  class="press-style-opacity">
-                <view class="chat-input-send-button-style" catchtap="_chatInput$send$text$message02">发送</view>
-            </view>
+            <view class="chat-input-send-button-style" catchtap="_chatInput$send$text$message02">发送</view>
         
 
     </view>
