@@ -26,7 +26,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        console.log("telinfo-options", options)
+        console.log("choosepatient-options", options)
         this.setData({
             doctorAppointId:options.doctorAppointId,
             docId: options.docId,
@@ -55,7 +55,7 @@ Page({
         this.setData({
             loading: false,
             columns: wx.getStorageSync('userInfo').account.user,
-            phone: wx.getStorageSync('defaultPatient').phone
+          
         })
     },
   
@@ -87,7 +87,6 @@ Page({
             this.setData({
                 show: false,
                 selectUser: this.data.columns[index],
-                phone: this.data.columns[index].phone,
                 checkedCase: null
             })
         }
@@ -109,11 +108,7 @@ Page({
             showTime: false
         })
     },
-    getPhoneValue(e) {
-        this.setData({
-            phone: e.detail.value
-        })
-    },
+    
 
  
     

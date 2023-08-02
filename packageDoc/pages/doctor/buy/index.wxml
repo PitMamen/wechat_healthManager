@@ -33,7 +33,7 @@
         <view class="row">
             <view class="agree" bind:tap="onSchemeTap">
                 <van-checkbox class="box" value="{{ checked }}"></van-checkbox>
-                <text>已阅读并同意《健康管家服务授权协议》依国家政策规定，请仔细阅读并同意《健康管家服务授权协议》</text>
+                <text>已阅读并同意《患者服务授权协议》</text>
             </view>
         </view>
         <view class="row">
