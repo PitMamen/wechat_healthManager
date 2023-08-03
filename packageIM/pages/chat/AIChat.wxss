@@ -1,7 +1,7 @@
 @import "../../modules/chat-page/ai-word.wxss";
 @import "../../modules/chat-page/ai-chat-page-status.wxss";
 page {
-    background-color: #EBEBEB;
+    background-color: #F5F5F5;
 }
 .topview{
     height: 54px;

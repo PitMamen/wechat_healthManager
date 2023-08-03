@@ -69,11 +69,11 @@ input {
     flex-direction: row;
     background-color: #F5F5F5;
     width: 100%;
-    align-items: center;
+    align-items:flex-end;
     height: auto;
     min-height: 100rpx;
     position: relative;
-   
+    padding-bottom: 20rpx;
 }
 
 .input-flex-column {
@@ -97,8 +97,8 @@ input {
     margin-top: 25rpx;
     margin-bottom: 25rpx;
     padding: 19rpx 10rpx;
-    min-height: 30rpx;
-    height: 30rpx;
+    min-height: 40rpx;
+    height: 40rpx;
     font-size: 30rpx;
     width: 530rpx;
     background-color: #ffffff;
@@ -124,12 +124,13 @@ input {
 
 .chat-input-send-button-style {
     width: 120rpx;
-    padding: 16rpx 0rpx;
+    padding: 19rpx 0rpx;
     margin: 25rpx 16rpx;
+    height: 40rpx;
     font-size: 26rpx;
     text-align: center;
     border-radius: 8rpx;
-    background: #3894FF;
+    background: #0B75E3;
     color: white;
     opacity:1;
     

@@ -2,7 +2,8 @@
     "usingComponents": {
       "chat-input-ai": "../../components/chat-input/chat-input-ai"
     },
-    "navigationBarTitleText": "AI问诊"
+    "navigationBarTitleText": "AI问诊",
+    "navigationBarBackgroundColor": "#F5F5F5"
    
   
   }

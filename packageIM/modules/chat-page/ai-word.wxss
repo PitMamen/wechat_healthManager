@@ -18,28 +18,28 @@
 .isMyWordStyle1 {
     background-color: #00A1FF;
     color: white;
-    font-size: 28rpx;
+    font-size: 30rpx;
     margin-right: -1rpx;
     margin-left: 14rpx;
     word-wrap: break-word;
     /* box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35); */
     border-radius: 8rpx ;
     padding: 30rpx;
-    max-width:440rpx;
+    max-width:600rpx;
 
 }
 
 .isOtherWordStyle1 {
     background-color: white;
     color: #4D4D4D;
-    font-size: 28rpx;
+    font-size: 30rpx;
     margin-right: 14rpx;
     margin-left: -1rpx;
     word-wrap: break-word;
     /* box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35); */
     border-radius: 8rpx ;
     padding: 30rpx;
-    max-width:440rpx;
+    max-width:600rpx;
    
 }
 
