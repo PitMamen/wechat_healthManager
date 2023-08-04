@@ -1,5 +1,5 @@
 <template name="chat-custom">
-    <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{index===length-1?150:20}}rpx;margin-top: 20rpx;">
+    <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{index===length-1?120:20}}rpx;margin-top: 20rpx;">
         <image wx:if="{{type==='RMWT'}}"  class="{{isMy?'my-chat-list-arrow-style':'other-chat-list-arrow-style'}}"
             src="./../../image/chat/popu_{{isMy?'blue':'white'}}.png" />
         <view class="content-view">

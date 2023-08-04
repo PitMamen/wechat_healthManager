@@ -1,7 +1,7 @@
 <import src="./chat-send-status.wxml" />
 <import src="./voice.wxml" />
 <template name="chat-word">
-    <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{index===length-1?150:20}}rpx;margin-top: 20rpx;flex-shrink:0;">
+    <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{!isMy&&index===length-1?120:20}}rpx;margin-top: 20rpx;flex-shrink:0;">
         <image wx:if="{{type==='TIMTextElem'||type==='TIMSoundElem'}}"  class="{{isMy?'my-chat-list-arrow-style':'other-chat-list-arrow-style'}}"
             src="./../../image/chat/popu_{{isMy?'blue':'white'}}.png" />
         <view class="content-view">

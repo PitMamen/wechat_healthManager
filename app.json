@@ -150,6 +150,9 @@
         "request": 10000,
         "downloadFile": 10000
     },
+    "requiredPrivateInfos": [
+        "chooseAddress"
+    ],
     "usingComponents": {
         "mp-html": "/static/mp-html/index",
         "van-notice-bar": "@vant/weapp/notice-bar/index",
