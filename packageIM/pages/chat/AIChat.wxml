@@ -1,33 +1,47 @@
-<!--pages/list/list.wxml-->
-<import src="../../modules/chat-page/ai-chat-item.wxml"/>
-<import src="../../modules/chat-page/ai-chat-page-status.wxml"/>
+<import src="../../modules/chat-page/ai-chat-item.wxml" />
+<import src="../../modules/chat-page/chat-page-status.wxml" />
 
-<template  is="chat-page-status" data="{{chatStatue,chatStatusContent}}"/>
+<view class="topview" style="background-size: cover;background-image: url('https://hmg.mclouds.org.cn/content-api/file/F20230728170435776LGHUTWFLCZDBCV-5.png'); ">
+    <van-icon color="#4D4D4D" name="arrow" bindtap="bindPatientTap" />
+    <view bindtap="bindPatientTap"> {{defaultPatient.userName || '选择就诊人'}} </view>
 
-<scroll-view
-        style="height:{{pageHeight-25}}px;width: 100%;display: flex;flex-direction: column;margin-top: 54rpx;"
-        scroll-y="true"
-        scroll-top="{{scrollTopVal}}"
-        bindtap="resetInputStatus">
+</view>
+
+<scroll-view wx:if="{{chatItems.length>0}}" style="height:{{pageHeight-79}}px;width: 100%;display: flex;flex-direction: column;" scroll-y="true" enable-flex="true" scroll-top="{{scrollTopVal}}" refresher-enabled="{{true}}" refresher-default-style="white" refresher-background="#8fcbf7" refresher-triggered="{{triggered}}" bindrefresherrefresh="onRefresh" bindtap="resetInputStatus">
     <block wx:for="{{chatItems}}" wx:key="id2">
-        <template is="chat-item"
-                  data="{{length:chatItems.length,index:index,item:item,avatar:item.avatar,patientList:patientList}}"/>
+        <template is="chat-item" data="{{length:chatItems.length,index:index,item:item,avatar:item.flow=== 'out'?myAvatar:item.avatar || toAvatar,isDoctor:item.from==tradeRemark.docId}}" />
     </block>
 
 </scroll-view>
-<chat-input
-        wx:if="{{showChatInput}}"
-        id="chatInput"
-        min-voice-time="{{1}}"
-        max-voice-time="{{60}}"
-        start-time-down="{{54}}"
-        tabBarHeight="{{0}}"
-        format="mp3"
-        inputType="{{inputType}}"
-        top-array="{{topArr}}"
-        bind:extraClickEvent="onExtraClickEvent"
-        bind:extraItemClickEvent="onExtraItemClickEvent"
-        bind:heathItemClickEvent="heathItemClickEvent"
-        bind:voiceRecordEvent="onVoiceRecordEvent"
-        bind:sendMessageEvent="onSendMessageEvent"></chat-input>
-<!--<template is="chat-input" data="{{inputObj,textMessage,showVoicePart:true}}"/>-->
+<van-empty wx:else description="暂无最新消息" />
+<chat-input-ai wx:if="{{showChatInput}}" id="chatInput" min-voice-time="{{1}}" max-voice-time="{{60}}" start-time-down="{{54}}" tabBarHeight="{{0}}" format="mp3" bottomtext='{{bottomChatStatus}}' extra-array="{{extraArr}}" bind:extraClickEvent="onExtraClickEvent" bind:extraItemClickEvent="onExtraItemClickEvent" bind:heathItemClickEvent="heathItemClickEvent" bind:voiceRecordEvent="onVoiceRecordEvent" bind:sendMessageEvent="onSendMessageEvent"></chat-input-ai>
+
+
+
+
+
+<view wx:if="{{showVideo}}" class="container-box">
+    <video wx:if="{{showVideo}}" class="video-message" id="myVideo" poster="{{videoObj.thumbUrl }}" src="{{videoObj.videoUrl}}" object-fit="contain" autoplay direction="0" bindfullscreenchange="bindfullscreenchange"></video>
+</view>
+
+
+<!-- 就诊人选择 -->
+<van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding:40rpx 30rpx;min-height: 20%;max-height: 80%;" bind:close="closePatientTap">
+    <view class="poptop">
+        <view class="popadd" bindtap="onPatientAdd">添加</view>
+        <view class="poptitle">请选择就诊人</view>
+        <van-icon color="#4D4D4D" name="cross" bindtap="closePatientTap" />
+    </view>
+    <view class="popwrap">
+        <van-radio-group value="{{ radioIndex }}" >
+            <view class="popitem" wx:for="{{patientList}}" wx:key="111" bindtap="onChooseRadioItem" data-index="{{index}}">
+                <van-radio name="{{index}}"></van-radio>
+                <view style="margin-left: 20rpx;color: #4D4D4D;">{{item.userName}}</view>
+                <view style="margin-left: 40rpx;">{{item.userSex}}</view>
+                <view style="margin-left: 20rpx;">|</view>
+                <view style="margin-left: 20rpx;">{{item.userAge}}岁</view>
+            </view>
+        </van-radio-group>
+        <van-button type="info" block bindtap="onPatientConfirm">确定</van-button>
+    </view>
+</van-popup>

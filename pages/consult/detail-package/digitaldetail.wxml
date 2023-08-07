@@ -1,0 +1,69 @@
+<view class="top">
+
+    <view class="topname" bindtap="gosmspage">使用说明书</view>
+    <van-icon color="#409EFF" size="34rpx" name="description" bindtap="gosmspage"/>
+</view>
+<view class="card">
+    <view class="card-info-view">
+        <view style="font-size: 30rpx;color: #1A1A1A;font-weight: bold;">{{info.serviceItemName}}</view>
+        <view style="margin-top: 27rpx;margin-bottom: 39rpx;height: 0.5px;background: #CCCCCC;"></view>
+
+        <view class="info-item">
+            <view class="info-item-title">服务厂商</view>
+            <view>{{info.factoryName}}</view>
+        </view>
+        <view class="info-item">
+            <view class="info-item-title">服务效期</view>
+            <view>{{info.endDate}}结束</view>
+        </view>
+        <view wx:if="{{info.dataTreatCdk}}" class="info-item">
+            <view class="info-item-title">激活码</view>
+            <view>{{info.dataTreatCdk}}</view>
+        </view>
+        <view wx:if="{{info.dataTreatAccount}}" class="info-item">
+            <view class="info-item-title">登录账户</view>
+            <view>{{info.dataTreatAccount}}</view>
+        </view>
+        <view wx:if="{{info.dataTreatPwd}}" class="info-item">
+            <view class="info-item-title">登录密码</view>
+            <view>{{info.dataTreatPwd}}</view>
+        </view>
+    </view>
+
+</view>
+<view style="height: 20rpx; background-color: #F5F5F5;"></view>
+<view class="card">
+    <view class="card-info-view">
+        <view style="font-size: 30rpx;color: #1A1A1A;font-weight: bold;">练习情况</view>
+        <view style="margin-top: 27rpx;margin-bottom: 39rpx;height: 0.5px;background: #CCCCCC;"></view>
+
+        <view class="infoview1">
+            <view class="info1item">
+                <view style="margin-bottom: 20rpx;">总天数</view>
+                <view><text style="color: #409EFF;">{{info.detail.total}}</text>天</view>
+            </view>
+            <view class="info1item">
+                <view style="margin-bottom: 20rpx;">练习天数</view>
+                <view><text style="color: #3FAB0F;">{{info.detail.finished}}</text>天</view>
+            </view>
+            <view class="info1item">
+                <view style="margin-bottom: 20rpx;">缺勤天数</view>
+                <view><text style="color: #F20D0D;">{{info.detail.lost}}</text>天</view>
+            </view>
+
+        </view>
+
+        <view class="infoview2" wx:for="{{info.detail.tranRecords}}" wx:key="11">
+            <view style="margin-top: 27rpx;margin-bottom: 39rpx;height: 0.5px;background: #CCCCCC;"></view>
+            <view style="color: #1a1a1a;margin-bottom: 30rpx;">{{item.courseName}}第{{item.courseNo}}节</view>
+            <view class="info2item">
+                <view>课程时间：{{item.arrangeDate}}</view>
+                <view>签到时间：{{item.attendDate}}</view>
+            </view>
+        </view>
+
+
+        <van-button type="info" block bindtap="goAPP">{{systemType == 2?'点击打开小程序':'点击进入软件'}}</van-button>
+    </view>
+
+</view>

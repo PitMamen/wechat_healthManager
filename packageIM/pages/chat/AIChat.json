@@ -1,10 +1,10 @@
 {
     "usingComponents": {
-      "chat-input": "../../components/chat-input/chat-input"
-     
-     
+      "chat-input-ai": "../../components/chat-input/chat-input-ai"
     },
-    "navigationBarTitleText": "",
-    "enablePullDownRefresh": true
+    "navigationBarTitleText": "AI问诊",
+    "navigationBarBackgroundColor": "#F5F5F5"
+   
+  
   }
   

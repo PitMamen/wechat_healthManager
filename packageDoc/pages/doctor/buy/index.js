@@ -64,13 +64,13 @@ Page({
     },
     onSchemeTap() {
         wx.navigateTo({
-            url: '/pages/home/consent/index?title=健康管家服务授权协议&type=1&showbtn=true'
+            url: '/pages/home/consent/index?title=患者服务授权协议&type=1&showbtn=true'
         })
     },
     onBuyClick() {
         if (!this.data.checked) {
             wx.showToast({
-                title: '请先阅读并同意《健康管家服务授权协议》',
+                title: '请先阅读并同意《患者服务授权协议》',
                 icon: 'none'
             })
             return

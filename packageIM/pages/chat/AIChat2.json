@@ -1,0 +1,10 @@
+{
+    "usingComponents": {
+      "chat-input": "../../components/chat-input/chat-input"
+     
+     
+    },
+    "navigationBarTitleText": "",
+    "enablePullDownRefresh": true
+  }
+  

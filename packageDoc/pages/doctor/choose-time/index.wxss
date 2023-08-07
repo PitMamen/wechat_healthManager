@@ -85,7 +85,21 @@ page {
     border-radius: 8rpx;
     margin-bottom: 30rpx;
 }
-
+.telinfo{
+    padding-top: 30rpx;
+    padding-bottom: 30rpx;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+    font-size: 28rpx;
+    color: #999999;
+}
+.textarea {
+    margin-top: 30rpx;
+    background: white;
+    border: 1rpx solid #CCCCCC;
+    border-radius: 2rpx;
+    padding: 20rpx;
+}
 .card-item {
     display: flex;
     flex-direction: row;

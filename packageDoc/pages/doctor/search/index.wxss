@@ -126,8 +126,9 @@
     align-items: center;
 }
 .wrap .bottom .list .item .right .comment-sum .sum-item {
-    width: 33%;
+    
     margin-bottom: 20rpx;
+    margin-right: 6rpx;
     color: #1A1A1A;
     display: flex;
     flex-direction: row;

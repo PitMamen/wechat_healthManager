@@ -890,7 +890,6 @@ module.exports =
                     apply: function apply(data) {
                         return request(HEALTH_SERVICE + '/health/apply/apply', 'post', data, true);
                     },
-
                     //我的咨询
                     qryMyConsulation: function qryMyConsulation(data) {
                         return request(HEALTH_SERVICE + '/appoint/qryMyConsulation', 'post', data, true);
@@ -906,6 +905,11 @@ module.exports =
                     //查询用户待办随访任务
                     qryMyFollowAll: function qryMyFollowAll(data) {
                         var url = FOLLOW_SERVICE + '/health/qryMyFollowAll'
+                        return request(url, 'post', data, true);
+                    },
+                    //终止当前用户方案
+                    stopFollowUserPlan: function stopFollowUserPlan(data) {
+                        var url = FOLLOW_SERVICE + '/follow/userplan/stopFollowUserPlan'
                         return request(url, 'post', data, true);
                     },
                     //微信扫描注册后添加随访名单
@@ -1166,6 +1170,21 @@ module.exports =
                     registerRoom: function registerRoom(data) {
                         var url = MEDICAL_SERVICE + '/rightsUse/registerRoom'
                         return request2(url, 'POST', data, true);
+                    },
+                      //小程序端-智能问诊
+                      medChat: function medChat(data) {
+                        var url = MEDICAL_SERVICE + '/consult/medChat'
+                        return request2(url, 'get', data, true);
+                    },
+                    //小程序端-获取机器人ID
+                    getAiAccount: function getAiAccount(data) {
+                        var url = MEDICAL_SERVICE + '/consult/getAiAccount'
+                        return request(url, 'get', data, true);
+                    },
+                     //数字疗法详情
+                     getSzlfUseDetail: function getSzlfUseDetail(data) {
+                        var url = MEDICAL_SERVICE + '/datatreat/useDetail'
+                        return request(url, 'get', data, true);
                     },
                 };
 

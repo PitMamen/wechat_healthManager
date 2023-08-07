@@ -1,211 +1,115 @@
-<template name="ai-chat-custom">
-    <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{index===length-1?150:20}}rpx;margin-top: 20rpx;">
-        <image style="width: 70rpx;height: 70rpx;border-radius: 50%;margin-left: 15rpx;margin-right: 15rpx;" src="{{headUrl}}" />
-        <image wx:if="{{type==='TIMTextElem'||type==='TIMSoundElem'}}" class="chat-list-arrow-style" src="./../../image/chat/popu_{{isMy?'blue':'white'}}.png" />
-
-        <!-- 服务咨询 就诊导航-->
-        <block wx:if="{{type==='FWZX'||type==='JZDH'}}">
-            <view class="{{false?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 20rpx;padding: 30rpx;font-size: 30rpx;width: 65%;display: flex; flex-direction: column;">
+<template name="chat-custom">
+    <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{index===length-1?120:20}}rpx;margin-top: 20rpx;">
+        <image wx:if="{{type==='RMWT'}}"  class="{{isMy?'my-chat-list-arrow-style':'other-chat-list-arrow-style'}}"
+            src="./../../image/chat/popu_{{isMy?'blue':'white'}}.png" />
+        <view class="content-view">
+              <!-- 服务咨询 就诊导航-->
+        <block wx:if="{{type==='RMWT'}}">
+            <view class="{{false?'isMyWordStyle1':'isOtherWordStyle1'}}" style="display: flex; flex-direction: column;">
                 <view>{{content.data.description}}</view>
-                <view bindtap="CustomQuestionMessageClickEvent" data-content="{{item}}" style="margin-top: 20rpx;font-size:  30rpx ;color: #3894FF;" wx:for="{{content.data.qlist}}" wx:key="fwzxkey">
-                    {{index+1}}. {{item.title}}
+                <view bindtap="CustomQuestionMessageClickEvent" data-content="{{item}}" style="margin-top: 20rpx;color: #3894FF;" wx:for="{{content.data.qlist}}" wx:key="fwzxkey">
+                    {{item.title}}
                 </view>
-                <van-cell wx:if="{{content.isHotList}}" is-link border="{{false}}" bindtap="goKnowledgePage" value="查看所有问题" />
+                
             </view>
         </block>
-
-        <!-- 智能问诊-->
-        <block wx:elif="{{type==='AIDOCTOR'}}">
-            <view style="display: flex;flex-direction: column;width: 85%;">
-                <view class="{{false?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 20rpx;padding: 30rpx;font-size: 30rpx;width: 85%;display: flex; flex-direction: column;">
-                    <block wx:if="{{content.data.isEnd}}">
-                        <view style="font-weight: bold;">智能问诊结果：</view>
-                        <view style="margin-top: 20rpx;" wx:for="{{content.data.patientBaseInfo}}" wx:key="slt1" wx:for-item="infoItem1">{{infoItem1.propertyName}}:{{infoItem1.propertyValue}}</view>
-
-                        <view wx:for="{{content.data.predictInfo}}" wx:for-item="infoItem2" wx:key="slt1">
-                            <view style="margin-top: 20rpx;margin-bottom: 20rpx;">{{infoItem2.propertyName}}:</view>
-                            <view style="border-radius: 20rpx;padding: 16rpx;width: 95%;display: flex; flex-direction: column; background-color: #E4E8F1; font-size: 32rpx;color: #1A1A1A;">{{infoItem2.propertyValue}}</view>
-                        </view>
-                      
-                    </block>
-                    <view wx:if="{{content.data.packageList.length > 0 }}">
-
-                        <van-card title-class="cell-title" custom-class="kanjia-vcard" wx:for="{{packageList}}" wx:key="id22" price="{{item.price}}" bindtap="toDetailsTap" data-classid="{{item.classId}}" data-belong="{{item.belong}}" desc="{{item.classDescribe}}" tag="{{item.topFlag==1?'推荐':''}}" num="销量{{item.saleNum||0}}" thumb="{{item.previewList}}">
-                            <view class="cell-title" slot="title">
-                                <van-tag round type="primary">{{item.deptName}}</van-tag>
-                                {{item.className}}
-                            </view>
-
-
-                        </van-card>
-
-                    </view>
-                    <block wx:else>
-                        <block wx:if="{{content.data.question.optionType === 'ChooseSymptom'}}">
-                            <view>{{content.data.text}}</view>
-                        </block>
-
-                        <block wx:if="{{content.data.question.optionType === 'ChoosePatient'}}">
-                            <view>请选择就诊人：</view>
-                        </block>
-
-                        <block wx:if="{{content.data.question.optionType === 'INT'}}">
-                            <view>{{content.data.question.title}}</view>
-                        </block>
-                        <block wx:if="{{content.data.question.optionType === 'TEXT'}}">
-                            <view>{{content.data.question.title}}</view>
-                        </block>
-                        <!-- 多问题 -->
-                        <block wx:if="{{content.data.question.optionType === 'MULTIQUESTION_SINGLE' || content.data.question.optionType === 'MULTIQUESTION_MULTI'}}">
-                            <view>{{content.data.question.title}}</view>
-                            <view wx:for="{{content.data.question.options}}" wx:for-item="optionItem" wx:for-index="optionIndex" wx:key="q1">
-                                <view>{{optionIndex+1}}.{{optionItem.title}}</view>
-                                <view style="margin-bottom: 20rpx;margin-top: 20rpx;">
-                                    <view wx:for="{{optionItem.optionValue}}" wx:for-item="valueItem" wx:key="q2" style=" display: inline-block; margin-bottom: 20rpx;margin-right: 20rpx;">
-                                        <van-tag round color="{{ToolModule.multOptionCheck(content.data.answer,optionItem,valueItem)?'#2E8BEB':'#efefef'}}" text-color="{{ToolModule.multOptionCheck(content.data.answer,optionItem,valueItem)?'#FFF':'#444'}}" size="large" bindtap="bindSelectQestionTap" data-question="{{content.data.question}}" data-length="{{content.data.question.options.length}}" data-option="{{optionItem}}" data-optionvalue="{{valueItem}}">{{valueItem}}</van-tag>
-
-                                    </view>
-
-
-                                </view>
-                            </view>
-                            <view wx:if="{{!(content.data.question.options.length===1 && content.data.question.options[0].optionType === 'SINGLEQUESTION_SINGLE') && !content.data.isAnswered}}" style="margin-left: auto;">
-                                <van-button round type="primary" color="#2E8BEB" size="small" disabled="{{ToolModule.isConfirmButtonDisabled(content.data.answer,content.data.question)}}" bind:click="AIConfirm" data-answer="{{content.data.answer}}" data-index="{{index}}">确定</van-button>
-                            </view>
-                        </block>
-                        <!-- 单问题 -->
-                        <block wx:if="{{content.data.question.optionType === 'SINGLEQUESTION_SINGLE' || content.data.question.optionType === 'SINGLEQUESTION_MULTI'}}">
-                            <view>{{content.data.question.title}}</view>
-
-
-                            <view style="margin-bottom: 20rpx;margin-top: 20rpx;">
-                                <view wx:for="{{content.data.question.optionValue}}" wx:for-item="valueItem" wx:key="q2" style=" display: inline-block; margin-bottom: 20rpx;margin-right: 20rpx;">
-                                    <van-tag round color="{{ToolModule.singleOptionCheck(content.data.answer,valueItem)?'#2E8BEB':'#efefef'}}" text-color="{{ToolModule.singleOptionCheck(content.data.answer,valueItem)?'#FFF':'#444'}}" size="large" bindtap="bindSelectQestionTap" data-question="{{content.data.question}}" data-option="{{optionItem}}" data-optionvalue="{{valueItem}}">{{valueItem}}</van-tag>
-
-                                </view>
-
-
-                            </view>
-
-                            <view wx:if="{{content.data.question.optionType === 'SINGLEQUESTION_MULTI'  && !content.data.isAnswered}}" style="margin-left: auto;">
-                                <van-button round type="primary" color="#2E8BEB" size="small" disabled="{{ToolModule.isConfirmButtonDisabled(content.data.answer,content.data.question)}}" bind:click="AIConfirm" data-answer="{{content.data.answer}}" data-index="{{index}}">确定</van-button>
-                            </view>
-                        </block>
-                    </block>
+        <!-- 问诊卡 -->
+        <block wx:elif="{{type==='CustomIllnessMessage'}}">
+            <view bindtap="onCustomIllnessMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
+                    <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="../../image/chat/icon_wzk.png">
+                    </image>
+                    <view>问诊卡</view>
                 </view>
-                <block wx:if="{{content.data.question.optionType === 'ChooseSymptom'}}">
-                    <view style="color:#959595;font-size: 30rpx;margin-top: 20rpx;">您也可点快速回答：</view>
-                    <view style="  display:flex;flex-wrap:wrap;font-size: 30rpx;">
-                        <view bindtap="CustomSymptomClickEvent" data-content="{{item}}" wx:for="{{content.data.symptomList}}" wx:key="fwzxkey" style="margin-right: 21rpx;margin-top: 36rpx; min-width:100rpx; padding-left: 20rpx; padding-right: 20rpx; height: 68rpx; background: #FFFFFF; border-radius: 34rpx; text-align: center;line-height: 68rpx;color: #2F8DF1;">
-                            {{item}}
-                        </view>
-
-                    </view>
-
-                </block>
-                <block wx:if="{{content.data.question.optionType === 'ChoosePatient'}}">
-                    <view style="  display:flex;flex-wrap:wrap;font-size: 30rpx;">
-                        <view bindtap="CustomPatiemtClickEvent" data-content="{{item}}" wx:for="{{patientList}}" wx:key="fwzxkey" style="margin-right: 21rpx;margin-top: 36rpx; width: 163rpx;height: 68rpx; background: #FFFFFF; border-radius: 34rpx; text-align: center;line-height: 68rpx;color: #2F8DF1;">
-                            {{item.userName}}
-                        </view>
-                        <view wx:if="{{patientList.length<4}}" bindtap="CustomPatiemtAddClickEvent" wx:key="fwzxkey" style="margin-right: 21rpx;margin-top: 36rpx; width: 240rpx;height: 68rpx; background: #FFFFFF; border-radius: 34rpx; text-align: center;line-height: 68rpx;color: #2F8DF1;">
-                            <van-icon name="plus" />新增就诊人
-                        </view>
-
-                    </view>
-
-                </block>
-                <block wx:if="{{content.data.isEnd}}">
-                       
-                       <view style="height: 50rpx;"></view>
-                   </block>
-            </view>
-        </block>
-        <!-- 疾病知识-->
-        <block wx:elif="{{type==='DISEASE_KNOWLEDGE'}}">
-            <view class="{{false?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 20rpx;padding: 0 30rpx 30rpx 30rpx;font-size: 30rpx;width: 72%;display: flex; flex-direction: column;" bindtap="goDiseasePage" data-userid="{{content.data.userId}}">
-                <view style="width: 130rpx;height: 50rpx;background: #4B8BEA;border-radius: 0px 0px 8rpx 8rpx;color: #FFFFFF;text-align: center;line-height: 50rpx;font-size: 26rpx;">疾病知识</view>
-                <view style="font-size: 36rpx;font-weight:bold;color: #1A1A1A;margin-bottom: 30rpx;margin-top: 42rpx;">{{content.data.diseaseKnowledge.title}} ></view>
-                <view style="font-size: 28rpx;color: #999999;margin-bottom: 41rpx;">建议科室：{{content.data.department}}</view>
-                <!-- <view style="display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;">{{content.data.diseaseKnowledge.disAbstract}} </view> -->
-                <mp-html content="{{content.data.diseaseKnowledge.disAbstract}}" />
-                <view style="height: 1rpx;width: 100%;background-color: #CCCCCC;margin-bottom: 20rpx;margin-top: 40rpx;"></view>
-                <view style="display: flex;flex-direction: row;justify-content: space-between;">
-                    <view style="color: #4B8BEA;">详情</view>
-                    <van-icon name="arrow" />
-
+                <view style="font-size:  28rpx ;margin: 30rpx 20rpx 0 20rpx;display: flex;flex-direction: row;align-items: center;">
+                    <view style="color: #999999;">患者信息：</view>
+                    <view style="color: #1A1A1A;">{{content.data.userInfo}}</view>
+                </view>
+                <view style="font-size:  28rpx ;margin: 30rpx 20rpx;display: flex;flex-direction: row;align-items: center;">
+                    <view style="color: #999999;">病情描述：</view>
+                    <view style="color: #1A1A1A;flex: 1;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{content.data.content}}</view>
+                </view>
+                <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
+                <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                    <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
                 </view>
             </view>
         </block>
-       
+      <!-- 处方笺 -->
+      <block wx:elif="{{type==='CustomChuFangMessage'}}">
+                <view bindtap="onCustomChuFangMessageClick" data-preno="{{content.data.preNo}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                    <view style=" height: 80rpx;font-size: 30rpx;color: #F02727;display: flex;flex-direction: row;align-items: center;">
+                        <view style="margin-left: 20rpx;">处方笺</view>
+                    </view>
+                    <view style="font-size:  28rpx ;margin: 0 20rpx 0 20rpx;display: flex;flex-direction: row;align-items: center;">
+                        <view style="color: #999999;">诊断：{{content.data.cfInfo.medicalOrdersCase.diagnosis || '无'}}</view>
+                    </view>
+                    <view style="font-size:  30rpx ;margin: 30rpx 20rpx 0 20rpx;display: flex;flex-direction: row;align-items: flex-start;">
+                        <view style="color: #F02727;">Rp</view>
+                        <view style="display: flex;flex-direction: column;align-items: flex-start;margin-left: 20rpx;">
+                            <block wx:for="{{content.data.cfInfo.medicalOrdersDetails}}" wx:key="medOrderItems">
+                                <view style="color: #1A1A1A;margin-bottom: 17rpx;">{{item.drugName}}<text style="color: #999999;">({{item.drugSpec}})</text></view>
+                                <view style="font-size: 26rpx;color: #999999;margin-bottom: 30rpx;">{{item.useFrequencyName}}；{{item.useNum}}{{item.useUnit}}/1次；{{item.drugUsemethodName}}</view>
+                            </block>
+
+
+
+                        </view>
+
+                    </view>
+                    <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
+                    <view style="height: 108rpx;margin-right:20rpx ; display: flex;flex-direction: row-reverse;align-items: center;font-size: 30rpx;color: #999999;">
+                        <view>查看处方详情</view>
+                    </view>
+                </view>
+            </block>
+        <!-- 文章卡 -->
+        <block wx:elif="{{type==='CustomArticleMessage'}}">
+            <view bindtap="onCustomArticleMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
+                    <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="../../image/chat/icon_jkxj.png">
+                    </image>
+                    <view>文章卡</view>
+                </view>
+                <view style="font-size:  28rpx ;margin: 30rpx 20rpx;display: flex;flex-direction: row;align-items: center;">
+                    <view style="color: #999999;">文章名称：</view>
+                    <view style="color: #1A1A1A;flex: 1;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{content.data.content}}</view>
+                </view>
+                <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
+                <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                    <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
+                </view>
+            </view>
+        </block>
+        <!-- 问卷卡 -->
+        <block wx:elif="{{type==='CustomWenJuanMessage'}}">
+            <view bindtap="onCustomWenJuanMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
+                    <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="../../image/chat/icon_wjk.png">
+                    </image>
+                    <view>问卷卡</view>
+                    <image wx:if="{{content.data.done}}" style="width: 61rpx;margin-left: auto;margin-right: 20rpx;" mode="aspectFit" src="../../image/chat/read.png">
+                    </image>
+                </view>
+                <view style="font-size:  28rpx ;margin: 30rpx 20rpx;display: flex;flex-direction: row;align-items: center;">
+                    <view style="color: #999999;">问卷名称：</view>
+                    <view style="color: #1A1A1A;flex: 1;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{content.data.name}}</view>
+                </view>
+                <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
+                <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                    <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
+                </view>
+            </view>
+        </block>
+
+
         <!-- 其他消息 -->
         <block wx:else>
-            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;max-width: 60%;">
-                [自定义消息]</view>
+            <view class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" style="border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;width: 75%;">
+                {{content.description||'[自定义消息]'}}</view>
         </block>
-
 
 
     </view>
+    </view>
 </template>
-<wxs module="ToolModule">
-    //单问题高亮选项筛选
-    function singleOptionCheck(anwserList, option, optionValue) {
-        var b = false
-        if (anwserList && anwserList.length > 0) {
-            anwserList[0].optionValue.forEach(function (item) {
-
-                if (item === optionValue) {
-
-                    b = true
-                }
-            });
-        }
-
-
-        return b
-    }
-    //多问题高亮选项筛选
-    function multOptionCheck(anwserList, option, optionValue) {
-
-        var b = false
-        if (anwserList && anwserList.length > 0) {
-            anwserList[0].options.forEach(function (item) {
-                if (item.optionType === 'SINGLEQUESTION_SINGLE') {
-                    if (item.title === option.title && item.optionValue[0] === optionValue) {
-
-                        b = true
-                    }
-                } else if (item.optionType === 'SINGLEQUESTION_MULTI') {
-                    if (item.title === option.title) {
-                        item.optionValue.forEach(function (value) {
-                            if (value === optionValue) {
-                                b = true
-                            }
-                        })
-                    }
-                }
-
-            });
-        }
-
-
-        return b
-    }
-    //多问题确定按钮是否禁用
-    function isConfirmButtonDisabled(anwserList, question) {
-
-        if (question.optionType === 'MULTIQUESTION_MULTI') {
-            return !anwserList || !anwserList[0] || anwserList[0].options.length !== question.options.length
-        } else {
-            return !anwserList || anwserList.length === 0 ? true : false
-        }
-    }
-
-    module.exports = {
-        multOptionCheck: multOptionCheck,
-        singleOptionCheck: singleOptionCheck,
-        isConfirmButtonDisabled: isConfirmButtonDisabled
-       
-    };
-</wxs>

@@ -33,7 +33,10 @@ Page({
         columns: [],
         caseId: null,//病历ID 没有则代表新增
         doctorAppointId: null,//电话咨询排版ID
+        appointStartTime:null,//时间段
+        appointEndTime:null,//时间段
         consultType: '',//'101': 图文咨询,'102': 电话咨询,'103': 视频咨询
+        phone:'',//咨询电话
         showData:false,
         diagnosisDate:'',
     },
@@ -54,7 +57,10 @@ Page({
             collectionIds: options.collectionIds.split(','),
             selectUser: selectUser,
             caseId: options.caseId,
-            doctorAppointId: options.doctorAppointId
+            phone: options.phone,
+            doctorAppointId: options.doctorAppointId,
+            appointStartTime:options.appointStartTime,
+            appointEndTime:options.appointEndTime,
         })
         wx.setNavigationBarTitle({
             title: options.caseId ? '查看病历' : '添加病历',
@@ -438,26 +444,39 @@ Page({
         const res = await WXAPI.medicalCaseSave(postData)
         if (res.code == 0) {
 
+            // if (this.data.consultType + '' == '102') {
+            //     //电话咨询 返回确认信息页面
+            //     var checkedCase = {
+            //         id: res.data.id,
+            //         title: res.data.title
+            //     }
+            //     wx.setStorageSync('CheckedCase', checkedCase)
+            //     wx.navigateBack({
+            //         delta: 2
+            //     })
+            // } 
+
+            var postdata2={
+                channel: 'wechat',
+                medicalCaseId: res.data.id,
+                collectionIds: this.data.collectionIds || [],
+                commodityId: this.data.commodityId,
+                doctorUserId: this.data.docId,
+                userId: this.data.selectUser.userId,
+                doctorAppointId: this.data.doctorAppointId,
+               
+            }
+          
+            if(this.data.appointStartTime && this.data.appointEndTime){
+                postdata2.visitBeginTime=this.data.appointStartTime
+                postdata2.visitEndTime=this.data.appointEndTime
+                
+            }
             if (this.data.consultType + '' == '102') {
-                //电话咨询 返回确认信息页面
-                var checkedCase = {
-                    id: res.data.id,
-                    title: res.data.title
-                }
-                wx.setStorageSync('CheckedCase', checkedCase)
-                wx.navigateBack({
-                    delta: 2
-                })
-            } else {
-                const res2 = await WXAPI.createStewardOrder({
-                    channel: 'wechat',
-                    medicalCaseId: res.data.id,
-                    collectionIds: this.data.collectionIds || [],
-                    commodityId: this.data.commodityId,
-                    doctorUserId: this.data.docId,
-                    userId: this.data.selectUser.userId,
-                    doctorAppointId: this.data.doctorAppointId
-                })
+                postdata2.phone=this.data.phone
+            }
+
+                const res2 = await WXAPI.createStewardOrder(postdata2)
 
                 if (res2.code == 0) {
                     wx.showToast({
@@ -498,7 +517,7 @@ Page({
                 this.setData({
                     loading: false
                 })
-            }
+            
 
 
 

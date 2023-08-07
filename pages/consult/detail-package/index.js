@@ -141,8 +141,13 @@ Page({
                 } else {
                     item.itemContent = '已开通'
                 }
+            } else if(item.projectType == 107) {//数字疗法
+                item.iconUrl = item.serviceItemImg ||'/image/icon_ptsp.png'
+                item.isCommonProjectType = true
+
+                item.itemName = res.data.orderStatus.description
             } else {// 104 普通商品 105 随访服务 其他
-                item.iconUrl = '/image/icon_ptsp.png'
+                item.iconUrl = item.serviceItemImg ||'/image/icon_ptsp.png'
                 item.isCommonProjectType = true
 
                 if (res.data.status.value == 4) {
@@ -288,6 +293,10 @@ Page({
         } else if (item.projectType == 106) {//个案师服务
             wx.navigateTo({
                 url: './casemanager?rightsId=' + this.data.rightsId
+            })
+        }else if (item.projectType == 107) {//数字疗法
+            wx.navigateTo({
+                url: './digitaldetail?rightsId=' + this.data.rightsId
             })
         } else if (item.projectType == 105) {//随访服务
             wx.navigateTo({

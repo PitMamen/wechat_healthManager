@@ -6,13 +6,15 @@ Page({
      */
     data: {
         show: false,
-        selectUser: {},
         caseList: [],
         doctorAppointId:null,//号源
+        appointStartTime:null,//时间段
+        appointEndTime:null,//时间段
+        consultType: '',//'101': 图文咨询,'102': 电话咨询,'103': 视频咨询
         docId: null,//医生ID
         commodityId: null,//套餐ID
         collectionIds: [],//所选规格ID
-        consultType: ''//'101': 图文咨询,'102': 电话咨询,'103': 视频咨询
+        phone:'',//咨询电话
     },
 
     /**
@@ -21,31 +23,21 @@ Page({
     onLoad(options) {
         this.setData({
             doctorAppointId:options.doctorAppointId,
+            appointStartTime:options.appointStartTime,
+            appointEndTime:options.appointEndTime,
             docId: options.docId,
             commodityId: options.commodityId,
             collectionIds: options.collectionIds.split(','),
             consultType: options.consultType,
-            userId: options.userId
+            phone: options.phone,
+            userId: options.userId,
+            userName:options.userName
         })
         console.log("case-options", options)
-        this.setData({
-            loading: false,
-            columns: wx.getStorageSync('userInfo').account.user || []
-        })
-
-        if (this.data.consultType == '102' || this.data.consultType == '103') {
-            //电话 视频 会带过来就诊人
-            var selectUser = this.data.columns.find((el) => {
-                return el.userId == this.data.userId
-            })
-            this.setData({
-                selectUser: selectUser || wx.getStorageSync('defaultPatient')
-            })
-        } else {
-            this.setData({
-                selectUser: wx.getStorageSync('defaultPatient')
-            })
-        }
+        wx.setNavigationBarTitle({
+            title: this.data.consultType == '102'?'电话咨询':'视频咨询',
+          })
+       
 
     },
 
@@ -65,11 +57,11 @@ Page({
     },
 
     getMedicalCaseList() {
-        if (!this.data.selectUser.userId) {
+        if (!this.data.userId) {
             return
         }
         WXAPI.medicalCaseList({
-            userId: this.data.selectUser.userId
+            userId: this.data.userId
         }).then((res) => {
 
             this.setData({
@@ -81,22 +73,16 @@ Page({
 
     //新增
     addCase(e) {
-        if (!this.data.columns || this.data.columns.length == 0) {
-            wx.showToast({
-                title: '请先添加就诊人',
-                icon: 'none'
-                })
-            return
-        }
+        
         wx.navigateTo({
-            url: `/packageDoc/pages/doctor/fill/index?doctorAppointId=${this.data.doctorAppointId}&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}`
+            url: `/packageDoc/pages/doctor/fill/index?doctorAppointId=${this.data.doctorAppointId}&appointStartTime=${this.data.appointStartTime}&appointEndTime=${this.data.appointEndTime}&userId=${this.data.userId}&userName=${this.data.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}&phone=${this.data.phone}`
         })
     },
     //查看
     checkCase(e) {
         var item = e.currentTarget.dataset.item
         wx.navigateTo({
-            url: `/packageDoc/pages/doctor/fill/index?doctorAppointId=${this.data.doctorAppointId}&caseId=${item.id}&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}`
+            url: `/packageDoc/pages/doctor/fill/index?doctorAppointId=${this.data.doctorAppointId}&appointStartTime=${this.data.appointStartTime}&appointEndTime=${this.data.appointEndTime}&caseId=${item.id}&userId=${this.data.userId}&userName=${this.data.userName}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=${this.data.consultType}&phone=${this.data.phone}`
         })
     },
 
@@ -126,42 +112,9 @@ Page({
             this.getMedicalCaseList()
         }
     },
-    onSelectTap() {
-        if (this.data.consultType == '102' || this.data.consultType == '103') {
-            return
-        }
-        if (!this.data.columns || this.data.columns.length == 0) {
-            wx.navigateTo({
-                url: '/pages/me/patients/addPatient',
-            })
-        } else {
-            this.setData({
-                show: true
-            })
-        }
-
-    },
-    closePopup() {
-        this.setData({
-            show: false
-        })
-    },
-    onCancel() {
-        wx.navigateTo({
-            url: '/pages/me/patients/addPatient',
-        })
-        this.setData({
-            show: false
-        })
-    },
-    onConfirm(event) {
-        const index = event.detail.index
-        this.setData({
-            show: false,
-            selectUser: this.data.columns[index]
-        })
-        this.getMedicalCaseList()
-    },
+   
+ 
+  
     /**
      * 生命周期函数--监听页面隐藏
      */

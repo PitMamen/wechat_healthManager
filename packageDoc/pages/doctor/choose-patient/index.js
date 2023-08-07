@@ -11,6 +11,10 @@ Page({
         info: {},//医生信息和套餐信息
         appointList: [],
         doctorAppointId:null,//号源
+        appointStartTime:null,//时间段
+        appointEndTime:null,//时间段
+        consultType: '',//'101': 图文咨询,'102': 电话咨询,'103': 视频咨询
+        phone:'',//咨询电话
         docId: null,//医生ID
         commodityId: null,//套餐ID
         collectionIds: [],//所选规格ID
@@ -24,14 +28,20 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        console.log("telinfo-options", options)
+        console.log("choosepatient-options", options)
         this.setData({
             doctorAppointId:options.doctorAppointId,
+            appointStartTime:options.appointStartTime,
+            appointEndTime:options.appointEndTime,
             docId: options.docId,
+            consultType: options.consultType,
             commodityId: options.commodityId,
+            phone: options.phone,
             collectionIds: options.collectionIds.split(',')
         })
-       
+        wx.setNavigationBarTitle({
+            title: this.data.consultType == '102'?'电话咨询':'视频咨询',
+          })
       
     },
 
@@ -49,7 +59,7 @@ Page({
         this.setData({
             loading: false,
             columns: wx.getStorageSync('userInfo').account.user,
-            phone: wx.getStorageSync('defaultPatient').phone
+          
         })
     },
   
@@ -81,7 +91,6 @@ Page({
             this.setData({
                 show: false,
                 selectUser: this.data.columns[index],
-                phone: this.data.columns[index].phone,
                 checkedCase: null
             })
         }
@@ -103,11 +112,7 @@ Page({
             showTime: false
         })
     },
-    getPhoneValue(e) {
-        this.setData({
-            phone: e.detail.value
-        })
-    },
+    
 
  
     
@@ -122,7 +127,7 @@ Page({
             return
         }
         wx.navigateTo({
-            url: `/packageDoc/pages/doctor/choose-case/index?doctorAppointId=${this.data.doctorAppointId}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=103&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}`
+            url: `/packageDoc/pages/doctor/choose-case/index?consultType=${this.data.consultType}&phone=${this.data.phone}&doctorAppointId=${this.data.doctorAppointId}&appointStartTime=${this.data.appointStartTime}&appointEndTime=${this.data.appointEndTime}&docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}`
         })
         
     },
