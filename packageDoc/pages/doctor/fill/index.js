@@ -8,7 +8,7 @@ Page({
         showHidden:false,
         keyWords:'',
         keyWordsdiagnosis:'',
-        minDate:'',
+      
         icdCode: '',
         hosCode: '',
         clickName: '',
@@ -39,10 +39,24 @@ Page({
         phone:'',//咨询电话
         showData:false,
         diagnosisDate:'',
+        minDate: new Date().getTime() - 10 * 365 * 24 * 60 * 60 * 1000,
+        maxDate: new Date().getTime(),
+        currentDate: new Date().getTime(),
+        formatter(type, value) {
+            if (type === 'year') {
+                return `${value}年`;
+            }
+            if (type === 'month') {
+                return `${value}月`;
+            }
+            if (type === 'day') {
+                return `${value}日`;
+            }
+            return value;
+        },
     },
     onLoad: function (options) {
-        var currentDate = new Date().getTime()
-        var minDate = currentDate - 1825 * 24 * 60 * 60 * 1000;
+     
         console.log("fill-options", options)
         // 页面创建时执行
         var selectUser = {
@@ -50,7 +64,7 @@ Page({
             userName: options.userName
         }
         this.setData({
-            minDate:minDate,
+          
             consultType: options.consultType,
             docId: options.docId,
             commodityId: options.commodityId,
@@ -117,10 +131,11 @@ Page({
         var itemData = e.currentTarget.dataset.item
         this.setData({
             keyWords:'',
-            clickName: itemData.hosCode+"|"+itemData.hosName,
+            clickName:itemData.hosName,
             hosName: itemData.hosName,
             hosCode: itemData.hosCode,
             hideHospitalPicker: true,
+            show:false,
             disabled:false
         })
         console.log("vvv:", this.data.clickName)
@@ -132,9 +147,10 @@ Page({
         this.setData({
             keyWordsdiagnosis:'',
             diagnosisName: diagnosisData.name,
-            diagnosis: diagnosisData.icdCode+"|"+diagnosisData.name,
+            diagnosis:diagnosisData.name,
             icdCode: diagnosisData.icdCode,
             hideDiagnosisPicker: true,
+            show:false,
             disabled:false
         })
         console.log("vvv11:", this.data.diagnosisName)
@@ -151,6 +167,7 @@ Page({
         this.setData({
             keyWordsdiagnosis:'',
             hideDiagnosisPicker: true,
+            show:false,
             disabled:false
         })
     },
@@ -176,7 +193,8 @@ Page({
     inputdiagnosis(event){
         this.setData({
             hideDiagnosisPicker: false,
-            disabled:true
+            disabled:true,
+            show:true
         })
     },
 
@@ -184,22 +202,31 @@ Page({
     showcalendar(){
         this.setData({
             showData:true,
+            show:true,
             showHidden:!this.data.showHidden
         })
     },
-
-    dateConfirm(event){
+    closeDateTap(){
+        this.setData({
+            showData:false,
+            show:false,
+            showHidden:!this.data.showHidden
+        })
+    },
+    onDatefirm: function (event) {
         var date=Util.formatTime2(new Date( event.detail))
         this.setData({
             diagnosisDate:date,
-            showData:false
+            showData:false,
+            show:false,
         })
-        // console.log("ff:",date)
     },
+ 
 
     close(event){
         this.setData({
-            showData:false
+            showData:false,
+            show:false,
         })
     },
 
@@ -214,6 +241,7 @@ Page({
     changeHospital: function () {
         console.log("GGGG","11111111111111")
         this.setData({
+            show:true,
             hideHospitalPicker: false,
             disabled:true
         })
@@ -222,6 +250,7 @@ Page({
     closeHospitalTap: function () {
         console.log("GGGG","22222222222")
         this.setData({
+            show:false,
             keyWords:'',
             hideHospitalPicker: true,
             disabled:false
@@ -238,27 +267,19 @@ Page({
                 inputTxt: res.data.diseaseDesc,
                 appealDesc: res.data.appealDesc,
                 hosCode: res.data.hosCode,
-                clickName: res.data.hosCode+"|"+res.data.hosName,
+                clickName: res.data.hosName || '',
                 hosName: res.data.hosName,
                 icdCode: res.data.icd10Code,
                 diagnosisName: res.data.icd10Diagnosis,
-                diagnosis: res.data.icd10Code+"|"+res.data.icd10Diagnosis,
+                diagnosis: res.data.icd10Diagnosis || '',
                 offLinechecked:res.data.diagnosisFlag==1,
                 diagnosisDate:res.data.diagnosisDate,
 
             })
 
-            if (this.data.clickName=='undefined|undefined') {
-                this.setData({
-                    clickName:'',
-                })
-            }
+           
 
-            if (this.data.diagnosis=='undefined|undefined') {
-                this.setData({
-                    diagnosis:'',
-                })
-            }
+          
             var images = res.data.images || []
             var fileList = images.map((el, index) => {
                 return {
@@ -354,6 +375,11 @@ Page({
         })
     },
     checkoffLineChange(event) {
+        this.setData({
+            offLinechecked: event.detail
+        })
+    },
+    onSwitchChange(event){
         this.setData({
             offLinechecked: event.detail
         })
