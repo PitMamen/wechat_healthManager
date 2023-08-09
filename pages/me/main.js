@@ -111,10 +111,22 @@ Page({
         })
     },
 
-    goOrderListPage(e) {
+    // goOrderListPage(e) {
+    //     var type = e.currentTarget.dataset.type
+    //     wx.navigateTo({
+    //         url: './order/order-list-new?broadClassify=' + type,
+    //     })
+    // },
+    goOrderListChatPage(e) {
         var type = e.currentTarget.dataset.type
         wx.navigateTo({
-            url: './order/order-list-new?broadClassify=' + type,
+            url: './order/order-list-chat?broadClassify=' + type,
+        })
+    },
+    goOrderListSpecialPage(e) {
+        var type = e.currentTarget.dataset.type
+        wx.navigateTo({
+            url: './order/order-list-special?broadClassify=' + type,
         })
     },
 
