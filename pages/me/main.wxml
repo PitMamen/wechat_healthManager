@@ -45,11 +45,11 @@
     <text class="todo-title">我的订单</text>
     </view>
     <view class="todo-content-view">
-        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goOrderListPage" data-type="1">
+        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goOrderListChatPage" data-type="1">
             <van-icon name="/image/meicon/me_ddzx.png" size="25" info="{{myOrderCount.consult || ''}}" />
             <view class="todo-content-text">咨询订单</view>
         </view>
-        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goOrderListPage" data-type="2">
+        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goOrderListSpecialPage" data-type="2">
             <van-icon name="/image/meicon/me_zkfw.png" size="25"  info="{{myOrderCount.service || ''}}"/>
             <view class="todo-content-text">专科服务</view>
         </view>
