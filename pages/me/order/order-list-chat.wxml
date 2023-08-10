@@ -117,27 +117,22 @@
                 <view style="flex: 1;" />
                 <!-- 待支付 -->
                 <view class="btn-wrap">
-                    <!-- <view class="btn" hidden="{{item.status.value==1? false : true}}" bindtap="cancelOrderTap" data-id="{{item.orderId}}">取消
+                    <view class="btn" wx:if="{{item.status.value==1}}" bindtap="cancelOrderTap" data-id="{{item.orderId}}">取消
                     </view>
-                    <view class="btn active" hidden="{{item.status.value==1? false : true}}" bindtap="toPay" data-id="{{item.orderId}}" data-ordertype="{{item.orderType.value}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">去支付</view> -->
+                    <view class="btn active" wx:if="{{item.status.value==1}}" bindtap="toPay" data-id="{{item.orderId}}" data-ordertype="{{item.orderType.value}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">去支付</view>
 
-                    <view class="btn active" hidden="true" bindtap="toPay">联系客服</view>
-                    <view class="btn active" hidden="true" bindtap="toPay">服务详情</view>
-                    <view class="btn active" hidden="{{item.status.value==1? false : true}}" bindtap="toPay">进入诊室</view>
-                    <view class="btn active" hidden="{{item.status.value==1? false : true}}" bindtap="toPay">查看评价</view>
-                    <view class="btn active" hidden="{{item.status.value==1? false : true}}" bindtap="toPay">再次咨询</view>
+                    <!-- <view class="btn active" wx:if="{{order.status.value==2}}" bindtap="goCommunicate">联系客服</view> -->
+                    <button style="width: 200rpx;" open-type="contact" wx:if="{{item.status.value==2}}" size="mini" plain class="btn active"> 联系客服</button>
+
+                    <view class="btn active" wx:if="{{item.status.value==2||item.status.value==3}}" data-item="{{item}}" bindtap="goConsultDetail">服务详情</view>
+
+                    <view class="btn active" wx:if="{{item.status.value==2 && item.rightItems[0].projectType==101}}" data-item="{{item}}" bindtap="bindTodoItemEnterRoomTap">进入诊室</view>
+
+                    <!-- 列表需要带评价标记  才能展示评价 -->
+                    <view class="btn active" wx:if="{{item.status.value==3}}" data-item="{{item}}" bindtap="getAppraiseByOrderId">{{rateBtnText}}</view>
+
+                    <view class="btn active" wx:if="{{item.status.value==3||item.status.value==4}}" data-item="{{item}}" bindtap="onDoctorTap">再次咨询</view>
                 </view>
-
-                <!-- <view class="btn active" hidden="{{item.status.value==1? false : true}}" bindtap="toPay" data-id="{{item.orderId}}" data-ordertype="{{item.orderType.value}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">去支付</view> -->
-
-                <!-- 已完成 和 已取消 -->       <!-- 下面的进行中 -->
-                <!-- <view class="btn active" style="width: 80%;" hidden="{{(item.status.value==3||item.status.value==4)? false : true}}" bindtap="buyAgain" data-goods="{{item}}">
-                    再次购买
-                </view>
-           
-                <view class="btn active" data-goods="{{item}}" style="width: 80%;" wx:if="{{(item.status.value==2&& item.goodsType!=2)? true : false}}" bindtap="goConsult">
-                    立即咨询
-                </view> -->
 
             </view>
         </block>

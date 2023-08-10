@@ -49,7 +49,7 @@ var IMinit = function IMinit() {
         * @param {*} tradeAction 工单进程 CONFIRM:确认  REFUSED:已拒诊  START:开始咨询 END:已完成 
         */
        var goGroupChat = function goGroupChat(userId, routeType, groupID, inquiryType,tradeId, tradeAction) {
-
+debugger
         var userList=getApp().getPatientInfoList()
         userList.forEach(patient=>{
             if(patient.userId == userId){

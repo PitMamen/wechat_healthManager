@@ -1,5 +1,6 @@
 const WXAPI = require('../../../static/apifm-wxapi/index')
 const Util = require('../../../utils/util')
+const IMUtil = require('../../../utils/IMUtil')
 Page({
 
     /**
@@ -9,6 +10,7 @@ Page({
         userId: '',
         listType: 0,
         status: '0',
+        rateBtnText: '查看评价',
         nuts: [{}, {}],
         time: 15 * 60 * 1000,
         broadClassify: 1, //1咨询服务类2服务套餐3健康商品
@@ -44,7 +46,7 @@ Page({
     onLoad: function (options) {
 
         this.setData({
-            broadClassify:options.broadClassify,
+            broadClassify: options.broadClassify,
             userId: wx.getStorageSync('userInfo').account.accountId
         })
         wx.setNavigationBarTitle({
@@ -127,6 +129,109 @@ Page({
         getApp().globalData.consultPageActive = item.broadClassify
         wx.switchTab({
             url: '/pages/consult/index',
+        })
+    },
+
+    //待办事项 进入诊室
+    bindTodoItemEnterRoomTap(e) {
+        let item = e.currentTarget.dataset.item
+        console.log('bindTodoItemEnterRoomTap ********', item)
+        if (this.checkLoginStatus()) {
+            if (getApp().globalData.sdkReady) {
+                if (item.orderId) {
+                    IMUtil.goGroupChat(item.doctorUserId, 'navigateTo', 'M_' + item.orderId, 'textNum', item.tradeId, 'START')
+                }
+            }
+        }
+    },
+
+    //问诊详情
+    goConsultDetail(e) {
+        var info = e.currentTarget.dataset.item
+        console.log("fff:", info)
+        if (this.checkLoginStatus()) {
+            if (info.rightItems[0].projectType == 102) {
+                // url: '/pages/me/patients/addPatient',
+                wx.navigateTo({
+                    url: '../../consult/detail-tel/index?rightsId=' + info.id + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
+                })
+            } else if (info.rightItems[0].projectType == 103) {
+                wx.navigateTo({
+                    url: '../../consult/detail-video/index?rightsId=' + info.id + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
+                })
+            } else {
+                wx.navigateTo({
+                    url: '../../consult/detail-text/index?rightsId=' + info.id + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
+                })
+            }
+        }
+    },
+
+    //查看是否评价
+    getAppraiseByOrderId(e) {
+        let item = e.currentTarget.dataset.item
+        WXAPI.getAppraiseByOrderId(item.orderId).then(res => {
+            if (res.code == 0 && res.data && res.data.id) {
+                console.log('ddddddddd', res.data)
+                this.setData({
+                    rateId: res.data.id,
+                    isRated: true,
+                    rateBtnText: '查看评价'
+                })
+            } else {
+                this.setData({
+                    isRated: false,
+                    // rateBtnText: '去评价'
+                    rateBtnText: '查看评价'
+                })
+            }
+            this.goRate(item)
+        })
+    },
+
+    //去评价
+    goRate(item) {
+        console.log('goRate------------', item)
+        if (this.data.isRated) {
+            wx.navigateTo({
+                url: `/pages/home/rate/doctor?rightsId=${item.id}&id=${this.data.rateId}`
+            })
+        } else {
+            wx.navigateTo({
+                url: `/pages/home/rate/doctor?rightsId=${item.id}`
+            })
+        }
+    },
+
+    checkLoginStatus() {
+        if (getApp().globalData.loginReady) {
+            return true
+        } else {
+            wx.showModal({
+                title: '提示',
+                content: '此功能需要登录',
+                confirmText: '去登录',
+                cancelText: '取消',
+                success(res) {
+                    if (res.confirm) {
+                        wx.navigateTo({
+                            url: '/pages/login/auth',
+                        })
+                    }
+                }
+            })
+            return false
+        }
+    },
+
+    /**
+     * 再次咨询跳医生详情
+     * @param {} event 
+     */
+    onDoctorTap(event) {
+        let item = event.currentTarget.dataset.item
+        wx.navigateTo({
+            url: `/packageDoc/pages/doctor/info/index?id=${item.doctorUserId}&title=${item.doctorUserName}`
         })
     },
 

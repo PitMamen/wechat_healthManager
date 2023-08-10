@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        // statusDes: '说明：请在倒计时内完成订单支付，超过倒计时，系 统将为您自动取消订单。',
         orderId: '',
         fromtype: '', //1购买成功 目前只有购买成功才传值
         nuts: [{}, {}],
@@ -21,8 +22,11 @@ Page({
      */
     onLoad: function (options) {
         console.log('order detail', options)
+        let userInfo = wx.getStorageSync('userInfo')
         this.setData({
             orderId: options.orderId,
+            userInfo: userInfo,
+            defaultPatient: wx.getStorageSync('defaultPatient'),
         })
 
 
@@ -46,11 +50,14 @@ Page({
         })
         if (res.code == 0) {
             this.setData({
-                order: res.data
+                order: res.data,
+                status: res.data.status.value
             })
+
             wx.setNavigationBarTitle({
                 title: this.orderType(res.data.status.value)
             })
+            this.getAppraiseByOrderId(this.data.order.orderId)
             // this.queryUserInfo(res.data.patientId)
         }
     },
@@ -74,12 +81,24 @@ Page({
         //     return '购买成功'
         // } else {
         if (type == 1) {
+            this.setData({
+                statusDes: '说明：请在倒计时内完成订单支付，超过倒计时，系 统将为您自动取消订单。'
+            })
             return '待支付订单'
         } else if (type == 2) {
+            this.setData({
+                statusDes: '说明：您购买的订单正处于进行中，沟通中有任何问题，可联系客服处理。'
+            })
             return '进行中订单'
         } else if (type == 3) {
+            this.setData({
+                statusDes: '说明：您的订单已完成，如有任何问题可联系客服进行处理。'
+            })
             return '已完成订单'
         } else if (type == 4) {
+            this.setData({
+                statusDes: '说明：您的订单已取消，如有任何问题可联系客服进行处理。'
+            })
             return '已取消订单'
         }
         // }
@@ -87,10 +106,109 @@ Page({
     },
 
     goConsult(e) {
-         //把参数保存至全局变量
+        //把参数保存至全局变量
         getApp().globalData.consultPageActive = this.data.order.broadClassify
         wx.switchTab({
             url: '/pages/consult/index',
+        })
+    },
+
+    //待办事项 进入诊室
+    bindTodoItemEnterRoomTap(e) {
+        let item = e.currentTarget.dataset.item
+        console.log('bindTodoItemEnterRoomTap ********', item)
+        if (this.checkLoginStatus()) {
+            if (getApp().globalData.sdkReady) {
+                if (item.orderId) {
+                    IMUtil.goGroupChat(item.doctorUserId, 'navigateTo', 'M_' + item.orderId, 'textNum', item.tradeId, 'START')
+                }
+            }
+        }
+    },
+
+    //问诊详情
+    goConsultDetail(e) {
+        var info = e.currentTarget.dataset.item
+        console.log("fff:", info)
+        if (this.checkLoginStatus()) {
+            if (info.rightItems[0].projectType == 102) {
+                // url: '/pages/me/patients/addPatient',
+                wx.navigateTo({
+                    url: '../../consult/detail-tel/index?rightsId=' + info.rightsId + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
+                })
+            } else if (info.rightItems[0].projectType == 103) {
+                wx.navigateTo({
+                    url: '../../consult/detail-video/index?rightsId=' + info.rightsId + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
+                })
+            } else {
+                wx.navigateTo({
+                    url: '../../consult/detail-text/index?rightsId=' + info.rightsId + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
+                })
+            }
+        }
+    },
+
+    //查看是否评价
+    getAppraiseByOrderId(orderId) {
+        WXAPI.getAppraiseByOrderId(orderId).then(res => {
+            if (res.code == 0 && res.data && res.data.id) {
+                console.log('ddddddddd', res.data)
+                this.setData({
+                    rateId: res.data.id,
+                    isRated: true,
+                    rateBtnText: '查看评价'
+                })
+            } else {
+                this.setData({
+                    isRated: false,
+                    rateBtnText: '去评价'
+                })
+            }
+        })
+    },
+
+    //去评价
+    goRate() {
+        if (this.data.isRated) {
+            wx.navigateTo({
+                url: `/pages/home/rate/doctor?rightsId=${this.data.order.rightsId}&id=${this.data.rateId}`
+            })
+        } else {
+            wx.navigateTo({
+                url: `/pages/home/rate/doctor?rightsId=${this.data.order.rightsId}`
+            })
+        }
+    },
+
+    checkLoginStatus() {
+        if (getApp().globalData.loginReady) {
+            return true
+        } else {
+            wx.showModal({
+                title: '提示',
+                content: '此功能需要登录',
+                confirmText: '去登录',
+                cancelText: '取消',
+                success(res) {
+                    if (res.confirm) {
+                        wx.navigateTo({
+                            url: '/pages/login/auth',
+                        })
+                    }
+                }
+            })
+            return false
+        }
+    },
+
+    /**
+     * 再次咨询跳医生详情
+     * @param {} event 
+     */
+    onDoctorTap(event) {
+        // const item = event.currentTarget.dataset.item
+        wx.navigateTo({
+            url: `/packageDoc/pages/doctor/info/index?id=${this.data.order.doctorUserId}&title=${this.data.order.doctorUserName}`
         })
     },
 
@@ -100,7 +218,7 @@ Page({
         var orderType = e.currentTarget.dataset.ordertype
         console.log('toPay Detail', orderType)
         WXAPI.registerPayOrder({
-            orderType:orderType,
+            orderType: orderType,
             orderId: orderId,
             payMethod: 'weixin_miniapp'
         }).then((res) => {
@@ -199,14 +317,14 @@ Page({
 
     buyAgain(e) {
         var item = e.currentTarget.dataset.goods
-        console.log('buyAgain detail',e)
-    
-          //1咨询服务类2服务套餐3健康商品
-          if(item.broadClassify == 1){
+        console.log('buyAgain detail', e)
+
+        //1咨询服务类2服务套餐3健康商品
+        if (item.broadClassify == 1) {
             wx.navigateTo({
                 url: `/packageDoc/pages/doctor/detail/index?id=${item.commodityId}&docId=${item.doctorUserId}&docName=${item.doctorUserName}`
             })
-        }else  if(item.broadClassify == 2){
+        } else if (item.broadClassify == 2) {
             wx.navigateTo({
                 url: `/packageDoc/pages/health/detail/index?id=${item.commodityId}`
             })
