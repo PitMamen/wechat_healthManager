@@ -39,6 +39,7 @@ Page({
         phone:'',//咨询电话
         showData:false,
         diagnosisDate:'',
+        checkDiagnosisList:[],
         minDate: new Date().getTime() - 10 * 365 * 24 * 60 * 60 * 1000,
         maxDate: new Date().getTime(),
         currentDate: new Date().getTime(),
@@ -129,6 +130,7 @@ Page({
     //    点击机构item
     itemClickhos(e) {
         var itemData = e.currentTarget.dataset.item
+
         this.setData({
             keyWords:'',
             clickName:itemData.hosName,
@@ -144,18 +146,43 @@ Page({
     // 点击诊断item
     itemClick(e) {
         var diagnosisData = e.currentTarget.dataset.item
-        this.setData({
-            keyWordsdiagnosis:'',
-            diagnosisName: diagnosisData.name,
-            diagnosis:diagnosisData.name,
-            icdCode: diagnosisData.icdCode,
-            hideDiagnosisPicker: true,
-            show:false,
-            disabled:false
-        })
+      var  checkDiagnosisList= this.data.checkDiagnosisList
+      var result=  checkDiagnosisList.every((item=>{
+            return item.icdCode !== diagnosisData.icdCode
+        }))
+        console.log(result)
+        
+        if(result){
+            checkDiagnosisList.push(diagnosisData)
+            this.setData({
+                checkDiagnosisList:checkDiagnosisList
+            })
+        }
+        
+        console.log(this.data.checkDiagnosisList)
+        // this.setData({
+        //     keyWordsdiagnosis:'',
+        //     diagnosisName: diagnosisData.name,
+        //     diagnosis:diagnosisData.name,
+        //     icdCode: diagnosisData.icdCode,
+        //     hideDiagnosisPicker: true,
+        //     show:false,
+        //     disabled:false
+        // })
         console.log("vvv11:", this.data.diagnosisName)
     },
-
+    //删除已选诊断
+    onDiagnosisItemClick(e){
+        var diagnosisData = e.currentTarget.dataset.item
+        var  checkDiagnosisList= this.data.checkDiagnosisList
+        var resultArr=  checkDiagnosisList.filter((item=>{
+            return item.icdCode !== diagnosisData.icdCode
+        }))
+        this.setData({
+            checkDiagnosisList:resultArr
+        })
+        console.log(this.data.checkDiagnosisList)
+    },
     //  诊断弹框
     changeDiagnosistab: function () {
         this.setData({
@@ -164,8 +191,21 @@ Page({
         })
     },
     cloaseDiagnosistab: function () {
+        console.log('cloaseDiagnosistab')
+       
+        var icdCode = this.data.checkDiagnosisList.map(item=>{
+            return item.icdCode
+        }).join(',')
+        console.log(icdCode)
+        var diagnosisName = this.data.checkDiagnosisList.map(item=>{
+            return item.name
+        }).join(',')
+        console.log(diagnosisName)
         this.setData({
             keyWordsdiagnosis:'',
+            diagnosisName: diagnosisName,
+            diagnosis:diagnosisName,
+            icdCode: icdCode,
             hideDiagnosisPicker: true,
             show:false,
             disabled:false
@@ -470,18 +510,6 @@ Page({
         const res = await WXAPI.medicalCaseSave(postData)
         if (res.code == 0) {
 
-            // if (this.data.consultType + '' == '102') {
-            //     //电话咨询 返回确认信息页面
-            //     var checkedCase = {
-            //         id: res.data.id,
-            //         title: res.data.title
-            //     }
-            //     wx.setStorageSync('CheckedCase', checkedCase)
-            //     wx.navigateBack({
-            //         delta: 2
-            //     })
-            // } 
-
             var postdata2={
                 channel: 'wechat',
                 medicalCaseId: res.data.id,
@@ -489,16 +517,18 @@ Page({
                 commodityId: this.data.commodityId,
                 doctorUserId: this.data.docId,
                 userId: this.data.selectUser.userId,
-                doctorAppointId: this.data.doctorAppointId,
+              
                
             }
-          
-            if(this.data.appointStartTime && this.data.appointEndTime){
+            if (this.data.consultType == '102' || this.data.consultType == '103'){
+                //电话和视频咨询 添加排班信息
+                postdata2.doctorAppointId=this.data.doctorAppointId
                 postdata2.visitBeginTime=this.data.appointStartTime
                 postdata2.visitEndTime=this.data.appointEndTime
-                
             }
-            if (this.data.consultType + '' == '102') {
+         
+            if (this.data.consultType == '102') {
+                 //电话咨询 添加电话信息
                 postdata2.phone=this.data.phone
             }
 

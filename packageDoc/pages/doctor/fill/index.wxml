@@ -12,120 +12,128 @@
             <view class="fzview">
                 <view class="fzitem">
                     <view class="fztitle">是否线下就诊过</view>
-                    <van-switch checked="{{ offLinechecked }}" size="24px" bind:change="onSwitchChange"/>
+                    <van-switch checked="{{ offLinechecked }}" size="24px" bind:change="onSwitchChange" />
                 </view>
-               
-                <block wx:if="{{offLinechecked}}" >        
-                <view class="line"></view>
-                <view class="fzitem">
-                    <view class="fztitle">就诊机构</view>
 
-                    <view class="fzright" bindtap="changeHospital">
-                        <view class="fzvalue">{{clickName}}</view>
-                        <van-icon color="#1A1A1A" name="arrow" />
+                <block wx:if="{{offLinechecked}}">
+                    <view class="line"></view>
+                    <view class="fzitem">
+                        <view class="fztitle">就诊机构</view>
+
+                        <view class="fzright" bindtap="changeHospital">
+                            <view class="fzvalue">{{clickName}}</view>
+                            <van-icon color="#1A1A1A" name="arrow" />
+                        </view>
                     </view>
-                </view>
-                <view class="line"></view>
-                <view class="fzitem">
-                    <view class="fztitle">诊断结果</view>
+                    <view class="line"></view>
+                    <view class="fzitem">
+                        <view class="fztitle">诊断结果</view>
 
-                    <view class="fzright" bindtap="inputdiagnosis">
-                        <view class="fzvalue">{{diagnosis}}</view>
-                        <van-icon color="#1A1A1A" name="arrow" />
+                        <view class="fzright" bindtap="inputdiagnosis">
+                            <view class="fzvalue">{{diagnosis}}</view>
+                            <van-icon color="#1A1A1A" name="arrow" />
+                        </view>
                     </view>
-                </view>
-                <view class="line"></view>
-                <view class="fzitem">
-                    <view class="fztitle">诊断日期</view>
+                    <view class="line"></view>
+                    <view class="fzitem">
+                        <view class="fztitle">诊断日期</view>
 
-                    <view class="fzright" bindtap="showcalendar">
-                        <view class="fzvalue">{{diagnosisDate || ''}}</view>
-                        <van-icon color="#1A1A1A" name="arrow" />
+                        <view class="fzright" bindtap="showcalendar">
+                            <view class="fzvalue">{{diagnosisDate || ''}}</view>
+                            <van-icon color="#1A1A1A" name="arrow" />
+                        </view>
+
                     </view>
-                    
-                </view>
-            </block>
-            
-            </view>
-                
+                </block>
 
             </view>
-            <view class="row">
-                <view class="title"><text style="color: #E95454;">*</text>病情描述</view>
-                <view class="textarea">
-                    <van-field show-word-limit type="textarea" size="large" disabled="{{disabled}}" maxlength="1024" border="{{ false }}" model:value="{{show?'': inputTxt }}" input-class="input-class2"  placeholder="{{show?'': '请补充简要的疾病及咨询目的，已便大夫能准确了解您的病情，帮您排忧解难，提高问诊效率。 该描述最少输入10个字！' }}" />
-                </view>
-            </view>
 
-            <view class="row">
-                <view class="title">上传检查报告或患处图片（最多9张)</view>
-                <view class="subtitle">照片仅自己和医生可见</view>
-                <view class="upload">
-                    <van-uploader deletable accept="image" max-count="9" multiple="true" image-fit="aspectFill" file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="delete" />
-                </view>
 
-            </view>
-            <view class="row">
-                <view class="title">您希望获得医生哪些帮助？</view>
-                <view class="textarea">
-                    <van-field show-word-limit type="textarea" size="large" disabled="{{disabled}}" maxlength="1024" border="{{ false }}" model:value="{{show?'': appealDesc }}" input-class="input-class2" placeholder="{{show?'': '请输入您需要获得的医生帮助！' }}" />
-                </view>
+        </view>
+        <view class="row">
+            <view class="title"><text style="color: #E95454;">*</text>病情描述</view>
+            <view class="textarea">
+                <van-field show-word-limit type="textarea" size="large" disabled="{{disabled}}" maxlength="1024" border="{{ false }}" model:value="{{show?'': inputTxt }}" input-class="input-class2" placeholder="{{show?'': '请补充简要的疾病及咨询目的，已便大夫能准确了解您的病情，帮您排忧解难，提高问诊效率。 该描述最少输入10个字！' }}" />
             </view>
         </view>
 
-        <view style="height: 100rpx;"></view>
-        <view class="fix">
-            <van-button  type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onNextClick">{{caseId?'使用该病历':'确认并使用'}}</van-button>
+        <view class="row">
+            <view class="title">上传检查报告或患处图片（最多9张)</view>
+            <view class="subtitle">照片仅自己和医生可见</view>
+            <view class="upload">
+                <van-uploader deletable accept="image" max-count="9" multiple="true" image-fit="aspectFill" file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="delete" />
+            </view>
+
         </view>
-        
+        <view class="row">
+            <view class="title">您希望获得医生哪些帮助？</view>
+            <view class="textarea">
+                <van-field show-word-limit type="textarea" size="large" disabled="{{disabled}}" maxlength="1024" border="{{ false }}" model:value="{{show?'': appealDesc }}" input-class="input-class2" placeholder="{{show?'': '请输入您需要获得的医生帮助！' }}" />
+            </view>
+        </view>
     </view>
 
+    <view style="height: 100rpx;"></view>
+    <view class="fix">
+        <van-button type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onNextClick">{{caseId?'使用该病历':'确认并使用'}}</van-button>
+    </view>
+
+</view>
 
 
-    <!-- 选择诊断日期 -->
-    <van-popup show="{{ showData }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;  z-index: 100;" bind:close="closeDateTap">
+
+<!-- 选择诊断日期 -->
+<van-popup show="{{ showData }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;  z-index: 100;" bind:close="closeDateTap">
     <van-datetime-picker min-date="{{ minDate }}" max-date="{{maxDate}}" bind:cancel="closeDateTap" bind:confirm="onDatefirm" type="date" value="{{ currentDate }}" bind:input="onInput" formatter="{{ formatter }}" />
-    </van-popup>
+</van-popup>
 
 
-    <!-- 选择机构 -->
-    <van-popup show="{{ !hideHospitalPicker }}" round position="bottom" custom-style="padding-top:10rpx;height: 60%;z-index: 100;" bind:close="closeHospitalTap">
-        <!-- <van-sticky> -->
-        <view style="text-align: center;font-size: 40rpx;font-weight: bold">机构</view>
-        <van-search class="search" placeholder="请输入机构名称进行查询" model:value="{{ keyWords }}" bind:change="onInputChange" />
-        <!-- </van-sticky> -->
+<!-- 选择机构 -->
+<van-popup show="{{ !hideHospitalPicker }}" round position="bottom" custom-style="padding-top:10rpx;height: 60%;z-index: 100;" bind:close="closeHospitalTap">
+    <!-- <van-sticky> -->
+    <view style="text-align: center;font-size: 40rpx;font-weight: bold">机构</view>
+    <van-search class="search" placeholder="请输入机构名称进行查询" model:value="{{ keyWords }}" bind:change="onInputChange" />
+    <!-- </van-sticky> -->
 
 
-        <view wx:for="{{hospitalList}}">
+    <view wx:for="{{hospitalList}}">
 
-            <view bindtap="itemClickhos" data-item="{{item}}" style="display: flex;flex-direction: row;height: 80rpx;padding: 10rpx,20rpx;">
-                <view style="margin-left: 40rpx;width: 100%;text-overflow: ellipsis;overflow: hidden;display: inline-block;"> {{item.hosName}}</view>
-                <view style="margin-left: auto;color: #999999;margin-right: 50rpx;"> {{item.hosCode}}</view>
-            </view>
-
-            <view style="width: 100%;height: 1rpx;background-color: #E6E6E6;margin-bottom: 20rpx;"></view>
-
-
+        <view bindtap="itemClickhos" data-item="{{item}}" style="display: flex;flex-direction: row;height: 80rpx;padding: 10rpx,20rpx;">
+            <view style="margin-left: 40rpx;width: 100%;text-overflow: ellipsis;overflow: hidden;display: inline-block;"> {{item.hosName}}</view>
+            <view style="margin-left: auto;color: #999999;margin-right: 50rpx;"> {{item.hosCode}}</view>
         </view>
-    </van-popup>
 
-    <!-- 选择诊断 -->
-
-    <van-popup show="{{ !hideDiagnosisPicker }}" round position="bottom" custom-style="padding-top:10rpx;height: 60%;z-index: 100;" bind:close="cloaseDiagnosistab">
-        <!-- <van-sticky> -->
-        <view style="text-align: center;font-size: 40rpx;font-weight: bold">诊断</view>
-        <van-search class="search" placeholder="请输入诊断名称进行查询" model:value="{{ keyWordsdiagnosis }}" bind:change="diagnosisChange" />
-        <!-- </van-sticky> -->
-
-        <view wx:for="{{DiagnosisList}}">
-            <view bindtap="itemClick" data-item="{{item}}" style="display: flex;flex-direction: row;height: 80rpx;padding: 10rpx,20rpx;">
-                <view style="margin-left: 40rpx;width: 100%;text-overflow: ellipsis;overflow: hidden;display: inline-block;"> {{item.name}}</view>
-                <view style="margin-left: auto;color: #999999;margin-right: 50rpx;"> {{item.code}}</view>
-            </view>
-
-            <view style="width: 100%;height: 1rpx;background-color: #E6E6E6;margin-bottom: 20rpx;"></view>
+        <view style="width: 100%;height: 1rpx;background-color: #E6E6E6;margin-bottom: 20rpx;"></view>
 
 
+    </view>
+</van-popup>
+
+<!-- 选择诊断 -->
+
+<van-popup show="{{ !hideDiagnosisPicker }}" round position="bottom" custom-style="padding-top:10rpx;height: 60%;z-index: 100;" bind:close="cloaseDiagnosistab">
+
+    <view style="text-align: center;font-size: 40rpx;font-weight: bold">诊断</view>
+
+    <view class="tabview">
+        <view class="tabitem" wx:for="{{checkDiagnosisList}}" wx:key="111" bindtap="onDiagnosisItemClick" data-item="{{item}}">
+            <view style="margin-right:20rpx ;">{{item.name}}</view>
+            <van-icon name="cross" size="17px" color="#409EFF" />
         </view>
-    </van-popup>
 
+    </view>
+
+    <van-search class="search" placeholder="请输入诊断名称进行查询" model:value="{{ keyWordsdiagnosis }}" bind:change="diagnosisChange" />
+
+
+    <view wx:for="{{DiagnosisList}}">
+        <view bindtap="itemClick" data-item="{{item}}" style="display: flex;flex-direction: row;height: 80rpx;padding: 10rpx,20rpx;">
+            <view style="margin-left: 40rpx;width: 100%;text-overflow: ellipsis;overflow: hidden;display: inline-block;"> {{item.name}}</view>
+            <view style="margin-left: auto;color: #999999;margin-right: 50rpx;"> {{item.code}}</view>
+        </view>
+
+        <view style="width: 100%;height: 1rpx;background-color: #E6E6E6;margin-bottom: 20rpx;"></view>
+
+
+    </view>
+</van-popup>

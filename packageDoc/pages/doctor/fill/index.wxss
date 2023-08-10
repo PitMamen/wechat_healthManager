@@ -182,3 +182,24 @@ color: #999999;
     padding: 0 10rpx;
     color: #007BF5;
 }
+
+.tabview{
+    display: flex;
+    flex-direction: row;
+    flex-flow:row wrap
+}
+.tabitem{
+background: #EBF5FF;
+border: 1rpx solid #409EFF;
+border-radius: 2rpx;
+padding: 10rpx 20rpx;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+font-size: 30rpx;
+color: #409EFF;
+margin-left: 24rpx;
+margin-top: 20rpx;
+border-radius: 2rpx;
+}

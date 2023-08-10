@@ -184,10 +184,11 @@ Page({
 },
  //查询热门问题列表
  async qrySysKnowledge() {
-    this.onGetMessageEvent_local('in', 'hi～我是雅医AI助手，可以为您提供人工智能医疗服务哦')
+    this.onGetMessageEvent_local('in', 'hi～我是智能AI助手小雅，可以为您提供人工智能健康服务哦～')
     const list=[{title:'感冒的治疗方法'},{title:'最近睡眠不好'},{title:'呕吐是怎么回事'}]
-    const des = "您可以详细描述您的问题，我将为您给出智能化的医疗解答"
-    this.onGetCustomTypeMessageEvent_local('RMWT', list, des, true)
+    const des = "您可以详细描述您的问题，我将为您给出智能化的解答，您可以这样问："
+    const remind = "我的回答是通过智能分析得出，不构成任何诊疗，建议仅供参考，若遇紧急情况请及时线下就医。"
+    this.onGetCustomTypeMessageEvent_local('RMWT', list, des,remind, true)
 },
 //点击咨询问题
 CustomQuestionMessageClickEvent(e) {
@@ -223,7 +224,7 @@ CustomQuestionMessageClickEvent(e) {
      * @param {*} description 描述
      * @param {*} isHotList 是否是热门问题推荐列表
      */
-    async onGetCustomTypeMessageEvent_local(customType, qlist, description, isHotList) {
+    async onGetCustomTypeMessageEvent_local(customType, qlist, description,remind, isHotList) {
 
         let message = getApp().tim.createCustomMessage({
             to: String(this.data.defaultPatient.userId),
@@ -243,6 +244,7 @@ CustomQuestionMessageClickEvent(e) {
                 data: {
                     qlist: qlist,
                     description: description,
+                    remind:remind,
                     type: customType
                 }
             }

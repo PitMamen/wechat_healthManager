@@ -1,18 +1,18 @@
 .wrap {
     min-height: 100vh;
-    background: #FFFFFF;
+    background: #F5F5F5;
 }
 .wrap .top {
-    margin-bottom: 32rpx;
-    padding: 0 24rpx;
+    padding: 24rpx 24rpx;
 }
 .wrap .top .card {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     padding: 30rpx;
-    border: 1rpx solid #DEE4EC;
+   
     border-radius: 8rpx;
+    background: white;
 }
 .wrap .top .card .left {
     padding-right: 30rpx;
@@ -24,32 +24,73 @@
 .wrap .top .card .right {
     flex: 1;
 }
-.wrap .top .card .right .title {
+ .title {
     margin-bottom: 26rpx;
-    width: 450rpx;
     font-size: 32rpx;
-    font-weight: 500;
+    font-weight: bold;
     color: #1A1A1A;
     line-height: 32rpx;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.wrap .top .card .right .row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 25rpx;
-    font-size: 28rpx;
-    font-weight: 400;
+.wrap .top .card .right .hospital {
+    margin-bottom: 26rpx;
+    font-size: 30rpx;
+    color: #1A1A1A;
+   
+    white-space: nowrap;
+    overflow: hidden;
+  
+}
+.wrap .top .card .right .jzr {
+    margin-bottom: 26rpx;
+    font-size: 30rpx;
     color: #999999;
-    line-height: 34rpx;
+    white-space: nowrap;
+    overflow: hidden;
+  
+}
+.wrap .top .card .right .qy {
+    margin-bottom: 26rpx;
+    font-size: 30rpx;
+    color: #999999;
+   display: flex;
+   flex-direction: row;
+   align-items: flex-start;
+    flex: 1;
+}
+.bqmsview{
+    margin-bottom: 26rpx;
+    display: flex;
+   flex-direction: row;
+   align-items: flex-start;
+   font-size: 30rpx;
+   color: #999999;
+}
+.bqms{
+   
+    color: #1a1a1a;
+    width: 470rpx;
+}
+.wrap .top .card .right .rowqy{
+    display: flex;
+   flex-direction: column;
+   width: 510rpx;
+}
+.wrap .top .card .right .row {
+    
+    margin-bottom: 25rpx;
+    font-size: 30rpx;
+    color: #1A1A1A;
+    
 }
 .wrap .top .card .right .row:last-child {
     margin-bottom: 0rpx;
 }
 .wrap .top .card .right .row .name {
     /* margin-right: 60rpx; */
-    width: 250rpx;
+    width: 300rpx;
     /* white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; */
@@ -58,10 +99,17 @@
     /* margin-right: 120rpx; */
 }
 .wrap .bottom {
-    padding: 30rpx 24rpx;
+    padding: 10rpx 24rpx;
+}
+.wrap .bottom .card {
+    display: flex;
+    flex-direction: column;
+    padding: 30rpx;
+    border-radius: 8rpx;
+    background: white;
 }
 .wrap .bottom .row {
-    margin-bottom: 60rpx;
+   
     overflow: hidden;
 }
 .wrap .bottom .row .title {
