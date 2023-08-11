@@ -100,9 +100,10 @@ Page({
                     },
                     fail(err) {
                         console.info(err)
-                        wx.redirectTo({
-                            url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
-                        })
+                        // wx.redirectTo({
+                        //     url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
+                        // })
+                        that.goOrderDetail()
                         that.setData({
                             loading: false
                         })
@@ -114,6 +115,18 @@ Page({
         })
     },
 
+    goOrderDetail(){
+        if (this.data.info.items.length>0) {
+            wx.redirectTo({
+                    url:  '/pages/me/order/order-detail-special?orderId=' + this.data.id,
+                })
+        } else {
+            wx.redirectTo({
+                url:  '/pages/me/order/order-detail-chat?orderId=' + this.data.id,
+            })
+        }
+    },
+
     //支付成功
     paySuccess(){
         let that = this
@@ -123,9 +136,11 @@ Page({
                 duration: 2000
             })
             setTimeout(() => {
-                wx.redirectTo({
-                    url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
-                })
+                // wx.redirectTo({
+                //     url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
+                // })
+                that.goOrderDetail()
+                
             }, 2000)
         
         

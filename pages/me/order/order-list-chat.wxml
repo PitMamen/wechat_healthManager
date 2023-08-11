@@ -116,7 +116,7 @@
                     <view class="btn active" wx:if="{{item.status.value==1}}" bindtap="toPay" data-id="{{item.orderId}}" data-ordertype="{{item.orderType.value}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">去支付</view>
 
                     <!-- <view class="btn active" wx:if="{{order.status.value==2}}" bindtap="goCommunicate">联系客服</view> -->
-                    <button style="width: 200rpx;" open-type="contact" wx:if="{{item.status.value==2}}" size="mini" plain class="btn active"> 联系客服</button>
+                    <button style="width: 200rpx;" open-type="contact" wx:if="{{item.status.value==2}}" size="mini" plain class="btn"> 联系客服</button>
 
                     <view class="btn active" wx:if="{{item.status.value==2||item.status.value==3}}" data-item="{{item}}" bindtap="goConsultDetail">服务详情</view>
 
@@ -124,7 +124,7 @@
 
                     <!-- 列表需要带评价标记  才能展示评价 -->
                     <!-- <view class="btn active" wx:if="{{item.status.value==3}}" data-item="{{item}}" bindtap="getAppraiseByOrderId">{{rateBtnText}}</view> -->
-                    <view class="btn active" wx:if="{{item.appraiseId}}" data-item="{{item}}" bindtap="goRate">查看评价</view>
+                    <view class="btn" wx:if="{{item.appraiseId}}" data-item="{{item}}" bindtap="goRate">查看评价</view>
 
                     <view class="btn active" wx:if="{{item.status.value==3||item.status.value==4}}" data-item="{{item}}" bindtap="onDoctorTap">再次咨询</view>
                 </view>
