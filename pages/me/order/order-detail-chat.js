@@ -120,7 +120,7 @@ Page({
         if (this.checkLoginStatus()) {
             if (getApp().globalData.sdkReady) {
                 if (item.orderId) {
-                    IMUtil.goGroupChat(item.doctorUserId, 'navigateTo', 'M_' + item.orderId, 'textNum', item.tradeId, 'START')
+                    IMUtil.goGroupChat(item.userId, 'navigateTo', 'M_' + item.orderId, 'textNum', item.tradeId, 'START')
                 }
             }
         }

@@ -147,13 +147,13 @@
                 <view class="btn active" wx:if="{{order.status.value==1}}" bindtap="toPay" data-id="{{order.orderId}}" data-ordertype="{{order.orderType.value}}" data-money="{{order.amountReal}}" data-score="{{order.score}}">去支付</view>
 
                 <!-- <view class="btn active" wx:if="{{order.status.value==2}}" bindtap="goCommunicate">联系客服</view> -->
-                <button style="width: 200rpx;" open-type="contact" wx:if="{{order.status.value==2}}" size="mini" plain class="btn active"> 联系客服</button>
+                <button style="width: 200rpx;" open-type="contact" wx:if="{{order.status.value==2}}" size="mini" plain class="btn"> 联系客服</button>
 
                 <view class="btn active" wx:if="{{order.status.value==2||order.status.value==3}}" data-item="{{order}}" bindtap="goConsultDetail">服务详情</view>
 
                 <view class="btn active" wx:if="{{order.status.value==2 && order.rightItems[0].projectType==101}}" bindtap="bindTodoItemEnterRoomTap">进入诊室</view>
 
-                <view class="btn active" wx:if="{{order.status.value==3}}" bindtap="goRate">{{rateBtnText}}</view>
+                <view class="btn" wx:if="{{order.status.value==3}}" bindtap="goRate">{{rateBtnText}}</view>
 
                 <view class="btn active" wx:if="{{order.status.value==3||order.status.value==4}}" bindtap="onDoctorTap">再次咨询</view>
             </view>

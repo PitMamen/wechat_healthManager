@@ -52,7 +52,7 @@
                         {{item.doctorUserName}}
                     </view>
                     <view class="shu-divider" style="margin-left: 20rpx;" /> -->
-                    <view class="des-value" >
+                    <view class="des-value">
                         {{item.subjectClassifyName}}
                     </view>
                     <view class="shu-divider" style="margin-left: 20rpx;" />
@@ -75,12 +75,12 @@
                     </view>
                     <!-- style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;flex:1" -->
                     <view class="des-value">
-                        <view wx:for="{{item.rightItems}}" wx:key="indexType" wx:for-index="indexType" wx:for-item="itemType"  style="padding-bottom: 10rpx;">
+                        <view wx:for="{{item.rightItems}}" wx:key="indexType" wx:for-index="indexType" wx:for-item="itemType" style="padding-bottom: 10rpx;">
                             <view class="desItem">
-                                <view >{{itemType.rightsItemName}}</view>
+                                <view>{{itemType.rightsItemName}}</view>
                                 <view class="shu-divider" style="margin-left: 20rpx;" />
-                                <view style="margin-left: 20rpx;">{{itemType.ruleInfos}}</view>
-                                <view class="shu-divider" style="margin-left: 20rpx;" />
+                                <view wx:if="{{itemType.ruleInfos}}" style="margin-left: 20rpx;">{{itemType.ruleInfos}}</view>
+                                <view wx:if="{{itemType.ruleInfos}}" class="shu-divider" style="margin-left: 20rpx;" />
                                 <view style="margin-left: 20rpx;">{{itemType.equityQuantity}}次</view>
                                 <view class="shu-divider" style="margin-left: 20rpx;" />
                                 <view style="margin-left: 20rpx;">￥{{itemType.saleAmount}}</view>
@@ -89,7 +89,7 @@
                     </view>
                 </view>
 
-                <view class="v-des-item" >
+                <view class="v-des-item">
                     <view class="des-name">
                         下单时间：
                     </view>
@@ -97,23 +97,6 @@
                         {{item.createTime}}
                     </view>
                 </view>
-
-                <!-- <view hidden="{{(item.status.value==2||item.status.value==3)? false : true}}" class="v-des-item" style="margin-top: 10rpx;">
-                    <view class="des-name">
-                        订单效期：
-                    </view>
-                    <view class="des-value">
-                        {{item.effectiveEndTime == null?'永久有效': (item.effectiveStartTime + '至' + item.effectiveEndTime)}}
-                    </view>
-                </view> -->
-                <!-- <view class="v-des-item" style="margin-top: 10rpx;">
-                    <view class="des-name">
-                        合计金额：
-                    </view>
-                    <view class="des-value" style="color: red;font-weight: bold;">
-                        ￥{{item.orderTotal}}
-                    </view>
-                </view> -->
 
             </view>
 
@@ -128,28 +111,23 @@
                 <view style="flex: 1;" />
                 <!-- 待支付 -->
                 <view class="btn-wrap">
-                    <!-- <view class="btn" hidden="{{item.status.value==1? false : true}}" bindtap="cancelOrderTap" data-id="{{item.orderId}}">取消
+                    <view class="btn" wx:if="{{item.status.value==1}}" bindtap="cancelOrderTap" data-id="{{item.orderId}}">取消
                     </view>
-                    <view class="btn active" hidden="{{item.status.value==1? false : true}}" bindtap="toPay" data-id="{{item.orderId}}" data-ordertype="{{item.orderType.value}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">去支付</view> -->
+                    <view class="btn active" wx:if="{{item.status.value==1}}" bindtap="toPay" data-id="{{item.orderId}}" data-ordertype="{{item.orderType.value}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">去支付</view>
 
-                    <view class="btn active" hidden="true" bindtap="toPay">联系客服</view>
-                    <view class="btn active" hidden="true" bindtap="toPay">服务详情</view>
-                    <view class="btn active" hidden="{{item.status.value==2? false : true}}" bindtap="toPay">进入诊室</view>
-                    <view class="btn active" hidden="{{item.status.value==2? false : true}}" bindtap="toPay">查看评价</view>
-                    <view class="btn active" hidden="{{item.status.value==2? false : true}}" bindtap="toPay">再次咨询</view>
+                    <!-- <view class="btn active" wx:if="{{order.status.value==2}}" bindtap="goCommunicate">联系客服</view> -->
+                    <button style="width: 200rpx;" open-type="contact" wx:if="{{item.status.value==2}}" size="mini" plain class="btn"> 联系客服</button>
+
+                    <view class="btn active" wx:if="{{item.status.value==2||item.status.value==3}}" bindtap="goPackageDetailPage" data-item="{{item}}">服务详情</view>
+
+                    <!-- <view class="btn active" wx:if="{{item.status.value==2 && item.rightItems[0].projectType==101}}" data-item="{{item}}" bindtap="bindTodoItemEnterRoomTap">进入诊室</view> -->
+
+                    <!-- 列表需要带评价标记  才能展示评价 -->
+                    <!-- <view class="btn active" wx:if="{{item.status.value==3}}" data-item="{{item}}" bindtap="getAppraiseByOrderId">{{rateBtnText}}</view> -->
+                    <view class="btn" wx:if="{{item.appraiseId}}" data-item="{{item}}" bindtap="goRate">查看评价</view>
+
+                    <view class="btn active" wx:if="{{item.status.value==3||item.status.value==4}}" data-item="{{item}}" bindtap="bugAgain">再次购买</view>
                 </view>
-
-                <!-- <view class="btn active" hidden="{{item.status.value==1? false : true}}" bindtap="toPay" data-id="{{item.orderId}}" data-ordertype="{{item.orderType.value}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">去支付</view> -->
-
-                <!-- 已完成 和 已取消 -->
-                <!-- 下面的进行中 -->
-                <!-- <view class="btn active" style="width: 80%;" hidden="{{(item.status.value==3||item.status.value==4)? false : true}}" bindtap="buyAgain" data-goods="{{item}}">
-                    再次购买
-                </view>
-           
-                <view class="btn active" data-goods="{{item}}" style="width: 80%;" wx:if="{{(item.status.value==2&& item.goodsType!=2)? true : false}}" bindtap="goConsult">
-                    立即咨询
-                </view> -->
 
             </view>
         </block>
