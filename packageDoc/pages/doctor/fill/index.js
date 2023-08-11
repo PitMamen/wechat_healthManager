@@ -119,7 +119,6 @@ Page({
         if (res.code == 0) {
             this.setData({
                 DiagnosisList: res.data.slice(0, 9),
-
             })
         }
     },
@@ -159,17 +158,7 @@ Page({
             })
         }
         
-        console.log(this.data.checkDiagnosisList)
-        // this.setData({
-        //     keyWordsdiagnosis:'',
-        //     diagnosisName: diagnosisData.name,
-        //     diagnosis:diagnosisData.name,
-        //     icdCode: diagnosisData.icdCode,
-        //     hideDiagnosisPicker: true,
-        //     show:false,
-        //     disabled:false
-        // })
-        console.log("vvv11:", this.data.diagnosisName)
+
     },
     //删除已选诊断
     onDiagnosisItemClick(e){
