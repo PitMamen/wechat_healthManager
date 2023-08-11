@@ -284,13 +284,13 @@ page {
 }
 
 .price-box .active {
-    border: 1px solid #367BF5;
-    background-color: #367BF5;
+    border: 1px solid #409EFF;
+    background-color: #409EFF;
     color: white;
 }
 
 .remark {
-    color: #367BF5;
+    color: #409EFF;
     margin-bottom: 20rpx;
 }
 

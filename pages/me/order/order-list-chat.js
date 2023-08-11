@@ -139,7 +139,7 @@ Page({
         if (this.checkLoginStatus()) {
             if (getApp().globalData.sdkReady) {
                 if (item.orderId) {
-                    IMUtil.goGroupChat(item.doctorUserId, 'navigateTo', 'M_' + item.orderId, 'textNum', item.tradeId, 'START')
+                    IMUtil.goGroupChat(item.userId, 'navigateTo', 'M_' + item.orderId, 'textNum', item.tradeId, 'START')
                 }
             }
         }
@@ -190,11 +190,16 @@ Page({
     },
 
     //去评价
-    goRate(item) {
-        console.log('goRate------------', item)
-        if (this.data.isRated) {
+    goRate(e) {
+        let item = e.currentTarget.dataset.item
+        console.log('goRate list------------', item)
+        console.log('goRate list rateId------------', this.data.rateId)
+        console.log('goRate list item.appraiseId------------', item.appraiseId)
+        debugger
+        // if (this.data.isRated) {
+        if (item.appraiseId) {
             wx.navigateTo({
-                url: `/pages/home/rate/doctor?rightsId=${item.id}&id=${this.data.rateId}`
+                url: `/pages/home/rate/doctor?rightsId=${item.id}&id=${item.appraiseId}`
             })
         } else {
             wx.navigateTo({
