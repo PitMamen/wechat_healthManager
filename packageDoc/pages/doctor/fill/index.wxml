@@ -53,7 +53,7 @@
         <view class="row">
             <view class="title"><text style="color: #E95454;">*</text>病情描述</view>
             <view class="textarea">
-                <van-field show-word-limit type="textarea" size="large" disabled="{{disabled}}" maxlength="1024" border="{{ false }}" model:value="{{show?'': inputTxt }}" input-class="input-class2" placeholder="{{show?'': '请补充简要的疾病及咨询目的，已便大夫能准确了解您的病情，帮您排忧解难，提高问诊效率。 该描述最少输入10个字！' }}" />
+                <van-field show-word-limit type="textarea" size="large" disabled="{{disabled}}" maxlength="1024" border="{{ false }}" value="{{show?'': inputTxt }}" input-class="input-class2" placeholder="{{show?'': '请补充简要的疾病及咨询目的，已便大夫能准确了解您的病情，帮您排忧解难，提高问诊效率。 该描述最少输入10个字！' }}" bind:change="onDiseaseDescChange"/>
             </view>
         </view>
 
@@ -68,7 +68,7 @@
         <view class="row">
             <view class="title">您希望获得医生哪些帮助？</view>
             <view class="textarea">
-                <van-field show-word-limit type="textarea" size="large" disabled="{{disabled}}" maxlength="1024" border="{{ false }}" model:value="{{show?'': appealDesc }}" input-class="input-class2" placeholder="{{show?'': '请输入您需要获得的医生帮助！' }}" />
+                <van-field show-word-limit type="textarea" size="large" disabled="{{disabled}}" maxlength="1024" border="{{ false }}" value="{{show?'': appealDesc }}" input-class="input-class2" placeholder="{{show?'': '请输入您需要获得的医生帮助！' }}" bind:change="onAppealDescChange"/>
             </view>
         </view>
     </view>
@@ -89,7 +89,7 @@
 
 
 <!-- 选择机构 -->
-<van-popup show="{{ !hideHospitalPicker }}" round position="bottom" custom-style="padding-top:10rpx;height: 60%;z-index: 100;" bind:close="closeHospitalTap">
+<van-popup show="{{ !hideHospitalPicker }}" round position="bottom" custom-style="padding-top:10rpx;height: 80%;z-index: 100;" bind:close="closeHospitalTap">
     <!-- <van-sticky> -->
     <view style="text-align: center;font-size: 40rpx;font-weight: bold">机构</view>
     <van-search class="search" placeholder="请输入机构名称进行查询" model:value="{{ keyWords }}" bind:change="onInputChange" />
@@ -111,7 +111,7 @@
 
 <!-- 选择诊断 -->
 
-<van-popup show="{{ !hideDiagnosisPicker }}" round position="bottom" custom-style="padding-top:10rpx;height: 60%;z-index: 100;" bind:close="cloaseDiagnosistab">
+<van-popup show="{{ !hideDiagnosisPicker }}" round position="bottom" custom-style="padding-top:10rpx;height: 80%;z-index: 100;" bind:close="cloaseDiagnosistab">
 
     <view style="text-align: center;font-size: 40rpx;font-weight: bold">诊断</view>
 

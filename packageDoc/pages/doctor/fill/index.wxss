@@ -143,7 +143,9 @@ color: #999999;
     line-height: 37rpx !important;
     z-index: 1;
 }
-
+.van-uploader__upload {
+    background-color: white !important;
+}
 .wrap .bottom .row .subtitle {
     margin-top: 30rpx;
     font-size: 28rpx;

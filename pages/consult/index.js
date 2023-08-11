@@ -111,7 +111,8 @@ Page({
             var conversationIDList = []
             res.data.forEach(item => {
                 item.conversationID = 'GROUP' + item.imGroupId
-                if (item.status.value==3 && item.imGroupId) {
+                if (item.status.value==3 && item.imGroupId && item.serviceItemTypes[0]==101) {
+                    //只查进行中的图文咨询
                     conversationIDList.push(item.conversationID)
                 }
             })

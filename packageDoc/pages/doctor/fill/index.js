@@ -200,8 +200,18 @@ Page({
             disabled:false
         })
     },
-
-
+    //病情描述输入监听
+    onDiseaseDescChange(event) {
+        this.setData({
+            inputTxt:event.detail
+        })
+      },
+      //医生帮助输入监听
+    onAppealDescChange(event) {
+        this.setData({
+            appealDesc:event.detail
+        })
+      },
     // 机构搜索
     onInputChange(event) {
         this.setData({
