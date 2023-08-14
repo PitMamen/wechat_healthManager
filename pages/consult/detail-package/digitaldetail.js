@@ -41,6 +41,7 @@ Page({
         }else if(this.data.info.systemType == 2){
             wx.navigateToMiniProgram({
                 appId: this.data.info.systemAddress,
+                path: this.data.info.sysPath || undefined,
             })
         }else if(this.data.info.systemType == 3){
             var encodeUrl = encodeURIComponent(this.data.info.systemAddress)
