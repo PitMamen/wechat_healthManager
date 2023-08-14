@@ -88,6 +88,9 @@
 .wrap .top .card .right .row:last-child {
     margin-bottom: 0rpx;
 }
+.resclass{
+    color: #1A1A1A;
+}
 .wrap .top .card .right .row .name {
     /* margin-right: 60rpx; */
     width: 300rpx;
