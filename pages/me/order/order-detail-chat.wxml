@@ -75,15 +75,15 @@
                 <view style="flex: 1;color: #999999;">就诊人</view>
                 <view class="des-value">
                     <!-- {{order.userName}} -->
-                    {{defaultPatient.userName}}
+                    {{order.userName}}
                 </view>
                 <view class="shu-divider" style="margin-left: 20rpx;" />
                 <view class="des-value" style="margin-left: 20rpx;">
-                    {{defaultPatient.userAge}}
+                    {{order.userInfo.userAge}}
                 </view>
                 <view class="shu-divider" style="margin-left: 20rpx;" />
                 <view class="des-value" style="margin-left: 20rpx;">
-                    {{defaultPatient.userSex}}
+                    {{order.userInfo.userSex}}
                 </view>
             </view>
 

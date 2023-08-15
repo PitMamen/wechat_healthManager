@@ -9,13 +9,13 @@ Page({
      * 1服务中2待接诊3问诊中4已结束
      */
     data: {
-        packageList:[],
+        packageList: [],
         appointList: [],
         conversationIDList: [],
         todoList: [],
         active: '2',
         unreadConsult: 0,
-        unreadTodo:0,
+        unreadTodo: 0,
     },
 
     /**
@@ -29,27 +29,27 @@ Page({
 
             this.getConversationList()
         })
-     
+
     },
 
     /**
- * 生命周期函数--监听页面显示
- */
+     * 生命周期函数--监听页面显示
+     */
     onShow: function () {
-        console.log('consultPageActive='+getApp().globalData.consultPageActive)
-   if(getApp().globalData.consultPageActive>0){
-    this.setData({
-        active:getApp().globalData.consultPageActive+''
-    })
-    getApp().globalData.consultPageActive=-1
-   }
+        console.log('consultPageActive=' + getApp().globalData.consultPageActive)
+        if (getApp().globalData.consultPageActive > 0) {
+            this.setData({
+                active: getApp().globalData.consultPageActive + ''
+            })
+            getApp().globalData.consultPageActive = -1
+        }
 
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient')
         })
         this.getPackageList()
         this.getConsultList()
-        this.getInquiriesAgencyList()
+        this.getInquiriesAgencyList()//这里还需要调用，因为需要展示未读系统通知数量
     },
     onTabsChange(e) {
 
@@ -69,27 +69,29 @@ Page({
             this.setData({
                 todoList: res.data.records,
             })
-            var num=0
-            res.data.records.forEach(item=>{
-                if(item.readStatus.value == 1){
-                    num=num+1
+            var num = 0
+            res.data.records.forEach(item => {
+                if (item.readStatus.value == 1) {
+                    num = num + 1
                 }
             })
             this.setData({
-                unreadTodo:num
+                unreadTodo: num
             })
         } else {
             this.setData({
                 todoList: [],
-                unreadTodo:0
+                unreadTodo: 0
             })
         }
-       
+
 
     },
     //获取套餐列表
     async getPackageList() {
-        const res = await WXAPI.getConsultList({broadClassify:2})
+        const res = await WXAPI.getConsultList({
+            broadClassify: 2
+        })
         if (res.code == 0 && res.data && res.data.length > 0) {
 
             this.setData({
@@ -106,12 +108,14 @@ Page({
     },
     //获取问诊列表
     async getConsultList() {
-        const res = await WXAPI.getConsultList({broadClassify:1})
+        const res = await WXAPI.getConsultList({
+            broadClassify: 1
+        })
         if (res.code == 0 && res.data && res.data.length > 0) {
             var conversationIDList = []
             res.data.forEach(item => {
                 item.conversationID = 'GROUP' + item.imGroupId
-                if (item.status.value==3 && item.imGroupId && item.serviceItemTypes[0]==101) {
+                if (item.status.value == 3 && item.imGroupId && item.serviceItemTypes[0] == 101) {
                     //只查进行中的图文咨询
                     conversationIDList.push(item.conversationID)
                 }
@@ -120,9 +124,9 @@ Page({
                 conversationIDList: conversationIDList,
                 appointList: res.data,
             })
-            if(conversationIDList.length>0){
+            if (conversationIDList.length > 0) {
                 this.getConversationList()
-            }else{
+            } else {
                 this.setData({
                     unreadConsult: 0
                 })
@@ -165,10 +169,10 @@ Page({
                         appointList: appointList,
                         unreadConsult: num
                     })
-                }else{
+                } else {
                     that.setData({
                         unreadConsult: 0
-                    }) 
+                    })
                 }
             }).catch(function (imError) {
                 console.warn('getConversationList error:', imError); // 获取会话列表失败的相关信息
@@ -177,7 +181,7 @@ Page({
 
     },
     //套餐详情
-    goPackageDetailPage(e){
+    goPackageDetailPage(e) {
         var info = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
             wx.navigateTo({
@@ -189,17 +193,17 @@ Page({
     //问诊详情
     goConsultDetail(e) {
         var info = e.currentTarget.dataset.item
-        console.log("fff:",info)
+        console.log("fff:", info)
         if (this.checkLoginStatus()) {
-            if(info.serviceItemTypes[0]==102){
+            if (info.serviceItemTypes[0] == 102) {
                 wx.navigateTo({
                     url: './detail-tel/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
                 })
-            }else if(info.serviceItemTypes[0]==103){
+            } else if (info.serviceItemTypes[0] == 103) {
                 wx.navigateTo({
                     url: './detail-video/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
                 })
-            }else{
+            } else {
                 wx.navigateTo({
                     url: './detail-text/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
                 })
@@ -221,7 +225,7 @@ Page({
                 }
             }
         }
-        if (item.originalType.value !== 1 && item.originalType.value !== 2) {  //不是问卷和文章 设置已读
+        if (item.originalType.value !== 1 && item.originalType.value !== 2) { //不是问卷和文章 设置已读
             this.setInquiriesAgencyRead(item)
         }
     },
@@ -236,25 +240,24 @@ Page({
             this.goWebPage(2, item.jumpUrl)
             //设置已读
             this.setInquiriesAgencyRead(item)
-        }  else if (item.originalType.value == 4||  item.originalType.value == 6) {
+        } else if (item.originalType.value == 4 || item.originalType.value == 6) {
             //单次咨询评价
             this.setInquiriesAgencyRead(item) //设置已读消息
             wx.navigateTo({
-                url:  `/pages/home/rate/doctor?rightsId=${item.rightsId}&todoid=${item.id}`
-            })     
+                url: `/pages/home/rate/doctor?rightsId=${item.rightsId}&todoid=${item.id}`
+            })
         } else if (item.originalType.value == 5) {
-           //单次咨询评价
-           wx.navigateTo({
-            url:  `/pages/home/rate/package?rightsId=${item.rightsId}&todoid=${item.id}`
-        })     
-        }else if (item.originalType.value == 9||item.originalType.value == 8) {
-            //药师审核   开具处方
-            this.setInquiriesAgencyRead(item)  //设置为已读
+            //单次咨询评价
             wx.navigateTo({
-             url:  `/pages/me/prescription/detail?preNo=${item.tradeId}`
-         })     
-         }
-         else {
+                url: `/pages/home/rate/package?rightsId=${item.rightsId}&todoid=${item.id}`
+            })
+        } else if (item.originalType.value == 9 || item.originalType.value == 8) {
+            //药师审核   开具处方
+            this.setInquiriesAgencyRead(item) //设置为已读
+            wx.navigateTo({
+                url: `/pages/me/prescription/detail?preNo=${item.tradeId}`
+            })
+        } else {
             if (this.checkLoginStatus()) {
                 if (getApp().globalData.sdkReady) {
                     if (item.imGroupId) {
@@ -294,15 +297,15 @@ Page({
     bugAgain(e) {
         var info = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
-            if(info.serviceItemTypes[0]==101){
+            if (info.serviceItemTypes[0] == 101) {
                 wx.navigateTo({
                     url: `/packageDoc/pages/health/detail/index?id=${info.commodityId}`
                 })
-            }else if(info.serviceItemTypes[0]==102){
+            } else if (info.serviceItemTypes[0] == 102) {
                 wx.navigateTo({
                     url: `/packageDoc/pages/doctor/detail/index?id=${info.commodityId}&docId=${info.doctorUserId}&docName=${info.doctorUserName}`
                 })
-            }else if(info.serviceItemTypes[0]==103){
+            } else if (info.serviceItemTypes[0] == 103) {
                 wx.navigateTo({
                     url: `/packageDoc/pages/doctor/detail/index?id=${info.commodityId}&docId=${info.doctorUserId}&docName=${info.doctorUserName}`
                 })
@@ -310,19 +313,30 @@ Page({
 
 
         }
-     
+
 
     },
     //使用权益
     goApplyRights(e) {
         var info = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
-
             wx.navigateTo({
                 url: './rights/apply?rightsId=' + info.rightsId + '&userId=' + info.userId,
             })
+        }
 
+    },
 
+    goTodoPage() {
+        if (this.checkLoginStatus()) {
+            if (getApp().getDefaultPatient()) {
+                if (getApp().globalData.sdkReady) {
+                    wx.navigateTo({
+                        url: '/pages/consult/todo/todo-list',
+                    })
+                    // IMUtil.goGroupChat(1447, 'navigateTo', '@TGS#1ZV5FEHME', 'textNum', 20, 'START')
+                }
+            }
         }
 
     },

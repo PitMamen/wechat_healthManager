@@ -79,6 +79,7 @@
         "pages/login/follow-checkin",
         "pages/login/follow-info",
         "pages/consult/index",
+        "pages/consult/todo/todo-list",
         "pages/me/my-plan/plan-detail-v2",
         "pages/home/health-remind/detail",
         "pages/home/hospital-select/index",
