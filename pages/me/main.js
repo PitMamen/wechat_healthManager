@@ -153,16 +153,7 @@ Page({
         }
 
     },
-    goTechnologyListPage() {
-        if (this.checkLoginStatus()) {
-            if (getApp().getDefaultPatient()) {
-                wx.navigateTo({
-                    url: '../home/technology/record-list',
-                })
-            }
-        }
-
-    },
+   
     goAddPage() {
         wx.navigateTo({
             url: './patients/addPatient',
