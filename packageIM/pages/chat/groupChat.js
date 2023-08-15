@@ -471,6 +471,20 @@ Page({
         })
         this.setInquiriesAgencyRead(item.todoId)
     },
+    //点击套餐
+    onCustomTaocanMessageClick(e) {
+        console.log(e)
+        let item = e.currentTarget.dataset.item;
+        // var encodeUrl = encodeURIComponent(item.url)
+        // wx.navigateTo({
+        //     url: '/pages/consult/webpage/index?url=' + encodeUrl + '&type=2'
+        // })
+        wx.navigateTo({
+            // url: '/pages/home/news/news-detail?id=' + item.id,
+            url: `/packageDoc/pages/health/detail/index?id=${item.id}`
+        })
+        // this.setInquiriesAgencyRead(item.todoId)
+    },
     //点击问诊卡
     onCustomIllnessMessageClick(e) {
 
@@ -955,6 +969,8 @@ Page({
                     item.payload.customType = "CustomWenJuanMessage"
                 } else if (type == 'CustomArticleMessage') {//文章卡
                     item.payload.customType = "CustomArticleMessage"
+                } else if (type == 'CustomTaoCanMessage') {//套餐卡
+                    item.payload.customType = "CustomTaoCanMessage"
                 } else if (type == 'CustomIllnessMessage') {//问诊卡
                     item.payload.customType = "CustomIllnessMessage"
                 } else if (type == 'CustomChuFangMessage') {//处方卡

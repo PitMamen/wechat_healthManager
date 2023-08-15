@@ -72,6 +72,26 @@
                 </view>
             </view>
         </block>
+        <!-- 套餐卡 -->
+        <block wx:elif="{{type==='CustomTaoCanMessage'}}">
+            <view bindtap="onCustomTaocanMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
+                    <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="../../image/chat/icon_buy.png">
+                    </image>
+                    <view>推荐购买</view>
+                </view>
+                <view style="font-size:  28rpx ;margin: 30rpx 20rpx ;display: flex;flex-direction: row;align-items: center;">
+                    <!-- <view style="color: #999999;">文章名称：</view> -->
+                    <view style="color: #1A1A1A;flex: 1;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{content.data.name}}</view>
+                  
+                </view>
+                <view style="color: #999999;flex: 1;overflow: hidden;-webkit-box-orient: vertical;font-size: 28rpx;padding: 0 24rpx;">医生给您推荐了一个服务套餐，请您 点击购买。</view>
+                <view style="height: 1rpx;width: 100%;background: #E6E6E6;margin-top: 30rpx;"></view>
+                <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                    <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
+                </view>
+            </view>
+        </block>
         <!-- 问卷卡 -->
         <block wx:elif="{{type==='CustomWenJuanMessage'}}">
             <view bindtap="onCustomWenJuanMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
