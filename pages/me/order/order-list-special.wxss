@@ -20,7 +20,9 @@ page {
 }
 
 .titleviw {
-    height: 40px;
+    /* height: 40px; */
+    padding-top: 20rpx;
+    padding-bottom: 20rpx;
 
     margin-left: 30rpx;
     margin-right: 30rpx;
