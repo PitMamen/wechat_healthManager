@@ -195,7 +195,6 @@ Page({
         console.log('goRate list------------', item)
         console.log('goRate list rateId------------', this.data.rateId)
         console.log('goRate list item.appraiseId------------', item.appraiseId)
-        debugger
         // if (this.data.isRated) {
         if (item.appraiseId) {
             wx.navigateTo({

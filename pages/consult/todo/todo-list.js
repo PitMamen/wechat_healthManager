@@ -91,6 +91,7 @@ Page({
             })
         } else if (item.originalType.value == 5) {
             //单次咨询评价
+            this.setInquiriesAgencyRead(item) //设置已读消息
             wx.navigateTo({
                 url: `/pages/home/rate/package?rightsId=${item.rightsId}&todoid=${item.id}`
             })
