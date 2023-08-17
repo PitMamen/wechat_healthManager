@@ -10,7 +10,7 @@
 </view>
 <view class="info">
     <view class="title">
-        <view style="margin:auto;">{{detail.medicalInfo.preHead}}</view>
+        <view style="margin:auto;">{{detail.medicalInfo.preHead}}互联网医院</view>
         <van-tag plain type="primary" size="large">{{detail.medicalInfo.preType}}</van-tag>
     </view>
     <view class="midtitle">{{detail.medicalInfo.preTitle}}</view>
@@ -82,7 +82,7 @@
 <view class="diver"></view>
 <view class="zdview">
     <view class="remind" style="margin-top: 0;"> 特别提示：</view>
-    <view class="remind"> 1、本次处方仅限于中南大学湘雅二医院互联网医院使用，自行下载配药不具有处方效力。</view>
+    <view class="remind"> 1、本次处方仅限于{{detail.medicalInfo.preHead}}互联网医院使用，自行下载配药不具有处方效力。</view>
     <view class="remind"> 2、按照卫生部、国家中医药管理局卫医政发【2011】11号文件规定：为保证患者用药安全，药品一经发出，不得退换。</view>
 </view>
 <view class="diver"></view>
