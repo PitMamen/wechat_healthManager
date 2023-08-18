@@ -33,7 +33,7 @@
             <view class="chat-cicle-view">
                 <view class="chat-cicle">3</view>
             </view>
-            <view class="chat-des" style="color:#1A1A1A;">{{status==3?detail.rightsUseRecordStatus.confirmTime:''}} 医生接诊</view>
+            <view class="chat-des" style="color:#1A1A1A;">{{detail.rightsUseRecordStatus.confirmTime||''}} 医生接诊</view>
         </view>
     </view>
     <!-- 待接诊和问诊中 显示权益列表 -->
