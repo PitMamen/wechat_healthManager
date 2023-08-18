@@ -75,11 +75,19 @@ Page({
                 nameColumns: nameColumns,
                 numRights: num,
             })
+
+            
+
             if (this.data.status == 4) {
                 this. getAppraiseByOrderId(this.data.detail.orderId)
             }
         }
-
+        if(res.data.rightsUseRecordStatus.status == 5){
+            //已拒诊
+            this.setData({
+                status:5
+            })
+        }
     },
     async getRightsReqData(id) {
         const res = await WXAPI.getRightsReqData({ rightsId: id })
