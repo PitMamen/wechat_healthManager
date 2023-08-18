@@ -1,0 +1,84 @@
+<view class="wrap">
+    <view style="height: 30rpx;"></view>
+    <view class="top">
+        <view class="doctor topcard">
+            <view class="left">
+                <image src="{{ info.avatarUrl || '/image/myjk/doctor.png' }}" mode="aspectFill" />
+            </view>
+            <view class="right">
+                <view class="name">{{ info.userName }}</view>
+                <view class="info">
+                    <text class="job" >{{ info.professionalTitle }}</text>
+                    <text class="depart">{{ info.departmentName }}</text>
+                </view>
+               
+                <view class="tags">
+                    <text class="tag" >{{ info.hospitalLevelName }}</text>
+                    <text class="hospital">{{ info.hospitalName }}</text>
+                </view>
+                <view class="share">分享</view>
+                <view class=" {{isCollect?'store-active':'store'}}" bindtap="goCollect">{{isCollect?'已关注':'关注'}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="middle">
+        <view class="intro midcard">
+            <view class="best">
+                <image src="/image/myjk/best.png" mode="aspectFill" />
+                <text>{{ info.expertInDisease || '暂无' }}</text>
+            </view>
+            <view class="desc">
+                <image src="/image/myjk/desc.png" mode="aspectFill" />
+                <text>{{ info.doctorBrief || '暂无' }}</text>
+                <view class="more" bind:tap="onMoreTap">更多信息</view>
+            </view>
+            <view style="width: 100%;height: 1rpx;background-color: #E6E6E6;margin-top: 20rpx;"></view>
+            <view class="comment-sum">
+                <view class="sum-item">好评率：<text style="color: #007BF5;">{{ info.appraiseRate }}</text></view>
+                <view class="sum-item">接诊人数：<text style="color: #007BF5;">{{ info.visitNum }}</text></view>
+                <view class="sum-item">关注人数：<text style="color: #007BF5;">{{ info.favouriteNum }}</text></view>
+            </view>
+        </view>
+    </view>
+    <view class="bottom bottomcard" >
+        <view class="title">医生为您蹭送了咨询服务包</view>
+        <van-empty class="empty" description="暂无数据" image="/image/icon_nodata.png" wx:if="{{ list.length === 0 }}" />
+        <view class="list" wx:else>
+            <view class="item" wx:for="{{ list }}" wx:key="commodityId">
+                <text class="name">{{item.projectName}}</text>
+                    <view class="detail" >{{item.quantity}}{{item.unit}}</view>
+             
+            </view>
+        </view>
+    </view>
+    <view class="remind"><van-icon style="margin-right: 10rpx;" size="large" name="warning-o" />备注说明：每个患者限购{{info.limitPurchaseTimes}}次，不能重复购买</view>
+  
+
+    <van-button class="fix" type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick" wx:if="{{ list.length > 0 }}">立即领取</van-button>
+</view>
+
+<van-popup round closeable show="{{ show }}" position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePopup">
+    <view class="pop-wrap">
+        <view class="head">
+            <view class="title">
+                <text class="name">{{ info.userName }}</text>
+                <text class="job">{{ info.professionalTitle }}</text>
+                <view class="bg"></view>
+            </view>
+        </view>
+        <view class="part">
+            <view class="title">
+                <image src="/image/myjk/part.png" mode="aspectFill" />
+                <text>专业擅长</text>
+            </view>
+            <view class="desc">{{ info.expertInDisease || '暂无' }}</view>
+        </view>
+        <view class="part">
+            <view class="title">
+                <image src="/image/myjk/part.png" mode="aspectFill" />
+                <text>个人简介</text>
+            </view>
+            <view class="desc">{{ info.doctorBrief || '暂无' }}</view>
+        </view>
+    </view>
+</van-popup>
