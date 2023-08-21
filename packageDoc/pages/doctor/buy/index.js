@@ -116,6 +116,7 @@ Page({
     },
 
     goOrderDetail(){
+        console.log('goOrderDetail',this.data.info)
         if (this.data.info.items.length>1) {
             wx.redirectTo({
                     url:  '/pages/me/order/order-detail-special?orderId=' + this.data.id,
