@@ -25,9 +25,6 @@ Page({
         wx.showLoading({
             title: '加载中...',
         })
-
-        this.getInquiriesAgencyList()
-
     },
     //获取待办列表
     async getInquiriesAgencyList() {
@@ -163,7 +160,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+        this.getInquiriesAgencyList()
     },
 
     /**
