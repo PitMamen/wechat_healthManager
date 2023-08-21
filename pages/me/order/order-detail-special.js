@@ -202,7 +202,7 @@ Page({
         var info = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: '../../consult/detail-package/index?rightsId=' + info.id + '&userId=' + info.userId + '&status=' + info.status.value,
+                url: '../../consult/detail-package/index?rightsId=' + info.rightsId + '&userId=' + info.userId + '&status=' + info.status.value,
             })
 
         }
