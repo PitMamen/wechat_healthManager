@@ -135,13 +135,16 @@ page {
 
 .des-name {
     color: #999999;
-    width: 150rpx;
+    min-width:  150rpx;
 }
 
 .des-value {
     margin-left: 5rpx;
+    width: 510rpx;
 }
-
+.des-top-value{
+    margin-left: 5rpx;
+}
 .shu-divider {
     width: 1rpx;
     height: 28rpx;

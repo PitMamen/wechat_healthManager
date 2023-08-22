@@ -32,16 +32,16 @@
             <view class="v-divider" style="margin-top: 0px;"></view>
 
             <view class="v-describe">
-                <view class="v-des-item" style="margin-top: 10rpx;">
-                    <view class="des-value">
+                <view class="v-des-item" style="margin-top: 10rpx;margin-bottom: 10rpx;">
+                    <view class="des-top-value">
                         {{item.doctorUserName}}
                     </view>
                     <view class="shu-divider" style="margin-left: 20rpx;" />
-                    <view class="des-value" style="margin-left: 20rpx;">
+                    <view class="des-top-value" style="margin-left: 20rpx;">
                         {{item.subjectClassifyName}}
                     </view>
                     <view class="shu-divider" style="margin-left: 20rpx;" />
-                    <view class="des-value" style="margin-left: 20rpx;">
+                    <view class="des-top-value" style="margin-left: 20rpx;">
                         {{item.hospitalName}}
                     </view>
                 </view>
@@ -54,7 +54,7 @@
                         {{item.userName}}
                     </view>
                 </view>
-                <view class="v-des-item" style="margin-top: 10rpx;">
+                <view class="v-des-item" style="margin-top: 10rpx; align-items: flex-start;">
                     <view class="des-name">
                         病情描述：
                     </view>
@@ -76,7 +76,7 @@
                     <view class="des-name">
                         预约时间：
                     </view>
-                    <view class="des-value">
+                    <view wx:if="{{item.visitDate && item.visitBeginTime && item.visitEndTime}}" class="des-value">
                         {{item.visitDate + ' ' + item.visitBeginTime + '-' + item.visitEndTime}}
                     </view>
                 </view>

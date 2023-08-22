@@ -68,7 +68,7 @@
             </view>
             <view wx:if="{{order.rightItems[0].projectType==102||order.rightItems[0].projectType==103}}" class="wrap-line" style="margin-top: 30rpx;">
                 <view style="flex: 1;color: #999999;">预约时间</view>
-                <view>{{order.visitDate + ' ' + order.visitBeginTime + '-' + order.visitEndTime}}</view>
+                <view wx:if="{{order.visitDate && order.visitBeginTime && order.visitEndTime}}">{{order.visitDate + ' ' + order.visitBeginTime + '-' + order.visitEndTime}}</view>
             </view>
             <view wx:if="{{order.rightItems[0].projectType==102}}" class="wrap-line" style="margin-top: 30rpx;">
                 <view style="flex: 1;color: #999999;">咨询电话</view>
