@@ -205,3 +205,7 @@ margin-left: 24rpx;
 margin-top: 20rpx;
 border-radius: 2rpx;
 }
+.scroll-view-class{
+    height: 400px;
+    
+}

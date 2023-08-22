@@ -21,6 +21,7 @@ Page({
         checked: true,
         offLinechecked: false,//是否线下就诊过
         loading: false,
+        searchDiagnosisPageNo:1,//诊断分页
         inputTxt: '',
         appealDesc: '',
         docId: null,
@@ -88,12 +89,10 @@ Page({
         // 页面出现在前台时执行
         this.setData({
             loading: false,
-            // selectUser: wx.getStorageSync('defaultPatient'),
-            // columns: wx.getStorageSync('userInfo').account.user
+          
         })
 
-        this.getList('医院') //传空值 会直接搜索出3w条机构数据 会卡死
-        this.searchDiagnosisList("感冒")
+       
     },
 
 
@@ -115,15 +114,23 @@ Page({
     async searchDiagnosisList(keyword) {
         const res = await WXAPI.searchDiagnosis({
             keyWord: keyword,
+            pageNo:this.data.searchDiagnosisPageNo
         })
         if (res.code == 0) {
+          var list=  this.data.DiagnosisList.concat(res.data)
             this.setData({
-                DiagnosisList: res.data.slice(0, 9),
+                DiagnosisList:  list
             })
         }
     },
 
-
+    onDiagnosisScrolltolower(){
+        console.log("onDiagnosisScrolltolower")
+        this.setData({
+            searchDiagnosisPageNo:this.data.searchDiagnosisPageNo+1
+        })
+        this.searchDiagnosisList(this.data.keyWordsdiagnosis)
+    },
 
 
     //    点击机构item
@@ -223,6 +230,8 @@ Page({
     // 诊断搜索
     diagnosisChange(event) {
         this.setData({
+            DiagnosisList:[],
+            searchDiagnosisPageNo:1,
             keyWordsdiagnosis:event.detail
         })
         this.searchDiagnosisList(event.detail)
