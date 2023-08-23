@@ -1,5 +1,6 @@
 const WXAPI = require('../../../static/apifm-wxapi/index')
 const WXPAY = require('../../../utils/pay')
+const IMUtil = require('../../../utils/IMUtil')
 Page({
 
     /**
@@ -117,10 +118,11 @@ Page({
     bindTodoItemEnterRoomTap(e) {
         let item = e.currentTarget.dataset.item
         console.log('bindTodoItemEnterRoomTap ********', item)
+        // this.data.order.doctorUserId
         if (this.checkLoginStatus()) {
             if (getApp().globalData.sdkReady) {
-                if (item.orderId) {
-                    IMUtil.goGroupChat(item.userId, 'navigateTo', 'M_' + item.orderId, 'textNum', item.tradeId, 'START')
+                if (this.data.order.orderId) {
+                    IMUtil.goGroupChat(this.data.order.userId, 'navigateTo', 'M_' + this.data.order.orderId, 'textNum', this.data.order.tradeId, 'START')
                 }
             }
         }
