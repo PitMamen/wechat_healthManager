@@ -62,6 +62,16 @@ Page({
             })
         })
     },
+    onCheckboxChange(event){
+        this.setData({
+            checked: event.detail,
+          });
+    },
+    onCheckboxClick(){
+        this.setData({
+            checked: !this.data.checked,
+          });
+    },
     onSchemeTap() {
         wx.navigateTo({
             url: '/pages/home/consent/index?title=患者服务授权协议&type=1&showbtn=true'
