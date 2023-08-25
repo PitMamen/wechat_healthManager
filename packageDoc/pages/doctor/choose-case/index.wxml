@@ -1,4 +1,4 @@
-<view class="toptabview">
+<view class="toptabview" wx:if="{{consultType !== '101'}}">
     <view class="toptabcontent">
         <view>预约信息</view>
         <van-icon class="icon" color="#5A9CF8" name="arrow" />

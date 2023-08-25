@@ -34,8 +34,16 @@ Page({
             userName:options.userName
         })
         console.log("case-options", options)
+        var title='咨询'
+        if(this.data.consultType == '101'){
+            title='图文咨询'
+        }else  if(this.data.consultType == '102'){
+            title='电话咨询'
+        }else  if(this.data.consultType == '103'){
+            title='视频咨询'
+        }
         wx.setNavigationBarTitle({
-            title: this.data.consultType == '102'?'电话咨询':'视频咨询',
+            title: title
           })
        
 

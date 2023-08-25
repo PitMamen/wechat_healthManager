@@ -31,7 +31,7 @@ page {
 
 .title-text {
     left: 0;
-    /* font-weight: bold; */
+    font-weight: bold;
     font-size: 16px;
     color: #1A1A1A;
 }
@@ -134,11 +134,21 @@ page {
 }
 
 .des-name {
-    width: 150rpx;
+    color: #999999;
+    min-width:  150rpx;
 }
 
 .des-value {
     margin-left: 5rpx;
+    width: 510rpx;
+}
+.des-top-value{
+    margin-left: 5rpx;
+}
+.shu-divider {
+    width: 1rpx;
+    height: 28rpx;
+    background-color: #1A1A1A;
 }
 
 .status-box .status-label {
@@ -251,30 +261,39 @@ page {
     display: flex;
     margin-top: 30rpx;
     flex-direction: row;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     padding-bottom: 30rpx;
 }
 
+.price-box .btn-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-right: 30rpx;
+}
+
 .price-box .btn {
-    width: 40%;
+    /* width: 180rpx; */
+    padding: 0 40rpx;
     height: 60rpx;
     box-sizing: border-box;
     text-align: center;
     line-height: 60rpx;
     border: 1rpx solid #ccc;
-    border-radius: 10rpx;
+    border-radius: 30rpx;
     margin-left: 20rpx;
-    font-size: 30rpx;
+    font-size: 28rpx;
 }
 
 .price-box .active {
-    border: 1px solid #367BF5;
-    color: #367BF5;
+    border: 1px solid #409EFF;
+    background-color: #409EFF;
+    color: white;
 }
 
 .remark {
-    color: #367BF5;
+    color: #409EFF;
     margin-bottom: 20rpx;
 }
 

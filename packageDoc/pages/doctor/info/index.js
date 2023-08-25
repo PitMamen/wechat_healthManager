@@ -227,13 +227,15 @@ Page({
   
         const serviceItemType=this.data.activepItem.pkgRules[0].serviceItemTypes[0]
         if (serviceItemType === 102 || serviceItemType === 103) { //电话咨询 视频咨询
-            // wx.navigateTo({
-            //     url: `/packageDoc/pages/doctor/telinfo/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
-            // })
             wx.navigateTo({
                 url: `/packageDoc/pages/doctor/choose-time/index?consultType=${serviceItemType}&docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
             })
-        } else {
+        } else if (serviceItemType === 101) { //图文咨询
+         
+            wx.navigateTo({
+                url: `/packageDoc/pages/doctor/choose-patient/index?consultType=${serviceItemType}&docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
+            })
+        }  else {
             wx.navigateTo({
                 url: `/packageDoc/pages/doctor/case/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
             })

@@ -111,10 +111,22 @@ Page({
         })
     },
 
-    goOrderListPage(e) {
+    // goOrderListPage(e) {
+    //     var type = e.currentTarget.dataset.type
+    //     wx.navigateTo({
+    //         url: './order/order-list-new?broadClassify=' + type,
+    //     })
+    // },
+    goOrderListChatPage(e) {
         var type = e.currentTarget.dataset.type
         wx.navigateTo({
-            url: './order/order-list-new?broadClassify=' + type,
+            url: './order/order-list-chat?broadClassify=' + type,
+        })
+    },
+    goOrderListSpecialPage(e) {
+        var type = e.currentTarget.dataset.type
+        wx.navigateTo({
+            url: './order/order-list-special?broadClassify=' + type,
         })
     },
 
@@ -141,16 +153,7 @@ Page({
         }
 
     },
-    goTechnologyListPage() {
-        if (this.checkLoginStatus()) {
-            if (getApp().getDefaultPatient()) {
-                wx.navigateTo({
-                    url: '../home/technology/record-list',
-                })
-            }
-        }
-
-    },
+   
     goAddPage() {
         wx.navigateTo({
             url: './patients/addPatient',

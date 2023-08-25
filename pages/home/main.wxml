@@ -187,7 +187,7 @@
            <block wx:if="{{activeIndex=='1'}}">
             <view class="doctor-item" bindtap="onDoctorTap" wx:for="{{ doctorList }}" wx:key="userId" data-item="{{ item }}">
                 <view class="left">
-                    <image src="{{ item.avatarUrl || '/image/myjk/doctor.png' }}" lazy-load="{{ true }}" mode="aspectFill" />
+                    <image src="{{ item.avatarUrl || 'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png' }}" lazy-load="{{ true }}" mode="aspectFill" />
                 </view>
                 <view class="right">
                     <view class="title">

@@ -62,6 +62,16 @@ Page({
             })
         })
     },
+    onCheckboxChange(event){
+        this.setData({
+            checked: event.detail,
+          });
+    },
+    onCheckboxClick(){
+        this.setData({
+            checked: !this.data.checked,
+          });
+    },
     onSchemeTap() {
         wx.navigateTo({
             url: '/pages/home/consent/index?title=患者服务授权协议&type=1&showbtn=true'
@@ -100,9 +110,10 @@ Page({
                     },
                     fail(err) {
                         console.info(err)
-                        wx.redirectTo({
-                            url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
-                        })
+                        // wx.redirectTo({
+                        //     url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
+                        // })
+                        that.goOrderDetail()
                         that.setData({
                             loading: false
                         })
@@ -114,6 +125,19 @@ Page({
         })
     },
 
+    goOrderDetail(){
+        console.log('goOrderDetail',this.data.info)
+        if (this.data.info.items.length>1) {
+            wx.redirectTo({
+                    url:  '/pages/me/order/order-detail-special?orderId=' + this.data.id,
+                })
+        } else {
+            wx.redirectTo({
+                url:  '/pages/me/order/order-detail-chat?orderId=' + this.data.id,
+            })
+        }
+    },
+
     //支付成功
     paySuccess(){
         let that = this
@@ -123,9 +147,11 @@ Page({
                 duration: 2000
             })
             setTimeout(() => {
-                wx.redirectTo({
-                    url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
-                })
+                // wx.redirectTo({
+                //     url: '/pages/me/order/order-detail-new?orderId=' + that.data.id,
+                // })
+                that.goOrderDetail()
+                
             }, 2000)
         
         

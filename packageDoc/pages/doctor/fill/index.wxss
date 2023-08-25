@@ -1,23 +1,62 @@
 .wrap {
     min-height: 100vh;
-    background: #FFFFFF;
+    background: #F5F5F5;
 }
 
 .wrap .fix {
     position: fixed;
-    width: 552rpx;
+    width: 705rpx;
     left: 50%;
-    bottom: 30rpx;
+    bottom:0;
+    padding-bottom: 30rpx;
     transform: translateX(-50%);
-    z-index: 1;
+    z-index: 99;
     border-radius: 8rpx;
+    background: #F5F5F5;
 }
 
 .wrap .top {
     padding: 22rpx 24rpx;
     background: #FDF5E8;
 }
-
+.wrap .row .fzview{
+    padding: 30rpx;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    margin-top: 30rpx;
+  
+}
+.wrap .row .fzitem{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:center;
+}
+.wrap .row .fzright{
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    
+}
+.wrap .row .fzview .fztitle{
+font-size: 30rpx;
+color: #999999;
+}
+.wrap .row .fzview .fzvalue{
+    
+    font-size: 30rpx;
+    color: #1A1A1A;
+    margin-right: 10rpx;
+    max-width: 460rpx;
+    }
+.wrap .row .fzview .line{
+    width: 642rpx;
+    height: 1rpx;
+    background: #E6E6E6;
+    margin-top: 30rpx;
+    margin-bottom: 30rpx;
+    }
 .wrap .top image {
     margin-right: 20rpx;
     width: 32rpx;
@@ -34,8 +73,7 @@
 }
 
 .wrap .bottom {
-    margin-top: 60rpx;
-    margin-bottom: 188rpx;
+    margin-top: 30rpx;
     padding: 0 22rpx;
     overflow-y: auto;
 }
@@ -85,6 +123,7 @@
     background: #F4F5F7;
     border: 1rpx solid #E6E6E6;
     border-radius: 8rpx;
+    z-index: 1;
 }
 
 .wrap .bottom .row .textarea .input-class {
@@ -93,6 +132,7 @@
     font-weight: 400 !important;
     color: #999999 !important;
     line-height: 37rpx !important;
+    z-index: 1;
 }
 
 .wrap .bottom .row .textarea .input-class2 {
@@ -101,10 +141,13 @@
     font-weight: 400 !important;
     color: rgba(0, 0, 0, 0.7) !important;
     line-height: 37rpx !important;
+    z-index: 1;
 }
-
+.van-uploader__upload {
+    background-color: white !important;
+}
 .wrap .bottom .row .subtitle {
-    margin-top: 20rpx;
+    margin-top: 30rpx;
     font-size: 28rpx;
     font-weight: 400;
     color: #999999;
@@ -112,8 +155,8 @@
 }
 
 .wrap .bottom .row .upload {
-    margin-top: 20rpx;
-    margin-bottom: 20rpx;
+    margin-top: 30rpx;
+   
 }
 
 .wrap .bottom .row .agree {
@@ -140,4 +183,29 @@
 .wrap .bottom .row .agree .content .link {
     padding: 0 10rpx;
     color: #007BF5;
+}
+
+.tabview{
+    display: flex;
+    flex-direction: row;
+    flex-flow:row wrap
+}
+.tabitem{
+background: #EBF5FF;
+border: 1rpx solid #409EFF;
+border-radius: 2rpx;
+padding: 10rpx 20rpx;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+font-size: 30rpx;
+color: #409EFF;
+margin-left: 24rpx;
+margin-top: 20rpx;
+border-radius: 2rpx;
+}
+.scroll-view-class{
+    height: 400px;
+    
 }

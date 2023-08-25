@@ -46,6 +46,31 @@ page {
     margin-right: 30rpx;
 }
 
+.todo-btn {
+    margin-left: auto;
+    margin-right: 70rpx;
+    color: white;
+    padding-top: 5rpx;
+    text-align: center;
+    border-radius: 25rpx;
+    background-color: red;
+    width: 50rpx;
+    height: 45rpx;
+}
+
+.view-des {
+    padding: 30rpx 24rpx 0rpx 24rpx;
+    display: flex;
+    flex-direction: row;
+}
+
+.view-shu{
+    width: 8rpx;
+    height: 40rpx;
+    margin-top: 5rpx;
+    background-color: #3894FF;
+}
+
 .card {
     width: 702rpx;
     margin-left: 24rpx;
@@ -57,6 +82,7 @@ page {
 
     margin-top: 30rpx;
 }
+
 .fuwu-card-top {
     display: flex;
     flex-direction: row;
@@ -66,6 +92,7 @@ page {
     margin-left: 20rpx;
     flex-shrink: 0;
 }
+
 .fuwu-name-view {
     display: flex;
     flex-direction: column;
@@ -76,6 +103,7 @@ page {
     color: #4D4D4D;
 
 }
+
 .fuwu-card-bottom {
     display: flex;
     flex-direction: row;
@@ -83,6 +111,7 @@ page {
 
     margin: 20rpx 20rpx 10rpx 20rpx;
 }
+
 .card-top {
     display: flex;
     flex-direction: row;
@@ -148,12 +177,14 @@ page {
     top: -3rpx;
     right: -3rpx;
 }
+
 .fuwu-head-style {
     width: 208rpx;
     height: 150rpx;
     border-radius: 4rpx;
     background: #D4D5DE;
 }
+
 .chat-head-style {
     width: 102rpx;
     height: 102rpx;
@@ -199,7 +230,7 @@ page {
 
 .todo-title {
     max-width: 400rpx;
-    
+
     font-size: 30rpx;
     color: #1A1A1A;
     overflow: hidden;
@@ -224,8 +255,8 @@ page {
     display: flex;
     flex-direction: row;
     flex: 1;
-    flex-shrink:0;
-    flex-flow:row wrap;
+    flex-shrink: 0;
+    flex-flow: row wrap;
 }
 
 .tag-blue {
@@ -242,6 +273,7 @@ page {
     margin-right: 10rpx;
     margin-bottom: 10rpx;
 }
+
 .tag-gray {
     padding-left: 10rpx;
     padding-right: 10rpx;
@@ -255,6 +287,7 @@ page {
     margin-right: 10rpx;
     margin-bottom: 10rpx;
 }
+
 .tag-yellow {
     padding-left: 10rpx;
     padding-right: 10rpx;
@@ -284,6 +317,7 @@ page {
     margin-right: 10rpx;
     margin-bottom: 10rpx;
 }
+
 van-info {
     position: relative;
     top: -4px;

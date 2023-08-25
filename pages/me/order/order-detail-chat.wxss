@@ -46,16 +46,92 @@ page {
     background-color: #F2f2f2;
 }
 
-.wrap-top{
+.wrap-card {
+    background-color: white;
     display: flex;
-    margin-left: 24rpx;
-    margin-right: 24rpx;
     /* width: 96%; */
     flex-direction: column;
     /* align-items: center; */
-    border: 1rpx solid #E6E6E6;
+    /* border: 1rpx solid #E6E6E6; */
+    font-size: 30rpx;
     border-radius: 10rpx;
+    padding: 30rpx;
 }
+
+.card-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.wrap-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.shu-divider {
+    width: 1rpx;
+    height: 28rpx;
+    background-color: #1A1A1A;
+}
+
+.goods-container {
+    display: flex;
+    margin-top: 30rpx;
+    flex-wrap: wrap;
+    box-sizing: content-box;
+}
+
+.goods-box {
+    width: 160rpx;
+    height: 160rpx;
+    margin-right: 20rpx;
+    background: #F5F6FB;
+    overflow: hidden;
+    margin-bottom: 20rpx;
+}
+
+
+.price-box {
+    width: 100vw;
+    display: flex;
+    margin-top: 30rpx;
+    flex-direction: row;
+    /* justify-content: center; */
+    align-items: center;
+    padding-bottom: 30rpx;
+}
+
+.price-box .btn-wrap {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding-right: 30rpx;
+}
+
+.price-box .btn {
+    /* width: 180rpx; */
+    padding: 0 40rpx;
+    height: 60rpx;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 60rpx;
+    border: 1rpx solid #ccc;
+    border-radius: 30rpx;
+    margin-left: 20rpx;
+    font-size: 28rpx;
+}
+
+.price-box .active {
+    border: 1px solid #409EFF;
+    background-color: #409EFF;
+    color: white;
+}
+
+
 
 .titleviw {
     height: 40px;
@@ -147,7 +223,7 @@ page {
     font-size: 28rpx;
 }
 
-.wrap-person{
+.wrap-person {
     width: 100%;
     margin-bottom: 20rpx;
     display: flex;
@@ -159,7 +235,7 @@ page {
     /* padding: 20rpx; */
 }
 
-.wrap-person-left{
+.wrap-person-left {
     /* width: 100%; */
     display: flex;
     margin-left: 30rpx;
@@ -167,7 +243,8 @@ page {
     flex: 1;
     align-items: center;
 }
-.wrap-person-right{
+
+.wrap-person-right {
     display: flex;
     margin-right: 30rpx;
     flex-direction: row;
@@ -318,33 +395,6 @@ page {
     margin-right: 20rpx;
     background-color: #f7f7f7;
     display: inline-block;
-}
-
-.price-box {
-    width: 720rpx;
-    display: flex;
-    margin-top: 30rpx;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 30rpx;
-}
-
-.price-box .btn {
-    width: 40%;
-    height: 60rpx;
-    box-sizing: border-box;
-    text-align: center;
-    line-height: 60rpx;
-    border: 1rpx solid #ccc;
-    border-radius: 10rpx;
-    margin-left: 20rpx;
-    font-size: 30rpx;
-}
-
-.price-box .active {
-    border: 1px solid #367BF5;
-    color: #367BF5;
 }
 
 .remark {

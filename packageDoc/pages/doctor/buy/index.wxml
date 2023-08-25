@@ -1,39 +1,71 @@
 <view class="wrap">
-    <view class="top">
+    <view class="top" wx:if="{{ info.items.length > 1}}">
         <view class="card">
-            <view class="left">
-                <image src="{{ info.frontImg }}" mode="aspectFill" />
-            </view>
+
             <view class="right">
                 <view class="title">{{ info.commodityName }}</view>
-                <view class="row" wx:for="{{ info.items }}" wx:key="serviceItemId">
-                    <text class="name">{{ item.serviceItemName }}</text>
-                    <text class="num">{{ item.quantity }}{{ item.unit }}</text>
-                    <text class="price">¥{{ item.saleAmount }}</text>
+
+                <view style="height: 1rpx;background-color: #E6E6E6;margin-bottom: 26rpx;"></view>
+                <view class="hospital">{{ info.subjectClassifyName }} | {{ info.hospitalName }}</view>
+                <view class="jzr">就诊人：<text class="resclass">{{ info.userName }}</text> </view>
+                <view class="qy">
+                    <text decode>权&emsp;益：</text>
+                    <view class="rowqy">
+                        <view class="row" wx:for="{{ info.items }}" wx:key="serviceItemId">
+                            <text class="resclass">{{ item.serviceItemName }}</text> |
+                            <text class="resclass" wx:if="{{item.ruleInfo}}">{{ item.ruleInfo }}</text> <text wx:if="{{item.ruleInfo}}"> | </text>
+                            <text class="resclass">{{ item.quantity }}{{ item.unit }}</text> |
+                            <text class="price">¥{{ item.saleAmount }}</text>
+                        </view>
+
+                    </view>
                 </view>
+
+            </view>
+        </view>
+    </view>
+    <view class="top" wx:else>
+        <view class="card">
+
+            <view class="right">
+                <view class="title">{{ info.commodityName }}</view>
+
+                <view style="height: 1rpx;background-color: #E6E6E6;margin-bottom: 26rpx;"></view>
+                <view class="hospital">{{ info.doctorName }} | {{ info.subjectClassifyName }} | {{ info.hospitalName }}</view>
+                <view class="jzr" decode>就诊人：<text class="resclass">{{ info.userName }}</text> </view>
+                <view class="bqmsview">病情描述：<view class="bqms">{{ info.diseaseDesc }}</view>
+                </view>
+                <view class="jzr">咨询规格：
+                    <text class="resclass" wx:if="{{info.items[0].ruleInfo}}">{{ info.items[0].ruleInfo }}</text>
+                    <text class="resclass" wx:if="{{info.items[0].ruleInfo}}"> | </text>
+                    <text class="resclass">{{ info.items[0].quantity }}{{ info.items[0].unit }}</text>
+                </view>
+
             </view>
         </view>
     </view>
     <view class="bottom">
-        <view class="row">
-            <view class="title left">就诊人</view>
-            <view class="right">
-                <text class="name">{{ info.userName }}</text>
+        <view class="card">
+            <view class="title">支付信息</view>
+            <view style="height: 1rpx;background-color: #E6E6E6;margin-bottom: 26rpx;"></view>
+            <view class="row">
+                <view class="left" style="color: #999999;font-size: 30rpx;">支付方式</view>
+                <view class="right">
+                    <image src="/image/myjk/pay.png" mode="aspectFill" />
+                    <text class="name">微信支付</text>
+                </view>
             </view>
         </view>
-        <view class="row">
-            <view class="title left">支付方式</view>
-            <view class="right">
-                <image src="/image/myjk/pay.png" mode="aspectFill" />
-                <text class="name">微信支付</text>
-            </view>
-        </view>
+
+
     </view>
     <view class="fix">
         <view class="row">
-            <view class="agree" bind:tap="onSchemeTap">
-                <van-checkbox class="box" value="{{ checked }}"></van-checkbox>
-                <text>已阅读并同意《患者服务授权协议》</text>
+            <view class="agree" >
+               
+                <van-checkbox class="box" value="{{ checked }}" bind:change="onCheckboxChange"></van-checkbox>
+                <text bind:tap="onCheckboxClick">已阅读并同意</text>
+                <text style="color: #007BF5;" bind:tap="onSchemeTap">《患者服务授权协议》</text>
             </view>
         </view>
         <view class="row">

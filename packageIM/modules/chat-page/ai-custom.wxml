@@ -10,7 +10,7 @@
                 <view bindtap="CustomQuestionMessageClickEvent" data-content="{{item}}" style="margin-top: 20rpx;color: #3894FF;" wx:for="{{content.data.qlist}}" wx:key="fwzxkey">
                     {{item.title}}
                 </view>
-                
+                <view style="margin-top: 40rpx;color: #999999;">{{content.data.remind}}</view>
             </view>
         </block>
         <!-- 问诊卡 -->

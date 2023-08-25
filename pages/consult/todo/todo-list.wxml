@@ -1,0 +1,77 @@
+<wxs src="../../../modules/format.wxs" module="computed"></wxs>
+<block>
+    <van-empty wx:if="{{ !todoList || todoList.length == 0 }}" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无数据" />
+    <view class="card" wx:for="{{todoList}}" wx:key="1">
+
+        <view class="todo-card-top">
+            <view wx:if="{{item.readStatus.value == 1}}" class="cicle"></view>
+            <view class="todo-title">{{item.title}}</view>
+            <view class="todo-date">{{computed.formatFullDate2(item.agencyDate)}}</view>
+        </view>
+        <view class="todo-content">{{item.content}}</view>
+        <view style="height: 0.5px;background: #E6E6E6;margin-left: 30rpx;"></view>
+        <view class="card-bottom">
+            <view class="btn-blue">
+                <van-button wx:if="{{item.originalType.value == 1 || item.originalType.value == 2}}" bindtap="goConsultDetail" data-item="{{item}}" bindtap="bindTodoItemEnterRoomTap" plain color="#3894FF" round type="info" size="small">进入诊室</van-button>
+                <van-button style="margin-left: 20rpx;" data-item="{{item}}" bindtap="bindTodoItemDetailTap" color="#3894FF" round type="info" size="small">{{Module.formartTodoStatus(item.originalType.value)}}</van-button>
+            </view>
+
+        </view>
+
+    </view>
+</block>
+<wxs module="Module">
+    //咨询不同状态
+    function formartStatus(status) {
+        if (status.value == 1) {
+            //服务中
+            return {
+                background: '#3894FF'
+            }
+        } else if (status.value == 2) {
+            //待接诊
+            return {
+                background: '#E99D42'
+            }
+        } else if (status.value == 3) {
+            //问诊中
+            return {
+                background: '#88CF65'
+            }
+        } else if (status.value == 4) {
+            //已结束
+            return {
+                background: '#959595'
+            }
+        } else {
+            return {
+                background: '#959595'
+            }
+        }
+    }
+
+
+    //待办不同状态
+    function formartTodoStatus(type) {
+        // 1问卷 2文章 4咨询待评价 5服务套餐待评价
+        if (type == 1) {
+            return '去填写'
+        } else if (type == 2) {
+            return '去阅读'
+        } else if (type == 4) {
+            return '去评价'
+        } else if (type == 5 || type == 6) {
+            return '去评价'
+        } else if (type == 8) {
+            return '查看处方'
+        } else if (type == 9) {
+            return '去支付'
+        } else {
+            return '去交流'
+        }
+    }
+    module.exports = {
+        formartStatus: formartStatus,
+        formartTodoStatus: formartTodoStatus
+    };
+</wxs>

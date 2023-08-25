@@ -33,7 +33,7 @@
             <view class="chat-cicle-view">
                 <view class="chat-cicle">3</view>
             </view>
-            <view class="chat-des" style="color:#1A1A1A;">{{status==3?detail.rightsUseRecordStatus.confirmTime:''}} 医生接诊</view>
+            <view class="chat-des" style="color:#1A1A1A;">{{detail.rightsUseRecordStatus.confirmTime||''}} 医生接诊</view>
         </view>
     </view>
     <!-- 待接诊和问诊中 显示权益列表 -->
@@ -63,6 +63,8 @@
     <view wx:if="{{status==2}}" class="remind-text">正在等待医生接诊，预计需要10～30分钟，如果30分钟后仍无医生接诊，系统会自动帮您提醒医生，请您耐心等候</view>
     <view wx:if="{{status==3}}" class="remind-text">正在接诊中，您可直接进入诊室</view>
     <view wx:if="{{status==4}}" class="remind-text">服务已经结束，请重新购买服务</view>
+    <view wx:if="{{status==5}}" class="remind-text">医生已拒诊，服务已经结束</view>
+    
     <van-button wx:if="{{status==1}}" type="primary" color="#367BF5" block bind:click="apply">申请权益</van-button>
     <van-button wx:if="{{status==3}}" type="primary" color="#367BF5" block bind:click="enterRoom">进入诊室</van-button>
  
@@ -70,6 +72,7 @@
         <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="goRate">{{rateBtnText}}</van-button>
         <van-button  type="primary" color="#367BF5" custom-class="custom-class" bind:click="bugAgain">再次购买</van-button>      
     </view>
+    <van-button wx:if="{{status==5}}" type="primary" color="#367BF5" block bind:click="bugAgain">再次购买</van-button>
 </view>
 
 <!-- 服务中已结束可以查看记录 -->

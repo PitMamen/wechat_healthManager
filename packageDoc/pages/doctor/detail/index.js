@@ -202,13 +202,14 @@ Page({
         })
 
         const serviceItemType=itemOptionalPkg.serviceItemTypes[0]
-        if (serviceItemType === 102 ) { //电话咨询
+       if (serviceItemType === 102 || serviceItemType === 103) { //电话咨询 视频咨询
             wx.navigateTo({
-                url: `/packageDoc/pages/doctor/telinfo/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
+                url: `/packageDoc/pages/doctor/choose-time/index?consultType=${serviceItemType}&docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
             })
-        }else if (serviceItemType === 103 ) { //视频咨询
+        } else if (serviceItemType === 101) { //图文咨询
+         
             wx.navigateTo({
-                url: `/packageDoc/pages/doctor/choose-time/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
+                url: `/packageDoc/pages/doctor/choose-patient/index?consultType=${serviceItemType}&docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
             })
         } else {
             wx.navigateTo({
