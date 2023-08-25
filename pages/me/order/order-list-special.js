@@ -185,11 +185,11 @@ Page({
         // if (this.data.isRated) {
         if (item.appraiseId) {
             wx.navigateTo({
-                url: `/pages/home/rate/doctor?rightsId=${item.id}&id=${item.appraiseId}`
+                url: `/pages/home/rate/package?rightsId=${item.id}&id=${item.appraiseId}`
             })
         } else {
             wx.navigateTo({
-                url: `/pages/home/rate/doctor?rightsId=${item.id}`
+                url: `/pages/home/rate/package?rightsId=${item.id}`
             })
         }
     },
