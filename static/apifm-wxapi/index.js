@@ -689,6 +689,12 @@ module.exports =
                         var url = HEALTH_SERVICE + '/health/patient/allArticlesPage'
                         return request2(url, 'get', data, true);
                     },
+                    //文章类别列表
+                    getArticleCategoryList: function getArticleCategoryList(data) {
+                        var url = HEALTH_SERVICE + '/articleCategory/getArticleCategoryList'
+                        return request(url, 'POST', data, true);
+                    },
+
                     //根据id查询文章
                     articleById: function articleById(id, recordId) {
                         return request(HEALTH_SERVICE + '/health/patient/articleById?id=' + id + '&recordId=' + recordId, 'get', {});
