@@ -8,8 +8,11 @@ Page({
 
     onMessageReceived: '',
     onMessageReadByPeer: '',
+    
     _freshing: false,
     data: {
+        cursorTimer:null,
+        cursor:false,
         showChatInput: true,
         hideTimeShow: true,
         config: {},
@@ -55,8 +58,41 @@ Page({
         this.voiceManager = new voiceManager(this)
         this.onIMReceived()
 
-       
-
+        wx.connectSocket({
+            url: `ws://192.168.1.121:8091/webSocket/${this.data.defaultPatient.userId}`,
+            success(res){
+                console.log('连接成功', res)
+            }
+          });
+          
+          wx.onSocketOpen(function () {
+            console.log('WebSocket 已连接')
+            wx.sendSocketMessage({
+              data: JSON.stringify({
+                from: "patient",
+                to: "assistant",
+                text: "你好"
+              }) ,
+            })
+          })
+          
+          wx.onSocketMessage(function (res) {
+            console.log('收到服务器内容：',res)
+          })
+          
+          wx.onSocketError(function (error) {
+            console.log('socketerror',error)
+          })
+          this.startCursorTimer()
+    },
+    
+    startCursorTimer(){
+        let that=this
+        setInterval(()=>{
+           that.setData({
+               cursor:!that.data.cursor
+           }) 
+        },500)
     },
 
     setConfig(){
@@ -159,7 +195,12 @@ Page({
         getApp().tim.off(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived);
         getApp().tim.off(TIM.EVENT.MESSAGE_READ_BY_PEER, this.onMessageReadByPeer);
         getApp().tim.off(TIM.EVENT.NET_STATE_CHANGE, this.onNetStateChange);
-
+        
+        wx.closeSocket()
+        // clearInterval(cursorTimer)
+        // cursorTimer=undefined
+       
+        
     },
    
    //获取机器人ID
@@ -637,6 +678,21 @@ onPatientAdd() {
     //发生文本消息
     onSendMessageEvent(e) {
         let content = e.detail.value;
+
+        console.log(JSON.stringify({
+            from: "patient",
+            to: "assistant",
+            text: content
+          }))
+
+        wx.sendSocketMessage({
+            data:JSON.stringify({
+                from: "patient",
+                to: "assistant",
+                text: content
+              }) ,
+          })
+          return
         // 发送文本消息，Web 端与小程序端相同
         // 1. 创建消息实例，接口返回的实例可以上屏
 
