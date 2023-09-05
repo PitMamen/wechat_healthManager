@@ -14,10 +14,10 @@
             <template is="chat-custom"
                 data="{{length:length,index:index,nick:item.nick,headUrl:avatar?avatar:'../../../image/avatar.png',isMy:item.flow=== 'out',content:item.payload,type:item.payload.customType,sendStatus:item.status}}" />
         </block>
-        <view wx:if="{{item.flow=== 'out' && index === length-1}}" >
+        <!-- <view wx:if="{{item.flow=== 'out' && index === length-1}}" >
             <van-loading   type="spinner" color="#1989fa" size="20px">请等待...</van-loading>
             <view style="height: 100rpx;"></view>
-        </view>
+        </view> -->
            
            
     </view>
