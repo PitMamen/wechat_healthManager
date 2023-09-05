@@ -11,7 +11,7 @@ Page({
     
     _freshing: false,
     data: {
-        cursorTimer:null,
+       
         cursor:false,
         showChatInput: true,
         hideTimeShow: true,
@@ -37,13 +37,14 @@ Page({
         defaultPatient:{},
         patientList:[],
         radioIndex:-1,
+        isStart:true
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-    
+        wx.closeSocket()
       this.setConfig()
         this.setData({
             pageHeight: wx.getSystemInfoSync().windowHeight,
@@ -56,7 +57,7 @@ Page({
         this.getAiAccount()
        
         this.voiceManager = new voiceManager(this)
-        this.onIMReceived()
+        // this.onIMReceived()
 
         wx.connectSocket({
             url: `ws://192.168.1.121:8091/webSocket/${this.data.defaultPatient.userId}`,
@@ -65,19 +66,47 @@ Page({
             }
           });
           
+       
+
           wx.onSocketOpen(function () {
             console.log('WebSocket 已连接')
-            wx.sendSocketMessage({
-              data: JSON.stringify({
-                from: "patient",
-                to: "assistant",
-                text: "你好"
-              }) ,
-            })
+          
           })
           
+          let that=this
           wx.onSocketMessage(function (res) {
             console.log('收到服务器内容：',res)
+            if(res && res.data && typeof res.data === "string"){
+              var data=  JSON.parse(res.data)
+              console.log(that.data.chatItems)
+             
+              if(data.chunk){
+                  if(that.data.isStart){
+                      that.setData({
+                          isStart:false
+                      })
+                    that.onGetMessageEvent_local('in', data.chunk)
+                  }else {
+                   var item= that.data.chatItems[that.data.chatItems.length-1]
+                   if(item.flow == 'in' && item.type == 'TIMTextElem'){
+                       item.payload.text=item.payload.text+data.chunk
+                   }
+                   that.setData({
+                       chatItems:that.data.chatItems
+                   })
+                  }
+                
+              }
+
+              if(data.response){
+                
+                clearInterval(that.cursorTimer)        
+                
+                that.setData({
+                    cursor:true,                
+                })
+            }
+            }
           })
           
           wx.onSocketError(function (error) {
@@ -85,14 +114,17 @@ Page({
           })
           this.startCursorTimer()
     },
-    
+   
+    cursorTimer: undefined,
     startCursorTimer(){
         let that=this
-        setInterval(()=>{
+        clearInterval(this.cursorTimer)
+       this. cursorTimer=  setInterval(()=>{
            that.setData({
                cursor:!that.data.cursor
            }) 
         },500)
+       
     },
 
     setConfig(){
@@ -197,8 +229,14 @@ Page({
         getApp().tim.off(TIM.EVENT.NET_STATE_CHANGE, this.onNetStateChange);
         
         wx.closeSocket()
-        // clearInterval(cursorTimer)
-        // cursorTimer=undefined
+       
+            clearInterval(this.cursorTimer)
+           
+            this. cursorTimer=undefined
+            
+           
+        
+       
        
         
     },
@@ -678,7 +716,7 @@ onPatientAdd() {
     //发生文本消息
     onSendMessageEvent(e) {
         let content = e.detail.value;
-
+        let that=this
         console.log(JSON.stringify({
             from: "patient",
             to: "assistant",
@@ -691,6 +729,17 @@ onPatientAdd() {
                 to: "assistant",
                 text: content
               }) ,
+              success(res){
+                console.log('发送成功', res)
+              
+                that.startCursorTimer()
+             
+               that.setData({
+                   isStart:true,
+                   cursor:false,
+               })
+               
+            }
           })
           return
         // 发送文本消息，Web 端与小程序端相同

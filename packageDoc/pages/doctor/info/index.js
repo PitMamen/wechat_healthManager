@@ -1,5 +1,6 @@
 const WXAPI = require('../../../../static/apifm-wxapi/index')
-
+const IMUtil = require('../../../../utils/IMUtil')
+const UserManager = require('../../../../utils/UserManager')
 
 Page({
     data: {
@@ -14,28 +15,58 @@ Page({
         activeItem: {},
         activepItem: {},
         comments: [],
-        list: []
+        list: [],
+        isFromCode:false //扫描医生二维码进来的
     },
     onLoad: function (options) {
+        console.log('doctor-info options',options)
         // 页面创建时执行
         wx.showShareMenu({
             withShareTicket: true
         })
+        if (options.scene) {
+            const scene = decodeURIComponent(options.scene)
+            console.log(scene)
+            console.log(scene.split('&'))
+            this.setData({
+                id: scene.split('&')[0],
+                tenantId: scene.split('&')[1],
+                hospitalCode: scene.split('&')[2],
+                isFromCode:true
+            })
+            getApp().globalData.currentHospital.tenantId=scene.split('&')[1]
+             getApp().globalData.currentHospital.hospitalCode=scene.split('&')[2]
+        } else {
+            this.setData({
+                id: options.id,
+                tenantId: options.tenantId,
+                hospitalCode: options.hospitalCode,
+                isFromCode:options.tenantId?true:false
+            })
+            getApp().globalData.currentHospital.tenantId=options.tenantId
+             getApp().globalData.currentHospital.hospitalCode=options.hospitalCode
+        }
         this.setData({
-            id: options.id,
             title: options.title,
             navBarHeight: getApp().globalData.navBarHeight,
             statusBarHeight: getApp().globalData.statusBarHeight
         })
         this.getInfo()
         this.getComments()
-        this.favouriteExistsForDoctorId()
+        
     },
     onShow: function () {
         // 页面出现在前台时执行
         this.setData({
             loading: false
         })
+        if (!getApp().globalData.loginReady) {
+            this.WXloginForLogin()
+        } else {
+            this.favouriteExistsForDoctorId()
+        }
+       
+       
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
@@ -134,6 +165,9 @@ Page({
     },
 
     async goCollect() {
+
+
+
         var userInfoSync = wx.getStorageSync('userInfo')
      
         var requestData = {
@@ -162,8 +196,37 @@ Page({
         this.setData({
             isCollect: res.data || false
         })
-       
+        if (!this.data.isCollect && this.data.isFromCode) {
+            //没有关注自动关注
+            this.goCollect()
+        }
     })
+},
+goCollect() {
+    var userInfoSync = wx.getStorageSync('userInfo')
+
+    var requestData = {
+        favouriteType: 1,
+        operationType: this.data.isCollect ? 1 : 0, //0收藏/1取消
+        targetId: this.data.id,
+        userId: userInfoSync.accountId,
+    }
+    console.log("doctor_id:", requestData)
+    WXAPI.doCollect(requestData).then((res) => {
+        if (res.code == 0) {
+            wx.showToast({
+                title: this.data.isCollect ? '已取消关注' : '已关注',
+                icon: 'success',
+                duration: 2000
+            })
+            this.setData({
+                isCollect: !this.data.isCollect
+            })
+
+        }
+
+    })
+
 },
     onBackTap() {
         wx.navigateBack({})
@@ -218,6 +281,17 @@ Page({
             })
             return
         }
+       
+        if(this.data.isFromCode){
+            //如果是来自扫描医生二维码 先切换医院 再跳转
+            this.switchHospital()
+        }else{
+            this.goBuy()
+        }
+
+    },
+
+    goBuy(){
         this.setData({
             loading: true
         })
@@ -240,7 +314,119 @@ Page({
                 url: `/packageDoc/pages/doctor/case/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
             })
         }
+    },
 
 
-    }
+      //切换医院
+      async switchHospital() {
+        const res = await WXAPI.switchHospital({ hospitalCode: this.data.hospitalCode })
+        if (res.code == 0) {
+            this.getMaLoginInfo()
+        }
+    },
+    //获取登录信息
+    async getMaLoginInfo() {
+
+        const res = await WXAPI.getMaLoginInfo({})
+
+        if (res.code == 0 && res.data.loginStatus == '1') {
+
+            var currentHospital = {
+                tenantId: res.data.tenantId,
+                hospitalCode: res.data.hospitalCode,
+                hospitalName: res.data.hospitalName,
+                hospitalLevelName: res.data.hospitalLevelName
+            }
+
+            getApp().globalData.currentHospital = currentHospital
+
+            UserManager.savePatientInfoList(res.data.patients)
+
+            
+            this.goBuy()
+
+        }
+
+    },
+
+     //登录时获取code
+     WXloginForLogin() {
+        wx.showLoading({
+            title: '加载中',
+        })
+
+        let that = this
+        wx.login({
+            success(res) {
+                console.log("WXlogin", res)
+                if (res.code) {
+                    that.loginQuery(res.code);
+                } else {
+                    wx.showToast({
+                        title: '获取微信code失败',
+                        icon: "none",
+                        duration: 2000
+                    })
+                    wx.hideLoading()
+                }
+            }
+        })
+    },
+
+
+
+    //登录
+    async loginQuery(e) {
+
+        let that=this
+
+        const res = await WXAPI.loginQuery({
+            code: e,
+            appId: wx.getAccountInfoSync().miniProgram.appId
+        })
+        wx.hideLoading()
+        if (res.code == 0) {
+            that.loginSuccess(res.data)
+
+        } else if (res.code == 10003) { //用户不存在
+            if (!getApp().globalData.reLaunchLoginPage) {
+                // console.log("confirm-patient.js： 跳转到登录页")
+                getApp().globalData.reLaunchLoginPage = true
+                wx.navigateTo({
+                    url: '/pages/login/auth?type=RELOGIN',
+                })
+            }
+
+        } else {
+            wx.showToast({
+                title: '登录失败,请重试',
+                icon: "none",
+                duration: 2000
+            })
+
+        }
+    },
+    loginSuccess(userInfo) {
+
+        //保存用户信息
+        wx.setStorageSync('userInfo', userInfo)
+        //IM apppid
+        getApp().globalData.sdkAppID = userInfo.account.imAppId
+        getApp().globalData.loginReady = true
+
+
+        if (userInfo.account.user && userInfo.account.user.length > 0) {
+            var defaultPatient = userInfo.account.user[0]
+            userInfo.account.user.forEach(item => {
+                if (item.isDefault) {
+                    defaultPatient = item
+                }
+            })
+            //保存默认就诊人
+            wx.setStorageSync('defaultPatient', defaultPatient)
+            IMUtil.LoginOrGoIMChat(defaultPatient.userId, defaultPatient.userSig)
+        }
+
+        this.goCollect()
+    },
 })
