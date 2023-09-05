@@ -122,8 +122,9 @@
     border: 1rpx solid #0379FF;
     border-radius: 4rpx;
 }
-.wrap .top .doctor .right .store-active{
-   
+
+.wrap .top .doctor .right .store-active {
+
     color: #ffffff;
     position: absolute;
     width: 98rpx;
@@ -139,6 +140,7 @@
     background-color: #0379FF;
     border-radius: 4rpx;
 }
+
 .wrap .top .doctor .right .tags {
     margin-bottom: 20rpx;
     font-family: PingFang SC;
@@ -148,19 +150,21 @@
     flex-direction: row;
     align-items: center;
 }
+
 .wrap .top .doctor .right .tags .tag {
     margin-right: 10rpx;
     width: 108rpx;
     box-sizing: border-box;
     font-size: 24rpx;
     color: #ffffff;
-    background-color:  #FFB300;
+    background-color: #FFB300;
     border-radius: 4rpx;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
+
 .wrap .top .doctor .right .tags .hospital {
     display: inline-block;
     max-width: 245rpx;
@@ -173,6 +177,7 @@
     line-height: 28rpx;
     vertical-align: middle;
 }
+
 .wrap .middle {
     position: relative;
     top: 0rpx;
@@ -362,6 +367,64 @@
     border: 1rpx solid #D8E4FC;
 }
 
+.wrap .bottom .list .item-service {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20rpx;
+    padding: 25rpx 20rpx 30rpx 28rpx;
+    background-color: #F5F5F5;
+    border: 1rpx solid #F5F5F5;
+    border-radius: 8rpx;
+}
+.wrap .bottom .list .item-service-checked {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20rpx;
+    padding: 25rpx 20rpx 30rpx 28rpx;
+    background-color: #F5FAFF;
+    border: 1rpx solid #3894FF;
+    border-radius: 8rpx;
+}
+
+.wrap .bottom .list .view-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 30rpx;
+    /* align-items: center; */
+    flex: 1;
+}
+
+.wrap .bottom .list .view-info .title-ser-checked {
+    font-size: 30rpx;
+    font-weight: bold;
+    width: 380rpx;
+    color: #3894FF;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wrap .bottom .list .view-info .title-ser {
+    font-size: 30rpx;
+    font-weight: bold;
+    width: 380rpx;
+    color: #1A1A1A;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wrap .bottom .list  .view-detail {
+    font-size: 28rpx;
+    padding: 10rpx 22rpx;
+    color: white;
+    background-color: #3894FF;
+    border-radius: 26rpx;
+}
+
 .wrap .view-comments {
     position: relative;
     display: flex;
@@ -405,7 +468,7 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
-    
+
     font-size: 24rpx;
     color: #4D4D4D;
     /* display: flex;

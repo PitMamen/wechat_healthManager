@@ -12,6 +12,7 @@ Page({
         name: '',
         loading: false,
         price: 0,
+        typeJump: -1,
         list1: [],
         list2: [],
         images: [],
@@ -40,6 +41,7 @@ Page({
                 id: options.id,
                 docId: options.docId,
                 docName: options.docName,
+                typeJump: options.type,
                 collectionId: options.collectionId,
                 navBarHeight: getApp().globalData.navBarHeight,
                 statusBarHeight: getApp().globalData.statusBarHeight
@@ -184,6 +186,9 @@ Page({
         this.setPrice()
     },
     onSelectTap() {
+      if (this.data.typeJump==2) {
+        return
+      }
         wx.navigateTo({
             url: `/packageDoc/pages/health/doctors/index?id=${this.data.id}`
         })

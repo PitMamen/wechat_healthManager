@@ -17,12 +17,12 @@
             <view class="right">
                 <view class="name">{{ info.userName }}</view>
                 <view class="info">
-                    <text class="job" >{{ info.professionalTitle }}</text>
+                    <text class="job">{{ info.professionalTitle }}</text>
                     <text class="depart">{{ info.departmentName }}</text>
                 </view>
                 <!-- <view class="server">{{ info.departmentName }}</view> -->
                 <view class="tags">
-                    <text class="tag" >{{ info.hospitalLevelName }}</text>
+                    <text class="tag">{{ info.hospitalLevelName }}</text>
                     <text class="hospital">{{ info.hospitalName }}</text>
                 </view>
                 <view class="share">分享</view>
@@ -50,7 +50,7 @@
         </view>
     </view>
     <view class="bottom card">
-        <view class="title">问诊服务</view>
+        <view class="title">咨询服务</view>
         <van-empty class="empty" description="暂无记录" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" wx:if="{{ list.length === 0 }}" />
         <view class="list" wx:else>
             <view class="{{ 'item ' + item.className }}" wx:for="{{ list }}" wx:key="commodityId">
@@ -70,6 +70,27 @@
                         <text class="num">/{{ subItem.serviceValue }}{{ subItem.unit }}</text>
                     </view>
                 </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="bottom card">
+        <view class="title">专科服务</view>
+        <van-empty class="empty" description="暂无记录" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" wx:if="{{ listService.length === 0 }}" />
+        <view class="list" wx:else>
+            <!-- <view class="item-service {{ item.checked?'item-service-checked':'' }}" wx:for="{{ listService }}" wx:key="commodityId"> -->
+            <view class="{{ item.checked?'item-service-checked':'item-service' }}" data-item="{{ item }}" bind:tap="onServiceTap" wx:for="{{ listService }}" wx:for-index="index" data-index="{{ index }}" wx:key="commodityId">
+                <image src="{{item.frontImg}}" mode="aspectFill" style="width: 106rpx;height: 106rpx;" />
+                <view class="view-info">
+                    <view class="{{ item.checked?'title-ser-checked':'title-ser' }}">{{ item.commodityName }}</view>
+                    <view style="margin-top: 15rpx;">
+                        <text style="color: #F10D0D;font-size: 30rpx;">￥{{item.startPrice}}</text>
+                        <text style="color: #999999;font-size: 30rpx;">起</text>
+                    </view>
+                </view>
+                <!-- <view class="view-detail" bind:tap="onDetailTap" data-item="{{ item }}">
+                    详情
+                </view> -->
             </view>
         </view>
     </view>
@@ -98,9 +119,9 @@
             <view class="com-item-bottom">{{item.patientOpinion}}</view>
         </view>
     </view>
- <view style="height: 120rpx;"></view>
+    <view style="height: 120rpx;"></view>
     <view class="fix">
-        <van-button  type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick" wx:if="{{ list.length > 0 }}">去购买</van-button>
+        <van-button type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick" wx:if="{{ list.length > 0||listService.length>0 }}">去购买</van-button>
     </view>
 
 </view>
