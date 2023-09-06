@@ -1,5 +1,5 @@
-const WXAPI = require('../../../../static/apifm-wxapi/index')
-const WXPAY = require('../../../../utils/pay')
+const WXAPI = require('../../../static/apifm-wxapi/index')
+const WXPAY = require('../../../utils/pay')
 Page({
 
     /**
@@ -17,8 +17,8 @@ Page({
         patient: {},
         conclusionDetail: {},
 
-        regNo:'',
-        userId:'',
+        regNo: '',
+        userId: '',
     },
 
     /**
@@ -48,20 +48,24 @@ Page({
         this.getEmrDetail()
     },
     async getEmrDetail() {
+        wx.showLoading({
+            title: '加载中',
+        })
         const res = await WXAPI.getEmrDetail({
             regNo: this.data.regNo,
             userId: this.data.userId
         })
-        if (res.code == 0) {
+        wx.hideLoading()
+        if (res.code == 0 && res.data.length > 0) {
             res.data[0].outDate = res.data[0].outDate.substring(0, 4) + '年' + res.data[0].outDate.substring(5, 7) + '月' + res.data[0].outDate.substring(8, 10) + '日'
             this.setData({
-                conclusionDetail:res.data[0]
+                conclusionDetail: res.data[0]
             })
 
             wx.setNavigationBarTitle({
                 title: '出院小结'
             })
-            this.getAppraiseByOrderId(this.data.order.orderId)
+            // this.getAppraiseByOrderId(this.data.order.orderId)
             // this.queryUserInfo(res.data.patientId)
         }
     },
