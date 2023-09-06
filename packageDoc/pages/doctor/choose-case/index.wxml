@@ -16,7 +16,9 @@
 </view>
 <view class="wrap">
 
-    <van-empty wx:if="{{ !caseList || caseList.length == 0 }}" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无病历" />
+    <van-empty wx:if="{{ !caseList || caseList.length == 0 }}" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无病历" >
+        <van-button round type="info" size="small" bindtap="addCase" >添加新病历</van-button>
+    </van-empty>
     <view class="card" wx:for="{{caseList}}" wx:key="1">
 
         <view class="todo-card-top">

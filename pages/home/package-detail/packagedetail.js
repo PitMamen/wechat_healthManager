@@ -54,6 +54,11 @@ Page({
             this.favouriteExistsForDoctorId()
         }
     },
+    goDetail(){
+        wx.navigateTo({
+            url: `/packageDoc/pages/doctor/info/index?id=${this.data.id}&title=${this.data.info.userName}`
+        })
+    },
     //登录时获取code
     WXloginForLogin() {
         wx.showLoading({

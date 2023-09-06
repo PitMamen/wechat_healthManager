@@ -85,10 +85,10 @@ Page({
 
         let that = this
         wx.onSocketMessage(function (res) {
-            console.log('收到服务器内容：', res)
+            // console.log('收到服务器内容：', res)
             if (res && res.data && typeof res.data === "string") {
                 var data = JSON.parse(res.data)
-                console.log(that.data.chatItems)
+              
 
                 if (data.chunk) {
                     if (!that.data.isAITrunking) {
