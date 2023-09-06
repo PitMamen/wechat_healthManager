@@ -284,7 +284,7 @@ module.exports =
 
                                     //message里是就userId
                                     wx.navigateTo({
-                                        url: '/pages/me/patients/editUser?type=ADD_CARDNO&userId=' + request.data.message
+                                        url: '/packageSub/pages/me/patients/editUser?type=ADD_CARDNO&userId=' + request.data.message
                                     })
                                     return reject(request.data);
                                 } else { //其他错误
@@ -373,7 +373,7 @@ module.exports =
 
                                     //message里是就userId
                                     wx.navigateTo({
-                                        url: '/pages/me/patients/editUser?type=ADD_CARDNO&userId=' + request.data.message
+                                        url: '/packageSub/pages/me/patients/editUser?type=ADD_CARDNO&userId=' + request.data.message
                                     })
                                     return reject(request.data);
                                 } else {

@@ -136,15 +136,15 @@ Page({
             if (info.rightItems[0].projectType == 102) {
                 // url: '/pages/me/patients/addPatient',
                 wx.navigateTo({
-                    url: '../../consult/detail-tel/index?rightsId=' + info.rightsId + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
+                    url: '/pages/consult/detail-tel/index?rightsId=' + info.rightsId + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
                 })
             } else if (info.rightItems[0].projectType == 103) {
                 wx.navigateTo({
-                    url: '../../consult/detail-video/index?rightsId=' + info.rightsId + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
+                    url: '/pages/consult/detail-video/index?rightsId=' + info.rightsId + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
                 })
             } else {
                 wx.navigateTo({
-                    url: '../../consult/detail-text/index?rightsId=' + info.rightsId + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
+                    url: '/pages/consult/detail-text/index?rightsId=' + info.rightsId + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
                 })
             }
         }

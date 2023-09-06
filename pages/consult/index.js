@@ -257,7 +257,7 @@ Page({
       //药师审核   开具处方
       this.setInquiriesAgencyRead(item) //设置为已读
       wx.navigateTo({
-        url: `/pages/me/prescription/detail?preNo=${item.tradeId}`
+        url: `/packageSub/pages/me/prescription/detail?preNo=${item.tradeId}`
       })
     } else {
       if (this.checkLoginStatus()) {

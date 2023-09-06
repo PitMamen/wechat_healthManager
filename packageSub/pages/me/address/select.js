@@ -1,4 +1,4 @@
-// pages/me/address/select.js
+
 Page({
 
   /**

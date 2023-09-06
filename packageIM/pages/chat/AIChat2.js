@@ -241,7 +241,7 @@ Page({
             fromAddPatient: true
         })
         wx.navigateTo({
-            url: '/pages/me/patients/addPatient',
+            url: '/packageSub/pages/me/patients/addPatient',
         })
     },
     //点击热门病症

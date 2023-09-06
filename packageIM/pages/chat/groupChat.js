@@ -628,7 +628,7 @@ Page({
    //点击处方卡
    onCustomChuFangMessageClick(e){
     wx.navigateTo({
-        url: '/pages/me/prescription/detail?preNo=' +  e.currentTarget.dataset.preno ,
+        url: '/packageSub/pages/me/prescription/detail?preNo=' +  e.currentTarget.dataset.preno ,
     })
 },
 

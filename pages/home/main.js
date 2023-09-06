@@ -532,7 +532,7 @@ Page({
         console.log('addPatientTap')
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: '../me/patients/addPatient',
+                url: '/packageSub/pages/me/patients/addPatient',
             })
         }
 
@@ -632,7 +632,7 @@ Page({
         //   hidePatientShow: true
         // })
         wx.navigateTo({
-            url: '/pages/me/patients/addPatient',
+            url: '/packageSub/pages/me/patients/addPatient',
         })
     },
     bindPatientTap: function () {
