@@ -1,0 +1,76 @@
+<wxs src="../../../../modules/format.wxs" module="computed"></wxs>
+<view class="header-box">
+  <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+  <view class="r">
+    <view style="display: flex;flex-direction: row;float: left;flex: 1;color: #999999;">
+      <view style=" font-size: 36rpx;color: #1A1A1A;">{{defaultPatient.userName}}</view>
+      <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;">{{defaultPatient.userSex}}</view>
+      <view style="margin-left: 19rpx; margin-top: 10rpx; font-size: 28rpx;">{{defaultPatient.userAge}}岁</view>
+    </view>
+    <view class="uid">{{defaultPatient.phone}}</view>
+  </view>
+</view>
+
+<view class="top-divider"></view>
+
+<view class="top">
+
+  <view class="card-black">
+    <view class="titleviw">
+      <text class="title-date">{{taskList[0].plan_name}}</text>
+    </view>
+
+    <text decode  class="task-title-text"></text>
+    <!-- <text decode class="top-content" style="color: #999999;">进度：1/7</text> -->
+    <text decode class="top-content"
+      style="color: #999999;">周期：{{computed.formatFullDate(taskList[0].start_date)}}&ensp;-&ensp;{{computed.formatFullDate(taskList[0].end_date)}}</text>
+
+
+  </view>
+</view>
+<view class="space"></view>
+<view wx:for="{{taskList}}" wx:for-item="items">
+  <view class="contentview" bindtap="goTaskDetailPage" data-planid="{{items.plan_id}}" 
+  data-taskid="{{items.task_id}}" data-userid="{{items.user_id}}" data-taskname="第{{index+1}}次任务">
+    <view>
+      <view class="cicle" style="background-color: {{0==0?'#3A9AFB':(item.execFlag==1?'#2CCA78':'#FF976A')}};"></view>
+      <view class="side"></view>
+    </view>
+
+    <view class="taskcard" >
+      <view class="tasktitleviw">
+        <text class="task-title-text">第{{index+1}}次任务</text>
+        <text style="color:#666666;font-size: 26rpx;margin-left: 20rpx;">{{computed.formatFullDate(items.exec_time)}}</text>
+        <van-icon color="#999999" name="arrow"size="13px" />
+
+      </view>
+      <view class="task-content">
+        <block wx:if="{{items.execFlag==0}}">
+          <span style="border-top-color:#0088F4">
+            <em>进行中</em>
+          </span>
+        </block>
+        <block wx:if="{{items.execFlag==1}}">
+          <span>
+            <em>已完成</em>
+          </span>
+        </block>
+        <block wx:if="{{items.execFlag==2}}">
+          <span style="border-top-color:#F59B0E">
+            <em>待开启</em>
+          </span>
+        </block>
+        <block wx:for="{{items.taskInfo}}">
+
+          <text decode class="content2">{{computed.planType(item.planType)}}：{{item.planDescribe}}</text>
+          <!-- <view class="content2">
+            <text decode>{{computed.planType(item.planType)}}：</text>
+            <text>{{item.planDescribe}}</text>
+          </view> -->
+        </block>
+
+      </view>
+    </view>
+
+  </view>
+</view>

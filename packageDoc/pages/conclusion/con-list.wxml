@@ -1,4 +1,4 @@
-<wxs src="../../../../modules/format.wxs" module="computed"></wxs>
+
 <van-sticky>
     <view id="tabs" class="tabs">
         <view style="height: 20rpx;background-color: #F5F5F5;"></view>

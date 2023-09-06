@@ -1,0 +1,145 @@
+/* pages/home/electronic-prescription/drugtaking_page.wxss */
+
+page{
+    background-color: #F5F5F5;
+   
+}
+
+
+.diver-line{
+    height: 1rpx;
+    background-color: #F5F5F5;
+}
+
+.zdview{
+    background: white;
+    padding: 30rpx;
+    margin-left: 24rpx;
+    margin-top: 30rpx;
+    margin-right: 24rpx;
+    margin-bottom: 29rpx;
+    font-size: 30rpx;
+    color: #1A1A1A;
+    font-weight: normal;
+    border-radius: 4px
+}
+.zdview .title {
+    margin-bottom: 30rpx;
+    margin-left: 24rpx;
+    display: flex;
+    flex-direction: row;
+}
+.zdview .content{
+    margin-top: 30rpx;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+
+.topview {
+background: white;
+    padding: 30rpx 0;
+    font-size: 30rpx;
+    color: #1A1A1A;
+    font-weight: normal;
+}
+
+.topview1 {
+    width: 702rpx;
+    margin-left: 15rpx;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.name-tel {
+    margin-left: 20rpx;
+    font-size: 28rpx;
+    color: #000;
+    padding: 30rpx 0 20rpx 0;
+}
+
+.v1 {
+    margin-top: 40rpx;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+
+}
+
+
+.kuangkuang {
+    width: 702rpx;
+    height: 152rpx;
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+}
+
+.titleviw {
+    display: flex;
+    flex-direction: row;
+    margin-left: 24rpx;
+    margin-top: 8rpx;
+    /* align-items: center; */
+    margin-bottom: 26rpx;
+    flex-wrap: wrap;
+    color: #999999;
+}
+
+.titleviw1 {
+    display: flex;
+    flex-direction: row;
+    margin-left: 135rpx;
+    margin-top: 8rpx;
+    align-items: center;
+    margin-bottom: 26rpx;
+    color: #1A1A1A;
+}
+
+
+.content {
+    width: 702rpx;
+    margin-left: 15rpx;
+    margin-top: 15rpx;
+    display: flex;
+    flex-direction: row;
+    height: 75px;
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+}
+
+
+
+.drugtaking_style {
+    /* align-items: center; */
+    text-align: center;
+    padding-top: 25rpx;
+    margin-top: 25rpx;
+    margin-left: 80rpx;
+    width: 105px;
+    height: 40px;
+    background: #1880E8;
+    border: 1px;
+    border-radius: 31px;
+    color: #FFFFFF;
+}
+
+
+.drugtaking_style1 {
+    text-align: center;
+    padding-top: 25rpx;
+    margin-top: 25rpx;
+    margin-left: 100rpx;
+    width: 105px;
+    height: 40px;
+    background: #1880E8;
+    border: 1px;
+    border-radius: 31px;
+    color: #FFFFFF;
+}

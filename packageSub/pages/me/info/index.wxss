@@ -1,0 +1,11 @@
+.content-page{
+  margin: 26rpx;
+}
+page{
+background-color: #F7F8FF;
+}
+.custom-icon{
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+}

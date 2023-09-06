@@ -1,4 +1,4 @@
-<wxs src="../../../../modules/format.wxs" module="computed"></wxs>
+
 <view style="background-color: #F5F5F5;min-height: 100vh;">
     <view>
         <view style="height: 20rpx;background-color: #F5F5F5"></view>

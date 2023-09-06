@@ -1,0 +1,60 @@
+
+page{
+  background-color: #F7F8FF;
+}
+.divider-view{
+  display: flex;
+  align-items: center;
+  padding: 0 20rpx ;
+  }
+.divider{
+  width: 100%;
+  height: 0.5px;
+  background-color: #EBEDF0;
+}
+.card{
+  margin:  26rpx ;
+  border-radius: 8px;
+  background-color: white;
+  padding: 26rpx;
+}
+
+.card-black{
+  display:flex;
+  flex-direction:column;
+  background-color: white;
+  border-radius: 8rpx;
+  width: 100%;
+}
+.content{
+  color: #1A1A1A;
+  font-size:29rpx ;
+  margin-top: 20rpx;
+}
+.titleviw{
+   display: flex;
+   align-items: center;
+   margin-bottom: 26rpx;
+   }
+   .title-date {
+    left: 0;
+    font-weight: bold;
+    font-size: 18px;
+    color: #1A1A1A;
+  }
+   .title-text {
+    left: 0;
+    font-size: 32rpx;
+    color: #1A1A1A;
+  }
+  .title-right{
+    margin-left: auto;
+    font-size: 15px;
+    color: #999999;
+  }
+
+  .space{
+    height: 10px;
+  }
+
+  

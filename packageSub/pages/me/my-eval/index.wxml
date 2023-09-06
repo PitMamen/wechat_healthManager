@@ -1,0 +1,22 @@
+<wxs src="../../../../modules/format.wxs" module="computed"></wxs>
+
+
+<van-empty wx:if="{{ !planList || planList.length == 0 }}" description="暂无数据" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png"/>
+<view  wx:for="{{planList}}" wx:key="id3" class="card" bindtap="goDetailPage" data-id="{{item.id}}">
+
+  <view class="card-black" >
+    <view class="titleviw">
+      <text decode class="title-text">{{defaultPatient.userName}}&emsp;{{defaultPatient.userSex}}&emsp;{{defaultPatient.userAge}}岁</text>
+    </view>
+    <view class="divider-view">
+      <view class="divider"></view>
+    </view>
+  
+    <text class="content">随访计划：{{item.planName || '无'}}</text>
+    <text decode class="content">科&emsp;&emsp;室：{{item.deptName || '无'}}</text>
+    <text class="content">评估时间：{{item.evalTime}}</text>
+    <text decode class="content">评估医生：{{item.evalName  || '科室'}}</text>
+
+
+  </view>
+</view>

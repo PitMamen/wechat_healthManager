@@ -1,6 +1,6 @@
-const WXAPI = require('../../../../static/apifm-wxapi/index')
-const Util = require('../../../../utils/util')
-const IMUtil = require('../../../../utils/IMUtil')
+const WXAPI = require('../../../static/apifm-wxapi/index')
+const Util = require('../../../utils/util')
+const IMUtil = require('../../../utils/IMUtil')
 Page({
 
     /**
@@ -47,8 +47,14 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        
+    },
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function () {
         this.setData({
-            broadClassify: options.broadClassify,
+          
             userId: wx.getStorageSync('userInfo').account.accountId,
 
             patientList: wx.getStorageSync('userInfo').account.user,
@@ -62,6 +68,8 @@ Page({
         this.setData({
             nameColumns: names
         })
+        this.getFollowList()
+
     },
 
     bindPatientTap: function () {
@@ -114,14 +122,7 @@ Page({
 
     },
 
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
 
-        this.getFollowList()
-
-    },
 
 
     /**

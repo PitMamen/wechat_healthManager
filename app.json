@@ -37,8 +37,8 @@
                 "pages/health/doctors/index",
                 "pages/health/detail/index",
                 "pages/health/comments/index",
-                "pages/health/conclusion/con-list",
-                "pages/health/conclusion/con-detail"
+                "pages/conclusion/con-list",
+                "pages/conclusion/con-detail"
             ]
         },
         {
@@ -48,6 +48,36 @@
                 "pages/globalCall/globalCall"
             ],
             "independent": false
+        },
+        {
+            "root": "packageSub",
+            "pages": [
+                "pages/me/patients/index",
+                "pages/me/patients/editUser",
+                "pages/me/content/index",
+                "pages/me/address/add",
+                "pages/me/address/select",
+                "pages/me/order/order-list-chat",
+                "pages/me/order/order-detail-chat",
+                "pages/me/order/order-list-special",
+                "pages/me/order/order-detail-special",
+                "pages/me/info/index",
+                "pages/me/patients/addPatient",
+                "pages/me/my-plan/index",
+                "pages/me/my-plan/plan-detail",
+                "pages/me/my-plan/task-detail",
+                "pages/me/my-eval/index",
+                "pages/me/consult/index",
+                "pages/me/my-plan/plan-detail-v2",
+                "pages/me/health/healthrecords",
+                "pages/me/health/baseimformation",
+                "pages/me/health/healthstatus",
+                "pages/me/more/index",
+                "pages/me/my-doctor/index",
+                "pages/me/prescription/index",
+                "pages/me/prescription/detail",
+                "pages/me/prescription/drugtaking_page"
+            ]
         }
     ],
     "pages": [

@@ -336,7 +336,7 @@ Page({
     //         })
 
             wx.navigateTo({
-              url: '/packageDoc/pages/health/conclusion/con-list',
+              url: '/packageDoc/pages/conclusion/con-list',
               // url: `/packageDoc/pages/health/detail/index?id=${info.commodityId}`
             })
           },

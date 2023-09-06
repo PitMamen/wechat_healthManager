@@ -1,0 +1,71 @@
+<view class="page">
+
+
+<view class="top-title">{{topText}}</view>
+<view class="title-detail"><text style="color: #EE0C0C;">*</text>姓名</view>
+<view class="name-back">
+  <input type="text" name="userName" bindinput="getUserNameValue" class="real-name" focus placeholder="请输入患者真实姓名" />
+</view>
+<view class="bottom-line"></view>
+<!-- <view class="title-detail">性别</view>
+<view class="sex-view">
+  <van-radio-group value="{{ radio }}" direction="horizontal" bind:change="onChange">
+    <van-radio name="男">男</van-radio>
+    <van-radio name="女">女</van-radio>
+  </van-radio-group>
+
+</view> -->
+
+<view class="title-detail"><text style="color: #EE0C0C;">*</text>身份证号码</view>
+<view class="name-back">
+  <input  bindblur="changeidcard" type="idcard" name="identificationNo" bindinput="getIDCardNoValue" class="real-name" placeholder="请输入患者身份证号码" />
+</view>
+<view class="bottom-line"></view>
+
+<!-- 监护人身份证号码 -->
+  <view wx:if="{{!greaterthanSix}}" class="title-detail"><text style="color: #EE0C0C;">*</text>监护人身份证号码</view>
+<view wx:if="{{!greaterthanSix}}" class="name-back">
+  <input type="idcard" name="guardianIdcard" bindinput="getguardianCardNo" class="real-name" placeholder="请输入监护人身份证号码" />
+</view> 
+<view wx:if="{{!greaterthanSix}}" class="bottom-line"></view>
+<!-- 监护人姓名 -->
+<view wx:if="{{!greaterthanSix}}" class="title-detail"><text style="color: #EE0C0C;">*</text>监护人姓名</view>
+<view wx:if="{{!greaterthanSix}}" class="name-back">
+  <input type="text" name="guardianName" bindinput="getguardianName" class="real-name" focus placeholder="请输入监护人姓名" />
+</view> 
+
+<view class="bottom-line"></view>
+<view class="title-detail">就诊卡号</view>
+<view class="name-back">
+  <input type="number" name="cardNo" bindinput="getCardNoValue" class="real-name" placeholder="请输入患者就诊卡号" />
+</view>
+<view class="bottom-line"></view>
+
+<picker bindchange="bindPickerChange" value='{{index}}'  range="{{relationArray}}" range-key="name">
+  <view class="title-detail"><text style="color: #EE0C0C;">*</text>与本人关系</view>
+  <view class="name-back">
+      <!-- <text   class="real-name">{{relationship}}</text>
+        <van-icon name='next'></van-icon> -->
+        <input type="text" name="birthday" class="real-name" placeholder="请选择与本人关系" disabled="true" value="{{relationship}}"/>
+
+  </view>
+</picker>
+<view class="bottom-line"></view>
+<view  class="switch-back">
+  <switch class="switch-btn" bindchange="switchTap" color="#0379FF" checked="{{isDefault}}"/>
+  <view class="switch-title" >设为默认</view>
+</view>
+
+
+  <view class="consent" >
+  <view class="consent-top">
+    <van-checkbox value="{{ checked }}" checked-color="#FF9900" icon-size="18px" bind:change="onCheckChange">
+      已阅读并同意
+    </van-checkbox>
+    <text style="color: #0079FF;" bindtap="goConsentPage" data-type="2">《用户服务协议》</text>
+    <text style="color: #0079FF;" bindtap="goConsentPage" data-type="3">《隐私政策》</text>
+  </view>
+
+</view>
+<van-button block round disabled="{{!checked}}"  bind:click="nextAction" type="info">提交</van-button>
+</view>
