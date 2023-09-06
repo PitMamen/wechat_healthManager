@@ -918,6 +918,17 @@ module.exports =
                         var url = FOLLOW_SERVICE + '/follow/userplan/stopFollowUserPlan'
                         return request(url, 'post', data, true);
                     },
+                    //小程序端-就诊列表
+                    getFollowList: function getFollowList(data) {
+                        var url = FOLLOW_SERVICE + '/follow/emr/getFollowList'
+                        return request(url, 'get', data, true);
+                    },
+                    //小程序端-就诊详情
+                    getEmrDetail: function getEmrDetail(data) {
+                        var url = FOLLOW_SERVICE + '/follow/emr/getEmrDetail'
+                        return request(url, 'get', data, true);
+                    },
+
                     //微信扫描注册后添加随访名单
                     addFollowMedicalRecords: function addFollowMedicalRecords(data) {
                         return request(FOLLOW_SERVICE + '/followMetaConfigure/addPatientMedicalRecords', 'post', data, true);

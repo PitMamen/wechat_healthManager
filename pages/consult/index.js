@@ -334,6 +334,11 @@ Page({
     //           url: '/packageDoc/pages/doctor/files/base-info?userId=30708',
     //           // url: `/packageDoc/pages/health/detail/index?id=${info.commodityId}`
     //         })
+
+            wx.navigateTo({
+              url: '/packageDoc/pages/health/conclusion/con-list',
+              // url: `/packageDoc/pages/health/detail/index?id=${info.commodityId}`
+            })
           },
 
   goTodoPage() {

@@ -1,0 +1,62 @@
+<wxs src="../../../../modules/format.wxs" module="computed"></wxs>
+<view style="background-color: #F5F5F5;min-height: 100vh;">
+    <view>
+        <view style="height: 20rpx;background-color: #F5F5F5"></view>
+        <!-- 基本信息 -->
+        <view class="wrap-card">
+            <view style="font-weight: bold;font-size: 32rpx;color: #1A1A1A;">
+                基本信息
+            </view>
+            <view style="height: 1rpx;background-color: #E6E6E6;margin-top: 30rpx;" />
+            <view class="wrap-line" style="margin-top: 30rpx;">
+                <view style="flex: 1;color: #999999;">就诊人</view>
+                <!-- <view>{{order.commodityName}}</view> -->
+                <view>{{conclusionDetail.userInfo.userName}}</view>
+                <view class="shu-divider" style="margin-left: 20rpx;" />
+                <view style="margin-left: 20rpx;">{{conclusionDetail.userInfo.userAge}}岁</view>
+                <view style="margin-left: 20rpx;">{{conclusionDetail.userInfo.userSex}}</view>
+            </view>
+            <view class="wrap-line" style="margin-top: 30rpx;align-items: flex-start;">
+                <view style="flex: 1;color: #999999;">出院科室</view>
+                <view class="des-value" style="display: flex;flex-direction: row;align-items: center;">
+                    <view>{{conclusionDetail.outDeptName}}</view>
+                </view>
+
+            </view>
+
+            <view class="wrap-line" style="margin-top: 30rpx;">
+                <view style="flex: 1;color: #999999;">出院日期</view>
+                <view>{{conclusionDetail.outDate}}</view>
+            </view>
+
+            <view class="wrap-line" style="margin-top: 30rpx;align-items: flex-start;">
+                <view style="flex: 1;color: #999999;">出院诊断</view>
+                <view style="width: 500rpx;">{{conclusionDetail.diagnosis}}</view>
+            </view>
+
+        </view>
+
+        <!-- 出院情况 -->
+        <view class="wrap-card" style="margin-top: 20rpx;">
+            <view style="font-weight: bold;font-size: 32rpx;color: #1A1A1A;">
+                出院情况
+            </view>
+            <view style="height: 1rpx;background-color: #E6E6E6;margin-top: 30rpx;" />
+
+            <text style="margin-top: 30rpx;color: #1A1A1A;font-size: 30rpx;">{{conclusionDetail.outDesc}}</text>
+        </view>
+
+        <!-- 出院医嘱 -->
+        <view class="wrap-card" style="margin-top: 20rpx;margin-bottom: 30rpx;">
+            <view style="font-weight: bold;font-size: 32rpx;color: #1A1A1A;">
+                出院医嘱
+            </view>
+            <view style="height: 1rpx;background-color: #E6E6E6;margin-top: 30rpx;" />
+            <text style="margin-top: 30rpx;color: #1A1A1A;font-size: 30rpx;">{{conclusionDetail.outAdvice}}</text>
+        </view>
+
+        <view style="height: 100rpx;"></view>
+
+    </view>
+
+</view>
