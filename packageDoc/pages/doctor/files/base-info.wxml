@@ -1,0 +1,90 @@
+<view class="all-view">
+
+    <view class="conten-view">
+        <view style="margin-left:19rpx;">出生日期</view>
+        <view style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;" bindtap="bindPatientTap">{{baseInfprData.birthday||"请选择"}}
+            <van-icon color="#999999" name="arrow" />
+        </view>
+    </view>
+
+
+    <view class="conten-view" style="margin-top: 20rpx;">
+        <view style="margin-left:19rpx;">血型</view>
+        <view style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;" bindtap="bindbloodTag">{{baseInfprData.bloodType||'请选择'}}
+            <van-icon color="#999999" name="arrow" />
+        </view>
+    </view>
+
+    <view class="conten-view" style="margin-top: 20rpx;">
+        <view style="margin-left:19rpx;">身高<text style="color: red;">*</text></view>
+        <input  value="{{ stature }}" bindinput="getstature" style="margin-left: auto;font-size: 28rpx;text-align: right;width: 200rpx;" type="number" placeholder="请填写" placeholder-style='text-align: right' />
+        <view style="margin-right: 20rpx; font-size: 28rpx;color: #1A1A1A;">cm
+        </view>
+    </view>
+
+
+    <view class="conten-view" style="margin-top: 20rpx;">
+        <view style="margin-left:19rpx;">体重<text style="color: red;">*</text></view>
+        <input  value="{{ weight }}" bindinput="getweight" style="margin-left: auto;font-size: 28rpx;text-align: right;width: 200rpx;" type="number" placeholder="请填写" placeholder-style='text-align: right' />
+        <view style="margin-right: 20rpx; font-size: 28rpx;color: #1A1A1A;">kg
+        </view>
+    </view>
+
+    <view class="conten-view" style="margin-top: 20rpx;">
+        <view style="margin-left:19rpx;">婚姻状况</view>
+        <view wx:if="{{baseInfprData.ismarry}}" style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;"
+         bindtap="closeMarriageTap">{{baseInfprData.ismarry==2?'未婚':'已婚'}}
+            <van-icon color="#999999" name="arrow" />
+        </view>
+
+        <view wx:if="{{!baseInfprData.ismarry}}" style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;" bindtap="closeMarriageTap">{{'请选择'}}
+            <van-icon color="#999999" name="arrow" />
+        </view>
+    </view>
+
+    <view class="conten-view" style="margin-top: 20rpx;">
+        <view style="margin-left:19rpx;">生育状况</view>
+        <view wx:if="{{baseInfprData.havechild}}" style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;" bindtap="closeBearTap">{{baseInfprData.havechild}}
+            <van-icon color="#999999" name="arrow" />
+        </view>
+
+        <view wx:if="{{!baseInfprData.havechild}}" style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;" bindtap="closeBearTap">{{'请选择'}}
+            <van-icon color="#999999" name="arrow" />
+        </view>
+    </view>
+
+
+
+</view>
+    <view class="bottom-buttom">
+        <van-button type="primary" color="#047AFF" block  bindtap="saveData" >下一步</van-button>
+    </view>
+
+
+
+
+
+
+
+<van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePatientTap">
+    <van-datetime-picker min-date="{{ minDate }}" max-date="{{maxDate}}" bind:cancel="closePatientTap" bind:confirm="onDatefirm" type="date" value="{{ currentDate }}" bind:input="onInput" formatter="{{ formatter }}" />
+</van-popup>
+
+
+
+<van-popup show="{{ !hideBloodtypeShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closeBloodtypeTap">
+    <van-picker show-toolbar custom-class="picker-custom" title="选择血型" columns="{{ boolddTypeData }}" visible-item-count='4' bind:cancel="closeBloodtypeTap" bind:confirm="selectBloodComf" />
+</van-popup>
+
+
+<!-- 婚姻状况弹窗 -->
+<van-popup show="{{ !hideMarriageShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 30%;max-height: 80%;" bind:close="closeMarriageTap">
+    <van-picker show-toolbar custom-class="picker-custom" title="婚姻状况" columns="{{ marriageData }}" visible-item-count='4' bind:cancel="hideMarriageShow" bind:confirm="selectMarriageComf" />
+</van-popup>
+
+
+
+<!-- 生育状况弹窗 -->
+<van-popup show="{{ !hideBearShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 30%;max-height: 80%;" bind:close="closeBearTap">
+    <van-picker show-toolbar custom-class="picker-custom" title="生育状况" columns="{{ BearData }}" visible-item-count='4' bind:cancel="hideBearShow" bind:confirm="selectBearComf" />
+</van-popup>
