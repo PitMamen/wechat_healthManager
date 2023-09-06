@@ -90,7 +90,7 @@
   <!-- </van-sticky> -->
   <view class="view-des"  wx:if="{{ appointList.length > 0 }}">
     <view class="view-shu"></view>
-    <view style="margin-left: 20rpx;color: #1A1A1A;font-weight: bold;">单次咨询</view>
+    <view style="margin-left: 20rpx;color: #1A1A1A;font-weight: bold;" bindtap="goInfodd">单次咨询</view>
   </view>
 
 

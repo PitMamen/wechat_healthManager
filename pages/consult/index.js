@@ -329,6 +329,13 @@ Page({
 
   },
 
+       goInfodd(e) {//test 代码
+    //         wx.navigateTo({
+    //           url: '/packageDoc/pages/doctor/files/base-info?userId=30708',
+    //           // url: `/packageDoc/pages/health/detail/index?id=${info.commodityId}`
+    //         })
+          },
+
   goTodoPage() {
     if (this.checkLoginStatus()) {
       if (getApp().getDefaultPatient()) {
