@@ -1,4 +1,3 @@
-
 <van-sticky>
     <view id="tabs" class="tabs">
         <view style="height: 20rpx;background-color: #F5F5F5;"></view>
@@ -11,6 +10,11 @@
 </van-sticky>
 
 <van-empty wx:if="{{ !orderList || orderList.length == 0 }}" description="暂无数据" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" />
+
+<view wx:if="{{ !orderList || orderList.length == 0 }}" bindtap="clickRefresh" style="margin: 24rpx;display: flex;align-items: center;justify-content: center;color: white;background-color: #3894FF;padding-bottom: 20rpx;border-radius: 8rpx;padding-top: 20rpx;font-size: 30rpx;">
+    同步出院病历
+</view>
+
 <view class="order-list" hidden="{{orderList ? false : true}}">
     <view bindtap="goConclusionDetailPage" data-item="{{item}}" class="a-order" wx:for="{{orderList}}" wx:key="index" wx:for-index="index" wx:for-item="item">
 
@@ -33,9 +37,9 @@
                         <view class="desItem">
                             <view>{{item.name}}</view>
                             <view class="shu-divider" style="margin-left: 20rpx;" />
-                            <view  style="margin-left: 20rpx;">{{item.age}}岁</view>
+                            <view style="margin-left: 20rpx;">{{item.age}}岁</view>
                             <view style="margin-left: 20rpx;">{{item.sex}}</view>
-                  
+
                         </view>
                     </view>
                 </view>

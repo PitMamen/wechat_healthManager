@@ -335,10 +335,10 @@ Page({
     //           // url: `/packageDoc/pages/health/detail/index?id=${info.commodityId}`
     //         })
 
-            wx.navigateTo({
-              url: '/packageDoc/pages/conclusion/con-list',
-              // url: `/packageDoc/pages/health/detail/index?id=${info.commodityId}`
-            })
+    //         wx.navigateTo({
+    //           url: '/packageDoc/pages/conclusion/con-list',
+    //           // url: `/packageDoc/pages/health/detail/index?id=${info.commodityId}`
+    //         })
           },
 
   goTodoPage() {

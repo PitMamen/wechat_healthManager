@@ -57,8 +57,9 @@ Page({
             patientList: wx.getStorageSync('userInfo').account.user,
             defaultPatient: wx.getStorageSync('defaultPatient')
         })
-        if (this.data.userId && this.data.userId != this.data.defaultPatient.userId) {
 
+        //微信公众号消息跳进来可能出现传的userId不是当前默认就诊人的userId，所以这里要切换页面选择的就诊人
+        if (this.data.userId && this.data.userId != this.data.defaultPatient.userId) {
             this.data.patientList.forEach((element, index) => {
                 if (element.userId == this.data.userId) {
                     this.setData({
@@ -134,9 +135,6 @@ Page({
 
     },
 
-
-
-
     /**
      * 
      * @param {订单状态：0全部;1待支付、2进行中、3已完成、4已取消} status 
@@ -169,11 +167,26 @@ Page({
 
     },
 
+    async clickRefresh() {
+        wx.showLoading({
+            title: '加载中',
+        })
+        const res = await WXAPI.getEmrDataByUserId({
+            userId: this.data.userId
+        })
+        if (res.code == 0) {
+            wx.showToast({
+                title: '操作成功',
+                icon: 'success',
+                duration: 2000
+            })
+        }
+        wx.hideLoading()
 
+        console.log('ffefeffffffffffffff')
+    },
 
-    //去评价
-
-
+    //检查登录
     checkLoginStatus() {
         if (getApp().globalData.loginReady) {
             return true

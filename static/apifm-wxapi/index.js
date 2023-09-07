@@ -923,6 +923,11 @@ module.exports =
                         var url = FOLLOW_SERVICE + '/follow/emr/getFollowList'
                         return request(url, 'get', data, true);
                     },
+                    //小程序端-/revisit/getEmrDataByUserId  手动同步病历
+                    getEmrDataByUserId: function getEmrDataByUserId(data) {
+                        var url = HEALTH_SERVICE + '/revisit/getEmrDataByUserId'
+                        return request(url, 'get', data, true);
+                    },
                     //小程序端-就诊详情
                     getEmrDetail: function getEmrDetail(data) {
                         var url = FOLLOW_SERVICE + '/follow/emr/getEmrDetail'

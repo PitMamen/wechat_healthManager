@@ -9,6 +9,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        active:1,
         isMoreLoading: false,
         deptName: '全部科室',
         screenName: '推荐服务',
@@ -76,6 +77,8 @@ Page({
             that.setData({
                 tabs: res.data.records,
             })
+            //tabs数据重新赋值之后，需要更新组件，不然线条不居中
+            this.selectComponent('#tabs').resize()
         }
         this.setData({
             categoryId: this.data.tabs[0].id
