@@ -1,6 +1,7 @@
 
 <view style="background-color: #F5F5F5;min-height: 100vh;">
-    <view>
+    <van-empty wx:if="{{ !conclusionDetail}}" description="暂无数据" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" />
+    <view wx:if="{{ conclusionDetail}}">
         <view style="height: 20rpx;background-color: #F5F5F5"></view>
         <!-- 基本信息 -->
         <view class="wrap-card">

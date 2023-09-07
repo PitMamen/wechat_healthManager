@@ -11,10 +11,6 @@
 
 <van-empty wx:if="{{ !orderList || orderList.length == 0 }}" description="暂无数据" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" />
 
-<view wx:if="{{ !orderList || orderList.length == 0 }}" bindtap="clickRefresh" style="margin: 24rpx;display: flex;align-items: center;justify-content: center;color: white;background-color: #3894FF;padding-bottom: 20rpx;border-radius: 8rpx;padding-top: 20rpx;font-size: 30rpx;">
-    同步出院病历
-</view>
-
 <view class="order-list" hidden="{{orderList ? false : true}}">
     <view bindtap="goConclusionDetailPage" data-item="{{item}}" class="a-order" wx:for="{{orderList}}" wx:key="index" wx:for-index="index" wx:for-item="item">
 
@@ -89,3 +85,8 @@
         <van-picker show-toolbar custom-class="picker-custom" title="切换就诊人" columns="{{ nameColumns }}" visible-item-count='4' bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
     </van-popup>
 </view>
+
+<view bindtap="clickRefresh" style="margin:50rpx 24rpx 24rpx 24rpx;display: flex;align-items: center;justify-content: center;color: white;background-color: #3894FF;padding-bottom: 20rpx;border-radius: 8rpx;padding-top: 20rpx;font-size: 30rpx;">
+    同步出院病历
+</view>
+<view style="height: 60rpx;"></view>
