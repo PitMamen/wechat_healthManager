@@ -30,6 +30,7 @@ Page({
         this.setData({
             regNo: options.regNo,
             userId: options.userId,
+            recordId: options.recordId,
         })
 
 
@@ -53,6 +54,7 @@ Page({
         })
         const res = await WXAPI.getEmrDetail({
             regNo: this.data.regNo,
+            recordId: this.data.recordId,
             userId: this.data.userId
         })
         wx.hideLoading()

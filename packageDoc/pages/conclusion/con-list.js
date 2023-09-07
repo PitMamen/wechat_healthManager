@@ -47,19 +47,26 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        
-    },
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
+        console.log('***********con-list options', options)
         this.setData({
-          
-            userId: wx.getStorageSync('userInfo').account.accountId,
+
+            userId: options.userId,
+            // userId: wx.getStorageSync('userInfo').account.accountId,
 
             patientList: wx.getStorageSync('userInfo').account.user,
             defaultPatient: wx.getStorageSync('defaultPatient')
         })
+        if (this.data.userId && this.data.userId != this.data.defaultPatient.userId) {
+
+            this.data.patientList.forEach((element, index) => {
+                if (element.userId == this.data.userId) {
+                    this.setData({
+                        defaultPatient: this.data.patientList[index],
+                    });
+                    this.getFollowList()
+                }
+            });
+        }
 
         var names = []
         this.data.patientList.forEach(item => {
@@ -68,8 +75,12 @@ Page({
         this.setData({
             nameColumns: names
         })
+    },
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function () {
         this.getFollowList()
-
     },
 
     bindPatientTap: function () {
@@ -82,17 +93,17 @@ Page({
         console.log(event)
         var index = event.detail.index
         var selectPatient = this.data.patientList[index]
-        if (selectPatient.userId !== this.data.defaultPatient.userId) {
+        if (selectPatient.userId != this.data.defaultPatient.userId) {
             this.setData({
                 defaultPatient: this.data.patientList[index],
             });
-            //保存默认就诊人
-            wx.setStorageSync('defaultPatient', this.data.defaultPatient)
-            IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
-            console.log("当前就诊人：", this.data.defaultPatient)
+            //保存默认就诊人   这里不切换默认就诊人，注释掉
+            // wx.setStorageSync('defaultPatient', this.data.defaultPatient)
+            // IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
+            // console.log("当前就诊人：", this.data.defaultPatient)
             //TODO 刷新数据
             //   this.getUserExternalInfoOut()
-            //   this.getSavedUserTagsInfoOut()
+            this.getFollowList()
             wx.showToast({
                 title: '切换成功',
                 icon: 'success',
@@ -183,7 +194,7 @@ Page({
         var info = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: './con-detail?regNo=' + info.regNo + '&userId=' + info.userId
+                url: './con-detail?regNo=' + info.regNo + '&userId=' + info.userId + '&recordId=' + info.id
             })
 
         }

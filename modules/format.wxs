@@ -287,6 +287,14 @@ function taskType2(type, execFlag) {
         }
         return t;
 
+    } else if (type == 'Read') { //病历查阅
+        var t = {
+            icon: 'home_icon_yytx.png',
+            title: '病历查阅',
+            btnText: '查看'
+        }
+        return t;
+
     }
 }
 
