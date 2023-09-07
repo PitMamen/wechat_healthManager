@@ -150,7 +150,12 @@ Page({
         })
         wx.hideLoading()
         res.data.forEach(element => {
-            element.cysj = element.cysj.substring(0, 4) + '年' + element.cysj.substring(5, 7) + '月' + element.cysj.substring(8, 10) + '日'
+            if (element.cysj) {
+                element.cysj = element.cysj.substring(0, 4) + '年' + element.cysj.substring(5, 7) + '月' + element.cysj.substring(8, 10) + '日'
+            } else {
+                element.cysj = ''
+            }
+
         });
         this.setData({
             orderList: res.data
