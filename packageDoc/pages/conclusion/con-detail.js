@@ -15,7 +15,7 @@ Page({
             functionType: 0
         },
         patient: {},
-        conclusionDetail: {},
+        conclusionDetail: undefined,
 
         regNo: '',
         userId: '',
@@ -65,9 +65,11 @@ Page({
                 res.data[0].outDate = ''
             }
 
-            this.setData({
-                conclusionDetail: res.data[0]
-            })
+            if (res.data.length > 0) {
+                this.setData({
+                    conclusionDetail: res.data[0]
+                })
+            }
 
             wx.setNavigationBarTitle({
                 title: '出院小结'
