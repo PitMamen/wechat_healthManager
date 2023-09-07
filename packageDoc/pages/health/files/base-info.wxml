@@ -1,6 +1,6 @@
 <view class="all-view">
-
-    <view class="conten-view">
+ 
+    <view class="conten-view"  >
         <view style="margin-left:19rpx;">出生日期</view>
         <view style="margin-left: auto;margin-right: 10rpx; font-size: 28rpx;color: #1A1A1A;" bindtap="bindPatientTap">{{baseInfprData.birthday||"请选择"}}
             <van-icon color="#999999" name="arrow" />

@@ -299,6 +299,7 @@ Page({
                     url: `/packageDoc/pages/doctor/choose-patient/index?consultType=${serviceItemType}&docId=${this.data.id}&commodityId=${this.data.info.commodityId}&collectionIds=${collectionIds.join(',')}`
                 })
             } else {
+                //此地方都是单次咨询套餐 一般不会出现购买专科服务这种情况
                 wx.navigateTo({
                     url: `/packageDoc/pages/doctor/case/index?docId=${this.data.id}&commodityId=${this.data.info.commodityId}&collectionIds=${collectionIds.join(',')}`
                 })

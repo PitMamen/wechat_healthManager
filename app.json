@@ -31,14 +31,15 @@
                 "pages/doctor/choose-time/index",
                 "pages/doctor/choose-patient/index",
                 "pages/doctor/choose-case/index",
-                "pages/doctor/files/base-info",
-                "pages/doctor/files/health-status",
+                "pages/health/files/base-info",
+                "pages/health/files/health-status",
                 "pages/health/service/index",
                 "pages/health/doctors/index",
                 "pages/health/detail/index",
                 "pages/health/comments/index",
                 "pages/conclusion/con-list",
-                "pages/conclusion/con-detail"
+                "pages/conclusion/con-detail",
+                "pages/health/choose-patient/index"
             ]
         },
         {

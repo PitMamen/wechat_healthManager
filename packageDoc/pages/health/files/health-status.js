@@ -10,6 +10,9 @@ Page({
       tagListInfo:[],
       userId:"",
       checkedId:"",
+      docId: null,//医生ID
+      commodityId: null,//套餐ID
+      collectionIds: [],//所选规格ID
     },
 
     /**
@@ -18,6 +21,9 @@ Page({
     onLoad: function (options) {
         this.setData({
             userId:options.userId,
+            docId: options.docId,
+            commodityId: options.commodityId,
+            collectionIds: options.collectionIds.split(',')
         })
     },
 
@@ -92,8 +98,21 @@ Page({
         console.log("CCC:",this.data.tagListInfo)
     },
 
+     //防抖动
+     debounced: false,
       //保存
-      saveData:function(){
+      saveData(){
+
+        var that = this;
+
+        if (that.debounced) {
+            return
+        }
+        that.debounced = true
+        setTimeout(() => {
+            that.debounced = false
+        }, 3000)
+
          for (let index = 0; index < this.data.tagListInfo.length; index++) {
              var listData = this.data.tagListInfo[index].value
             for (let index1 = 0; index1 < listData.length; index1++) {
@@ -105,7 +124,7 @@ Page({
          this.data.checkedId = this.data.checkedId.substring(0,this.data.checkedId.lastIndexOf(","))
           console.log("GGGG:",this.data.checkedId)
 
-        let that = this
+       
         that.modifyUserExternalInfoOut()
     },
 
@@ -118,21 +137,70 @@ Page({
         }
         console.log("请求参数：",requestData)
         const res = await WXAPI.modifyUserExternalInfo(requestData)
-        if (res.code == 0) {   //TODO  处理保存后跳转
+        if (res.code == 0) {   
 
             wx.showToast({
                 title: '保存成功',
                 icon: 'success',
                 duration: 1000
             })
-            // setTimeout(() => {
-            //     wx.navigateBack({
-            //         delta: 1,
-            //     })
-            // }, 1000)
+           
+            this.createOrder()
+
         }
     },
 
+    ////直接下订单
+    async createOrder(){
+        var postdata2={
+            channel: 'wechat',
+            medicalCaseId: 0,
+            collectionIds: this.data.collectionIds || [],
+            commodityId: this.data.commodityId,
+            doctorUserId: this.data.docId,
+            userId: this.data.userId,
+          
+           
+        }
+       
+
+            const res2 = await WXAPI.createStewardOrder(postdata2)
+
+            if (res2.code == 0) {
+               
+                wx.navigateTo({
+                    url: `/packageDoc/pages/doctor/buy/index?id=${res2.data.orderId}&orderType=${res2.data.orderType}`
+                })
+            } else if (res2.code == 99302) {
+                //超过限购次数
+                wx.showModal({
+                    title: '提示',
+                    content: '您购买此服务已超过次数限制，您可以关注医生的其他服务',
+                    confirmText: '医生服务',
+                    confirmColor: '#409EFF',
+                    success(res) {
+                        if (res.confirm) {
+                            wx.navigateTo({
+                                url: `/packageDoc/pages/doctor/info/index?id=${that.data.docId}`
+                            })
+                        }
+                    }
+                })
+
+            }else {
+                
+                wx.showModal({
+                    title: '提示',
+                    content: res2.message,
+                    success(res) {
+                        if (res.confirm) {
+                        }
+                    }
+                })
+            }
+            wx.hideLoading()
+            
+    }
 
 
 

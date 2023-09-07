@@ -24,6 +24,9 @@ Page({
         selectData: "",
         minDate: new Date().getTime() - 100 * 365 * 24 * 60 * 60 * 1000,
         maxDate: new Date().getTime(),
+        docId: null,//医生ID
+        commodityId: null,//套餐ID
+        collectionIds: [],//所选规格ID
         formatter(type, value) {
             if (type === 'year') {
                 return `${value}年`;
@@ -42,9 +45,9 @@ Page({
         // var data = JSON.parse(options.data)
         this.setData({
             userId: options.userId,
-            // baseInfprData: data,
-            // weight: data.weight,
-            // stature: data.height,
+            docId: options.docId,
+            commodityId: options.commodityId,
+            collectionIds: options.collectionIds.split(',')
         })
 
         console.log("KKKD:", this.data.baseInfprData)
@@ -82,6 +85,7 @@ Page({
             }
 
             var baseInfo = {
+                name:res.data.name || '',
                 birthday: res.data.birthday || '',
                 height: res.data.height || '',
                 weight: res.data.weight || '',
@@ -91,6 +95,8 @@ Page({
             }
             // baseInfprData
             that.setData({
+                stature:baseInfo.height,
+                weight:baseInfo.weight,
                 baseInfprData: baseInfo,
             })
         } else {
@@ -176,14 +182,10 @@ Page({
                 icon: 'success',
                 duration: 1000
             })
+           
             wx.navigateTo({
-                url: './health-status?userId=' + this.data.userId
+                url: `/packageDoc/pages/health/files/health-status?docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&userId=${this.data.userId}`
             })
-            // setTimeout(() => {
-            //   wx.navigateBack({
-            //     delta: 1,
-            //   })
-            // }, 1000)
         }
     },
 

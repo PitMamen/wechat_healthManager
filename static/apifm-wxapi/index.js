@@ -1203,6 +1203,11 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/datatreat/useDetail'
                         return request(url, 'get', data, true);
                     },
+                    //获取当前登录用户健康信息采集状态
+                    getUserTagStatus: function getUserTagStatus(data) {
+                        var url = ACCOUNT_SERVICE + '/getUserTagStatus'
+                        return request(url, 'POST', data, true);
+                    },
                 };
 
                 /***/
