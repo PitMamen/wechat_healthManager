@@ -37,6 +37,7 @@ Page({
         ],
         orderList: [],
 
+        recordId: '',
         defaultPatient: {},
         patientList: [],
         hidePatientShow: true,
@@ -49,7 +50,7 @@ Page({
     onLoad: function (options) {
         console.log('***********con-list options', options)
         this.setData({
-
+            recordId: options.recordId,
             userId: options.userId,
             // userId: wx.getStorageSync('userInfo').account.accountId,
 
@@ -194,7 +195,7 @@ Page({
         var info = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: './con-detail?regNo=' + info.regNo + '&userId=' + info.userId + '&recordId=' + info.id
+                url: './con-detail?regNo=' + info.regNo + '&userId=' + info.userId + '&recordId=' + this.data.recordId
             })
 
         }
