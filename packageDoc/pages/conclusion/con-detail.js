@@ -30,6 +30,7 @@ Page({
         this.setData({
             regNo: options.regNo,
             userId: options.userId,
+            recordId: options.recordId,
         })
 
 
@@ -53,11 +54,17 @@ Page({
         })
         const res = await WXAPI.getEmrDetail({
             regNo: this.data.regNo,
+            recordId: this.data.recordId,
             userId: this.data.userId
         })
         wx.hideLoading()
         if (res.code == 0 && res.data.length > 0) {
-            res.data[0].outDate = res.data[0].outDate.substring(0, 4) + '年' + res.data[0].outDate.substring(5, 7) + '月' + res.data[0].outDate.substring(8, 10) + '日'
+            if (res.data[0].outDate) {
+                res.data[0].outDate = res.data[0].outDate.substring(0, 4) + '年' + res.data[0].outDate.substring(5, 7) + '月' + res.data[0].outDate.substring(8, 10) + '日'
+            } else {
+                res.data[0].outDate = ''
+            }
+
             this.setData({
                 conclusionDetail: res.data[0]
             })

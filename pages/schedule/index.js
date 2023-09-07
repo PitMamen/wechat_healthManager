@@ -183,6 +183,7 @@ Page({
     },
     onFollowTap(event) {
         const item = event.currentTarget.dataset.item
+        console.log('ffffffff onFollowTap',JSON.stringify(item))
         if (item.taskType.value === 1){
             let url = item.jumpValue+ '?userId=' +item.userId+ '&recordId=' +item.id+ '&modifyTaskBizStatus=yes'
             if(item.taskBizStatus.value === 1){
@@ -198,6 +199,17 @@ Page({
         }else if (item.taskType.value === 3){
             wx.navigateTo({
                 url: '/pages/home/health-remind/detail?userId=' +wx.getStorageSync('defaultPatient').userId+ '&taskId=' +item.id
+            })
+        }else if (item.taskType.value === 4){
+            console.log('ffffffff onFollowTap jumpValue',item)
+            //新增病例查阅逻辑分支处理
+            // "taskType": {
+            //     "value": 4,
+            //     "description": "病历查阅"
+            //   },
+            wx.navigateTo({
+                // url: '/'+item.jumpValue
+                url: '/' + item.jumpValue+'?recordId=' + item.id+'&userId=' + item.userId
             })
         }
     },
