@@ -18,7 +18,7 @@ Page({
         wx.showShareMenu({
             withShareTicket: true
         })
-        this.getLists()
+      
      
     },
     onShow: function () {
@@ -57,6 +57,7 @@ Page({
         WXAPI.accurateDoctorsForFavourite({
             pageNo: 1,
             pageSize: 9999,
+            hospitalCode: getApp().globalData.currentHospital.hospitalCode || undefined,
             queryText: this.data.keyWords.trim(),
             subjectClassifyId: this.data.activeId || '',
             professionalTitle: this.data.professionalTitle
