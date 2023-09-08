@@ -121,10 +121,7 @@ Page({
         this.setData({
             hidePatientShow: true
         })
-        //不要添加就诊人功能
-        // wx.navigateTo({
-        //   url: '/pages/me/patients/addPatient',
-        // })
+      
     },
 
 

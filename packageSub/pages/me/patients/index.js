@@ -1,4 +1,4 @@
-// pages/me/patients/index.js
+
 const WXAPI = require('../../../../static/apifm-wxapi/index')
 Page({
 

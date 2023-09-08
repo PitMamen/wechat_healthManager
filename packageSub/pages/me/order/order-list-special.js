@@ -138,7 +138,7 @@ Page({
         console.log("fff:", info)
         if (this.checkLoginStatus()) {
             if (info.rightItems[0].projectType == 102) {
-                // url: '/pages/me/patients/addPatient',
+               
                 wx.navigateTo({
                     url: '/pages/consult/detail-tel/index?rightsId=' + info.id + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
                 })

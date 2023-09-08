@@ -305,7 +305,7 @@ App({
         if (userInfo && userInfo.account && userInfo.account.accountId) {
             if (!userInfo.account.user || userInfo.account.user.length === 0) {
                 wx.navigateTo({
-                    url: '/pages/me/patients/addPatient'
+                    url: '/packageSub/pages/me/patients/addPatient'
                 })
 
             }
@@ -338,7 +338,6 @@ App({
                 return defaultPatient
             } else {
                 wx.navigateTo({
-                    // url: '/pages/me/patients/addPatient'
                     url: '/packageSub/pages/me/patients/addPatient',
                 })
                 return null
