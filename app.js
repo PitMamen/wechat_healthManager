@@ -338,7 +338,8 @@ App({
                 return defaultPatient
             } else {
                 wx.navigateTo({
-                    url: '/pages/me/patients/addPatient'
+                    // url: '/pages/me/patients/addPatient'
+                    url: '/packageSub/pages/me/patients/addPatient',
                 })
                 return null
             }
