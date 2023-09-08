@@ -285,7 +285,7 @@ Page({
         console.log('addPatientTap')
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: '/packageSub/pages/patients/addPatient',
+                url: '/packageSub/pages/me/patients/addPatient',
             })
         }
 
