@@ -326,6 +326,12 @@
 .wrap .bottom .list .item .goods {
     margin-top: 14rpx;
 }
+.remind{
+    
+    font-size: 28rpx;
+    color: #999999;
+   
+}
 
 .wrap .bottom .list .item .goods .good {
     display: inline-block;

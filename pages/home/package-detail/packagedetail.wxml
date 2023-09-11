@@ -1,3 +1,11 @@
+<movable-area class="movable-area">
+    <movable-view class="movable-view" direction="all">
+
+        <button open-type="contact" size="mini" class="tab-btn ">
+            <van-icon name="service-o" size="40rpx" color="white" />客服
+        </button>
+    </movable-view>
+</movable-area>
 <view class="wrap">
     <view style="height: 30rpx;"></view>
     <view class="top">

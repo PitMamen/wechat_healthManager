@@ -70,6 +70,7 @@
                         <text class="num">/{{ subItem.serviceValue }}{{ subItem.unit }}</text>
                     </view>
                 </view>
+                <view wx:if="{{activepItem.commodityId == item.commodityId}}" class="remind">服务时效：医生接诊后{{activeItem.expireValue}}{{activeItem.expireUnit || ''}}有效</view>
             </view>
         </view>
     </view>

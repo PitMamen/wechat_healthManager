@@ -17,28 +17,28 @@
 
                 <block wx:if="{{offLinechecked}}">
                     <view class="line"></view>
-                    <view class="fzitem">
+                    <view class="fzitem" bindtap="changeHospital">
                         <view class="fztitle">就诊机构</view>
 
-                        <view class="fzright" bindtap="changeHospital">
+                        <view class="fzright" >
                             <view class="fzvalue">{{clickName}}</view>
                             <van-icon color="#1A1A1A" name="arrow" />
                         </view>
                     </view>
                     <view class="line"></view>
-                    <view class="fzitem">
+                    <view class="fzitem" bindtap="inputdiagnosis">
                         <view class="fztitle">诊断结果</view>
 
-                        <view class="fzright" bindtap="inputdiagnosis">
+                        <view class="fzright" >
                             <view class="fzvalue">{{diagnosis}}</view>
                             <van-icon color="#1A1A1A" name="arrow" />
                         </view>
                     </view>
                     <view class="line"></view>
-                    <view class="fzitem">
+                    <view class="fzitem" bindtap="showcalendar">
                         <view class="fztitle">诊断日期</view>
 
-                        <view class="fzright" bindtap="showcalendar">
+                        <view class="fzright" >
                             <view class="fzvalue">{{diagnosisDate || ''}}</view>
                             <van-icon color="#1A1A1A" name="arrow" />
                         </view>
