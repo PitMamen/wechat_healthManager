@@ -9,7 +9,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        active:1,
+        active: 1,
         isMoreLoading: false,
         deptName: '全部科室',
         screenName: '推荐服务',
@@ -19,6 +19,7 @@ Page({
         ],
         keyWords: '',
         tagList: [],
+        isSearch: false,
         disease: '', //所属专病
         categoryId: '', //所属专病
         diseaseIndex: '',
@@ -83,7 +84,8 @@ Page({
         this.setData({
             categoryId: this.data.tabs[0].id
         })
-        that.getArticleByClickNum();
+        // that.getArticleByClickNum();
+        that.articleByTitle()
 
     },
 
@@ -92,7 +94,8 @@ Page({
         console.log('onTabsChange id', this.data.tabs[e.detail.index].id)
         var status = e.detail.index
         this.setData({
-            categoryId: this.data.tabs[e.detail.index].id
+            categoryId: this.data.tabs[e.detail.index].id,
+            isSearch:false
         })
         // this.articleListQuery()
         this.refresh()
@@ -206,13 +209,29 @@ Page({
         //发起网络请求
         var that = this;
         var list = this.data.list
-        const res = await WXAPI.articleByTitle({
-            hospitalCode: getApp().globalData.currentHospital.hospitalCode,
-            title: this.data.keyWords,
-            categoryId: this.data.categoryId,
-            pageSize: that.data.pageSize,
-            start: page
-        })
+        // isSearch
+        /**
+         * 搜索的时候还是用同一个列表接口，但是不需要带categoryId参数，hospitalCode保留
+         */
+        let params
+        if (this.data.isSearch) {
+            params = {
+                hospitalCode: getApp().globalData.currentHospital.hospitalCode,
+                title: this.data.keyWords,
+                // categoryId: this.data.categoryId,
+                pageSize: that.data.pageSize,
+                start: page
+            }
+        } else {
+            params = {
+                hospitalCode: getApp().globalData.currentHospital.hospitalCode,
+                title: this.data.keyWords,
+                categoryId: this.data.categoryId,
+                pageSize: that.data.pageSize,
+                start: page
+            }
+        }
+        const res = await WXAPI.articleByTitle(params)
         console.log(res)
         this.setData({
             isMoreLoading: false
@@ -255,13 +274,15 @@ Page({
         this.setData({
             list: []
         });
-        if (this.data.APItype === 0) { //查询推荐文章
-            this.getArticleByClickNum();
-        } else if (this.data.APItype === 1) { //搜索
-            this.articleByTitle()
-        } else if (this.data.APItype === 2) { //专病
-            this.articleListQuery()
-        }
+        //原来页面是3个逻辑，需求改的只剩一个逻辑，所以只需要一个接口，代码注释为了防止需求改回来
+        this.articleByTitle()
+        // if (this.data.APItype === 0) { //查询推荐文章
+        //     this.getArticleByClickNum();
+        // } else if (this.data.APItype === 1) { //搜索
+        //     this.articleByTitle()
+        // } else if (this.data.APItype === 2) { //专病
+        //     this.articleListQuery()
+        // }
 
     },
     //加载更多数据
@@ -273,13 +294,15 @@ Page({
             this.setData({
                 isMoreLoading: true
             })
-            if (this.data.APItype === 0) { //查询推荐文章
-                this.getArticleByClickNum();
-            } else if (this.data.APItype === 1) { //搜索
-                this.articleByTitle()
-            } else if (this.data.APItype === 2) { //专病
-                this.articleListQuery()
-            }
+            //原来页面是3个逻辑，需求改的只剩一个逻辑，所以只需要一个接口，代码注释为了防止需求改回来
+            this.articleByTitle()
+            // if (this.data.APItype === 0) { //查询推荐文章
+            //     this.getArticleByClickNum();
+            // } else if (this.data.APItype === 1) { //搜索
+            //     this.articleByTitle()
+            // } else if (this.data.APItype === 2) { //专病
+            //     this.articleListQuery()
+            // }
         } else {
 
             wx.showToast({
@@ -303,12 +326,16 @@ Page({
         });
     },
 
+    /**
+     * 搜索的时候还是用同一个列表接口，但是不需要带categoryId参数，hospitalCode保留
+     */
     onSearch() {
         console.log('搜索' + this.data.keyWords);
         this.setData({
             APItype: this.data.keyWords ? 1 : 0,
             disease: '',
-            diseaseIndex: ''
+            diseaseIndex: '',
+            isSearch: true
         })
         this.refresh()
     },

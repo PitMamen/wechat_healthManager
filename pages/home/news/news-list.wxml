@@ -10,7 +10,7 @@
 
     <view style="background-color: white;height: 20rpx;"></view>
     <view class="back">
-        <view wx:for="{{list}}" wx:key="id" class="item-back" data-id="{{item.articleId}}" bindtap="goNewsDetail">
+        <!-- <view wx:for="{{list}}" wx:key="id" class="item-back" data-id="{{item.articleId}}" bindtap="goNewsDetail">
             <view style="display: flex;flex-direction: row;align-items: center;">
                 <view class="left-content">
                     <view class="title">{{item.title}}</view>
@@ -18,15 +18,35 @@
                         <view class="content-dept" style=" margin-right: 30rpx;" wx:if="{{item.subjectName}}">{{item.subjectName}}</view>
                         <view class="content-brief">{{item.brief.length>0?item.brief:""}}</view>
                     </view>
-                    <!-- <view class="read-num">{{item.clickNum>0?item.clickNum:0}}阅读</view> -->
-                    <!-- <view class="send-time">{{item.createTime}}</view> -->
                 </view>
                 <view class="image-content">
                     <image class="artical-image" src="{{item.previewUrl}}" style="width: 160rpx;height: 140rpx;" mode="scaleToFill"></image>
                 </view>
             </view>
             <view style="height: 1rpx;background-color: #F5F5F5;width: 91%;margin-left: 10rpx;margin-top: 30rpx;"></view>
+        </view> -->
+
+        <view class="article-item" bindtap="onArticleTap" wx:for="{{ list }}" wx:key="userId" data-item="{{ item }}">
+
+            <view class="right">
+                <view class="title">
+                    <text class="name">{{item.title}}</text>
+
+                </view>
+
+                <view class="desc">{{ item.brief || '' }}</view>
+                <view class="evaluate">
+                    <text>{{item.clickNum || 0}}阅读 </text>
+                    <view wx:if="{{item.categoryName}}" class="tag">#{{item.categoryName}}</view>
+
+                </view>
+            </view>
+            <view class="left">
+                <image src="{{ item.previewUrl || 'https://hmg.mclouds.org.cn/content-api/file/F20230906173135426O3UO54JEERGTTM-taocan.png' }}" lazy-load="{{ true }}" mode="aspectFill" />
+            </view>
         </view>
+
+        <van-empty class="empty" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无记录" wx:if="{{ list.length === 0 }}" />
     </view>
 </view>
 
