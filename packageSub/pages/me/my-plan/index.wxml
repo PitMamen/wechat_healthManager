@@ -1,0 +1,31 @@
+<wxs src="../../../../modules/format.wxs" module="computed"></wxs>
+
+
+<van-empty wx:if="{{ !planList || planList.length == 0 }}" description="暂无数据" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png"/>
+<view  wx:for="{{planList}}" wx:key="id3" class="card" bindtap="goPlanDetailPage" data-item="{{item}}">
+
+  <view class="card-black" >
+    <view class="titleviw">
+      <text class="title-date">{{item.planName}}</text>
+      
+      <view class="title-right">
+       
+        <van-tag wx:if="{{item.statusStr=='进行中'}}" size="large" color="#4179FB" type="primary">进行中</van-tag>
+        <van-tag wx:elif="{{item.statusStr=='未执行'}}" size="large" color="#F59B0E" type="primary">未执行</van-tag>
+        <van-tag wx:elif="{{item.statusStr=='完成'}}" size="large" color="#999999" type="primary">已完成</van-tag>
+        <van-tag wx:else size="large" color="#4179FB" type="primary">{{item.statusStr}}</van-tag>
+       
+      </view>
+    </view>
+    <view class="divider-view">
+      <view class="divider"></view>
+    </view>
+    
+    <text decode class="content">就&ensp;诊&ensp;人：{{item.userName}}</text>
+    <!-- <text class="content">随访医生：{{item.owner}}</text> -->
+    <!-- <text class="content">随访方式：{{item.messageType.description}}</text> -->
+    <text class="content">开始时间：{{item.bindTime}}</text>
+
+
+  </view>
+</view>

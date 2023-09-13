@@ -300,7 +300,7 @@ Page({
             })
         } else if (item.projectType == 105) {//随访服务
             wx.navigateTo({
-                url: '/pages/me/my-plan/index'
+                url: '/packageSub/pages/me/my-plan/index'
             })
         }else {
             wx.navigateTo({

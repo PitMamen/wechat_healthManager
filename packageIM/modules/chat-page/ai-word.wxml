@@ -8,7 +8,7 @@
           
             
 
-            <text wx:if="{{type==='TIMTextElem'}}" decode class="{{isMy?'isMyWordStyle1':'isOtherWordStyle1'}}" bindtap="chatTextItemClickEvent" data-text="{{content.text}}" decode>{{content.text}}
+            <text wx:if="{{type==='TIMTextElem'}}" decode class="{{isMy?'isMyWordStyle1':'isOtherWordStyle1'}}" bindtap="chatTextItemClickEvent" data-text="{{content.text}}" decode>{{content.text}}<text wx:if="{{!isMy}}" hidden="{{index===length-1?cursor:true}}">|</text>
             </text>
 
             <image wx:if="{{type==='TIMImageElem'}}" class="chat-list-pic-style" src="{{content.imageInfoArray[1].url}}" mode="aspectFill" bindtap="imageClickEvent" data-url="{{content.imageInfoArray[0].url}}" />
@@ -27,7 +27,9 @@
 
 
             <template wx:if="{{isMy}}" is="chat-send-status" data="{{sendStatus:sendStatus,index:index}}" />
+            
 
         </view>
     </view>
+
 </template>

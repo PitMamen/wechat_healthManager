@@ -74,12 +74,7 @@ Page({
           
         })
     },
-    onCaseTap() {
-
-        wx.navigateTo({
-            url: `/packageDoc/pages/doctor/case/index?docId=${this.data.docId}&commodityId=${this.data.commodityId}&collectionIds=${this.data.collectionIds.join(',')}&consultType=102&userId=${this.data.selectUser.userId}&userName=${this.data.selectUser.userName}`
-        })
-    },
+ 
     onSelectTap() {
         this.setData({
             show: true

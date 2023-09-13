@@ -392,6 +392,11 @@ Page({
                         item.planType = "Remind"
                         item.planDescribe = item.templateTitle
                         allTaskList.push(item)
+                    } else if (item.taskType.value == 4) {
+                        //新增病历查阅
+                        item.planType = "Read"
+                        item.planDescribe = item.templateTitle
+                        allTaskList.push(item)
                     }
                 }
 
@@ -532,7 +537,7 @@ Page({
         console.log('addPatientTap')
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: '../me/patients/addPatient',
+                url: '/packageSub/pages/me/patients/addPatient',
             })
         }
 
@@ -570,6 +575,11 @@ Page({
         } else if (type == 'Remind') {//消息
             wx.navigateTo({
                 url: './health-remind/detail?userId=' + this.data.defaultPatient.userId + '&taskId=' + task.id
+            })
+
+        } else if (type == 'Read') {//病历查阅
+            wx.navigateTo({
+                url: '/' + task.jumpValue+'?recordId=' + task.id+'&userId=' + task.userId
             })
 
         }
@@ -632,7 +642,7 @@ Page({
         //   hidePatientShow: true
         // })
         wx.navigateTo({
-            url: '/pages/me/patients/addPatient',
+            url: '/packageSub/pages/me/patients/addPatient',
         })
     },
     bindPatientTap: function () {

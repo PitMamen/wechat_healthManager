@@ -316,7 +316,7 @@ Page({
         const res = await WXAPI.queryPlanId(goodsId, userId)
         var planId = res.data
         wx.navigateTo({
-            url: '/pages/me/my-plan/plan-detail?planId=' + planId,
+            url: '/packageSub/pages/me/my-plan/plan-detail?planId=' + planId,
         })
     },
     //点击选择时间

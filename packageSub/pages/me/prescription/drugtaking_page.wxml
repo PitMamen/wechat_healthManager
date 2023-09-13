@@ -1,0 +1,75 @@
+
+<view class="zdview">
+    <view class="title">
+        就诊信息
+    </view>
+    <view class="diver-line"></view>
+    <view class="titleviw">姓名：<text decode="true" style="color: #1A1A1A;margin-left: auto;">{{dataInfo.medicalInfo.name}}&ensp;|&ensp;{{dataInfo.medicalInfo.sex}}&ensp;|&ensp;{{dataInfo.medicalInfo.age}}岁 </text></view>
+
+    <view class="titleviw">医生：<text decode="true" style="color: #1A1A1A;margin-left: auto;">{{dataInfo.medicalInfo.doctorName}}&ensp;|&ensp;{{dataInfo.medicalInfo.deptName || '-'}}</text></view>
+
+    <view class="titleviw">就诊时间：<text style="color: #1A1A1A;margin-left: auto;">{{dataInfo.medicalInfo.createDate}}</text></view>
+</view>
+
+<view class="zdview">
+    <view class="title">
+        配送地址
+        <view bindtap="getMyReceiving_address" style="margin-left: auto;color: #5A9CF8;font-size: 28rpx;margin-top: 5rpx;">去选择 ></view>
+    </view>
+    <view class="diver-line"></view>
+    <view class="titleviw">姓名：<text wx:if="{{curAddressData}}" style="color: #4D4D4D;margin-left: auto;font-size: 28rpx;margin-top: 5rpx;">{{curAddressData.userName}}</text></view>
+    <view class="titleviw">电话：<text wx:if="{{curAddressData}}" style="color: #4D4D4D;margin-left: auto;font-size: 28rpx;margin-top: 5rpx;">{{curAddressData.telNumber}}</text></view>
+    <view class="titleviw">
+        地址：<text style="margin-left: 15rpx;" wx:if="{{ReceivingAddressDetail}}" style="color: #4D4D4D;margin-left: auto;font-size: 28rpx;width: 67%;margin-top: 5rpx;">{{ReceivingAddressDetail}}</text>
+    </view>
+</view>
+<!-- {{ReceivingAddressDetail}} -->
+
+<view class="zdview">
+    <view class="title" style="font-size: 28rpx;color: #999999;">
+        提示:
+    </view>
+
+    <view style="font-size: 28rpx;color: #999999;margin-left: 25rpx;">平台仅负责药品快递，快递费用由用户自己承担。快递付款方式为快递到付，到付金额预计：湖南省内
+        12元，省外23元。（此价格为预估价格，具体价格以
+        快递公司给出的价格为准）</view>
+</view>
+
+
+
+
+
+
+
+
+<!-- <view class="titleviw" style="margin-left: 35rpx; margin-top: 100rpx;">取药方式</view> -->
+
+
+
+<!-- <view class="content">
+    <view class="drugtaking_style" style="justify-items: center; background-color: {{takeyouself?'#1880E8':'#E6E6E6'}};color: {{takeyouself?'#FFFFFF':'#1A1A1A'}};" bindtap="takeyouself">药房自取 
+
+    </view>
+    <view class="drugtaking_style1" style="align-items: center;background-color: {{express_Issued?'#1880E8':'#E6E6E6'}};color: {{express_Issued?'#FFFFFF':'#1A1A1A'}};" bindtap="express_Issued">代发快递
+    </view>
+</view> -->
+
+
+<!-- <view class="v1" hidden="{{takeyouself?false:true}}">
+    <text style="font-size: 40rpx; margin-left: 35rpx; margin-top: 20rpx;font-weight: bold;">取药点</text>
+    <text style="font-size: 25rpx; margin-left: 35rpx; margin-top: 20rpx;">{{dataInfo.takeMedicineLocDesc?dataInfo.takeMedicineLocDesc:''}}</text>
+    <text style="margin-left: 35rpx; margin-top: 20rpx;color: #F10C0C;font-size: 24rpx;">注:</text>
+    <text style="font-size: 25rpx; margin-left: 35rpx; margin-right: 35rpx; margin-top: 20rpx;color: #666666;">请选择药房自取的病友患者,携带诊疗卡或者电子处方凭证,前往取药,周一至周六正常上班时间均可,节假日以门诊开放时间为准</text>
+</view> -->
+
+<!-- 快递代发 -->
+<!-- <view class="v1" style="margin-top: 20rpx; margin-left: 30rpx;" hidden="{{express_Issued?false:true}}">
+    <van-cell style="font-size: 6rpx; margin-left: -20rpx;"  title="收货地址" is-link bind:click="getMyReceiving_address" />
+    <text wx:if="{{curAddressData}}" class="name-tel" decode>姓名：{{curAddressData.userName}} &emsp; &emsp;电话：{{curAddressData.telNumber}}</text>
+    <view wx:if="{{ReceivingAddressDetail}}" class="name-tel">地址：{{ReceivingAddressDetail}}</view>
+</view> -->
+
+<button style="margin: 50rpx;background-color: #007BF5; color: white;" hidden="{{payStata==0||payStata==1?false:true}}" bindtap="goPay">去缴费 </button>
+
+<button style="margin: 50rpx;background-color: #B3B3B3; color: #5F5F6B;" hidden="{{payStata==5|| payStata==8|| payStata==2?false:true}}">{{dataInfo.medicalOrder.statusName}}
+</button>

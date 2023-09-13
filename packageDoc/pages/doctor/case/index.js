@@ -141,7 +141,7 @@ Page({
         }
         if (!this.data.columns || this.data.columns.length == 0) {
             wx.navigateTo({
-                url: '/pages/me/patients/addPatient',
+                url: '/packageSub/pages/me/patients/addPatient',
             })
         } else {
             this.setData({
@@ -157,7 +157,7 @@ Page({
     },
     onCancel() {
         wx.navigateTo({
-            url: '/pages/me/patients/addPatient',
+            url: '/packageSub/pages/me/patients/addPatient',
         })
         this.setData({
             show: false

@@ -71,33 +71,7 @@ Page({
 
     },
    
-
-    goRecordPage() {
-        wx.navigateTo({
-            url: '../record/index',
-        })
-    },
-    goSetPage() {
-        wx.navigateTo({
-            url: './setting/index',
-        })
-    },
-    goInfoPage() {
-        wx.navigateTo({
-            url: './info/index',
-        })
-    },
  
-    goMyEvalPage() {
-        if (this.checkLoginStatus()) {
-            if (getApp().getDefaultPatient()) {
-                wx.navigateTo({
-                    url: './my-eval/index',
-                })
-            }
-        }
-
-    },
     goMyConsultPage() {
         //把参数保存至全局变量
         getApp().globalData.consultPageActive = '2'
@@ -107,26 +81,21 @@ Page({
     },
     goMorePage() {
         wx.navigateTo({
-            url: './more/index',
+            url: '/packageSub/pages/me/more/index',
         })
     },
 
-    // goOrderListPage(e) {
-    //     var type = e.currentTarget.dataset.type
-    //     wx.navigateTo({
-    //         url: './order/order-list-new?broadClassify=' + type,
-    //     })
-    // },
+ 
     goOrderListChatPage(e) {
         var type = e.currentTarget.dataset.type
         wx.navigateTo({
-            url: './order/order-list-chat?broadClassify=' + type,
+            url: '/packageSub/pages/me/order/order-list-chat?broadClassify=' + type,
         })
     },
     goOrderListSpecialPage(e) {
         var type = e.currentTarget.dataset.type
         wx.navigateTo({
-            url: './order/order-list-special?broadClassify=' + type,
+            url: '/packageSub/pages/me/order/order-list-special?broadClassify=' + type,
         })
     },
 
@@ -135,7 +104,7 @@ Page({
         if (this.checkLoginStatus()) {
             if (getApp().getDefaultPatient()) {
                 wx.navigateTo({
-                    url: './prescription/index',
+                    url: '/packageSub/pages/me/prescription/index',
                 })
             }
         }
@@ -146,7 +115,7 @@ Page({
         if(this.checkLoginStatus()){
             if(this.data.defaultPatient){
                 wx.navigateTo({
-                    url: './health/healthrecords',
+                    url: '/packageSub/pages/me/health/healthrecords',
                   })
             }
     
@@ -156,14 +125,14 @@ Page({
    
     goAddPage() {
         wx.navigateTo({
-            url: './patients/addPatient',
+            url: '/packageSub/pages/me/patients/addPatient',
         })
     },
     goMyPatientPage() {
         if (this.checkLoginStatus()) {
             if (getApp().getDefaultPatient()) {
                 wx.navigateTo({
-                    url: './patients/index',
+                    url: '/packageSub/pages/me/patients/index',
                 })
             }
 
@@ -221,26 +190,13 @@ Page({
     goMyHealthRecords() {
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: './health/healthrecords',
+                url: '/packageSub/pages/me/health/healthrecords',
             })
         }
 
     },
 
 
-    //预约床位
-    goBedPage() {
-        wx.navigateTo({
-            url: './bed/appointList',
-        })
-    },
-
-
-    goReservationPage() {
-        wx.switchTab({
-            url: '../cloud-doctor/index',
-        })
-    },
     goEmptyPage() {
         wx.showToast({
             title: '正在开发中',
@@ -248,21 +204,7 @@ Page({
             duration: 2000
         })
     },
-    goMessagePage() {
-        wx.navigateTo({
-            url: './message/index?userId=' + this.data.defaultPatient.userId,
-        })
-    },
-    goRemindPage() {
-        wx.navigateTo({
-            url: './medication-list/index?userId=' + this.data.defaultPatient.userId,
-        })
-    },
-    bindMedicalCard() {
-        wx.navigateTo({
-            url: './medical-card/card-list',
-        })
-    },
+   
 
     onPatientPickerConfirm(event) {
         console.log(event)
@@ -291,7 +233,7 @@ Page({
         //   hidePatientShow: true
         // })
         wx.navigateTo({
-            url: '/pages/me/patients/addPatient',
+            url: '/packageSub/pages/me/patients/addPatient',
         })
     },
     bindPatientTap: function () {
@@ -321,7 +263,7 @@ Page({
     goMyDoctorPage(){
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: '/pages/me/my-doctor/index',
+                url: '/packageSub/pages/me/my-doctor/index',
             })
         }
     },
@@ -343,7 +285,7 @@ Page({
         console.log('addPatientTap')
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: './patients/addPatient',
+                url: '/packageSub/pages/me/patients/addPatient',
             })
         }
 

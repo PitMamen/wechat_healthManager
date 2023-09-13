@@ -31,10 +31,15 @@
                 "pages/doctor/choose-time/index",
                 "pages/doctor/choose-patient/index",
                 "pages/doctor/choose-case/index",
+                "pages/health/files/base-info",
+                "pages/health/files/health-status",
                 "pages/health/service/index",
                 "pages/health/doctors/index",
                 "pages/health/detail/index",
-                "pages/health/comments/index"
+                "pages/health/comments/index",
+                "pages/conclusion/con-list",
+                "pages/conclusion/con-detail",
+                "pages/health/choose-patient/index"
             ]
         },
         {
@@ -44,6 +49,36 @@
                 "pages/globalCall/globalCall"
             ],
             "independent": false
+        },
+        {
+            "root": "packageSub",
+            "pages": [
+                "pages/me/patients/index",
+                "pages/me/patients/editUser",
+                "pages/me/content/index",
+                "pages/me/address/add",
+                "pages/me/address/select",
+                "pages/me/order/order-list-chat",
+                "pages/me/order/order-detail-chat",
+                "pages/me/order/order-list-special",
+                "pages/me/order/order-detail-special",
+                "pages/me/info/index",
+                "pages/me/patients/addPatient",
+                "pages/me/my-plan/index",
+                "pages/me/my-plan/plan-detail",
+                "pages/me/my-plan/task-detail",
+                "pages/me/my-eval/index",
+                "pages/me/consult/index",
+                "pages/me/my-plan/plan-detail-v2",
+                "pages/me/health/healthrecords",
+                "pages/me/health/baseimformation",
+                "pages/me/health/healthstatus",
+                "pages/me/more/index",
+                "pages/me/my-doctor/index",
+                "pages/me/prescription/index",
+                "pages/me/prescription/detail",
+                "pages/me/prescription/drugtaking_page"
+            ]
         }
     ],
     "pages": [
@@ -52,41 +87,26 @@
         "pages/login/confirm-patient",
         "pages/login/index",
         "pages/me/main",
-        "pages/me/patients/index",
-        "pages/me/patients/editUser",
         "pages/home/evaluate/index",
         "pages/home/webpage/index",
         "pages/home/news/news-list",
         "pages/home/news/news-detail",
-        "pages/me/content/index",
-        "pages/me/address/add",
-        "pages/me/address/select",
-        "pages/me/order/order-list-chat",
-        "pages/me/order/order-detail-chat",
-        "pages/me/order/order-list-special",
-        "pages/me/order/order-detail-special",
-        "pages/me/info/index",
+      
         "pages/home/consent/index",
-        "pages/me/patients/addPatient",
-        "pages/me/my-plan/index",
-        "pages/me/my-plan/plan-detail",
-        "pages/me/my-plan/task-detail",
+       
         "pages/home/health-remind/index",
-        "pages/me/my-eval/index",
-        "pages/me/consult/index",
+       
         "pages/login/follow-checkin",
         "pages/login/follow-info",
         "pages/consult/index",
         "pages/consult/todo/todo-list",
-        "pages/me/my-plan/plan-detail-v2",
+       
         "pages/home/health-remind/detail",
         "pages/home/hospital-select/index",
         "pages/consult/detail-text/index",
         "pages/consult/rights/apply",
         "pages/consult/webpage/index",
-        "pages/me/health/healthrecords",
-        "pages/me/health/baseimformation",
-        "pages/me/health/healthstatus",
+       
         "pages/consult/detail-tel/index",
         "pages/consult/detail-package/index",
         "pages/consult/detail-package/tel-list",
@@ -94,14 +114,11 @@
         "pages/consult/detail-package/common",
         "pages/consult/detail-package/telinfo/index",
         "pages/schedule/index",
-        "pages/me/more/index",
+       
         "pages/home/rate/doctor",
         "pages/home/rate/package",
         "pages/login/diagnosis",
-        "pages/me/my-doctor/index",
-        "pages/me/prescription/index",
-        "pages/me/prescription/detail",
-        "pages/me/prescription/drugtaking_page",
+      
         "pages/consult/detail-video/index",
         "pages/consult/detail-package/digitaldetail",
         "pages/consult/detail-package/content/index",

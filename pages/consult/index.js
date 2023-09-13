@@ -257,7 +257,7 @@ Page({
       //药师审核   开具处方
       this.setInquiriesAgencyRead(item) //设置为已读
       wx.navigateTo({
-        url: `/pages/me/prescription/detail?preNo=${item.tradeId}`
+        url: `/packageSub/pages/me/prescription/detail?preNo=${item.tradeId}`
       })
     } else {
       if (this.checkLoginStatus()) {
@@ -328,6 +328,18 @@ Page({
     }
 
   },
+
+       goInfodd(e) {//test 代码
+    //         wx.navigateTo({
+    //           url: '/packageDoc/pages/doctor/files/base-info?userId=30708',
+    //           // url: `/packageDoc/pages/health/detail/index?id=${info.commodityId}`
+    //         })
+
+    //         wx.navigateTo({
+    //           url: '/packageDoc/pages/conclusion/con-list',
+    //           // url: `/packageDoc/pages/health/detail/index?id=${info.commodityId}`
+    //         })
+          },
 
   goTodoPage() {
     if (this.checkLoginStatus()) {

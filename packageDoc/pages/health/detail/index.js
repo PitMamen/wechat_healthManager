@@ -12,12 +12,14 @@ Page({
         name: '',
         loading: false,
         price: 0,
+        typeJump: -1,
         list1: [],
         list2: [],
         images: [],
         comments: [],
         swipers: [],
         isOnSale:false,//是否上架
+        gatherHealthFlag:'',//是否采集健康档案;0否;1是
     },
     onLoad: function (options) {
         // 页面创建时执行
@@ -40,6 +42,7 @@ Page({
                 id: options.id,
                 docId: options.docId,
                 docName: options.docName,
+                typeJump: options.type,
                 collectionId: options.collectionId,
                 navBarHeight: getApp().globalData.navBarHeight,
                 statusBarHeight: getApp().globalData.statusBarHeight
@@ -98,6 +101,7 @@ Page({
                 images: res.data.detailImgs || [],
                 swipers: res.data.bannerImgs || [],
                 isOnSale:res.data.saleStatus?res.data.saleStatus.value==2 : false,//1下架、2上架
+                gatherHealthFlag:res.data.gatherHealthFlag
             })
 
             //第一个可选项默认勾选
@@ -184,6 +188,9 @@ Page({
         this.setPrice()
     },
     onSelectTap() {
+      if (this.data.typeJump==2) {
+        return
+      }
         wx.navigateTo({
             url: `/packageDoc/pages/health/doctors/index?id=${this.data.id}`
         })
@@ -226,8 +233,9 @@ Page({
         const collectionIds = [this.data.collectionId].concat(this.data.list2.map(item => {
             return item.collectionId
         }))
+       
         wx.navigateTo({
-            url: `/packageDoc/pages/doctor/case/index?docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
+            url: `/packageDoc/pages/health/choose-patient/index?gatherHealthFlag=${this.data.gatherHealthFlag}&docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
         })
     }
 })

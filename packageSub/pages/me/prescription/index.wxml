@@ -1,0 +1,85 @@
+
+<van-sticky>
+    <view id="tabs" class="tabs">
+
+        <van-tabs color="#0379FF" title-active-color="#0379FF" swipeable line-width="28px" bind:click="onTabsChange" custom-class="" active="{{ active }}">
+            <van-tab wx:for="{{tabs}}" wx:key="id" title="{{item.title}}" name="{{item.status}}">
+            </van-tab>
+        </van-tabs>
+    </view>
+</van-sticky>
+
+<van-empty wx:if="{{ !orderList || orderList.length == 0 }}" description="暂无数据" image="/image/icon_nodata.png" />
+<view class="order-list" hidden="{{orderList ? false : true}}">
+    <view class="a-order" wx:for="{{orderList}}" wx:key="index" wx:for-index="index" wx:for-item="item">
+
+        <view bindtap="goOrder" data-item="{{item}}">
+            <view class="titleviw">
+                <text class="title-text">处方笺</text>
+
+                <!-- 0未下单/1待付款/8待发货/2已完成/5已取消 -->
+                <view wx:if="{{item.medicalOrder.status==0 || item.medicalOrder.status==1}}" class="title-right">
+                    <view class="title-right-tx">待付款</view>
+                    <van-count-down class="countdown-class" time="{{ item.medicalOrder.timeoutSeconds*1000 }}" format="HH时mm分ss秒" />
+                </view>
+                <view wx:else class="plan-text-min">
+                    <text wx:if="{{item.medicalOrder.status==8}}" style=" color: #2B9F1B;" >{{item.medicalOrder.statusName}}</text>
+                    <text wx:elif="{{item.medicalOrder.status==2}}" style="color: #367BF5;" >{{item.medicalOrder.statusName}}</text>
+                    <text wx:else>{{item.medicalOrder.statusName}}</text>
+                </view>
+            </view>
+
+            <view class="v-divider"></view>
+
+
+
+            <view class="v-describe">
+                <view class="v-des-item">
+                    <view class="des-name">
+                        患者信息：
+                    </view>
+                    <view class="des-value">
+                        <text decode>{{item.medicalInfo.name}}&emsp;{{item.medicalInfo.sex}}&emsp;{{item.medicalInfo.age}}岁</text>
+                    </view>
+                </view>
+                <view class="v-des-item" style="margin-top: 20rpx;">
+                    <view class="des-name">
+                        诊断：
+                    </view>
+                    <view class="des-value">
+                        {{item.diagnosis}}
+                    </view>
+                </view>
+                <view class="v-des-item" style="margin-top: 20rpx;">
+                    <view class="des-name">
+                        <text style="color: #EA3324;">Rp</text>
+
+                    </view>
+                    <view class="des-rp">
+                    <view style="margin-bottom: 20rpx;" wx:for="{{item.medOrderItems}}" wx:key="12" wx:for-index="idx" wx:for-item="inItem">
+                        <view>
+                            <text style="color: #1A1A1A; font-size: 30rpx; ">{{idx+1}}.{{inItem.drugName}}</text>
+                            <text style="color: #999999; font-size: 24rpx; margin-left: 10rpx;">({{inItem.drugSpec}} )</text>
+                           
+                        </view>
+                        <view style="color: #4D4D4D; font-size: 24rpx;margin-top: 20rpx; ">用法用量：{{inItem.frequency}}；{{inItem.useNum}}{{inItem.useUnit}}/1次；{{inItem.useMethod}}</view>
+                    </view>
+
+
+                    </view>
+                </view>
+
+
+
+
+
+
+            </view>
+
+           
+        </view>
+
+
+
+    </view>
+</view>

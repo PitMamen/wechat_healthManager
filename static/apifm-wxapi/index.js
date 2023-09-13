@@ -284,7 +284,7 @@ module.exports =
 
                                     //message里是就userId
                                     wx.navigateTo({
-                                        url: '/pages/me/patients/editUser?type=ADD_CARDNO&userId=' + request.data.message
+                                        url: '/packageSub/pages/me/patients/editUser?type=ADD_CARDNO&userId=' + request.data.message
                                     })
                                     return reject(request.data);
                                 } else { //其他错误
@@ -373,7 +373,7 @@ module.exports =
 
                                     //message里是就userId
                                     wx.navigateTo({
-                                        url: '/pages/me/patients/editUser?type=ADD_CARDNO&userId=' + request.data.message
+                                        url: '/packageSub/pages/me/patients/editUser?type=ADD_CARDNO&userId=' + request.data.message
                                     })
                                     return reject(request.data);
                                 } else {
@@ -689,6 +689,12 @@ module.exports =
                         var url = HEALTH_SERVICE + '/health/patient/allArticlesPage'
                         return request2(url, 'get', data, true);
                     },
+                    //文章类别列表
+                    getArticleCategoryList: function getArticleCategoryList(data) {
+                        var url = HEALTH_SERVICE + '/articleCategory/getArticleCategoryList'
+                        return request(url, 'POST', data, true);
+                    },
+
                     //根据id查询文章
                     articleById: function articleById(id, recordId) {
                         return request(HEALTH_SERVICE + '/health/patient/articleById?id=' + id + '&recordId=' + recordId, 'get', {});
@@ -912,6 +918,22 @@ module.exports =
                         var url = FOLLOW_SERVICE + '/follow/userplan/stopFollowUserPlan'
                         return request(url, 'post', data, true);
                     },
+                    //小程序端-就诊列表
+                    getFollowList: function getFollowList(data) {
+                        var url = FOLLOW_SERVICE + '/follow/emr/getFollowList'
+                        return request(url, 'get', data, true);
+                    },
+                    //小程序端-/revisit/getEmrDataByUserId  手动同步病历
+                    getEmrDataByUserId: function getEmrDataByUserId(data) {
+                        var url = HEALTH_SERVICE + '/revisit/getEmrDataByUserId'
+                        return request(url, 'get', data, true);
+                    },
+                    //小程序端-就诊详情
+                    getEmrDetail: function getEmrDetail(data) {
+                        var url = FOLLOW_SERVICE + '/follow/emr/getEmrDetail'
+                        return request(url, 'get', data, true);
+                    },
+
                     //微信扫描注册后添加随访名单
                     addFollowMedicalRecords: function addFollowMedicalRecords(data) {
                         return request(FOLLOW_SERVICE + '/followMetaConfigure/addPatientMedicalRecords', 'post', data, true);
@@ -1185,6 +1207,11 @@ module.exports =
                      getSzlfUseDetail: function getSzlfUseDetail(data) {
                         var url = MEDICAL_SERVICE + '/datatreat/useDetail'
                         return request(url, 'get', data, true);
+                    },
+                    //获取当前登录用户健康信息采集状态
+                    getUserTagStatus: function getUserTagStatus(data) {
+                        var url = ACCOUNT_SERVICE + '/getUserTagStatus'
+                        return request(url, 'POST', data, true);
                     },
                 };
 

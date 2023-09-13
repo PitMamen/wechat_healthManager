@@ -1,0 +1,28 @@
+<view class="all-view">
+
+<view class="top-content" wx:for="{{tagListInfo}}" wx:key="key">
+<view style="color: #1A1A1A;font-size: 30rpx;font-weight: bold;margin-left: 29rpx;margin-top: 30rpx;">{{item.name}}</view>
+<view class="row-cont">
+<view bindtap="goCheck" data-index="{{index}}" data-idx="{{idx}}" class=" {{itemName.checked?'tag-item-is-check':'tag-item-no-check'}}" wx:for="{{item.value}}"  wx:key="key1" wx:for-index="idx" wx:for-item="itemName">{{itemName.tagsName}} </view>
+</view>
+</view>
+
+<view style="height: 160rpx;">
+
+
+</view>
+
+<view class="bottom-buttom">
+        <van-button type="primary" color="#047AFF" block  bindtap="saveData" >下一步</van-button>
+    </view>
+
+<!-- <view class="top-content">
+<view style="color: #1A1A1A;font-size: 30rpx;font-weight: bold;margin-left: 29rpx;margin-top: 30rpx;">家族病史</view>
+
+<view class="row-cont">
+<view class="tag-item">糖尿病</view>
+<view class="tag-item">食物过敏</view>
+</view>
+</view> -->
+
+</view>

@@ -3,13 +3,16 @@ import TIM from 'tim-wx-sdk';
 import voiceManager from "./msg-type/voice-manager";
 const WXAPI = require('../../../static/apifm-wxapi/index')
 import bus from '../../../utils/EventBus.js'
-
+const Config = require('../../../utils/config')
 Page({
 
     onMessageReceived: '',
     onMessageReadByPeer: '',
+
     _freshing: false,
     data: {
+
+        cursor: false,
         showChatInput: true,
         hideTimeShow: true,
         config: {},
@@ -30,36 +33,117 @@ Page({
         bottomChatStatus: '',
         showTextPop: false,//文本消息点击放大
         showText: '',//文本消息点击放大
-        hidePatientShow:true,
-        defaultPatient:{},
-        patientList:[],
-        radioIndex:-1,
+        hidePatientShow: true,
+        defaultPatient: {},
+        patientList: [],
+        radioIndex: -1,
+        isAITrunking: false
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-    
-      this.setConfig()
+      
+        this.setConfig()
         this.setData({
             pageHeight: wx.getSystemInfoSync().windowHeight,
         })
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient'),
             patientList: wx.getStorageSync('userInfo').account.user,
-           
+
         })
         this.getAiAccount()
-       
-        this.voiceManager = new voiceManager(this)
-        this.onIMReceived()
 
+        this.voiceManager = new voiceManager(this)
        
+
+        this.connectWebSocket()
+
+        this.startCursorTimer()
+    },
+
+
+    connectWebSocket(){
+
+        wx.closeSocket()
+
+        wx.connectSocket({
+            // url: `ws://192.168.1.121:8091/webSocket/${this.data.defaultPatient.userId}`,
+            url: Config.getConstantData().SocketUrl+ this.data.defaultPatient.userId,
+            success(res) {
+                console.log('连接成功', res)
+            }
+        });
+
+        console.log( Config.getConstantData().SocketUrl+ this.data.defaultPatient.userId)
+
+
+        wx.onSocketOpen(function () {
+            console.log('WebSocket 已连接')
+
+        })
+
+        let that = this
+        wx.onSocketMessage(function (res) {
+            // console.log('收到服务器内容：', res)
+            if (res && res.data && typeof res.data === "string") {
+                var data = JSON.parse(res.data)
+              
+
+                if (data.chunk) {
+                    if (!that.data.isAITrunking) {
+                        that.setData({
+                            isAITrunking: true
+                        })
+                        that.onGetMessageEvent_local('in', data.chunk)
+                    } else {
+                        var item = that.data.chatItems[that.data.chatItems.length - 1]
+                        if (item.flow == 'in' && item.type == 'TIMTextElem') {
+                            item.payload.text = item.payload.text + data.chunk
+                        }
+                        that.setData({
+                            chatItems: that.data.chatItems
+                        })
+                        that.setData({
+                            scrollTopVal: that.data.chatItems.length * 999,
+                        });
+                    }
+
+                }
+
+                if (data.response) {
+
+                    clearInterval(that.cursorTimer)
+
+                    that.setData({
+                        cursor: true,
+                        isAITrunking:false
+                    })
+                }
+            }
+        })
+
+        wx.onSocketError(function (error) {
+            console.log('socketerror', error)
+        })
+    },
+
+
+    cursorTimer: undefined,
+    startCursorTimer() {
+        let that = this
+        clearInterval(this.cursorTimer)
+        this.cursorTimer = setInterval(() => {
+            that.setData({
+                cursor: !that.data.cursor
+            })
+        }, 500)
 
     },
 
-    setConfig(){
+    setConfig() {
         var config = {
             sdkAppID: getApp().globalData.sdkAppID,
             userID: getApp().globalData.IMuserID,
@@ -77,9 +161,9 @@ Page({
         console.log("chat page: onShow")
     },
 
-   
-    
-  
+
+
+
 
     //监听
     onIMReceived() {
@@ -143,11 +227,11 @@ Page({
     onReady() {
 
         this.chatInput = this.selectComponent('#chatInput');
-      
+
         this.videoContext = wx.createVideoContext('myVideo')
     },
 
- 
+
     onUnload() {
         console.log("chat page: onUnload")
         //放开截屏录屏
@@ -155,49 +239,60 @@ Page({
             visualEffect: 'none',
         })
         this.voiceManager.stopAllVoicePlay(true);
-      
+
         getApp().tim.off(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived);
         getApp().tim.off(TIM.EVENT.MESSAGE_READ_BY_PEER, this.onMessageReadByPeer);
         getApp().tim.off(TIM.EVENT.NET_STATE_CHANGE, this.onNetStateChange);
 
+        wx.closeSocket()
+
+        clearInterval(this.cursorTimer)
+
+        this.cursorTimer = undefined
+
+
+
+
+
+
     },
-   
-   //获取机器人ID
-   async getAiAccount() {
-       
-    const res = await  WXAPI.getAiAccount()
-    if(res.code == 0){
-        this.setData({
-            toUserID: res.data,
-            conversationID:'C2C'+res.data
-        })
-      
-        this.getMessageList()
-    }
 
-},
-   //智能问答接口
-   async qryMedChat(question) {
-       
-    await WXAPI.medChat({ userId: this.data.config.userID,question:question })
+    //获取机器人ID
+    async getAiAccount() {
 
-},
- //查询热门问题列表
- async qrySysKnowledge() {
-    this.onGetMessageEvent_local('in', 'hi～我是智能AI助手小雅，可以为您提供人工智能健康服务哦～')
-    const list=[{title:'感冒的治疗方法'},{title:'最近睡眠不好'},{title:'呕吐是怎么回事'}]
-    const des = "您可以详细描述您的问题，我将为您给出智能化的解答，您可以这样问："
-    const remind = "我的回答是通过智能分析得出，不构成任何诊疗，建议仅供参考，若遇紧急情况请及时线下就医。"
-    this.onGetCustomTypeMessageEvent_local('RMWT', list, des,remind, true)
-},
-//点击咨询问题
-CustomQuestionMessageClickEvent(e) {
-    var knowledgeItem = e.currentTarget.dataset.content
-   
-    var message={detail:{value:knowledgeItem.title}}
-    this.onSendMessageEvent(message) 
-       
-},
+        const res = await WXAPI.getAiAccount()
+        if (res.code == 0) {
+            this.setData({
+                toUserID: res.data,
+                conversationID: 'C2C' + res.data
+            })
+
+            this.getMessageList()
+        }
+
+    },
+    //智能问答接口
+    async qryMedChat(question) {
+
+        await WXAPI.medChat({ userId: this.data.config.userID, question: question })
+
+    },
+    //查询热门问题列表
+    async qrySysKnowledge() {
+        this.onGetMessageEvent_local('in', 'hi～我是智能AI助手小雅，可以为您提供人工智能健康服务哦～')
+        const list = [{ title: '感冒的治疗方法' }, { title: '最近睡眠不好' }, { title: '呕吐是怎么回事' }]
+        const des = "您可以详细描述您的问题，我将为您给出智能化的解答，您可以这样问："
+        const remind = "我的回答是通过智能分析得出，不构成任何诊疗，建议仅供参考，若遇紧急情况请及时线下就医。"
+        this.onGetCustomTypeMessageEvent_local('RMWT', list, des, remind, true)
+    },
+    //点击咨询问题
+    CustomQuestionMessageClickEvent(e) {
+        var knowledgeItem = e.currentTarget.dataset.content
+
+        var message = { detail: { value: knowledgeItem.title } }
+        this.onSendMessageEvent(message)
+
+    },
     //模拟收到文本消息和发送文字消息
     onGetMessageEvent_local(flow, content) {
 
@@ -206,7 +301,7 @@ CustomQuestionMessageClickEvent(e) {
         console.log(content)
         let message = getApp().tim.createTextMessage({
             to: String(this.data.defaultPatient.userId),
-            conversationType:TIM.TYPES.CONV_C2C ,
+            conversationType: TIM.TYPES.CONV_C2C,
             payload: {
                 text: content
             },
@@ -217,14 +312,14 @@ CustomQuestionMessageClickEvent(e) {
         var index = this.setOneItemAndScrollPage(message)
         this.updateChatItemStatus(index, "success")
     },
- /**
-     * 模拟收到咨询问题列表
-     * @param {*} customType 类型
-     * @param {*} qlist 问题列表
-     * @param {*} description 描述
-     * @param {*} isHotList 是否是热门问题推荐列表
-     */
-    async onGetCustomTypeMessageEvent_local(customType, qlist, description,remind, isHotList) {
+    /**
+        * 模拟收到咨询问题列表
+        * @param {*} customType 类型
+        * @param {*} qlist 问题列表
+        * @param {*} description 描述
+        * @param {*} isHotList 是否是热门问题推荐列表
+        */
+    async onGetCustomTypeMessageEvent_local(customType, qlist, description, remind, isHotList) {
 
         let message = getApp().tim.createCustomMessage({
             to: String(this.data.defaultPatient.userId),
@@ -244,7 +339,7 @@ CustomQuestionMessageClickEvent(e) {
                 data: {
                     qlist: qlist,
                     description: description,
-                    remind:remind,
+                    remind: remind,
                     type: customType
                 }
             }
@@ -253,32 +348,32 @@ CustomQuestionMessageClickEvent(e) {
         this.updateChatItemStatus(index, "success")
     },
     //切换就诊人聊天
- switchIM(userId) {
-    
-    var userList=getApp().getPatientInfoList()
-    var userSig=''
-    userList.forEach(patient=>{
-        if(patient.userId == userId){
-           
-            userSig=patient.userSig
-            //保存默认就诊人
-            wx.setStorageSync('defaultPatient', patient)
+    switchIM(userId) {
+
+        var userList = getApp().getPatientInfoList()
+        var userSig = ''
+        userList.forEach(patient => {
+            if (patient.userId == userId) {
+
+                userSig = patient.userSig
+                //保存默认就诊人
+                wx.setStorageSync('defaultPatient', patient)
+            }
+        })
+
+        var that = this;
+        var userID = String(userId)
+
+
+        if (userID == getApp().globalData.IMuserID) {
+
+            return
+
         }
-    })
-
-    var that = this;
-    var userID = String(userId)
-
-
-    if (userID == getApp().globalData.IMuserID) {
-
-     return
-
-    } 
         //不是当前登录账号  切换
         console.log(userID + "不是当前账号：" + getApp().globalData.IMuserID)
         wx.showLoading({
-          title: '正在切换',
+            title: '正在切换',
         })
         //没有登录账户则直接登录
         if (!getApp().globalData.IMuserID) {
@@ -289,99 +384,104 @@ CustomQuestionMessageClickEvent(e) {
         let promise = getApp().tim.logout();
         promise.then(function (imResponse) {
             console.log(imResponse.data); // 登出成功
-            
+
             that.IMLoginToChat(userID, userSig)
         }).catch(function (imError) {
             wx.hideLoading()
             console.warn('login error:', imError); // 登出失败的相关信息
 
         });
-    
-},
 
- IMLoginToChat(userId, userSig) {
-    var userID = String(userId)
-    let that=this
-    let promise = getApp().tim.login({
-        userID: userID,
-        userSig: userSig
-    });
-    promise.then(function (imResponse) {
-        console.log("IM登录成功", imResponse); // 登录成功
+    },
 
-      
-        getApp().globalData.IMuserID = userID
-        getApp().globalData.IMuserSig = userSig
-                    //IM登录发送事件
-        bus.emit('IMLoginSuccess', true)
+    IMLoginToChat(userId, userSig) {
+        var userID = String(userId)
+        let that = this
+        let promise = getApp().tim.login({
+            userID: userID,
+            userSig: userSig
+        });
+        promise.then(function (imResponse) {
+            console.log("IM登录成功", imResponse); // 登录成功
 
 
-        let onSdkReady = function () {
+            getApp().globalData.IMuserID = userID
+            getApp().globalData.IMuserSig = userSig
+            //IM登录发送事件
+            bus.emit('IMLoginSuccess', true)
+
+
+            let onSdkReady = function () {
+                wx.hideLoading()
+                console.log("onSdkReady")
+
+                getApp().globalData.sdkReady = true
+
+                that.setConfig()
+                that.data.chatItems = []
+                that.getMessageList()
+                that.setData({
+                    isAITrunking:false
+                })
+
+                that.connectWebSocket()
+                wx.hideLoading()
+                getApp().tim.off(TIM.EVENT.SDK_READY, onSdkReady);
+            };
+            getApp().tim.on(TIM.EVENT.SDK_READY, onSdkReady);
+
+
+
+        }).catch(function (imError) {
             wx.hideLoading()
-            console.log("onSdkReady")
+            console.warn('login error:', imError); // 登录失败的相关信息
 
-            getApp().globalData.sdkReady = true
-           
-            that.setConfig()
-            that.data.chatItems=[]
-            that.getMessageList()
-            wx.hideLoading()
-            getApp().tim.off(TIM.EVENT.SDK_READY, onSdkReady);
-        };
-        getApp().tim.on(TIM.EVENT.SDK_READY, onSdkReady);
-
-
-
-    }).catch(function (imError) {
-        wx.hideLoading()
-        console.warn('login error:', imError); // 登录失败的相关信息
-      
-    });
-},
-bindPatientTap: function () {
-    this.setData({
-        hidePatientShow: false
-    })
-},
-closePatientTap: function () {
-    this.setData({
-        hidePatientShow: true
-    })
-},
-  //选择就诊人
-  onChooseRadioItem(e){
-    var index = e.currentTarget.dataset.index
-    this.setData({
-        radioIndex: index,
-      });
-     
-},
-//选择就诊人监听
-onRadioChange(e){
-    console.log(e)
-    this.setData({
-        radioIndex: e.detail,
-      });
-     
-},
-onPatientConfirm(){
-    
-    if(this.data.radioIndex != -1){
+        });
+    },
+    bindPatientTap: function () {
         this.setData({
-            defaultPatient: this.data.patientList[this.data.radioIndex],
-          });
-          this.switchIM(this.data.defaultPatient.userId)
-    }
-    this.setData({
-        hidePatientShow: true
-    })
-},
-onPatientAdd() {
+            hidePatientShow: false
+        })
+    },
+    closePatientTap: function () {
+        this.setData({
+            hidePatientShow: true
+        })
+    },
+    //选择就诊人
+    onChooseRadioItem(e) {
+        var index = e.currentTarget.dataset.index
+        this.setData({
+            radioIndex: index,
+        });
 
-    wx.navigateTo({
-        url: '/pages/me/patients/addPatient',
-    })
-},
+    },
+    //选择就诊人监听
+    onRadioChange(e) {
+        console.log(e)
+        this.setData({
+            radioIndex: e.detail,
+        });
+
+    },
+    onPatientConfirm() {
+
+        if (this.data.radioIndex != -1) {
+            this.setData({
+                defaultPatient: this.data.patientList[this.data.radioIndex],
+            });
+            this.switchIM(this.data.defaultPatient.userId)
+        }
+        this.setData({
+            hidePatientShow: true
+        })
+    },
+    onPatientAdd() {
+
+        wx.navigateTo({
+            url: '/packageSub/pages/me/patients/addPatient',
+        })
+    },
 
     //第一次获取消息列表
     getMessageList() {
@@ -500,7 +600,7 @@ onPatientAdd() {
     },
 
 
- 
+
 
     //图预览
     imageClickEvent(e) {
@@ -518,17 +618,17 @@ onPatientAdd() {
     onCustomWenJuanMessageClick(e) {
         console.log(e)
         let item = e.currentTarget.dataset.item;
-        var url =''
-        if(item.done){
-             url = item.url
-        }else{
-             url = item.url + `?source=medical-steward&agencyId=${item.todoId}&userId=${this.data.config.userID}`
+        var url = ''
+        if (item.done) {
+            url = item.url
+        } else {
+            url = item.url + `?source=medical-steward&agencyId=${item.todoId}&userId=${this.data.config.userID}`
         }
         var encodeUrl = encodeURIComponent(url)
         wx.navigateTo({
             url: '/pages/consult/webpage/index?url=' + encodeUrl + '&type=1'
         })
-       
+
     },
     //点击文章卡
     onCustomArticleMessageClick(e) {
@@ -626,17 +726,26 @@ onPatientAdd() {
 
 
     },
-   //点击处方卡
-   onCustomChuFangMessageClick(e){
-    wx.navigateTo({
-        url: '/pages/me/prescription/detail?preNo=' +  e.currentTarget.dataset.preno ,
-    })
-},
+    //点击处方卡
+    onCustomChuFangMessageClick(e) {
+        wx.navigateTo({
+            url: '/packageSub/pages/me/prescription/detail?preNo=' + e.currentTarget.dataset.preno,
+        })
+    },
 
 
     //发生文本消息
     onSendMessageEvent(e) {
+        if(this.data.isAITrunking){
+            wx.showToast({
+              title: 'AI正在回答，请稍后',
+              icon:'none'
+            })
+            return
+        }
         let content = e.detail.value;
+        let that = this
+
         // 发送文本消息，Web 端与小程序端相同
         // 1. 创建消息实例，接口返回的实例可以上屏
 
@@ -649,6 +758,34 @@ onPatientAdd() {
             cloudCustomData: this.data.conversationID
         });
         this.sendMsg(message)
+
+
+
+        console.log(JSON.stringify({
+            from: "patient",
+            to: "assistant",
+            text: content
+        }))
+
+        wx.sendSocketMessage({
+            data: JSON.stringify({
+                from: "patient",
+                to: "assistant",
+                text: content
+            }),
+            success(res) {
+                console.log('发送成功', res)
+
+                that.startCursorTimer()
+
+                that.setData({
+                    cursor: false,
+                })
+
+            }
+        })
+
+
     },
     //发送图片消息
     sendImageMessage() {
@@ -750,30 +887,30 @@ onPatientAdd() {
      * 发送消息
      */
     async sendMsg(message) {
-        if(!this.data.defaultPatient || !this.data.defaultPatient.userId ){
+        if (!this.data.defaultPatient || !this.data.defaultPatient.userId) {
             wx.showToast({
-              title: '请添加就诊人',
+                title: '请添加就诊人',
             })
             return
-        }  
+        }
 
         console.log(message)
         let that = this
-       
+
         var index = this.setOneItemAndScrollPage(message)
         // 2. 发送消息
         let promise = getApp().tim.sendMessage(message);
         promise.then(function (imResponse) {
             // 发送成功
             console.log(imResponse);
-           
-            
-            
-            if(message.type == 'TIMTextElem'){
-                that. qryMedChat(message.payload.text)
-                that.updateChatItemStatus(index, "success")
-            }
-           
+
+
+
+
+
+            that.updateChatItemStatus(index, "success")
+
+
 
         }).catch(function (imError) {
             // 发送失败
@@ -897,7 +1034,7 @@ onPatientAdd() {
 
         return length - 1;
     },
-  
+
     resetInputStatus() {
         // this.chatInput.closeExtraView();
     },
@@ -944,10 +1081,10 @@ onPatientAdd() {
 
                 } else {//解析其他消息 比如视频语音通话
                     item.payload.description = "[自定义消息]"
-                   
+
                 }
-               
-            }else {
+
+            } else {
                 item.payload.description = "[自定义消息]"
                 if (signalingData.businessID === 1) {
                     var data = JSON.parse(signalingData.data)

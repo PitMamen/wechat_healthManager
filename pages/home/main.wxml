@@ -180,7 +180,7 @@
                     </view>
                 </view>
                 <view class="left">
-                    <image src="{{ item.previewUrl || '/image/myjk/taocan.png' }}" lazy-load="{{ true }}" mode="aspectFill" />
+                    <image src="{{ item.previewUrl || 'https://hmg.mclouds.org.cn/content-api/file/F20230906173135426O3UO54JEERGTTM-taocan.png' }}" lazy-load="{{ true }}" mode="aspectFill" />
                 </view>
             </view>
         </block>

@@ -107,7 +107,7 @@ Page({
     //添加就诊人
     goAddPatientPage(){
         wx.navigateTo({
-          url: '/pages/me/patients/addPatient',
+          url: '/packageSub/pages/me/patients/addPatient',
         })
     },
     onTimeTap() {

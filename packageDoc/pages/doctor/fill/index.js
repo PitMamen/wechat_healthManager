@@ -402,7 +402,7 @@ Page({
     },
     onCancel() {
         wx.navigateTo({
-            url: '/pages/me/patients/addPatient'
+            url: '/packageSub/pages/me/patients/addPatient'
         })
     },
     onConfirm(event) {
