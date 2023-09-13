@@ -172,6 +172,7 @@ Page({
         this.getArticleLists()
 
         this.setData({
+            activeIndex:'0',
             defaultPatient: wx.getStorageSync('defaultPatient'),
             patientList: wx.getStorageSync('userInfo').account.user,
             userInfo: wx.getStorageSync('userInfo').account

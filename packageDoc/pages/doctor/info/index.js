@@ -37,8 +37,7 @@ Page({
                 hospitalCode: scene.split('&')[2],
                 isFromCode:true
             })
-            getApp().globalData.currentHospital.tenantId=scene.split('&')[1]
-             getApp().globalData.currentHospital.hospitalCode=scene.split('&')[2]
+         
         } else {
             this.setData({
                 id: options.id,
@@ -46,9 +45,9 @@ Page({
                 hospitalCode: options.hospitalCode,
                 isFromCode:options.tenantId?true:false
             })
-            getApp().globalData.currentHospital.tenantId=options.tenantId
-             getApp().globalData.currentHospital.hospitalCode=options.hospitalCode
+          
         }
+      
         this.setData({
             title: options.title,
             navBarHeight: getApp().globalData.navBarHeight,
