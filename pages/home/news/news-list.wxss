@@ -41,7 +41,7 @@ page {
     margin-right: 20rpx;
     margin-top: 20rpx;
     border-radius: 8px;
-    background-color: white;
+ 
 }
 .tab-class {
     flex: none !important;

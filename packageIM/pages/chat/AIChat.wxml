@@ -7,7 +7,7 @@
 
 </view>
 
-<scroll-view wx:if="{{chatItems.length>0}}" style="height:{{pageHeight-79}}px;width: 100%;display: flex;flex-direction: column;" scroll-y="true" enable-flex="true" scroll-top="{{scrollTopVal}}" refresher-enabled="{{true}}" refresher-default-style="white" refresher-background="#8fcbf7" refresher-triggered="{{triggered}}" bindrefresherrefresh="onRefresh" bindtap="resetInputStatus">
+<scroll-view wx:if="{{chatItems.length>0}}" style="height:{{pageHeight-115}}px;width: 100%;display: flex;flex-direction: column;" scroll-y="true" enable-flex="true" scroll-top="{{scrollTopVal}}" refresher-enabled="{{true}}" refresher-default-style="white" refresher-background="#8fcbf7" refresher-triggered="{{triggered}}" bindrefresherrefresh="onRefresh" bindtap="resetInputStatus">
     <block wx:for="{{chatItems}}" wx:key="id2">
         <template is="chat-item" data="{{length:chatItems.length,index:index,item:item,avatar:item.flow=== 'out'?myAvatar:item.avatar || toAvatar,isDoctor:item.from==tradeRemark.docId,cursor:cursor}}" />
     </block>

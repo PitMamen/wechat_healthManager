@@ -3,7 +3,7 @@ import TIM from 'tim-wx-sdk';
 import voiceManager from "./msg-type/voice-manager";
 const WXAPI = require('../../../static/apifm-wxapi/index')
 import bus from '../../../utils/EventBus.js'
-
+const Config = require('../../../utils/config')
 Page({
 
     onMessageReceived: '',
@@ -57,7 +57,7 @@ Page({
         this.getAiAccount()
 
         this.voiceManager = new voiceManager(this)
-        // this.onIMReceived()
+       
 
         this.connectWebSocket()
 
@@ -70,12 +70,14 @@ Page({
         wx.closeSocket()
 
         wx.connectSocket({
-            url: `ws://192.168.1.121:8091/webSocket/${this.data.defaultPatient.userId}`,
+            // url: `ws://192.168.1.121:8091/webSocket/${this.data.defaultPatient.userId}`,
+            url: Config.getConstantData().SocketUrl+ this.data.defaultPatient.userId,
             success(res) {
                 console.log('连接成功', res)
             }
         });
 
+        console.log( Config.getConstantData().SocketUrl+ this.data.defaultPatient.userId)
 
 
         wx.onSocketOpen(function () {
@@ -743,6 +745,22 @@ Page({
         }
         let content = e.detail.value;
         let that = this
+
+        // 发送文本消息，Web 端与小程序端相同
+        // 1. 创建消息实例，接口返回的实例可以上屏
+
+        let message = getApp().tim.createTextMessage({
+            to: this.data.toUserID,
+            conversationType: TIM.TYPES.CONV_C2C,
+            payload: {
+                text: content
+            },
+            cloudCustomData: this.data.conversationID
+        });
+        this.sendMsg(message)
+
+
+
         console.log(JSON.stringify({
             from: "patient",
             to: "assistant",
@@ -767,18 +785,7 @@ Page({
             }
         })
 
-        // 发送文本消息，Web 端与小程序端相同
-        // 1. 创建消息实例，接口返回的实例可以上屏
 
-        let message = getApp().tim.createTextMessage({
-            to: this.data.toUserID,
-            conversationType: TIM.TYPES.CONV_C2C,
-            payload: {
-                text: content
-            },
-            cloudCustomData: this.data.conversationID
-        });
-        this.sendMsg(message)
     },
     //发送图片消息
     sendImageMessage() {

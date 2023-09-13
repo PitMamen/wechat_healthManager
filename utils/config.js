@@ -11,6 +11,7 @@ export function getConstantData() {
 
     var obj = {
         IMAPPID:'',
+        SocketUrl:'',//AI websocket地址
         JingshenQuestionnaire: '', //精神科问卷问卷 
         YouzanAPPID : 'wx369e143bb6dadc2b',//有赞商城小程序APPID
         envVersion: 'trial', //跳转互联网医院小程序、有赞商城小程序的版本 trial：体验版  develop：开发板
@@ -19,14 +20,17 @@ export function getConstantData() {
         obj.IMAPPID=1400613243
         obj.JingshenQuestionnaire = '/s/8acbbc95559c45518ea8225176f12912'
         obj.envVersion = 'trial'
+        obj.SocketUrl='ws://192.168.1.121:8091/webSocket/'
     } else if (ProgramEnvVersion === 'trial') { //演示版
         obj.IMAPPID=1400684981
         obj.JingshenQuestionnaire = '/s/668eb8e4ca8f468cbab066e963919dc5'
         obj.envVersion = 'trial'
+        obj.SocketUrl='ws://192.168.1.121:8091/webSocket/'
     } else if (ProgramEnvVersion === 'release') { //正式版
         obj.IMAPPID=1400547247
         obj.JingshenQuestionnaire = '/s/dd548f53476443d599c1bec5ea33961e'
         obj.envVersion = 'release'
+        obj.SocketUrl='wss://hmg.mclouds.org.cn/medical-api/webSocket/'
     }
     return obj
 }
