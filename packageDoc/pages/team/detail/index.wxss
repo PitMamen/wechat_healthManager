@@ -1,0 +1,208 @@
+.wrap {
+    min-height: 100vh;
+    background: #F2F4F6;
+}
+.wrap .background {
+    width: 100%;
+    height: 383rpx;
+    /* background: linear-gradient(180deg, #377EF5, #F1F3FD); */
+}
+.wrap .card {
+    margin: 0 24rpx;
+    margin-bottom: 20rpx;
+    background: #FFFFFF;
+    border-radius: 8rpx;
+}
+.wrap .top {
+    position: relative;
+    top: -383rpx;
+}
+.wrap .top .swipe {
+    height: 268rpx;
+    text-align: center;
+    background: inherit;
+}
+.wrap .top .swipe image {
+    width: 100%;
+    height: 268rpx;
+    border-radius: 8rpx;
+}
+.wrap .middle {
+    position: relative;
+    top: -383rpx;
+    padding: 30rpx 25rpx;
+}
+.wrap .middle .title {
+    margin-bottom: 27rpx;
+    font-size: 32rpx;
+    font-weight: 500;
+    color: #1A1A1A;
+    line-height: 38rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.wrap .middle .list {
+    overflow-y: auto;
+}
+.wrap .middle .list .item {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20rpx;
+    padding: 30rpx 30rpx 30rpx 30rpx;
+    background: rgba(0,123,245,0);
+    border: 1rpx solid #DEE4EC;
+    border-radius: 8rpx;
+}
+.wrap .middle .list .item .center {
+    padding-left: 20rpx;
+    padding-right: 20rpx;
+}
+.wrap .middle .list .item .center image {
+    width: 148rpx;
+    height: 148rpx;
+}
+.wrap .middle .list .item .right {
+    flex: 1;
+    font-size: 28rpx;
+    font-weight: 400;
+    color: #999999;
+    line-height: 34rpx;
+}
+.wrap .middle .list .item .right .service {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 27rpx;
+}
+.wrap .middle .list .item .right .service:last-child {
+    margin-bottom: 0rpx;
+}
+.wrap .middle .list .item .right .service .name {
+    width: 200rpx;
+    /* white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; */
+}
+.wrap .middle .list .item .right .service .num {
+    /* margin-left: 60rpx; */
+}
+.wrap .middle .list .item .right .service .price {
+    /* float: right; */
+}
+.wrap .middle .list .item .must {
+    position: absolute;
+    width: 86rpx;
+    height: 36rpx;
+    top: 0;
+    left: 0;
+    font-size: 22rpx;
+    font-weight: 400;
+    color: #FFFFFF;
+    line-height: 36rpx;
+    text-align: center;
+    background: #7ED696;
+    border-radius: 8rpx 0rpx 0rpx 0rpx;
+}
+.wrap .middle .list2 image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10rpx;
+    border-radius: 8rpx;
+}
+
+.wrap .view-comments {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    top: -383rpx;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+
+    padding: 30rpx 20rpx;
+    background-color: white;
+    border-radius: 8rpx;
+}
+
+.wrap .view-comments .com-top {
+    display: flex;
+    flex-direction: row;
+}
+
+.wrap .view-comments .com-item {
+    display: flex;
+    border-bottom: 1rpx solid #E6E6E6;
+    padding: 30rpx 0;
+    flex-direction: column;
+}
+
+.wrap .view-comments .com-item .com-item-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.wrap .view-comments .com-item .com-item-middle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20rpx;
+}
+
+.wrap .view-comments .com-item .com-item-bottom {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    
+    font-size: 24rpx;
+    color: #4D4D4D;
+    /* display: flex;
+    flex-direction: row;
+    align-items: center; */
+    margin-top: 20rpx;
+
+}
+
+.wrap .fix {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    padding: 30rpx 24rpx 0rpx 30rpx;
+    box-sizing: border-box;
+    z-index: 1;
+    background: #FFFFFF;
+    box-shadow: 0rpx -4rpx 8rpx 0rpx rgba(204,204,204,0.35);
+    border-radius: 8rpx 8rpx 0rpx 0rpx;
+}
+.wrap .fix .row {
+    margin-bottom: 70rpx;
+    font-size: 28rpx;
+    font-weight: 400;
+    color: #999999;
+    line-height: 28rpx;
+}
+.wrap .fix .row .select {
+    float: right;
+}
+.wrap .fix .row .select .icon {
+    margin-left: 10rpx;
+}
+.wrap .fix .row .price .num {
+    font-size: 36rpx;
+    font-weight: 500;
+    color: #D31212;
+    line-height: 36rpx;
+}
+.wrap .fix .abs {
+    position: absolute;
+    width: 228rpx;
+    height: 68rpx;
+    right: 24rpx;
+    bottom: 55rpx;
+    border-radius: 8rpx;
+}
+.wrap .fix .abs button {
+    height: 68rpx !important;
+}

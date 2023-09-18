@@ -39,7 +39,12 @@
                 "pages/health/comments/index",
                 "pages/conclusion/con-list",
                 "pages/conclusion/con-detail",
-                "pages/health/choose-patient/index"
+                "pages/health/choose-patient/index",
+                "pages/team/search/index",
+                "pages/team/info/index",
+                "pages/team/comments/index",
+                "pages/team/detail/index",
+                "pages/team/teamdes/index"
             ]
         },
         {
