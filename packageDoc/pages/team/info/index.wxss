@@ -491,6 +491,10 @@
     /* border-bottom: 1rpx solid #E6E6E6; */
     /* padding: 30rpx 0; */
     justify-content: center;
+    width: 150rpx;
+    /* 压缩配置 */
+    /* flex-shrink:0, */
+    /* overflow-x: auto; */
     margin-bottom: 20rpx;
     margin-right: 30rpx;
     flex-direction: column;

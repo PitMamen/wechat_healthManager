@@ -42,7 +42,7 @@
         </view>
     </view>
     <view class="bottom card">
-        <view class="title">咨询服务</view>
+        <view class="title" style="font-weight: bold;">咨询服务</view>
         <van-empty class="empty" description="暂无记录" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" wx:if="{{ list.length === 0 }}" />
         <view class="list" wx:else>
             <view class="{{ 'item ' + item.className }}" wx:for="{{ list }}" wx:key="commodityId">
@@ -70,22 +70,22 @@
     <!-- 团队成员 -->
     <view class="view-comments" style="padding-bottom: 10rpx;">
         <view class="com-top">
-            <view style="flex: 1;color: #1A1A1A;font-size: 32rpx;font-weight: bold;">团队成员</view>
+            <view style="flex: 1;color: #1A1A1A;font-size: 32rpx;font-weight: bold;">团队成员（12人）</view>
             <view bind:tap="goTeamIntro" style="display: flex;flex-direction: row;align-items: center;">
                 <view style="color: #007BF5;font-size: 28rpx;">查看全部</view>
                 <image src="/image/icon_go.png" style="width: 22rpx;height: 22rpx;margin-left: 10rpx;" mode="aspectFill" />
             </view>
         </view>
-        <view style="display: flex;flex-direction: row;flex-wrap: wrap;margin-top: 30rpx;">
+        <view style="display: flex;flex-direction: row;margin-top: 30rpx;overflow-x: auto;">
             <view class="com-item-member" wx:for="{{ members }}" wx:key="id" data-item="{{ item }}" style="align-items: center;">
                 <view style="position: relative;">
-                    <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 88rpx;height: 88rpx;" mode="aspectFill" />
+                    <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" />
 
                     <image wx:if="{{item.tag==1}}" src="../../../image/icon_tuwen.png" style="position: absolute;width: 50rpx;height: 50rpx;bottom: 0;right: 0;" mode="aspectFill" />
                 </view>
 
                 <view style="color: #1A1A1A;font-size: 30rpx;">{{item.userName}}张三</view>
-                <view style="color: #999;font-size: 30rpx;">{{item.userName}}主任医师</view>
+                <view style="color: #999;font-size: 30rpx;width: 135rpx;">{{item.userName}}主任医师</view>
 
             </view>
         </view>

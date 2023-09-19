@@ -16,6 +16,7 @@ Page({
         activeServiceItem: {},
         activepItem: {},
         comments: [],
+        // members: [{tag:1}, {},{}],
         members: [{tag:1}, {},{}, {},{}, {},{}, {},{}],
         listService: [],
         list: [],
