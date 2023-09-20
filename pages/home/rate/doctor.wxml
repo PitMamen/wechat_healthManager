@@ -3,7 +3,11 @@
     <view class="card-top">
         <image class="chat-head-style" src="{{detail.docInfo.avatarUrl||'https://hmg.mclouds.org.cn/content-api/file/I20230710172158340QUIFGH4VFPA6IH-docheader.png'}}" lazy-load="{{ true }}" mode="aspectFill" />
         <view class="name-view">
-            <view class="name-view-top">
+            <view class="name-view-top" wx:if="{{detail.snatchFlag ==1}}">
+                <view style="font-size: 36rpx;color: #1A1A1A; margin-right: 12rpx;">{{detail.docInfo.userName}}</view>
+                <!-- <view>{{detail.docInfo.professionalTitle}}</view> -->
+            </view>
+            <view class="name-view-top" wx:else>
                 <view style="font-size: 36rpx;color: #1A1A1A; margin-right: 12rpx;">{{detail.docInfo.userName}}</view>
                 <view>{{detail.docInfo.professionalTitle}}</view>
             </view>
@@ -13,7 +17,11 @@
 
     </view>
     <view style="height: 0.5px; background: #E6E6E6;margin-bottom: 20rpx;"></view>
-    <view class="tel-card">
+    <view class="tel-card" wx:if="{{detail.snatchFlag ==1}}">
+        <view>服务团队</view>
+        <view class="tel-right">{{detail.commodityName}}</view>
+    </view>
+    <view class="tel-card" wx:else>
         <view>套餐名称</view>
         <view class="tel-right">{{detail.commodityName}}</view>
     </view>

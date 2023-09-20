@@ -3,7 +3,10 @@
     <view class="card-top">
         <image class="chat-head-style" src="{{detail.docInfo.avatarUrl}}" lazy-load="{{ true }}" mode="aspectFill" />
         <view class="name-view">
-            <view class="name-view-top">
+            <view class="name-view-top" wx:if="{{detail.snatchFlag ==1}}">
+                <view style="font-size: 36rpx;color: #1A1A1A; margin-right: 12rpx;">{{detail.docInfo.userName}}</view>
+            </view>
+            <view class="name-view-top" wx:else>
                 <view style="font-size: 36rpx;color: #1A1A1A; margin-right: 12rpx;">{{detail.docInfo.userName}}</view>
                 <view>{{detail.docInfo.professionalTitle}}</view>
             </view>
