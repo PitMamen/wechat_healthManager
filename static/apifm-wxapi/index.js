@@ -589,6 +589,16 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/commodity/accurateDoctorsForFavourite'
                         return request(url, 'post', data, true);
                     },
+                    //小程序端-抢单团队(套餐)列表
+                    snatchCommodities: function snatchCommodities(data) {
+                        var url = MEDICAL_SERVICE + '/commodity/snatchCommodities'
+                        return request(url, 'post', data, true);
+                    },
+                    //小程序端-团队详情
+                    teamDetail: function teamDetail(data) {
+                        var url = MEDICAL_SERVICE + '/pkgManage/detail'
+                        return request(url, 'get', data, true);
+                    },
                     //导流包详情
                     giftCommodity: function giftCommodity(data) {
                         var url = MEDICAL_SERVICE + '/commodity/giftCommodity'

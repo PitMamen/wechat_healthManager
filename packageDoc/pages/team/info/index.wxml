@@ -3,12 +3,12 @@
     <view class="top">
         <view class="doctor card">
             <view class="left">
-                <image src="{{ info.avatarUrl || 'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png' }}" mode="aspectFill" />
+                <image src="{{ info.frontImg || 'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png' }}" mode="aspectFill" />
             </view>
             <view class="right">
-                <view class="name">{{ info.userName }}团队</view>
+                <view class="name">{{ info.commodityName }}</view>
                 <view class="info">
-                    <text class="job">{{ info.departmentName }}</text>
+                    <text class="job">{{ info.subjectClassifyName }}</text>
                     <!-- <text class="job">{{ info.professionalTitle }}</text> -->
                     <!-- <text class="depart">{{ info.departmentName }}</text> -->
                 </view>
@@ -26,18 +26,18 @@
         <view class="intro card">
             <view class="best">
                 <image src="/image/myjk/best.png" mode="aspectFill" />
-                <text>{{ info.expertInDisease || '暂无' }}</text>
+                <text>{{ info.skill || '暂无' }}</text>
             </view>
             <view class="desc">
                 <image src="/image/myjk/desc.png" mode="aspectFill" />
-                <text>{{ info.doctorBrief || '暂无' }}</text>
+                <text>{{ info.intro || '暂无' }}</text>
                 <view class="more" bind:tap="goTeamIntro">更多信息</view>
             </view>
             <view style="width: 100%;height: 1rpx;background-color: #E6E6E6;margin-top: 20rpx;"></view>
             <view class="comment-sum">
-                <view class="sum-item">好评率：<text style="color: #007BF5;">{{ info.appraiseRate }}</text></view>
-                <view class="sum-item">接诊人数：<text style="color: #007BF5;">{{ info.visitNum }}</text></view>
-                <view class="sum-item">关注人数：<text style="color: #007BF5;">{{ info.favouriteNum }}</text></view>
+                <view class="sum-item">好评率：<text style="color: #007BF5;">{{ info.praiseRate }}</text></view>
+                <view class="sum-item">接诊人数：<text style="color: #007BF5;">{{ info.purchaseCnt }}</text></view>
+                <view class="sum-item">关注人数：<text style="color: #007BF5;">{{ info.favoriteCnt }}</text></view>
             </view>
         </view>
     </view>

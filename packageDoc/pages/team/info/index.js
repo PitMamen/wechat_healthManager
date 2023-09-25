@@ -17,14 +17,23 @@ Page({
         activepItem: {},
         comments: [],
         // members: [{tag:1}, {},{}],
-        members: [{tag:1}, {},{}, {},{}, {},{}, {},{}],
+        members: [{
+            tag: 1
+        }, {}, {}, {}, {}, {}, {}, {}, {}],
         listService: [],
+        commodityId: '',
+        pkgManageId: '',
         list: [],
         isFromCode: false //扫描医生二维码进来的
 
     },
     onLoad: function (options) {
         console.log('doctor-info options', options)
+        this.setData({
+            commodityId: options.commodityId,
+            pkgManageId: options.pkgManageId,
+        })
+        this.getInfo()
         // 页面创建时执行
         wx.showShareMenu({
             withShareTicket: true
@@ -55,7 +64,7 @@ Page({
             navBarHeight: getApp().globalData.navBarHeight,
             statusBarHeight: getApp().globalData.statusBarHeight
         })
-        this.getInfo()
+
         this.getComments()
 
     },
@@ -114,51 +123,76 @@ Page({
     },
 
     getInfo() {
-        WXAPI.doctorCommodities({
-            doctorUserId: this.data.id
+        WXAPI.teamDetail({
+            pkgManageId: this.data.pkgManageId
         }).then((res) => {
-            this.setData({
-                info: res.data || {},
-                list: ((res.data || {}).commodities || []).map(item => {
-                    return {
-                        ...item,
-                        className: this.getClassName(item.classifyCode)
-                    }
-                })
-            })
+
             wx.setNavigationBarTitle({ //TODO
                 title: this.data.info.userName + '团队' || '',
             })
-            if (this.data.list.length > 0) {
-                const pitem = this.data.list[0]
-                if (pitem.pkgRules.length > 0) {
-                    const item = pitem.pkgRules[0]
-                    this.setData({
-                        activeItem: item,
-                        activepItem: pitem
-                    })
-                }
-            }
-
-            //处理专科服务  serviceCommodities
-
             this.setData({
-                listService: ((res.data || {}).serviceCommodities || []).map(item => {
-                    return {
-                        ...item,
-                        checked: false
-                    }
-                })
+                info: res.data,
             })
 
-            console.log('listService', this.data.listService)
+            // this.setData({
+            //     listService: ((res.data || {}).serviceCommodities || []).map(item => {
+            //         return {
+            //             ...item,
+            //             checked: false
+            //         }
+            //     })
+            // })
+
+            // console.log('listService', this.data.listService)
         })
     },
+
+    // getInfo() {
+    //     WXAPI.doctorCommodities({
+    //         doctorUserId: this.data.id
+    //     }).then((res) => {
+    //         this.setData({
+    //             info: res.data || {},
+    //             list: ((res.data || {}).commodities || []).map(item => {
+    //                 return {
+    //                     ...item,
+    //                     className: this.getClassName(item.classifyCode)
+    //                 }
+    //             })
+    //         })
+    //         wx.setNavigationBarTitle({ //TODO
+    //             title: this.data.info.userName + '团队' || '',
+    //         })
+    //         if (this.data.list.length > 0) {
+    //             const pitem = this.data.list[0]
+    //             if (pitem.pkgRules.length > 0) {
+    //                 const item = pitem.pkgRules[0]
+    //                 this.setData({
+    //                     activeItem: item,
+    //                     activepItem: pitem
+    //                 })
+    //             }
+    //         }
+
+    //         //处理专科服务  serviceCommodities
+
+    //         this.setData({
+    //             listService: ((res.data || {}).serviceCommodities || []).map(item => {
+    //                 return {
+    //                     ...item,
+    //                     checked: false
+    //                 }
+    //             })
+    //         })
+
+    //         console.log('listService', this.data.listService)
+    //     })
+    // },
     getComments() {
         WXAPI.getDocComments({
             status: 2,
             serviceType: 1,
-            doctorId: this.data.id,
+            commodityId: this.data.commodityId,
             pageNo: 1,
             pageSize: 5
         }).then((res) => {

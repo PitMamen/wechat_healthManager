@@ -17,13 +17,13 @@
         <view class="list" wx:else>
             <view class="item" bind:tap="onTeamTap" wx:for="{{ list }}" wx:key="userId" data-item="{{ item }}">
                 <view class="left">
-                    <image src="{{ item.avatarUrl || 'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png' }}" lazy-load="{{ true }}" mode="aspectFill" />
+                    <image src="{{ item.frontImg || 'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png' }}" lazy-load="{{ true }}" mode="aspectFill" />
                 </view>
                 <view class="right">
                     <view class="title">
                         <!-- TODO -->
-                        <text class="name">{{ item.userName }}团队</text>
-                        <text class="job">{{ item.departmentName || '' }}</text>
+                        <text class="name">{{ item.commodityName }}</text>
+                        <text class="job">{{ item.subjectClassifyName || '' }}</text>
                     </view>
                     <view class="tags">
                         <text class="tag">{{ item.hospitalLevelName }}</text>
@@ -31,16 +31,17 @@
                         <!-- <text class="depart">{{ item.departmentName }}</text> -->
                     </view>
                     <view class="comment-sum">
-                        <view class="sum-item">好评率：<text style="color: #007BF5;">{{ item.goodRate }}</text></view>
-                        <view class="sum-item">接诊人数：<text style="color: #007BF5;">{{ item.visitNum }}</text></view>
+                        <view class="sum-item">好评率：<text style="color: #007BF5;">{{ item.praiseRate }}</text></view>
+                        <view class="sum-item" style="margin-left: 10rpx;">接诊人数：<text style="color: #007BF5; ">{{ item.purchaseCnt }}</text></view>
+                        <view class="sum-item" style="margin-left: 10rpx;">关注人数：<text style="color: #007BF5;">{{ item.favoriteCnt }}</text></view>
                         <!-- <view class="sum-item" >关注人数：<text style="color: #007BF5;">{{ item.favouriteNum }}</text></view> -->
                     </view>
-                    <view class="desc">擅长：{{ item.expertInDisease || '暂无' }}</view>
+                    <view class="desc">擅长：{{ item.skill || '暂无' }}</view>
                     <view style="display: flex;flex-direction: row;align-items: center;margin-top: 28rpx;font-size: 28rpx;">
                         <!-- <view></view> -->
                         <image style="height: 32rpx;width: 32rpx;margin-right: 8rpx;" mode="aspectFit" src="../../../image/icon_tuwen.png" />
-                        <view style="color: #4D4D4D;">图文</view>
-                        <view style="color: red;margin-left: 10rpx;">￥50</view>
+                        <view style="color: #4D4D4D;">{{item.itemTypes[0]}}</view>
+                        <view style="color: red;margin-left: 10rpx;">￥{{item.startPrice}}</view>
                         <view style="color: #999;">起</view>
                     </view>
                 </view>

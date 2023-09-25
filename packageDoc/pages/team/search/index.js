@@ -19,11 +19,11 @@ Page({
         wx.showShareMenu({
             withShareTicket: true
         })
-        this.getLists()
-        this.getItems()
-        this.getColumns()
+        // this.getItems()
+        // this.getColumns()
     },
     onShow: function () {
+        this.getLists()
         // 页面出现在前台时执行
     },
     onReady: function () {
@@ -55,51 +55,62 @@ Page({
     },
 
     getLists() {
-        WXAPI.accurateDoctors({
-            pageNo: 1,
-            pageSize: 9999,
-            queryText: this.data.keyWords.trim(),
-            subjectClassifyId: this.data.activeId || '',
-            professionalTitle: this.data.professionalTitle
+        WXAPI.snatchCommodities({
+            // pageNo: 1,
+            // pageSize: 9999,
+            // queryText: this.data.keyWords.trim(),
+            // subjectClassifyId: this.data.activeId || '',
+            // professionalTitle: this.data.professionalTitle
         }).then((res) => {
             this.setData({
-                list: res.data.rows || []
+                list: res.data || []
             })
         })
+        // WXAPI.accurateDoctors({
+        //     pageNo: 1,
+        //     pageSize: 9999,
+        //     queryText: this.data.keyWords.trim(),
+        //     subjectClassifyId: this.data.activeId || '',
+        //     professionalTitle: this.data.professionalTitle
+        // }).then((res) => {
+        //     this.setData({
+        //         list: res.data.rows || []
+        //     })
+        // })
     },
-    getItems() {
-        WXAPI.treeMedicalSubjects(null).then((res) => {
-            const items = (res.data || []).map(item => {
-                return {
-                    text: item.subjectClassifyName,
-                    children: (item.children || []).map(subItem => {
-                        return {
-                            id: subItem.subjectClassifyId,
-                            text: subItem.subjectClassifyName
-                        }
-                    })
-                }
-            })
-            this.setData({
-                items
-            })
-        })
-    },
-    getColumns() {
-        WXAPI.professionalTitles({
-            type: 1
-        }).then((res) => {
-            const columns = (res.data || []).map(item => {
-                return {
-                    id: item.value,
-                    text: item.value
-                }
-            })
-            this.setData({
-                columns
-            })
-        })
-    },
+    // getItems() {
+    //     WXAPI.treeMedicalSubjects(null).then((res) => {
+    //         const items = (res.data || []).map(item => {
+    //             return {
+    //                 text: item.subjectClassifyName,
+    //                 children: (item.children || []).map(subItem => {
+    //                     return {
+    //                         id: subItem.subjectClassifyId,
+    //                         text: subItem.subjectClassifyName
+    //                     }
+    //                 })
+    //             }
+    //         })
+    //         this.setData({
+    //             items
+    //         })
+    //     })
+    // },
+    // getColumns() {
+    //     WXAPI.professionalTitles({
+    //         type: 1
+    //     }).then((res) => {
+    //         const columns = (res.data || []).map(item => {
+    //             return {
+    //                 id: item.value,
+    //                 text: item.value
+    //             }
+    //         })
+    //         this.setData({
+    //             columns
+    //         })
+    //     })
+    // },
     onInputChange(event) {
         this.getLists()
     },
@@ -116,7 +127,7 @@ Page({
     onTeamTap(event) {
         const item = event.currentTarget.dataset.item
         wx.navigateTo({
-            url: `/packageDoc/pages/team/info/index?id=${item.userId}&title=${item.userName}`
+            url: `/packageDoc/pages/team/info/index?commodityId=${item.commodityId}&pkgManageId=${item.pkgManageId}`
         })
     },
     onKeShiClickNav(event) {
