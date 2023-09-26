@@ -16,10 +16,16 @@ Page({
         pageNo: 1,
         pageSize: 5,
         total: 0,
+        commodityId: '',
 
         list: []
     },
     onLoad: function (options) {
+        console.log('comments-info options', options)
+        this.setData({
+            commodityId: options.commodityId,
+        })
+
         // 页面创建时执行
         wx.showShareMenu({
             withShareTicket: true
@@ -30,7 +36,7 @@ Page({
             navBarHeight: getApp().globalData.navBarHeight,
             statusBarHeight: getApp().globalData.statusBarHeight
         })
-        this.setData()
+        // this.setData()
         this.getInfo()
         this.getComments()
     },
@@ -80,27 +86,26 @@ Page({
     },
 
     getInfo() {
-        WXAPI.doctorCommodities({
-            doctorUserId: this.data.id
+        WXAPI.goodsDetail({
+            commodityId: this.data.commodityId
         }).then((res) => {
+            res.data = res.data || {}
             this.setData({
-                info: res.data || {},
-                list: ((res.data || {}).commodities || []).map(item => {
-                    return {
-                        ...item,
-                        className: this.getClassName(item.classifyCode)
-                    }
-                })
+                info: res.data,
             })
-            if (this.data.list.length > 0) {
-                const pitem = this.data.list[0]
-                if (pitem.pkgRules.length > 0) {
-                    const item = pitem.pkgRules[0]
-                    this.setData({
-                        activeItem: item,
-                        activepItem: pitem
-                    })
-                }
+
+            wx.setNavigationBarTitle({ //TODO
+                title: this.data.info.commodityName || '',
+            })
+
+            this.setData({
+                isOnSale: res.data.saleStatus ? res.data.saleStatus.value == 2 : false, //1下架、2上架
+            })
+            if (!this.data.isOnSale) {
+                wx.showToast({
+                    title: '该商品已下架',
+                    icon: 'none'
+                })
             }
         })
     },
@@ -110,14 +115,17 @@ Page({
         });
     },
     getComments() {
+        wx.showLoading({
+            title: '加载中',
+        })
         WXAPI.getDocComments({
             status: 2,
             serviceType: 1,
-            // commodityId: this.data.id,
-            doctorId: this.data.id,
+            commodityId: this.data.commodityId,
             pageNo: this.data.pageNo,
             pageSize: this.data.pageSize
         }).then((res) => {
+            wx.hideLoading()
             if (this.data.pageNo == 0) {
                 this.setData({
                     total: res.data.totalRows
@@ -168,7 +176,7 @@ Page({
             show: false
         })
     },
-  
+
     onGoodTap(event) {
         const item = event.currentTarget.dataset.item
         const pitem = event.currentTarget.dataset.pitem
@@ -177,5 +185,5 @@ Page({
             activepItem: pitem
         })
     },
-  
+
 })

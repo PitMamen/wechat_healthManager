@@ -12,14 +12,15 @@ Page({
         loading: false,
         info: {},
         isCollect: false, //0收藏/1取消
+        isOnSale: false, //0收藏/1取消
         activeItem: {},
         activeServiceItem: {},
         activepItem: {},
         comments: [],
         // members: [{tag:1}, {},{}],
-        members: [{
-            tag: 1
-        }, {}, {}, {}, {}, {}, {}, {}, {}],
+        // members: [{
+        //     tag: 1
+        // }, {}, {}, {}, {}, {}, {}, {}, {}],
         listService: [],
         commodityId: '',
         pkgManageId: '',
@@ -28,7 +29,7 @@ Page({
 
     },
     onLoad: function (options) {
-        console.log('doctor-info options', options)
+        console.log('team-info options', options)
         this.setData({
             commodityId: options.commodityId,
             pkgManageId: options.pkgManageId,
@@ -75,11 +76,12 @@ Page({
         this.setData({
             loading: false
         })
-        if (!getApp().globalData.loginReady) {
-            this.WXloginForLogin()
-        } else {
-            this.favouriteExistsForDoctorId()
-        }
+        //本次不做关注
+        // if (!getApp().globalData.loginReady) {
+        //     this.WXloginForLogin()
+        // } else {
+        //     this.favouriteExistsForDoctorId()
+        // }
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
@@ -111,39 +113,60 @@ Page({
 
     checkAll(event) {
         wx.navigateTo({
-            url: `/packageDoc/pages/team/comments/index?id=${this.data.id}&title=${this.data.title}`
+            url: `/packageDoc/pages/team/comments/index?commodityId=${this.data.info.commodityId}`
         })
     },
 
     goTeamIntro(event) {
         wx.navigateTo({
             // pages/team/teamdes/index
-            url: `/packageDoc/pages/team/teamdes/index?id=${this.data.id}&title=${this.data.title}`
+            url: `/packageDoc/pages/team/teamdes/index?pkgManageId=${this.data.info.pkgManageId}`
         })
     },
 
     getInfo() {
-        WXAPI.teamDetail({
-            pkgManageId: this.data.pkgManageId
+        WXAPI.goodsDetail({
+            commodityId: this.data.commodityId
         }).then((res) => {
-
-            wx.setNavigationBarTitle({ //TODO
-                title: this.data.info.userName + '团队' || '',
-            })
+            res.data = res.data || {}
             this.setData({
                 info: res.data,
             })
 
-            // this.setData({
-            //     listService: ((res.data || {}).serviceCommodities || []).map(item => {
-            //         return {
-            //             ...item,
-            //             checked: false
-            //         }
-            //     })
-            // })
+            this.data.info.optionalPkgs[0].items.forEach(item => {
+                item.isChecked = false
+            })
+            this.data.info.optionalPkgs[0].items[0].isChecked = true
 
-            // console.log('listService', this.data.listService)
+            this.setData({
+                info: this.data.info,
+            })
+
+            wx.setNavigationBarTitle({ //TODO
+                title: this.data.info.commodityName || '',
+            })
+
+            this.setData({
+                // name: res.data.commodityName || '',
+                // list1: res.data.optionalPkgs || [],
+                // list2: res.data.compulsoryPkgs || [],
+                // images: res.data.detailImgs || [],
+                // swipers: res.data.bannerImgs || [],
+                isOnSale: res.data.saleStatus ? res.data.saleStatus.value == 2 : false, //1下架、2上架
+            })
+            //第一个可选项默认勾选
+            // if (this.data.list1.length > 0) {
+            //     this.setData({
+            //         collectionId: this.data.list1[0].collectionId
+            //     })
+            // }
+            // this.setPrice()
+            if (!this.data.isOnSale) {
+                wx.showToast({
+                    title: '该商品已下架',
+                    icon: 'none'
+                })
+            }
         })
     },
 
@@ -301,13 +324,28 @@ Page({
             url: `/packageDoc/pages/doctor/detail/index?id=${item.commodityId}&docId=${this.data.id}&docName=${this.data.title}`
         })
     },
-    onGoodTap(event) {
-        const item = event.currentTarget.dataset.item
-        const pitem = event.currentTarget.dataset.pitem
-        this.setData({
-            activeItem: item,
-            activepItem: pitem
+
+    onDocClick(event) {
+        const doc = event.currentTarget.dataset.item
+        wx.navigateTo({
+            url: `/packageDoc/pages/doctor/info/index?id=${doc.doctorUserId}&title=${doc.doctorUserName}`
         })
+    },
+
+    onGoodTap(event) {
+        this.data.info.optionalPkgs[0].items.forEach(item => {
+            item.isChecked = false
+        })
+        this.data.info.optionalPkgs[0].items[event.currentTarget.dataset.index].isChecked = true
+        this.setData({
+            info: this.data.info,
+        })
+        // const item = event.currentTarget.dataset.item
+        // const pitem = event.currentTarget.dataset.pitem
+        // this.setData({
+        //     activeItem: item,
+        //     activepItem: pitem
+        // })
     },
     onBuyClick() {
 
@@ -328,60 +366,64 @@ Page({
             return
         }
 
+        // //先处理跳专科服务逻辑,return 了后面的逻辑全部是处理问诊咨询的逻辑
+        // if (this.data.activeServiceItem && this.data.activeServiceItem.commodityId) {
+        //     wx.navigateTo({ //跳转时加type 2为确定医生不能改变
+        //         url: `/packageDoc/pages/health/detail/index?id=${this.data.activeServiceItem.commodityId}&type=2&docId=${this.data.id}&docName=${this.data.info.userName}`
+        //     })
+        //     return
+        // }
 
+        // if (!this.data.activeItem.collectionId || this.data.activeServiceItem.commodityId) {
+        //     wx.showToast({
+        //         title: '请选择咨询服务或者专科服务',
+        //         icon: 'error'
+        //     })
+        //     return
+        // }
 
-        //先处理跳专科服务逻辑,return 了后面的逻辑全部是处理问诊咨询的逻辑
-        if (this.data.activeServiceItem && this.data.activeServiceItem.commodityId) {
-            wx.navigateTo({ //跳转时加type 2为确定医生不能改变
-                url: `/packageDoc/pages/health/detail/index?id=${this.data.activeServiceItem.commodityId}&type=2&docId=${this.data.id}&docName=${this.data.info.userName}`
-            })
-            return
-        }
+        // if (this.data.isFromCode) {
+        //     //如果是来自扫描医生二维码 先切换医院 再跳转
+        //     this.switchHospital()
+        // } else {
+        //     this.goBuy()
+        // }
 
-        if (!this.data.activeItem.collectionId || this.data.activeServiceItem.commodityId) {
-            wx.showToast({
-                title: '请选择咨询服务或者专科服务',
-                icon: 'error'
-            })
-            return
-        }
-
-        if (this.data.isFromCode) {
-            //如果是来自扫描医生二维码 先切换医院 再跳转
-            this.switchHospital()
-        } else {
-            this.goBuy()
-        }
+        this.goBuy()
 
     },
 
+    //TODO 需要调试
     goBuy() {
-
-
         this.setData({
             loading: true
         })
+        const serviceItemType = 101
+        const collectionIds=[]
+        wx.navigateTo({
+            url: `/packageDoc/pages/doctor/choose-patient/index?consultType=${serviceItemType}&docId=${this.data.info.commodityId}&commodityId=${this.data.info.commodityId}&collectionIds=${collectionIds.join(',')}`
+        })
 
-        const collectionIds = (this.data.activepItem.compulsoryCollectionIds || []).concat([this.data.activeItem.collectionId])
-        console.log("collectionIds=" + collectionIds)
-        console.log("activepItem=", this.data.activepItem)
+        // const collectionIds = (this.data.activepItem.compulsoryCollectionIds || []).concat([this.data.activeItem.collectionId])
+        // console.log("collectionIds=" + collectionIds)
+        // console.log("activepItem=", this.data.activepItem)
 
-        const serviceItemType = this.data.activepItem.pkgRules[0].serviceItemTypes[0]
-        if (serviceItemType === 102 || serviceItemType === 103) { //电话咨询 视频咨询
-            wx.navigateTo({
-                url: `/packageDoc/pages/doctor/choose-time/index?consultType=${serviceItemType}&docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
-            })
-        } else if (serviceItemType === 101) { //图文咨询
+        // const serviceItemType = this.data.activepItem.pkgRules[0].serviceItemTypes[0]
+        // if (serviceItemType === 102 || serviceItemType === 103) { //电话咨询 视频咨询
+        //     wx.navigateTo({
+        //         url: `/packageDoc/pages/doctor/choose-time/index?consultType=${serviceItemType}&docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
+        //     })
+        // } else if (serviceItemType === 101) { //图文咨询
 
-            wx.navigateTo({
-                url: `/packageDoc/pages/doctor/choose-patient/index?consultType=${serviceItemType}&docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
-            })
-        } else {
-            //此地方都是单次咨询套餐 一般不会出现购买专科服务这种情况
-            wx.navigateTo({
-                url: `/packageDoc/pages/doctor/case/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
-            })
-        }
+        //     wx.navigateTo({
+        //         url: `/packageDoc/pages/doctor/choose-patient/index?consultType=${serviceItemType}&docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
+        //     })
+        // } else {
+        //     //此地方都是单次咨询套餐 一般不会出现购买专科服务这种情况
+        //     wx.navigateTo({
+        //         url: `/packageDoc/pages/doctor/case/index?docId=${this.data.id}&commodityId=${this.data.activepItem.commodityId}&collectionIds=${collectionIds.join(',')}`
+        //     })
+        // }
 
     },
     onBackTap() {
@@ -424,22 +466,22 @@ Page({
             activepItem: {},
         })
     },
-    onGoodTap(event) {
-        const item = event.currentTarget.dataset.item
-        const pitem = event.currentTarget.dataset.pitem
-        this.setData({
-            activeItem: item,
-            activepItem: pitem
-        })
-        this.data.listService.forEach(element => {
-            console.log('element', element.checked)
-            element.checked = false
-        });
-        this.setData({
-            activeServiceItem: {},
-            listService: this.data.listService
-        })
-    },
+    // onGoodTap(event) {
+    //     const item = event.currentTarget.dataset.item
+    //     const pitem = event.currentTarget.dataset.pitem
+    //     this.setData({
+    //         activeItem: item,
+    //         activepItem: pitem
+    //     })
+    //     this.data.listService.forEach(element => {
+    //         console.log('element', element.checked)
+    //         element.checked = false
+    //     });
+    //     this.setData({
+    //         activeServiceItem: {},
+    //         listService: this.data.listService
+    //     })
+    // },
 
 
     //切换医院

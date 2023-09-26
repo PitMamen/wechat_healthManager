@@ -12,13 +12,13 @@
         <view class="card">
             <view class="doctor">
                 <view class="left">
-                    <image src="{{ info.avatarUrl || 'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png' }}" mode="aspectFill" />
+                    <image src="{{ info.frontImg || 'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png' }}" mode="aspectFill" />
                 </view>
                 <view class="right">
                     <!-- TODO -->
-                    <view class="name">{{ info.userName }}团队</view>
+                    <view class="name">{{ info.commodityName }}</view>
                     <view class="info">
-                        <text class="job">{{ info.professionalTitle }}</text>
+                        <text class="job">{{ info.subjectClassifyName }}</text>
                         <!-- <text class="depart">{{ info.departmentName }}</text> -->
                     </view>
                     <view class="server">{{ info.hospitalName }}</view>
@@ -37,8 +37,8 @@
 
 
             <view class="comment-sum">
-                <view class="sum-item">好评率：<text style="color: #007BF5;">{{ info.appraiseRate }}</text></view>
-                <view class="sum-item">接诊人数：<text style="color: #007BF5;">{{ info.visitNum }}</text></view>
+                <view class="sum-item">好评率：<text style="color: #007BF5;">{{ info.praiseRate }}</text></view>
+                <view class="sum-item">接诊人数：<text style="color: #007BF5;">{{ info.purchaseCnt }}</text></view>
                 <!-- <view class="sum-item" >关注人数：<text style="color: #007BF5;">{{ item.favouriteNum }}</text></view> -->
             </view>
         </view>

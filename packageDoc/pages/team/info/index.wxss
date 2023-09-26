@@ -350,6 +350,12 @@
     border-radius: 4rpx;
 }
 
+.wrap .bottom .list .item .goods .good.active {
+    color: #007BF5;
+    background: #ECF2FD;
+    border: 1rpx solid #D8E4FC;
+}
+
 .wrap .bottom .list .item.image .good.active {
     color: #007BF5;
     background: #ECF2FD;
