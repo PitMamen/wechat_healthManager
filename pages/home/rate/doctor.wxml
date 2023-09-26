@@ -28,7 +28,7 @@
     </view>
     <view class="tel-card">
         <view>咨询类型</view>
-        <view>{{detail.commodityClassName}}</view>
+        <view>{{ detail.snatchFlag==1?detail.rightsUseRecordStatus.serviceItemName: detail.commodityClassName}}</view>
     </view>
     <view wx:if="{{detail.rightsUseRecordStatus.serviceTime}}" class="tel-card">
         <view>咨询时长</view>
