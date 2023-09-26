@@ -22,9 +22,9 @@ Page({
     onLoad(options) {
         console.log("rate-doctor:", options)
         this.setData({
-            rightsId: options.rightsId,//权益ID
-            todoid:options.todoid,//待办事项ID 
-            id: options.id,//评价ID
+            rightsId: options.rightsId, //权益ID
+            todoid: options.todoid, //待办事项ID 
+            id: options.id, //评价ID
             isDetail: options.id ? true : false
         })
 
@@ -48,14 +48,23 @@ Page({
 
     },
     getRightsInfo(id) {
-
-        WXAPI.getRightsInfo({ rightsId: id }).then(res => {
+        WXAPI.getRightsInfo({
+            rightsId: id
+        }).then(res => {
             this.setData({
                 detail: res.data || {},
             })
+
+            if (this.data.detail.snatchFlag == 1) {
+                wx.setNavigationBarTitle({
+                    title: '评价团队'
+                })
+            } else {
+                wx.setNavigationBarTitle({
+                    title: '评价医生'
+                })
+            }
         })
-
-
     },
     //获取评价详情
     getAppraiseById(id) {
@@ -95,17 +104,17 @@ Page({
     async confirm() {
 
         var postData = {
-            "orderId": this.data.detail.orderId,//订单id
-            "doctorAllAppraise": this.data.value1,//医生总评
-            "serviceMass": this.data.value2,//服务质量
-            "serviceManner": this.data.value3,//服务态度          
-            "systemUse": this.data.value4,//系统使用        
-            "patientOpinion": this.data.inputTxt || '医生回复超快，解答详细，医术高明。',//患者评价          
+            "orderId": this.data.detail.orderId, //订单id
+            "doctorAllAppraise": this.data.value1, //医生总评
+            "serviceMass": this.data.value2, //服务质量
+            "serviceManner": this.data.value3, //服务态度          
+            "systemUse": this.data.value4, //系统使用        
+            "patientOpinion": this.data.inputTxt || '医生回复超快，解答详细，医术高明。', //患者评价          
         }
         console.log(postData)
         const res = await WXAPI.doctorAppraise(postData)
         if (res.code == 0) {
-            if(this.data.todoid){
+            if (this.data.todoid) {
                 //由待办事项跳转而来的 设置待办已读
                 this.setInquiriesAgencyRead(this.data.todoid)
             }

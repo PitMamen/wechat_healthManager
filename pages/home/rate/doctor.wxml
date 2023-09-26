@@ -11,7 +11,8 @@
                 <view style="font-size: 36rpx;color: #1A1A1A; margin-right: 12rpx;">{{detail.docInfo.userName}}</view>
                 <view>{{detail.docInfo.professionalTitle}}</view>
             </view>
-            <view style="margin-top: 19rpx;"> {{detail.docInfo.hospitalName}} {{detail.docInfo.departmentName}} </view>
+            <view wx:if="{{detail.snatchFlag ==0}}" style="margin-top: 19rpx;"> {{detail.docInfo.hospitalName}} {{detail.docInfo.departmentName}} </view>
+            <view wx:if="{{detail.snatchFlag ==1}}" style="margin-top: 19rpx;"> {{detail.hospitalName}} {{detail.subjectClassifyName}} </view>
 
         </view>
 
