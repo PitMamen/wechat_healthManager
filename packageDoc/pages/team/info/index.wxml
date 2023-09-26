@@ -73,7 +73,7 @@
                         <text class="num">/{{ subItem.ruleInfo }}</text>
                     </view>
                 </view> -->
-                <view wx:if="{{activepItem.commodityId == item.commodityId}}" class="remind">服务时效：医生接诊后{{activeItem.expireValue}}{{activeItem.expireUnit || ''}}有效</view>
+                <view wx:if="{{activepItem.commodityId == item.commodityId}}" class="remind">服务时效：医生接诊后{{info.pkgValidNum||''}}{{info.pkgValidUnit || ''}}有效</view>
             </view>
         </view>
     </view>
@@ -129,7 +129,7 @@
 
     <view style="height: 120rpx;"></view>
     <view class="fix">
-        <van-button type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick" >去购买</van-button>
+        <van-button type="info" block loading="{{ loading }}" loading-text="处理中..." bind:click="onBuyClick">去购买</van-button>
     </view>
 
 </view>

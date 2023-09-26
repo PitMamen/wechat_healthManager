@@ -400,6 +400,7 @@ Page({
         })
         const serviceItemType = 101
         const collectionIds=[]
+        collectionIds.push(this.data.info.optionalPkgs[0].collectionId)
         wx.navigateTo({
             url: `/packageDoc/pages/doctor/choose-patient/index?consultType=${serviceItemType}&docId=${this.data.info.commodityId}&commodityId=${this.data.info.commodityId}&collectionIds=${collectionIds.join(',')}`
         })

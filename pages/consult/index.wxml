@@ -105,7 +105,7 @@
       <view class="name-view">
         <view class="name-view-top" wx:if="{{item.snatchFlag.value ==1}}">
           <view>服务团队：</view>
-          <view class="commodity-class" style="font-size: 32rpx;color: #1A1A1A; margin-right: 12rpx;">{{item.doctorUserName}}</view>
+          <view class="commodity-class" style="font-size: 32rpx;color: #1A1A1A; margin-right: 12rpx;">{{item.commodityName}}</view>
         </view>
         <view class="name-view-top" wx:else>
           <view>领衔医生：</view>
