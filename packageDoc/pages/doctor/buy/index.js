@@ -11,6 +11,7 @@ Page({
         orderType:'',
     },
     onLoad: function (options) {
+        console.log('buy index',options)
         // 页面创建时执行
         this.setData({
             id: options.id,
@@ -125,7 +126,8 @@ Page({
 
     goOrderDetail(){
         console.log('goOrderDetail',this.data.info)
-        if (this.data.info.items.length>1) {
+        //订单类型 srvPackOrder 专科服务 consultOrder 咨询订单
+        if (this.data.orderType == 'srvPackOrder') {
             wx.redirectTo({
                     url:  '/packageSub/pages/me/order/order-detail-special?orderId=' + this.data.id,
                 })
