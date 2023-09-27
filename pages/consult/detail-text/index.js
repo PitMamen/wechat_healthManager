@@ -164,10 +164,16 @@ Page({
     },
     //再次购买
     bugAgain() {
+        if (this.data.detail.snatchFlag==1) {
+            wx.navigateTo({
+                url: `/packageDoc/pages/team/info/index?commodityId=${this.data.detail.commodityId}&pkgManageId=${this.data.detail.pkgManageId}`
+            })
+        } else {
+            wx.navigateTo({
+                url: `/packageDoc/pages/doctor/detail/index?id=${this.data.detail.commodityId}&docId=${this.data.detail.docInfo.userId}&docName=${this.data.detail.docInfo.userName}`
+            })
+        }
         
-        wx.navigateTo({
-            url: `/packageDoc/pages/doctor/detail/index?id=${this.data.detail.commodityId}&docId=${this.data.detail.docInfo.userId}&docName=${this.data.detail.docInfo.userName}`
-        })
     },
     //查询历史咨询
     onHistroyBtnClick(){
