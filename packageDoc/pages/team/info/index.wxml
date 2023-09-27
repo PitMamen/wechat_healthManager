@@ -26,11 +26,11 @@
     <view class="middle">
         <view class="intro card">
             <view class="best">
-                <image src="/image/myjk/best.png" mode="aspectFill" />
+                <image src="https://hmg.mclouds.org.cn/content-api/file/I20230927135836642VKCATOI6AG15SR-skill_20230927135715.png" mode="aspectFill" />
                 <text>{{ info.skill || '暂无' }}</text>
             </view>
             <view class="desc">
-                <image src="/image/myjk/desc.png" mode="aspectFill" />
+                <image src="https://hmg.mclouds.org.cn/content-api/file/I20230927135901776OPHUBDPMQZUDXB-intro_20230927135715_1.png" mode="aspectFill" />
                 <text>{{ info.intro || '暂无' }}</text>
                 <view class="more" bind:tap="goTeamIntro">更多信息</view>
             </view>
@@ -96,7 +96,7 @@
                 </view>
 
                 <view style="color: #1A1A1A;font-size: 30rpx;">{{item.doctorUserName}}</view>
-                <view style="color: #999;font-size: 30rpx;width: 135rpx;">{{item.professionalTitle}}</view>
+                <view style="color: #999;font-size: 24rpx;width: 135rpx;text-align: center;">{{item.professionalTitle}}</view>
 
             </view>
         </view>

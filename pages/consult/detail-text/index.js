@@ -74,6 +74,7 @@ Page({
                 detail: res.data,
                 nameColumns: nameColumns,
                 numRights: num,
+                status:res.data.rightsUseRecordStatus.status
             })
 
             

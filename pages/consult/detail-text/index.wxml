@@ -64,6 +64,7 @@
 
     <view style="height: 150rpx;"></view>
 </view>
+<!-- 这里status原本设计应该用的权益status 这里status用的是订单详情的status，订单详情后台确认4个值 1待支付、2进行中、3已完成、4已取消 -->
 <view class="safe-bottom-box">
     <view wx:if="{{status==1}}" class="remind-text">正在服务中，您可{{isUsed?'再次':''}}申请使用权益</view>
     <view wx:if="{{status==2}}" class="remind-text">正在等待医生接诊，预计需要10～30分钟，如果30分钟后仍无医生接诊，系统会自动帮您提醒医生，请您耐心等候</view>

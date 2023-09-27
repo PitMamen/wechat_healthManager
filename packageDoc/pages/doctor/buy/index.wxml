@@ -31,7 +31,8 @@
                 <view class="title">{{ info.commodityName }}</view>
 
                 <view style="height: 1rpx;background-color: #E6E6E6;margin-bottom: 26rpx;"></view>
-                <view class="hospital">{{ info.doctorName }} | {{ info.subjectClassifyName }} | {{ info.hospitalName }}</view>
+                <view class="hospital" wx:if="{{info.snatchFlag==1}}">{{ info.subjectClassifyName }} | {{ info.hospitalName }}</view>
+                <view class="hospital" wx:else>{{ info.doctorName }} | {{ info.subjectClassifyName }} | {{ info.hospitalName }}</view>
                 <view class="jzr" decode>就诊人：<text class="resclass">{{ info.userName }}</text> </view>
                 <view wx:if="{{info.diseaseDesc}}" class="bqmsview">病情描述：<view class="bqms">{{ info.diseaseDesc || ''}}</view>
                 </view>
