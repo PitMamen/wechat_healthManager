@@ -73,7 +73,8 @@
                         <text class="num">/{{ subItem.ruleInfo }}</text>
                     </view>
                 </view> -->
-                <view wx:if="{{activepItem.commodityId == item.commodityId}}" class="remind">服务时效：医生接诊后{{info.pkgValidNum||''}}{{info.pkgValidUnit || ''}}有效</view>
+                <view  class="remind">服务时效：医生接诊后{{item.expireValue||''}}{{item.expireUnit || ''}}有效</view>
+                <!-- <view wx:if="{{activepItem.commodityId == item.commodityId}}" class="remind">服务时效：医生接诊后{{info.pkgValidNum||''}}{{info.pkgValidUnit || ''}}有效</view> -->
             </view>
         </view>
     </view>
