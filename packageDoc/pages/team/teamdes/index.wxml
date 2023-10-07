@@ -70,7 +70,7 @@
         <view style="display: flex;flex-direction: row;align-items: center; margin-top: 30rpx;" bindtap="onLeaderClick">
             <view style="position: relative;">
                 <!-- <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" /> -->
-                <image src="{{info.avatarUrl?info.avatarUrl:'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png'}}" style="width: 128rpx;height: 128rpx;" mode="aspectFit" />
+                <image src="{{info.leaderPkgManageItem.avatarUrl?info.leaderPkgManageItem.avatarUrl:'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png'}}" style="width: 128rpx;height: 128rpx;" mode="aspectFit" />
 
                 <image src="../../../image/icon_dz.png" style="position: absolute;width: 50rpx;height: 50rpx;bottom: 0;right: 0;" mode="aspectFill" />
             </view>
@@ -94,7 +94,7 @@
             <view style="position: relative;">
                 <!-- <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" /> -->
 
-                <image src="{{info.avatarUrl?info.avatarUrl:'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png'}}" style="width: 128rpx;height: 128rpx;" mode="aspectFit" />
+                <image src="{{item.avatarUrl?item.avatarUrl:'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png'}}" style="width: 128rpx;height: 128rpx;" mode="aspectFit" />
 
             </view>
 
