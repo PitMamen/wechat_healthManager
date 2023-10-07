@@ -3,7 +3,7 @@
     <view class="top">
         <view class="doctor card">
             <view class="left">
-                <image src="{{ info.avatarUrl || 'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png' }}" mode="aspectFill" />
+                <image src="{{ info.frontImg || 'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png' }}" mode="aspectFill" />
             </view>
             <view class="right">
                 <view class="name">{{ info.commodityName }}</view>
@@ -69,7 +69,8 @@
         <view style="height: 1rpx;background-color: #E6E6E6;margin-top: 30rpx;"></view>
         <view style="display: flex;flex-direction: row;align-items: center; margin-top: 30rpx;" bindtap="onLeaderClick">
             <view style="position: relative;">
-                <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" />
+                <!-- <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" /> -->
+                <image src="{{info.avatarUrl?info.avatarUrl:'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png'}}" style="width: 128rpx;height: 128rpx;" mode="aspectFit" />
 
                 <image src="../../../image/icon_dz.png" style="position: absolute;width: 50rpx;height: 50rpx;bottom: 0;right: 0;" mode="aspectFill" />
             </view>
@@ -91,7 +92,9 @@
 
         <view style="display: flex;flex-direction: row;align-items: center; margin-top: 30rpx;" wx:for="{{ info.pkgManageItems }}" wx:key="id" data-item="{{ item }}" bindtap="onDocClick">
             <view style="position: relative;">
-                <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" />
+                <!-- <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" /> -->
+
+                <image src="{{info.avatarUrl?info.avatarUrl:'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png'}}" style="width: 128rpx;height: 128rpx;" mode="aspectFit" />
 
             </view>
 

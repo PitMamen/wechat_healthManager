@@ -73,7 +73,7 @@
                         <text class="num">/{{ subItem.ruleInfo }}</text>
                     </view>
                 </view> -->
-                <view  class="remind">服务时效：医生接诊后{{item.expireValue||''}}{{item.expireUnit || ''}}有效</view>
+                <view class="remind">服务时效：医生接诊后{{item.expireValue||''}}{{item.expireUnit || ''}}有效</view>
                 <!-- <view wx:if="{{activepItem.commodityId == item.commodityId}}" class="remind">服务时效：医生接诊后{{info.pkgValidNum||''}}{{info.pkgValidUnit || ''}}有效</view> -->
             </view>
         </view>
@@ -91,7 +91,8 @@
         <view style="display: flex;flex-direction: row;margin-top: 30rpx;overflow-x: auto;">
             <view class="com-item-member" wx:for="{{ info.pkgManageItems }}" wx:key="id" bind:tap="onDocClick" data-item="{{ item }}" style="align-items: center;">
                 <view style="position: relative;">
-                    <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" />
+                    <image src="{{item.avatarUrl?item.avatarUrl:'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png'}}" style="width: 128rpx;height: 128rpx;" mode="aspectFit" />
+                    <!-- <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" /> -->
 
                     <image wx:if="{{item.leaderFlag==1}}" src="../../../image/icon_dz.png" style="position: absolute;width: 50rpx;height: 50rpx;bottom: 0;right: 0;" mode="aspectFill" />
                 </view>
