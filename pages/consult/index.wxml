@@ -98,7 +98,7 @@
 
     <view class="card-top">
       <view class="chat-item-head-super-style">
-        <image class="chat-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{item.doctorAvatarUrl}}" />
+        <image class="chat-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{item.doctorAvatarUrl || item.frontImg}}" />
         <text wx:if="{{item.unreadCount && item.unreadCount>0}}" class="unread-style">{{item.unreadCount<=99?item.unreadCount:'99+'}} </text>
             <view class="chat-item-status" style=" background: {{Module.formartStatus(item.status).background}};">{{item.status.description}}</view>
       </view>
