@@ -71,7 +71,7 @@
             <view style="position: relative;">
                 <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" />
 
-                <image src="../../../image/icon_tuwen.png" style="position: absolute;width: 50rpx;height: 50rpx;bottom: 0;right: 0;" mode="aspectFill" />
+                <image src="../../../image/icon_dz.png" style="position: absolute;width: 50rpx;height: 50rpx;bottom: 0;right: 0;" mode="aspectFill" />
             </view>
 
             <view style="display: flex;flex-direction: column;margin-left: 26rpx;">
@@ -80,8 +80,8 @@
                     <view style="color: #999;font-size: 30rpx;margin-left: 30rpx;">{{info.leaderPkgManageItem.professionalTitle}}</view>
                 </view>
                 <view style="display: flex;flex-direction: row;align-items: center;margin-top: 30rpx;">
-                    <view style="color: #999;font-size: 30rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{info.leaderPkgManageItem.deptName}}</view>
-                    <view style="color: #999;font-size: 30rpx;margin-left: 30rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{info.leaderPkgManageItem.hospitalName}}</view>
+                    <view style="color: #999;font-size: 24rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{info.leaderPkgManageItem.deptName}}</view>
+                    <view style="color: #999;font-size: 24rpx;margin-left: 30rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{info.leaderPkgManageItem.hospitalName}}</view>
                 </view>
             </view>
         </view>
@@ -101,8 +101,8 @@
                     <view style="color: #999;font-size: 30rpx;margin-left: 30rpx;">{{item.professionalTitle}}</view>
                 </view>
                 <view style="display: flex;flex-direction: row;align-items: center;margin-top: 30rpx;">
-                    <view style="color: #999;font-size: 30rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.deptName}}</view>
-                    <view style="color: #999;font-size: 30rpx;margin-left: 30rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.hospitalName}}</view>
+                    <view style="color: #999;font-size: 24rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.deptName}}</view>
+                    <view style="color: #999;font-size: 24rpx;margin-left: 30rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.hospitalName}}</view>
                 </view>
             </view>
         </view>

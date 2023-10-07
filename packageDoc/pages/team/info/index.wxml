@@ -73,7 +73,8 @@
                         <text class="num">/{{ subItem.ruleInfo }}</text>
                     </view>
                 </view> -->
-                <view wx:if="{{activepItem.commodityId == item.commodityId}}" class="remind">服务时效：医生接诊后{{info.pkgValidNum||''}}{{info.pkgValidUnit || ''}}有效</view>
+                <view  class="remind">服务时效：医生接诊后{{item.expireValue||''}}{{item.expireUnit || ''}}有效</view>
+                <!-- <view wx:if="{{activepItem.commodityId == item.commodityId}}" class="remind">服务时效：医生接诊后{{info.pkgValidNum||''}}{{info.pkgValidUnit || ''}}有效</view> -->
             </view>
         </view>
     </view>
@@ -92,7 +93,7 @@
                 <view style="position: relative;">
                     <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" />
 
-                    <image wx:if="{{item.leaderFlag==1}}" src="../../../image/icon_tuwen.png" style="position: absolute;width: 50rpx;height: 50rpx;bottom: 0;right: 0;" mode="aspectFill" />
+                    <image wx:if="{{item.leaderFlag==1}}" src="../../../image/icon_dz.png" style="position: absolute;width: 50rpx;height: 50rpx;bottom: 0;right: 0;" mode="aspectFill" />
                 </view>
 
                 <view style="color: #1A1A1A;font-size: 30rpx;">{{item.doctorUserName}}</view>
