@@ -15,7 +15,10 @@
 
         <view bindtap="goOrder" data-id="{{item.orderId}}">
             <view class="titleviw">
-                <text class="title-text">{{item.rightItems[0].rightsItemName}}</text>
+                <view style="flex: 1;">
+                    <text class="title-text">{{item.rightItems[0].rightsItemName}}</text>
+                    <text wx:if="{{item.snatchFlag==1}}" style="color: white;padding: 3rpx 10rpx;background-color: #367BF5;font-size: 24rpx;margin-left: 10rpx;border-radius: 3rpx;">团队</text>
+                </view>
                 <!-- 1待支付、2进行中、3已完成、4已取消 -->
                 <view wx:if="{{item.status.value==1}}" class="title-right">
                     <view class="title-right-tx">等待付款</view>
@@ -34,7 +37,7 @@
             <view class="v-describe">
                 <view class="v-des-item" style="margin-top: 10rpx;margin-bottom: 10rpx;">
                     <view class="des-top-value">
-                        {{item.doctorUserName}}
+                        {{item.snatchFlag==1?item.commodityName: item.doctorUserName}}
                     </view>
                     <view class="shu-divider" style="margin-left: 20rpx;" />
                     <view class="des-top-value" style="margin-left: 20rpx;">

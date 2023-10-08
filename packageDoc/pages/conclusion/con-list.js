@@ -51,11 +51,15 @@ Page({
         console.log('***********con-list options', options)
         this.setData({
             recordId: options.recordId,
-            userId: options.userId,
+            // userId: options.userId,
             // userId: wx.getStorageSync('userInfo').account.accountId,
 
             patientList: wx.getStorageSync('userInfo').account.user,
             defaultPatient: wx.getStorageSync('defaultPatient')
+        })
+
+        this.setData({ //如果传了userId，就取传的，没有就取
+            userId: options.userId ? options.userId : this.data.defaultPatient.userId,
         })
 
         //微信公众号消息跳进来可能出现传的userId不是当前默认就诊人的userId，所以这里要切换页面选择的就诊人
@@ -121,7 +125,7 @@ Page({
         this.setData({
             hidePatientShow: true
         })
-      
+
     },
 
 

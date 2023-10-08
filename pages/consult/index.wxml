@@ -88,7 +88,7 @@
     <van-button class="ai-btn" color="#3894FF" round type="info" size="small">进入诊室</van-button>
   </view>
   <!-- </van-sticky> -->
-  <view class="view-des"  wx:if="{{ appointList.length > 0 }}">
+  <view class="view-des" wx:if="{{ appointList.length > 0 }}">
     <view class="view-shu"></view>
     <view style="margin-left: 20rpx;color: #1A1A1A;font-weight: bold;" bindtap="goInfodd">单次咨询</view>
   </view>
@@ -98,12 +98,16 @@
 
     <view class="card-top">
       <view class="chat-item-head-super-style">
-        <image class="chat-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{item.doctorAvatarUrl}}" />
+        <image class="chat-head-style" lazy-load="{{ true }}" mode="aspectFill" src="{{item.doctorAvatarUrl || item.frontImg}}" />
         <text wx:if="{{item.unreadCount && item.unreadCount>0}}" class="unread-style">{{item.unreadCount<=99?item.unreadCount:'99+'}} </text>
             <view class="chat-item-status" style=" background: {{Module.formartStatus(item.status).background}};">{{item.status.description}}</view>
       </view>
       <view class="name-view">
-        <view class="name-view-top">
+        <view class="name-view-top" wx:if="{{item.snatchFlag.value ==1}}">
+          <view>服务团队：</view>
+          <view class="commodity-class" style="font-size: 32rpx;color: #1A1A1A; margin-right: 12rpx;">{{item.commodityName}}</view>
+        </view>
+        <view class="name-view-top" wx:else>
           <view>领衔医生：</view>
           <view class="commodity-class" style="font-size: 32rpx;color: #1A1A1A; margin-right: 12rpx;">{{item.doctorUserName}}</view>
           <view>{{item.professionalTitle}}</view>
@@ -153,7 +157,7 @@
 
   </view>
 
-  <view class="view-des" wx:if="{{  packageList.length > 0 }}" >
+  <view class="view-des" wx:if="{{  packageList.length > 0 }}">
     <view class="view-shu"></view>
     <view style="margin-left: 20rpx;color: #1A1A1A;font-weight: bold;">专科服务</view>
   </view>

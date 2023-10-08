@@ -72,16 +72,18 @@ page {
     flex-direction: row;
     width: 702rpx;
     margin-left: 24rpx;
-   
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 30rpx;
 
 }
 
 .mid-view-item {
-    width: 336rpx;
+    flex: 1;
     height: 187rpx;
-
+    
 }
+
 .mid-card {
    
     width: 702rpx;

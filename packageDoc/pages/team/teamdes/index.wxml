@@ -1,0 +1,117 @@
+<view class="wrap">
+    <view style="height: 20rpx;"></view>
+    <view class="top">
+        <view class="doctor card">
+            <view class="left">
+                <image src="{{ info.frontImg || 'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png' }}" mode="aspectFill" />
+            </view>
+            <view class="right">
+                <view class="name">{{ info.commodityName }}</view>
+                <view class="info">
+                    <text class="job">{{ info.subjectClassifyName }}</text>
+                    <!-- <text class="job">{{ info.professionalTitle }}</text> -->
+                    <!-- <text class="depart">{{ info.departmentName }}</text> -->
+                </view>
+                <!-- <view class="server">{{ info.departmentName }}</view> -->
+                <view class="tags">
+                    <text class="tag">{{ info.hospitalLevelName }}</text>
+                    <text class="hospital">{{ info.hospitalName }}</text>
+                </view>
+                <!-- <view class="share">分享</view>
+                <view class=" {{isCollect?'store-active':'store'}}" bindtap="goCollect">{{isCollect?'已关注':'关注'}}</view> -->
+            </view>
+        </view>
+    </view>
+
+    <view style="padding-left: 24rpx;padding-right: 24rpx;border-radius: 5rpx;">
+        <van-collapse value="{{ activeNames }}" bind:change="onChange">
+            <van-collapse-item name="1">
+                <view slot="title" style="color: #141418;font-size: 30rpx;margin-left: -10rpx;">团队简介
+                </view>
+                <view class="view-intro" style="margin-left: -10rpx;">
+                    <view class="intro-item">
+                        <view class="intro-item-top">
+                            <view class="top-dot"></view>
+                            <view style="color: #141418;font-size: 30rpx;margin-left: 20rpx;"> 团队擅长</view>
+                        </view>
+
+                        <view style="margin-top: 20rpx;font-size: 28rpx;color: #999;">{{info.skill}}</view>
+                    </view>
+
+                    <view class="intro-item" style="margin-top: 20rpx;">
+                        <view class="intro-item-top">
+                            <view class="top-dot"></view>
+                            <view style="color: #141418;font-size: 30rpx;margin-left: 20rpx;"> 团队介绍</view>
+                        </view>
+
+                        <view style="margin-top: 20rpx;font-size: 28rpx;color: #999;">{{info.intro}}</view>
+                    </view>
+
+                    <view class="intro-item" style="margin-top: 20rpx;">
+                        <view class="intro-item-top">
+                            <view class="top-dot"></view>
+                            <view style="color: #141418;font-size: 30rpx;margin-left: 20rpx;"> 团队荣誉</view>
+                        </view>
+
+                        <view style="margin-top: 20rpx;font-size: 28rpx;color: #999;">{{info.glory}}</view>
+                    </view>
+                </view>
+            </van-collapse-item>
+
+            <!-- <van-collapse-item title="标题3" name="3" disabled>
+        代码是写出来给人看的，附带能在机器上运行
+      </van-collapse-item> -->
+        </van-collapse>
+    </view>
+
+    <view class="view-team">
+        <view style="color: #141418;font-size: 30rpx;">队长</view>
+        <view style="height: 1rpx;background-color: #E6E6E6;margin-top: 30rpx;"></view>
+        <view style="display: flex;flex-direction: row;align-items: center; margin-top: 30rpx;" bindtap="onLeaderClick">
+            <view style="position: relative;">
+                <!-- <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" /> -->
+                <image src="{{info.leaderPkgManageItem.avatarUrl?info.leaderPkgManageItem.avatarUrl:'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png'}}" style="width: 128rpx;height: 128rpx;" mode="aspectFit" />
+
+                <image src="../../../image/icon_dz.png" style="position: absolute;width: 50rpx;height: 50rpx;bottom: 0;right: 0;" mode="aspectFill" />
+            </view>
+
+            <view style="display: flex;flex-direction: column;margin-left: 26rpx;">
+                <view style="display: flex;flex-direction: row;align-items: center;">
+                    <view style="color: #1a1a1a;font-size: 30rpx;">{{info.leaderPkgManageItem.doctorUserName}}</view>
+                    <view style="color: #999;font-size: 30rpx;margin-left: 30rpx;">{{info.leaderPkgManageItem.professionalTitle}}</view>
+                </view>
+                <view style="display: flex;flex-direction: row;align-items: center;margin-top: 30rpx;">
+                    <view style="color: #999;font-size: 24rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{info.leaderPkgManageItem.deptName}}</view>
+                    <view style="color: #999;font-size: 24rpx;margin-left: 30rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{info.leaderPkgManageItem.hospitalName}}</view>
+                </view>
+            </view>
+        </view>
+
+        <view style="color: #141418;font-size: 30rpx;margin-top: 30rpx;">团队成员（{{info.pkgManageItems.length}}人）</view>
+        <view style="height: 1rpx;background-color: #E6E6E6;margin-top: 30rpx;"></view>
+
+        <view style="display: flex;flex-direction: row;align-items: center; margin-top: 30rpx;" wx:for="{{ info.pkgManageItems }}" wx:key="id" data-item="{{ item }}" bindtap="onDocClick">
+            <view style="position: relative;">
+                <!-- <image src="https://hmg.mclouds.org.cn/content-api/file/I202307101049566937UPPPORTLBYVMB-icon_patient.png" style="width: 128rpx;height: 128rpx;" mode="aspectFill" /> -->
+
+                <image src="{{item.avatarUrl?item.avatarUrl:'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png'}}" style="width: 128rpx;height: 128rpx;" mode="aspectFit" />
+
+            </view>
+
+            <view style="display: flex;flex-direction: column;margin-left: 26rpx;">
+                <view style="display: flex;flex-direction: row;align-items: center;">
+                    <view style="color: #1a1a1a;font-size: 30rpx;">{{item.doctorUserName}}</view>
+                    <view style="color: #999;font-size: 30rpx;margin-left: 30rpx;">{{item.professionalTitle}}</view>
+                </view>
+                <view style="display: flex;flex-direction: row;align-items: center;margin-top: 30rpx;">
+                    <view style="color: #999;font-size: 24rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.deptName}}</view>
+                    <view style="color: #999;font-size: 24rpx;margin-left: 30rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.hospitalName}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view style="height: 50rpx;">
+    </view>
+
+</view>

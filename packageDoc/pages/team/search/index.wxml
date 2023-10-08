@@ -1,0 +1,57 @@
+<view class="wrap">
+    <!-- <view class="top">
+        <van-search class="search" placeholder="请输入医生姓名进行查询" model:value="{{ keyWords }}" bind:change="onInputChange" />
+        <view class="filter">
+            <view class="item" bind:tap="onKeShiTap">
+                <text class="name">{{ activeName || '全部科室' }}</text>
+                <van-icon class="icon" name="arrow-down" />
+            </view>
+            <view class="item" bind:tap="onZhiJiTap">
+                <text class="name">{{ professionalTitle || '职级' }}</text>
+                <van-icon class="icon" name="arrow-down" />
+            </view>
+        </view>
+    </view> -->
+    <view class="bottom">
+        <van-empty class="empty" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无记录" wx:if="{{ list.length === 0 }}" />
+        <view class="list" wx:else>
+            <view class="item" bind:tap="onTeamTap" wx:for="{{ list }}" wx:key="userId" data-item="{{ item }}">
+                <view class="left">
+                    <image src="{{ item.frontImg || 'https://hmg.mclouds.org.cn/content-api/file/F20230821100755356QAUGQNLQTAW8I9-doctor.png' }}" lazy-load="{{ true }}" mode="aspectFill" />
+                </view>
+                <view class="right">
+                    <view class="title">
+                        <!-- TODO -->
+                        <text class="name">{{ item.commodityName }}</text>
+                        <text class="job">{{ item.subjectClassifyName || '' }}</text>
+                    </view>
+                    <view class="tags">
+                        <text class="tag">{{ item.hospitalLevelName }}</text>
+                        <text class="hospital">{{ item.hospitalName }}</text>
+                        <!-- <text class="depart">{{ item.departmentName }}</text> -->
+                    </view>
+                    <view class="comment-sum">
+                        <view class="sum-item">好评率：<text style="color: #007BF5;">{{ item.praiseRate }}</text></view>
+                        <view class="sum-item" style="margin-left: 10rpx;">接诊人数：<text style="color: #007BF5; ">{{ item.purchaseCnt }}</text></view>
+                        <view class="sum-item" style="margin-left: 10rpx;">关注人数：<text style="color: #007BF5;">{{ item.favoriteCnt }}</text></view>
+                        <!-- <view class="sum-item" >关注人数：<text style="color: #007BF5;">{{ item.favouriteNum }}</text></view> -->
+                    </view>
+                    <view class="desc">擅长：{{ item.skill || '暂无' }}</view>
+                    <view style="display: flex;flex-direction: row;align-items: center;margin-top: 28rpx;font-size: 28rpx;">
+                        <!-- <view></view> -->
+                        <image style="height: 32rpx;width: 32rpx;margin-right: 8rpx;" mode="aspectFit" src="../../../image/icon_tuwen.png" />
+                        <view style="color: #4D4D4D;">{{item.itemTypes[0]}}</view>
+                        <view style="color: red;margin-left: 10rpx;">￥{{item.startPrice}}</view>
+                        <view style="color: #999;">起</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+
+<!-- <van-tree-select wx:if="{{ show1 }}" height="100vh" items="{{ items }}" main-active-index="{{ mainActiveIndex }}" active-id="{{ activeId }}" bind:click-nav="onKeShiClickNav" bind:click-item="onKeShiClickItem" style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;z-index: 1;" />
+
+<van-popup round show="{{ show2 }}" position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePopup">
+    <van-picker show-toolbar title="" columns="{{ columns }}" visible-item-count="4" bind:cancel="onZhiJiCancel" bind:confirm="onZhiJiConfirm" />
+</van-popup> -->

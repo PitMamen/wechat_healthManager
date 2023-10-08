@@ -21,13 +21,8 @@
     <view style="height: {{windowHeight-navHeight}}px;">
         <view style="height: 30rpx;"></view>
         <view class="mid-view" wx:if="{{topMenuList.length>0}}">
-            <block wx:if="{{topMenuList.length==1}}">
-                <image src="{{topMenuList[0].iconLong}}" class="mid-view-item" style="width:702rpx" bindtap="topMenuClick" data-menu="{{topMenuList[0]}}"></image>
-            </block>
-            <block wx:else>
-                <image src="{{topMenuList[0].icon}}" class="mid-view-item" style="margin-right: 30rpx" bindtap="topMenuClick" data-menu="{{topMenuList[0]}}"></image>
-                <image src="{{topMenuList[1].icon}}" class="mid-view-item" bindtap="topMenuClick" data-menu="{{topMenuList[1]}}"></image>
-            </block>
+            <image wx:for="{{topMenuList}}" wx:key="1" src="{{topMenuList.length === 1?item.iconLong:item.icon}}" style="{{index>0?'margin-left: 30rpx;':''}}" class="mid-view-item"  bindtap="topMenuClick" data-menu="{{item}}"></image>
+           
         </view>
 
         <view class="mid-card" wx:if="{{midMenuList.length>0}}">

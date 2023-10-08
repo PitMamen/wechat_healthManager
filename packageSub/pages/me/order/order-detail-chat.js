@@ -209,9 +209,19 @@ Page({
      */
     onDoctorTap(event) {
         // const item = event.currentTarget.dataset.item
-        wx.navigateTo({
-            url: `/packageDoc/pages/doctor/info/index?id=${this.data.order.doctorUserId}&title=${this.data.order.doctorUserName}`
-        })
+        // wx.navigateTo({
+        //     url: `/packageDoc/pages/doctor/info/index?id=${this.data.order.doctorUserId}&title=${this.data.order.doctorUserName}`
+        // })
+
+        if (this.data.order.snatchFlag == 1) { //团队详情
+            wx.navigateTo({
+                url: `/packageDoc/pages/team/info/index?commodityId=${this.data.order.commodityId}&pkgManageId=${this.data.order.pkgManageId}`
+            })
+        } else { //医生详情
+            wx.navigateTo({
+                url: `/packageDoc/pages/doctor/info/index?id=${this.data.order.doctorUserId}&title=${this.data.order.doctorUserName}`
+            })
+        }
     },
 
     toPay(e) {

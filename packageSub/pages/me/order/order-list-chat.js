@@ -151,7 +151,7 @@ Page({
         console.log("fff:", info)
         if (this.checkLoginStatus()) {
             if (info.rightItems[0].projectType == 102) {
-               
+
                 wx.navigateTo({
                     url: '/pages/consult/detail-tel/index?rightsId=' + info.id + '&userId=' + info.doctorUserId + '&status=' + info.status.value,
                 })
@@ -234,9 +234,17 @@ Page({
      */
     onDoctorTap(event) {
         let item = event.currentTarget.dataset.item
-        wx.navigateTo({
-            url: `/packageDoc/pages/doctor/info/index?id=${item.doctorUserId}&title=${item.doctorUserName}`
-        })
+        if (item.snatchFlag == 1) { //团队详情
+            wx.navigateTo({
+                url: `/packageDoc/pages/team/info/index?commodityId=${item.commodityId}&pkgManageId=${item.pkgManageId}`
+            })
+
+        } else { //医生详情
+            wx.navigateTo({
+                url: `/packageDoc/pages/doctor/info/index?id=${item.doctorUserId}&title=${item.doctorUserName}`
+            })
+        }
+
     },
 
     toPay(e) {
