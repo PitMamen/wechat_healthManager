@@ -79,8 +79,31 @@ Page({
                 isFirst: true
             })
         }
+      
 
-
+    },
+        /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function () {
+        if(!getApp().globalData.currentHospital.hospitalCode){
+           
+            wx.showModal({
+              title: '提示',
+              content: '请先选择医疗机构，再添加就诊人',
+              complete: (res) => {
+                if (res.cancel) {
+                 wx.navigateBack()     
+                }
+            
+                if (res.confirm) {
+                  wx.navigateTo({
+                    url: '/pages/home/hospital-select/index?type='+'GOBACK',
+                  })
+                }
+              }
+            })
+      }
     },
     onChange(event) {
         this.setData({
@@ -307,6 +330,14 @@ Page({
     debounced: false,
     addPatientQuery(e) {
 
+        if(!getApp().globalData.currentHospital.hospitalCode){
+            wx.showToast({
+              title: '请先选择医疗机构',
+              icon:'none'
+            })
+            return
+        }
+
         var that = this;
 
         if (that.debounced) {
@@ -411,12 +442,7 @@ Page({
 
     },
 
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
 
-    },
 
     /**
      * 生命周期函数--监听页面隐藏
