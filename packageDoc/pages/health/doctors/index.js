@@ -60,7 +60,7 @@ Page({
 
     getLists() {
         WXAPI.commodityOptionalDoctors({
-            types: [1],
+            types: [1,2,6],
             commodityId: this.data.id
         }).then((res) => {
             this.setData({
