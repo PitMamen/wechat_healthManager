@@ -1,4 +1,5 @@
 const WXAPI = require('../../static/apifm-wxapi/index')
+const Config = require('../../utils/config')
 import dayjs from 'dayjs'
 
 Page({
@@ -56,9 +57,9 @@ Page({
             const dates = this.getDates(monthDiff)
             dates.forEach(item => {
                 const dateObj = dataMap[item.format]
-                if (dateObj){
+                if (dateObj) {
                     const list = []
-                    for (let key in dateObj){
+                    for (let key in dateObj) {
                         list.push({
                             name: key,
                             subList: dateObj[key]
@@ -68,17 +69,17 @@ Page({
                 }
             })
             let current = null
-            if (fromShow && this.data.current.date){
+            if (fromShow && this.data.current.date) {
                 current = dates.find(item => {
                     return item.date === this.data.current.date
                 })
             }
-            if (!current){
+            if (!current) {
                 current = dates.find(item => {
                     return item.current
                 })
             }
-            if (!current){
+            if (!current) {
                 current = dates.find(item => {
                     return item.date === 1
                 })
@@ -99,8 +100,8 @@ Page({
         const startCount = monthStart.day()
         const endCount = 6 - monthEnd.day()
         const dates = this.getEmptyDates(startCount)
-        for (let i=monthStart.date(); i<=monthEnd.date(); i++){
-            const date = monthStart.add(i-monthStart.date(), 'day')
+        for (let i = monthStart.date(); i <= monthEnd.date(); i++) {
+            const date = monthStart.add(i - monthStart.date(), 'day')
             dates.push({
                 date: date.date(),
                 format: date.format('YYYY-MM-DD'),
@@ -113,7 +114,7 @@ Page({
     },
     getEmptyDates(count) {
         const dates = []
-        for (let i=0; i<count; i++){
+        for (let i = 0; i < count; i++) {
             dates.push({
                 empty: true
             })
@@ -124,7 +125,7 @@ Page({
         const rowDates = [[]]
         dates.forEach(item => {
             let row = rowDates[rowDates.length - 1]
-            if (row.length === 7){
+            if (row.length === 7) {
                 rowDates.push([])
                 row = rowDates[rowDates.length - 1]
             }
@@ -135,11 +136,11 @@ Page({
     getRelate(monthDiff) {
         let relate = null
         const current = dayjs()
-        if (monthDiff > 0){
+        if (monthDiff > 0) {
             relate = current.add(monthDiff, 'month').startOf('month')
-        }else if (monthDiff < 0){
+        } else if (monthDiff < 0) {
             relate = current.subtract(Math.abs(monthDiff), 'month').startOf('month')
-        }else {
+        } else {
             relate = current.clone()
         }
         return relate
@@ -151,13 +152,13 @@ Page({
     getQuerys(monthDiff) {
         const relate = this.getRelate(monthDiff)
         return {
-            userId: wx.getStorageSync('defaultPatient').userId,
+            userId: wx.getStorageSync('defaultPatient').userId,
             beginDate: relate.startOf('month').format('YYYY-MM-DD'),
             endDate: relate.endOf('month').format('YYYY-MM-DD')
         }
     },
     onPrevTap(event) {
-        if (this.data.monthDiff <= -6){
+        if (this.data.monthDiff <= -6) {
             return
         }
         this.setData({
@@ -166,7 +167,7 @@ Page({
         this.initDatas(this.data.monthDiff)
     },
     onNextTap(event) {
-        if (this.data.monthDiff >= 6){
+        if (this.data.monthDiff >= 6) {
             return
         }
         this.setData({
@@ -183,25 +184,26 @@ Page({
     },
     onFollowTap(event) {
         const item = event.currentTarget.dataset.item
-        console.log('ffffffff onFollowTap',JSON.stringify(item))
-        if (item.taskType.value === 1){
-            let url = item.jumpValue+ '?userId=' +item.userId+ '&recordId=' +item.id+ '&modifyTaskBizStatus=yes'
-            if(item.taskBizStatus.value === 1){
+        console.log('ffffffff onFollowTap', JSON.stringify(item))
+        if (item.taskType.value === 1) {
+            let url = item.jumpValue + '?userId=' + item.userId + '&recordId=' + item.id + '&modifyTaskBizStatus=yes'
+            if (item.taskBizStatus.value === 1) {
                 url = url.replace("/r/", "/s/")
-            }         
+            }
             wx.navigateTo({
-                url: '/pages/home/webpage/index?url=' +encodeURIComponent(url)
+                url: '/pages/home/webpage/index?url=' + encodeURIComponent(url)
             })
-        }else if (item.taskType.value === 2){
+        } else if (item.taskType.value === 2) {
             wx.navigateTo({
-                url: '/pages/home/news/news-detail?id=' +item.jumpId+ '&recordId=' +item.id
+                url: '/pages/home/news/news-detail?id=' + item.jumpId + '&recordId=' + item.id
             })
-        }else if (item.taskType.value === 3){
+        } else if (item.taskType.value === 3) {
             wx.navigateTo({
-                url: '/pages/home/health-remind/detail?userId=' +wx.getStorageSync('defaultPatient').userId+ '&taskId=' +item.id
+                url: '/pages/home/health-remind/detail?userId=' + wx.getStorageSync('defaultPatient').userId + '&taskId=' + item.id
             })
-        }else if (item.taskType.value === 4){
-            console.log('ffffffff onFollowTap jumpValue',item)
+            
+        } else if (item.taskType.value === 4) {
+            console.log('ffffffff onFollowTap jumpValue', item)
             //新增病例查阅逻辑分支处理
             // "taskType": {
             //     "value": 4,
@@ -209,9 +211,22 @@ Page({
             //   },
             wx.navigateTo({
                 // url: '/'+item.jumpValue
-                url: '/' + item.jumpValue+'?recordId=' + item.id+'&userId=' + item.userId
+                url: '/' + item.jumpValue + '?recordId=' + item.id + '&userId=' + item.userId
             })
+        } else if (item.taskType.value === 6) {
+            console.log('跳转第三方小程序')
+            wx.navigateToMiniProgram({
+                appId: item.jumpId,
+                path: item.jumpValue,
+                envVersion: Config.getConstantData().envVersion,
+            })
+            this.setTaskItemRead(item.id)
         }
+    },
+    //设置已读
+    setTaskItemRead(id) {
+        WXAPI.changeFollowTaskReadStatus({recordId:id})
+
     },
     onStopTap() {
         const _this = this
@@ -221,7 +236,7 @@ Page({
             success: function (res) {
                 if (res.confirm) {
                     WXAPI.stopFollowUserPlan({
-                        userId: wx.getStorageSync('defaultPatient').userId
+                        userId: wx.getStorageSync('defaultPatient').userId
                     }).then(res => {
                         wx.showToast({
                             title: '终止成功',

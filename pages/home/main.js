@@ -116,12 +116,12 @@ Page({
         }
         this.afterMaLogin()
     },
-   
 
-    testBtn(){
+
+    testBtn() {
         this.TUICalling.call({ userID: '1626', type: 2 })
         // this.TUICalling.groupCall({ userIDList: ['1626'], type: 2, groupID: 'BV_test07111620' })
-        
+
     },
     //获取登录信息
     getMaLoginInfo() {
@@ -172,7 +172,7 @@ Page({
         this.getArticleLists()
 
         this.setData({
-            activeIndex:'0',
+            activeIndex: '0',
             defaultPatient: wx.getStorageSync('defaultPatient'),
             patientList: wx.getStorageSync('userInfo').account.user,
             userInfo: wx.getStorageSync('userInfo').account
@@ -398,6 +398,11 @@ Page({
                         item.planType = "Read"
                         item.planDescribe = item.templateTitle
                         allTaskList.push(item)
+                    } else if (item.taskType.value == 6) {
+                        //跳转第三方
+                        item.planType = "Jump"
+                        item.planDescribe = item.templateTitle
+                        allTaskList.push(item)
                     }
                 }
 
@@ -580,12 +585,22 @@ Page({
 
         } else if (type == 'Read') {//病历查阅
             wx.navigateTo({
-                url: '/' + task.jumpValue+'?recordId=' + task.id+'&userId=' + task.userId
+                url: '/' + task.jumpValue + '?recordId=' + task.id + '&userId=' + task.userId
             })
 
+        } else if (type == 'Jump') {//跳转第三方小程序
+            wx.navigateToMiniProgram({
+                appId: task.jumpId,
+                path: task.jumpValue,
+                envVersion: Config.getConstantData().envVersion,
+            })
+            this.setTaskItemRead(task.id)
         }
     },
-
+    //设置已读
+    setTaskItemRead(id) {
+        WXAPI.changeFollowTaskReadStatus({recordId:id})
+    },
 
     //问卷
     goWenjuanPage(url) {
@@ -673,7 +688,7 @@ Page({
 
 
 
-  
+
 
 
     goNewsDetail(event) {

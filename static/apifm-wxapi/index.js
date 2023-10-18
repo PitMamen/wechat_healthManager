@@ -1223,6 +1223,11 @@ module.exports =
                         var url = ACCOUNT_SERVICE + '/getUserTagStatus'
                         return request(url, 'POST', data, true);
                     },
+                    //更新随访任务查看状态
+                    changeFollowTaskReadStatus: function changeFollowTaskReadStatus(data) {
+                        var url = FOLLOW_SERVICE + '/tbFollowExecuteRecord/changeFollowTaskReadStatus'
+                        return request(url, 'get', data, true);
+                    },
                 };
 
                 /***/
