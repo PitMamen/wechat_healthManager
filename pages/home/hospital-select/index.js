@@ -3,12 +3,14 @@ const WXAPI = require('../../../static/apifm-wxapi/index')
 import bus from '../../../utils/EventBus.js'
 Page({
     data: {
+        type:'',
         queryText: '',
         currentHospital: {},
         hospitalList: []
     },
     onLoad: function (options) {
         this.setData({
+            type:options.type,
             currentHospital: getApp().globalData.currentHospital
         })
 
@@ -79,9 +81,16 @@ Page({
 
         //发送事件 切换机构
         bus.emit('switchHospital', hospital.hospitalCode)
-        wx.switchTab({
-            url: '/pages/home/main',
-        })
+
+        if(this.data.type == 'GOBACK'){
+            wx.navigateBack()
+        }else {
+            wx.switchTab({
+                url: '/pages/home/main',
+            })
+        }
+
+
 
     },
 

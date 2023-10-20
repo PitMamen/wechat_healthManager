@@ -52,9 +52,16 @@ Page({
         wx.showLoading({
             title: '加载中',
         })
+        let tempId = ''
+        console.log('ffffff', this.data.recordId)
+        if (this.data.recordId && this.data.recordId != 'undefined') {
+            tempId = this.data.recordId
+        }
+
         const res = await WXAPI.getEmrDetail({
             regNo: this.data.regNo,
-            recordId: this.data.recordId,
+            // recordId: this.data.recordId,
+            recordId: tempId,
             userId: this.data.userId
         })
         wx.hideLoading()

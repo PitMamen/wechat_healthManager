@@ -42,7 +42,7 @@ Page({
             })
         }else{
             wx.showToast({
-              title: '请先选择机构',
+                title: '请先选择医疗机构',
               icon:'none'
             })
         }

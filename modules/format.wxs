@@ -295,6 +295,14 @@ function taskType2(type, execFlag) {
         }
         return t;
 
+    } else if (type == 'Jump') { //第三方小程序
+        var t = {
+            icon: 'home_icon_jump.png',
+            title: '病历查阅',
+            btnText: '查看'
+        }
+        return t;
+
     }
 }
 
