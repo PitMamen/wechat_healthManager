@@ -76,7 +76,7 @@ Page({
         this.setData({
             loading: false
         })
-        //本次不做关注
+        this.favouriteExistsForDoctorId()
         // if (!getApp().globalData.loginReady) {
         //     this.WXloginForLogin()
         // } else {
@@ -170,47 +170,7 @@ Page({
         })
     },
 
-    // getInfo() {
-    //     WXAPI.doctorCommodities({
-    //         doctorUserId: this.data.id
-    //     }).then((res) => {
-    //         this.setData({
-    //             info: res.data || {},
-    //             list: ((res.data || {}).commodities || []).map(item => {
-    //                 return {
-    //                     ...item,
-    //                     className: this.getClassName(item.classifyCode)
-    //                 }
-    //             })
-    //         })
-    //         wx.setNavigationBarTitle({ //TODO
-    //             title: this.data.info.userName + '团队' || '',
-    //         })
-    //         if (this.data.list.length > 0) {
-    //             const pitem = this.data.list[0]
-    //             if (pitem.pkgRules.length > 0) {
-    //                 const item = pitem.pkgRules[0]
-    //                 this.setData({
-    //                     activeItem: item,
-    //                     activepItem: pitem
-    //                 })
-    //             }
-    //         }
 
-    //         //处理专科服务  serviceCommodities
-
-    //         this.setData({
-    //             listService: ((res.data || {}).serviceCommodities || []).map(item => {
-    //                 return {
-    //                     ...item,
-    //                     checked: false
-    //                 }
-    //             })
-    //         })
-
-    //         console.log('listService', this.data.listService)
-    //     })
-    // },
     getComments() {
         WXAPI.getDocComments({
             status: 2,
@@ -248,10 +208,11 @@ Page({
         var userInfoSync = wx.getStorageSync('userInfo')
 
         var requestData = {
-            favouriteType: 1,
+            favouriteType: 2,
             operationType: this.data.isCollect ? 1 : 0, //0收藏/1取消
-            targetId: this.data.id,
+            targetId: this.data.info.commodityId,
             userId: userInfoSync.accountId,
+            doctorName: this.data.info.commodityName,
         }
         console.log("doctor_id:", requestData)
         const res = await WXAPI.doCollect(requestData)
@@ -269,7 +230,7 @@ Page({
     },
     //是否已关注
     favouriteExistsForDoctorId() {
-        WXAPI.favouriteExistsForDoctorId(this.data.id).then((res) => {
+        WXAPI.favouriteExistsForDoctorId({id:this.data.commodityId,favouriteType:2}).then((res) => {
             this.setData({
                 isCollect: res.data || false
             })
@@ -279,32 +240,7 @@ Page({
             }
         })
     },
-    goCollect() {
-        var userInfoSync = wx.getStorageSync('userInfo')
 
-        var requestData = {
-            favouriteType: 1,
-            operationType: this.data.isCollect ? 1 : 0, //0收藏/1取消
-            targetId: this.data.id,
-            userId: userInfoSync.accountId,
-        }
-        console.log("doctor_id:", requestData)
-        WXAPI.doCollect(requestData).then((res) => {
-            if (res.code == 0) {
-                wx.showToast({
-                    title: this.data.isCollect ? '已取消关注' : '已关注',
-                    icon: 'success',
-                    duration: 2000
-                })
-                this.setData({
-                    isCollect: !this.data.isCollect
-                })
-
-            }
-
-        })
-
-    },
     onBackTap() {
         wx.navigateBack({})
     },

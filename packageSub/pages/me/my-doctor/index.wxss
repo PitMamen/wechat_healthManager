@@ -6,7 +6,7 @@
     background: #FFFFFF;
 }
 .wrap .top .van-search {
-    padding: 20rpx 24rpx !important;
+    padding: 20rpx 24rpx 10rpx 24rpx !important;
 }
 .wrap .top .filter {
     display: flex;
@@ -154,4 +154,8 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.tabs {
+
+    margin-bottom: 9px;
 }

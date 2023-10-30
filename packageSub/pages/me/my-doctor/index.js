@@ -11,7 +11,16 @@ Page({
         mainActiveIndex: 0,
         professionalTitle: '',
         list: [],
-   
+        status:'0',
+        tabs: [{
+            title: '关注的医生',
+            status: '0'
+        },
+        {
+            title: '关注的团队',
+            status: '1'
+        }
+    ],
     },
     onLoad: function (options) {
         // 页面创建时执行
@@ -21,10 +30,21 @@ Page({
       
      
     },
+    onTabsChange(e) {
+        console.log('onTabsChange', e)
+        var status = e.detail.name
+        this.setData({
+            status: status
+        })
+        this.getList()
+
+    },
     onShow: function () {
         // 页面出现在前台时执行
-        this.getLists()
+        this.getList()
     },
+
+
     onReady: function () {
         // 页面首次渲染完毕时执行
     },
@@ -53,7 +73,15 @@ Page({
         // tab 点击时执行
     },
 
-    getLists() {
+    getList(){
+        if(this.data.status === '0'){
+            this.getDoctorLists()
+        }else {
+            this.getTeamLists()
+        }
+    },
+    //关注的医生
+    getDoctorLists() {
         WXAPI.accurateDoctorsForFavourite({
             pageNo: 1,
             pageSize: 9999,
@@ -67,7 +95,21 @@ Page({
             })
         })
     },
-   
+    //关注的团队
+    getTeamLists() {
+        WXAPI.accurateTeamsForFavourite({
+            pageNo: 1,
+            pageSize: 9999,
+            hospitalCode: getApp().globalData.currentHospital.hospitalCode || undefined,
+            queryText: this.data.keyWords.trim(),
+            subjectClassifyId: this.data.activeId || '',
+            professionalTitle: this.data.professionalTitle
+        }).then((res) => {
+            this.setData({
+                list: res.data.rows || []
+            })
+        })
+    },
    
     onInputChange(event) {
         this.getLists()
@@ -76,9 +118,16 @@ Page({
    
     onDoctorTap(event) {
         const item = event.currentTarget.dataset.item
-        wx.navigateTo({
-            url: `/packageDoc/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
-        })
+        if(this.data.status === '0'){
+            wx.navigateTo({
+                url: `/packageDoc/pages/doctor/info/index?id=${item.userId}&title=${item.userName}`
+            })
+        }else {
+            wx.navigateTo({
+                url: `/packageDoc/pages/team/info/index?commodityId=${item.userId}&title=${item.userName}`
+            })
+        }
+     
     },
    
   

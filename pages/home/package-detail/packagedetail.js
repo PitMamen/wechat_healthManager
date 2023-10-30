@@ -213,7 +213,7 @@ Page({
     },
     //是否已关注
     favouriteExistsForDoctorId() {
-        WXAPI.favouriteExistsForDoctorId(this.data.id).then((res) => {
+        WXAPI.favouriteExistsForDoctorId({id:this.data.id,favouriteType:1}).then((res) => {
             this.setData({
                 isCollect: res.data || false
             })

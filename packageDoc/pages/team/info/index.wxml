@@ -18,8 +18,8 @@
                     <text class="hospital">{{ info.hospitalName }}</text>
                 </view>
                 <view class="share">分享</view>
-                <!-- <view class=" {{isCollect?'store-active':'store'}}" bindtap="goCollect">{{isCollect?'已关注':'关注'}}</view> -->
-                <view class=" {{isCollect?'store-active':'store'}}">{{isCollect?'已关注':'关注'}}</view>
+                <view class=" {{isCollect?'store-active':'store'}}" bindtap="goCollect">{{isCollect?'已关注':'关注'}}</view>
+                <!-- <view class=" {{isCollect?'store-active':'store'}}">{{isCollect?'已关注':'关注'}}</view> -->
             </view>
         </view>
     </view>

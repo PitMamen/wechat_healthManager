@@ -589,6 +589,13 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/commodity/accurateDoctorsForFavourite'
                         return request(url, 'post', data, true);
                     },
+                    //小程序端-关注的团队
+                    accurateTeamsForFavourite: function accurateTeamsForFavourite(data) {
+                        data.hospitalCode = getApp().globalData.currentHospital.hospitalCode || ''
+                        data.tenantId = getApp().globalData.currentHospital.tenantId || ''
+                        var url = MEDICAL_SERVICE + '/commodity/accurateTeamsForFavourite'
+                        return request(url, 'post', data, true);
+                    },
                     //小程序端-抢单团队(套餐)列表
                     snatchCommodities: function snatchCommodities(data) {
                         var url = MEDICAL_SERVICE + '/commodity/snatchCommodities'
@@ -605,10 +612,10 @@ module.exports =
                         return request(url, 'get', data, true);
                     },
                     //是否已关注
-                    favouriteExistsForDoctorId: function favouriteExistsForDoctorId(id) {
+                    favouriteExistsForDoctorId: function favouriteExistsForDoctorId(data) {
 
-                        var url = MEDICAL_SERVICE + '/commodity/favouriteExistsForDoctorId/' + id
-                        return request(url, 'get', '', true);
+                        var url = MEDICAL_SERVICE + '/commodity/favouriteExistsForDoctorId' 
+                        return request(url, 'get', data, true);
                     },
                     // account/favourite/operation患者端-操作（添加/取消)我的收藏
                     doCollect: function doCollect(data) {

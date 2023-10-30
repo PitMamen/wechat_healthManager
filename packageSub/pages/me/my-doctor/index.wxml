@@ -1,8 +1,18 @@
 <view class="wrap">
+    <van-sticky>
     <view class="top">
-        <van-search class="search" placeholder="输入医生姓名进行搜索" model:value="{{ keyWords }}" bind:change="onInputChange" />
+        <van-search class="search" placeholder="搜索关注的医生或团队" model:value="{{ keyWords }}" bind:change="onInputChange" />
        
     </view>
+
+    <view id="tabs" class="tabs">
+
+        <van-tabs color="#0379FF" title-active-color="#0379FF" swipeable line-width="67px" bind:click="onTabsChange" custom-class="" active="{{ active }}">
+            <van-tab wx:for="{{tabs}}" wx:key="id" title="{{item.title}}" name="{{item.status}}">
+            </van-tab>
+        </van-tabs>
+    </view>
+</van-sticky>
     <view class="bottom">
         <van-empty class="empty" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无记录" wx:if="{{ list.length === 0 }}" />
         <view class="list" wx:else>
@@ -13,12 +23,12 @@
                 <view class="right">
                     <view class="title">
                         <text class="name">{{ item.userName }}</text>
-                        <text class="job">{{ item.professionalTitle || '' }}</text>
+                        <text class="job">{{ status === '0'? item.professionalTitle : item.departmentName }}</text>
                     </view>
                     <view class="tags">
                         <text class="tag">{{ item.hospitalLevelName }}</text>
                         <text class="hospital">{{ item.hospitalName }}</text>
-                        <text class="depart">{{ item.departmentName }}</text>
+                        <text wx:if="{{status === '0'}}" class="depart">{{ item.departmentName }}</text>
                     </view>
                     <view class="comment-sum">
                         <view class="sum-item">好评率：<text style="color: #007BF5;">{{ item.goodRate }}</text></view>
