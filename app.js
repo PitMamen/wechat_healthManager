@@ -69,11 +69,12 @@ App({
         bus.on('IMLoginSuccess', (msg) => {
             // 支持多参数
             console.log("监听IM登录成功", msg)
+
+
+            //实例化腾讯TRTC callManager
             if (wx.CallManager) {
                 wx.CallManager.destroyed()
             }
-
-            //实例化腾讯TRTC callManager
             require.async('./subpackage-call/TUICallKit/serve/callManager.js').then(res => {
                 wx.CallManager = new res.CallManager();
                 wx.CallManager.init({

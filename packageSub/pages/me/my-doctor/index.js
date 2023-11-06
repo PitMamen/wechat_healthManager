@@ -112,7 +112,7 @@ Page({
     },
    
     onInputChange(event) {
-        this.getLists()
+        this.getList()
     },
   
    
