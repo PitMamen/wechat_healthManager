@@ -334,7 +334,8 @@ App({
         const userInfo = wx.getStorageSync('userInfo')
         const defaultPatient = wx.getStorageSync('defaultPatient')
         if (userInfo && userInfo.account && userInfo.account.accountId) {
-            if (defaultPatient) {
+            console.log(defaultPatient)
+            if (defaultPatient && defaultPatient.userId) {
                 return defaultPatient
             } else {
                 wx.navigateTo({

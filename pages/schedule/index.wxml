@@ -1,3 +1,5 @@
+
+
 <view class="wrap">
     <view class="calander">
         <view class="switch">
@@ -54,7 +56,9 @@
             </view>
         </view>
     </view>
-    <view class="btns">
+    <view class="btns" wx:if="{{ defaultPatient && defaultPatient.userId }}">
         <view class="btn" bind:tap="onStopTap">终止全部方案</view>
     </view>
 </view>
+
+

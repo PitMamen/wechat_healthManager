@@ -113,7 +113,8 @@ Page({
 
     goMyHealthRecords() {
         if(this.checkLoginStatus()){
-            if(this.data.defaultPatient){
+            if(getApp().getDefaultPatient()){
+               
                 wx.navigateTo({
                     url: '/packageSub/pages/me/health/healthrecords',
                   })
@@ -187,14 +188,7 @@ Page({
             path: 'packages/trade/order/list/index',
         })
     },
-    goMyHealthRecords() {
-        if (this.checkLoginStatus()) {
-            wx.navigateTo({
-                url: '/packageSub/pages/me/health/healthrecords',
-            })
-        }
 
-    },
 
 
     goEmptyPage() {

@@ -139,6 +139,7 @@ Page({
         if (this.checkLoginStatus()) {
             if (getApp().globalData.sdkReady) {
                 if (item.orderId) {
+                    wx.setStorageSync('chatTitle', item.commodityName)
                     IMUtil.goGroupChat(item.userId, 'navigateTo', 'M_' + item.orderId, 'textNum', item.tradeId, 'START')
                 }
             }

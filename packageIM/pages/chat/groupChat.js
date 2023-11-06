@@ -70,7 +70,7 @@ Page({
             //CONFIRM:确认  REFUSED:已拒诊  START:开始咨询 END:已完成
             //2:待接诊 3:问诊中 4:已结束 5:已中止（拒诊等）
             tradeAction: options.tradeAction,
-
+           
         })
         this.qryRightsUseRecord()
         this.getGroupProfile()
@@ -108,9 +108,16 @@ Page({
                 textNumCount:res.data[0].serviceFrequency ,
                 textNumRecord: res.data[0].usedServiceFrequency || 0
             })
-            wx.setNavigationBarTitle({
-                title: res.data[0].docName + '团队'
-            });
+            if(res.data[0].docName){
+                wx.setNavigationBarTitle({
+                    title: res.data[0].docName + '团队' 
+                });
+            }else{
+                wx.setNavigationBarTitle({
+                    title: wx.getStorageSync('chatTitle') || ''
+                });
+            }
+           
             var status = res.data[0].status
             var tradeAction = ''
             //工单进程 CONFIRM:确认  REFUSED:已拒诊  START:开始咨询 END:已完成

@@ -31,9 +31,9 @@
                         <text wx:if="{{status === '0'}}" class="depart">{{ item.departmentName }}</text>
                     </view>
                     <view class="comment-sum">
-                        <view class="sum-item">好评率：<text style="color: #007BF5;">{{ item.goodRate }}</text></view>
-                        <view class="sum-item">接诊人数：<text style="color: #007BF5;">{{ item.visitNum }}</text></view>
-                        <view class="sum-item" >关注人数：<text style="color: #007BF5;">{{ item.favouriteNum }}</text></view>
+                        <view class="sum-item">好评率:<text style="color: #007BF5;">{{ item.goodRate }}</text></view>
+                        <view class="sum-item">接诊人数:<text style="color: #007BF5;">{{ item.visitNum }}</text></view>
+                        <view class="sum-item" >关注人数:<text style="color: #007BF5;">{{ item.favouriteNum }}</text></view>
                     </view>
                     <view class="desc">擅长：{{ item.expertInDisease || '暂无' }}</view>
                 </view>
