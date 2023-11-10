@@ -24,8 +24,8 @@ Page({
             id: options.id
         })
         this.getLists()
-        // this.getItems()
-        // this.getColumns()
+       
+      
     },
     onShow: function () {
         // 页面出现在前台时执行
@@ -68,39 +68,8 @@ Page({
             })
         })
     },
-    getItems() {
-        WXAPI.treeMedicalSubjects(null).then((res) => {
-            const items = (res.data || []).map(item => {
-                return {
-                    text: item.subjectClassifyName,
-                    children: (item.children || []).map(subItem => {
-                        return {
-                            id: subItem.subjectClassifyId,
-                            text: subItem.subjectClassifyName
-                        }
-                    })
-                }
-            })
-            this.setData({
-                items
-            })
-        })
-    },
-    getColumns() {
-        WXAPI.professionalTitles({
-            type: 1
-        }).then((res) => {
-            const columns = (res.data || []).map(item => {
-                return {
-                    id: item.value,
-                    text: item.value
-                }
-            })
-            this.setData({
-                columns
-            })
-        })
-    },
+    
+ 
     onInputChange(event) {
         this.getLists()
     },

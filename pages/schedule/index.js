@@ -17,10 +17,21 @@ Page({
             format: this.getFormat(this.data.monthDiff),
             rowDates: this.getRowDates(this.getDates(this.data.monthDiff))
         })
+
+       
     },
     onShow: function () {
-        // 页面出现在前台时执行
+        this.setData({
+            defaultPatient:wx.getStorageSync('defaultPatient')
+        })
+        console.log(this.data.defaultPatient)
         this.initDatas(this.data.monthDiff, true)
+        
+    },
+    goAddPatient(){
+        wx.navigateTo({
+            url: '/packageSub/pages/me/patients/addPatient',
+          })
     },
     onReady: function () {
         // 页面首次渲染完毕时执行
@@ -48,10 +59,18 @@ Page({
     },
     onTabItemTap(item) {
         // tab 点击时执行
+        console.log('哈哈哈哈哈哈',item)
+        var user=wx.getStorageSync('defaultPatient')
+        if(!user || !user.userId){
+           this.goAddPatient()
+        }
     },
 
     initDatas(monthDiff = 0, fromShow) {
         const querys = this.getQuerys(monthDiff)
+        if(!querys.userId){
+            return
+        }
         WXAPI.qryMyFollowAll(querys).then(res => {
             const dataMap = res.data || {}
             const dates = this.getDates(monthDiff)

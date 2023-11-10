@@ -122,6 +122,7 @@ Page({
         if (this.checkLoginStatus()) {
             if (getApp().globalData.sdkReady) {
                 if (this.data.order.orderId) {
+                    wx.setStorageSync('chatTitle', this.data.order.commodityName)
                     IMUtil.goGroupChat(this.data.order.userId, 'navigateTo', 'M_' + this.data.order.orderId, 'textNum', this.data.order.tradeId, 'START')
                 }
             }

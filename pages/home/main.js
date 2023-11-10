@@ -168,11 +168,12 @@ Page({
     afterMaLogin() {
         this.getServiceCommodityClassInfo()
         this.getYouzanGoodsList()
-        this.getDoctorLists()
-        this.getArticleLists()
+        this.getBusinessList()
+        // this.getDoctorLists()
+        // this.getArticleLists()
 
         this.setData({
-            activeIndex: '0',
+           
             defaultPatient: wx.getStorageSync('defaultPatient'),
             patientList: wx.getStorageSync('userInfo').account.user,
             userInfo: wx.getStorageSync('userInfo').account
@@ -441,44 +442,62 @@ Page({
             })
         })
     },
-    //获取医生列表
-    getDoctorLists() {
 
-        WXAPI.getAccurateDoctors({
+    //获取医生列表、文章列表
+    getBusinessList() {
+
+        //文章列表
+        let artPromise = WXAPI.getArticleByClickNum({
+            pageSize: this.data.articlePageSize,
+            pageNo: this.data.articlePageNo
+        })
+        //医生列表
+        let docPromise = WXAPI.getAccurateDoctors({
             queryText: '',
             subjectClassifyId: '',
             professionalTitle: '',
             pageNo: this.data.doctorPageNo,
             pageSize: this.data.doctorPageSize,
-        }).then((res) => {
-            var resList = res.data.rows || []
-            // var list = this.data.doctorList
-            // list = list.concat(resList)
-            this.setData({
-                doctorList: resList,
-                isMoreLoading: false,
-                isDoctorNoMore: resList.length < this.data.doctorPageSize
-            })
-
         })
-    },
-    //获取文章列表
-    getArticleLists() {
 
-        WXAPI.getArticleByClickNum({ pageSize: this.data.articlePageSize, pageNo: this.data.articlePageNo }).then((res) => {
-            var resList = res.data.rows || []
-            // var list = this.data.articleList
-            // list = list.concat(resList)
+
+        Promise.all([artPromise, docPromise]).then((result) => {
+            console.log(result)
+            var articleList = result[0].data.rows || []
+            var doctorList = result[1].data.rows || []
             this.setData({
-                articleList: resList,
-                isMoreLoading: false,
-                isArticleNoMore: resList.length < this.data.articlePageSize
+                articleList: articleList,
+                doctorList: doctorList
             })
-
+            if(this.data.activeIndex === '0' && articleList.length>0){
+                return
+            }
+            if(this.data.activeIndex === '1' && doctorList.length>0){
+                return
+            }
+            if(articleList.length>0){
+                this.setData({
+                    activeIndex:'0'
+                })
+            }else if(doctorList.length>0){
+                this.setData({
+                    activeIndex:'1'
+                })
+            }else {
+                this.setData({
+                    activeIndex:'-1'
+                })
+            }
+        }).catch((e) => {
+            console.error(e)
         })
+
     },
 
-    //滚动到底部触发
+
+
+
+    //滚动到底部触发 暂时屏蔽次功能
     bindscrolltolower(e) {
         console.log("触发加载更多")
         if (this.data.isMoreLoading) {
@@ -599,7 +618,7 @@ Page({
     },
     //设置已读
     setTaskItemRead(id) {
-        WXAPI.changeFollowTaskReadStatus({recordId:id})
+        WXAPI.changeFollowTaskReadStatus({ recordId: id })
     },
 
     //问卷

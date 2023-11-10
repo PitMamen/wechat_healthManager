@@ -68,7 +68,7 @@ Page({
         })
     },
     getItems() {
-        WXAPI.treeMedicalSubjects(null).then((res) => {
+        WXAPI.getMedicalSubjectTreeNode(null).then((res) => {
             const items = (res.data || []).map(item => {
                 return {
                     text: item.subjectClassifyName,

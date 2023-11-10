@@ -36,7 +36,7 @@
                         <view class="service" wx:for="{{ item.items }}" wx:for-item="subItem" wx:for-index="subIndex" wx:key="serviceItemId">
                             <text class="name">{{ subItem.serviceItemName }}</text>
                             <text class="num">{{ subItem.quantity }}{{ subItem.unit }}</text>
-                            <text class="price">¥{{ subItem.saleAmount }}</text>
+                            <!-- <text class="price">¥{{ subItem.saleAmount }}</text> -->
                         </view>
                     </view>
                 </view>
@@ -51,7 +51,7 @@
                         <view class="service" wx:for="{{ item.items }}" wx:for-item="subItem" wx:for-index="subIndex" wx:key="serviceItemId">
                             <text class="name">{{ subItem.serviceItemName }}</text>
                             <text class="num">{{ subItem.quantity }}{{ subItem.unit }}</text>
-                            <text class="price">¥{{ subItem.saleAmount }}</text>
+                            <!-- <text class="price">¥{{ subItem.saleAmount }}</text> -->
                         </view>
                     </view>
                     <view class="must">必选品</view>

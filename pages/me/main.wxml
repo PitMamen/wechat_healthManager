@@ -79,7 +79,7 @@
     <view class="todo-content-view">
         <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goMyDoctorPage">
             <van-icon name="/image/meicon/me_gzys.png" size="25" />
-            <view class="todo-content-text" >关注的医生</view>
+            <view class="todo-content-text" >我的关注</view>
         </view>
         <button open-type="contact" size="mini" plain class="todo-content-item2" hover-class="todo-content-item-hover" >
             <van-icon name="/image/meicon/me_kfzx.png" size="25"  />

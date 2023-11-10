@@ -196,9 +196,9 @@
                         
                     </view>
                     <view class="evaluate">
-                        <view>好评率：<text style="color: #1576FF;">{{item.goodRate}}</text></view>
-                        <view>接诊人数：<text style="color: #1576FF;">{{item.visitNum}}</text></view>
-                        <view>关注人数：<text style="color: #1576FF;">{{item.favouriteNum}}</text></view>
+                        <view>好评率:<text style="color: #1576FF;">{{item.goodRate}}</text></view>
+                        <view style="margin-left: 10rpx;">接诊人数:<text style="color: #1576FF;">{{item.visitNum}}</text></view>
+                        <view style="margin-left: 10rpx;">关注人数:<text style="color: #1576FF;">{{item.favouriteNum}}</text></view>
                         
 
 

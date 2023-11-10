@@ -58,8 +58,9 @@
         <cover-view class="btn-list">
             <cover-view class="button-container">
                 <cover-view class="btn-normal" bindtap="pusherAudioHandler">
-                    <cover-image class="btn-image"
-                        src="{{pusher.enableMic? '../../static/audio-true.png': '../../static/audio-false.png'}} ">
+                    <cover-image wx:if="{{pusher.enableMic}}" class="btn-image" src="../../static/audio-true.png">
+                    </cover-image>
+                    <cover-image wx:else class="btn-image" src="../../static/audio-false.png">
                     </cover-image>
                 </cover-view>
                 <cover-view class="{{callType === 2 ? 'white' : ''}}">麦克风</cover-view>
@@ -73,8 +74,9 @@
             </cover-view>
             <cover-view class="button-container">
                 <cover-view class="btn-normal" bindtap="toggleSoundMode">
-                    <cover-image class="btn-image"
-                        src="{{soundMode === 'ear' ? '../../static/speaker-false.png': '../../static/speaker-true.png'}} ">
+                    <cover-image wx:if="{{soundMode === 'ear'}}" class="btn-image" src="../../static/speaker-false.png">
+                    </cover-image>
+                    <cover-image wx:else class="btn-image" src="../../static/speaker-true.png">
                     </cover-image>
                 </cover-view>
                 <cover-view class="{{callType === 2 ? 'white' : ''}}">扬声器</cover-view>
@@ -82,8 +84,9 @@
 
             <cover-view class="button-container" wx:if="{{callType === 2}}">
                 <cover-view class="btn-normal" bindtap="pusherVideoHandler">
-                    <cover-image class="btn-image"
-                        src="{{pusher.enableCamera ? '../../static/camera-true.png': '../../static/camera-false.png'}} ">
+                    <cover-image wx:if="{{pusher.enableCamera}}" class="btn-image" src="../../static/camera-true.png">
+                    </cover-image>
+                    <cover-image wx:else class="btn-image" src="../../static/camera-false.png">
                     </cover-image>
                 </cover-view>
                 <cover-view class="white">摄像头</cover-view>
