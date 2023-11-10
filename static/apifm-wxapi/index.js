@@ -560,6 +560,11 @@ module.exports =
                         var url = UAM_SERVICE + '/tdMedicalSubject/treeMedicalSubjects'
                         return request(url, 'get', data, true);
                     },
+                     //小程序端-医疗学科树形列表-过滤版
+                     getMedicalSubjectTreeNode: function getMedicalSubjectTreeNode(data) {
+                        var url = MEDICAL_SERVICE + '/commodity/getMedicalSubjectTreeNode'
+                        return request(url, 'POST', '', true);
+                    },
                     //新版-创建健康商城订单
                     createStewardOrder: function createStewardOrder(data) {
                         var url = ORDER_SERVICE + '/order/tbOrder/createStewardOrder'

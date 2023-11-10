@@ -128,7 +128,7 @@
 .wrap .bottom .list .item .right .comment-sum .sum-item {
     
     margin-bottom: 20rpx;
-    margin-right: 6rpx;
+    margin-right: 10rpx;
     color: #1A1A1A;
     display: flex;
     flex-direction: row;

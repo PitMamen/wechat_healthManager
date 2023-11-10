@@ -1,6 +1,6 @@
-<view class="wrap">
+<view class="wrap" wx:if="{{!show1}}">
     <view class="top">
-        <van-search class="search" placeholder="请输入医生姓名进行查询" model:value="{{ keyWords }}" bind:change="onInputChange" />
+        <van-search  class="search" placeholder="请输入医生姓名进行查询" model:value="{{ keyWords }}" bind:change="onInputChange" />
         <view class="filter">
             <view class="item" bind:tap="onKeShiTap">
                 <text class="name">{{ activeName || '全部科室' }}</text>
@@ -30,9 +30,9 @@
                         <text class="depart">{{ item.departmentName }}</text>
                     </view>
                     <view class="comment-sum">
-                        <view class="sum-item">好评率：<text style="color: #007BF5;">{{ item.goodRate }}</text></view>
-                        <view class="sum-item">接诊人数：<text style="color: #007BF5;">{{ item.visitNum }}</text></view>
-                        <!-- <view class="sum-item" >关注人数：<text style="color: #007BF5;">{{ item.favouriteNum }}</text></view> -->
+                        <view class="sum-item">好评率:<text style="color: #007BF5;">{{ item.goodRate }}</text></view>
+                        <view class="sum-item">接诊人数:<text style="color: #007BF5;">{{ item.visitNum }}</text></view>
+                        <view class="sum-item" >关注人数:<text style="color: #007BF5;">{{ item.favouriteNum }}</text></view>
                     </view>
                     <view class="desc">擅长：{{ item.expertInDisease || '暂无' }}</view>
                 </view>
