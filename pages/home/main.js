@@ -112,7 +112,7 @@ Page({
                 })
                 this.getTdShopmallMainpageMenuList()
             }
-            return
+            // return
         }
         this.afterMaLogin()
     },
@@ -155,7 +155,7 @@ Page({
                             })
                             this.getTdShopmallMainpageMenuList()
                         } else {
-                            this.goHospitalSelectPage()
+                            // this.goHospitalSelectPage()
                         }
 
 
