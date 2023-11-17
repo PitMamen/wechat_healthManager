@@ -29,6 +29,7 @@
                         <text class="hospital">{{ item.hospitalName }}</text>
                         <text class="depart">{{ item.departmentName }}</text>
                     </view>
+                   
                     <view class="desc">擅长：{{ item.expertInDisease || '暂无' }}</view>
                 </view>
             </view>

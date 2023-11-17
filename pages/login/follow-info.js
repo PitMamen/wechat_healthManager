@@ -43,11 +43,12 @@ Page({
     //提交
     nextAction: function () {
 
-        if (this.data.identificationNo.length <= 0) {
-            wx.showToast({
-                title: '请输入身份证号',
-                icon: 'none',
-                duration: 1500
+        if (!this.data.identificationNo || this.data.identificationNo.length <= 0) {
+           
+            wx.showModal({
+              title: '温馨提示',
+              content: '请补充身份证号码，若是新生儿可填写亲属身份证号码',
+             
             })
             return;
         }
