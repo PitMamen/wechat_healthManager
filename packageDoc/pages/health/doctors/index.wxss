@@ -90,23 +90,23 @@
 }
 .wrap .bottom .list .item .right .tags .hospital {
     display: inline-block;
-    max-width: 245rpx;
+    /* max-width: 245rpx; */
     margin-right: 20rpx;
     padding: 5rpx 0;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; */
     font-size: 28rpx;
     line-height: 28rpx;
     vertical-align: middle;
 }
 .wrap .bottom .list .item .right .tags .depart {
     display: inline-block;
-    max-width: 140rpx;
+    /* max-width: 140rpx; */
     padding: 5rpx 0 5rpx 20rpx;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; */
     font-size: 28rpx;
     line-height: 28rpx;
     vertical-align: middle;
