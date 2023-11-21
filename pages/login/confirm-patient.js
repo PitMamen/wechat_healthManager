@@ -27,6 +27,7 @@ Page({
         emergencyPhone: '',
         emergencyName: '',
         relationship: '本人',
+        filterExecuteRecord:[],//已过滤重复的任务列表
         debounced: false,//防抖动
     },
 
@@ -42,12 +43,14 @@ Page({
                 deptCode: scene.split('&')[0],
                 tenantId: scene.split('&')[1],
                 hospitalCode: scene.split('&')[2],
+                type: scene.split('&')[3],
             })
         } else {
             this.setData({
                 deptCode: options.ks,
                 tenantId: options.tenantId,
                 hospitalCode: options.hospitalCode,
+                type:options.type
             })
         }
         this.gethospitalInfo(this.data.hospitalCode)
@@ -492,15 +495,15 @@ Page({
         const res = await WXAPI.addFollowMedicalRecords(postData)
 
         if (res.code === 0) {
-            this.switchHospital()
+            this.switchHospital(userId)
 
         }
 
     },
     //切换医院
-    async switchHospital() {
-        const res = await WXAPI.switchHospital({ hospitalCode: this.data.hospitalCode })
-        if (res.code == 0) {
+    async switchHospital(userId) {
+         await WXAPI.switchHospital({ hospitalCode: this.data.hospitalCode })
+        
             var currentHospital = {
                 tenantId: this.data.tenantId,
                 hospitalCode: this.data.hospitalCode,
@@ -510,21 +513,32 @@ Page({
 
             getApp().globalData.currentHospital = currentHospital
 
-
-
-            wx.showToast({
-                title: '登记成功',
-                icon: 'success',
-                duration: 1500
-            })
-
-            setTimeout(() => {
-                wx.reLaunch({
-                    url: '/pages/home/main?type=1',
-                })
-            }, 1500)
-        }
+            this.qryFilterExecuteRecordByUserId(userId)
+        
     },
+        // 查询用户当天过滤的任务
+        async qryFilterExecuteRecordByUserId(userId) {
+            const res = await WXAPI.qryFilterExecuteRecordByUserId({ userId: userId })
+            if (res.data && res.data.length > 0) {
+                this.setData({
+                    filterExecuteRecord: res.data,
+                    showPositiveDialog: true
+                })
+            } else {
+                wx.showToast({
+                    title: '登记成功',
+                    icon: 'success',
+                    duration: 1500
+                })
+    
+                setTimeout(() => {
+                    wx.reLaunch({
+                        url: '/pages/home/main?type=1',
+                    })
+                }, 1500)
+            }
+    
+        },
     onDialogConfirm() {
         wx.reLaunch({
             url: '/pages/home/main?type=1',

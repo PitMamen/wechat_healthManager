@@ -4,9 +4,10 @@ const Util = require('../../utils/util')
 Page({
     data: {
         showPositiveDialog: false,
-        identificationNo:'',
+        identificationNo: '',
         info: {},
-        debounced:false,//防抖动
+        filterExecuteRecord: [],//已过滤重复的任务列表
+        debounced: false,//防抖动
     },
 
     /**
@@ -15,7 +16,7 @@ Page({
     onLoad(options) {
         this.setData({
             info: getApp().followInfo,
-            identificationNo:getApp().followInfo.idCard || ''
+            identificationNo: getApp().followInfo.idCard || ''
         })
         console.log(this.data.info)
     },
@@ -43,12 +44,13 @@ Page({
     //提交
     nextAction: function () {
 
+        
         if (!this.data.identificationNo || this.data.identificationNo.length <= 0) {
-           
+
             wx.showModal({
-              title: '温馨提示',
-              content: '请补充身份证号码，若是新生儿可填写亲属身份证号码',
-             
+                title: '温馨提示',
+                content: '请补充身份证号码，若是新生儿可填写亲属身份证号码',
+
             })
             return;
         }
@@ -71,8 +73,8 @@ Page({
         var user = null
         if (patientInfoList && patientInfoList.length > 0) {
             patientInfoList.forEach(item => {
-                if( this.data.info.hospitalCode == item.hospitalCode){
-                    if (item.identificationNo == this.data.identificationNo+'' ) {
+                if (this.data.info.hospitalCode == item.hospitalCode) {
+                    if (item.identificationNo == this.data.identificationNo + '') {
                         user = item
                     }
                 }
@@ -92,18 +94,18 @@ Page({
     addPatientQuery() {
 
         var that = this;
-      
-        var idInfo = Util.getBirthdayAndSex(that.data.identificationNo+'')
+
+        var idInfo = Util.getBirthdayAndSex(that.data.identificationNo + '')
         var user = wx.getStorageSync('userInfo').account
-     
+
         const postData = {
-            tenantId:that.data.info.tenantId,
-            hospitalCode:that.data.info.hospitalCode,  
+            tenantId: that.data.info.tenantId,
+            hospitalCode: that.data.info.hospitalCode,
             accountId: user.accountId,
             userName: that.data.info.patName,
             identificationNo: that.data.identificationNo,
             identificationType: '01',//默认身份证
-            phone:user.phone,//使用微信手机号
+            phone: user.phone,//使用微信手机号
             code: '1',
             birthday: idInfo.birthDay,
             relationship: that.data.info.relationship,
@@ -149,46 +151,61 @@ Page({
        * 提交
        */
     async addPatientMedicalRecords(userId) {
-      
-        var postData=this.data.info
-        postData.userId=userId
-        postData.idCard=this.data.identificationNo
+
+        var postData = this.data.info
+        postData.userId = userId
+        postData.idCard = this.data.identificationNo
         var user = wx.getStorageSync('userInfo').account
-        postData.mobile=user.phone
+        postData.mobile = user.phone
 
         const res = await WXAPI.addFollowMedicalRecords(postData)
 
         if (res.code === 0) {
-            this.switchHospital()
+            this.switchHospital(userId)
         }
 
     },
     //切换医院
-    async switchHospital() {
-        const res = await WXAPI.switchHospital({ hospitalCode: this.data.info.hospitalCode })
-        if (res.code == 0) {
-            var currentHospital = {
-                tenantId:this.data.info.tenantId,
-                hospitalCode: this.data.info.hospitalCode,
-                hospitalName: '',
-                hospitalLevelName: ''
-            }
+    async switchHospital(userId) {
+        await WXAPI.switchHospital({ hospitalCode: this.data.info.hospitalCode })
 
-            getApp().globalData.currentHospital = currentHospital
+        var currentHospital = {
+            tenantId: this.data.info.tenantId,
+            hospitalCode: this.data.info.hospitalCode,
+            hospitalName: '',
+            hospitalLevelName: ''
+        }
 
+        getApp().globalData.currentHospital = currentHospital
+
+        this.qryFilterExecuteRecordByUserId(userId)
+
+    },
+
+    // 查询用户当天过滤的任务
+    async qryFilterExecuteRecordByUserId(userId) {
+        const res = await WXAPI.qryFilterExecuteRecordByUserId({ userId: userId })
+        if (res.data && res.data.length > 0) {
+            this.setData({
+                filterExecuteRecord: res.data,
+                showPositiveDialog: true
+            })
+        } else {
             wx.showToast({
                 title: '登记成功',
                 icon: 'success',
                 duration: 1500
-                })
+            })
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 wx.reLaunch({
                     url: '/pages/home/main?type=1',
                 })
-            },1500)
+            }, 1500)
         }
+
     },
+
     onDialogConfirm() {
         wx.reLaunch({
             url: '/pages/home/main?type=1',

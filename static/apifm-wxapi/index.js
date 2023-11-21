@@ -1240,6 +1240,11 @@ module.exports =
                         var url = FOLLOW_SERVICE + '/tbFollowExecuteRecord/changeFollowTaskReadStatus'
                         return request(url, 'get', data, true);
                     },
+                        // 查询用户当天过滤的任务
+                        qryFilterExecuteRecordByUserId: function qryFilterExecuteRecordByUserId(data) {
+                            var url = FOLLOW_SERVICE + '/tbFollowExecuteRecord/qryFilterExecuteRecordByUserId'
+                            return request(url, 'POST', data, true);
+                        },
                 };
 
                 /***/
