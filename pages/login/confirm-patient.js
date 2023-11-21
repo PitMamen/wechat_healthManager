@@ -14,7 +14,7 @@ Page({
         diagnosisData: [],
         hasHIS: 0,//HIS接口状态;1开启,2关闭
         showNegativeDialog: false,
-        negativeDialogMessage:'',//查询错误后错误信息
+        negativeDialogMessage: '',//查询错误后错误信息
         showPositiveDialog: false,
         deptCode: '',//科室代码
         tenantId: '',//租户代码
@@ -27,7 +27,7 @@ Page({
         emergencyPhone: '',
         emergencyName: '',
         relationship: '本人',
-        filterExecuteRecord:[],//已过滤重复的任务列表
+        filterExecuteRecord: [],//已过滤重复的任务列表
         debounced: false,//防抖动
     },
 
@@ -50,7 +50,7 @@ Page({
                 deptCode: options.ks,
                 tenantId: options.tenantId,
                 hospitalCode: options.hospitalCode,
-                type:options.type
+                type: options.type
             })
         }
         this.gethospitalInfo(this.data.hospitalCode)
@@ -119,7 +119,7 @@ Page({
     //登录
     async loginQuery(e) {
 
-        let that=this
+        let that = this
 
         const res = await WXAPI.loginQuery({
             code: e,
@@ -280,7 +280,7 @@ Page({
       */
     qryPatientInfo(idno) {
         this.setData({
-            negativeDialogMessage:''
+            negativeDialogMessage: ''
         })
         let that = this
         var postdata = {
@@ -292,7 +292,7 @@ Page({
 
         WXAPI.qryPatientInfo(postdata)
             .then(function (res) {
-                if (res.code == 0 && res.data ) {
+                if (res.code == 0 && res.data) {
                     res.data.urgentTel = that.data.emergencyPhone
                     res.data.urgentName = that.data.emergencyName
                     res.data.relationship = that.data.relationship
@@ -306,8 +306,8 @@ Page({
                     })
                 } else {
                     that.setData({
-                        negativeDialogMessage:res.message,
-                        showNegativeDialog: true                      
+                        negativeDialogMessage: res.message,
+                        showNegativeDialog: true
                     })
                 }
 
@@ -391,7 +391,7 @@ Page({
     //没有His接口提交
     confirm() {
         var patientInfoList = wx.getStorageSync('allPatientList')
-      
+
         console.log(patientInfoList)
         var user = null
         if (patientInfoList && patientInfoList.length > 0) {
@@ -502,43 +502,57 @@ Page({
     },
     //切换医院
     async switchHospital(userId) {
-         await WXAPI.switchHospital({ hospitalCode: this.data.hospitalCode })
-        
-            var currentHospital = {
-                tenantId: this.data.tenantId,
-                hospitalCode: this.data.hospitalCode,
-                hospitalName: '',
-                hospitalLevelName: ''
-            }
+        await WXAPI.switchHospital({ hospitalCode: this.data.hospitalCode })
 
-            getApp().globalData.currentHospital = currentHospital
+        var currentHospital = {
+            tenantId: this.data.tenantId,
+            hospitalCode: this.data.hospitalCode,
+            hospitalName: '',
+            hospitalLevelName: ''
+        }
 
-            this.qryFilterExecuteRecordByUserId(userId)
-        
+        getApp().globalData.currentHospital = currentHospital
+
+        this.qryFilterExecuteRecordByUserId(userId)
+
     },
-        // 查询用户当天过滤的任务
-        async qryFilterExecuteRecordByUserId(userId) {
-            const res = await WXAPI.qryFilterExecuteRecordByUserId({ userId: userId })
-            if (res.data && res.data.length > 0) {
-                this.setData({
-                    filterExecuteRecord: res.data,
-                    showPositiveDialog: true
+    // 查询用户当天过滤的任务
+    async qryFilterExecuteRecordByUserId(userId) {
+        const res = await WXAPI.qryFilterExecuteRecordByUserId({ userId: userId })
+        if (res.data && res.data.length > 0) {
+            //去重
+            var list = []
+            res.data.forEach(item1 => {
+                var isRepeat = false
+                list.forEach(item2 => {
+                    if (item1.templateTitle == item2.templateTitle) {
+                        isRepeat = true
+                    }
                 })
-            } else {
-                wx.showToast({
-                    title: '登记成功',
-                    icon: 'success',
-                    duration: 1500
+                if (!isRepeat) {
+                    list.push(item1)
+                }
+            })
+
+            this.setData({
+                filterExecuteRecord: list,
+                showPositiveDialog: true
+            })
+        } else {
+            wx.showToast({
+                title: '登记成功',
+                icon: 'success',
+                duration: 1500
+            })
+
+            setTimeout(() => {
+                wx.reLaunch({
+                    url: '/pages/home/main?type=1',
                 })
-    
-                setTimeout(() => {
-                    wx.reLaunch({
-                        url: '/pages/home/main?type=1',
-                    })
-                }, 1500)
-            }
-    
-        },
+            }, 1500)
+        }
+
+    },
     onDialogConfirm() {
         wx.reLaunch({
             url: '/pages/home/main?type=1',

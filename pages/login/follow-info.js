@@ -186,8 +186,22 @@ Page({
     async qryFilterExecuteRecordByUserId(userId) {
         const res = await WXAPI.qryFilterExecuteRecordByUserId({ userId: userId })
         if (res.data && res.data.length > 0) {
+            //去重
+            var list=[]
+            res.data.forEach(item1=>{
+                var isRepeat=false
+                list.forEach(item2=>{
+                    if(item1.templateTitle == item2.templateTitle){
+                        isRepeat=true
+                    }
+                })
+                if(!isRepeat){
+                    list.push(item1)
+                }
+            })
+
             this.setData({
-                filterExecuteRecord: res.data,
+                filterExecuteRecord: list,
                 showPositiveDialog: true
             })
         } else {
