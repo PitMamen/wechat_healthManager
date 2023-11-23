@@ -1,5 +1,5 @@
 <view class="top-view">
-    <van-icon name="/image/xiaoxi-2.png" size="40rpx" /> 请您完成随访登记，便于后续为您提供院后随访等健康管理服务
+    <van-icon name="/image/xiaoxi-2.png" size="40rpx" /> 请您完成随访登记，便于后续为您提供{{type=='2'?'院中、':''}}院后随访等健康管理服务
 </view>
 <view class="loadingPage" wx:if="{{hasHIS==0}}">
     <van-loading type="spinner" />

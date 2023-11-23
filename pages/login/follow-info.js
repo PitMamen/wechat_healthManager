@@ -111,7 +111,7 @@ Page({
             relationship: that.data.info.relationship,
             isDefault: true,
             cardNo: '',//就诊卡号
-            userSex: idInfo.sex == 0 ? '女' : '男',
+            userSex: (idInfo.sex == 0 ||  idInfo.sex == '0' || idInfo.sex == '女' || idInfo.sex == 2 || idInfo.sex == '2')  ? '女' : '男',
             ipNo: that.data.info.regNumber,//住院号
             contactTel: that.data.info.urgentTel || '',//紧急联系电话
         }
@@ -157,6 +157,7 @@ Page({
         postData.idCard = this.data.identificationNo
         var user = wx.getStorageSync('userInfo').account
         postData.mobile = user.phone
+        postData.metaNameConfig=(this.data.info.type=='2' || this.data.info.type==2) ?'IN_PATIENT_NAME':'OUT_PATIENT_NAME'
 
         const res = await WXAPI.addFollowMedicalRecords(postData)
 

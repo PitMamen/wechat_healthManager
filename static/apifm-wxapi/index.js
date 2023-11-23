@@ -560,8 +560,8 @@ module.exports =
                         var url = UAM_SERVICE + '/tdMedicalSubject/treeMedicalSubjects'
                         return request(url, 'get', data, true);
                     },
-                     //小程序端-医疗学科树形列表-过滤版
-                     getMedicalSubjectTreeNode: function getMedicalSubjectTreeNode(data) {
+                    //小程序端-医疗学科树形列表-过滤版
+                    getMedicalSubjectTreeNode: function getMedicalSubjectTreeNode(data) {
                         var url = MEDICAL_SERVICE + '/commodity/getMedicalSubjectTreeNode'
                         return request(url, 'POST', '', true);
                     },
@@ -619,7 +619,7 @@ module.exports =
                     //是否已关注
                     favouriteExistsForDoctorId: function favouriteExistsForDoctorId(data) {
 
-                        var url = MEDICAL_SERVICE + '/commodity/favouriteExistsForDoctorId' 
+                        var url = MEDICAL_SERVICE + '/commodity/favouriteExistsForDoctorId'
                         return request(url, 'get', data, true);
                     },
                     // account/favourite/operation患者端-操作（添加/取消)我的收藏
@@ -1215,8 +1215,8 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/rightsUse/registerRoom'
                         return request2(url, 'POST', data, true);
                     },
-                      //小程序端-智能问诊
-                      medChat: function medChat(data) {
+                    //小程序端-智能问诊
+                    medChat: function medChat(data) {
                         var url = MEDICAL_SERVICE + '/consult/medChat'
                         return request2(url, 'get', data, true);
                     },
@@ -1225,8 +1225,8 @@ module.exports =
                         var url = MEDICAL_SERVICE + '/consult/getAiAccount'
                         return request(url, 'get', data, true);
                     },
-                     //数字疗法详情
-                     getSzlfUseDetail: function getSzlfUseDetail(data) {
+                    //数字疗法详情
+                    getSzlfUseDetail: function getSzlfUseDetail(data) {
                         var url = MEDICAL_SERVICE + '/datatreat/useDetail'
                         return request(url, 'get', data, true);
                     },
@@ -1240,11 +1240,16 @@ module.exports =
                         var url = FOLLOW_SERVICE + '/tbFollowExecuteRecord/changeFollowTaskReadStatus'
                         return request(url, 'get', data, true);
                     },
-                        // 查询用户当天过滤的任务
-                        qryFilterExecuteRecordByUserId: function qryFilterExecuteRecordByUserId(data) {
-                            var url = FOLLOW_SERVICE + '/tbFollowExecuteRecord/qryFilterExecuteRecordByUserId'
-                            return request(url, 'POST', data, true);
-                        },
+                    // 查询用户当天过滤的任务
+                    qryFilterExecuteRecordByUserId: function qryFilterExecuteRecordByUserId(data) {
+                        var url = FOLLOW_SERVICE + '/tbFollowExecuteRecord/qryFilterExecuteRecordByUserId'
+                        return request(url, 'POST', data, true);
+                    },
+                    // 查询入院名单数据
+                    getInpatientInfo: function getInpatientInfo(data) {
+                        var url = FOLLOW_SERVICE + '/followMetaConfigure/getInpatientInfo'
+                        return request2(url, 'get', data, true);
+                    },
                 };
 
                 /***/

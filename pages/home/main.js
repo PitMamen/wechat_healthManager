@@ -228,7 +228,7 @@ Page({
         this.setData({
             slideLeft: e.detail.scrollLeft * this.data.slideRatio
         })
-        console.log(this.data.slideLeft)
+        
     },
 
 
@@ -274,9 +274,15 @@ Page({
 
                 if (this.checkLoginStatus()) {
                     if (getApp().getDefaultPatient()) {
-                        wx.navigateTo({
-                            url: menu.jumpUrl,
-                        })
+                        if(menu.jumpUrl == '/pages/login/follow-info'){
+                            //出院登记
+                            this.outHosptitalRegistration()
+                        }else{
+                            wx.navigateTo({
+                                url: menu.jumpUrl,
+                            })
+                        }
+                       
                     }
                 }
             } else {
@@ -357,6 +363,36 @@ Page({
 
     },
 
+    //出院登记
+    async outHosptitalRegistration(){
+        wx.showLoading({
+          title: '加载中',
+        })
+        const res = await WXAPI.getInpatientInfo({ userId: this.data.defaultPatient.userId })
+        wx.hideLoading()
+        if (res.code == 0 && res.data) {
+            res.data.urgentTel = ''
+            res.data.urgentName = ''
+            res.data.relationship = '本人'
+            res.data.tenantId = getApp().globalData.currentHospital.tenantId
+            res.data.hospitalCode = getApp().globalData.currentHospital.hospitalCode
+            res.data.type = '1'
+
+
+            getApp().followInfo = res.data
+            wx.navigateTo({
+                url: '/pages/login/follow-info',
+            })
+        } else {
+            
+            wx.showModal({
+              title: '提示',
+              content: res.message || '未获取到相关数据',
+              showCancel:false,
+              confirmText:'我已知晓'
+            })
+        }
+    },
 
     goHospitalSelectPage() {
         wx.navigateTo({

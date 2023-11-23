@@ -19,6 +19,7 @@ Page({
         deptCode: '',//科室代码
         tenantId: '',//租户代码
         hospitalCode: '',//机构代码
+        type:'',//类型  1出院随访二维码  2住院随访二维码
         regNumber: '',
         deptName: '',
         realName: '',
@@ -298,6 +299,7 @@ Page({
                     res.data.relationship = that.data.relationship
                     res.data.tenantId = that.data.tenantId
                     res.data.hospitalCode = that.data.hospitalCode
+                    res.data.type = that.data.type
 
 
                     getApp().followInfo = res.data
