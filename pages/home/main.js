@@ -46,6 +46,7 @@ Page({
         isDoctorNoMore: false,
         doctorPageSize: 20,
         doctorPageNo: 1,
+        canSwitchUserList:[],
     },
 
 
@@ -69,6 +70,7 @@ Page({
             console.log("监听登录成功", msg)
 
             this.getMaLoginInfo()
+            this.getCanSwitchUserList()
         })
         //监听机构切换
         bus.on('switchHospital', (msg) => {
@@ -122,6 +124,15 @@ Page({
         this.TUICalling.call({ userID: '1626', type: 2 })
         // this.TUICalling.groupCall({ userIDList: ['1626'], type: 2, groupID: 'BV_test07111620' })
 
+    },
+    //获取可切换医疗机构人员名单
+    getCanSwitchUserList(){
+        WXAPI.getCanSwitchUserList({})
+        .then(res=>{
+            this.setData({
+                canSwitchUserList:res.data.value.split(',')
+            })
+        })
     },
     //获取登录信息
     getMaLoginInfo() {
@@ -395,9 +406,20 @@ Page({
     },
 
     goHospitalSelectPage() {
-        wx.navigateTo({
-            url: './hospital-select/index',
-        })
+        //只有在名单里的用户才能切换
+        if (this.data.defaultPatient && this.data.defaultPatient.userId) {
+            
+           var userId= String(this.data.defaultPatient.userId)
+          var b=  this.data.canSwitchUserList.some(item=>{
+                return item ==  userId
+            })
+            if(b){
+                wx.navigateTo({
+                    url: './hospital-select/index',
+                })
+            }
+        }
+
     },
     goSchedulePage() {
         wx.switchTab({

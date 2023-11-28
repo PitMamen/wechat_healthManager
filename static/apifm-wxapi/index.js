@@ -863,6 +863,10 @@ module.exports =
                     qryCodeValue: function qryCodeValue(codeGroup) {
                         return request2(HEALTH_SERVICE + '/medical/common/qryCodeValue?codeGroup=' + codeGroup, 'get', {});
                     },
+                      //获取可切换医疗机构人员名单
+                      getCanSwitchUserList: function getCanSwitchUserList() {
+                        return request2(INFO_SERVICE + '/sysConfigData/getConfig/CAN_SWITCH_USER' , 'get', {});
+                    },
                     //查询病人健康评估信息
                     qryUserEvaluateList: function qryUserEvaluateList(data) {
                         return request(HEALTH_SERVICE + '/patient/qryUserEvaluateList', 'post', data, true);
