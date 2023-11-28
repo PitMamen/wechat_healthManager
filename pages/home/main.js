@@ -46,7 +46,7 @@ Page({
         isDoctorNoMore: false,
         doctorPageSize: 20,
         doctorPageNo: 1,
-        canSwitchUserList:[],
+        canSwitchUserList: [],
     },
 
 
@@ -70,7 +70,7 @@ Page({
             console.log("监听登录成功", msg)
 
             this.getMaLoginInfo()
-            this.getCanSwitchUserList()
+
         })
         //监听机构切换
         bus.on('switchHospital', (msg) => {
@@ -125,15 +125,7 @@ Page({
         // this.TUICalling.groupCall({ userIDList: ['1626'], type: 2, groupID: 'BV_test07111620' })
 
     },
-    //获取可切换医疗机构人员名单
-    getCanSwitchUserList(){
-        WXAPI.getCanSwitchUserList({})
-        .then(res=>{
-            this.setData({
-                canSwitchUserList:res.data.value.split(',')
-            })
-        })
-    },
+
     //获取登录信息
     getMaLoginInfo() {
 
@@ -184,7 +176,7 @@ Page({
         // this.getArticleLists()
 
         this.setData({
-           
+
             defaultPatient: wx.getStorageSync('defaultPatient'),
             patientList: wx.getStorageSync('userInfo').account.user,
             userInfo: wx.getStorageSync('userInfo').account
@@ -239,7 +231,7 @@ Page({
         this.setData({
             slideLeft: e.detail.scrollLeft * this.data.slideRatio
         })
-        
+
     },
 
 
@@ -285,15 +277,15 @@ Page({
 
                 if (this.checkLoginStatus()) {
                     if (getApp().getDefaultPatient()) {
-                        if(menu.jumpUrl == '/pages/login/follow-info'){
+                        if (menu.jumpUrl == '/pages/login/follow-info') {
                             //出院登记
                             this.outHosptitalRegistration()
-                        }else{
+                        } else {
                             wx.navigateTo({
                                 url: menu.jumpUrl,
                             })
                         }
-                       
+
                     }
                 }
             } else {
@@ -375,9 +367,9 @@ Page({
     },
 
     //出院登记
-    async outHosptitalRegistration(){
+    async outHosptitalRegistration() {
         wx.showLoading({
-          title: '加载中',
+            title: '加载中',
         })
         const res = await WXAPI.getInpatientInfo({ userId: this.data.defaultPatient.userId })
         wx.hideLoading()
@@ -395,32 +387,49 @@ Page({
                 url: '/pages/login/follow-info',
             })
         } else {
-            
+
             wx.showModal({
-              title: '提示',
-              content: res.message || '未获取到相关数据',
-              showCancel:false,
-              confirmText:'我已知晓'
+                title: '提示',
+                content: res.message || '未获取到相关数据',
+                showCancel: false,
+                confirmText: '我已知晓'
             })
         }
     },
 
-    goHospitalSelectPage() {
-        console.log(this.data.canSwitchUserList)
+    async goHospitalSelectPage() {
+      
         //只有在名单里的用户才能切换
         if (this.data.userInfo && this.data.userInfo.accountId) {
-            
-           var accountId= String(this.data.userInfo.accountId)
-          var b=  this.data.canSwitchUserList.some(item=>{
-                return item ==  accountId
+
+            if (!this.data.canSwitchUserList || this.data.canSwitchUserList.length === 0) {
+                const res = await WXAPI.getCanSwitchUserList({})
+
+                this.setData({
+                    canSwitchUserList: res.data.value.split(',')
+                })
+            }
+            console.log(this.data.canSwitchUserList)
+            var accountId = String(this.data.userInfo.accountId)
+            var b = this.data.canSwitchUserList.some(item => {
+                return item == accountId
             })
-            if(b){
+            if (b) {
                 wx.navigateTo({
                     url: './hospital-select/index',
                 })
             }
         }
 
+    },
+    //获取可切换医疗机构人员名单
+    getCanSwitchUserList() {
+        WXAPI.getCanSwitchUserList({})
+            .then(res => {
+                this.setData({
+                    canSwitchUserList: res.data.value.split(',')
+                })
+            })
     },
     goSchedulePage() {
         wx.switchTab({
@@ -528,23 +537,23 @@ Page({
                 articleList: articleList,
                 doctorList: doctorList
             })
-            if(this.data.activeIndex === '0' && articleList.length>0){
+            if (this.data.activeIndex === '0' && articleList.length > 0) {
                 return
             }
-            if(this.data.activeIndex === '1' && doctorList.length>0){
+            if (this.data.activeIndex === '1' && doctorList.length > 0) {
                 return
             }
-            if(articleList.length>0){
+            if (articleList.length > 0) {
                 this.setData({
-                    activeIndex:'0'
+                    activeIndex: '0'
                 })
-            }else if(doctorList.length>0){
+            } else if (doctorList.length > 0) {
                 this.setData({
-                    activeIndex:'1'
+                    activeIndex: '1'
                 })
-            }else {
+            } else {
                 this.setData({
-                    activeIndex:'-1'
+                    activeIndex: '-1'
                 })
             }
         }).catch((e) => {
