@@ -72,15 +72,20 @@ Page({
         console.log(patientInfoList)
         var user = null
         if (patientInfoList && patientInfoList.length > 0) {
+           
             patientInfoList.forEach(item => {
+              
                 if (this.data.info.hospitalCode == item.hospitalCode) {
+                  
                     if (item.identificationNo == this.data.identificationNo + '') {
+                       
                         user = item
                     }
                 }
 
             })
         }
+        console.log('user',user)
         if (user) {
             this.addPatientMedicalRecords(user.userId)
 

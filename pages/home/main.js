@@ -406,12 +406,13 @@ Page({
     },
 
     goHospitalSelectPage() {
+        console.log(this.data.canSwitchUserList)
         //只有在名单里的用户才能切换
-        if (this.data.defaultPatient && this.data.defaultPatient.userId) {
+        if (this.data.userInfo && this.data.userInfo.accountId) {
             
-           var userId= String(this.data.defaultPatient.userId)
+           var accountId= String(this.data.userInfo.accountId)
           var b=  this.data.canSwitchUserList.some(item=>{
-                return item ==  userId
+                return item ==  accountId
             })
             if(b){
                 wx.navigateTo({
