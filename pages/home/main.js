@@ -46,6 +46,7 @@ Page({
         isDoctorNoMore: false,
         doctorPageSize: 20,
         doctorPageNo: 1,
+        canSwitchUserList:[],
     },
 
 
@@ -69,6 +70,7 @@ Page({
             console.log("监听登录成功", msg)
 
             this.getMaLoginInfo()
+            this.getCanSwitchUserList()
         })
         //监听机构切换
         bus.on('switchHospital', (msg) => {
@@ -122,6 +124,15 @@ Page({
         this.TUICalling.call({ userID: '1626', type: 2 })
         // this.TUICalling.groupCall({ userIDList: ['1626'], type: 2, groupID: 'BV_test07111620' })
 
+    },
+    //获取可切换医疗机构人员名单
+    getCanSwitchUserList(){
+        WXAPI.getCanSwitchUserList({})
+        .then(res=>{
+            this.setData({
+                canSwitchUserList:res.data.value.split(',')
+            })
+        })
     },
     //获取登录信息
     getMaLoginInfo() {
@@ -228,7 +239,7 @@ Page({
         this.setData({
             slideLeft: e.detail.scrollLeft * this.data.slideRatio
         })
-        console.log(this.data.slideLeft)
+        
     },
 
 
@@ -274,9 +285,15 @@ Page({
 
                 if (this.checkLoginStatus()) {
                     if (getApp().getDefaultPatient()) {
-                        wx.navigateTo({
-                            url: menu.jumpUrl,
-                        })
+                        if(menu.jumpUrl == '/pages/login/follow-info'){
+                            //出院登记
+                            this.outHosptitalRegistration()
+                        }else{
+                            wx.navigateTo({
+                                url: menu.jumpUrl,
+                            })
+                        }
+                       
                     }
                 }
             } else {
@@ -357,11 +374,53 @@ Page({
 
     },
 
+    //出院登记
+    async outHosptitalRegistration(){
+        wx.showLoading({
+          title: '加载中',
+        })
+        const res = await WXAPI.getInpatientInfo({ userId: this.data.defaultPatient.userId })
+        wx.hideLoading()
+        if (res.code == 0 && res.data) {
+            res.data.urgentTel = ''
+            res.data.urgentName = ''
+            res.data.relationship = '本人'
+            res.data.tenantId = getApp().globalData.currentHospital.tenantId
+            res.data.hospitalCode = getApp().globalData.currentHospital.hospitalCode
+            res.data.type = '1'
+
+
+            getApp().followInfo = res.data
+            wx.navigateTo({
+                url: '/pages/login/follow-info',
+            })
+        } else {
+            
+            wx.showModal({
+              title: '提示',
+              content: res.message || '未获取到相关数据',
+              showCancel:false,
+              confirmText:'我已知晓'
+            })
+        }
+    },
 
     goHospitalSelectPage() {
-        wx.navigateTo({
-            url: './hospital-select/index',
-        })
+        console.log(this.data.canSwitchUserList)
+        //只有在名单里的用户才能切换
+        if (this.data.userInfo && this.data.userInfo.accountId) {
+            
+           var accountId= String(this.data.userInfo.accountId)
+          var b=  this.data.canSwitchUserList.some(item=>{
+                return item ==  accountId
+            })
+            if(b){
+                wx.navigateTo({
+                    url: './hospital-select/index',
+                })
+            }
+        }
+
     },
     goSchedulePage() {
         wx.switchTab({

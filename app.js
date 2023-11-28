@@ -152,7 +152,7 @@ App({
                 var currentHospital = {
                     tenantId: '100003',
                     hospitalCode: '1000031',
-                    hospitalName: '湖南省康复医学专科医联体',
+                    hospitalName: '中南大学湘雅三医院',
                     hospitalLevelName: '三级甲等'
                 }
                

@@ -1,5 +1,5 @@
 <view class="top-view">
-    <van-icon name="/image/xiaoxi-2.png" size="40rpx" /> 请您完成随访登记，便于后续为您提供院后随访等健康管理服务
+    <van-icon name="/image/xiaoxi-2.png" size="40rpx" /> 请您完成随访登记，便于后续为您提供{{type=='2'?'院中、':''}}院后随访等健康管理服务
 </view>
 <view class="loadingPage" wx:if="{{hasHIS==0}}">
     <van-loading type="spinner" />
@@ -107,10 +107,12 @@
     </view>
 </van-dialog>
 
-<van-dialog use-slot show="{{ showPositiveDialog }}" bind:confirm="onDialogConfirm" confirm-button-color="#3579ED">
-    <view style="   padding: 40rpx;display: flex;flex-direction: column; align-items: center;justify-content: center;">
-        <image style="width: 180rpx;height: 138rpx;" src="/image/icon_success.png" />
-        <view style="font-size: 30rpx;margin-bottom: 27rpx;margin-top: 19rpx; color: #4D4D4D;">登记成功</view>
-        <view style="font-size: 24rpx;color: #999999;">您已经成功完成登记，后续将对您进行随访请您留意公众号消息！</view>
+<van-dialog use-slot show="{{ showPositiveDialog }}" bind:confirm="onDialogConfirm" confirm-button-color="#3579ED" >
+    <view style="   padding: 40rpx;display: flex;flex-direction: column; ">
+        <image style="width: 180rpx;height: 138rpx;margin-left: auto;margin-right: auto;" src="/image/icon_success.png" />
+        <view style="font-size: 30rpx;margin-bottom: 27rpx;margin-top: 19rpx; color: #4D4D4D;margin-left: auto;margin-right: auto;">登记成功</view>
+        <view style="font-size: 26rpx;color: #999999;">您已经成功完成登记，后续将对您进行随访请您留意公众号消息！</view>
+        <view wx:if="{{filterExecuteRecord && filterExecuteRecord.length>0}}" style="font-size: 26rpx;color: #4D4D4D;margin-top: 20rpx;">您近期已经完成相关随访任务，下面任务将不会进行推送：</view>
+        <view style="font-size: 26rpx;color: #4D4D4D;margin-top: 10rpx;font-weight: bold;" wx:for="{{filterExecuteRecord}}" wx:key="22">{{item.templateTitle}}</view>
     </view>
 </van-dialog>

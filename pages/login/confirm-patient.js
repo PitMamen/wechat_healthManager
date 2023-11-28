@@ -14,11 +14,12 @@ Page({
         diagnosisData: [],
         hasHIS: 0,//HIS接口状态;1开启,2关闭
         showNegativeDialog: false,
-        negativeDialogMessage:'',//查询错误后错误信息
+        negativeDialogMessage: '',//查询错误后错误信息
         showPositiveDialog: false,
         deptCode: '',//科室代码
         tenantId: '',//租户代码
         hospitalCode: '',//机构代码
+        type:'',//类型  1出院随访二维码  2住院随访二维码
         regNumber: '',
         deptName: '',
         realName: '',
@@ -27,6 +28,7 @@ Page({
         emergencyPhone: '',
         emergencyName: '',
         relationship: '本人',
+        filterExecuteRecord: [],//已过滤重复的任务列表
         debounced: false,//防抖动
     },
 
@@ -42,12 +44,14 @@ Page({
                 deptCode: scene.split('&')[0],
                 tenantId: scene.split('&')[1],
                 hospitalCode: scene.split('&')[2],
+                type: scene.split('&')[3],
             })
         } else {
             this.setData({
                 deptCode: options.ks,
                 tenantId: options.tenantId,
                 hospitalCode: options.hospitalCode,
+                type: options.type
             })
         }
         this.gethospitalInfo(this.data.hospitalCode)
@@ -116,7 +120,7 @@ Page({
     //登录
     async loginQuery(e) {
 
-        let that=this
+        let that = this
 
         const res = await WXAPI.loginQuery({
             code: e,
@@ -277,7 +281,7 @@ Page({
       */
     qryPatientInfo(idno) {
         this.setData({
-            negativeDialogMessage:''
+            negativeDialogMessage: ''
         })
         let that = this
         var postdata = {
@@ -289,12 +293,13 @@ Page({
 
         WXAPI.qryPatientInfo(postdata)
             .then(function (res) {
-                if (res.code == 0 && res.data ) {
+                if (res.code == 0 && res.data) {
                     res.data.urgentTel = that.data.emergencyPhone
                     res.data.urgentName = that.data.emergencyName
                     res.data.relationship = that.data.relationship
                     res.data.tenantId = that.data.tenantId
                     res.data.hospitalCode = that.data.hospitalCode
+                    res.data.type = that.data.type
 
 
                     getApp().followInfo = res.data
@@ -303,8 +308,8 @@ Page({
                     })
                 } else {
                     that.setData({
-                        negativeDialogMessage:res.message,
-                        showNegativeDialog: true                      
+                        negativeDialogMessage: res.message,
+                        showNegativeDialog: true
                     })
                 }
 
@@ -388,7 +393,7 @@ Page({
     //没有His接口提交
     confirm() {
         var patientInfoList = wx.getStorageSync('allPatientList')
-      
+
         console.log(patientInfoList)
         var user = null
         if (patientInfoList && patientInfoList.length > 0) {
@@ -492,26 +497,50 @@ Page({
         const res = await WXAPI.addFollowMedicalRecords(postData)
 
         if (res.code === 0) {
-            this.switchHospital()
+            this.switchHospital(userId)
 
         }
 
     },
     //切换医院
-    async switchHospital() {
-        const res = await WXAPI.switchHospital({ hospitalCode: this.data.hospitalCode })
-        if (res.code == 0) {
-            var currentHospital = {
-                tenantId: this.data.tenantId,
-                hospitalCode: this.data.hospitalCode,
-                hospitalName: '',
-                hospitalLevelName: ''
-            }
+    async switchHospital(userId) {
+        await WXAPI.switchHospital({ hospitalCode: this.data.hospitalCode })
 
-            getApp().globalData.currentHospital = currentHospital
+        var currentHospital = {
+            tenantId: this.data.tenantId,
+            hospitalCode: this.data.hospitalCode,
+            hospitalName: '',
+            hospitalLevelName: ''
+        }
 
+        getApp().globalData.currentHospital = currentHospital
 
+        this.qryFilterExecuteRecordByUserId(userId)
 
+    },
+    // 查询用户当天过滤的任务
+    async qryFilterExecuteRecordByUserId(userId) {
+        const res = await WXAPI.qryFilterExecuteRecordByUserId({ userId: userId })
+        if (res.data && res.data.length > 0) {
+            //去重
+            var list = []
+            res.data.forEach(item1 => {
+                var isRepeat = false
+                list.forEach(item2 => {
+                    if (item1.templateTitle == item2.templateTitle) {
+                        isRepeat = true
+                    }
+                })
+                if (!isRepeat) {
+                    list.push(item1)
+                }
+            })
+
+            this.setData({
+                filterExecuteRecord: list,
+                showPositiveDialog: true
+            })
+        } else {
             wx.showToast({
                 title: '登记成功',
                 icon: 'success',
@@ -524,6 +553,7 @@ Page({
                 })
             }, 1500)
         }
+
     },
     onDialogConfirm() {
         wx.reLaunch({
