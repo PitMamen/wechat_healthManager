@@ -47,6 +47,7 @@ Page({
         doctorPageSize: 20,
         doctorPageNo: 1,
         canSwitchUserList: [],
+        options: ''
     },
 
 
@@ -57,19 +58,23 @@ Page({
             navTop: APP.globalData.navTop,
             windowHeight: APP.globalData.windowHeight,
             menuButtonObject: APP.globalData.menuButtonObject, //小程序胶囊信息
-
+            options: options
         })
+
         this.getRatio()
         wx.showShareMenu({
             withShareTicket: true,
         })
+
+        //处理扫描机构二维码
+        this.codeInfo(options)
 
         //监听登录成功
         bus.on('loginSuccess', (msg) => {
             // 支持多参数
             console.log("监听登录成功", msg)
 
-            this.getMaLoginInfo()
+            this.getMaLoginInfoFromLogin()
 
         })
         //监听机构切换
@@ -93,7 +98,7 @@ Page({
             })
         })
         if (options.type == 1) {
-            //扫码用户进入首页 重新获取登录信息 
+            //扫码登记用户进入首页 重新获取登录信息 
             this.getMaLoginInfo()
         }
         if (getApp().globalData.loginReady && !this.data.currentHospital.hospitalCode) {
@@ -114,11 +119,51 @@ Page({
                 })
                 this.getTdShopmallMainpageMenuList()
             }
-            // return
+
         }
         this.afterMaLogin()
     },
 
+    codeInfo(options) {
+        var currentHospital = {
+            tenantId: '',
+            hospitalCode: '',
+            hospitalName: '',
+            hospitalLevelName: ''
+        }
+
+        if (options.scene) {
+            const scene = decodeURIComponent(options.scene)
+            console.log(scene)
+            console.log(scene.split('&'))
+
+            currentHospital = {
+                tenantId: scene.split('&')[1],
+                hospitalCode: scene.split('&')[2],
+                hospitalName: '',
+                hospitalLevelName: ''
+            }
+        } else {
+            if (options.hospitalCode) {
+                currentHospital = {
+                    tenantId: options.tenantId,
+                    hospitalCode: options.hospitalCode,
+                    hospitalName:  '',
+                    hospitalLevelName: ''
+                }
+            }
+
+        }
+
+        if (currentHospital.hospitalCode) {
+            this.setData({
+                currentHospital: currentHospital
+            })
+            getApp().globalData.currentHospital = currentHospital
+        }
+
+
+    },
 
     testBtn() {
         this.TUICalling.call({ userID: '1626', type: 2 })
@@ -126,7 +171,59 @@ Page({
 
     },
 
-    //获取登录信息
+    //登陆成功后获取登录信息
+    getMaLoginInfoFromLogin() {
+
+        WXAPI.getMaLoginInfo({})
+            .then(res => {
+                if (res.code == 0) {
+
+                    if (res.data.loginStatus == '1') {
+                       
+                        if (this.data.options.scene || this.data.options.hospitalCode) {
+                             //判断是扫机构二维码
+                            this.codeInfo(this.data.options)
+                        } else {
+                            var currentHospital = {
+                                tenantId: res.data.tenantId,
+                                hospitalCode: res.data.hospitalCode,
+                                hospitalName: res.data.hospitalName,
+                                hospitalLevelName: res.data.hospitalLevelName
+                            }
+                            this.setData({
+                                currentHospital: currentHospital
+                            })
+                            getApp().globalData.currentHospital = currentHospital
+                        }
+
+
+                        UserManager.savePatientInfoList(res.data.patients)
+
+                        this.getTdShopmallMainpageMenuList()
+                        this.afterMaLogin()
+                    } else {
+                        //没有选择机构
+                        if (this.data.options.scene || this.data.options.hospitalCode) {
+                            //判断是扫机构二维码
+                           this.codeInfo(this.data.options)
+                       } 
+                        if (getApp().globalData.currentHospital.hospitalCode) {
+                            this.setData({
+                                currentHospital: getApp().globalData.currentHospital
+                            })
+                            this.getTdShopmallMainpageMenuList()
+                        } else {
+                            // this.goHospitalSelectPage()
+                        }
+
+
+                    }
+
+                }
+            })
+    },
+
+    //切换机构后获取登录信息
     getMaLoginInfo() {
 
         WXAPI.getMaLoginInfo({})
@@ -239,6 +336,7 @@ Page({
     //获取菜单列表
     getTdShopmallMainpageMenuList() {
         console.log("getTdShopmallMainpageMenuList")
+
         WXAPI.getTdShopmallMainpageMenuList({
             "hospitalCode": getApp().globalData.currentHospital.hospitalCode,
             "sysApplicationId": 4
@@ -264,6 +362,26 @@ Page({
 
                 }
             })
+            //如果没有机构名称则获取
+            if(!getApp().globalData.currentHospital.hospitalName){
+                this. gethospitalInfo()
+            }
+    },
+
+       //获取机构名称
+     gethospitalInfo() {
+        WXAPI.gethospitalInfo({ hospitalCode:getApp().globalData.currentHospital.hospitalCode }).then(res=>{
+            if (res.code == 0) {
+                getApp().globalData.currentHospital.hospitalName= res.data.hospitalName
+              
+                this.setData({
+                    currentHospital:  getApp().globalData.currentHospital
+                })
+               
+            }
+        })
+       
+
     },
 
     //菜单点击
@@ -398,7 +516,7 @@ Page({
     },
 
     async goHospitalSelectPage() {
-      
+
         //只有在名单里的用户才能切换
         if (this.data.userInfo && this.data.userInfo.accountId) {
 

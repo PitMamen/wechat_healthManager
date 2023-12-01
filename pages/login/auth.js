@@ -8,7 +8,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        type:'',//类型  RELOGIN   TOKENFAIL  
+        type: '',//类型  RELOGIN   TOKENFAIL  
         userInfo: {},
         registered: true,
         isLogining: true,
@@ -63,7 +63,7 @@ Page({
      * 生命周期函数--监听页面卸载
      */
     onUnload: function () {
-        getApp().globalData.reLaunchLoginPage=false
+        getApp().globalData.reLaunchLoginPage = false
     },
 
     /**
@@ -240,7 +240,7 @@ Page({
     async registerQuery(phone) {
         //发起网络请求
         var that = this;
-       
+
         var data = {
             appId: wx.getAccountInfoSync().miniProgram.appId,
             phone: phone,
@@ -261,7 +261,7 @@ Page({
                 icon: 'success',
                 duration: 2000
             })
-
+           
             that.loginSuccess(res.data)
 
         } else {
@@ -277,11 +277,11 @@ Page({
 
         //保存用户信息
         wx.setStorageSync('userInfo', userInfo)
-          //保存此账户所有就诊人
+        //保存此账户所有就诊人
         wx.setStorageSync('allPatientList', userInfo.account.user)
         //IM apppid
         getApp().globalData.sdkAppID = userInfo.account.imAppId
-        getApp().globalData.loginReady=true
+        getApp().globalData.loginReady = true
 
 
         if (userInfo.account.user && userInfo.account.user.length > 0) {
@@ -295,7 +295,9 @@ Page({
             wx.setStorageSync('defaultPatient', defaultPatient)
             IMUtil.LoginOrGoIMChat(defaultPatient.userId, defaultPatient.userSig)
         }
-       
+        this.switchHospital()
+        //发送事件 登录成功
+        bus.emit('loginSuccess', true)
         //登录成功后跳转
         this.routToPage()
     },
@@ -323,6 +325,15 @@ Page({
             })
         }
     },
+
+    //切换医院
+    async  switchHospital() {
+        if (getApp().globalData.currentHospital.hospitalCode) {
+            await   WXAPI.switchHospital({ hospitalCode: getApp().globalData.currentHospital.hospitalCode })
+        }
+
+    },
+
     onShareAppMessage: function () {
         // 页面被用户转发
     },

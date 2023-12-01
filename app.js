@@ -142,23 +142,9 @@ App({
             // this.loginSuccess(res.data)
             this.getMaLoginInfo(res.data)
 
-        } else if (res.code == 10003) { //用户不存在 去注册
+        } else if (res.code == 10003) { //用户不存在 
             let routPage = wx.getStorageSync('routPage-w');
-            if (routPage.indexOf('pages/home/main') > -1) {
-                //如果是首页则先去选择医疗机构
-                // wx.navigateTo({
-                //     url: '/pages/home/hospital-select/index'
-                // });
-                var currentHospital = {
-                    tenantId: '100003',
-                    hospitalCode: '1000031',
-                    hospitalName: '中南大学湘雅三医院',
-                    hospitalLevelName: '三级甲等'
-                }
-               
-                getApp().globalData.currentHospital = currentHospital
-                wx.removeStorageSync('routPage-w')
-            } else {
+            
                 //排除不需要登录的页面
                 if (!Config.checkNoLoginPage(routPage)) {
                     if (!this.globalData.reLaunchLoginPage) {
@@ -173,7 +159,7 @@ App({
                 } else {
                     wx.removeStorageSync('routPage-w')
                 }
-            }
+            
 
 
         } else {
@@ -414,10 +400,10 @@ App({
         remindedRights: [],//提醒过的权益
         rightTypeList: [],//权益类型列表
         currentHospital: {
-            tenantId: '',
-            hospitalCode: '',
-            hospitalName: '',
-            hospitalLevelName: ''
+            tenantId: '100003',
+            hospitalCode: '1000031',
+            hospitalName: '中南大学湘雅三医院',
+            hospitalLevelName: '三级甲等'
         },//当前切换的医疗机构
         consultPageActive: -1,//跳转到服务页面传的tab值
     },

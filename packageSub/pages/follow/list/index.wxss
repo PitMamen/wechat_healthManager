@@ -1,0 +1,210 @@
+.wrap {
+    min-height: 100vh;
+    background: #F5F5F5;
+}
+.wrap .top {
+    background: #FFFFFF;
+}
+.wrap .top .van-search {
+    padding: 20rpx 24rpx !important;
+}
+.wrap .top .filter {
+    border-top: 1rpx #E6E6E6 solid;
+    border-bottom:  1rpx #F5F6F9 solid;
+    display: flex;
+    justify-content: space-between;
+}
+.wrap .top .filter .item {
+    width: 50%;
+    padding: 28rpx 0;
+    text-align: center;
+}
+.wrap .top .filter .item .name {
+    font-size: 28rpx;
+    font-family: PingFang SC;
+    font-weight: 400;
+    color: #4D4D4D;
+    line-height: 32rpx;
+}
+.wrap .top .filter .item .icon {
+    margin-left: 10rpx;
+    font-size: 28rpx;
+    color: #4D4D4D;
+    line-height: 32rpx;
+}
+.wrap .bottom {
+    padding: 20rpx 24rpx 0 24rpx;
+}
+.wrap .bottom .list {
+    overflow-y: auto;
+}
+.wrap .bottom .list .item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20rpx;
+    padding: 30rpx 20rpx;
+    background: #FFFFFF;
+    box-shadow: 0rpx 3rpx 6rpx 0rpx rgba(245, 246, 249, 0.35);
+    border-radius: 8rpx;
+}
+.wrap .bottom .list .item .left {
+    margin-right: 30rpx;
+}
+.wrap .bottom .list .item .left image {
+    width: 130rpx;
+    height: 130rpx;
+    border-radius: 8rpx;
+}
+.wrap .bottom .list .item .right {
+  width: 100%;
+}
+.wrap .bottom .list .item .right .title {
+
+    margin-bottom: 20rpx;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #1A1A1A;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.wrap .bottom .list .item .right .title .name {
+    display: inline-block;
+    max-width: 510rpx;
+    margin-right: 20rpx;
+    font-size: 32rpx;
+    line-height: 32rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.wrap .bottom .list .item .right .title .job {
+    font-size: 30rpx;
+    line-height: 28rpx;
+    
+}
+.wrap .bottom .list .item .right .tags {
+    margin-bottom: 20rpx;
+    font-family: PingFang SC;
+    font-weight: 400;
+    color: #999999;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.wrap .bottom .list .item .right .tags .tag {
+    margin-right: 10rpx;
+    width: 108rpx;
+    box-sizing: border-box;
+    font-size: 24rpx;
+    color: #ffffff;
+    background-color:  #FFB300;
+    border-radius: 4rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.wrap .bottom .list .item .right .tags .hospital {
+    display: inline-block;
+    max-width: 260rpx;
+    margin-right: 20rpx;
+    padding: 5rpx 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 24rpx;
+ 
+    vertical-align: middle;
+}
+.wrap .bottom .list .item .right .tags .depart {
+    display: inline-block;
+    
+    padding: 5rpx 0 5rpx 20rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 22rpx;
+   
+    vertical-align: middle;
+    border-left: 2rpx solid #D6D6D8;
+}
+.wrap .bottom .list .item .right .user {
+    margin-bottom: 20rpx;
+    font-family: PingFang SC;
+    font-weight: 400;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 30rpx;
+}
+.wrap .bottom .list .item .right .divder{
+    margin-bottom: 30rpx;
+    height: 1rpx;
+    background: #E6E6E6;
+}
+.wrap .bottom .list .item .right .barview {
+    margin-bottom: 20rpx;
+    font-family: PingFang SC;
+    font-weight: 400;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 30rpx;
+}
+.wrap .bottom .list .item .right .barview .bar {
+   width: 420rpx;
+}
+.wrap .bottom .list .item .right .barview .num {
+   margin-left: auto;
+ }
+ .wrap .bottom .list .item .right .bottomview {
+    
+    font-family: PingFang SC;
+    font-weight: 400;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    
+    
+}
+.wrap .bottom .list .item .right .bottomview .btn {
+
+}
+.wrap .bottom .list .item .right .comment-sum {
+    /* margin-bottom: 20rpx; */
+    font-size: 24rpx;
+    color: #1A1A1A;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.wrap .bottom .list .item .right .comment-sum .sum-item {
+    
+    margin-bottom: 20rpx;
+    margin-right: 10rpx;
+    color: #1A1A1A;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.wrap .bottom .list .item .right .desc {
+    width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 28rpx;
+    font-family: PingFang SC;
+    font-weight: 400;
+    color: #4D4D4D;
+    line-height: 38rpx;
+}
+.content-item-class {
+    max-width: 420rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

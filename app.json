@@ -81,7 +81,9 @@
                 "pages/me/my-doctor/index",
                 "pages/me/prescription/index",
                 "pages/me/prescription/detail",
-                "pages/me/prescription/drugtaking_page"
+                "pages/me/prescription/drugtaking_page",
+                "pages/follow/list/index",
+                "pages/follow/detail/index"
             ]
         }
     ],
@@ -95,22 +97,17 @@
         "pages/home/webpage/index",
         "pages/home/news/news-list",
         "pages/home/news/news-detail",
-      
         "pages/home/consent/index",
-       
         "pages/home/health-remind/index",
-       
         "pages/login/follow-checkin",
         "pages/login/follow-info",
         "pages/consult/index",
         "pages/consult/todo/todo-list",
-       
         "pages/home/health-remind/detail",
         "pages/home/hospital-select/index",
         "pages/consult/detail-text/index",
         "pages/consult/rights/apply",
         "pages/consult/webpage/index",
-       
         "pages/consult/detail-tel/index",
         "pages/consult/detail-package/index",
         "pages/consult/detail-package/tel-list",
@@ -118,11 +115,9 @@
         "pages/consult/detail-package/common",
         "pages/consult/detail-package/telinfo/index",
         "pages/schedule/index",
-       
         "pages/home/rate/doctor",
         "pages/home/rate/package",
         "pages/login/diagnosis",
-      
         "pages/consult/detail-video/index",
         "pages/consult/detail-package/digitaldetail",
         "pages/consult/detail-package/content/index",
