@@ -85,8 +85,8 @@
                 <view wx:if="{{itemType.ruleInfos}}" style="margin-left: 20rpx;">{{itemType.ruleInfos}}</view>
                 <view wx:if="{{itemType.ruleInfos}}" class="shu-divider" style="margin-left: 20rpx;" />
                 <view style="margin-left: 20rpx;">{{itemType.equityQuantity}}次</view>
-                <view class="shu-divider" style="margin-left: 20rpx;" />
-                <view style="margin-left: 20rpx;">￥{{itemType.saleAmount}}</view>
+                <!-- <view class="shu-divider" style="margin-left: 20rpx;" />
+                <view style="margin-left: 20rpx;">￥{{itemType.saleAmount}}</view> -->
               </view>
             </view>
           </view>

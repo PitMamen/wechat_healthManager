@@ -14,8 +14,8 @@
                         <view class="row" wx:for="{{ info.items }}" wx:key="serviceItemId">
                             <text class="resclass">{{ item.serviceItemName }}</text> |
                             <text class="resclass" wx:if="{{item.ruleInfo}}">{{ item.ruleInfo }}</text> <text wx:if="{{item.ruleInfo}}"> | </text>
-                            <text class="resclass">{{ item.quantity }}{{ item.unit }}</text> |
-                            <text class="price">¥{{ item.saleAmount }}</text>
+                            <text class="resclass">{{ item.quantity }}{{ item.unit }}</text> 
+                            <!-- <text class="price">¥{{ item.saleAmount }}</text> -->
                         </view>
 
                     </view>

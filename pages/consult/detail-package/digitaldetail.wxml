@@ -39,16 +39,16 @@
 
         <view class="infoview1">
             <view class="info1item">
-                <view style="margin-bottom: 20rpx;">总天数</view>
-                <view><text style="color: #409EFF;">{{info.detail.total}}</text>天</view>
+                <view style="margin-bottom: 20rpx;">课程总数</view>
+                <view><text style="color: #409EFF;">{{info.detail.total}}</text></view>
             </view>
             <view class="info1item">
-                <view style="margin-bottom: 20rpx;">练习天数</view>
-                <view><text style="color: #3FAB0F;">{{info.detail.finished}}</text>天</view>
+                <view style="margin-bottom: 20rpx;">已完成课程数</view>
+                <view><text style="color: #3FAB0F;">{{info.detail.finished}}</text></view>
             </view>
             <view class="info1item">
-                <view style="margin-bottom: 20rpx;">缺勤天数</view>
-                <view><text style="color: #F20D0D;">{{info.detail.lost}}</text>天</view>
+                <view style="margin-bottom: 20rpx;">未完成课程数</view>
+                <view><text style="color: #F20D0D;">{{info.detail.lost}}</text></view>
             </view>
 
         </view>
