@@ -20,8 +20,6 @@
         "compileHotReLoad": true,
         "lazyloadPlaceholderEnable": false,
         "useMultiFrameRuntime": true,
-        "useApiHook": true,
-        "useApiHostProcess": true,
         "babelSetting": {
             "ignore": [],
             "disablePlugins": [],
@@ -44,12 +42,11 @@
         "tabIndent": "insertSpaces",
         "tabSize": 4
     },
+    "condition": {},
     "libVersion": "2.24.0",
     "packOptions": {
         "ignore": [],
         "include": []
     },
-    "appid": "wx6d21bd98748a11af",
-    "projectname": "health-manager-patient-wechat_v2",
-    "condition": {}
+    "appid": "wx6d21bd98748a11af"
 }

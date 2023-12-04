@@ -128,7 +128,16 @@ Page({
             that.debounced = false
         }, 3000)
 
-        this.getUserTagStatus()
+
+        // 如果 gatherHealthFlag==1 需要采集   如果==0 不需要采集  则直接下单
+        if (this.data.gatherHealthFlag==1||this.data.gatherHealthFlag=="1") {
+            this.getUserTagStatus()
+        }else{
+               //直接下订单
+            this.createOrder()
+        }
+
+        
 
     },
 
