@@ -1,0 +1,34 @@
+<!-- <import src="./chat-send-status.wxml" /> -->
+<template name="chat-word">
+    <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{!isMy&&index===length-1?120:20}}rpx;margin-top: 20rpx;flex-shrink:0;">
+        <image wx:if="{{type==='TIMTextElem'||type==='TIMSoundElem'}}"  class="{{isMy?'my-chat-list-arrow-style':'other-chat-list-arrow-style'}}"
+            src="/image/ai/popu_{{isMy?'blue':'white'}}.png" />
+        <view class="content-view">
+          
+            
+
+            <text wx:if="{{type==='TIMTextElem'}}" decode class="{{isMy?'isMyWordStyle1':'isOtherWordStyle1'}}" bindtap="chatTextItemClickEvent" data-text="{{content.text}}" decode>{{content.text}}<text wx:if="{{!isMy}}" hidden="{{index===length-1?cursor:true}}">|</text>
+            </text>
+
+            <image wx:if="{{type==='TIMImageElem'}}" class="chat-list-pic-style" src="{{content.imageInfoArray[1].url}}" mode="aspectFill" bindtap="imageClickEvent" data-url="{{content.imageInfoArray[0].url}}" />
+
+
+            <view wx:if="{{type==='TIMSoundElem'}}" style=" display: flex;flex-direction:{{isMy?'row-reverse':'row'}} ;width:{{content.second*7.2+70}}rpx;max-width: 500rpx;" class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="chatVoiceItemClickEvent" data-voice-path="{{content.url}}" data-voice-duration="{{content.second}}" data-is-my="{{isMy}}" data-index="{{index}}">
+                <template is="voice-item" data="{{isMy:isMy,isPlaying:content.isPlaying}}" />
+                <view wx:if="{{isMy}}" class="voice-duration-my-style">{{content.second?content.second+'"':''}}</view>
+                <view wx:if="{{!isMy}}" class="voice-duration-other-style">{{content.second?content.second+'"':''}}"</view>
+            </view>
+
+            <view wx:if="{{type==='TIMVideoFileElem'}}" class="video-box-img" bindtap="onVideoPlayClick" data-item="{{content}}">
+                <image class="video-img" src="{{content.thumbUrl }}" mode="aspectFill"></image>
+                <image class="video-icon" src="../../../image/video-play.png"></image>
+            </view>
+
+
+            <!-- <template wx:if="{{isMy}}" is="chat-send-status" data="{{sendStatus:sendStatus,index:index}}" /> -->
+            
+
+        </view>
+    </view>
+
+</template>

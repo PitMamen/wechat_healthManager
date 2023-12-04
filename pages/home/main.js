@@ -52,7 +52,7 @@ Page({
 
 
     onLoad: function (options) {
-
+        console.log('main-onLoad', options)
         this.setData({
             navHeight: APP.globalData.navHeight,
             navTop: APP.globalData.navTop,
@@ -73,8 +73,14 @@ Page({
         bus.on('loginSuccess', (msg) => {
             // 支持多参数
             console.log("监听登录成功", msg)
+            if (this.data.options.scene || this.data.options.hospitalCode) {
+                //判断是扫机构二维码
+                this.codeInfo(this.data.options)
 
-            this.getMaLoginInfoFromLogin()
+            } else {
+                this.getMaLoginInfo()
+            }
+
 
         })
         //监听机构切换
@@ -148,7 +154,7 @@ Page({
                 currentHospital = {
                     tenantId: options.tenantId,
                     hospitalCode: options.hospitalCode,
-                    hospitalName:  '',
+                    hospitalName: '',
                     hospitalLevelName: ''
                 }
             }
@@ -162,66 +168,23 @@ Page({
             getApp().globalData.currentHospital = currentHospital
         }
 
-
+        this.switchHospital()
     },
-
+    //切换医院
+    async switchHospital() {
+        if (getApp().globalData.currentHospital.hospitalCode) {
+            await WXAPI.switchHospital({ hospitalCode: getApp().globalData.currentHospital.hospitalCode })
+        }
+        //发送事件 切换机构
+        bus.emit('switchHospital', getApp().globalData.currentHospital.hospitalCode)
+    },
     testBtn() {
         this.TUICalling.call({ userID: '1626', type: 2 })
         // this.TUICalling.groupCall({ userIDList: ['1626'], type: 2, groupID: 'BV_test07111620' })
 
     },
 
-    //登陆成功后获取登录信息
-    getMaLoginInfoFromLogin() {
-
-        WXAPI.getMaLoginInfo({})
-            .then(res => {
-                if (res.code == 0) {
-
-                    if (res.data.loginStatus == '1') {
-                       
-                        if (this.data.options.scene || this.data.options.hospitalCode) {
-                             //判断是扫机构二维码
-                            this.codeInfo(this.data.options)
-                        } else {
-                            var currentHospital = {
-                                tenantId: res.data.tenantId,
-                                hospitalCode: res.data.hospitalCode,
-                                hospitalName: res.data.hospitalName,
-                                hospitalLevelName: res.data.hospitalLevelName
-                            }
-                            this.setData({
-                                currentHospital: currentHospital
-                            })
-                            getApp().globalData.currentHospital = currentHospital
-                        }
-
-
-                        UserManager.savePatientInfoList(res.data.patients)
-
-                        this.getTdShopmallMainpageMenuList()
-                        this.afterMaLogin()
-                    } else {
-                        //没有选择机构
-                        if (this.data.options.scene || this.data.options.hospitalCode) {
-                            //判断是扫机构二维码
-                           this.codeInfo(this.data.options)
-                       } 
-                        if (getApp().globalData.currentHospital.hospitalCode) {
-                            this.setData({
-                                currentHospital: getApp().globalData.currentHospital
-                            })
-                            this.getTdShopmallMainpageMenuList()
-                        } else {
-                            // this.goHospitalSelectPage()
-                        }
-
-
-                    }
-
-                }
-            })
-    },
+    
 
     //切换机构后获取登录信息
     getMaLoginInfo() {
@@ -362,25 +325,25 @@ Page({
 
                 }
             })
-            //如果没有机构名称则获取
-            if(!getApp().globalData.currentHospital.hospitalName){
-                this. gethospitalInfo()
-            }
+        //如果没有机构名称则获取
+        if (!getApp().globalData.currentHospital.hospitalName) {
+            this.gethospitalInfo()
+        }
     },
 
-       //获取机构名称
-     gethospitalInfo() {
-        WXAPI.gethospitalInfo({ hospitalCode:getApp().globalData.currentHospital.hospitalCode }).then(res=>{
+    //获取机构名称
+    gethospitalInfo() {
+        WXAPI.gethospitalInfo({ hospitalCode: getApp().globalData.currentHospital.hospitalCode }).then(res => {
             if (res.code == 0) {
-                getApp().globalData.currentHospital.hospitalName= res.data.hospitalName
-              
+                getApp().globalData.currentHospital.hospitalName = res.data.hospitalName
+
                 this.setData({
-                    currentHospital:  getApp().globalData.currentHospital
+                    currentHospital: getApp().globalData.currentHospital
                 })
-               
+
             }
         })
-       
+
 
     },
 

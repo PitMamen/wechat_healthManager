@@ -1,0 +1,101 @@
+@import "./chat-item/ai-word.wxss";
+@import "./chat-item/ai-chat-page-status.wxss";
+page {
+    background-color: #F5F5F5;
+}
+.topview{
+    height: 54px;
+    background: white;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    font-size: 30rpx;
+    color: #4D4D4D;
+}
+.refresh {
+    width: 100%;
+    height: 0;
+    align-items: center;
+}
+.bottom-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 160rpx;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #FAFAFA;
+    z-index: 999;
+  }
+  .bottom-box-btnview{
+      display: flex;
+      justify-content: space-between;
+  }
+
+  .loginTap{
+    height: 60rpx;
+    width: 250rpx;
+    background-color: #0379FF;
+    border-radius: 10rpx;
+    color: white;
+    font-size: 28rpx;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .container-box {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.video-message {
+	width: 200rpx;
+	height: 200rpx;
+}
+.show-text-view{
+    width: 702rpx;
+    margin-left: 24rpx;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 40rpx;
+    line-height: 70rpx;
+}
+.poptop{
+ display: flex;
+ flex-direction: row;
+ justify-content: space-between;
+ margin-bottom: 50rpx;
+}
+
+.popadd{
+    font-size: 30rpx;
+color: #409EFF;
+}
+.poptitle{
+    font-size: 30rpx;
+    color: #4D4D4D;
+}
+.popwrap{
+    display: flex;
+    flex-direction: column;
+
+}
+.popitem{
+    display: flex;
+    flex-direction: row;
+    font-size: 30rpx;
+    margin-bottom: 30rpx;
+    color: #999999;
+}

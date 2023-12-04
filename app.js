@@ -89,6 +89,8 @@ App({
 
 
         })
+
+       
     },
 
 
@@ -169,7 +171,7 @@ App({
                 showCancel: false,
             })
         }
-        this.qryRightsTypeCodeValue()
+        this.getAiAccount()
     },
     //获取登录信息 主要是获取默认机构的就诊人
     getMaLoginInfo(userInfo) {
@@ -283,16 +285,19 @@ App({
         }
     },
 
-    //获取权益类别集合
-    async qryRightsTypeCodeValue() {
-        if (getApp().globalData.rightTypeList && getApp().globalData.rightTypeList.length > 0) {
-            return
-        }
-        const res = await WXAPI.qryCodeValue('GOODS_SERVICE_TYPE')
-        if (res.code === 0 && res.data.length > 0) {
-            getApp().globalData.rightTypeList = res.data
-        }
-    },
+ 
+
+        //获取机器人ID
+     getAiAccount() {
+        console.log('getAiAccount获取机器人ID')
+           WXAPI.getAiAccount().then(res=>{
+            if (res.code == 0) {
+                getApp().globalData.AIUserID = res.data
+            }
+           })
+           
+    
+        },
 
     //获取用户信息
     getAccountInfo() {
@@ -390,6 +395,7 @@ App({
         IMuserID: '',
         IMuserSig: '',
         sdkReady: false,
+        AIUserID:'',//机器人ID
 
         loginReady: false,//登录状态
         reLaunchLoginPage: false,//已调整到登录页

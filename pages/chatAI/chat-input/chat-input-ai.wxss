@@ -1,0 +1,143 @@
+.top-remind-view {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 40rpx;
+    background: #F9E7CF;
+    font-size: 22rpx;
+    color: #7C4C0C;
+    padding: 10rpx 30rpx;
+}
+
+.tab-view {
+    display: flex;
+    background-color: #F5F5F5;
+    height: 96rpx;
+    align-items: center;
+    padding: 0 12rpx;
+}
+
+.tab-btn {
+    margin-left: 12rpx;
+    margin-right: 12rpx;
+    width: 190rpx;
+    height: 56rpx;
+    border-radius: 28rpx;
+    border-width: 0.5px;
+    border-color: #c5daf3;
+    border-style: solid;
+    color: #1A1A1A;
+    font-size: 28rpx;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+}
+.tab-btn::after {
+	border: none;
+}
+.top-press-style{
+    background-color: #2E8BEB;
+    color: white;
+}
+.activebtn {
+    background-color: #2E8BEB;
+    color: white;
+}
+
+input {
+    padding-top: 10rpx;
+    padding-bottom: 10rpx;
+    width: 100%;
+}
+
+.extra-btn-style {
+    width: 66rpx;
+    height: 66rpx;
+    padding: 20rpx 20rpx;
+    display: flex;
+    flex-shrink: 0;
+}
+
+.input-text-voice-super {
+    display: flex;
+    flex-direction: row;
+    background-color: #F5F5F5;
+    width: 100%;
+    align-items:flex-end;
+    height: auto;
+    min-height: 100rpx;
+    position: relative;
+    padding-bottom: 20rpx;
+}
+
+.input-flex-column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: auto;
+}
+
+.list-divide-line {
+    width: 100%;
+    height: 0.5px;
+    background-color: #dddddd;
+}
+
+.chat-input-style {
+    border-radius: 4rpx;
+    margin-top: 25rpx;
+    margin-bottom: 25rpx;
+    padding: 19rpx 10rpx;
+    min-height: 40rpx;
+    height: 40rpx;
+    font-size: 30rpx;
+    width: 530rpx;
+    background-color: #ffffff;
+    display: flex;
+    overflow: inherit;
+    align-items: center;
+    margin-left: 45rpx;
+}
+
+.press-style-opacity {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    opacity: 1;
+
+}
+
+.press-style-add {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.chat-input-send-button-style {
+    width: 120rpx;
+    padding: 19rpx 0rpx;
+    margin: 25rpx 16rpx;
+    height: 40rpx;
+    font-size: 26rpx;
+    text-align: center;
+    border-radius: 8rpx;
+    background: #0B75E3;
+    color: white;
+    opacity:1;
+    
+}
+
+.extra-btn-add {
+
+    width: 66rpx;
+    height: 66rpx;
+    padding: 20rpx 20rpx;
+
+    flex-shrink: 0;
+}
