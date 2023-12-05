@@ -359,10 +359,10 @@ Page({
     if (this.checkLoginStatus()) {
       if (getApp().getDefaultPatient()) {
         if (getApp().globalData.sdkReady) {
-          wx.navigateTo({
-            url: '/packageIM/pages/chat/AIChat',
-          })
-          // IMUtil.goGroupChat(1447, 'navigateTo', '@TGS#1ZV5FEHME', 'textNum', 20, 'START')
+        
+         wx.switchTab({
+           url: '/pages/chatAI/index',
+         })
         }
       }
     }

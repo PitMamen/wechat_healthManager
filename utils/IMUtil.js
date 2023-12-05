@@ -234,10 +234,18 @@ var getAIUnreadCount = function getAIUnreadCount() {
             unreadCount = conversationList[0].unreadCount
         }
         if (unreadCount) {
-            wx.setTabBarBadge({
-                index: 1,
-                text: unreadCount + ''
-            })
+            let pages = getCurrentPages()
+            console.log(pages)
+            if (pages.length > 0) {
+                let prevPage = pages[pages.length - 1]
+                if (prevPage.route !== 'pages/chatAI/index') {
+                    wx.setTabBarBadge({
+                        index: 1,
+                        text: unreadCount + ''
+                    })
+                }
+            }
+
         } else {
             wx.removeTabBarBadge({
                 index: 1

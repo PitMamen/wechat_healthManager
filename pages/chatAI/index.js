@@ -44,40 +44,108 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-      
-        this.setConfig()
+
+
         this.setData({
             pageHeight: wx.getSystemInfoSync().windowHeight,
         })
+
+
+    },
+    onTabItemTap(item) {
+        // tab 点击时执行
+        console.log('onTabItemTap',item)
+        if (!getApp().globalData.loginReady) {
+            wx.navigateTo({
+                url: '/pages/login/auth',
+            })
+            return
+        } 
+
+    
+        var user=wx.getStorageSync('defaultPatient')
+        if(!user || !user.userId){
+            wx.navigateTo({
+                url: '/packageSub/pages/me/patients/addPatient',
+              })
+        }
+    },
+    onShow: function (e) {
+        console.log("chat page: onShow")
+        var user=wx.getStorageSync('defaultPatient')
+        if(!user || !user.userId){
+            this.setData({
+                defaultPatient:null,
+                patientList:[],
+                chatItems:[]
+            })
+            return
+        }
+        this.setConfig()
+        if(getApp().globalData.AIUserID){
+            this.setData({
+                toUserID: getApp().globalData.AIUserID,
+                conversationID: 'C2C' + getApp().globalData.AIUserID
+            })           
+        }else {
+            this.getAiAccount()
+        }
+      
+        if(!this.data.defaultPatient || this.data.defaultPatient.userId !== wx.getStorageSync('defaultPatient').userId){
+            this.getMessageList()
+        }
+
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient'),
             patientList: wx.getStorageSync('userInfo').account.user,
 
         })
-        this.getAiAccount()
-
+        
       
-       
-
         this.connectWebSocket()
-
         this.startCursorTimer()
     },
 
+    setConfig() {
+        var config = {
+            sdkAppID: getApp().globalData.sdkAppID,
+            userID: getApp().globalData.IMuserID,
+            userSig: getApp().globalData.IMuserSig,
+            type: 1,
+            tim: getApp().tim, // 参数适用于业务中已存在 TIM 实例，为保证 TIM 实例唯一性
+        }
 
-    connectWebSocket(){
+        this.setData({
+            config: config,
+        })
+    },
+    //获取机器人ID
+    async getAiAccount() {
+
+        const res = await WXAPI.getAiAccount()
+        if (res.code == 0) {
+            this.setData({
+                toUserID: res.data,
+                conversationID: 'C2C' + res.data
+            })
+            getApp().globalData.AIUserID = res.data
+           
+        }
+
+    },
+    connectWebSocket() {
 
         wx.closeSocket()
 
         wx.connectSocket({
             // url: `ws://192.168.1.121:8091/webSocket/${this.data.defaultPatient.userId}`,
-            url: Config.getConstantData().SocketUrl+ this.data.defaultPatient.userId,
+            url: Config.getConstantData().SocketUrl + this.data.defaultPatient.userId,
             success(res) {
                 console.log('连接成功', res)
             }
         });
 
-        console.log( Config.getConstantData().SocketUrl+ this.data.defaultPatient.userId)
+        console.log(Config.getConstantData().SocketUrl + this.data.defaultPatient.userId)
 
 
         wx.onSocketOpen(function () {
@@ -90,7 +158,7 @@ Page({
             // console.log('收到服务器内容：', res)
             if (res && res.data && typeof res.data === "string") {
                 var data = JSON.parse(res.data)
-              
+
 
                 if (data.chunk) {
                     if (!that.data.isAITrunking) {
@@ -119,7 +187,7 @@ Page({
 
                     that.setData({
                         cursor: true,
-                        isAITrunking:false
+                        isAITrunking: false
                     })
                 }
             }
@@ -128,6 +196,7 @@ Page({
         wx.onSocketError(function (error) {
             console.log('socketerror', error)
         })
+       
     },
 
 
@@ -142,27 +211,6 @@ Page({
         }, 500)
 
     },
-
-    setConfig() {
-        var config = {
-            sdkAppID: getApp().globalData.sdkAppID,
-            userID: getApp().globalData.IMuserID,
-            userSig: getApp().globalData.IMuserSig,
-            type: 1,
-            tim: getApp().tim, // 参数适用于业务中已存在 TIM 实例，为保证 TIM 实例唯一性
-        }
-
-        this.setData({
-            config: config,
-        })
-    },
-
-    onShow: function (e) {
-        console.log("chat page: onShow")
-    },
-
-
-
 
 
     //监听
@@ -238,7 +286,7 @@ Page({
         wx.setVisualEffectOnCapture({
             visualEffect: 'none',
         })
-     
+
 
         getApp().tim.off(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived);
         getApp().tim.off(TIM.EVENT.MESSAGE_READ_BY_PEER, this.onMessageReadByPeer);
@@ -257,20 +305,7 @@ Page({
 
     },
 
-    //获取机器人ID
-    async getAiAccount() {
 
-        const res = await WXAPI.getAiAccount()
-        if (res.code == 0) {
-            this.setData({
-                toUserID: res.data,
-                conversationID: 'C2C' + res.data
-            })
-
-            this.getMessageList()
-        }
-
-    },
     //智能问答接口
     async qryMedChat(question) {
 
@@ -421,7 +456,7 @@ Page({
                 that.data.chatItems = []
                 that.getMessageList()
                 that.setData({
-                    isAITrunking:false
+                    isAITrunking: false
                 })
 
                 that.connectWebSocket()
@@ -513,6 +548,9 @@ Page({
             that._freshing = false
             // 将某会话下所有未读消息已读上报
             getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
+            wx.removeTabBarBadge({
+                index: 1,
+            })
 
             that.qrySysKnowledge('JZDH')
 
@@ -700,7 +738,7 @@ Page({
 
     //播放或暂停音频
     chatVoiceItemClickEvent(e) {
-      
+
     },
     /**
   * 点击extra按钮时触发
@@ -736,10 +774,13 @@ Page({
 
     //发生文本消息
     onSendMessageEvent(e) {
-        if(this.data.isAITrunking){
+        if(!this.data.defaultPatient || !this.data.defaultPatient.userId){
+            return
+        }
+        if (this.data.isAITrunking) {
             wx.showToast({
-              title: 'AI正在回答，请稍后',
-              icon:'none'
+                title: 'AI正在回答，请稍后',
+                icon: 'none'
             })
             return
         }
