@@ -1,28 +1,30 @@
+<wxs src="../../../../modules/format.wxs" module="computed"></wxs>
 <view class="topview1">
-    <text class="name">邓鑫，您好！</text>
+    <text class="name">{{planDetail.userInfo.userName}}，您好！</text>
     <van-icon name="/packageSub/image/shezhi.png" size="23" bindtap="onSettingClick"/>
 </view>
-<view class="toptitle">欢迎使用心脏瓣膜置换术后1个月随访</view>
+<view class="toptitle">欢迎使用{{planDetail.planName}}</view>
 <view class="card">
     <view class="bar">
-        <van-progress color="#409EFF" track-color="#E4F1FF" show-pivot="{{false}}" percentage="50" />
+        <van-progress color="#409EFF" track-color="#E4F1FF" show-pivot="{{false}}" percentage="{{planDetail.finishedTask/planDetail.totalTask*100}}" />
     </view>
     <view class="barview">
-        <text class="bartext1">任务完成进度：7/11</text>
-        <text class="bartext2">5天后(2023-12-6)结束</text>
+        <text class="bartext1">任务完成进度：{{planDetail.finishedTask}}/{{planDetail.totalTask}}</text>
+        <text class="bartext2">{{planDetail.days}}天后({{planDetail.endDate}})结束</text>
     </view>
     <view class="sfjhtitle">随访任务</view>
 
     <view class="goods-card">
 
-        <scroll-view scroll-x="true">
+        <scroll-view scroll-x="true" scroll-left="{{scrollTopVal}}" bindscroll="bindscroll">
             <view class="hotService_content">
 
                 <view bindtap="chooseAppoint" data-item="{{item}}" data-index="{{index}}" class="{{index==activeNumIndex?'timeitem-active':'timeitem'}}" wx:for="{{numsourcelist}}" wx:key="1">
                     <van-icon style="{{index==activeNumIndex?'visibility: visible;':'visibility: hidden;'}}" name="/packageSub/image/down.png" size="12" />
-                    <view>周五(11-17)</view>
-                    <view>已完成</view>
-
+                    <view>{{item.week}}({{item.day2}})</view>
+                    <view wx:if="{{item.timeType===-1}}" style="{{item.statusName=='未完成'?'color:#E61010':'color:#4D4D4D'}}">{{item.text}}</view>
+                    <view wx:if="{{item.timeType===0}}" style="{{index==activeNumIndex?'color:#3894FF':'color:#4D4D4D'}}">{{item.text}}</view>
+                    <view wx:if="{{item.timeType===1}}" style="color:#999999">{{item.text}}</view>
                 </view>
             </view>
 
@@ -31,28 +33,21 @@
 
 
     </view>
-    <view class="itemview">
+    <view class="itemview" wx:for="{{taskDetail.details}}" wx:key="2"  >
         <view class="itemtop">
-            <view class="tag">任务二</view>
-            <view>消息提醒</view>
+            <view class="tag">任务{{index+1}}</view>
+            <view>{{item.taskType.description}}</view>
         </view>
-        <view class="itemcontent">
-            <van-icon style="margin-left: 16rpx;margin-right: 16rpx;" name="/packageSub/image/wenjuan.png" size="28" />
-            <view class="itemtitle">心脏瓣膜置换后，日常 生活需要注意的事情</view>
-            <van-button style="margin-left: 16rpx;margin-right: 16rpx;" bindtap="onItemClick" data-item="{{item}}" color="#3894FF" round type="info" size="small">查看详情</van-button>
+        <view class="itemcontent" >
+            <van-icon style="margin-left: 16rpx;margin-right: 16rpx;" name="{{computed.planTypeIcon(item.taskType.value)}}" size="28" />
+            <view class="itemtitle">{{(item.jumpTitle && item.jumpTitle!=='null') ?item.jumpTitle: '未知标题'}}</view>
+            
+            <van-button disabled ="{{taskDetail.timeType===1}}" wx:if="{{item.taskBizStatus.value === 2}}" style="margin-left: 16rpx;margin-right: 16rpx;" bind:click="onFollowTap" data-item="{{item}}" color="#3894FF" plain round type="info" size="small">已完成</van-button>
+
+            <van-button wx:else disabled ="{{taskDetail.timeType===1}}" style="margin-left: 16rpx;margin-right: 16rpx;" bind:click="onFollowTap" data-item="{{item}}" color="#3894FF" round type="info" size="small">查看详情</van-button>
         </view>
     </view>
-    <view class="itemview">
-        <view class="itemtop">
-            <view class="tag">任务二</view>
-            <view>消息提醒</view>
-        </view>
-        <view class="itemcontent">
-            <van-icon style="margin-left: 16rpx;margin-right: 16rpx;" name="/packageSub/image/wenjuan.png" size="28" />
-            <view class="itemtitle">身体康复评估问卷</view>
-            <van-button style="margin-left: 16rpx;margin-right: 16rpx;" bindtap="goConsultDetail" data-item="{{item}}" color="#3894FF" plain round type="info" size="small">已完成</van-button>
-        </view>
-    </view>
+ 
 </view>
 
 <van-dialog use-slot show="{{ showMessageDialog }}" bind:confirm="onDialogConfirm" confirm-button-color="#4294F7" confirmButtonText="我知道了"  closeOnClickOverlay>

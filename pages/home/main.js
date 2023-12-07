@@ -517,7 +517,17 @@ Page({
             url: '/pages/schedule/index',
         })
     },
-
+    goPlanListPage() {
+        wx.navigateTo({
+          url: '/packageSub/pages/follow/list/index',
+        })
+    },
+    onTaskItemClick(e){
+        var item = e.currentTarget.dataset.item
+        wx.navigateTo({
+            url: '/packageSub/pages/follow/detail/index?bindId='+item.bindId+'&planId='+item.planId+'&userId='+item.userId+'&day='+item.executeTime
+        })
+    },
     async qryMyFollowTask() {
         const res = await WXAPI.qryMyFollowTask({ userId: this.data.defaultPatient.userId })
         var allTaskList = []

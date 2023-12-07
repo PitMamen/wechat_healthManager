@@ -8,7 +8,7 @@
                 <van-icon class="icon" name="arrow-down" />
             </view>
             <view class="item" bind:tap="bindPatientTap">
-                <text class="name">{{ professionalTitle || '全部患者' }}</text>
+                <text class="name">{{(selectUser && selectUser.userId)? selectUser.userName : '全部患者' }}</text>
                 <van-icon class="icon" name="arrow-down" />
             </view>
         </view>
@@ -17,24 +17,24 @@
     <view class="bottom">
         <van-empty class="empty" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无记录" wx:if="{{ list.length === 0 }}" />
         <view class="list" wx:else>
-            <view class="item" bind:tap="onDoctorTap" wx:for="{{ list }}" wx:key="userId" data-item="{{ item }}">
+            <view class="item" bind:tap="onDoctorTap" wx:for="{{ list }}" wx:key="1" data-item="{{ item }}">
                
                 <view class="right">
                     <view class="title">
-                        <text class="name">心脏瓣膜置换手术后1个</text>
-                        <text class="job">{{ item.professionalTitle || '' }}</text>
+                        <text class="name">{{item.planName}}</text>
+                        <text class="job">{{ item.statusName || '' }}</text>
                     </view>
                     <view class="tags">
-                        <text class="hospital">{{ item.hospitalName }}</text>
-                        <text class="depart">服务周期：2023.11.10-2023.11.30</text>
+                        <text class="hospital">{{ item.planSubjectName || '' }}</text>
+                        <text class="depart">服务周期：{{ item.baseInfo.beginDate }}-{{ item.baseInfo.endDate }}</text>
                     </view>
                     <view class="user">
-                        <text decode> 患者:&emsp;邓鑫&emsp;男&emsp;26 岁</text>                    
+                        <text decode> 患者:&emsp;{{ item.userInfo.userName }}&emsp;{{ item.userInfo.userSex }}&emsp;{{ item.userInfo.userAge }} 岁</text>                    
                     </view>
                     <view class="barview">
                         <text decode> 任务进度:&emsp;</text>  
-                        <van-progress class="bar" color="#409EFF" track-color="#E4F1FF" show-pivot="{{false}}" percentage="50" />     
-                        <text class="num"> 3/11</text>               
+                        <van-progress class="bar" color="#409EFF" track-color="#E4F1FF" show-pivot="{{false}}" percentage="{{item.baseInfo.finishedTask / item.baseInfo.totalTask*100}}" />     
+                        <text class="num"> {{ item.baseInfo.finishedTask }}/{{ item.baseInfo.totalTask }}</text>               
                     </view>
                    <view class="divder"></view>
                    <view class="bottomview">
@@ -46,10 +46,10 @@
     </view>
 </view>
 
-
+<van-loading wx:if="{{isMoreLoading}}" style="margin-left: 300rpx;" size="20px" type="spinner">加载中...</van-loading>
 
 <van-popup round show="{{ showStatusPop }}" position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closeStatusPopup">
-    <van-picker show-toolbar title="" columns="{{ columns }}" visible-item-count="4" bind:cancel="onZhiJiCancel" bind:confirm="onZhiJiConfirm" />
+    <van-picker show-toolbar value-key="name" title="" columns="{{ columns }}" visible-item-count="4" bind:cancel="onZhiJiCancel" bind:confirm="onZhiJiConfirm" />
 </van-popup>
 
 <!-- 就诊人选择 -->

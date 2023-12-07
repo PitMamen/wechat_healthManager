@@ -81,7 +81,7 @@
 .wrap .bottom .list .item .right .title .job {
     font-size: 30rpx;
     line-height: 28rpx;
-    
+    color: #409EFF;
 }
 .wrap .bottom .list .item .right .tags {
     margin-bottom: 20rpx;

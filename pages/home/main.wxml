@@ -51,7 +51,7 @@
             <view class="todo-title-view">
                 <text class="todo-title">健康任务</text>
                 <van-icon info="{{allTaskNum>0?allTaskNum:''}}" />
-                <view class="todo-title-right" bindtap="goSchedulePage">
+                <view class="todo-title-right" bindtap="goPlanListPage">
                     <view>更多</view>
                     <van-icon name="arrow" />
                 </view>
@@ -69,7 +69,7 @@
                             <text class="todo-des">{{item.planDescribe||''}}</text>
                         </view>
                         <view class="todo-btnview">
-                            <view class="todo-button" bindtap="onTaskItemClickV2" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
+                            <view class="todo-button" bindtap="onTaskItemClick" data-item="{{item}}">{{computed.taskType2(item.planType,item.execFlag).btnText}}</view>
                             <text class="todo-des">{{computed.dateSub(item.executeTime)}}</text>
                         </view>
                     </view>

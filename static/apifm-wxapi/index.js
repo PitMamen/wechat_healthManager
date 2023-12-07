@@ -1254,6 +1254,21 @@ module.exports =
                         var url = FOLLOW_SERVICE + '/followMetaConfigure/getInpatientInfo'
                         return request2(url, 'get', data, true);
                     },
+                      // 查询我的随访计划
+                      qryMyFollowPlan: function qryMyFollowPlan(data) {
+                        var url = FOLLOW_SERVICE + '/follow/userplan/qryMyFollowPlan'
+                        return request(url, 'POST', data, true);
+                    },
+                      // 查询随访计划的基本信息
+                      qryExecFollowPlanBaseInfo: function qryExecFollowPlanBaseInfo(data) {
+                        var url = FOLLOW_SERVICE + '/docFollow/qryExecFollowPlanBaseInfo'
+                        return request(url, 'POST', data, true);
+                    },
+                     // 查询随访子计划
+                     qryMyExecFollowPlanDetailInfo: function qryMyExecFollowPlanDetailInfo(data) {
+                        var url = FOLLOW_SERVICE + '/docFollow/qryMyExecFollowPlanDetailInfo'
+                        return request(url, 'POST', data, true);
+                    },
                 };
 
                 /***/

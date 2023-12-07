@@ -146,7 +146,19 @@ function zixunType(type) {
         return '/image/wdzx_hz@3x.png'
     }
 }
-
+//随访计划 子任务 图标
+function planTypeIcon(type) {
+   
+    if (type === 1) {
+        return '/packageSub/image/wenjuan.png'
+    } else if (type === 2) {
+        return '/packageSub/image/wenzhang.png'
+    } else if (type === 3) {
+        return '/packageSub/image/tixing.png'
+    } else {
+        return '/packageSub/image/wenzhang.png'
+    }
+}
 //我的订单
 function orderType(type) {
     if (type == 1) {
@@ -401,5 +413,6 @@ module.exports = {
     dateSub: dateSub,
     dateSub2: dateSub2,
     zixunType: zixunType,
-    taskTypeV2: taskTypeV2
+    taskTypeV2: taskTypeV2,
+    planTypeIcon:planTypeIcon
 };

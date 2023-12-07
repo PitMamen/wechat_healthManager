@@ -3,6 +3,7 @@ const WXAPI = require('../../../../static/apifm-wxapi/index')
 
 Page({
     data: {
+        isMoreLoading: false,
         showPatientPop: false,
         showStatusPop: false,
         keyWords: '',
@@ -12,7 +13,15 @@ Page({
         professionalTitle: '',
         list: [],
         items: [],
-        columns: []
+        status:'',//状态
+        isAllLoaded:false,
+        pageNo: 1,
+        pageSize: 20,
+        selectUser:'',
+        columns: [{status:'',name:'全部状态'},
+        {status:1,name:'进行中'},
+        {status:3,name:'已完成'},
+        {status:5,name:'已终止'},]
     },
     onLoad: function (options) {
         // 页面创建时执行
@@ -49,9 +58,7 @@ Page({
     onPullDownRefresh: function () {
         // 触发下拉刷新时执行
     },
-    onReachBottom: function () {
-        // 页面触底时执行
-    },
+    
     onShareAppMessage: function () {
         // 页面被用户分享时执行
     },
@@ -64,51 +71,67 @@ Page({
     onTabItemTap(item) {
         // tab 点击时执行
     },
+ /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom: function () {
+        console.log("onReachBottom")
+        if (!this.data.isAllLoaded) {
+            if(this.data.isMoreLoading){
+                return
+            }
+            this.setData({
+                isMoreLoading: true,
+                pageNo:this.data.pageNo+1
+            })
+            this.getLists()
+         
+        } else {
 
-     //获取健康管理列表
-     async qryMyFollow() {
-        const res = await WXAPI.qryMyFollow({userId:2})
-       
-          this.setData({
-            list: res.data || [],
-            })  
-        
-      },
+            wx.showToast({
+                title: '没有更多数据了',
+                icon: "none",
+            })
+        }
+    },
+   
     getLists() {
-        WXAPI.accurateDoctors({
-            pageNo: 1,
-            pageSize: 9999,
-            queryText: this.data.keyWords.trim(),
-            subjectClassifyId: this.data.activeId || '',
-            professionalTitle: this.data.professionalTitle
+        
+        WXAPI.qryMyFollowPlan({
+            pageNo: this.data.pageNo,
+            pageSize: this.data.pageSize,
+            status: this.data.status,
+            userId: (this.data.selectUser && this.data.selectUser.userId)?this.data.selectUser.userId:'',
+           
         }).then((res) => {
             this.setData({
-                list: res.data.rows || []
+                isMoreLoading: false
             })
+
+            var list=this.data.list
+            console.log(this.data.pageNo)
+            if (this.data.pageNo == 1) {
+                
+                list= res.data.rows                
+                
+            } else {
+                list = list.concat(res.data.rows)
+            }
+            this.setData({
+                list: list,
+                isAllLoaded:res.data.pageNo >= res.data.totalPage
+            })
+            console.log(this.data.list)
         })
     },
  
-    getColumns() {
-        WXAPI.professionalTitles({
-            type: 1
-        }).then((res) => {
-            const columns = (res.data || []).map(item => {
-                return {
-                    id: item.value,
-                    text: item.value
-                }
-            })
-            this.setData({
-                columns
-            })
-        })
-    },
+
    
    
     onDoctorTap(event) {
         const item = event.currentTarget.dataset.item
         wx.navigateTo({
-            url: '../detail/index'
+            url: '../detail/index?bindId='+item.bindId+'&planId='+item.planId+'&userId='+item.userId
         })
     },
 
@@ -128,11 +151,14 @@ Page({
         })
     },
     onZhiJiConfirm(event) {
+        console.log(event)
         this.setData({
             showStatusPop: false,
-            professionalTitle: event.detail.value.text
+            status: event.detail.value.status,
+            activeName:event.detail.value.name,
+            pageNo:1,
         })
-        this.getLists()
+       this.getLists()
     },
     onPatientPickerConfirm(event) {
         console.log(event)
@@ -140,9 +166,11 @@ Page({
         var selectPatient = this.data.patientList[index]
      
         this.setData({
-            showPatientPop: false
+            showPatientPop: false,
+            selectUser:selectPatient,
+            pageNo:1,
         });
-
+        this.getLists()
     },
     onPatientPickerCancel() {
         this.setData({
