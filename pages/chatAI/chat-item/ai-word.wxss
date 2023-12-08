@@ -5,7 +5,7 @@
 .content-view {
     display: flex;
     flex-direction: column;
-    flex-shrink:0;
+    flex-shrink: 0;
 
 }
 
@@ -18,29 +18,31 @@
 .isMyWordStyle1 {
     background-color: #00A1FF;
     color: white;
+    line-height: 50rpx;
     font-size: 30rpx;
     margin-right: -1rpx;
     margin-left: 14rpx;
     word-wrap: break-word;
     /* box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35); */
-    border-radius: 8rpx ;
+    border-radius: 20rpx 0 20rpx 20rpx;
     padding: 30rpx;
-    max-width:600rpx;
+    max-width: 500rpx;
 
 }
 
 .isOtherWordStyle1 {
     background-color: white;
     color: #4D4D4D;
+    line-height: 50rpx;
     font-size: 30rpx;
     margin-right: 14rpx;
     margin-left: -1rpx;
     word-wrap: break-word;
     /* box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35); */
-    border-radius: 8rpx ;
+    border-radius: 0 20rpx 20rpx 20rpx;
     padding: 30rpx;
-    max-width:600rpx;
-   
+    max-width: 500rpx;
+
 }
 
 .chat-list-pic-style {
@@ -48,18 +50,21 @@
     width: 150rpx;
     height: 280rpx;
 }
-.my-chat-list-arrow-style{
+
+.my-chat-list-arrow-style {
     width: 21rpx;
     height: 27rpx;
     margin-top: 40rpx;
     margin-right: 25rpx;
 }
-.other-chat-list-arrow-style{
+
+.other-chat-list-arrow-style {
     width: 21rpx;
     height: 27rpx;
     margin-top: 40rpx;
     margin-left: 25rpx;
 }
+
 .voice-duration-my-style {
     color: #1A1A1A;
     font-size: 26rpx;

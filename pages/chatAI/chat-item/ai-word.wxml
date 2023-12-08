@@ -1,12 +1,9 @@
 <!-- <import src="./chat-send-status.wxml" /> -->
 <template name="chat-word">
     <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{!isMy&&index===length-1?120:20}}rpx;margin-top: 20rpx;flex-shrink:0;">
-        <image wx:if="{{type==='TIMTextElem'||type==='TIMSoundElem'}}"  class="{{isMy?'my-chat-list-arrow-style':'other-chat-list-arrow-style'}}"
-            src="/image/ai/popu_{{isMy?'blue':'white'}}.png" />
+        <image style="width:80rpx;height:80rpx;margin-left: 24rpx;margin-right: 24rpx;" src="{{isMy? 'https://hmg.mclouds.org.cn/content-api/file/I20231208175819573A9JZKS09UBFPMK-abcdefgsmall1.png':'https://hmg.mclouds.org.cn/content-api/file/I20231208175805589EKA9FFL1JINVIB-abcdefgrobot.png'}}" />
+        <!-- <image wx:if="{{type==='TIMTextElem'||type==='TIMSoundElem'}}" class="{{isMy?'my-chat-list-arrow-style':'other-chat-list-arrow-style'}}" src="/image/ai/popu_{{isMy?'blue':'white'}}.png" /> -->
         <view class="content-view">
-          
-            
-
             <text wx:if="{{type==='TIMTextElem'}}" decode class="{{isMy?'isMyWordStyle1':'isOtherWordStyle1'}}" bindtap="chatTextItemClickEvent" data-text="{{content.text}}" decode>{{content.text}}<text wx:if="{{!isMy}}" hidden="{{index===length-1?cursor:true}}">|</text>
             </text>
 
@@ -26,7 +23,7 @@
 
 
             <!-- <template wx:if="{{isMy}}" is="chat-send-status" data="{{sendStatus:sendStatus,index:index}}" /> -->
-            
+
 
         </view>
     </view>
