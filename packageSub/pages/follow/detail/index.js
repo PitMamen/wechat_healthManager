@@ -9,7 +9,6 @@ Page({
     data: {
         options:{},
         showSetDialog:false,
-        showMessageDialog:false,
         scrollTopVal: 0,
         activeNumIndex:0,
         planDetail:null,
@@ -44,10 +43,12 @@ Page({
     },
     async qryExecFollowPlanBaseInfo() {
         var postData={
-            "bindId": this.data.options.bindId,
+            "bindId": this.data.options.bindId ,
             "planId":  this.data.options.planId,
             "userId":  this.data.options.userId,
+            "regNo":this.data.options.regNo
         }
+        
         const res = await WXAPI.qryExecFollowPlanBaseInfo(postData)
         
         this.setData({
@@ -60,6 +61,7 @@ Page({
             "bindId": this.data.options.bindId,
             "planId":  this.data.options.planId,
             "userId":  this.data.options.userId,
+            "regNo":this.data.options.regNo
         }
         const res = await WXAPI.qryMyExecFollowPlanDetailInfo(postData)
         var today=Util.formatTime2(new Date())
