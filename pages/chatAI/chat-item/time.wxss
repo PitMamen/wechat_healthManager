@@ -2,7 +2,7 @@
     margin-top: 30rpx;
     background-color: #cccccc;
     color: white;
-    padding: 8rpx 10rpx 6rpx 10rpx;
+    padding: 8rpx 10rpx 8rpx 10rpx;
     border-radius: 6rpx;
     width: auto;
     font-size: 22rpx;

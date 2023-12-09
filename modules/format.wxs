@@ -115,6 +115,30 @@ function formatSecondDate(date) {
     }
 }
 
+function formatSecondDateStr(date) {
+
+    if (date) {
+        date = getDate(parseInt(date) * 1000);
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        if (isToday(date)) {
+            var str = ''
+            if (h > 12) {
+                h = h - 12
+                str = '下午 '
+            } else {
+                str = '上午 '
+            }
+            return str + h + ":" + minute
+        } else {
+            return date.getFullYear() + '/' + formatDate(date) + ' ' + h + ":" + minute;
+        }
+
+    }
+}
+
 function isToday(date) {
 
     return date.toDateString() === getDate().toDateString()
@@ -148,7 +172,7 @@ function zixunType(type) {
 }
 //随访计划 子任务 图标
 function planTypeIcon(type) {
-   
+
     if (type === 1) {
         return '/packageSub/image/wenjuan.png'
     } else if (type === 2) {
@@ -346,12 +370,12 @@ function phoneReplace(phone) {
 }
 //截取时间 2022-05-12 10:40:38 -> 2022-05-12
 function dateSub(time) {
-    if(time){
+    if (time) {
         return time.substring(0, 10)
-    }else {
+    } else {
         return ''
     }
-   
+
 
 }
 //截取时间10:30:00-11:00:00->10:30-11:00
@@ -399,6 +423,7 @@ module.exports = {
 
 
     formatSecondDate: formatSecondDate, //秒
+    formatSecondDateStr: formatSecondDateStr, //秒
 
     formatMultiple: formatMultiple,
     formatRange: formatRange,
@@ -414,5 +439,5 @@ module.exports = {
     dateSub2: dateSub2,
     zixunType: zixunType,
     taskTypeV2: taskTypeV2,
-    planTypeIcon:planTypeIcon
+    planTypeIcon: planTypeIcon
 };
