@@ -49,49 +49,49 @@ Page({
         this.setData({
             pageHeight: wx.getSystemInfoSync().windowHeight,
         })
-
+      
 
     },
     onTabItemTap(item) {
         // tab 点击时执行
-        console.log('onTabItemTap',item)
+        console.log('onTabItemTap', item)
         if (!getApp().globalData.loginReady) {
             wx.navigateTo({
                 url: '/pages/login/auth',
             })
             return
-        } 
+        }
 
-    
-        var user=wx.getStorageSync('defaultPatient')
-        if(!user || !user.userId){
+
+        var user = wx.getStorageSync('defaultPatient')
+        if (!user || !user.userId) {
             wx.navigateTo({
                 url: '/packageSub/pages/me/patients/addPatient',
-              })
+            })
         }
     },
     onShow: function (e) {
         console.log("chat page: onShow")
-        var user=wx.getStorageSync('defaultPatient')
-        if(!user || !user.userId){
+        var user = wx.getStorageSync('defaultPatient')
+        if (!user || !user.userId) {
             this.setData({
-                defaultPatient:null,
-                patientList:[],
-                chatItems:[]
+                defaultPatient: null,
+                patientList: [],
+                chatItems: []
             })
             return
         }
         this.setConfig()
-        if(getApp().globalData.AIUserID){
+        if (getApp().globalData.AIUserID) {
             this.setData({
                 toUserID: getApp().globalData.AIUserID,
                 conversationID: 'C2C' + getApp().globalData.AIUserID
-            })           
-        }else {
+            })
+        } else {
             this.getAiAccount()
         }
-      
-        if(!this.data.defaultPatient || this.data.defaultPatient.userId !== wx.getStorageSync('defaultPatient').userId){
+
+        if (!this.data.defaultPatient || this.data.defaultPatient.userId !== wx.getStorageSync('defaultPatient').userId) {
             this.getMessageList()
         }
 
@@ -100,10 +100,14 @@ Page({
             patientList: wx.getStorageSync('userInfo').account.user,
 
         })
-        
-      
+
+
         this.connectWebSocket()
         this.startCursorTimer()
+        if(!this.onMessageReceived){
+            this.onIMReceived()
+        }
+       
     },
 
     setConfig() {
@@ -129,7 +133,7 @@ Page({
                 conversationID: 'C2C' + res.data
             })
             getApp().globalData.AIUserID = res.data
-           
+
         }
 
     },
@@ -196,7 +200,7 @@ Page({
         wx.onSocketError(function (error) {
             console.log('socketerror', error)
         })
-       
+
     },
 
 
@@ -219,17 +223,18 @@ Page({
         //监听新消息
         let onMessageReceived = function (event) {
             // event.data - 存储 Message 对象的数组 - [Message]
-            console.log("event", event)
+            console.log("onIMReceived", event)
             const newItems = []
             event.data.forEach(item => {
                 if (item.conversationID == that.data.conversationID) {
-
-                    newItems.push(item)
+                    if(item.type === 'TIMCustomElem'){
+                        newItems.push(item)
+                    }
+                   
                 }
             });
             if (newItems.length > 0) {
                 that.setMultItemAndScrollPage(newItems, true, true, false)
-                that.qryTextNumRecord()
                 // 将某会话下所有未读消息已读上报
                 getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
             }
@@ -238,38 +243,7 @@ Page({
         getApp().tim.on(TIM.EVENT.MESSAGE_RECEIVED, onMessageReceived);
         this.onMessageReceived = onMessageReceived
 
-        //消息已读
-        let onMessageReadByPeer = function (event) {
-
-        };
-        getApp().tim.on(TIM.EVENT.MESSAGE_READ_BY_PEER, onMessageReadByPeer);
-        this.onMessageReadByPeer = onMessageReadByPeer
-
-        //网络状态变法
-        let onNetStateChange = function (event) {
-            console.log(event)
-            // v2.5.0 起支持
-            // event.data.state 当前网络状态，枚举值及说明如下：
-            // TIM.TYPES.NET_STATE_CONNECTED - 已接入网络
-            // TIM.TYPES.NET_STATE_CONNECTING - 连接中。很可能遇到网络抖动，SDK 在重试。接入侧可根据此状态提示“当前网络不稳定”或“连接中”
-            // TIM.TYPES.NET_STATE_DISCONNECTED - 未接入网络。接入侧可根据此状态提示“当前网络不可用”。SDK 仍会继续重试，若用户网络恢复，SDK 会自动同步消息
-            if (event.data.state == TIM.TYPES.NET_STATE_CONNECTING) {
-
-                wx.showToast({
-                    icon: "none",
-                    title: '当前网络不稳定...',
-                })
-            } else if (event.data.state == TIM.TYPES.NET_STATE_DISCONNECTED) {
-
-                wx.showToast({
-                    icon: "none",
-                    title: '当前网络不可用',
-                })
-            }
-
-        };
-        getApp().tim.on(TIM.EVENT.NET_STATE_CHANGE, onNetStateChange);
-        this.onNetStateChange = onNetStateChange
+     
     },
 
     onReady() {
@@ -289,8 +263,7 @@ Page({
 
 
         getApp().tim.off(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived);
-        getApp().tim.off(TIM.EVENT.MESSAGE_READ_BY_PEER, this.onMessageReadByPeer);
-        getApp().tim.off(TIM.EVENT.NET_STATE_CHANGE, this.onNetStateChange);
+      
 
         wx.closeSocket()
 
@@ -520,6 +493,7 @@ Page({
 
     //第一次获取消息列表
     getMessageList() {
+        console.log('getMessageList')
         // 打开某个会话时，第一次拉取消息列表
         let that = this;
         var postdata = {
@@ -690,6 +664,7 @@ Page({
         })
 
     },
+    
     //设置卡片已读
     setInquiriesAgencyRead(todoId) {
         if (todoId) {
@@ -771,10 +746,35 @@ Page({
         })
     },
 
-
+    //点击随访卡
+    onCustomfollowMessageClick(e) {
+        let item = e.currentTarget.dataset.item;
+        console.log(item)
+        wx.navigateTo({
+            url: '/packageSub/pages/follow/detail/index?regNo=' + item.regNo + '&planId=' + item.id + '&userId=' + this.data.config.userID
+        })
+    },
+    //点击随访小结
+    onCustomsummaryMessageClick(e) {
+        let item = e.currentTarget.dataset.item;
+        wx.showModal({
+            title: '随访小结',
+            content: item.content,
+            showCancel: false,
+            confirmText: '我知道了',
+            confirmColor: '#4294F7'
+        })
+    },
+    //今日提醒
+    onCustomRemindMessageClick(e){
+        var item = e.currentTarget.dataset.item
+        wx.navigateTo({
+            url: '/packageSub/pages/follow/detail/index?bindId='+item.bindId+'&planId='+item.planId+'&userId='+item.userId+'&day='+item.executeTime
+        })
+    },
     //发生文本消息
     onSendMessageEvent(e) {
-        if(!this.data.defaultPatient || !this.data.defaultPatient.userId){
+        if (!this.data.defaultPatient || !this.data.defaultPatient.userId) {
             return
         }
         if (this.data.isAITrunking) {
@@ -1106,6 +1106,12 @@ Page({
                     item.payload.customType = "CustomIllnessMessage"
                 } else if (type == 'CustomChuFangMessage') {//处方卡
                     item.payload.customType = "CustomChuFangMessage"
+                } else if (type == 'CustomfollowMessage') {//随访卡
+                    item.payload.customType = "CustomfollowMessage"
+                } else if (type == 'CustomsummaryMessage') {//随访小结
+                    item.payload.customType = "CustomsummaryMessage"
+                } else if (type == 'CustomRemindMessage') {//今日任务提醒
+                    item.payload.customType = "CustomRemindMessage"
                 } else if (type == 'ZMWT') {//热门问题
                     item.payload.customType = "ZMWT"
                 } else if (type == 'CustomAppointmentTimeMessage') {//预约时间

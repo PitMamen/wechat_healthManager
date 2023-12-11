@@ -308,7 +308,25 @@ Page({
         })
 
     },
-
+ //点击随访卡
+ onCustomfollowMessageClick(e){
+    let item = e.currentTarget.dataset.item;
+    console.log(item)
+    wx.navigateTo({
+        url: '/packageSub/pages/follow/detail/index?regNo='+item.regNo+'&planId='+item.id+'&userId='+this.data.config.userID
+    })
+},
+ //点击随访小结
+ onCustomsummaryMessageClick(e){
+    let item = e.currentTarget.dataset.item;
+    wx.showModal({
+        title: '随访小结',
+        content: item.content,
+        showCancel:false,
+        confirmText:'我知道了',
+        confirmColor:'#4294F7'
+      })
+},
 
     onVideoPlayClick(e) {
         console.log(e)
@@ -828,6 +846,10 @@ Page({
                     item.payload.customType = "CustomArticleMessage"
                 } else if (type == 'CustomIllnessMessage') {//问诊卡
                     item.payload.customType = "CustomIllnessMessage"
+                }else if (type == 'CustomfollowMessage') {//随访卡
+                    item.payload.customType = "CustomfollowMessage"
+                } else if (type == 'CustomsummaryMessage') {//随访小结
+                    item.payload.customType = "CustomsummaryMessage"
                 } else if (type == 'CustomAppointmentTimeMessage') {//预约时间
                     item.payload.customType = "CustomAppointmentTimeMessage"
 

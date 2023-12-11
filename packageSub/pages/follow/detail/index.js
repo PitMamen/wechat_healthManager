@@ -158,7 +158,7 @@ Page({
             //     url: '/pages/home/health-remind/detail?userId=' + wx.getStorageSync('defaultPatient').userId + '&taskId=' + item.id
             // })
             this.messageRemind(item.id)
-            this.setTaskItemRead(item.id)
+            this.setTaskItemRead(item)
         } else if (item.taskType.value === 4) {
             console.log('ffffffff onFollowTap jumpValue', item)
          
@@ -166,7 +166,7 @@ Page({
               
                 url: '/' + item.jumpValue + '?recordId=' + item.id + '&userId=' + item.userId
             })
-            this.setTaskItemRead(item.id)
+            this.setTaskItemRead(item)
         } else if (item.taskType.value === 6) {
             console.log('跳转第三方小程序')
             wx.navigateToMiniProgram({
@@ -174,13 +174,18 @@ Page({
                 path: item.jumpValue,
                 envVersion: Config.getConstantData().envVersion,
             })
-            this.setTaskItemRead(item.id)
+            this.setTaskItemRead(item)
         }
     },
     //设置已读
-    setTaskItemRead(id) {
-        WXAPI.changeFollowTaskReadStatus({recordId:id})
-
+    async  setTaskItemRead(item) {
+       
+       
+        const res = await   WXAPI.changeFollowTaskReadStatus({recordId:item.id})
+        if(item.taskType.value ===3 && item.readStatus.value === 1){
+            //如果是消息提醒 且未读 则刷新页面
+            this.onShow()
+        }
     },
 
     //消息提醒
