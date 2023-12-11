@@ -16,13 +16,13 @@ Page({
         showChatInput: true,
         hideTimeShow: true,
         config: {},
-        toAvatar: 'https://hmg.mclouds.org.cn/content-api/file/I20230710172158340QUIFGH4VFPA6IH-docheader.png',//聊天对象头像
-        myAvatar: '/image/avatar.png',//自己头像
+        toAvatar: 'https://hmg.mclouds.org.cn/content-api/file/I20230710172158340QUIFGH4VFPA6IH-docheader.png', //聊天对象头像
+        myAvatar: '/image/avatar.png', //自己头像
         textMessage: '',
-        chatItems: [],//消息列表
-        nextReqMessageID: '',//用于续拉，分页续拉时需传入该字段。
-        isCompleted: '',//表示是否已经拉完所有消息。
-        triggered: false,//设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发
+        chatItems: [], //消息列表
+        nextReqMessageID: '', //用于续拉，分页续拉时需传入该字段。
+        isCompleted: '', //表示是否已经拉完所有消息。
+        triggered: false, //设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发
         latestPlayVoicePath: '',
         scrollTopVal: '',
         pageHeight: '',
@@ -31,8 +31,8 @@ Page({
         extraArr: [],
         topArr: [],
         bottomChatStatus: '',
-        showTextPop: false,//文本消息点击放大
-        showText: '',//文本消息点击放大
+        showTextPop: false, //文本消息点击放大
+        showText: '', //文本消息点击放大
         hidePatientShow: true,
         defaultPatient: {},
         patientList: [],
@@ -61,7 +61,6 @@ Page({
             })
             return
         }
-
 
         var user = wx.getStorageSync('defaultPatient')
         if (!user || !user.userId) {
@@ -236,7 +235,9 @@ Page({
             if (newItems.length > 0) {
                 that.setMultItemAndScrollPage(newItems, true, true, false)
                 // 将某会话下所有未读消息已读上报
-                getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
+                getApp().tim.setMessageRead({
+                    conversationID: that.data.conversationID
+                });
             }
 
         };
@@ -282,13 +283,22 @@ Page({
     //智能问答接口
     async qryMedChat(question) {
 
-        await WXAPI.medChat({ userId: this.data.config.userID, question: question })
+        await WXAPI.medChat({
+            userId: this.data.config.userID,
+            question: question
+        })
 
     },
     //查询热门问题列表
     async qrySysKnowledge() {
         this.onGetMessageEvent_local('in', 'hi～我是智能AI助手小雅，可以为您提供人工智能健康服务哦～')
-        const list = [{ title: '感冒的治疗方法' }, { title: '最近睡眠不好' }, { title: '呕吐是怎么回事' }]
+        const list = [{
+            title: '感冒的治疗方法'
+        }, {
+            title: '最近睡眠不好'
+        }, {
+            title: '呕吐是怎么回事'
+        }]
         const des = "您可以详细描述您的问题，我将为您给出智能化的解答，您可以这样问："
         const remind = "我的回答是通过智能分析得出，不构成任何诊疗，建议仅供参考，若遇紧急情况请及时线下就医。"
         this.onGetCustomTypeMessageEvent_local('RMWT', list, des, remind, true)
@@ -297,7 +307,11 @@ Page({
     CustomQuestionMessageClickEvent(e) {
         var knowledgeItem = e.currentTarget.dataset.content
 
-        var message = { detail: { value: knowledgeItem.title } }
+        var message = {
+            detail: {
+                value: knowledgeItem.title
+            }
+        }
         this.onSendMessageEvent(message)
 
     },
@@ -321,12 +335,12 @@ Page({
         this.updateChatItemStatus(index, "success")
     },
     /**
-        * 模拟收到咨询问题列表
-        * @param {*} customType 类型
-        * @param {*} qlist 问题列表
-        * @param {*} description 描述
-        * @param {*} isHotList 是否是热门问题推荐列表
-        */
+     * 模拟收到咨询问题列表
+     * @param {*} customType 类型
+     * @param {*} qlist 问题列表
+     * @param {*} description 描述
+     * @param {*} isHotList 是否是热门问题推荐列表
+     */
     async onGetCustomTypeMessageEvent_local(customType, qlist, description, remind, isHotList) {
 
         let message = getApp().tim.createCustomMessage({
@@ -498,7 +512,7 @@ Page({
         let that = this;
         var postdata = {
             conversationID: this.data.conversationID,
-            count: 15//需要拉取的消息数量，默认值和最大值为15。
+            count: 15 //需要拉取的消息数量，默认值和最大值为15。
         }
 
         let promise = getApp().tim.getMessageList(postdata);
@@ -521,7 +535,9 @@ Page({
             })
             that._freshing = false
             // 将某会话下所有未读消息已读上报
-            getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
+            getApp().tim.setMessageRead({
+                conversationID: that.data.conversationID
+            });
             wx.removeTabBarBadge({
                 index: 1,
             })
@@ -548,7 +564,7 @@ Page({
         var postdata = {
             conversationID: this.data.conversationID,
             nextReqMessageID: this.data.nextReqMessageID,
-            count: 15//需要拉取的消息数量，默认值和最大值为15。
+            count: 15 //需要拉取的消息数量，默认值和最大值为15。
         }
 
         let promise = getApp().tim.getMessageList(postdata);
@@ -571,7 +587,9 @@ Page({
             })
             that._freshing = false
             // 将某会话下所有未读消息已读上报
-            getApp().tim.setMessageRead({ conversationID: that.data.conversationID });
+            getApp().tim.setMessageRead({
+                conversationID: that.data.conversationID
+            });
 
 
         }).catch(function (imError) {
@@ -701,6 +719,29 @@ Page({
             showText: e.currentTarget.dataset.text
         })
     },
+    //点赞
+    onZanClickEvent(e) {
+        this.data.chatItems[e.currentTarget.dataset.index].isZan = !this.data.chatItems[e.currentTarget.dataset.index].isZan
+        if (this.data.chatItems[e.currentTarget.dataset.index].isZan) {
+            this.data.chatItems[e.currentTarget.dataset.index].isCai = false
+        }
+
+        console.log('onZanClickEvent index', e.currentTarget.dataset.index, this.data.chatItems[e.currentTarget.dataset.index].isZan)
+        this.setData({
+            chatItems: this.data.chatItems,
+        })
+    },
+    //点踩
+    onCaiClickEvent(e) {
+        this.data.chatItems[e.currentTarget.dataset.index].isCai = !this.data.chatItems[e.currentTarget.dataset.index].isCai
+        if (this.data.chatItems[e.currentTarget.dataset.index].isCai) {
+            this.data.chatItems[e.currentTarget.dataset.index].isZan = false
+        }
+        console.log('onCaiClickEvent index', e.currentTarget.dataset.index, this.data.chatItems[e.currentTarget.dataset.index].isCai)
+        this.setData({
+            chatItems: this.data.chatItems,
+        })
+    },
     //关闭放大窗口
     onShowTextClose() {
         this.setData({
@@ -716,9 +757,9 @@ Page({
 
     },
     /**
-  * 点击extra按钮时触发
-  * @param e
-  */
+     * 点击extra按钮时触发
+     * @param e
+     */
     onExtraClickEvent(e) {
         console.log("onExtraClickEvent", e);
         this.setData({
@@ -733,7 +774,7 @@ Page({
 
 
         let chooseIndex = parseInt(e.detail.index);
-        if (chooseIndex === 0) {//发送图片
+        if (chooseIndex === 0) { //发送图片
             this.sendImageMessage()
         }
 
@@ -845,8 +886,12 @@ Page({
                 let message = getApp().tim.createImageMessage({
                     to: that.data.toUserID,
                     conversationType: TIM.TYPES.CONV_C2C,
-                    payload: { file: res },
-                    onProgress: function (event) { console.log('file uploading:', event) }
+                    payload: {
+                        file: res
+                    },
+                    onProgress: function (event) {
+                        console.log('file uploading:', event)
+                    }
                 });
                 that.sendMsg(message)
             }
@@ -872,7 +917,9 @@ Page({
                     // 消息自定义数据（云端保存，会发送到对端，程序卸载重装后还能拉取到，v2.10.2起支持）
                     // cloudCustomData: 'your cloud custom data'
                     // v2.12.2起，支持小程序端视频上传进度回调
-                    onProgress: function (event) { console.log('file uploading:', event) }
+                    onProgress: function (event) {
+                        console.log('file uploading:', event)
+                    }
                 })
                 that.sendMsg(message)
             }
@@ -1030,7 +1077,8 @@ Page({
 
                 item = that.getInfoFromCallMessage(item, isIMReceived)
             }
-
+            item.isZan = false
+            item.isCai = false
 
         })
 
@@ -1097,14 +1145,14 @@ Page({
             var signalingData = JSON.parse(item.payload.data)
             console.log(signalingData)
             var type = signalingData.type
-            if (type) {//自己业务的自定义消息
-                if (type == 'CustomWenJuanMessage') {//问卷卡
+            if (type) { //自己业务的自定义消息
+                if (type == 'CustomWenJuanMessage') { //问卷卡
                     item.payload.customType = "CustomWenJuanMessage"
-                } else if (type == 'CustomArticleMessage') {//文章卡
+                } else if (type == 'CustomArticleMessage') { //文章卡
                     item.payload.customType = "CustomArticleMessage"
-                } else if (type == 'CustomIllnessMessage') {//问诊卡
+                } else if (type == 'CustomIllnessMessage') { //问诊卡
                     item.payload.customType = "CustomIllnessMessage"
-                } else if (type == 'CustomChuFangMessage') {//处方卡
+                } else if (type == 'CustomChuFangMessage') { //处方卡
                     item.payload.customType = "CustomChuFangMessage"
                 } else if (type == 'CustomfollowMessage') {//随访卡
                     item.payload.customType = "CustomfollowMessage"
@@ -1112,9 +1160,9 @@ Page({
                     item.payload.customType = "CustomsummaryMessage"
                 } else if (type == 'CustomRemindMessage') {//今日任务提醒
                     item.payload.customType = "CustomRemindMessage"
-                } else if (type == 'ZMWT') {//热门问题
+                } else if (type == 'ZMWT') { //热门问题
                     item.payload.customType = "ZMWT"
-                } else if (type == 'CustomAppointmentTimeMessage') {//预约时间
+                } else if (type == 'CustomAppointmentTimeMessage') { //预约时间
                     item.payload.customType = "CustomAppointmentTimeMessage"
 
                     var timeArr = signalingData.time ? signalingData.time.split(",") : null
@@ -1126,7 +1174,7 @@ Page({
                     })
                     signalingData.timeArr = timeArr2
 
-                } else {//解析其他消息 比如视频语音通话
+                } else { //解析其他消息 比如视频语音通话
                     item.payload.description = "[自定义消息]"
 
                 }
@@ -1181,30 +1229,30 @@ Page({
                     // 注意： wx.authorize 只有首次调用会弹框，之后调用只返回结果，如果没有授权需要自行弹框提示处理
                     console.log('getSetting 没有授权，弹出授权窗口', result)
                     wx.authorize({
-                        scope: 'scope.record',
-                    }).then((res) => {
-                        console.log('authorize mic', res)
-                        this.authorizeMic = true
-                        if (this.authorizeCamera) {
-                            resolve()
-                        }
-                    })
+                            scope: 'scope.record',
+                        }).then((res) => {
+                            console.log('authorize mic', res)
+                            this.authorizeMic = true
+                            if (this.authorizeCamera) {
+                                resolve()
+                            }
+                        })
                         .catch((error) => {
                             console.log('authorize mic error', error)
                             this.authorizeMic = false
                         })
                     wx.authorize({
-                        scope: 'scope.camera',
-                    }).then((res) => {
-                        console.log('authorize camera', res)
-                        this.authorizeCamera = true
-                        if (this.authorizeMic) {
-                            resolve()
-                        } else {
-                            this.openConfirm()
-                            reject(new Error('authorize fail'))
-                        }
-                    })
+                            scope: 'scope.camera',
+                        }).then((res) => {
+                            console.log('authorize camera', res)
+                            this.authorizeCamera = true
+                            if (this.authorizeMic) {
+                                resolve()
+                            } else {
+                                this.openConfirm()
+                                reject(new Error('authorize fail'))
+                            }
+                        })
                         .catch((error) => {
                             console.log('authorize camera error', error)
                             this.authorizeCamera = false
@@ -1231,7 +1279,7 @@ Page({
                 if (res.confirm) {
                     console.log('用户点击确认')
                     wx.openSetting({
-                        success: (res) => { },
+                        success: (res) => {},
                     })
                 } else {
                     console.log('用户点击取消')

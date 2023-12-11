@@ -6,7 +6,7 @@
         <template is="chat-time" data="{{showTime:item.isShowTime,time:item.time}}" />
         <block wx:if="{{item.type!=='TIMCustomElem'}}">
             <template is="chat-word"
-                data="{{length:length,index:index,nick:item.nick, headUrl:avatar?avatar:'/image/avatar.png',isMy:item.flow=== 'out',isDoctor:isDoctor, content:item.payload,type:item.type,sendStatus:item.status,cursor:cursor}}" />
+                data="{{length:length,index:index,nick:item.nick, headUrl:avatar?avatar:'/image/avatar.png',isMy:item.flow=== 'out',isDoctor:isDoctor, content:item.payload,type:item.type,sendStatus:item.status,cursor:cursor,isZan:item.isZan,isCai:item.isCai}}" />
         </block>
 
         <!-- 用扩展字段 item.payload.extension标识不同类型-->
