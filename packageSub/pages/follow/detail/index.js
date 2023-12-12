@@ -141,7 +141,8 @@ Page({
     onFollowTap(event) {
         const item = event.currentTarget.dataset.item
         console.log('ffffffff onFollowTap', JSON.stringify(item))
-        if (item.taskType.value === 1) {
+
+        if (item.taskType.value === 1) { //问卷
             let url = item.jumpValue + '?userId=' + item.userId + '&recordId=' + item.id + '&modifyTaskBizStatus=yes'
             if (item.taskBizStatus.value === 1) {
                 url = url.replace("/r/", "/s/")
@@ -149,17 +150,55 @@ Page({
             wx.navigateTo({
                 url: '/pages/home/webpage/index?url=' + encodeURIComponent(url)
             })
-        } else if (item.taskType.value === 2) {
+        } else if (item.taskType.value === 2) { //文章
             wx.navigateTo({
                 url: '/pages/home/news/news-detail?id=' + item.jumpId + '&recordId=' + item.id
             })
-        } else if (item.taskType.value === 3) {
-            // wx.navigateTo({
-            //     url: '/pages/home/health-remind/detail?userId=' + wx.getStorageSync('defaultPatient').userId + '&taskId=' + item.id
-            // })
-            this.messageRemind(item.id)
+        } else if (item.taskType.value === 3) { //消息提醒 （包含所有类型）
+            if (item.jumpType === '1') { //问卷
+                let url = item.jumpValue + '?userId=' + item.userId + '&recordId=' + item.id + '&modifyTaskBizStatus=yes'
+                if (item.taskBizStatus.value === 1) {
+                    url = url.replace("/r/", "/s/")
+                }
+                wx.navigateTo({
+                    url: '/pages/home/webpage/index?url=' + encodeURIComponent(url)
+                })
+            } else if (item.jumpType === '2') { //文章
+                wx.navigateTo({
+                    url: '/pages/home/news/news-detail?id=' + item.jumpId + '&recordId=' + item.id
+                })
+            }else if(item.jumpType === '3'){ //无跳转消息
+                this.messageRemind(item.id)
+               
+            }else if (item.jumpType === '4'  ){ //外网地址
+              
+                wx.navigateTo({
+                    url: '/pages/home/webpage/index?url=' + encodeURIComponent(item.jumpValue)
+                })
+               
+            }else if (item.jumpType === '5' ){ //内部地址
+                wx.navigateTo({
+              
+                    url: '/' + item.jumpValue + '?recordId=' + item.id + '&userId=' + item.userId
+                })
+               
+            }else if (item.jumpType === '6'){ //第三方小程序
+                wx.navigateToMiniProgram({
+                    appId: item.jumpId,
+                    path: item.jumpValue,
+                    envVersion: Config.getConstantData().envVersion,
+                })
+             
+            }
             this.setTaskItemRead(item)
-        } else if (item.taskType.value === 4) {
+        }else if (item.taskType.value === 4) {//外网地址
+            console.log('ffffffff onFollowTap jumpValue', item)
+         
+            wx.navigateTo({
+                url: '/pages/home/webpage/index?url=' + encodeURIComponent(item.jumpValue)
+            })
+            this.setTaskItemRead(item)
+        } else if (item.taskType.value === 5) {//内部地址
             console.log('ffffffff onFollowTap jumpValue', item)
          
             wx.navigateTo({
@@ -167,7 +206,7 @@ Page({
                 url: '/' + item.jumpValue + '?recordId=' + item.id + '&userId=' + item.userId
             })
             this.setTaskItemRead(item)
-        } else if (item.taskType.value === 6) {
+        } else if (item.taskType.value === 6) {//第三方小程序
             console.log('跳转第三方小程序')
             wx.navigateToMiniProgram({
                 appId: item.jumpId,

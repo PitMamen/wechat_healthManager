@@ -37,7 +37,8 @@ Page({
         defaultPatient: {},
         patientList: [],
         radioIndex: -1,
-        isAITrunking: false
+        isAITrunking: false,
+        showAIRemind:false,
     },
 
     /**
@@ -70,6 +71,9 @@ Page({
         }
     },
     onShow: function (e) {
+        wx.removeTabBarBadge({
+            index: 1,
+        })
         console.log("chat page: onShow")
         var user = wx.getStorageSync('defaultPatient')
         if (!user || !user.userId) {
@@ -91,8 +95,13 @@ Page({
         }
 
         if (!this.data.defaultPatient || this.data.defaultPatient.userId !== wx.getStorageSync('defaultPatient').userId) {
-            this.getMessageList()
+            this.setData({
+                showAIRemind:true
+            })
         }
+        var showAIRemind=!this.data.defaultPatient || this.data.defaultPatient.userId !== wx.getStorageSync('defaultPatient').userId
+
+        this.getMessageList(showAIRemind)
 
         this.setData({
             defaultPatient: wx.getStorageSync('defaultPatient'),
@@ -100,15 +109,16 @@ Page({
 
         })
 
+        
 
         this.connectWebSocket()
         this.startCursorTimer()
-        if(!this.onMessageReceived){
-            this.onIMReceived()
-        }
+        
+        this.onIMReceived()
+        
        
     },
-
+  
     setConfig() {
         var config = {
             sdkAppID: getApp().globalData.sdkAppID,
@@ -254,7 +264,17 @@ Page({
         this.videoContext = wx.createVideoContext('myVideo')
     },
 
+    onHide(){
+        console.log("CHATAI-onHide")
+        if(this.onMessageReceived){
+            getApp().tim.off(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived);
+        }
+        wx.closeSocket()
 
+        clearInterval(this.cursorTimer)
+
+        this.cursorTimer = undefined
+    },
     onUnload() {
         console.log("chat page: onUnload")
         //放开截屏录屏
@@ -441,7 +461,7 @@ Page({
 
                 that.setConfig()
                 that.data.chatItems = []
-                that.getMessageList()
+                that.getMessageList(true)
                 that.setData({
                     isAITrunking: false
                 })
@@ -506,7 +526,7 @@ Page({
     },
 
     //第一次获取消息列表
-    getMessageList() {
+    getMessageList(showAIRemind) {
         console.log('getMessageList')
         // 打开某个会话时，第一次拉取消息列表
         let that = this;
@@ -523,7 +543,7 @@ Page({
             const isCompleted = imResponse.data.isCompleted; // 表示是否已经拉完所有消息。
 
 
-            that.setMultItemAndScrollPage(messageList, false, that.data.chatItems.length === 0, false)
+            that.setMultItemAndScrollPage(messageList, false, true, false)
 
 
             that.setData({
@@ -538,11 +558,19 @@ Page({
             getApp().tim.setMessageRead({
                 conversationID: that.data.conversationID
             });
-            wx.removeTabBarBadge({
-                index: 1,
-            })
+           
+            if(showAIRemind){
+                that.qrySysKnowledge('JZDH')
+            }
+           
 
-            that.qrySysKnowledge('JZDH')
+                clearInterval(that.cursorTimer)
+
+                that.setData({
+                    cursor: true,
+                    isAITrunking: false
+                })
+            
 
         }).catch(function (imError) {
             console.error(imError)
