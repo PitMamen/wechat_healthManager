@@ -484,11 +484,22 @@ Page({
         this.setData({
             hidePatientShow: false
         })
+        if (this.data.showChatInput) {
+            this.setData({
+                showChatInput: false
+            })
+        }
     },
     closePatientTap: function () {
         this.setData({
             hidePatientShow: true
         })
+
+        if (!this.data.showChatInput) {
+            this.setData({
+                showChatInput: true
+            })
+        }
     },
     //选择就诊人
     onChooseRadioItem(e) {
@@ -517,6 +528,11 @@ Page({
         this.setData({
             hidePatientShow: true
         })
+        if (!this.data.showChatInput) {
+            this.setData({
+                showChatInput: true
+            })
+        }
     },
     onPatientAdd() {
 

@@ -1,7 +1,7 @@
 <!-- <import src="./chat-send-status.wxml" /> -->
 <template name="chat-word">
     <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{!isMy&&index===length-1?120:20}}rpx;margin-top: 20rpx;flex-shrink:0;">
-        <image style="width:80rpx;height:80rpx;margin-left: 24rpx;margin-right: 24rpx;" src="{{isMy? 'https://hmg.mclouds.org.cn/content-api/file/I20231208175819573A9JZKS09UBFPMK-abcdefgsmall1.png':'https://hmg.mclouds.org.cn/content-api/file/I20231208175805589EKA9FFL1JINVIB-abcdefgrobot.png'}}" />
+        <image style="width:80rpx;height:80rpx;margin-left: 24rpx;margin-right: 24rpx;" src="{{isMy? 'https://hmg.mclouds.org.cn/content-api/file/I20231212104851244JODMZ0ORC28PGA-202312121048ddd.png':'https://hmg.mclouds.org.cn/content-api/file/I20231208175805589EKA9FFL1JINVIB-abcdefgrobot.png'}}" />
         <!-- <image wx:if="{{type==='TIMTextElem'||type==='TIMSoundElem'}}" class="{{isMy?'my-chat-list-arrow-style':'other-chat-list-arrow-style'}}" src="/image/ai/popu_{{isMy?'blue':'white'}}.png" /> -->
         <view class="content-view">
             <view wx:if="{{type==='TIMTextElem'}}" class="{{isMy?'isMyWordViewStyle1':'isOtherWordViewStyle1'}}">
@@ -13,8 +13,8 @@
                     <view style="flex: 1;"></view>
                     <view style="display: flex;flex-direction: row;align-items: center;">
                         <!-- catchtap="_chatInput$send$text$message02" -->
-                        <image bindtap="onZanClickEvent" data-index="{{index}}" style="width:22rpx;height:22rpx;margin-left: 24rpx;" src="{{isZan?'/image/icon_yes_checked.png':'/image/icon_yes.png'}}" />
-                        <image bindtap="onCaiClickEvent" data-index="{{index}}" style="width:22rpx;height:22rpx;margin-left: 24rpx;" src="{{isCai?'/image/icon_no_checked.png':'/image/icon_no.png'}}" />
+                        <image bindtap="onZanClickEvent" data-index="{{index}}" style="width:27rpx;height:27rpx;margin-left: 24rpx;" src="{{isZan?'/image/icon_yes_checked.png':'/image/icon_yes.png'}}" />
+                        <image bindtap="onCaiClickEvent" data-index="{{index}}" style="width:27rpx;height:27rpx;margin-left: 24rpx;" src="{{isCai?'/image/icon_no_checked.png':'/image/icon_no.png'}}" />
                     </view>
                 </view>
             </view>

@@ -3,7 +3,7 @@
         <!-- <image wx:if="{{type==='RMWT'}}"  class="{{isMy?'my-chat-list-arrow-style':'other-chat-list-arrow-style'}}"
             src="/image/ai/popu_{{isMy?'blue':'white'}}.png" /> -->
 
-        <image style="width:80rpx;height:80rpx;margin-left: 24rpx;margin-right: 24rpx;" src="{{isMy? 'https://hmg.mclouds.org.cn/content-api/file/I20231208175819573A9JZKS09UBFPMK-abcdefgsmall1.png':'https://hmg.mclouds.org.cn/content-api/file/I20231208175805589EKA9FFL1JINVIB-abcdefgrobot.png'}}" />
+        <image style="width:80rpx;height:80rpx;margin-left: 24rpx;margin-right: 24rpx;" src="{{isMy? 'https://hmg.mclouds.org.cn/content-api/file/I20231212104851244JODMZ0ORC28PGA-202312121048ddd.png':'https://hmg.mclouds.org.cn/content-api/file/I20231208175805589EKA9FFL1JINVIB-abcdefgrobot.png'}}" />
         <view class="content-view">
             <!-- 服务咨询 就诊导航-->
             <block wx:if="{{type==='RMWT'}}">
