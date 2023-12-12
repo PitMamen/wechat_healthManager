@@ -76,7 +76,7 @@ input {
     min-height: 100rpx;
     position: relative;
     border-radius: 40rpx 40rpx 0 0;
-    padding-bottom: 20rpx;
+    /* padding-bottom: 20rpx; */
 }
 
 .input-flex-column {

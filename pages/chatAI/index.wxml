@@ -1,6 +1,7 @@
 <import src="./chat-item/ai-chat-item.wxml" />
 <view class="topview" style="background-size: cover;">
-    <image class="img-logo" src="https://hmg.mclouds.org.cn/content-api/file/I202312081757507914876ZDLAB4FV4N-abcdefglogo.png" />
+    <!-- https://hmg.mclouds.org.cn/content-api/file/I202312081757507914876ZDLAB4FV4N-abcdefglogo.png -->
+    <image class="img-logo" src="https://hmg.mclouds.org.cn/content-api/file/I20231211174939942WY8OKHVCIN9J7Z-logo@2x.png" />
     <view style="flex:1"></view>
 
     <view class="view-btn" bindtap="bindPatientTap">
@@ -11,7 +12,7 @@
 
 </view>
 
-<scroll-view wx:if="{{chatItems.length>0}}" style="height:{{pageHeight-105}}px;width: 100%;display: flex;flex-direction: column; background: linear-gradient(to bottom left, #E6F2FD, #F7E7E9);" scroll-y="true" enable-flex="true" scroll-top="{{scrollTopVal}}" refresher-enabled="{{true}}" refresher-default-style="white" refresher-background="#8fcbf7" refresher-triggered="{{triggered}}" bindrefresherrefresh="onRefresh" bindtap="resetInputStatus">
+<scroll-view wx:if="{{chatItems.length>0}}" style="height:{{pageHeight-137}}px;width: 100%;display: flex;flex-direction: column; background: linear-gradient(to bottom left, #E6F2FD, #F7E7E9);" scroll-y="true" enable-flex="true" scroll-top="{{scrollTopVal}}" refresher-enabled="{{true}}" refresher-default-style="white" refresher-background="#8fcbf7" refresher-triggered="{{triggered}}" bindrefresherrefresh="onRefresh" bindtap="resetInputStatus">
     <block wx:for="{{chatItems}}" wx:key="id2">
         <template is="chat-item" data="{{length:chatItems.length,index:index,item:item,avatar:item.flow=== 'out'?myAvatar:item.avatar || toAvatar,isDoctor:item.from==tradeRemark.docId,cursor:cursor}}" />
     </block>
@@ -30,7 +31,7 @@
 
 
 <!-- 就诊人选择 -->
-<van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding:40rpx 30rpx;min-height: 20%;max-height: 80%;" bind:close="closePatientTap">
+<van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding:40rpx 30rpx;min-height: 20%;max-height: 80%;z-index:10000" bind:close="closePatientTap">
     <view class="poptop">
         <view class="popadd" bindtap="onPatientAdd">添加</view>
         <view class="poptitle">请选择就诊人</view>
