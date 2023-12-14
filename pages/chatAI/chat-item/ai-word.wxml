@@ -1,14 +1,14 @@
 <!-- <import src="./chat-send-status.wxml" /> -->
 <template name="chat-word">
     <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{!isMy&&index===length-1?120:20}}rpx;margin-top: 20rpx;flex-shrink:0;">
-        <image style="width:80rpx;height:80rpx;margin-left: 24rpx;margin-right: 24rpx;" src="{{isMy? 'https://hmg.mclouds.org.cn/content-api/file/I20231212104851244JODMZ0ORC28PGA-202312121048ddd.png':'https://hmg.mclouds.org.cn/content-api/file/I20231208175805589EKA9FFL1JINVIB-abcdefgrobot.png'}}" />
+        <image style="width:80rpx;height:80rpx;margin-left: 24rpx;margin-right: 24rpx;" src="{{isMy? 'https://hmg.mclouds.org.cn/content-api/file/I202312141652025722NZLVT0NJR2VFF-icon_20231214165147.png':'https://hmg.mclouds.org.cn/content-api/file/I20231208175805589EKA9FFL1JINVIB-abcdefgrobot.png'}}" />
         <!-- <image wx:if="{{type==='TIMTextElem'||type==='TIMSoundElem'}}" class="{{isMy?'my-chat-list-arrow-style':'other-chat-list-arrow-style'}}" src="/image/ai/popu_{{isMy?'blue':'white'}}.png" /> -->
         <view class="content-view">
             <view wx:if="{{type==='TIMTextElem'}}" class="{{isMy?'isMyWordViewStyle1':'isOtherWordViewStyle1'}}">
                 <text decode class="{{isMy?'isMyWordStyleHere':'isOtherWordStyleHere'}}" bindtap="chatTextItemClickEvent" data-text="{{content.text}}">{{content.text}}<text wx:if="{{!isMy}}" hidden="{{index===length-1?cursor:true}}">|</text>
                 </text>
 
-                <view wx:if="{{!isMy}}" style="display: flex;flex-direction: row;align-items: center;padding-top: 30rpx;margin-top: 30rpx;border-top: 1rpx solid #E6E6E6;">
+                <view wx:if="{{!isMy}}" style="display: flex;flex-direction: row;align-items: center;padding-top: 10rpx;margin-top: 20rpx;border-top: 1rpx solid #E6E6E6;">
                     <view style="color:#CCCCCC ;">AI回答仅供参考</view>
                     <view style="flex: 1;"></view>
                     <view style="display: flex;flex-direction: row;align-items: center;">
