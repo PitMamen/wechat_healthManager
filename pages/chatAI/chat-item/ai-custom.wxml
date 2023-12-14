@@ -3,16 +3,16 @@
         <!-- <image wx:if="{{type==='RMWT'}}"  class="{{isMy?'my-chat-list-arrow-style':'other-chat-list-arrow-style'}}"
             src="/image/ai/popu_{{isMy?'blue':'white'}}.png" /> -->
 
-        <image style="width:80rpx;height:80rpx;margin-left: 24rpx;margin-right: 24rpx;" src="{{isMy? 'https://hmg.mclouds.org.cn/content-api/file/I20231212104851244JODMZ0ORC28PGA-202312121048ddd.png':'https://hmg.mclouds.org.cn/content-api/file/I20231208175805589EKA9FFL1JINVIB-abcdefgrobot.png'}}" />
+        <image style="width:80rpx;height:80rpx;margin-left: 24rpx;margin-right: 24rpx;" src="{{isMy? 'https://hmg.mclouds.org.cn/content-api/file/I202312141652025722NZLVT0NJR2VFF-icon_20231214165147.png':'https://hmg.mclouds.org.cn/content-api/file/I20231208175805589EKA9FFL1JINVIB-abcdefgrobot.png'}}" />
         <view class="content-view">
             <!-- 服务咨询 就诊导航-->
             <block wx:if="{{type==='RMWT'}}">
                 <view class="{{false?'isMyWordStyle1':'isOtherWordStyle1'}}" style="display: flex; flex-direction: column;">
                     <view>{{content.data.description}}</view>
-                    <view bindtap="CustomQuestionMessageClickEvent" data-content="{{item}}" style="margin-top: 20rpx;color: #3894FF;" wx:for="{{content.data.qlist}}" wx:key="fwzxkey">
+                    <view bindtap="CustomQuestionMessageClickEvent" data-content="{{item}}" style="margin-top: 10rpx;color: #3894FF;" wx:for="{{content.data.qlist}}" wx:key="fwzxkey">
                         {{item.title}}
                     </view>
-                    <view style="margin-top: 40rpx;color: #999999;">{{content.data.remind}}</view>
+                    <view style="margin-top: 10rpx;color: #999999;">{{content.data.remind}}</view>
                 </view>
             </block>
             <!-- 问诊卡 -->
