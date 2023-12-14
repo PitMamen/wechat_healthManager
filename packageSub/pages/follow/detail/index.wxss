@@ -59,7 +59,7 @@ page {
 }
 .bartext1{
     font-size: 24rpx;
-    font-family: PingFang SC;
+    font-family: PingFang SC ;
     font-weight: 400;
     color: #1A1A1A;
   
@@ -178,7 +178,7 @@ border-radius: 0px 8rpx 8rpx 8rpx;
 margin-right: 20rpx;
 }
 .itemcontent{
-    width: 543rpx;
+    width: 550rpx;
 padding-top: 20rpx;
 padding-bottom: 20rpx;
 background: #F5F5F5;

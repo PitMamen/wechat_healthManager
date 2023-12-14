@@ -191,14 +191,7 @@ Page({
              
             }
             this.setTaskItemRead(item)
-        }else if (item.taskType.value === 4) {//外网地址
-            console.log('ffffffff onFollowTap jumpValue', item)
-         
-            wx.navigateTo({
-                url: '/pages/home/webpage/index?url=' + encodeURIComponent(item.jumpValue)
-            })
-            this.setTaskItemRead(item)
-        } else if (item.taskType.value === 5) {//内部地址
+        } else if (item.taskType.value === 4) {//内部地址 :病历查阅
             console.log('ffffffff onFollowTap jumpValue', item)
          
             wx.navigateTo({
