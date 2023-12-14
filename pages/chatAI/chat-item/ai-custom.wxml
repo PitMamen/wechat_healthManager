@@ -17,7 +17,7 @@
             </block>
             <!-- 问诊卡 -->
             <block wx:elif="{{type==='CustomIllnessMessage'}}">
-                <view bindtap="onCustomIllnessMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                <view  style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
                     <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
                         <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="/image/ai/icon_wzk.png">
                         </image>
@@ -32,8 +32,8 @@
                         <view style="color: #1A1A1A;flex: 1;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{content.data.content}}</view>
                     </view>
                     <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
-                    <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
-                        <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
+                    <view  style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                        <view bindtap="onCustomIllnessMessageClick" data-item="{{content.data}}" style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
                     </view>
                 </view>
             </block>
@@ -67,7 +67,7 @@
             </block>
             <!-- 文章卡 -->
             <block wx:elif="{{type==='CustomArticleMessage'}}">
-                <view bindtap="onCustomArticleMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                <view  style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
                     <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
                         <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="/image/ai/icon_jkxj.png">
                         </image>
@@ -78,14 +78,14 @@
                         <view style="color: #1A1A1A;flex: 1;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{content.data.content}}</view>
                     </view>
                     <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
-                    <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
-                        <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
+                    <view  style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                        <view bindtap="onCustomArticleMessageClick" data-item="{{content.data}}" style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
                     </view>
                 </view>
             </block>
             <!-- 问卷卡 -->
             <block wx:elif="{{type==='CustomWenJuanMessage'}}">
-                <view bindtap="onCustomWenJuanMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                <view  style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
                     <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
                         <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="/image/ai/icon_wjk.png">
                         </image>
@@ -98,15 +98,15 @@
                         <view style="color: #1A1A1A;flex: 1;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{content.data.name}}</view>
                     </view>
                     <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
-                    <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
-                        <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
+                    <view  style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                        <view bindtap="onCustomWenJuanMessageClick" data-item="{{content.data}}" style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
                     </view>
                 </view>
             </block>
 
             <!-- 随访卡 -->
             <block wx:elif="{{type==='CustomfollowMessage'}}">
-                <view bindtap="onCustomfollowMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                <view  style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
                     <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
                         <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="/image/ai/suifangjh.png">
                         </image>
@@ -122,14 +122,14 @@
                         <view style="color: #1A1A1A;flex: 1;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{content.data.name}}</view>
                     </view>
                     <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
-                    <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
-                        <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
+                    <view  style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                        <view bindtap="onCustomfollowMessageClick" data-item="{{content.data}}" style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
                     </view>
                 </view>
             </block>
             <!-- 随访小结 -->
             <block wx:elif="{{type==='CustomsummaryMessage'}}">
-                <view bindtap="onCustomsummaryMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
+                <view  style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;">
                     <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
                         <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="/image/ai/xiaojie.png">
                         </image>
@@ -145,8 +145,8 @@
                         <view style="color: #1A1A1A;flex: 1;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{content.data.content}}</view>
                     </view>
                     <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
-                    <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
-                        <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
+                    <view  style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+                        <view bindtap="onCustomsummaryMessageClick" data-item="{{content.data}}" style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
                     </view>
                 </view>
             </block>
@@ -154,28 +154,28 @@
           
             <!-- 今日提醒 -->
             <block wx:elif="{{type==='CustomRemindMessage'}}">
-                <view bindtap="onCustomRemindMessageClick" data-item="{{content.data}}" style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;line-height: 52rpx;">
+                <view  style="width: 500rpx;background: #FFFFFF;box-shadow: 0px 2rpx 4rpx 0px rgba(204,204,204,0.35);border-radius: 8rpx;display: flex;flex-direction: column;line-height: 48rpx;">
                     <view style=" height: 62rpx;background: #EFF6FF;font-size: 28rpx;color: #4D4D4D;display: flex;flex-direction: row;align-items: center;">
                         <image style="width: 32rpx;margin-left: 20rpx;margin-right: 20rpx;" mode="aspectFit" src="/image/ai/renwutixing.png">
                         </image>
                         <view>今日任务提醒</view>
 
                     </view>
-                    <view wx:if="{{content.data.message}}" style="font-size:  28rpx ;margin: 30rpx 20rpx 0 20rpx;display: flex;flex-direction: row;align-items: center;">
+                    <view wx:if="{{content.data.message}}" style="font-size:  28rpx ;margin: 20rpx 20rpx 0 20rpx;display: flex;flex-direction: row;align-items: center;">
                         <view style="color: #999999;">医护留言：</view>
 
                     </view>
-                    <view wx:if="{{content.data.message}}" style="font-size:  28rpx ;margin: 30rpx 20rpx 0 20rpx;display: flex;flex-direction: row;align-items: center;">
+                    <view wx:if="{{content.data.message}}" style="font-size:  28rpx ;margin: 6rpx 20rpx 6rpx 20rpx;display: flex;flex-direction: row;align-items: center;">
 
                         <view style="color: #1A1A1A;flex: 1;">{{content.data.message}}</view>
                     </view>
-                    <view style="font-size:  28rpx ;margin: 30rpx 20rpx ;display: flex;flex-direction: row;align-items: center;background-color: #E6E6E6;">
+                    <view style="font-size:  28rpx ;margin: 10rpx 20rpx ;display: flex;flex-direction: row;align-items: center;background-color: #E6E6E6;">
                         <view style="color: #1A1A1A;margin: 20rpx;">{{content.data.taskType.description }}：{{content.data.jumpTitle || '请点击查看'}}</view>
                     </view>
                     
                     <view style="height: 1rpx;width: 100%;background: #E6E6E6;"></view>
                     <view style="height: 108rpx;display: flex;flex-direction: row;align-items: center;justify-content: center;">
-                        <view style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
+                        <view bindtap="onCustomRemindMessageClick" data-item="{{content.data}}" style="width: 168rpx;height: 48rpx;background: #3894FF;border-radius: 4rpx;text-align: center;line-height: 48rpx;font-size: 28rpx;color: white;">点击查看</view>
                     </view>
                 </view>
             </block>
