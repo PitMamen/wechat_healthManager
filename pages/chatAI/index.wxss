@@ -3,6 +3,24 @@
 page {
     background-color: #F5F5F5;
 }
+.navigation-custom-view {
+    background: white;
+    width: 100%;
+   
+    position: relative;
+    background-color: #F5F5F5;
+}
+
+.navigation-custom-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+   
+    width: 100%;
+    font-size: 32rpx;
+    
+    color: #1A1A1A;
+}
 .topview{
     padding: 8rpx 24rpx;
     height: 54px;

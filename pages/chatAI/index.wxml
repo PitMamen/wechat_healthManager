@@ -1,4 +1,15 @@
 <import src="./chat-item/ai-chat-item.wxml" />
+<van-sticky>
+<view class="navigation-custom-view" >
+    
+    <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
+            <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #1A1A1A;text-align: center;">
+                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 0; padding: 0 50rpx 0 24rpx ;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
+                <view style="padding: 0 185rpx 0 185rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                    <text style="{{'line-height: '+ navBarHeight +'px;'}}">AI问诊</text>
+                </view>
+            </view>
+</view>
 <view class="topview" style="background-size: cover;">
     <!-- https://hmg.mclouds.org.cn/content-api/file/I202312081757507914876ZDLAB4FV4N-abcdefglogo.png -->
     <image class="img-logo" src="https://hmg.mclouds.org.cn/content-api/file/I20231211174939942WY8OKHVCIN9J7Z-logo@2x.png" />
@@ -11,7 +22,7 @@
     </view>
 
 </view>
-
+</van-sticky>
 <scroll-view wx:if="{{chatItems.length>0}}" style="height:{{pageHeight-137}}px;width: 100%;display: flex;flex-direction: column; background: linear-gradient(to bottom left, #E6F2FD, #F7E7E9);" scroll-y="true" enable-flex="true" scroll-top="{{scrollTopVal}}" refresher-enabled="{{true}}" refresher-default-style="white" refresher-background="#8fcbf7" refresher-triggered="{{triggered}}" bindrefresherrefresh="onRefresh" bindtap="resetInputStatus">
     <block wx:for="{{chatItems}}" wx:key="id2">
         <template is="chat-item" data="{{length:chatItems.length,index:index,item:item,avatar:item.flow=== 'out'?myAvatar:item.avatar || toAvatar,isDoctor:item.from==tradeRemark.docId,cursor:cursor}}" />

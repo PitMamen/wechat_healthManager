@@ -5,6 +5,7 @@ Page({
     data: {
         showPositiveDialog: false,
         identificationNo: '',
+        name:'',
         info: {},
         filterExecuteRecord: [],//已过滤重复的任务列表
         debounced: false,//防抖动
@@ -16,13 +17,19 @@ Page({
     onLoad(options) {
         this.setData({
             info: getApp().followInfo,
-            identificationNo: getApp().followInfo.idCard || ''
+            identificationNo: getApp().followInfo.idCard || '',
+            name:getApp().followInfo.patName || '',
         })
         console.log(this.data.info)
     },
     getIDCardNoValue(e) {
         this.setData({
             identificationNo: e.detail.value
+        })
+    },
+    getNmaeValue(e){
+        this.setData({
+            name: e.detail.value
         })
     },
     getPhoneValue(e) {
@@ -44,17 +51,6 @@ Page({
     //提交
     nextAction: function () {
 
-        
-        if (!this.data.identificationNo || this.data.identificationNo.length <= 0) {
-
-            wx.showModal({
-                title: '温馨提示',
-                content: '请补充身份证号码，若是新生儿可填写亲属身份证号码',
-
-            })
-            return;
-        }
-
         if (this.data.debounced) {
             return
         }
@@ -67,7 +63,49 @@ Page({
             })
         }, 10000)
 
+        if (!this.data.name || this.data.name.trim().length <= 0) {
 
+            wx.showModal({
+                title: '温馨提示',
+                content: '请补充姓名，若是新生儿可填写亲属姓名',
+
+            })
+            return;
+        }
+        
+        if (!this.data.identificationNo || this.data.identificationNo.trim().length <= 0) {
+
+            wx.showModal({
+                title: '温馨提示',
+                content: '请补充身份证号码，若是新生儿可填写亲属身份证号码',
+
+            })
+            return;
+        }
+
+        if(this.data.info.type=='2' || this.data.info.type==2){
+            //入院
+            this. checkUser()
+        }else{
+            //出院
+            wx.showModal({
+                title: '温馨提示',
+                content: '请您确认是否在今日或明日出院？',
+                complete: (res) => {
+               
+                  if (res.confirm) {
+                    this. checkUser()
+                  }
+                }
+              })
+        }
+
+    
+
+    },
+
+    //判断患者是否已经存在用户
+    checkUser(){
         var patientInfoList = wx.getStorageSync('allPatientList')
         console.log(patientInfoList)
         var user = null
@@ -92,8 +130,6 @@ Page({
         } else {
             this.addPatientQuery()
         }
-
-
     },
 
     addPatientQuery() {
@@ -107,7 +143,7 @@ Page({
             tenantId: that.data.info.tenantId,
             hospitalCode: that.data.info.hospitalCode,
             accountId: user.accountId,
-            userName: that.data.info.patName,
+            userName: that.data.name,
             identificationNo: that.data.identificationNo,
             identificationType: '01',//默认身份证
             phone: user.phone,//使用微信手机号
@@ -159,6 +195,7 @@ Page({
 
         var postData = this.data.info
         postData.userId = userId
+        postData.patName =this.data.name
         postData.idCard = this.data.identificationNo
         var user = wx.getStorageSync('userInfo').account
         postData.mobile = user.phone

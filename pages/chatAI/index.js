@@ -48,13 +48,23 @@ Page({
 
 
         this.setData({
+           
+            navBarHeight: getApp().globalData.navBarHeight,
+            statusBarHeight: getApp().globalData.statusBarHeight,
             pageHeight: wx.getSystemInfoSync().windowHeight,
         })
       
 
     },
+    onBackTap(){
+        wx.switchTab({
+          url: '/pages/home/main',
+        })
+        wx.showTabBar()
+    },
     onTabItemTap(item) {
         // tab 点击时执行
+        wx.hideTabBar()
         console.log('onTabItemTap', item)
         if (!getApp().globalData.loginReady) {
             wx.navigateTo({
@@ -71,6 +81,7 @@ Page({
         }
     },
     onShow: function (e) {
+        wx.hideTabBar()
         wx.removeTabBarBadge({
             index: 1,
         })
@@ -265,6 +276,7 @@ Page({
     },
 
     onHide(){
+        wx.showTabBar()
         console.log("CHATAI-onHide")
         if(this.onMessageReceived){
             getApp().tim.off(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived);
