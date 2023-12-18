@@ -46,7 +46,7 @@
             <!-- 问卷（taskType===1）判断taskBizStatus 其他判断readStatus -->
             <van-button disabled="{{taskDetail.timeType===1}}" wx:if="{{item.taskType.value === 1?item.taskBizStatus.value === 2:item.readStatus.value===2}}"custom-style="border-color: #E6E6E6 !important;" style="margin-left: 16rpx;margin-right: 16rpx;" bind:click="onFollowTap" data-item="{{item}}"  color="#4D4D4D" plain round type="info" size="small">已完成</van-button>
 
-            <van-button disabled="{{taskDetail.timeType===1}}" wx:if="{{item.taskType.value === 1?item.taskBizStatus.value !== 2:item.readStatus.value !==2}}" style="margin-left: 16rpx;margin-right: 16rpx;" bind:click="onFollowTap" data-item="{{item}}" color="#3894FF" round type="info" size="small">查看详情</van-button>
+            <van-button disabled="{{taskDetail.timeType===1}}" wx:if="{{item.taskType.value === 1?item.taskBizStatus.value !== 2:item.readStatus.value !==2}}" style="margin-left: 16rpx;margin-right: 16rpx;" bind:click="onFollowTap" data-item="{{item}}" color="#3894FF" round type="info" size="small">{{item.taskType.value === 1?'立即填写':'立即查看'}}</van-button>
         </view>
     </view>
 
