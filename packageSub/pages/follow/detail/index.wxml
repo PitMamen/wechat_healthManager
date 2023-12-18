@@ -10,7 +10,8 @@
     </view>
     <view class="barview">
         <text class="bartext1">任务完成进度：{{planDetail.finishedTask}}/{{planDetail.totalTask}}</text>
-        <text class="bartext2">{{planDetail.days}}天后({{planDetail.endDate}})结束</text>
+        <text wx:if="{{isDone}}" class="bartext2">已结束</text>
+        <text wx:else class="bartext2">{{planDetail.days}}天后({{planDetail.endDate}})结束</text>
     </view>
     <view class="sfjhtitle">随访任务</view>
 

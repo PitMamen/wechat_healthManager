@@ -13,7 +13,8 @@ Page({
         activeNumIndex:0,
         planDetail:null,
         numsourcelist:[],
-        taskDetail:{}
+        taskDetail:{},
+        isDone:false
     },
 
     /**
@@ -52,8 +53,17 @@ Page({
         const res = await WXAPI.qryExecFollowPlanBaseInfo(postData)
         
         this.setData({
-            planDetail:res.data || []
+            planDetail:res.data || {}
         })
+        
+        if(this.data.planDetail.endDate){
+            if(new Date().getTime()>new Date(this.data.planDetail.endDate+' 23:59:59')){
+             
+                this.setData({
+                    isDone:true
+                })
+            }
+        }
     
     },
     async qryMyExecFollowPlanDetailInfo() {
