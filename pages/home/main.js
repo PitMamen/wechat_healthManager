@@ -47,29 +47,40 @@ Page({
         doctorPageSize: 20,
         doctorPageNo: 1,
         canSwitchUserList: [],
+        options: ''
     },
 
 
     onLoad: function (options) {
-
+        console.log('main-onLoad', options)
         this.setData({
             navHeight: APP.globalData.navHeight,
             navTop: APP.globalData.navTop,
             windowHeight: APP.globalData.windowHeight,
             menuButtonObject: APP.globalData.menuButtonObject, //小程序胶囊信息
-
+            options: options
         })
+
         this.getRatio()
         wx.showShareMenu({
             withShareTicket: true,
         })
 
+        //处理扫描机构二维码
+        this.codeInfo(options)
+
         //监听登录成功
         bus.on('loginSuccess', (msg) => {
             // 支持多参数
             console.log("监听登录成功", msg)
+            if (this.data.options.scene || this.data.options.hospitalCode) {
+                //判断是扫机构二维码
+                this.codeInfo(this.data.options)
 
-            this.getMaLoginInfo()
+            } else {
+                this.getMaLoginInfo()
+            }
+
 
         })
         //监听机构切换
@@ -93,7 +104,7 @@ Page({
             })
         })
         if (options.type == 1) {
-            //扫码用户进入首页 重新获取登录信息 
+            //扫码登记用户进入首页 重新获取登录信息 
             this.getMaLoginInfo()
         }
         if (getApp().globalData.loginReady && !this.data.currentHospital.hospitalCode) {
@@ -114,19 +125,68 @@ Page({
                 })
                 this.getTdShopmallMainpageMenuList()
             }
-            // return
+
         }
         this.afterMaLogin()
     },
 
+    codeInfo(options) {
+        var currentHospital = {
+            tenantId: '',
+            hospitalCode: '',
+            hospitalName: '',
+            hospitalLevelName: ''
+        }
 
+        if (options.scene) {
+            const scene = decodeURIComponent(options.scene)
+            console.log(scene)
+            console.log(scene.split('&'))
+
+            currentHospital = {
+                tenantId: scene.split('&')[1],
+                hospitalCode: scene.split('&')[2],
+                hospitalName: '',
+                hospitalLevelName: ''
+            }
+        } else {
+            if (options.hospitalCode) {
+                currentHospital = {
+                    tenantId: options.tenantId,
+                    hospitalCode: options.hospitalCode,
+                    hospitalName: '',
+                    hospitalLevelName: ''
+                }
+            }
+
+        }
+
+        if (currentHospital.hospitalCode) {
+            this.setData({
+                currentHospital: currentHospital
+            })
+            getApp().globalData.currentHospital = currentHospital
+        }
+
+        this.switchHospital()
+    },
+    //切换医院
+    async switchHospital() {
+        if (getApp().globalData.currentHospital.hospitalCode) {
+            await WXAPI.switchHospital({ hospitalCode: getApp().globalData.currentHospital.hospitalCode })
+        }
+        //发送事件 切换机构
+        bus.emit('switchHospital', getApp().globalData.currentHospital.hospitalCode)
+    },
     testBtn() {
         this.TUICalling.call({ userID: '1626', type: 2 })
         // this.TUICalling.groupCall({ userIDList: ['1626'], type: 2, groupID: 'BV_test07111620' })
 
     },
 
-    //获取登录信息
+    
+
+    //切换机构后获取登录信息
     getMaLoginInfo() {
 
         WXAPI.getMaLoginInfo({})
@@ -239,6 +299,7 @@ Page({
     //获取菜单列表
     getTdShopmallMainpageMenuList() {
         console.log("getTdShopmallMainpageMenuList")
+
         WXAPI.getTdShopmallMainpageMenuList({
             "hospitalCode": getApp().globalData.currentHospital.hospitalCode,
             "sysApplicationId": 4
@@ -264,6 +325,26 @@ Page({
 
                 }
             })
+        //如果没有机构名称则获取
+        if (!getApp().globalData.currentHospital.hospitalName) {
+            this.gethospitalInfo()
+        }
+    },
+
+    //获取机构名称
+    gethospitalInfo() {
+        WXAPI.gethospitalInfo({ hospitalCode: getApp().globalData.currentHospital.hospitalCode }).then(res => {
+            if (res.code == 0) {
+                getApp().globalData.currentHospital.hospitalName = res.data.hospitalName
+
+                this.setData({
+                    currentHospital: getApp().globalData.currentHospital
+                })
+
+            }
+        })
+
+
     },
 
     //菜单点击
@@ -398,7 +479,7 @@ Page({
     },
 
     async goHospitalSelectPage() {
-      
+
         //只有在名单里的用户才能切换
         if (this.data.userInfo && this.data.userInfo.accountId) {
 
@@ -436,7 +517,17 @@ Page({
             url: '/pages/schedule/index',
         })
     },
-
+    goPlanListPage() {
+        wx.navigateTo({
+          url: '/packageSub/pages/follow/list/index',
+        })
+    },
+    onTaskItemClick(e){
+        var item = e.currentTarget.dataset.item
+        wx.navigateTo({
+            url: '/packageSub/pages/follow/detail/index?bindId='+item.bindId+'&planId='+item.planId+'&userId='+item.userId+'&day='+item.executeTime
+        })
+    },
     async qryMyFollowTask() {
         const res = await WXAPI.qryMyFollowTask({ userId: this.data.defaultPatient.userId })
         var allTaskList = []

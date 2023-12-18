@@ -1,0 +1,4 @@
+<wxs src="/modules/format.wxs" module="computed"></wxs>
+<template name="chat-time">
+    <text wx:if="{{showTime}}" class="chat-list-time-style">{{computed.formatSecondDateStr(time)}}</text>
+</template>

@@ -89,6 +89,8 @@ App({
 
 
         })
+
+       
     },
 
 
@@ -142,23 +144,9 @@ App({
             // this.loginSuccess(res.data)
             this.getMaLoginInfo(res.data)
 
-        } else if (res.code == 10003) { //用户不存在 去注册
+        } else if (res.code == 10003) { //用户不存在 
             let routPage = wx.getStorageSync('routPage-w');
-            if (routPage.indexOf('pages/home/main') > -1) {
-                //如果是首页则先去选择医疗机构
-                // wx.navigateTo({
-                //     url: '/pages/home/hospital-select/index'
-                // });
-                var currentHospital = {
-                    tenantId: '100003',
-                    hospitalCode: '1000031',
-                    hospitalName: '中南大学湘雅三医院',
-                    hospitalLevelName: '三级甲等'
-                }
-               
-                getApp().globalData.currentHospital = currentHospital
-                wx.removeStorageSync('routPage-w')
-            } else {
+            
                 //排除不需要登录的页面
                 if (!Config.checkNoLoginPage(routPage)) {
                     if (!this.globalData.reLaunchLoginPage) {
@@ -173,7 +161,7 @@ App({
                 } else {
                     wx.removeStorageSync('routPage-w')
                 }
-            }
+            
 
 
         } else {
@@ -183,7 +171,7 @@ App({
                 showCancel: false,
             })
         }
-        this.qryRightsTypeCodeValue()
+        this.getAiAccount()
     },
     //获取登录信息 主要是获取默认机构的就诊人
     getMaLoginInfo(userInfo) {
@@ -297,16 +285,19 @@ App({
         }
     },
 
-    //获取权益类别集合
-    async qryRightsTypeCodeValue() {
-        if (getApp().globalData.rightTypeList && getApp().globalData.rightTypeList.length > 0) {
-            return
-        }
-        const res = await WXAPI.qryCodeValue('GOODS_SERVICE_TYPE')
-        if (res.code === 0 && res.data.length > 0) {
-            getApp().globalData.rightTypeList = res.data
-        }
-    },
+ 
+
+        //获取机器人ID
+     getAiAccount() {
+        console.log('getAiAccount获取机器人ID')
+           WXAPI.getAiAccount().then(res=>{
+            if (res.code == 0) {
+                getApp().globalData.AIUserID = res.data
+            }
+           })
+           
+    
+        },
 
     //获取用户信息
     getAccountInfo() {
@@ -404,6 +395,7 @@ App({
         IMuserID: '',
         IMuserSig: '',
         sdkReady: false,
+        AIUserID:'',//机器人ID
 
         loginReady: false,//登录状态
         reLaunchLoginPage: false,//已调整到登录页
@@ -414,10 +406,10 @@ App({
         remindedRights: [],//提醒过的权益
         rightTypeList: [],//权益类型列表
         currentHospital: {
-            tenantId: '',
-            hospitalCode: '',
-            hospitalName: '',
-            hospitalLevelName: ''
+            tenantId: '100003',
+            hospitalCode: '1000031',
+            hospitalName: '中南大学湘雅三医院',
+            hospitalLevelName: '三级甲等'
         },//当前切换的医疗机构
         consultPageActive: -1,//跳转到服务页面传的tab值
     },

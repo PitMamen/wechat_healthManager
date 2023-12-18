@@ -1,2 +1,68 @@
+<wxs src="../../../../modules/format.wxs" module="computed"></wxs>
+<view class="topview1">
+    <text class="name">{{planDetail.userInfo.userName}}，您好！</text>
+    <van-icon name="/packageSub/image/shezhi.png" size="23" bindtap="onSettingClick" />
+</view>
+<view class="toptitle">欢迎使用{{planDetail.planName}}</view>
+<view class="card">
+    <view class="bar">
+        <van-progress color="#409EFF" track-color="#E4F1FF" show-pivot="{{false}}" percentage="{{planDetail.finishedTask/planDetail.totalTask*100}}" />
+    </view>
+    <view class="barview">
+        <text class="bartext1">任务完成进度：{{planDetail.finishedTask}}/{{planDetail.totalTask}}</text>
+        <text class="bartext2">{{planDetail.days}}天后({{planDetail.endDate}})结束</text>
+    </view>
+    <view class="sfjhtitle">随访任务</view>
 
-<text>pages/me/address/add.wxml</text>
+    <view class="goods-card">
+
+        <scroll-view scroll-x="true" scroll-left="{{scrollTopVal}}" bindscroll="bindscroll">
+            <view class="hotService_content">
+
+                <view bindtap="chooseAppoint" data-item="{{item}}" data-index="{{index}}" class="{{index==activeNumIndex?'timeitem-active':'timeitem'}}" wx:for="{{numsourcelist}}" wx:key="1">
+                    <van-icon style="{{index==activeNumIndex?'visibility: visible;':'visibility: hidden;'}}" name="/packageSub/image/down.png" size="12" />
+                    <view>{{item.week}}({{item.day2}})</view>
+                    <view wx:if="{{item.timeType===-1}}" style="{{item.statusName=='未完成'?'color:#E61010':'color:#4D4D4D'}}">{{item.text}}</view>
+                    <view wx:if="{{item.timeType===0}}" style="{{index==activeNumIndex?'color:#3894FF':'color:#4D4D4D'}}">{{item.text}}</view>
+                    <view wx:if="{{item.timeType===1}}" style="color:#999999">{{item.text}}</view>
+                </view>
+            </view>
+
+        </scroll-view>
+
+
+
+    </view>
+    <view class="itemview" wx:for="{{taskDetail.details}}" wx:key="2">
+        <view class="itemtop">
+            <view class="tag">任务{{index+1}}</view>
+            <view>{{item.taskType.description}}</view>
+        </view>
+        <view class="itemcontent">
+            <van-icon style="margin-left: 16rpx;margin-right: 16rpx;" name="{{computed.planTypeIcon(item.taskType.value)}}" size="28" />
+            <view wx:if="{{item.taskType.value===3}}" class="itemtitle">医护留言</view>
+            <view wx:elif="{{item.taskType.value===6}}" class="itemtitle">点击跳转第三方小程序</view>
+            <view wx:else class="itemtitle">{{(item.jumpTitle && item.jumpTitle!=='null') ?item.jumpTitle: '未知标题'}}</view>
+            <!-- 问卷（taskType===1）判断taskBizStatus 其他判断readStatus -->
+            <van-button disabled="{{taskDetail.timeType===1}}" wx:if="{{item.taskType.value === 1?item.taskBizStatus.value === 2:item.readStatus.value===2}}" style="margin-left: 16rpx;margin-right: 16rpx;" bind:click="onFollowTap" data-item="{{item}}" color="#3894FF" plain round type="info" size="small">已完成</van-button>
+
+            <van-button disabled="{{taskDetail.timeType===1}}" wx:if="{{item.taskType.value === 1?item.taskBizStatus.value !== 2:item.readStatus.value !==2}}" style="margin-left: 16rpx;margin-right: 16rpx;" bind:click="onFollowTap" data-item="{{item}}" color="#3894FF" round type="info" size="small">查看详情</van-button>
+        </view>
+    </view>
+
+</view>
+
+
+
+<van-dialog use-slot show="{{ showSetDialog }}" bind:confirm="onDialogConfirm" confirm-button-color="#FD2304" confirmButtonText="终止服务" showCancelButton closeOnClickOverlay>
+    <view style="   padding: 40rpx;display: flex;flex-direction: column; ">
+        <view style="font-size: 36rpx;font-weight: bold; margin-bottom: 36rpx;margin-top: 19rpx; color: #1A1A1A;margin-left: auto;margin-right: auto;">服务设置</view>
+        <view style="display: flex;flex-direction: row;align-items: center;margin-bottom: 36rpx;">
+            <image style="width: 40rpx;height: 40rpx;" src="/packageSub/image/zhongzhi.png" />
+            <text style="font-size: 30rpx;font-weight: bold;  color: #1A1A1A;margin-left: 20rpx;">终止康复随访</text>
+        </view>
+
+        <view style="font-size: 30rpx;color: #999999;">服务提前终止后，医生将无法继续接受您的健康信息反馈，终止后无法撤销，请谨慎操作！</view>
+
+    </view>
+</van-dialog>

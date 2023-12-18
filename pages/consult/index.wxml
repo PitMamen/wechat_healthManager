@@ -73,7 +73,7 @@
     <!-- <van-button class="ai-btn" color="#3894FF" round type="info" size="small">进入诊室</van-button> -->
   </view>
 
-  <view class="ai-card" bindtap="goIMPage" style="margin-top: 30rpx;">
+  <!-- <view class="ai-card" bindtap="goIMPage" style="margin-top: 30rpx;">
     <view class="ai-img">
       <image src="/image/ai_icon.png" style="width: 70rpx;height: 70rpx;"></image>
     </view>
@@ -86,7 +86,7 @@
       </view>
     </view>
     <van-button class="ai-btn" color="#3894FF" round type="info" size="small">进入诊室</van-button>
-  </view>
+  </view> -->
   <!-- </van-sticky> -->
   <view class="view-des" wx:if="{{ appointList.length > 0 }}">
     <view class="view-shu"></view>

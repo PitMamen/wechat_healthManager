@@ -1,0 +1,63 @@
+<import src="./chat-item/ai-chat-item.wxml" />
+<van-sticky>
+<view class="navigation-custom-view" >
+    
+    <view style="{{'height: '+ statusBarHeight +'px;'}}"></view>
+            <view style="position: relative;font-size: 36rpx;font-weight: 500;color: #1A1A1A;text-align: center;">
+                <van-icon name="arrow-left" style="position: absolute;top: 50%;left: 0; padding: 0 50rpx 0 24rpx ;transform: translateY(-50%);font-size: 32rpx;" bind:tap="onBackTap" />
+                <view style="padding: 0 185rpx 0 185rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                    <text style="{{'line-height: '+ navBarHeight +'px;'}}">AI问诊</text>
+                </view>
+            </view>
+</view>
+<view class="topview" style="background-size: cover;">
+    <!-- https://hmg.mclouds.org.cn/content-api/file/I202312081757507914876ZDLAB4FV4N-abcdefglogo.png -->
+    <image class="img-logo" src="https://hmg.mclouds.org.cn/content-api/file/I20231211174939942WY8OKHVCIN9J7Z-logo@2x.png" />
+    <view style="flex:1"></view>
+
+    <view class="view-btn" bindtap="bindPatientTap">
+        <image style="width:40rpx;height:40rpx" src="https://hmg.mclouds.org.cn/content-api/file/I20231208175819573A9JZKS09UBFPMK-abcdefgsmall1.png" />
+        <view style="color: white;margin-left: 8rpx;"> {{defaultPatient.userName || '选择就诊人'}} </view>
+        <image style="width:12rpx;height:21rpx;margin-left: 8rpx;" src="/image/icon_fanhui.png" />
+    </view>
+
+</view>
+</van-sticky>
+<scroll-view wx:if="{{chatItems.length>0}}" style="height:{{pageHeight-137}}px;width: 100%;display: flex;flex-direction: column; background: linear-gradient(to bottom left, #E6F2FD, #F7E7E9);" scroll-y="true" enable-flex="true" scroll-top="{{scrollTopVal}}" refresher-enabled="{{true}}" refresher-default-style="white" refresher-background="#8fcbf7" refresher-triggered="{{triggered}}" bindrefresherrefresh="onRefresh" bindtap="resetInputStatus">
+    <block wx:for="{{chatItems}}" wx:key="id2">
+        <template is="chat-item" data="{{length:chatItems.length,index:index,item:item,avatar:item.flow=== 'out'?myAvatar:item.avatar || toAvatar,isDoctor:item.from==tradeRemark.docId,cursor:cursor}}" />
+    </block>
+
+</scroll-view>
+<van-empty wx:else description="暂无最新消息" />
+<chat-input-ai wx:if="{{showChatInput}}" id="chatInput" min-voice-time="{{1}}" max-voice-time="{{60}}" start-time-down="{{54}}" tabBarHeight="{{0}}" format="mp3" bottomtext='{{bottomChatStatus}}' extra-array="{{extraArr}}" bind:extraClickEvent="onExtraClickEvent" bind:extraItemClickEvent="onExtraItemClickEvent" bind:heathItemClickEvent="heathItemClickEvent" bind:voiceRecordEvent="onVoiceRecordEvent" bind:sendMessageEvent="onSendMessageEvent"></chat-input-ai>
+
+
+
+
+
+<view wx:if="{{showVideo}}" class="container-box">
+    <video wx:if="{{showVideo}}" class="video-message" id="myVideo" poster="{{videoObj.thumbUrl }}" src="{{videoObj.videoUrl}}" object-fit="contain" autoplay direction="0" bindfullscreenchange="bindfullscreenchange"></video>
+</view>
+
+
+<!-- 就诊人选择 -->
+<van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding:40rpx 30rpx;min-height: 20%;max-height: 80%;z-index:10000" bind:close="closePatientTap">
+    <view class="poptop">
+        <view class="popadd" bindtap="onPatientAdd">添加</view>
+        <view class="poptitle">请选择就诊人</view>
+        <van-icon color="#4D4D4D" name="cross" bindtap="closePatientTap" />
+    </view>
+    <view class="popwrap">
+        <van-radio-group value="{{ radioIndex }}">
+            <view class="popitem" wx:for="{{patientList}}" wx:key="111" bindtap="onChooseRadioItem" data-index="{{index}}">
+                <van-radio name="{{index}}"></van-radio>
+                <view style="margin-left: 20rpx;color: #4D4D4D;">{{item.userName}}</view>
+                <view style="margin-left: 40rpx;">{{item.userSex}}</view>
+                <view style="margin-left: 20rpx;">|</view>
+                <view style="margin-left: 20rpx;">{{item.userAge}}岁</view>
+            </view>
+        </van-radio-group>
+        <van-button type="info" block bindtap="onPatientConfirm">确定</van-button>
+    </view>
+</van-popup>

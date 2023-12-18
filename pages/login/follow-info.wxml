@@ -1,7 +1,8 @@
 <view class="page">
     <view class="title-detail">姓名</view>
     <view class="name-back">
-        <view class="real-name">{{info.patName}}</view>
+        <!-- <view class="real-name">{{info.patName}}</view> -->
+        <input type="text" maxlength="25" bindinput="getNmaeValue" value="{{name}}" placeholder="补充本人或亲属姓名" />
     </view>
     <view class="bottom-line"></view>
 

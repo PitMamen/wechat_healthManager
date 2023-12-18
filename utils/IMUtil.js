@@ -24,17 +24,18 @@ var IMinit = function IMinit() {
     let onSdkReady = function () {
 
         getApp().globalData.sdkReady = true
-       
+
 
     };
     getApp().tim.on(TIM.EVENT.SDK_READY, onSdkReady);
 
     //监听新消息
-
+    var that = this;
     let onMessageReceived = function (event) {
 
-         //发送事件 通知咨询列表更新未读消息
-         bus.emit('consultUpdate', true)
+        //发送事件 通知咨询列表更新未读消息
+        bus.emit('consultUpdate', true)
+        that.getAIUnreadCount()
     };
     getApp().tim.on(TIM.EVENT.MESSAGE_RECEIVED, onMessageReceived);
 
@@ -48,19 +49,19 @@ var IMinit = function IMinit() {
         * @param {*} tradeId 当前使用的权益ID  
         * @param {*} tradeAction 工单进程 CONFIRM:确认  REFUSED:已拒诊  START:开始咨询 END:已完成 
         */
-       var goGroupChat = function goGroupChat(userId, routeType, groupID, inquiryType,tradeId, tradeAction) {
-        var userList=getApp().getPatientInfoList()
-        userList.forEach(patient=>{
-            if(patient.userId == userId){
-                var routUrl = `/packageIM/pages/chat/groupChat?groupID=${groupID}&inquiryType=${inquiryType}&tradeId=${tradeId}&tradeAction=${tradeAction}`
-    
-                this.LoginOrGoIMChat(userId, patient.userSig, routeType, routUrl)
-            }
-        })
+var goGroupChat = function goGroupChat(userId, routeType, groupID, inquiryType, tradeId, tradeAction) {
+    var userList = getApp().getPatientInfoList()
+    userList.forEach(patient => {
+        if (patient.userId == userId) {
+            var routUrl = `/packageIM/pages/chat/groupChat?groupID=${groupID}&inquiryType=${inquiryType}&tradeId=${tradeId}&tradeAction=${tradeAction}`
+
+            this.LoginOrGoIMChat(userId, patient.userSig, routeType, routUrl)
+        }
+    })
 
 
-    
-    }
+
+}
 /**
         * 聊天
         * @param {*} userId 登录账号id 
@@ -147,6 +148,7 @@ var LoginOrGoIMChat = function LoginOrGoIMChat(userId, userSig, routeType, routU
  * @param {*} routUrl 聊天跳转地址  没有则不跳转
  */
 var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) {
+    var that = this;
     var userID = String(userId)
     if (getApp().tim == null) {
         this.IMinit()
@@ -170,8 +172,9 @@ var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) 
         isLoginUser = ''
         getApp().globalData.IMuserID = userID
         getApp().globalData.IMuserSig = userSig
-                    //IM登录发送事件
-                    bus.emit('IMLoginSuccess', true)
+        //IM登录发送事件
+        bus.emit('IMLoginSuccess', true)
+
 
 
         let onSdkReady = function () {
@@ -196,7 +199,7 @@ var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) 
                     })
                 }
             }
-
+            that.getAIUnreadCount()
 
 
             getApp().tim.off(TIM.EVENT.SDK_READY, onSdkReady);
@@ -212,16 +215,63 @@ var IMLoginToChat = function IMLoginToChat(userId, userSig, routeType, routUrl) 
     });
 }
 
+//获取AI未读消息数
+var getAIUnreadCount = function getAIUnreadCount() {
+    if (!getApp().globalData.sdkReady) {
+        return
+    }
+    if (!getApp().globalData.AIUserID) {
+        return
+    }
+    //获取指定的会话列表
+    let promise = getApp().tim.getConversationList(['C2C' + getApp().globalData.AIUserID]);
+
+    promise.then(function (imResponse) {
+        const conversationList = imResponse.data.conversationList;
+        console.log('IMUtil:getAIUnreadCount', conversationList)
+        var unreadCount = 0
+        if (conversationList && conversationList.length > 0) {
+            unreadCount = conversationList[0].unreadCount
+        }
+        if (unreadCount) {
+            let pages = getCurrentPages()
+            console.log(pages)
+            if (pages.length > 0) {
+                let prevPage = pages[pages.length - 1]
+                if (prevPage.route !== 'pages/chatAI/index') {
+                    wx.setTabBarBadge({
+                        index: 1,
+                        text: unreadCount + ''
+                    })
+                }
+            }
+
+        } else {
+            wx.removeTabBarBadge({
+                index: 1
+            })
+        }
+
+
+    }).catch(function (imError) {
+        console.error(imError)
+        console.warn('getConversationList error:', imError); // 获取会话列表失败的相关信息
+    });
+}
+
 //获取未读消息数
 var getConversationList = function getConversationList() {
     if (!getApp().globalData.sdkReady) {
         return
     }
+    if (!getApp().globalData.AIUserID) {
+        return
+    }
     let promise = getApp().tim.getConversationList();
 
     promise.then(function (imResponse) {
-        const conversationList = imResponse.data.conversationList; // 会话列表，用该列表覆盖原有的会话列表
-        console.log('getConversationList', conversationList)
+        const conversationList = imResponse.data.conversationList;
+        console.log('IMUtil:getConversationList', conversationList)
         var userIDList = []
 
         conversationList.forEach(function (item, index) {
@@ -279,6 +329,7 @@ module.exports = {
     LoginOrGoIMChat: LoginOrGoIMChat,//登录或者切换登录用这个
     IMLoginToChat: IMLoginToChat,
     getConversationList: getConversationList,
+    getAIUnreadCount: getAIUnreadCount,
     getUserProfile: getUserProfile,
-    goGroupChat:goGroupChat //去群聊天
+    goGroupChat: goGroupChat //去群聊天
 }

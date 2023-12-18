@@ -85,11 +85,14 @@
             <van-icon name="/image/meicon/me_kfzx.png" size="25"  />
             <view class="todo-content-text">在线客服</view>
         </button>
-        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goAIPage">
-            <van-icon name="/image/meicon/me_ai.png" size="25"  />
-            <view class="todo-content-text">AI咨询</view>
+        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goPlanPage">
+            <van-icon name="/image/meicon/me_sfjh.png" size="25"  />
+            <view class="todo-content-text">随访计划</view>
         </view>
-       
+        <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goSchedulePage">
+            <van-icon name="/image/meicon/me_renwu.png" size="25"  />
+            <view class="todo-content-text">健康任务</view>
+        </view>
         <view class="todo-content-item" hover-class="todo-content-item-hover" bindtap="goMorePage">
             <van-icon name="/image/meicon/me_gd.png" size="25"  />
             <view class="todo-content-text">更多</view>

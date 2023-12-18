@@ -261,6 +261,26 @@ Page({
             })
         }
     },
+    //随访计划
+    goPlanPage(){
+        if (this.checkLoginStatus()) {
+            if (getApp().getDefaultPatient()) {
+                wx.navigateTo({
+                    url: '/packageSub/pages/follow/list/index',
+                })
+            }
+        }
+    },
+    //健康任务
+    goSchedulePage(){
+        if (this.checkLoginStatus()) {
+            if (getApp().getDefaultPatient()) {
+                wx.navigateTo({
+                    url: '/pages/schedule/index',
+                })
+            }
+        }
+    },
     //AI咨询
     goAIPage() {
         if (this.checkLoginStatus()) {

@@ -1,0 +1,21 @@
+<import src="./time.wxml" />
+<import src="./ai-custom.wxml" />
+<import src="./ai-word.wxml" />
+<template name="chat-item">
+    <view style="width: 100%;display: flex;flex-direction: column;align-items: center">
+        <template is="chat-time" data="{{showTime:item.isShowTime,time:item.time}}" />
+        <block wx:if="{{item.type!=='TIMCustomElem'}}">
+            <template is="chat-word"
+                data="{{length:length,index:index,nick:item.nick, headUrl:avatar?avatar:'/image/avatar.png',isMy:item.flow=== 'out',isDoctor:isDoctor, content:item.payload,type:item.type,sendStatus:item.status,cursor:cursor,isZan:item.isZan,isCai:item.isCai}}" />
+        </block>
+
+        <!-- 用扩展字段 item.payload.extension标识不同类型-->
+        <block wx:else>
+            <template is="chat-custom"
+                data="{{length:length,index:index,nick:item.nick,headUrl:avatar?avatar:'/image/avatar.png',isMy:item.flow=== 'out',content:item.payload,type:item.payload.customType,sendStatus:item.status}}" />
+        </block>
+  
+           
+           
+    </view>
+</template>

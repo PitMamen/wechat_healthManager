@@ -1,0 +1,46 @@
+<!-- <import src="./chat-send-status.wxml" /> -->
+<template name="chat-word">
+    <view style="width: 100%;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{!isMy&&index===length-1?120:20}}rpx;margin-top: 20rpx;flex-shrink:0;">
+        <image style="width:80rpx;height:80rpx;margin-left: 24rpx;margin-right: 24rpx;" src="{{isMy? 'https://hmg.mclouds.org.cn/content-api/file/I202312141652025722NZLVT0NJR2VFF-icon_20231214165147.png':'https://hmg.mclouds.org.cn/content-api/file/I20231208175805589EKA9FFL1JINVIB-abcdefgrobot.png'}}" />
+        <!-- <image wx:if="{{type==='TIMTextElem'||type==='TIMSoundElem'}}" class="{{isMy?'my-chat-list-arrow-style':'other-chat-list-arrow-style'}}" src="/image/ai/popu_{{isMy?'blue':'white'}}.png" /> -->
+        <view class="content-view">
+            <view wx:if="{{type==='TIMTextElem'}}" class="{{isMy?'isMyWordViewStyle1':'isOtherWordViewStyle1'}}">
+                <text decode class="{{isMy?'isMyWordStyleHere':'isOtherWordStyleHere'}}" bindtap="chatTextItemClickEvent" data-text="{{content.text}}">{{content.text}}<text wx:if="{{!isMy}}" hidden="{{index===length-1?cursor:true}}">|</text>
+                </text>
+
+                <view wx:if="{{!isMy}}" style="display: flex;flex-direction: row;align-items: center;padding-top: 10rpx;margin-top: 20rpx;border-top: 1rpx solid #E6E6E6;">
+                    <view style="color:#CCCCCC ;">AI回答仅供参考</view>
+                    <view style="flex: 1;"></view>
+                    <view style="display: flex;flex-direction: row;align-items: center;">
+                        <!-- catchtap="_chatInput$send$text$message02" -->
+                        <image bindtap="onZanClickEvent" data-index="{{index}}" style="width:27rpx;height:27rpx;margin-left: 24rpx;" src="{{isZan?'/image/icon_yes_checked.png':'/image/icon_yes.png'}}" />
+                        <image bindtap="onCaiClickEvent" data-index="{{index}}" style="width:27rpx;height:27rpx;margin-left: 24rpx;" src="{{isCai?'/image/icon_no_checked.png':'/image/icon_no.png'}}" />
+                    </view>
+                </view>
+            </view>
+
+            <!-- <text wx:if="{{type==='TIMTextElem'}}" decode class="{{isMy?'isMyWordStyle1':'isOtherWordStyle1'}}" bindtap="chatTextItemClickEvent" data-text="{{content.text}}" >{{content.text}}<text wx:if="{{!isMy}}" hidden="{{index===length-1?cursor:true}}">|</text>
+            </text> -->
+
+            <image wx:if="{{type==='TIMImageElem'}}" class="chat-list-pic-style" src="{{content.imageInfoArray[1].url}}" mode="aspectFill" bindtap="imageClickEvent" data-url="{{content.imageInfoArray[0].url}}" />
+
+
+            <view wx:if="{{type==='TIMSoundElem'}}" style=" display: flex;flex-direction:{{isMy?'row-reverse':'row'}} ;width:{{content.second*7.2+70}}rpx;max-width: 500rpx;" class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="chatVoiceItemClickEvent" data-voice-path="{{content.url}}" data-voice-duration="{{content.second}}" data-is-my="{{isMy}}" data-index="{{index}}">
+                <template is="voice-item" data="{{isMy:isMy,isPlaying:content.isPlaying}}" />
+                <view wx:if="{{isMy}}" class="voice-duration-my-style">{{content.second?content.second+'"':''}}</view>
+                <view wx:if="{{!isMy}}" class="voice-duration-other-style">{{content.second?content.second+'"':''}}"</view>
+            </view>
+
+            <view wx:if="{{type==='TIMVideoFileElem'}}" class="video-box-img" bindtap="onVideoPlayClick" data-item="{{content}}">
+                <image class="video-img" src="{{content.thumbUrl }}" mode="aspectFill"></image>
+                <image class="video-icon" src="../../../image/video-play.png"></image>
+            </view>
+
+
+            <!-- <template wx:if="{{isMy}}" is="chat-send-status" data="{{sendStatus:sendStatus,index:index}}" /> -->
+
+
+        </view>
+    </view>
+
+</template>

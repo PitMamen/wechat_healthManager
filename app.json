@@ -81,7 +81,9 @@
                 "pages/me/my-doctor/index",
                 "pages/me/prescription/index",
                 "pages/me/prescription/detail",
-                "pages/me/prescription/drugtaking_page"
+                "pages/me/prescription/drugtaking_page",
+                "pages/follow/list/index",
+                "pages/follow/detail/index"
             ]
         }
     ],
@@ -95,22 +97,17 @@
         "pages/home/webpage/index",
         "pages/home/news/news-list",
         "pages/home/news/news-detail",
-      
         "pages/home/consent/index",
-       
         "pages/home/health-remind/index",
-       
         "pages/login/follow-checkin",
         "pages/login/follow-info",
         "pages/consult/index",
         "pages/consult/todo/todo-list",
-       
         "pages/home/health-remind/detail",
         "pages/home/hospital-select/index",
         "pages/consult/detail-text/index",
         "pages/consult/rights/apply",
         "pages/consult/webpage/index",
-       
         "pages/consult/detail-tel/index",
         "pages/consult/detail-package/index",
         "pages/consult/detail-package/tel-list",
@@ -118,15 +115,14 @@
         "pages/consult/detail-package/common",
         "pages/consult/detail-package/telinfo/index",
         "pages/schedule/index",
-       
         "pages/home/rate/doctor",
         "pages/home/rate/package",
         "pages/login/diagnosis",
-      
         "pages/consult/detail-video/index",
         "pages/consult/detail-package/digitaldetail",
         "pages/consult/detail-package/content/index",
-        "pages/home/package-detail/packagedetail"
+        "pages/home/package-detail/packagedetail",
+        "pages/chatAI/index"
     ],
     "window": {
         "backgroundColor": "#FFFFFF",
@@ -149,16 +145,16 @@
                 "selectedIconPath": "static/icons/shouye2.png"
             },
             {
+                "text": "健康管家",
+                "pagePath": "pages/chatAI/index",
+                "iconPath": "static/icons/znwz1.png",
+                "selectedIconPath": "static/icons/znwz2.png"
+            },
+            {
                 "text": "服务",
                 "pagePath": "pages/consult/index",
                 "iconPath": "static/icons/fuwu1.png",
                 "selectedIconPath": "static/icons/fuwu2.png"
-            },
-            {
-                "text": "日程",
-                "pagePath": "pages/schedule/index",
-                "iconPath": "static/icons/richeng1.png",
-                "selectedIconPath": "static/icons/richeng2.png"
             },
             {
                 "text": "我的",
@@ -228,6 +224,7 @@
         "van-circle": "@vant/weapp/circle/index",
         "van-tree-select": "@vant/weapp/tree-select/index",
         "van-slider": "@vant/weapp/slider/index"
+        
     },
     "sitemapLocation": "sitemap.json"
 }
