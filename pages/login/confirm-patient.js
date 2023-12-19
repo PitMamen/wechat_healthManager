@@ -289,6 +289,8 @@ Page({
             "cardNum": "",
             "idno": '',
             "ipNo": this.data.regNumber,
+            "tenantId":this.data.tenantId,
+            "hospitalCode": this.data.hospitalCode
         }
 
         WXAPI.qryPatientInfo(postdata)
