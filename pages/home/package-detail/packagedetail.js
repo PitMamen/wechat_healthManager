@@ -99,8 +99,9 @@ Page({
             that.loginSuccess(res.data)
 
         } else if (res.code == 10003) { //用户不存在
+            console.log("packagedetail.js 用户不存在 需要调整到登录")
             if (!getApp().globalData.reLaunchLoginPage) {
-
+                console.log("packagedetail.js 调整到登录 /pages/login/auth?type=RELOGIN")
                 getApp().globalData.reLaunchLoginPage = true
                 wx.navigateTo({
                     url: '/pages/login/auth?type=RELOGIN',

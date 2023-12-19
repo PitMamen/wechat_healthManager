@@ -37,7 +37,7 @@
 <view class="bottom-line"></view>
 <view class="title-detail">就诊卡号</view>
 <view class="name-back">
-  <input type="number" name="cardNo" bindinput="getCardNoValue" class="real-name" placeholder="请输入患者就诊卡号" />
+  <input type="text" name="cardNo" bindinput="getCardNoValue" class="real-name" placeholder="请输入患者就诊卡号" />
 </view>
 <view class="bottom-line"></view>
 

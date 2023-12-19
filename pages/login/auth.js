@@ -1,7 +1,7 @@
 // pages/login/login.js
 const WXAPI = require('../../static/apifm-wxapi/index')
 const IMUtil = require('../../utils/IMUtil')
-
+import bus from '../../utils/EventBus.js'
 Page({
 
     /**
