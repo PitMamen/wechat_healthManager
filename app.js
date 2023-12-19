@@ -149,8 +149,9 @@ App({
             
                 //排除不需要登录的页面
                 if (!Config.checkNoLoginPage(routPage)) {
+                    console.log("app.js： 需要登录的页面 ")
                     if (!this.globalData.reLaunchLoginPage) {
-                        // console.log("app.js： 跳转到登录页")
+                        console.log("app.js： 跳转到登录页  /pages/login/auth")
                         this.globalData.reLaunchLoginPage = true
                         wx.reLaunch({
                             url: '/pages/login/auth',
@@ -159,6 +160,7 @@ App({
 
 
                 } else {
+                    console.log("app.js： 不需要登录的页面 删除routPage-w")
                     wx.removeStorageSync('routPage-w')
                 }
             
