@@ -1,0 +1,61 @@
+<view class="wrap">
+    <van-sticky>
+        <view style=" background-image: url('https://hmg.mclouds.org.cn/content-api/file/I202312211029539135X15WW4YIUC5CM-20231221102738.png'); " class="topview">
+           
+            <image src="../../image/jqr.png" class="img" />
+            <view class="content">
+                <view>化验单看不懂？</view>
+                <view class="redmin">AI帮您智能解读</view>
+            </view>
+            <view class="right" bind:tap="bindPatientTap">
+                <view>{{selectUser.userName || '选择就诊人'}}
+                    <van-icon style="margin-left: 14rpx;" name="arrow" color="white" />
+                </view>
+                <view style="font-size: 32rpx;">{{selectUser.userSex}} {{selectUser.userAge}}岁</view>
+            </view>
+        </view>
+        <view class="top">
+
+            <view class="filter">
+                <view class="item" style="text-align: left;margin-left: 30rpx;">
+                    <text class="name">选择月份</text>
+
+                </view>
+                <view class="item" bind:tap="bindStatusTap" style="text-align: right;margin-right: 30rpx;">
+                    <text class="name">{{beginDate || '请选择' }}</text>
+                    <van-icon class="icon" name="arrow-down" />
+                </view>
+            </view>
+        </view>
+    </van-sticky>
+    <view class="bottom">
+        <van-empty class="empty" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无记录" wx:if="{{ list.length === 0 }}" />
+        <view class="list" wx:else>
+            <view class="report-item" wx:for="{{list}}" wx:key="id" data-id="{{item.articleId}}" data-item="{{item}}" bindtap="goInspectionPage">
+                <view class="report-left">
+
+                    <view class="report-name">{{item.name}}</view>
+                    <view class="report-left-bottom">
+
+                        <view class="report-time">{{item.reportTime}}</view>
+                    </view>
+                </view>
+
+                <image wx:if="{{item.status==='1'}}" src="../../image/yfb.png" class="status-image" />
+                <image wx:else src="../../image/sjz.png" class="status-image" />
+            </view>
+        </view>
+    </view>
+</view>
+
+
+
+<van-popup round show="{{ showStatusPop }}" position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closeStatusPopup">
+
+    <van-datetime-picker type="year-month" value="{{ currentDate }}" max-date="{{ maxDate }}" bind:input="onInput" bind:cancel="ondatePickerCancel" bind:confirm="ondatePickerConfirm"/>
+</van-popup>
+
+<!-- 就诊人选择 -->
+<van-popup show="{{ showPatientPop }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePatientTap">
+    <van-picker show-toolbar title="" columns="{{ nameColumns }}" visible-item-count='4' bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
+</van-popup>

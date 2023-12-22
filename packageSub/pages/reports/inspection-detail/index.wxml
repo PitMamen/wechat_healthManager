@@ -1,0 +1,57 @@
+<wxs src="../../../../modules/format.wxs" module="computed"></wxs>
+<view style="background-image: url('https://hmg.mclouds.org.cn/content-api/file/I20211014143935478K8JK9TVTJ7QWFG-20211014143717.png'); " class="top">
+    <view class="top-h1">
+        <view style="font-size: 36rpx;margin-right: 19rpx;">{{options.name}}</view>
+    </view>
+
+    <view class="top-h2">
+        <view class="top-r" style="width: 100%;">就诊人：{{userName}}</view>
+        <view class="top-r" style="width: 100%;">性别：{{userSex}}</view>
+        <view class="top-r" style="width: 100%;">年龄：{{userAge}}</view>
+    </view>
+    <view class="top-h2">
+        <view class="top-r" style="width: 100%;">检查名称：{{detail.checkName}}</view>
+    </view>
+    <view class="top-h2">
+        <view class="top-l" style="width: 60%;">报告日期：{{options.reportTime}}</view>
+    </view>
+    <view class="top-h2">
+        <view class="top-r">申请科室： {{detail.appDeptName?detail.appDeptName:'-'}}</view>
+    </view>
+    <view class="top-h2" wx:if="{{detail.deptName}}">
+        <view class="top-l" >检查科室：{{detail.deptName}}</view>
+        <!-- <view class="top-r">检查部位：{{detail.checkPart}}</view> -->
+    </view>
+    <view class="top-h2">
+        <view class="top-l" >检查单号：{{detail.checkId}}</view>
+    </view>
+</view>
+
+<view class="case-block2">
+    <view class="case-title">检查部位与方法</view>
+    <view class="case-content">{{detail.checkPart}}</view>
+</view>
+<!-- <view class="case-block2">
+    <view class="case-title">检查部位ACR编码</view>
+    <view class="case-content">{{detail.jcbwacr}}</view>
+</view> -->
+<view class="case-block2">
+    <view class="case-title">影像表现或检查所见</view>
+    <view class="case-content">{{detail.advice}}</view>
+</view>
+<view class="case-block2">
+    <view class="case-title">检查诊断或提示</view>
+    <view class="case-content">{{detail.checkSituation}}</view>
+</view>
+<view class="case-block2">
+    <view class="case-title">诊断</view>
+    <view class="case-content">{{detail.diagnosis?detail.diagnosis:''}}</view>
+</view>
+<view class="case-block2">
+    <view class="case-title">备注或建议</view>
+    <view class="case-content">{{detail.advddice}}</view>
+</view>
+<!-- <view class="case-block2">
+    <view class="case-title">报告日期：{{computed.formatFullDate4(detail.bgsj)}}</view>
+
+</view> -->

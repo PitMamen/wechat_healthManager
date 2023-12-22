@@ -1,0 +1,112 @@
+<wxs src="../../../../modules/format.wxs" module="computed"></wxs>
+<van-sticky>
+    <view class="todo-title-view">
+        <view class="todo-title-tab" bindtap="swichTab" data-index="0">
+            <text class="{{activeIndex=='0'?'tab-title-active':'tab-title'}}">化验单</text>
+            <view class="{{activeIndex=='0'?'tab-line-active':'tab-line'}}"></view>
+        </view>
+        <view class="todo-title-tab" bindtap="swichTab" data-index="1">
+            <text class="{{activeIndex=='1'?'tab-title-active':'tab-title'}}">异常解读</text>
+            <view class="{{activeIndex=='1'?'tab-line-active':'tab-line'}}"></view>
+        </view>
+    </view>
+</van-sticky>
+
+<block wx:if="{{activeIndex=='0'}}">
+
+    <view class="top">
+        <view class="top-h1">
+            <view>{{options.name}}</view>
+        </view>
+
+        <view class="top-h2">
+            <view class="top-l" style="width: 100%;"><text style="color: #999999;">就诊人：</text> {{userName}} | {{userSex}} | {{userAge}}岁</view>
+
+        </view>
+        <view class="top-h2">
+            <view class="top-l" style="width: 100%;"><text style="color: #999999;">送检科室：</text> {{detail.deptName}} </view>
+
+        </view>
+        <view class="top-h2">
+            <view class="top-l" style="width: 100%;"><text style="color: #999999;">报告时间：</text> {{detail.reportTime}} </view>
+
+        </view>
+
+
+
+    </view>
+    <van-empty wx:if="{{!items || items.length == 0 }}" class="empty" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="无数据" />
+    <view wx:else class="case-block">
+
+
+        <view>
+            <view class="row" gutter="6">
+                <van-row>
+                    <van-col span="8">检查项目</van-col>
+                    <van-col span="8">结果</van-col>
+                    <van-col span="8">参考值</van-col>
+
+                </van-row>
+            </view>
+            <view class="li" wx:for="{{items}}">
+                <van-row gutter="6">
+                    <van-col span="8" style="color:{{item.canDecipher?'#3894FF':'#999999'}} ;" bindtap="onItemNameClick" data-item="{{item}}">{{item.itemName}}</van-col>
+
+                    <van-col span="8" style="color:{{item.abnormal?'#F30D0D':''}} ;">{{item.result}} {{item.abnormal?item.abnormal:''}}</van-col>
+
+
+                    <van-col span="8">{{item.refRange}}</van-col>
+
+                </van-row>
+            </view>
+        </view>
+
+    </view>
+
+</block>
+
+<block wx:if="{{activeIndex=='1'}}">
+    <view class="topview">
+        <view class="content">
+            <view style="color: #089B02;font-weight: bold;">化验报告单智能解读</view>
+            <view style="color: #D88E0E;font-size: 24rpx;margin-top: 26rpx;">本分析仅供参考，具体请咨询您的医生。</view>
+        </view>
+        <image src="../../../image/jqr.png" class="img" />
+    </view>
+    <view wx:if="{{isAITrunking}}">
+    <scroll-view scroll-y="true" scroll-top="{{scrollTopVal}}" class="card" style="height:{{pageHeight-275}}px;">
+       
+            <view class="cardback">
+            <view class="content">
+                <text decode >{{AIChunk}}</text>
+            </view>
+                
+            </view>
+       
+    </scroll-view>
+
+
+        
+    </view>
+
+    <view wx:if="{{!isAITrunking}}">
+        <van-empty wx:if="{{AIitems.length === 0}}" class="empty" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无数据" />
+        <view wx:else class="card">
+            <view class="cardback" wx:for="{{AIitems}}" wx:key="1">
+                <view class="titleview">
+                    <view class="tag"></view>
+                    <view class="titles">{{item.key}}</view>
+                </view>
+                <view class="content">
+                    <text decode >{{item.value}}</text>
+                </view>
+               
+            </view>
+        </view>
+    </view>
+
+    <van-button wx:if="{{!(stop && isAITrunking)}}"  class="abs" icon="{{stop?'':'stop-circle-o'}}" color="#409EFF" block loading="{{ loading }}" loading-text="处理中..." bind:click="onStopClick">{{stop?'重新生成':'停止生成'}}</van-button>
+
+</block>
+
+<view style="height: 60rpx; "></view>

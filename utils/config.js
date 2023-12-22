@@ -1,6 +1,6 @@
 //上线前修改成release  每一个版本会对应不同的接口地址和常量
 //develop:开发测试版  trial:演示版   release:正式版
-export const ProgramEnvVersion = 'develop'
+export const ProgramEnvVersion = 'release'
 
 
 /**
@@ -73,6 +73,7 @@ export function checkMenuLoginPage(routPage) {
       '/packageIM', //聊天相关页面
       '/packageDoc/pages/conclusion/con-list',//个人病例
       '/pages/login/follow-info',//出院登记
+      '/packageSub/pages/reports/index',//化验单解读
   ]
   var b=false
   pages.forEach(item=>{
