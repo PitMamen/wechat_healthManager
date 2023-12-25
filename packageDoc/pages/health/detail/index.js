@@ -237,5 +237,9 @@ Page({
         wx.navigateTo({
             url: `/packageDoc/pages/health/choose-patient/index?gatherHealthFlag=${this.data.gatherHealthFlag}&docId=${this.data.docId}&commodityId=${this.data.id}&collectionIds=${collectionIds.join(',')}`
         })
+        this.setData({
+            loading: false
+        })
+        
     }
 })
