@@ -1269,6 +1269,26 @@ module.exports =
                         var url = FOLLOW_SERVICE + '/docFollow/qryMyExecFollowPlanDetailInfo'
                         return request(url, 'POST', data, true);
                     },
+                      //查询报告列表
+                      listReports: function listReports(data) {
+                        return request(HEALTH_SERVICE + '/his/report/listReports', 'post', data, true);
+                    },
+                    //查询检查报告详情
+                    inspectDetail: function inspectDetail(data) {
+                        return request(HEALTH_SERVICE + '/his/report/reportInspectDetail', 'post', data, true);
+                    },
+                     //可解读指标
+                     scrutableNames: function scrutableNames(data) {
+                        return request(HEALTH_SERVICE + '/his/report/scrutableNames', 'post', data, true);
+                    },
+                     //指标解读
+                     explainExamName: function explainExamName(data) {
+                        return request(HEALTH_SERVICE + '/his/report/explainExamName', 'post', data, true);
+                    },
+                    //查询检验报告详情
+                    examDetail: function examDetail(data) {
+                        return request(HEALTH_SERVICE + '/his/report/examDetail', 'post', data, true);
+                    },
                 };
 
                 /***/

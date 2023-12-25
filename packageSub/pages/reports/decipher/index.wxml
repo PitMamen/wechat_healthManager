@@ -1,0 +1,19 @@
+<view class="topview">
+    <view class="content">
+        <view style="font-weight: bold;">{{itemName}}</view>
+        <view style="color: #D88E0E;font-size: 24rpx;margin-top: 26rpx;">本分析仅供参考，具体请咨询您的医生。</view>
+    </view>
+    <image src="../../../image/zbjdicon.png" class="img" />
+</view>
+<van-empty wx:if="{{items.length === 0}}" class="empty" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" description="暂无数据" />
+<view wx:else>
+    <view class="card" wx:for="{{items}}" wx:key="1">
+        <view class="titleview">
+            <view class="tag"></view>
+            <view class="titles">{{item.key}}</view>
+        </view>
+        <view class="content">{{item.value}}</view>
+    </view>
+</view>
+
+<view style="height: 60rpx;"></view>

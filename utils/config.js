@@ -73,6 +73,7 @@ export function checkMenuLoginPage(routPage) {
       '/packageIM', //聊天相关页面
       '/packageDoc/pages/conclusion/con-list',//个人病例
       '/pages/login/follow-info',//出院登记
+      '/packageSub/pages/reports/index',//化验单解读
   ]
   var b=false
   pages.forEach(item=>{

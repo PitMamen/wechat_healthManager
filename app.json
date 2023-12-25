@@ -83,7 +83,10 @@
                 "pages/me/prescription/detail",
                 "pages/me/prescription/drugtaking_page",
                 "pages/follow/list/index",
-                "pages/follow/detail/index"
+                "pages/follow/detail/index",
+                "pages/reports/index",
+                "pages/reports/examine-detail/index",
+                "pages/reports/decipher/index"
             ]
         }
     ],
@@ -224,7 +227,6 @@
         "van-circle": "@vant/weapp/circle/index",
         "van-tree-select": "@vant/weapp/tree-select/index",
         "van-slider": "@vant/weapp/slider/index"
-        
     },
     "sitemapLocation": "sitemap.json"
 }

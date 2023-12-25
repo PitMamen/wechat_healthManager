@@ -141,24 +141,29 @@ Page({
      * @param {订单状态：0全部;1待支付、2进行中、3已完成、4已取消} status 
      */
     async getFollowList() {
-        wx.showLoading({
-            title: '加载中',
-        })
-        const res = await WXAPI.getFollowList({
-            userId: this.data.defaultPatient.userId
-        })
-        wx.hideLoading()
-        res.data.forEach(element => {
-            if (element.cysj) {
-                element.cysj = element.cysj.substring(0, 4) + '年' + element.cysj.substring(5, 7) + '月' + element.cysj.substring(8, 10) + '日'
-            } else {
-                element.cysj = ''
-            }
 
-        });
-        this.setData({
-            orderList: res.data
-        })
+        if(this.data.defaultPatient && this.data.defaultPatient.userId){
+            wx.showLoading({
+                title: '加载中',
+            })
+            const res = await WXAPI.getFollowList({
+                userId: this.data.defaultPatient.userId
+            })
+            wx.hideLoading()
+            res.data.forEach(element => {
+                if (element.cysj) {
+                    element.cysj = element.cysj.substring(0, 4) + '年' + element.cysj.substring(5, 7) + '月' + element.cysj.substring(8, 10) + '日'
+                } else {
+                    element.cysj = ''
+                }
+    
+            });
+            this.setData({
+                orderList: res.data
+            })
+        }
+
+ 
     },
 
     /**

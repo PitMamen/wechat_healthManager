@@ -26,6 +26,20 @@ const formatTime2 = date => {
 
   return `${[year, month, day].map(formatNumber).join('-')}`
 }
+const formatTime7 = date => {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+   
+  
+    return `${[year, month].map(formatNumber).join('/')}`
+  }
+  const formatTime8 = date => {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = 1
+  
+    return `${[year, month,day].map(formatNumber).join('-')}`
+  }
 const formatTime6 = date => {
     const year = date.getFullYear()
     const month = date.getMonth() + 1
@@ -136,6 +150,8 @@ module.exports = {
   formatTime4,
   formatTime5,
   formatTime6,
+  formatTime7,
+  formatTime8,
   formatTime3YearsAge,
   getStrLength,
   getBirthdayAndSex,
