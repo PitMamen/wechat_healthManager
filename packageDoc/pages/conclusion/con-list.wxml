@@ -1,20 +1,74 @@
 <van-sticky>
-    <view id="tabs" class="tabs">
-        <view style="height: 20rpx;background-color: #F5F5F5;"></view>
-        <view class="view-choose-patient" bindtap="bindPatientTap">
-            <view style="flex: 1;">就诊人</view>
-            <view>{{defaultPatient.userName}}</view>
-            <van-icon name="arrow" />
+    <view class="topview">
+        <view id="tabs" class="tabs">
+
+            <van-tabs color="#0379FF" title-active-color="#0379FF" swipeable line-width="28px" bind:click="onTabsChange" custom-class="" active="{{ type }}">
+                <van-tab wx:for="{{tabs}}" wx:key="id" title="{{item.title}}" info="{{item.info || ''}}" name="{{item.type}}">
+                </van-tab>
+            </van-tabs>
+        </view>
+        <view class="slectview">
+
+            <view class="view-choose-patient" bindtap="bindPatientTap">
+                <van-icon name="arrow" />
+                <view>{{defaultPatient.userName}}</view>
+            </view>
         </view>
     </view>
+
 </van-sticky>
 
-<van-empty wx:if="{{ !orderList || orderList.length == 0 }}" description="暂无数据" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" />
+<block wx:if="{{type === '0'}}">
+    <van-empty wx:if="{{ !blsqList || blsqList.length == 0 }}" description="暂无数据" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" />
+
+<view  wx:else>
+    <view bindtap="onBLSQItemClick" data-item="{{item}}" class="zzblcard" wx:for="{{blsqList}}" wx:key="index1" >
+        <image src="../../image/bl1.png" class="img" />
+        <view class="zzcontent">
+            <view class="top">
+            <view>待授权</view>
+            <view>申请时间：2023/12/19</view>
+            </view>
+            <view class="text">中南大学湘雅二医院请求授权</view>
+           
+        </view>
+    </view>
+
+  
+</view>
+
+<view style="height: 60rpx;"></view> 
+</block>
+
+<block wx:if="{{type === '1'}}">
+    <van-empty wx:if="{{ !zzblList || zzblList.length == 0 }}" description="暂无数据" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" />
+
+<view  wx:else>
+    <view bindtap="onZZBLItemClick" data-item="{{item}}" class="zzblcard" wx:for="{{zzblList}}" wx:key="index1" >
+        <image src="../../image/bingli-2.png" class="img" />
+        <view class="zzcontent">
+            <view class="top">
+            <view>中南大学湘雅二医院</view>
+            <view>2023/12/19出院</view>
+            </view>
+            <view class="text">上呼吸道感染结合肺炎、I型糖尿病上呼吸道感染结合肺炎、I型糖尿病上呼吸道感染结合肺炎、I型糖尿病上呼吸道感染结合肺炎、I型糖尿病</view>
+            <view class="des">已授权1次</view>
+        </view>
+    </view>
+
+  
+</view>
+
+<view style="height: 60rpx;"></view> 
+</block>
+
+<block wx:if="{{type === '2'}}">
+    <van-empty wx:if="{{ !orderList || orderList.length == 0 }}" description="暂无数据" image="https://hmg.mclouds.org.cn/content-api/file/I20230710172215780QSEZ5CU4H3AFRX-icon_nodata.png" />
 
 <view class="order-list" hidden="{{orderList ? false : true}}">
     <view bindtap="goConclusionDetailPage" data-item="{{item}}" class="a-order" wx:for="{{orderList}}" wx:key="index" wx:for-index="index" wx:for-item="item">
 
-        <view bindtap="goOrder" data-id="{{item.orderId}}">
+        <view >
             <view class="titleviw">
                 <view style=" font-weight: bold;font-size: 32rpx;color: #1A1A1A;">
                     出院时间：{{item.cysj}}
@@ -80,13 +134,17 @@
 
     </view>
 
-    <!-- 就诊人选择 -->
-    <van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePatientTap">
-        <van-picker show-toolbar custom-class="picker-custom" title="切换就诊人" columns="{{ nameColumns }}" visible-item-count='4' bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
-    </van-popup>
+  
 </view>
 
 <view bindtap="clickRefresh" style="margin:50rpx 24rpx 24rpx 24rpx;display: flex;align-items: center;justify-content: center;color: white;background-color: #3894FF;padding-bottom: 20rpx;border-radius: 8rpx;padding-top: 20rpx;font-size: 30rpx;">
     同步出院病历
 </view>
-<view style="height: 60rpx;"></view>
+<view style="height: 60rpx;"></view> 
+</block>
+
+  <!-- 就诊人选择 -->
+  <van-popup show="{{ !hidePatientShow }}" round position="bottom" custom-style="padding-top:10rpx;min-height: 20%;max-height: 80%;" bind:close="closePatientTap">
+        <van-picker show-toolbar custom-class="picker-custom" title="切换就诊人" columns="{{ nameColumns }}" visible-item-count='4' bind:cancel="onPatientPickerCancel" bind:confirm="onPatientPickerConfirm" />
+    </van-popup>
+

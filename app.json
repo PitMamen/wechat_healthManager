@@ -43,7 +43,9 @@
                 "pages/team/search/index",
                 "pages/team/info/index",
                 "pages/team/comments/index",
-                "pages/team/teamdes/index"
+                "pages/team/teamdes/index",
+                "pages/conclusion/zzblDetail/index",
+                "pages/conclusion/blsqDetail/index"
             ]
         },
         {

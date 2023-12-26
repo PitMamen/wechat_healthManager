@@ -191,6 +191,7 @@ Page({
 
         WXAPI.getMaLoginInfo({})
             .then(res => {
+                console.log(res)
                 if (res.code == 0) {
 
                     if (res.data.loginStatus == '1') {

@@ -8,31 +8,25 @@ Page({
      */
     data: {
         userId: '',
-        listType: 0,
-        status: '0',
+        type: '2',
         nuts: [{}, {}],
         time: 15 * 60 * 1000,
         broadClassify: 1, //1咨询服务类2服务套餐3健康商品
         // 0全部;1待支付、2进行中、3已完成、4已取消
         tabs: [{
-                title: '全部',
-                status: '0'
+                title: '病历授权',
+                type: '0',
+                info:1
             },
             {
-                title: '待支付',
-                status: '1'
+                title: '转诊病历',
+                type: '1',
+                info:0
             },
             {
-                title: '进行中',
-                status: '2'
-            },
-            {
-                title: '已完成',
-                status: '3'
-            },
-            {
-                title: '已取消',
-                status: '4'
+                title: '出院小结',
+                type: '2',
+                info:0
             }
         ],
         orderList: [],
@@ -42,6 +36,8 @@ Page({
         patientList: [],
         hidePatientShow: true,
         nameColumns: [],
+        zzblList:[1,1,1],
+        blsqList:[1,1,1]
     },
 
     /**
@@ -55,7 +51,8 @@ Page({
             // userId: wx.getStorageSync('userInfo').account.accountId,
 
             patientList: wx.getStorageSync('userInfo').account.user,
-            defaultPatient: wx.getStorageSync('defaultPatient')
+            defaultPatient: wx.getStorageSync('defaultPatient'),
+            type:options.type || '2'
         })
 
         this.setData({ //如果传了userId，就取传的，没有就取
@@ -81,13 +78,37 @@ Page({
         this.setData({
             nameColumns: names
         })
+
+        this.switchTabItem()
     },
     /**
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        this.getFollowList()
+        
     },
+
+    onTabsChange(e) {
+        console.log('onTabsChange', e)
+       
+        this.setData({
+            type: e.detail.name
+        })
+        
+        this.switchTabItem()
+
+    },
+
+    switchTabItem(){
+        if(this.data.type === '0'){
+
+        }else  if(this.data.type === '1'){
+
+        }else  if(this.data.type === '2'){
+            this.getFollowList()
+        }
+    },
+
 
     bindPatientTap: function () {
         this.setData({
@@ -103,18 +124,13 @@ Page({
             this.setData({
                 defaultPatient: this.data.patientList[index],
             });
-            //保存默认就诊人   这里不切换默认就诊人，注释掉
-            // wx.setStorageSync('defaultPatient', this.data.defaultPatient)
-            // IMUtil.LoginOrGoIMChat(this.data.defaultPatient.userId, this.data.defaultPatient.userSig)
-            // console.log("当前就诊人：", this.data.defaultPatient)
-            //TODO 刷新数据
-            //   this.getUserExternalInfoOut()
-            this.getFollowList()
             wx.showToast({
                 title: '切换成功',
                 icon: 'success',
                 duration: 2000
             })
+            this.switchTabItem()
+            
         }
         this.setData({
             hidePatientShow: true
@@ -211,6 +227,26 @@ Page({
                 }
             })
             return false
+        }
+    },
+    //授权详情
+    onBLSQItemClick(e){
+        var item = e.currentTarget.dataset.item
+        if (this.checkLoginStatus()) {
+            wx.navigateTo({
+                url: './blsqDetail/index' 
+            })
+
+        }
+    },
+    //转诊病例详情
+    onZZBLItemClick(e){
+        var item = e.currentTarget.dataset.item
+        if (this.checkLoginStatus()) {
+            wx.navigateTo({
+                url: './zzblDetail/index' 
+            })
+
         }
     },
 
