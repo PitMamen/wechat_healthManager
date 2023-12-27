@@ -107,9 +107,8 @@ Page({
                 numsourcelist:res.data ,
                
             })
-            this.setData({            
-                taskDetail:this.data.numsourcelist[this.data.activeNumIndex]
-            })
+          
+            this.setTaskDetail(this.data.numsourcelist[this.data.activeNumIndex])
             this.setData({
                 scrollTopVal: this.data.activeNumIndex * 170 / 750 * wx.getSystemInfoSync().windowWidth
             })
@@ -133,6 +132,34 @@ Page({
 
 
     },
+    setTaskDetail(taskDetail){
+        if(taskDetail.details && taskDetail.details.length>0){
+            taskDetail.details.forEach(item=>{
+
+                if(!item.useTo || item.useTo === 'null' || item.useTo === 'NULL' ||  item.useTo === ''){
+                    if(item.taskType.value ===1){
+                        item.useTo = '1'
+                    }else  if(item.taskType.value ===2){
+                        item.useTo = '2'
+                    }else {
+                        item.useTo = '3'
+                    }
+                   
+                }
+
+                if(item.useTo === '1'){
+                    item.itemTitle='问卷收集'
+                }else if(item.useTo === '2'){
+                    item.itemTitle='健康宣教'
+                }else {
+                    item.itemTitle='消息提醒'
+                }
+            })
+        }
+        this.setData({            
+            taskDetail:taskDetail
+        })
+    },
     chooseAppoint(e) {
         console.log(e)
         var index = e.currentTarget.dataset.index
@@ -142,9 +169,8 @@ Page({
             activeNumItem: item,
             
         })
-        this.setData({            
-            taskDetail:this.data.numsourcelist[this.data.activeNumIndex]
-        })
+       
+        this.setTaskDetail(this.data.numsourcelist[this.data.activeNumIndex])
         console.log(this.data.taskDetail)
     },
  
@@ -152,19 +178,19 @@ Page({
         const item = event.currentTarget.dataset.item
         console.log('ffffffff onFollowTap', JSON.stringify(item))
 
-        if (item.taskType.value === 1) { //问卷
+        if (item.useTo === '1') { //问卷
             let url = item.jumpValue + '?userId=' + item.userId + '&recordId=' + item.id + '&modifyTaskBizStatus=yes'
-            if (item.taskBizStatus.value === 1) {
+            if (item.taskBizStatus.value !== 2) {
                 url = url.replace("/r/", "/s/")
             }
             wx.navigateTo({
                 url: '/pages/home/webpage/index?url=' + encodeURIComponent(url)
             })
-        } else if (item.taskType.value === 2) { //文章
+        } else if (item.useTo === '2') { //文章
             wx.navigateTo({
                 url: '/pages/home/news/news-detail?id=' + item.jumpId + '&recordId=' + item.id
             })
-        } else if (item.taskType.value === 3) { //消息提醒 （包含所有类型）
+        } else  { //消息提醒 （包含所有类型）
             if (item.jumpType === '1') { //问卷
                 let url = item.jumpValue + '?userId=' + item.userId + '&recordId=' + item.id + '&modifyTaskBizStatus=yes'
                 if (item.taskBizStatus.value === 1) {
@@ -201,30 +227,14 @@ Page({
              
             }
             this.setTaskItemRead(item)
-        } else if (item.taskType.value === 4) {//内部地址 :病历查阅
-            console.log('ffffffff onFollowTap jumpValue', item)
-         
-            wx.navigateTo({
-              
-                url: '/' + item.jumpValue + '?recordId=' + item.id + '&userId=' + item.userId
-            })
-            this.setTaskItemRead(item)
-        } else if (item.taskType.value === 6) {//第三方小程序
-            console.log('跳转第三方小程序')
-            wx.navigateToMiniProgram({
-                appId: item.jumpId,
-                path: item.jumpValue,
-                envVersion: Config.getConstantData().envVersion,
-            })
-            this.setTaskItemRead(item)
-        }
+        } 
     },
     //设置已读
     async  setTaskItemRead(item) {
        
        
         const res = await   WXAPI.changeFollowTaskReadStatus({recordId:item.id})
-        if(item.taskType.value ===3 && item.readStatus.value === 1){
+        if(item.useTo === '3' && item.readStatus.value === 1){
             //如果是消息提醒 且未读 则刷新页面
             this.onShow()
         }
