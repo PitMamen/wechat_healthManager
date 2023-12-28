@@ -3,8 +3,9 @@
         <view id="tabs" class="tabs">
 
             <van-tabs color="#0379FF" title-active-color="#0379FF" swipeable line-width="28px" bind:click="onTabsChange" custom-class="" active="{{ type }}">
-                <van-tab wx:for="{{tabs}}" wx:key="id" title="{{item.title}}" info="{{item.info || ''}}" name="{{item.type}}">
-                </van-tab>
+                <van-tab  title="病历授权" info="{{blsqNum || ''}}" name="0"></van-tab>
+                <van-tab  title="转诊病历" info="" name="1"></van-tab>
+                <van-tab  title="出院小结" info="" name="2"></van-tab>
             </van-tabs>
         </view>
         <view class="slectview">

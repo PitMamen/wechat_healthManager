@@ -12,23 +12,8 @@ Page({
         nuts: [{}, {}],
         time: 15 * 60 * 1000,
         broadClassify: 1, //1咨询服务类2服务套餐3健康商品
-        // 0全部;1待支付、2进行中、3已完成、4已取消
-        tabs: [{
-                title: '病历授权',
-                type: '0',
-                info:1
-            },
-            {
-                title: '转诊病历',
-                type: '1',
-                info:0
-            },
-            {
-                title: '出院小结',
-                type: '2',
-                info:0
-            }
-        ],
+        blsqNum:1,//病例授权提醒数
+     
         orderList: [],
 
         recordId: '',
