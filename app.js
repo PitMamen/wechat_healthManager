@@ -408,10 +408,10 @@ App({
         remindedRights: [],//提醒过的权益
         rightTypeList: [],//权益类型列表
         currentHospital: {
-            tenantId: '100003',
-            hospitalCode: '1000031',
-            hospitalName: '中南大学湘雅三医院',
-            hospitalLevelName: '三级甲等'
+            tenantId: '',
+            hospitalCode: '',
+            hospitalName: '',
+            hospitalLevelName: ''
         },//当前切换的医疗机构
         consultPageActive: -1,//跳转到服务页面传的tab值
     },

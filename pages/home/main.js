@@ -479,10 +479,16 @@ Page({
     },
 
     async goHospitalSelectPage() {
-
-        //只有在名单里的用户才能切换
+        //如果没有选择机构 则跳转
+        if (!getApp().globalData.currentHospital.hospitalCode) {
+            wx.navigateTo({
+                url: './hospital-select/index',
+            })
+            return
+        }
+        
         if (this.data.userInfo && this.data.userInfo.accountId) {
-
+        //有用户 没有选择机构的可以选择一次  选择了机构的，只有在名单里的用户才能切换
             if (!this.data.canSwitchUserList || this.data.canSwitchUserList.length === 0) {
                 const res = await WXAPI.getCanSwitchUserList({})
 
@@ -495,13 +501,38 @@ Page({
             var b = this.data.canSwitchUserList.some(item => {
                 return item == accountId
             })
+
+           
+
             if (b) {
                 wx.navigateTo({
                     url: './hospital-select/index',
                 })
             }
+        }else {
+            //游客  扫码进来的不能切换  自主进来的可以切换
+            var tenantId=''
+            if (this.data.options.scene) {
+                const scene = decodeURIComponent(options.scene)
+              
+                tenantId= scene.split('&')[1]
+                
+            } else  if (this.data.options.hospitalCode){
+               
+                tenantId =options.tenantId
+     
+            }
+            console.log('tenantId='+tenantId)
+            //tenantId有值说明是扫码进来的 
+            if(!tenantId){
+                wx.navigateTo({
+                    url: './hospital-select/index',
+                })
+            }
+            
+            
         }
-
+        
     },
     //获取可切换医疗机构人员名单
     getCanSwitchUserList() {
