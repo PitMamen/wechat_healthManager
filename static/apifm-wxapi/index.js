@@ -200,6 +200,7 @@ module.exports =
                 var MEDICAL_SERVICE = '/medical-api';
                 var FOLLOW_SERVICE = '/follow-api';
                 var UAM_SERVICE = '/uam-api';
+                var REFERRAL_SERVICE = '/referral-api';
 
 
 
@@ -1288,6 +1289,10 @@ module.exports =
                     //查询检验报告详情
                     examDetail: function examDetail(data) {
                         return request(HEALTH_SERVICE + '/his/report/examDetail', 'post', data, true);
+                    },
+                     //转诊病历列表
+                     userCaseSyninfoList: function userCaseSyninfoList(data) {
+                        return request( REFERRAL_SERVICE+ '/tfUserCaseSyninfo/userCaseSyninfoList', 'post', data, true);
                     },
                 };
 

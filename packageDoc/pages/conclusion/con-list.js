@@ -21,8 +21,8 @@ Page({
         patientList: [],
         hidePatientShow: true,
         nameColumns: [],
-        zzblList:[1,1,1],
-        blsqList:[1,1,1]
+        zzblList:[],
+        blsqList:[]
     },
 
     /**
@@ -32,9 +32,6 @@ Page({
         console.log('***********con-list options', options)
         this.setData({
             recordId: options.recordId,
-            // userId: options.userId,
-            // userId: wx.getStorageSync('userInfo').account.accountId,
-
             patientList: wx.getStorageSync('userInfo').account.user,
             defaultPatient: wx.getStorageSync('defaultPatient'),
             type:options.type || '2'
@@ -51,7 +48,7 @@ Page({
                     this.setData({
                         defaultPatient: this.data.patientList[index],
                     });
-                    this.getFollowList()
+                    this.switchTabItem()
                 }
             });
         }
@@ -88,7 +85,7 @@ Page({
         if(this.data.type === '0'){
 
         }else  if(this.data.type === '1'){
-
+            this.userCaseSyninfoList()
         }else  if(this.data.type === '2'){
             this.getFollowList()
         }
@@ -136,11 +133,26 @@ Page({
     onReady: function () {
 
     },
+    
+    //转诊病历
+    async userCaseSyninfoList() {
 
-    /**
-     * 
-     * @param {订单状态：0全部;1待支付、2进行中、3已完成、4已取消} status 
-     */
+        if(this.data.defaultPatient && this.data.defaultPatient.userId){
+            
+            const res = await WXAPI.userCaseSyninfoList({
+                // userId: this.data.defaultPatient.userId,
+                userId: 14163,
+                pageNo: 1,
+	            pageSize: 9999,
+            })
+            this.setData({
+                zzblList: res.data.records || []
+            })
+        }
+
+ 
+    },
+    //出院小结
     async getFollowList() {
 
         if(this.data.defaultPatient && this.data.defaultPatient.userId){

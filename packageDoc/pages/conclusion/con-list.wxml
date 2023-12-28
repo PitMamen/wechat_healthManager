@@ -49,11 +49,11 @@
         <image src="../../image/bingli-2.png" class="img" />
         <view class="zzcontent">
             <view class="top">
-            <view>中南大学湘雅二医院</view>
-            <view>2023/12/19出院</view>
+            <view>{{item.in_hospital_name}}</view>
+            <view>{{item.create_time}}出院</view>
             </view>
-            <view class="text">上呼吸道感染结合肺炎、I型糖尿病上呼吸道感染结合肺炎、I型糖尿病上呼吸道感染结合肺炎、I型糖尿病上呼吸道感染结合肺炎、I型糖尿病</view>
-            <view class="des">已授权1次</view>
+            <view class="text">{{item.diagnos}}</view>
+            <view class="des">已授权{{item.authorization_status || '0'}}次</view>
         </view>
     </view>
 
