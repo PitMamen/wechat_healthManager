@@ -1,6 +1,6 @@
 const WXAPI = require('../../../static/apifm-wxapi/index')
 const Util = require('../../../utils/util')
-const IMUtil = require('../../../utils/IMUtil')
+
 Page({
 
     /**
@@ -145,8 +145,12 @@ Page({
                 pageNo: 1,
 	            pageSize: 9999,
             })
+           var list= res.data.records || []
+           list.forEach(item=>{
+               item.date=Util.formatTime5(new Date(item.create_time))
+           })
             this.setData({
-                zzblList: res.data.records || []
+                zzblList: list
             })
         }
 

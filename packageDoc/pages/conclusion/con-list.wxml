@@ -50,10 +50,10 @@
         <view class="zzcontent">
             <view class="top">
             <view>{{item.in_hospital_name}}</view>
-            <view>{{item.create_time}}出院</view>
+            <view>{{item.date}}出院</view>
             </view>
             <view class="text">{{item.diagnos}}</view>
-            <view class="des">已授权{{item.authorization_status || '0'}}次</view>
+            <view class="des" wx:if="{{item.authorization_status}}">已授权{{item.authorization_status }}次</view>
         </view>
     </view>
 
