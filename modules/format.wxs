@@ -173,11 +173,11 @@ function zixunType(type) {
 //随访计划 子任务 图标
 function planTypeIcon(type) {
 
-    if (type === 1) {
+    if (type === '1') {
         return '/packageSub/image/wenjuan.png'
-    } else if (type === 2) {
+    } else if (type === '2') {
         return '/packageSub/image/wenzhang.png'
-    } else if (type === 3) {
+    } else if (type === '3') {
         return '/packageSub/image/tixing.png'
     } else {
         return '/packageSub/image/wenzhang.png'
