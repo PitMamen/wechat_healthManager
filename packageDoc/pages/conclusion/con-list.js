@@ -12,8 +12,8 @@ Page({
         nuts: [{}, {}],
         time: 15 * 60 * 1000,
         broadClassify: 1, //1咨询服务类2服务套餐3健康商品
-        blsqNum:1,//病例授权提醒数
-     
+        blsqNum: 1,//病例授权提醒数
+
         orderList: [],
 
         recordId: '',
@@ -21,8 +21,8 @@ Page({
         patientList: [],
         hidePatientShow: true,
         nameColumns: [],
-        zzblList:[1,1,1],
-        blsqList:[1,1,1]
+        zzblList: [1, 1, 1],
+        blsqList: [1, 1, 1]
     },
 
     /**
@@ -37,7 +37,7 @@ Page({
 
             patientList: wx.getStorageSync('userInfo').account.user,
             defaultPatient: wx.getStorageSync('defaultPatient'),
-            type:options.type || '2'
+            type: options.type || '2'
         })
 
         this.setData({ //如果传了userId，就取传的，没有就取
@@ -70,26 +70,26 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        
+
     },
 
     onTabsChange(e) {
         console.log('onTabsChange', e)
-       
+
         this.setData({
             type: e.detail.name
         })
-        
+
         this.switchTabItem()
 
     },
 
-    switchTabItem(){
-        if(this.data.type === '0'){
+    switchTabItem() {
+        if (this.data.type === '0') {
 
-        }else  if(this.data.type === '1'){
+        } else if (this.data.type === '1') {
 
-        }else  if(this.data.type === '2'){
+        } else if (this.data.type === '2') {
             this.getFollowList()
         }
     },
@@ -115,7 +115,7 @@ Page({
                 duration: 2000
             })
             this.switchTabItem()
-            
+
         }
         this.setData({
             hidePatientShow: true
@@ -143,7 +143,7 @@ Page({
      */
     async getFollowList() {
 
-        if(this.data.defaultPatient && this.data.defaultPatient.userId){
+        if (this.data.defaultPatient && this.data.defaultPatient.userId) {
             wx.showLoading({
                 title: '加载中',
             })
@@ -157,15 +157,39 @@ Page({
                 } else {
                     element.cysj = ''
                 }
-    
+
             });
             this.setData({
                 orderList: res.data
             })
         }
 
- 
+
     },
+
+
+
+    // 授权病历列表
+    async getMyCaseSyninfoOut(id) {
+        const res = await WXAPI.getMyCaseSyninfo()
+        if (res.code == 0) {
+            if (res.data) {
+                this.setData({
+                    blsqList: res.data,
+                })
+
+            }
+         
+        }
+
+    },
+
+
+
+
+
+
+
 
     /**
      * 生命周期函数--监听页面隐藏
@@ -215,21 +239,21 @@ Page({
         }
     },
     //授权详情
-    onBLSQItemClick(e){
+    onBLSQItemClick(e) {
         var item = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: './blsqDetail/index' 
+                url: './blsqDetail/index'
             })
 
         }
     },
     //转诊病例详情
-    onZZBLItemClick(e){
+    onZZBLItemClick(e) {
         var item = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: './zzblDetail/index' 
+                url: './zzblDetail/index'
             })
 
         }

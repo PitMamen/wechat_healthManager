@@ -1,2 +1,95 @@
-<!--packageDoc/pages/conclusion/blsqDetail/index.wxml-->
-<text>packageDoc/pages/conclusion/blsqDetail/index.wxml</text>
+<view class="titleview">授权信息</view>
+<view class="jgview">
+    <view class="content">
+        <view class="name">申请机构：</view>
+        <view class="value">哈哈哈</view>
+    </view>
+
+    <view class="content">
+        <view class="name">申请用途：</view>
+        <view class="value">双向转诊</view>
+    </view>
+
+    <view class="content">
+        <view class="name">使用期限：</view>
+        <view class="value">无限期</view>
+    </view>
+
+
+    <view class="content">
+        <view class="name">申请时间：</view>
+        <view class="value">2023/12/24</view>
+    </view>
+</view>
+<!-- <view class="titleview">电子病历</view>
+<view class="card">
+    <view class="item">
+        <view class="name">2023-12-09</view>
+        <van-icon class="right" name="arrow" color="#999999" />
+    </view>
+</view>
+<view class="titleview">出院记录</view>
+<view class="card">
+    <view class="item">
+        <view class="name">2023-12-09</view>
+        <van-icon class="right" name="arrow" color="#999999" />
+    </view>
+
+</view>
+<view class="titleview">化验报告</view>
+<view class="card">
+    <view class="item" style="{{index==list.length-1?'':'border-bottom: 1rpx solid #E6E6E6;'}}" wx:for="{{list}}">
+        <view class="name">血常规</view>
+        <van-icon class="right" name="arrow" color="#999999" />
+    </view>
+
+</view> -->
+<view class="titleview">电子病历</view>
+<view class="card">
+    <view class="item">
+        <view class="name">病历首页x1</view>
+        <van-icon class="right" name="arrow" color="#999999" />
+    </view>
+    <view class="bottomline"></view>
+    <view class="item">
+        <view class="name">出院记录x1</view>
+        <van-icon class="right" name="arrow" color="#999999" />
+    </view>
+    <view class="bottomline"></view>
+    <view class="item">
+        <view class="name">医嘱记录x1</view>
+        <van-icon class="right" name="arrow" color="#999999" />
+    </view>
+    <view class="bottomline"></view>
+    <view class="item">
+        <view class="name">化验报告单x12</view>
+        <van-icon class="right" name="arrow" color="#999999" />
+    </view>
+    <view class="bottomline"></view>
+    <view class="item">
+        <view class="name">检查报告单x11</view>
+        <van-icon class="right" name="arrow" color="#999999" />
+    </view>
+
+</view>
+<view class="titleview">照片附件</view>
+
+<view class="goods-container">
+
+ <view class="toptitle">检查报告单</view>
+
+    <!-- <image src="{{picItem}}" class="goods-box" mode="aspectFill" lazy-load="true" wx:for="{{reqInfo.healthImagesList}}" wx:for-item="picItem" wx:key="id" bindtap="onImageTap" data-url="{{picItem}}" /> -->
+
+
+</view>
+<!-- <view class="card">
+    <view class="item" style="border-bottom: 1rpx solid #E6E6E6;">
+        <view class="name">长期医嘱</view>
+        <van-icon class="right" name="arrow" color="#999999" />
+    </view>
+    <view class="item">
+        <view class="name">短期医嘱</view>
+        <van-icon class="right" name="arrow" color="#999999" />
+    </view>
+</view> -->
+<view style="height: 60rpx;"></view>

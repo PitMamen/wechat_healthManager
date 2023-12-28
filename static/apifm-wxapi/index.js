@@ -200,6 +200,7 @@ module.exports =
                 var MEDICAL_SERVICE = '/medical-api';
                 var FOLLOW_SERVICE = '/follow-api';
                 var UAM_SERVICE = '/uam-api';
+                var REFERRAL_SERVICE = '/referral-api';
 
 
 
@@ -863,9 +864,9 @@ module.exports =
                     qryCodeValue: function qryCodeValue(codeGroup) {
                         return request2(HEALTH_SERVICE + '/medical/common/qryCodeValue?codeGroup=' + codeGroup, 'get', {});
                     },
-                      //获取可切换医疗机构人员名单
-                      getCanSwitchUserList: function getCanSwitchUserList() {
-                        return request2(INFO_SERVICE + '/sysConfigData/getConfig/CAN_SWITCH_USER' , 'get', {});
+                    //获取可切换医疗机构人员名单
+                    getCanSwitchUserList: function getCanSwitchUserList() {
+                        return request2(INFO_SERVICE + '/sysConfigData/getConfig/CAN_SWITCH_USER', 'get', {});
                     },
                     //查询病人健康评估信息
                     qryUserEvaluateList: function qryUserEvaluateList(data) {
@@ -1254,40 +1255,46 @@ module.exports =
                         var url = FOLLOW_SERVICE + '/followMetaConfigure/getInpatientInfo'
                         return request2(url, 'get', data, true);
                     },
-                      // 查询我的随访计划
-                      qryMyFollowPlan: function qryMyFollowPlan(data) {
+                    // 查询我的随访计划
+                    qryMyFollowPlan: function qryMyFollowPlan(data) {
                         var url = FOLLOW_SERVICE + '/follow/userplan/qryMyFollowPlan'
                         return request(url, 'POST', data, true);
                     },
-                      // 查询随访计划的基本信息
-                      qryExecFollowPlanBaseInfo: function qryExecFollowPlanBaseInfo(data) {
+                    // 查询随访计划的基本信息
+                    qryExecFollowPlanBaseInfo: function qryExecFollowPlanBaseInfo(data) {
                         var url = FOLLOW_SERVICE + '/docFollow/qryExecFollowPlanBaseInfo'
                         return request(url, 'POST', data, true);
                     },
-                     // 查询随访子计划
-                     qryMyExecFollowPlanDetailInfo: function qryMyExecFollowPlanDetailInfo(data) {
+                    // 查询随访子计划
+                    qryMyExecFollowPlanDetailInfo: function qryMyExecFollowPlanDetailInfo(data) {
                         var url = FOLLOW_SERVICE + '/docFollow/qryMyExecFollowPlanDetailInfo'
                         return request(url, 'POST', data, true);
                     },
-                      //查询报告列表
-                      listReports: function listReports(data) {
+                    //查询报告列表
+                    listReports: function listReports(data) {
                         return request(HEALTH_SERVICE + '/his/report/listReports', 'post', data, true);
                     },
                     //查询检查报告详情
                     inspectDetail: function inspectDetail(data) {
                         return request(HEALTH_SERVICE + '/his/report/reportInspectDetail', 'post', data, true);
                     },
-                     //可解读指标
-                     scrutableNames: function scrutableNames(data) {
+                    //可解读指标
+                    scrutableNames: function scrutableNames(data) {
                         return request(HEALTH_SERVICE + '/his/report/scrutableNames', 'post', data, true);
                     },
-                     //指标解读
-                     explainExamName: function explainExamName(data) {
+                    //指标解读
+                    explainExamName: function explainExamName(data) {
                         return request(HEALTH_SERVICE + '/his/report/explainExamName', 'post', data, true);
                     },
                     //查询检验报告详情
                     examDetail: function examDetail(data) {
                         return request(HEALTH_SERVICE + '/his/report/examDetail', 'post', data, true);
+                    },
+
+                    // 病历授权记录列表 
+                    getMyCaseSyninfo: function getMyCaseSyninfo(data) {
+                        var url = REFERRAL_SERVICE + '/tfUserCaseSyninfo/getMyCaseSyninfo'
+                        return request2(url, 'get', data, true);
                     },
                 };
 
