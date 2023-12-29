@@ -2,7 +2,7 @@
 <view class="jgview">
     <view class="content">
         <view class="name">申请机构：</view>
-        <view class="value">哈哈哈</view>
+        <view class="value">{{list.authorizationHospitalName||''}}</view>
     </view>
 
     <view class="content">
@@ -18,7 +18,7 @@
 
     <view class="content">
         <view class="name">申请时间：</view>
-        <view class="value">2023/12/24</view>
+        <view class="value">{{list.createTime}}</view>
     </view>
 </view>
 <!-- <view class="titleview">电子病历</view>
@@ -47,28 +47,27 @@
 <view class="titleview">电子病历</view>
 <view class="card">
     <view class="item">
-        <view class="name">病历首页x1</view>
-        <van-icon class="right" name="arrow" color="#999999" />
+        <view class="name">病历首页</view>
+        <view wx:if="{{list.caseNum}}" class="value">x{{list.caseNum||''}} </view>
+        <van-icon class="right" style="margin-left: auto;" name="arrow" color="#999999" />
     </view>
     <view class="bottomline"></view>
     <view class="item">
-        <view class="name">出院记录x1</view>
-        <van-icon class="right" name="arrow" color="#999999" />
+        <view class="name">出院记录</view>
+        <view wx:if="{{list.summaryNum}}" class="value">x{{list.summaryNum||''}} </view>
+        <van-icon class="right" style="margin-left: auto;" name="arrow" color="#999999" />
     </view>
     <view class="bottomline"></view>
     <view class="item">
-        <view class="name">医嘱记录x1</view>
-        <van-icon class="right" name="arrow" color="#999999" />
+        <view class="name">化验报告单</view>
+        <view wx:if="{{list.examNum}}" class="value">x{{list.examNum||''}} </view>
+        <van-icon class="right" style="margin-left: auto;" name="arrow" color="#999999" />
     </view>
     <view class="bottomline"></view>
     <view class="item">
-        <view class="name">化验报告单x12</view>
-        <van-icon class="right" name="arrow" color="#999999" />
-    </view>
-    <view class="bottomline"></view>
-    <view class="item">
-        <view class="name">检查报告单x11</view>
-        <van-icon class="right" name="arrow" color="#999999" />
+        <view class="name">检查报告单</view>
+        <view wx:if="{{list.checkNum}}" class="value">x{{list.checkNum||''}} </view>
+        <van-icon class="right" style="margin-left: auto;" name="arrow" color="#999999" />
     </view>
 
 </view>
@@ -76,12 +75,49 @@
 
 <view class="goods-container">
 
- <view class="toptitle">检查报告单</view>
+    <view class="toptitle">化验报告单</view>
 
-    <!-- <image src="{{picItem}}" class="goods-box" mode="aspectFill" lazy-load="true" wx:for="{{reqInfo.healthImagesList}}" wx:for-item="picItem" wx:key="id" bindtap="onImageTap" data-url="{{picItem}}" /> -->
+    <view class="content">
+        <image src="{{item.imgPath}}" class="goods-box" mode="aspectFill" lazy-load="true" wx:for="{{jianyanList}}" wx:for-item="item" wx:key="id" bindtap="onImageTap" data-url="{{item.imgPath}}" />
+    </view>
 
+    <view class="toptitle">检查报告单</view>
+
+    <view class="content">
+        <image src="{{item.imgPath}}" class="goods-box" mode="aspectFill" lazy-load="true" wx:for="{{jianchaList}}" wx:for-item="item" wx:key="id" bindtap="onImageTap" data-url="{{item.imgPath}}" />
+    </view>
+
+
+    <view class="toptitle">其他记录</view>
+
+    <view class="content">
+        <image src="{{item.imgPath}}" class="goods-box" mode="aspectFill" lazy-load="true" wx:for="{{otherList}}" wx:for-item="item" wx:key="id" bindtap="onImageTap" data-url="{{item.imgPath}}" />
+    </view>
 
 </view>
+
+
+
+
+<view class="bottomlayout">
+    <view class="button" bindtap="refuseTap">
+        <view style="padding-top: 15rpx;">拒绝</view>
+    </view>
+
+    <view class="buttonagre" bindtap="agreeTap">
+        <view style="padding-top: 15rpx;">同意</view>
+    </view>
+
+</view>
+
+
+
+
+
+
+
+
+
 <!-- <view class="card">
     <view class="item" style="border-bottom: 1rpx solid #E6E6E6;">
         <view class="name">长期医嘱</view>

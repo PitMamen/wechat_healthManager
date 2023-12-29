@@ -24,13 +24,15 @@
 
 <view  wx:else>
     <view bindtap="onBLSQItemClick" data-item="{{item}}" class="zzblcard" wx:for="{{blsqList}}" wx:key="index1" >
-        <image src="../../image/bl1.png" class="img" />
+        <image src="{{item.iconShow}}" class="img" />
         <view class="zzcontent">
             <view class="top">
-            <view>待授权</view>
-            <view>申请时间：2023/12/19</view>
+            <view wx:if="{{item.authorizationStatus==0}}" style="color: #999999;">待授权</view>
+            <view wx:if="{{item.authorizationStatus==1}}" style="color: #0B982F;">已授权</view>
+            <view wx:if="{{item.authorizationStatus==2}}"style="color: #F11010;">拒绝授权</view>
+            <view>申请时间：{{item.createTime}}</view>
             </view>
-            <view class="text">中南大学湘雅二医院请求授权</view>
+            <view class="text">{{item.authorizationHospitalName}}</view>
            
         </view>
     </view>
@@ -49,11 +51,11 @@
         <image src="../../image/bingli-2.png" class="img" />
         <view class="zzcontent">
             <view class="top">
-            <view>中南大学湘雅二医院</view>
-            <view>2023/12/19出院</view>
+            <view>{{item.in_hospital_name}}</view>
+            <view>{{item.create_time}}出院</view>
             </view>
-            <view class="text">上呼吸道感染结合肺炎、I型糖尿病上呼吸道感染结合肺炎、I型糖尿病上呼吸道感染结合肺炎、I型糖尿病上呼吸道感染结合肺炎、I型糖尿病</view>
-            <view class="des">已授权1次</view>
+            <view class="text">{{item.diagnos}}</view>
+            <view class="des">已授权{{item.authorization_status || '0'}}次</view>
         </view>
     </view>
 

@@ -1,17 +1,28 @@
-// packageDoc/pages/conclusion/blsqDetail/index.js
+const WXAPI = require('../../../../static/apifm-wxapi/index')
+const Util = require('../../../../utils/util')
+// const IMUtil = require('../../../utils/IMUtil')
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        list:[1,1,1]
+        list: {},
+        id: '',
+        jianyanList: [],
+        jianchaList: [],
+        otherList: []
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
+        console.log("EEEE:", options.id)
+        this.setData({
+            id: options.id,
+        })
+        this.getCaseSynDetailOut(this.data.id)
 
     },
 
@@ -62,5 +73,86 @@ Page({
      */
     onShareAppMessage() {
 
+    },
+
+
+    // 拒绝
+    refuseTap: function () {
+        let that = this
+        that.grantCaseOut(2)
+    },
+
+    // 同意
+    agreeTap: function () {
+        let that = this
+        that.grantCaseOut(1)
+    },
+
+
+    async grantCaseOut(type) {
+        wx.showLoading({
+            title: '加载中',
+        })
+        const res = await WXAPI.grantCase({
+            id: this.data.id,
+            status: type
+        })
+        wx.hideLoading()
+        if (res.code == 0) {
+            wx.showToast({
+                title: '操作成功',
+                icon: 'success',
+                duration: 2000
+            })
+            setTimeout(() => {
+                wx.navigateBack({
+                    delta: 1,
+                })
+            }, 1000)
+        }
+    },
+
+    // 授权病历详情
+    async getCaseSynDetailOut(id) {
+        wx.showLoading({
+            title: '加载中',
+        })
+        const res = await WXAPI.getCaseSynDetail(id)
+        wx.hideLoading()
+        if (res.code == 0) {
+            var imgType1 = []
+            var imgType2 = []
+            var imgType3 = []
+
+            if (res.data) {
+                if (res.data.caseImgs) {
+                    res.data.caseImgs.forEach(item => {
+                        if (item.imgType == 1) {
+                            imgType1.push(item)
+                        } else if (item.imgType == 2) {
+                            imgType2.push(item)
+                        } else if (item.imgType == 3) {
+                            imgType3.push(item)
+                        }
+                    });
+
+                    this.setData({
+                        jianyanList: imgType1,
+                        jianchaList: imgType2,
+                        otherList: imgType3
+                    })
+                }
+            }
+            this.setData({
+                list: res.data || {},
+            })
+
+        }
     }
+
+
+
+
+
+
 })

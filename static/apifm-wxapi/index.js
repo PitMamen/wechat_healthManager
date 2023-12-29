@@ -1296,6 +1296,28 @@ module.exports =
                         var url = REFERRAL_SERVICE + '/tfUserCaseSyninfo/getMyCaseSyninfo'
                         return request2(url, 'get', data, true);
                     },
+
+                    //转诊授权病历详情
+                    getCaseSynDetail: function getCaseSynDetail(id) {
+                        var url = REFERRAL_SERVICE + '/tfUserCaseSyninfo/getCaseSynDetail/' + id
+                        return request2(url, 'get', '', true);
+                        // return request2(REFERRAL_SERVICE + '/tfUserCaseSyninfo/getCaseSynDetail', 'post', data, true);
+                    },
+
+
+                    //转诊病历列表
+                    userCaseSyninfoList: function userCaseSyninfoList(data) {
+                        return request(REFERRAL_SERVICE + '/tfUserCaseSyninfo/userCaseSyninfoList', 'post', data, true);
+                    },
+
+
+
+                    // 病历授权
+                    grantCase: function grantCase(data) {
+                        return request(REFERRAL_SERVICE + '/tfUserCaseSyninfo/grantCase', 'post', data, true);
+                    },
+
+
                 };
 
                 /***/

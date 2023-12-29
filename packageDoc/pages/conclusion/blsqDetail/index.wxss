@@ -39,6 +39,7 @@ page {
     flex-direction: row;
     height: 40rpx;
     margin-bottom: 30rpx;
+
 }
 
 
@@ -50,8 +51,6 @@ page {
     color: #1A1A1A;
     line-height: 37rpx;
     margin-left: 29rpx;
-
-
 }
 
 .jgview .content .value {
@@ -93,7 +92,8 @@ page {
     display: flex;
     flex-direction: row;
     justify-items: center;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
     padding-bottom: 30rpx;
     padding-top: 30rpx;
 
@@ -110,7 +110,11 @@ page {
 .card .name {
     font-size: 32rpx;
     color: #1A1A1A;
+}
 
+.card .value {
+    font-size: 32rpx;
+    color: #1A1A1A;
 }
 
 .goods-container {
@@ -139,13 +143,62 @@ page {
     margin-top: 29rpx;
 }
 
-.goods-box {
+.goods-container .content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 30rpx;
+    margin-top: 30rpx;
+}
+
+.goods-container .goods-box {
     width: 160rpx;
     height: 160rpx;
     margin-right: 20rpx;
     background: #F5F6FB;
     overflow: hidden;
     margin-bottom: 20rpx;
+    display: flex;
+    flex-direction: row;
 }
 
-.card .right {}
+
+
+.bottomlayout {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: content-box;
+    width: 702rpx;
+    margin-top: 30rpx;
+    margin-left: 24rpx;
+    border-radius: 8rpx;
+    display: flex;
+    padding-top: 10rpx;
+    padding-bottom: 10rpx;
+    position: relative;
+    align-items: center;
+}
+
+
+.bottomlayout .button {
+    width: 306rpx;
+    height: 68rpx;
+    background: #E14C4C;
+    border-radius: 8rpx;
+    color: white;
+    text-align: center;
+    padding-bottom: 10rpx
+    ;
+}
+
+.bottomlayout .buttonagre {
+    width: 306rpx;
+    height: 68rpx;
+    background: #409EFF;
+    border-radius: 8rpx;
+    color: white;
+    text-align: center;
+    margin-left: 72rpx;
+    padding-bottom: 10rpx
+    ;
+}
