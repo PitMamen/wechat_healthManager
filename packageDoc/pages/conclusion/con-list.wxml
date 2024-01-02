@@ -32,7 +32,7 @@
             <view wx:if="{{item.authorizationStatus==2}}"style="color: #F11010;">拒绝授权</view>
             <view>申请时间：{{item.createTime}}</view>
             </view>
-            <view class="text">{{item.authorizationHospitalName}}</view>
+            <view class="text">{{item.authorizationHospitalName}}请求授权</view>
            
         </view>
     </view>

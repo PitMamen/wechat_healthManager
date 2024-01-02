@@ -1,6 +1,6 @@
 const WXAPI = require('../../../static/apifm-wxapi/index')
 const Util = require('../../../utils/util')
-
+import bus from '../../../utils/EventBus.js'
 Page({
 
     /**
@@ -61,6 +61,15 @@ Page({
             nameColumns: names
         })
 
+
+        //监听登录成功
+        bus.on('Success', (msg) => {
+            // 支持多参数
+            console.log("监听成功", msg)
+            this.getMyCaseSyninfoOut()
+        })
+
+
         this.switchTabItem()
         this.getMyCaseSyninfoOut()
     },
@@ -68,7 +77,6 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
     },
 
     onTabsChange(e) {
@@ -146,10 +154,10 @@ Page({
                 pageNo: 1,
                 pageSize: 9999,
             })
-           var list= res.data.records || []
-           list.forEach(item=>{
-               item.date=Util.formatTime5(new Date(item.create_time))
-           })
+            var list = res.data.records || []
+            list.forEach(item => {
+                item.date = Util.formatTime5(new Date(item.create_time))
+            })
             this.setData({
                 zzblList: list
             })
@@ -188,24 +196,30 @@ Page({
 
     // 授权病历列表
     async getMyCaseSyninfoOut() {
-        const res = await WXAPI.getMyCaseSyninfo()
-        if (res.code == 0) {
-            if (res.data) {
-                // console.log("1111:",res.data.length)
-                res.data.forEach(item => {
-                    if (item.authorizationStatus==0) {
-                        item.iconShow = '../../image/bl1.png'
-                    }else if (item.authorizationStatus==1) {
-                        item.iconShow = '../../image/bl2.png'
-                    }else if (item.authorizationStatus==2) {
-                        item.iconShow = '../../image/bl3.png'
-                    }
-                })
-            }
-            this.setData({
-                blsqNum:res.data.length,
-                blsqList: res.data || []
+        if (this.data.defaultPatient && this.data.defaultPatient.userId) {
+            const res = await WXAPI.getMyCaseSyninfo({
+                userId: this.data.defaultPatient.userId
             })
+            if (res.code == 0) {
+                var blsqNumLenght = []
+                if (res.data) {
+                    res.data.forEach(item => {
+                        if (item.authorizationStatus == 0) {
+                            item.iconShow = '../../image/bl1.png'
+                            blsqNumLenght.push(item)  //气泡提示数量 只显示待授权的
+                        } else if (item.authorizationStatus == 1) {
+                            item.iconShow = '../../image/bl2.png'
+                        } else if (item.authorizationStatus == 2) {
+                            item.iconShow = '../../image/bl3.png'
+                        }
+                    })
+                }
+                this.setData({
+                    blsqNum: blsqNumLenght.length,
+                    blsqList: res.data || []
+                })
+
+            }
 
         }
 
@@ -270,7 +284,7 @@ Page({
         var item = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: './blsqDetail/index?id='+item.id
+                url: './blsqDetail/index?id=' + item.id
             })
 
         }

@@ -1,5 +1,6 @@
 const WXAPI = require('../../../../static/apifm-wxapi/index')
 const Util = require('../../../../utils/util')
+import bus from '../../../../utils/EventBus.js'
 // const IMUtil = require('../../../utils/IMUtil')
 Page({
 
@@ -76,6 +77,34 @@ Page({
     },
 
 
+     //图片预览
+     onImageTap: function (e) {
+         var url = e.currentTarget.dataset.url
+        wx.previewImage({
+            current: url,
+            urls: this.data.jianyanList,
+        })
+    },
+
+    //图片预览
+    onImageTap1: function (e) {
+        var url = e.currentTarget.dataset.url
+       wx.previewImage({
+           current: url,
+           urls: this.data.jianchaList,
+       })
+   },
+
+    //图片预览
+    onImageTap2: function (e) {
+        var url = e.currentTarget.dataset.url
+       wx.previewImage({
+           current: url,
+           urls: this.data.otherList,
+       })
+   },
+
+
     // 拒绝
     refuseTap: function () {
         let that = this
@@ -109,6 +138,7 @@ Page({
                     delta: 1,
                 })
             }, 1000)
+            bus.emit('Success', '')
         }
     },
 
@@ -128,11 +158,11 @@ Page({
                 if (res.data.caseImgs) {
                     res.data.caseImgs.forEach(item => {
                         if (item.imgType == 1) {
-                            imgType1.push(item)
+                            imgType1.push(item.imgPath)
                         } else if (item.imgType == 2) {
-                            imgType2.push(item)
+                            imgType2.push(item.imgPath)
                         } else if (item.imgType == 3) {
-                            imgType3.push(item)
+                            imgType3.push(item.imgPath)
                         }
                     });
 
@@ -144,6 +174,7 @@ Page({
                 }
             }
             this.setData({
+                authorizationStatus: res.data.authorizationStatus,
                 list: res.data || {},
             })
 

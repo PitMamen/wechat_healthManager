@@ -78,20 +78,20 @@
     <view class="toptitle">化验报告单</view>
 
     <view class="content">
-        <image src="{{item.imgPath}}" class="goods-box" mode="aspectFill" lazy-load="true" wx:for="{{jianyanList}}" wx:for-item="item" wx:key="id" bindtap="onImageTap" data-url="{{item.imgPath}}" />
+        <image src="{{item}}" class="goods-box" mode="aspectFill" lazy-load="true" wx:for="{{jianyanList}}" wx:for-item="item" wx:key="id" bindtap="onImageTap" data-url="{{item}}" />
     </view>
 
     <view class="toptitle">检查报告单</view>
 
     <view class="content">
-        <image src="{{item.imgPath}}" class="goods-box" mode="aspectFill" lazy-load="true" wx:for="{{jianchaList}}" wx:for-item="item" wx:key="id" bindtap="onImageTap" data-url="{{item.imgPath}}" />
+        <image src="{{item}}" class="goods-box" mode="aspectFill" lazy-load="true" wx:for="{{jianchaList}}" wx:for-item="item" wx:key="id" bindtap="onImageTap1" data-url="{{item}}" />
     </view>
 
 
     <view class="toptitle">其他记录</view>
 
     <view class="content">
-        <image src="{{item.imgPath}}" class="goods-box" mode="aspectFill" lazy-load="true" wx:for="{{otherList}}" wx:for-item="item" wx:key="id" bindtap="onImageTap" data-url="{{item.imgPath}}" />
+        <image src="{{item}}" class="goods-box" mode="aspectFill" lazy-load="true" wx:for="{{otherList}}" wx:for-item="item" wx:key="id" bindtap="onImageTap2" data-url="{{item}}" />
     </view>
 
 </view>
@@ -99,7 +99,7 @@
 
 
 
-<view class="bottomlayout">
+<view wx:if="{{authorizationStatus==0}}" class="bottomlayout">
     <view class="button" bindtap="refuseTap">
         <view style="padding-top: 15rpx;">拒绝</view>
     </view>
