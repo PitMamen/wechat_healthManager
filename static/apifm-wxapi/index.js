@@ -1317,7 +1317,14 @@ module.exports =
                         return request(REFERRAL_SERVICE + '/tfUserCaseSyninfo/grantCase', 'post', data, true);
                     },
 
-
+                    // 病历检查
+                    getCaseCheck: function getCaseCheck(data) {
+                        return request(REFERRAL_SERVICE + '/patient/getCaseCheck', 'get', data, true);
+                    },
+                     // 病历检验
+                     getCaseExam: function getCaseExam(data) {
+                        return request(REFERRAL_SERVICE + '/patient/getCaseExam', 'get', data, true);
+                    },
                 };
 
                 /***/

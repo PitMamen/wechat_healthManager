@@ -1,18 +1,27 @@
-// packageDoc/pages/conclusion/zzblDetail/index.js
+const WXAPI = require('../../../../static/apifm-wxapi/index')
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        list:[1,1,1]
+        list:[1,1,1],
+        checkList:[],
+        examList:[]
+
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-
+        this.setData({
+            caseId:options.caseId,
+            hospital:options.hospital,
+            date:options.date
+        })
+        this. getCaseCheck()
+        this.getCaseExam()
     },
 
     /**
@@ -28,7 +37,30 @@ Page({
     onShow() {
 
     },
-
+     getCaseCheck() {
+      
+        WXAPI.getCaseCheck({
+            caseId: this.data.caseId,
+            encodeFlag : 0
+        }).then(res=>{
+            this.setData({
+                checkList:res.data.data || []
+            })
+        })
+        
+    },
+    getCaseExam() {
+      
+        WXAPI.getCaseExam({
+            caseId: this.data.caseId,
+            encodeFlag : 0
+        }).then(res=>{
+            this.setData({
+                examList:res.data.data || []
+            })
+        })
+        
+    },
     /**
      * 生命周期函数--监听页面隐藏
      */
