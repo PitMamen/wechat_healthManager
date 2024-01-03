@@ -212,18 +212,32 @@ Page({
                     url: '/pages/home/webpage/index?url=' + encodeURIComponent(item.jumpValue)
                 })
                
-            }else if (item.jumpType === '5' ){ //内部地址
+            }else if (item.jumpType === '5' ){ //最新病历
+                if(item.jumpValue.indexOf('/') < 0){
+                    item.jumpValue='/'+item.jumpValue
+                }
                 wx.navigateTo({
               
-                    url: '/' + item.jumpValue + '?recordId=' + item.id + '&userId=' + item.userId
+                    url:  item.jumpValue + '?recordId=' + item.id + '&userId=' + item.userId
                 })
                
             }else if (item.jumpType === '6'){ //第三方小程序
-                wx.navigateToMiniProgram({
-                    appId: item.jumpId,
-                    path: item.jumpValue,
-                    envVersion: Config.getConstantData().envVersion,
-                })
+              
+                if(item.jumpValue.indexOf('/') < 0){
+                    item.jumpValue='/'+item.jumpValue
+                }
+                if(wx.getAccountInfoSync().miniProgram.appId+'' == item.jumpId+''){
+                    wx.navigateTo({
+                        url: item.jumpValue 
+                    })                  
+                }else {
+                    wx.navigateToMiniProgram({
+                        appId: item.jumpId,
+                        path: item.jumpValue,
+                        envVersion: Config.getConstantData().envVersion,
+                    })
+                }
+               
              
             }
             this.setTaskItemRead(item)
