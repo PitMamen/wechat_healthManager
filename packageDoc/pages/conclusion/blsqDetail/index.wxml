@@ -101,11 +101,11 @@
 
 <view wx:if="{{authorizationStatus==0}}" class="bottomlayout">
     <view class="button" bindtap="refuseTap">
-        <view style="padding-top: 15rpx;">拒绝</view>
+        <view style="padding-top: 20rpx;">拒绝</view>
     </view>
 
     <view class="buttonagre" bindtap="agreeTap">
-        <view style="padding-top: 15rpx;">同意</view>
+        <view style="padding-top: 20rpx;">同意</view>
     </view>
 
 </view>

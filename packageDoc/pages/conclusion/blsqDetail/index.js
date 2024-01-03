@@ -108,7 +108,18 @@ Page({
     // 拒绝
     refuseTap: function () {
         let that = this
-        that.grantCaseOut(2)
+        wx.showModal({
+            title: '提示',
+            content: '是否确认拒绝授权',
+            confirmText: '确认',
+            cancelText: '取消',
+            success(res) {
+                if (res.confirm) {
+                    that.grantCaseOut(2)
+                }
+            }
+        })
+       
     },
 
     // 同意
