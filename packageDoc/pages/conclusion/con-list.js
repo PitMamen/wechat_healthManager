@@ -149,8 +149,8 @@ Page({
         if (this.data.defaultPatient && this.data.defaultPatient.userId) {
 
             const res = await WXAPI.userCaseSyninfoList({
-                // userId: this.data.defaultPatient.userId,
-                userId: 14163,
+                userId: this.data.defaultPatient.userId,
+                // userId: 14163,
                 pageNo: 1,
                 pageSize: 9999,
             })
@@ -294,7 +294,7 @@ Page({
         var item = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: './zzblDetail/index'
+                url: './zzblDetail/index?caseId='+item.id+'&hospital='+item.out_hospital_name+'&date='+item.date
             })
 
         }

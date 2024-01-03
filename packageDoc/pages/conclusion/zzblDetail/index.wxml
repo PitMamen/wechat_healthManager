@@ -1,36 +1,36 @@
 <view class="titleview">授权记录</view>
 <view class="jgview">
     <image src="../../../image/bingli-2.png" class="img"></image>
-    <view class="name">中南大学湘雅二医院</view>
-    <view class="date">2023-12-09</view>
+    <view class="name">{{hospital}}</view>
+    <view class="date">{{date}}</view>
 </view>
 <view class="titleview">病案首页</view>
 <view class="card">
     <view class="item">
-        <view class="name">2023-12-09</view>
+        <view class="name">{{date}}</view>
         <van-icon class="right" name="arrow" color="#999999" />
     </view>
 </view>
 <view class="titleview">出院记录</view>
 <view class="card">
     <view class="item">
-        <view class="name">2023-12-09</view>
+        <view class="name">{{date}}</view>
         <van-icon class="right" name="arrow" color="#999999" />
     </view>
 
 </view>
 <view class="titleview">化验报告</view>
 <view class="card">
-    <view  class="item" style="{{index==list.length-1?'':'border-bottom: 1rpx solid #E6E6E6;'}}" wx:for="{{list}}">
-        <view class="name">血常规</view>
+    <view  class="item" style="{{index==examList.length-1?'':'border-bottom: 1rpx solid #E6E6E6;'}}" wx:for="{{examList}}">
+        <view class="name">{{item.bgdlb}}</view>
         <van-icon class="right" name="arrow" color="#999999" />
     </view>
 
 </view>
 <view class="titleview">检查报告</view>
 <view class="card">
-    <view  class="item" style="{{index==list.length-1?'':'border-bottom: 1rpx solid #E6E6E6;'}}" wx:for="{{list}}">
-        <view class="name">血常规</view>
+    <view  class="item" style="{{index==checkList.length-1?'':'border-bottom: 1rpx solid #E6E6E6;'}}" wx:for="{{checkList}}">
+        <view class="name">{{item.jcmc}}</view>
         <van-icon class="right" name="arrow" color="#999999" />
     </view>
 
