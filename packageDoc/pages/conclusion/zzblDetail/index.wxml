@@ -1,6 +1,6 @@
 <view class="titleview">授权记录</view>
 <view class="jgview">
-    <image src="../../../image/bingli-2.png" class="img"></image>
+    <image src="../../../image/shuaxin.png" class="img"></image>
     <view class="name">{{hospital}}</view>
     <view class="date">{{date}}</view>
 </view>
