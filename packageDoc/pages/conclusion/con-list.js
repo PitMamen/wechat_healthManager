@@ -157,6 +157,7 @@ Page({
             var list = res.data.records || []
             list.forEach(item => {
                 item.date = Util.formatTime5(new Date(item.create_time))
+                item.date2 = Util.formatTime2(new Date(item.create_time))
             })
             this.setData({
                 zzblList: list
@@ -294,7 +295,7 @@ Page({
         var item = e.currentTarget.dataset.item
         if (this.checkLoginStatus()) {
             wx.navigateTo({
-                url: './zzblDetail/index?caseId='+item.id+'&hospital='+item.out_hospital_name+'&date='+item.date
+                url: './zzblDetail/index?caseId='+item.id+'&hospital='+item.out_hospital_name+'&date='+item.date2
             })
 
         }

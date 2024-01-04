@@ -109,7 +109,7 @@ Page({
                     }
 
                 } else if (item.status == 2) {
-                    item.itemContent = '待医生接诊'
+                    item.itemContent = '待接诊'
                 } else if (item.status == 3) {
                     if (item.projectType == 101) {
                         var dateExpireTime = item.rightsUseRecords[0].dateExpireTime

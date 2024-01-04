@@ -24,7 +24,7 @@
         <view class="name-view-top">
           <view>领衔医生：</view>
           <view class="commodity-class" style="font-size: 32rpx;color: #1A1A1A; margin-right: 12rpx;">{{item.doctorUserName}}</view>
-          <view>{{item.professionalTitle}}</view>
+          <view>{{item.professionalTitle || ''}}</view>
         </view>
         <view style="margin-top: 10rpx;">
           {{item.hospitalName}} {{item.subjectClassifyName}}
