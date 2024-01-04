@@ -5,7 +5,6 @@ page {
 .titleview {
 
     font-size: 32rpx;
-
     color: #1A1A1A;
     line-height: 37rpx;
     font-weight: bold;
@@ -130,6 +129,7 @@ page {
     flex-direction: column;
     padding-top: 10rpx;
     padding-bottom: 10rpx;
+    margin-bottom: 60rpx;
 
 }
 
@@ -167,7 +167,6 @@ page {
 .bottomlayout {
     display: flex;
     flex-wrap: wrap;
-    box-sizing: content-box;
     width: 702rpx;
     margin-top: 30rpx;
     margin-left: 24rpx;
@@ -175,8 +174,11 @@ page {
     display: flex;
     padding-top: 10rpx;
     padding-bottom: 10rpx;
-    position: relative;
+    position: fixed;
     align-items: center;
+    justify-content: center;
+    bottom: 0px;
+    background: aliceblue
 }
 
 

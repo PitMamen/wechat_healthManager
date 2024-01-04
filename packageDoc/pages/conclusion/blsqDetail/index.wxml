@@ -99,6 +99,7 @@
 
 
 
+
 <view wx:if="{{authorizationStatus==0}}" class="bottomlayout">
     <view class="button" bindtap="refuseTap">
         <view style="padding-top: 20rpx;">拒绝</view>
@@ -109,6 +110,9 @@
     </view>
 
 </view>
+
+<view style="height: 60rpx;"></view>
+
 
 
 
@@ -128,4 +132,4 @@
         <van-icon class="right" name="arrow" color="#999999" />
     </view>
 </view> -->
-<view style="height: 60rpx;"></view>
+<!-- <view style="height: 60rpx;"></view> -->
